@@ -30,10 +30,10 @@ const SITES = [
     /* Палитра объявлена в css проекта селектором «#allrecords .r, body».
        Трогаем ТОЛЬКО фон секций: мятный акцент бренда остаётся как был. */
     vars: {
-      '--uc-color-color-n3E0FkCwyE': ['#f4f6fb', '#f6f1e4']
+      '--uc-color-color-n3E0FkCwyE': ['#f4f6fb', '#f5eddc']
     },
     /* Цвета, вбитые в блоки мимо Цветовых стилей */
-    hard: { '#f6f6f6': '#f7f2e8' }
+    hard: { '#f6f6f6': '#f6efe0' }
   },
   {
     id: 'bp',

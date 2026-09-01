@@ -4,13 +4,13 @@
 
 /* Через Цветовые стили Tilda — одним блоком на весь сайт */
 #allrecords .r, body{
-  --uc-color-color-n3E0FkCwyE:#f6f1e4 !important;   /* было #f4f6fb */
+  --uc-color-color-n3E0FkCwyE:#f5eddc !important;   /* было #f4f6fb */
 }
 
 /* Сезонный слой, сгенерирован автоматически из C:\Users\ASON\Desktop\Ber&Bar\demo\sites\.page-eco.html
    Дата: 2026-09-01
-   Замен цвета: #f6f6f6→#f7f2e8
+   Замен цвета: #f6f6f6→#f6efe0
    Правил: 2 из 8305
    ВНИМАНИЕ: файл нужно перегенерировать после любой правки дизайна блоков. */
-body{background-color:#f7f2e8 !important}
-.t-records{background-color:#f7f2e8 !important}
+body{background-color:#f6efe0 !important}
+.t-records{background-color:#f6efe0 !important}

@@ -379,36 +379,66 @@ try { Object.keys(localStorage).forEach(function (k) {
   if (!BB.num) { console.warn('BB: блок 1 не подключён — осенние элементы выключены'); return; }
 
   /* =========================================================================
-     ТЕКУЩАЯ ФАЗА. Меняет разработчик или контент-менеджер по календарю.
+     ТЕКУЩАЯ ФАЗА
      ========================================================================= */
   var LEVEL = 1;
   /* ========================================================================= */
 
+  /* Шапки, под которыми вешаем верхний декор. ID сняты с живых страниц. */
+  var HEADERS = {
+    eco: ['rec1729326481', 'rec1730117851'],
+    bp:  ['rec1185050691']
+  };
+  /* На «Полях» внизу своя закреплённая панель — поднимаем натюрморт над ней. */
+  var CORNER_BOTTOM = { eco: 0, bp: 88 };
+
   var LEVELS = {
-    /* --- ФАЗА 1 · ЛЁГКАЯ ОСЕНЬ (сентябрь) ---------------------------------
-       Осень «только началась»: несколько листьев, еле заметная тёплая
-       виньетка. Гость должен почувствовать тепло, а не увидеть листопад. */
+    /* --- ФАЗА 1 · ЛЁГКАЯ ОСЕНЬ (сентябрь) --------------------------------- */
     1: {
-      leaves: 5,
-      size: [13, 21],
-      fall: [26, 40],           /* секунд на пролёт: медленно */
-      opacity: 0.38,
-      colors: ['#c9903f', '#b5702c', '#9a8c3c'],
-      vignette: 'rgba(150,95,35,.055)',
-      wind: 26                  /* горизонтальный снос, px */
+      /* общее для обеих баз */
+      leaves: 14,
+      size: [15, 27],
+      fall: [18, 32],
+      opacity: 0.55,
+      colors: ['#c9903f', '#b5702c', '#9a8c3c', '#a85536'],
+      wind: 34,
+      vignette: 'rgba(150,95,35,.08)',
+      glow: 'rgba(255,168,72,.11)',
+      corner: { pumpkins: 2, leaves: 3, acorn: true, scale: 1 },
+
+      /* --- главный элемент, свой у каждой базы --- */
+      bp: {
+        garland: {
+          step: 78,                      /* расстояние между лампами, px */
+          sag: 24,                       /* провис провода, px */
+          bulb: [9, 13],
+          wire: 'rgba(30,24,16,.55)',
+          warm: ['#fff2cd', '#ffc266', '#e0932c'],
+          flicker: [2.6, 4.8]            /* секунд на цикл мерцания */
+        }
+      },
+      eco: {
+        branch: {
+          width: 290, height: 150,
+          leaves: 8,
+          size: [17, 29],
+          stem: '#7d5a30',
+          sway: 7                        /* градусов покачивания */
+        }
+      }
     },
 
     /* --- ФАЗА 2 · ОСЕНЬ ОСЕНЬ (конец сентября) ----------------------------
-       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Когда попросят, здесь появятся: больше листьев
-       и крупнее, насыщеннее палитра, плотнее виньетка. Плюс за пределами
-       этого блока — осенние фотографии на обложках и сезонные подборки
-       домов (чаны, камины, бани) через onlyrooms. */
+       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Когда попросят: гуще листопад, крупнее натюрморт,
+       вторая гирлянда у «Полей», ветки по нижним углам у «Рощи», насыщеннее
+       палитра. Плюс за пределами блока — осенние фото на обложках и сезонные
+       подборки домов через onlyrooms. */
     2: null,
 
     /* --- ФАЗА 3 · ОСЕНЬ ПЕРЕХОДИТ В ЗИМУ (начало ноября) ------------------
-       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Здесь будут: холодная примесь в палитре,
-       редкие последние листья, первые признаки инея. Стыкуется с сезоном
-       newyear, который включается 15 ноября (блок 1, таблица SEASONS). */
+       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Холодная примесь в палитре, редкие последние
+       листья, иней, лампы уходят в холодный белый. Стыкуется с сезоном
+       newyear, который включается 15 ноября (блок 1). */
     3: null
   };
 
@@ -416,9 +446,6 @@ try { Object.keys(localStorage).forEach(function (k) {
   var q = BB.param('decor');
   if (q === 'off') return;
   if (q === '1' || q === '2' || q === '3') LEVEL = +q;
-
-  /* Элементы живут только осенью. Предпросмотр сезона (?season=autumn) тоже
-     их включит — это удобно для проверки. */
   if (BB.season !== 'autumn' && !q) return;
 
   var cfg = LEVELS[LEVEL];
@@ -427,43 +454,188 @@ try { Object.keys(localStorage).forEach(function (k) {
     return;
   }
 
-  /* --- Лист рисуем сами, без картинок и без внешних файлов ---------------- */
+  var mine = cfg[BB.site] || {};
+  var g = mine.garland, br = mine.branch;
+
+  /* ----------------------------------------------------------------------
+     Графика. Всё рисуем сами.
+     ---------------------------------------------------------------------- */
+  function svgUrl(svg) {
+    return 'url("data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg) + '")';
+  }
+
   function leafSvg(color) {
-    var svg =
+    return svgUrl(
       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 26">' +
         '<path d="M12 1C6.6 5.4 3.5 10.6 3.5 15.2c0 4.7 3.8 8.3 8.5 8.3s8.5-3.6 8.5-8.3C20.5 10.6 17.4 5.4 12 1z" fill="' + color + '"/>' +
         '<path d="M12 4v20" stroke="rgba(0,0,0,.18)" stroke-width="1" fill="none"/>' +
         '<path d="M12 10l-4 3M12 15l4 3" stroke="rgba(0,0,0,.13)" stroke-width="1" fill="none"/>' +
-      '</svg>';
-    return 'url("data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg) + '")';
+      '</svg>');
   }
 
+  function pumpkinSvg(body, rib, stem) {
+    return svgUrl(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 58">' +
+        '<path d="M32 14c-2.4-5-1.4-8.6 1.6-11.6" stroke="' + stem + '" stroke-width="4.5" ' +
+          'fill="none" stroke-linecap="round"/>' +
+        '<ellipse cx="32" cy="35" rx="26" ry="21" fill="' + body + '"/>' +
+        '<ellipse cx="20" cy="35" rx="11" ry="20.4" fill="' + rib + '"/>' +
+        '<ellipse cx="44" cy="35" rx="11" ry="20.4" fill="' + rib + '"/>' +
+        '<ellipse cx="32" cy="35" rx="8.5" ry="21" fill="' + rib + '" opacity=".72"/>' +
+      '</svg>');
+  }
+
+  function acornSvg() {
+    return svgUrl(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 42">' +
+        '<path d="M16 40c-6.2 0-10.5-5.2-10.5-11.6 0-5.2 4.4-9.4 10.5-9.4s10.5 4.2 10.5 9.4C26.5 34.8 22.2 40 16 40z" fill="#b8813f"/>' +
+        '<path d="M4.5 18.5c0-4.2 5.2-7.5 11.5-7.5s11.5 3.3 11.5 7.5c0 2.1-1.2 3.2-3.2 3.2H7.7c-2 0-3.2-1.1-3.2-3.2z" fill="#7d5527"/>' +
+        '<path d="M16 11V4.5" stroke="#7d5527" stroke-width="3.2" stroke-linecap="round"/>' +
+      '</svg>');
+  }
+
+  /* ----------------------------------------------------------------------
+     Стили
+     ---------------------------------------------------------------------- */
   var css =
-    /* Виньетка: тёплый край экрана. Самый дешёвый способ «согреть» страницу,
-       не трогая ни одного блока. */
     '.bb-autumn-vig{position:fixed;inset:0;z-index:4;pointer-events:none;' +
-      'background:radial-gradient(125% 100% at 50% 0%,transparent 58%,' + cfg.vignette + ' 100%)}' +
+      'background:' +
+        'radial-gradient(70% 45% at 18% 104%,' + cfg.glow + ',transparent 72%),' +
+        'radial-gradient(125% 100% at 50% 0%,transparent 58%,' + cfg.vignette + ' 100%)}' +
 
     '.bb-leaf{position:fixed;top:-8vh;z-index:5;pointer-events:none;' +
-      'background-repeat:no-repeat;background-size:contain;' +
-      'opacity:0;will-change:transform,opacity;' +
-      'animation-name:bbFall;animation-timing-function:linear;animation-iteration-count:infinite}' +
-
+      'background-repeat:no-repeat;background-size:contain;opacity:0;' +
+      'will-change:transform,opacity;animation-name:bbFall;' +
+      'animation-timing-function:linear;animation-iteration-count:infinite}' +
     '@keyframes bbFall{' +
       '0%{transform:translate3d(0,0,0) rotate(0deg);opacity:0}' +
       '8%{opacity:' + cfg.opacity + '}' +
       '92%{opacity:' + cfg.opacity + '}' +
       '100%{transform:translate3d(var(--bb-wind),118vh,0) rotate(320deg);opacity:0}}' +
 
-    /* На телефоне не рисуем: трафик у баз мобильный, а листья — это лишние
-       кадры анимации на слабых устройствах. Виньетку оставляем. */
-    '@media(max-width:639px){.bb-leaf{display:none}}' +
+    '.bb-corner{position:fixed;left:14px;z-index:6;pointer-events:none;width:180px;height:115px}' +
+    '.bb-corner i{position:absolute;display:block;background-repeat:no-repeat;background-size:contain}' +
+
+    '@media(max-width:639px){.bb-leaf,.bb-corner{display:none}}' +
     '@media(prefers-reduced-motion:reduce){.bb-leaf{display:none}}';
+
+  if (g) {
+    css +=
+      '.bb-garland{position:fixed;left:0;right:0;z-index:8;pointer-events:none;' +
+        'height:' + (g.sag + g.bulb[1] + 16) + 'px}' +
+      '.bb-garland svg{position:absolute;inset:0;width:100%;height:100%}' +
+      '.bb-bulb{position:absolute;width:' + g.bulb[0] + 'px;height:' + g.bulb[1] + 'px;' +
+        'margin-left:' + (-g.bulb[0] / 2) + 'px;border-radius:46% 46% 52% 52%;' +
+        'background:radial-gradient(circle at 50% 32%,' +
+          g.warm[0] + ' 0%,' + g.warm[1] + ' 58%,' + g.warm[2] + ' 100%);' +
+        'will-change:opacity;animation-name:bbGlow;' +
+        'animation-timing-function:ease-in-out;animation-iteration-count:infinite}' +
+      '.bb-bulb::before{content:"";position:absolute;left:50%;top:-4px;width:5px;height:5px;' +
+        'margin-left:-2.5px;border-radius:2px;background:rgba(45,36,24,.75)}' +
+      '@keyframes bbGlow{0%,100%{opacity:.7;filter:brightness(.9)}50%{opacity:1;filter:brightness(1.15)}}' +
+      '@media(prefers-reduced-motion:reduce){.bb-bulb{animation:none;opacity:.95}}';
+  }
+
+  if (br) {
+    css +=
+      '.bb-branch{position:fixed;z-index:6;pointer-events:none;' +
+        'width:' + br.width + 'px;height:' + br.height + 'px;transform-origin:top center;' +
+        'animation:bbSway 7s ease-in-out infinite}' +
+      '.bb-branch--r{right:0;transform:scaleX(-1);animation-name:bbSwayR;animation-duration:8.5s}' +
+      '.bb-branch--l{left:0}' +
+      '.bb-branch svg{position:absolute;inset:0;width:100%;height:100%}' +
+      '.bb-branch i{position:absolute;display:block;background-repeat:no-repeat;' +
+        'background-size:contain;transform-origin:50% 0}' +
+      '@keyframes bbSway{0%,100%{transform:rotate(-' + br.sway / 2 + 'deg)}' +
+        '50%{transform:rotate(' + br.sway / 2 + 'deg)}}' +
+      '@keyframes bbSwayR{0%,100%{transform:scaleX(-1) rotate(-' + br.sway / 2 + 'deg)}' +
+        '50%{transform:scaleX(-1) rotate(' + br.sway / 2 + 'deg)}}' +
+      '@media(max-width:639px){.bb-branch{width:' + Math.round(br.width * 0.6) + 'px;' +
+        'height:' + Math.round(br.height * 0.6) + 'px}.bb-branch--r{display:none}}' +
+      '@media(prefers-reduced-motion:reduce){.bb-branch{animation:none}}';
+  }
 
   var st = document.createElement('style');
   st.setAttribute('data-bb', 'autumn-decor');
   st.appendChild(document.createTextNode(css));
   (document.head || document.documentElement).appendChild(st);
+
+  /* ----------------------------------------------------------------------
+     Сборка
+     ---------------------------------------------------------------------- */
+
+  /* Верхний декор вешаем под шапку. Высоту меряем на месте: она разная
+     на двух сайтах и меняется при появлении анонс-полосы. */
+  function headerBottom() {
+    var max = 0;
+    (HEADERS[BB.site] || []).forEach(function (rec) {
+      var el = document.querySelector('#' + rec + ' .t396__artboard') || document.getElementById(rec);
+      if (!el) return;
+      var r = el.getBoundingClientRect();
+      if (r.height && r.bottom > max) max = r.bottom;
+    });
+    return max || 64;
+  }
+
+  /* Квадратичная кривая: та же формула для провода и для того, что на нём висит. */
+  function qy(t, y0, yc, y1) {
+    return (1 - t) * (1 - t) * y0 + 2 * (1 - t) * t * yc + t * t * y1;
+  }
+
+  function buildGarland(box) {
+    var w = box.offsetWidth || window.innerWidth;
+    var n = Math.max(5, Math.round(w / g.step));
+    var h = g.sag + g.bulb[1] + 16;
+    var y0 = 3, yc = 3 + g.sag * 2;
+
+    box.innerHTML =
+      '<svg viewBox="0 0 100 ' + h + '" preserveAspectRatio="none" aria-hidden="true">' +
+        '<path d="M0 ' + y0 + ' Q50 ' + yc + ' 100 ' + y0 + '" fill="none" ' +
+          'stroke="' + g.wire + '" stroke-width="1.6" vector-effect="non-scaling-stroke"/>' +
+      '</svg>';
+
+    for (var i = 0; i < n; i++) {
+      var t = (i + 0.5) / n;
+      var bulb = document.createElement('span');
+      bulb.className = 'bb-bulb';
+      bulb.style.left = (t * 100) + '%';
+      bulb.style.top = qy(t, y0, yc, y0) + 'px';
+      bulb.style.animationDuration =
+        (g.flicker[0] + Math.random() * (g.flicker[1] - g.flicker[0])).toFixed(2) + 's';
+      bulb.style.animationDelay = (-Math.random() * 5).toFixed(2) + 's';
+      /* Тёплый ореол. box-shadow дешевле, чем svg-фильтр. */
+      bulb.style.boxShadow = '0 0 9px 3px rgba(255,178,74,.55), 0 0 24px 9px rgba(255,150,40,.26)';
+      box.appendChild(bulb);
+    }
+  }
+
+  /* Ветка: изогнутый прут из угла и листья, посаженные ровно на него. */
+  function buildBranch(box) {
+    var W = br.width, H = br.height;
+    var x0 = 0, y0 = 4, xc = W * 0.55, yc = H * 0.10, x1 = W * 0.96, y1 = H * 0.72;
+
+    box.innerHTML =
+      '<svg viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true">' +
+        '<path d="M' + x0 + ' ' + y0 + ' Q' + xc + ' ' + yc + ' ' + x1 + ' ' + y1 + '" ' +
+          'fill="none" stroke="' + br.stem + '" stroke-width="5" stroke-linecap="round"/>' +
+        '<path d="M' + (W * 0.28) + ' ' + (H * 0.16) + ' q30 14 44 44" fill="none" ' +
+          'stroke="' + br.stem + '" stroke-width="3" stroke-linecap="round" opacity=".85"/>' +
+      '</svg>';
+
+    for (var i = 0; i < br.leaves; i++) {
+      var t = (i + 0.6) / (br.leaves + 0.2);
+      var size = br.size[0] + Math.random() * (br.size[1] - br.size[0]);
+      var leaf = document.createElement('i');
+      leaf.style.backgroundImage = leafSvg(cfg.colors[i % cfg.colors.length]);
+      leaf.style.width = size + 'px';
+      leaf.style.height = size * 1.08 + 'px';
+      leaf.style.left = (qy(t, x0, xc, x1) - size / 2) + 'px';
+      leaf.style.top = qy(t, y0, yc, y1) + 'px';
+      leaf.style.transform = 'rotate(' + (i % 2 ? 18 : -22) + 'deg)';
+      leaf.style.opacity = 0.95;
+      box.appendChild(leaf);
+    }
+  }
 
   function mount() {
     if (document.querySelector('.bb-autumn-vig')) return;
@@ -472,14 +644,44 @@ try { Object.keys(localStorage).forEach(function (k) {
     vig.className = 'bb-autumn-vig';
     document.body.appendChild(vig);
 
-    /* Раскладываем листья по ширине равномерно, но со сдвигом — иначе видно
-       колонки. Задержки отрицательные, чтобы листья уже были в полёте
-       и первый экран не начинался с пустоты. */
+    var tops = [];
+
+    /* --- главный элемент: гирлянда или ветки --- */
+    if (g) {
+      var garland = document.createElement('div');
+      garland.className = 'bb-garland';
+      document.body.appendChild(garland);
+      tops.push(garland);
+      buildGarland(garland);
+      window.addEventListener('resize', function () { buildGarland(garland); });
+    }
+
+    if (br) {
+      ['l', 'r'].forEach(function (side) {
+        var b = document.createElement('div');
+        b.className = 'bb-branch bb-branch--' + side;
+        document.body.appendChild(b);
+        tops.push(b);
+        buildBranch(b);
+      });
+    }
+
+    function place() {
+      var top = headerBottom();
+      tops.forEach(function (el) { el.style.top = top + 'px'; });
+    }
+    place();
+    window.addEventListener('resize', place);
+    /* Шапка Tilda может доехать позже — перевешиваем ещё пару раз */
+    setTimeout(place, 600);
+    setTimeout(place, 1800);
+
+    /* --- падающие листья --- */
     for (var i = 0; i < cfg.leaves; i++) {
       var leaf = document.createElement('div');
       var size = cfg.size[0] + Math.random() * (cfg.size[1] - cfg.size[0]);
       var dur = cfg.fall[0] + Math.random() * (cfg.fall[1] - cfg.fall[0]);
-      var left = (i + 0.5) / cfg.leaves * 100 + (Math.random() * 12 - 6);
+      var left = (i + 0.5) / cfg.leaves * 100 + (Math.random() * 10 - 5);
 
       leaf.className = 'bb-leaf';
       leaf.style.left = Math.max(1, Math.min(96, left)) + '%';
@@ -490,6 +692,42 @@ try { Object.keys(localStorage).forEach(function (k) {
       leaf.style.animationDelay = (-Math.random() * dur) + 's';
       leaf.style.setProperty('--bb-wind', (Math.random() * cfg.wind * 2 - cfg.wind).toFixed(0) + 'px');
       document.body.appendChild(leaf);
+    }
+
+    /* --- натюрморт в нижнем углу: тыквы, жёлудь, опавшие листья --- */
+    var c = cfg.corner;
+    if (c) {
+      var corner = document.createElement('div');
+      corner.className = 'bb-corner';
+      corner.style.bottom = (CORNER_BOTTOM[BB.site] || 0) + 'px';
+
+      var pieces = [
+        { svg: pumpkinSvg('#d0702a', '#e58a41', '#6f5a2c'), w: 80, l: 2,  b: 4, r: -4 },
+        { svg: pumpkinSvg('#e08a3a', '#f0a054', '#6f5a2c'), w: 52, l: 68, b: 2, r: 6 }
+      ].slice(0, c.pumpkins);
+
+      if (c.acorn) pieces.push({ svg: acornSvg(), w: 21, l: 114, b: 6, r: 14 });
+
+      for (var k = 0; k < c.leaves; k++) {
+        pieces.push({
+          svg: leafSvg(cfg.colors[(k + 1) % cfg.colors.length]),
+          w: 21 + k * 3, l: 46 + k * 27, b: 0, r: -60 + k * 55, op: 0.88
+        });
+      }
+
+      pieces.forEach(function (p) {
+        var el = document.createElement('i');
+        el.style.backgroundImage = p.svg;
+        el.style.width = (p.w * c.scale) + 'px';
+        el.style.height = (p.w * c.scale) + 'px';
+        el.style.left = (p.l * c.scale) + 'px';
+        el.style.bottom = (p.b * c.scale) + 'px';
+        el.style.transform = 'rotate(' + p.r + 'deg)';
+        if (p.op) el.style.opacity = p.op;
+        corner.appendChild(el);
+      });
+
+      document.body.appendChild(corner);
     }
   }
 

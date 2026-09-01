@@ -24,8 +24,8 @@
    ССЫЛКИ НА КАРТИНКИ. Единственное, что нужно заполнить руками.
    --------------------------------------------------------------------------- */
 window.BB_AUTUMN_ASSETS = {
-  strip:  { eco: { src: "ССЫЛКА_НА_garland-eco.webp", bg: "#f6efdc" } },
-  leaves: { eco: ["ССЫЛКА_НА_leaf-birch.webp"] }
+  leaves: ["ССЫЛКА_НА_leaf-terracotta.webp", "ССЫЛКА_НА_leaf-ochre.webp",
+           "ССЫЛКА_НА_leaf-sand.webp", "ССЫЛКА_НА_leaf-olive.webp"]
 };
 </script>
 
@@ -823,23 +823,22 @@ window.BB_AUTUMN_ASSETS = {
      БЛОК 10 · ОСЕННИЕ ЭЛЕМЕНТЫ
      Куда: Настройки сайта → Ещё → HTML-код внутрь HEAD, после блока 4.
 
-     Элементы — картинки, а не рисунок кодом. Нарисованный кодом декор
-     выглядел дёшево, это проверено и отброшено.
+     Визуал взят из презентации «Осеннее оформление сайтов 2026»:
+     плоские приглушённые листья, разбросанные СТАТИЧНО по краям первого
+     экрана — терракотовый, охристый, песочный, оливковый. Сами картинки
+     вырезаны из макета презентации, а не нарисованы заново.
+
+     Так это и сделано на макете: листья лежат по краям кадра, не лезут
+     в заголовок и не двигаются.
 
      ЧТО СДЕЛАТЬ ОДИН РАЗ ПЕРЕД ВСТАВКОЙ:
-       1. Загрузить картинки в Tilda: Настройки сайта → Файлы → Загрузить.
+       1. Загрузить картинки из tilda/images в Настройки сайта → Файлы.
        2. Подставить полученные ссылки в ASSETS ниже.
-     Картинки лежат в репозитории: demo/assets/garland.webp, leaf1.webp, leaf3.webp
-
-     ЧТО РИСУЕТСЯ:
-       — гирлянда с горящими лампами, подвешена под шапкой;
-       — немного мелких падающих листьев.
-     Больше ничего: минимальный набор, чтобы читалась ранняя осень.
 
      ТРИ ФАЗЫ:
        LEVEL 1 · «лёгкая осень»       сентябрь        ← СДЕЛАНО
        LEVEL 2 · «осень осень»        конец сентября  ← слот пустой
-       LEVEL 3 · «осень в зиму»       начало ноября   ← слот пустой, стыкуется с newyear
+       LEVEL 3 · «осень в зиму»       начало ноября   ← слот пустой
 
      Проверка: ?decor=off — выключить;  ?decor=1|2|3 — посмотреть фазу.
      ============================================================================= -->
@@ -850,25 +849,15 @@ window.BB_AUTUMN_ASSETS = {
   if (!BB.num) { console.warn('BB: блок 1 не подключён — осенние элементы выключены'); return; }
 
   /* =========================================================================
-     ССЫЛКИ НА КАРТИНКИ. Подставить после загрузки в Файлы Tilda.
+     ССЫЛКИ НА КАРТИНКИ. Единственное, что заполняется руками.
      ========================================================================= */
   var ASSETS = window.BB_AUTUMN_ASSETS || {
-    /* Гирлянда нарисована на фоне цвета самой базы и ставится ПОЛОСОЙ В ПОТОК
-       сразу под шапкой — как обычный блок. Поверх фотографии её вешать нельзя:
-       непрозрачная полоса закроет обложку. */
-    /* Декор у баз РАЗНЫЙ и подобран под каждую:
-       «Барские поля» — тёмно-зелёный вечерний сайт, дерево, чаны: гирлянда
-         с горящими лампами, красный клён и дуб в листопаде;
-       «Берёзовая роща» — светлая и воздушная, и название про рощу:
-         берёзовые ветви с золотой листвой, жёлтый берёзовый лист. */
-    strip: {
-      eco: { src: 'demo/assets/garland-eco.webp', bg: '#f6efdc' },
-      bp:  { src: 'demo/assets/garland-bp.webp', bg: '#36523e' }
-    },
-    leaves: {
-      eco: ['demo/assets/leaf-birch.webp'],
-      bp:  ['demo/assets/leaf-maple.webp', 'demo/assets/leaf-oak.webp']
-    }
+    leaves: [
+      'demo/assets/leaf-terracotta.webp',
+      'demo/assets/leaf-ochre.webp',
+      'demo/assets/leaf-sand.webp',
+      'demo/assets/leaf-olive.webp'
+    ]
   };
 
   /* ========================= ТЕКУЩАЯ ФАЗА ================================= */
@@ -880,26 +869,29 @@ window.BB_AUTUMN_ASSETS = {
     bp:  ['rec1185050691']
   };
 
+  /* Раскладка снята с макета: листья по краям, центр свободен под заголовок.
+     x, y — проценты от первого экрана, r — поворот, s — размер, a — прозрачность. */
+  var LAYOUT = [
+    { x: 8,  y: 16, r: -18, s: 62, a: 0.85 },
+    { x: 15, y: 46, r: 24,  s: 48, a: 0.70 },
+    { x: 6,  y: 76, r: -8,  s: 54, a: 0.80 },
+    { x: 90, y: 22, r: 16,  s: 58, a: 0.80 },
+    { x: 94, y: 52, r: -26, s: 46, a: 0.70 },
+    { x: 88, y: 78, r: 10,  s: 60, a: 0.85 }
+  ];
+
   var LEVELS = {
-    /* --- ФАЗА 1 · ЛЁГКАЯ ОСЕНЬ (сентябрь) ---------------------------------
-       Осень «только началась»: гирлянда и считаные листья. Листья мелкие
-       намеренно — крупные читаются как стикеры поверх фотографий. */
-    1: {
-      garland: { height: 132, opacity: 0.95 },
-      /* Листьев мало и они приглушены: на фотографиях яркая листва
-         выбивается и читается как наклейка. */
-      leaves: { count: 4, size: [18, 30], fall: [19, 31], opacity: [0.32, 0.55], drift: [30, 80] }
-    },
+    /* --- ФАЗА 1 · ЛЁГКАЯ ОСЕНЬ (сентябрь) --------------------------------- */
+    1: { leaves: LAYOUT },
 
     /* --- ФАЗА 2 · ОСЕНЬ ОСЕНЬ (конец сентября) ----------------------------
-       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Когда попросят: листьев больше и крупнее,
-       вторая гирлянда, осенние фотографии на обложках, сезонные подборки
-       домов через onlyrooms. */
+       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Больше листьев и крупнее, осенние фотографии
+       на обложках, сезонные подборки домов через onlyrooms. */
     2: null,
 
     /* --- ФАЗА 3 · ОСЕНЬ ПЕРЕХОДИТ В ЗИМУ (начало ноября) ------------------
-       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Последние листья, холодная примесь, лампы
-       уходят в холодный белый. Стыкуется с newyear (15 ноября). */
+       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Последние листья, холодная примесь.
+       Стыкуется с сезоном newyear, который включается 15 ноября. */
     3: null
   };
 
@@ -915,75 +907,53 @@ window.BB_AUTUMN_ASSETS = {
     return;
   }
 
-  var rnd = function (a, b) { return a + Math.random() * (b - a); };
-  var L = cfg.leaves;
-
   var css =
-    '.bb-garland{width:100%;height:' + cfg.garland.height + 'px;pointer-events:none;' +
-      'background-repeat:no-repeat;background-position:center center;background-size:cover}' +
-
-    /* Два слоя движения: внешний падает, внутренний сносит вбок и вращает.
-       Одной анимацией лист летел бы по прямой. */
-    '.bb-leaf{position:fixed;top:-12vh;z-index:6;pointer-events:none;' +
-      'will-change:transform;animation:bbFall linear infinite}' +
-    '.bb-leaf b{display:block;width:100%;height:100%;background-repeat:no-repeat;' +
-      'background-size:contain;will-change:transform;' +
-      'animation:bbDrift ease-in-out infinite alternate}' +
-    '@keyframes bbFall{to{transform:translate3d(0,122vh,0)}}' +
-    '@keyframes bbDrift{' +
-      'from{transform:translateX(calc(var(--bb-drift) * -1)) rotate(-30deg)}' +
-      'to{transform:translateX(var(--bb-drift)) rotate(34deg)}}' +
-
-    /* На телефоне листья не сыплем: трафик у баз мобильный. Гирлянду
-       оставляем — она и есть осенний признак. */
-    '@media(max-width:639px){.bb-leaf{display:none}' +
-      '.bb-garland{height:' + Math.round(cfg.garland.height * 0.6) + 'px}}' +
-    '@media(prefers-reduced-motion:reduce){.bb-leaf{display:none}}';
+    /* Слой лежит внутри первого экрана и уезжает вместе с ним при прокрутке —
+       как на макете. Кликам не мешает. */
+    '.bb-fall{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:3}' +
+    '.bb-fall i{position:absolute;display:block;background-repeat:no-repeat;' +
+      'background-size:contain;background-position:center}' +
+    /* На узком экране правые листья убираем: полей нет, они лезут в текст */
+    '@media(max-width:767px){.bb-fall i[data-side="r"]{display:none}}';
 
   var st = document.createElement('style');
   st.setAttribute('data-bb', 'autumn-decor');
   st.appendChild(document.createTextNode(css));
   (document.head || document.documentElement).appendChild(st);
 
-  function headerBottom() {
-    var max = 0;
-    (HEADERS[BB.site] || []).forEach(function (rec) {
-      var el = document.querySelector('#' + rec + ' .t396__artboard') || document.getElementById(rec);
-      if (!el) return;
-      var r = el.getBoundingClientRect();
-      if (r.height && r.bottom > max) max = r.bottom;
-    });
-    return max || 64;
-  }
-
   function mount() {
-    if (document.querySelector('.bb-garland')) return;
+    if (document.querySelector('.bb-fall')) return;
 
-    /* Полоса с гирляндой убрана: между шапкой и обложкой она читалась
-       как мёртвый кусок фона и ломала первый экран. */
-
-    for (var i = 0; i < L.count; i++) {
-      var size = rnd(L.size[0], L.size[1]);
-      var dur = rnd(L.fall[0], L.fall[1]);
-
-      var wrap = document.createElement('div');
-      wrap.className = 'bb-leaf';
-      wrap.style.left = Math.max(1, Math.min(95, (i + 0.5) / L.count * 100 + rnd(-7, 7))) + '%';
-      wrap.style.width = size + 'px';
-      wrap.style.height = size + 'px';
-      wrap.style.animationDuration = dur + 's';
-      wrap.style.animationDelay = (-Math.random() * dur) + 's';
-      wrap.style.opacity = rnd(L.opacity[0], L.opacity[1]);
-
-      var inner = document.createElement('b');
-      inner.style.backgroundImage = 'url("' + leafSet[i % leafSet.length] + '")';
-      inner.style.animationDuration = rnd(3.2, 6).toFixed(2) + 's';
-      inner.style.animationDelay = (-Math.random() * 4).toFixed(2) + 's';
-      inner.style.setProperty('--bb-drift', rnd(L.drift[0], L.drift[1]).toFixed(0) + 'px');
-
-      wrap.appendChild(inner);
-      document.body.appendChild(wrap);
+    /* Первый экран — первый достаточно высокий блок, который не шапка. */
+    var heads = HEADERS[BB.site] || [];
+    var hero = null, recs = document.querySelectorAll('[id^="rec"]');
+    for (var k = 0; k < recs.length; k++) {
+      if (heads.indexOf(recs[k].id) !== -1) continue;
+      if (recs[k].getBoundingClientRect().height > 320) { hero = recs[k]; break; }
     }
+    if (!hero) return;
+
+    if (getComputedStyle(hero).position === 'static') hero.style.position = 'relative';
+
+    var layer = document.createElement('div');
+    layer.className = 'bb-fall';
+
+    cfg.leaves.forEach(function (L, i) {
+      var el = document.createElement('i');
+      el.style.backgroundImage = 'url("' + ASSETS.leaves[i % ASSETS.leaves.length] + '")';
+      el.style.left = L.x + '%';
+      el.style.top = L.y + '%';
+      el.style.width = L.s + 'px';
+      el.style.height = L.s + 'px';
+      el.style.marginLeft = (-L.s / 2) + 'px';
+      el.style.marginTop = (-L.s / 2) + 'px';
+      el.style.opacity = L.a;
+      el.style.transform = 'rotate(' + L.r + 'deg)';
+      el.setAttribute('data-side', L.x > 50 ? 'r' : 'l');
+      layer.appendChild(el);
+    });
+
+    hero.appendChild(layer);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);

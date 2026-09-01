@@ -25,10 +25,10 @@ const SITES = [
     id: 'eco',
     file: 'ecobr-HEAD.html',
     title: 'ЭкоБаза «Берёзовая роща» · ecobr.ru',
-    images: ['garland-eco.webp', 'leaf-birch.webp'],
+    images: ['leaf-terracotta.webp', 'leaf-ochre.webp', 'leaf-sand.webp', 'leaf-olive.webp'],
     assets:
-      '  strip:  { eco: { src: "ССЫЛКА_НА_garland-eco.webp", bg: "#f6efdc" } },\n' +
-      '  leaves: { eco: ["ССЫЛКА_НА_leaf-birch.webp"] }',
+      '  leaves: ["ССЫЛКА_НА_leaf-terracotta.webp", "ССЫЛКА_НА_leaf-ochre.webp",\n' +
+      '           "ССЫЛКА_НА_leaf-sand.webp", "ССЫЛКА_НА_leaf-olive.webp"]',
     blocks: [
       'head/1-tema-sezona.html',
       'head/2-raspisanie-blokov.html',
@@ -44,10 +44,10 @@ const SITES = [
     id: 'bp',
     file: 'barskie-HEAD.html',
     title: 'База отдыха «Барские поля» · barskie-polya.ru',
-    images: ['garland-bp.webp', 'leaf-maple.webp', 'leaf-oak.webp'],
+    images: ['leaf-terracotta.webp', 'leaf-ochre.webp', 'leaf-sand.webp', 'leaf-olive.webp'],
     assets:
-      '  strip:  { bp: { src: "ССЫЛКА_НА_garland-bp.webp", bg: "#36523e" } },\n' +
-      '  leaves: { bp: ["ССЫЛКА_НА_leaf-maple.webp", "ССЫЛКА_НА_leaf-oak.webp"] }',
+      '  leaves: ["ССЫЛКА_НА_leaf-terracotta.webp", "ССЫЛКА_НА_leaf-ochre.webp",\n' +
+      '           "ССЫЛКА_НА_leaf-sand.webp", "ССЫЛКА_НА_leaf-olive.webp"]',
     blocks: [
       'head/1-tema-sezona.html',
       'head/2-raspisanie-blokov.html',

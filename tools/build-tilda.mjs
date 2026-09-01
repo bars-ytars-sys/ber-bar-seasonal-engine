@@ -25,10 +25,16 @@ const SITES = [
     id: 'eco',
     file: 'ecobr-HEAD.html',
     title: 'ЭкоБаза «Берёзовая роща» · ecobr.ru',
-    images: ['leaf-terracotta.webp', 'leaf-ochre.webp', 'leaf-sand.webp', 'leaf-olive.webp'],
-    assets:
-      '  leaves: ["ССЫЛКА_НА_leaf-terracotta.webp", "ССЫЛКА_НА_leaf-ochre.webp",\n' +
-      '           "ССЫЛКА_НА_leaf-sand.webp", "ССЫЛКА_НА_leaf-olive.webp"]',
+    images: ['wleaf1.webp', 'wleaf3.webp', 'wleaf5.webp', 'wleaf6.webp', 'wleaf7.webp', 'wleaf9.webp', 'wleaf10.webp', 'wleaf11.webp', 'branch.webp'],
+    assets: [
+      '  leaves: [',
+      '    "ССЫЛКА_НА_wleaf1.webp",  "ССЫЛКА_НА_wleaf3.webp",',
+      '    "ССЫЛКА_НА_wleaf5.webp",  "ССЫЛКА_НА_wleaf6.webp",',
+      '    "ССЫЛКА_НА_wleaf7.webp",  "ССЫЛКА_НА_wleaf9.webp",',
+      '    "ССЫЛКА_НА_wleaf10.webp", "ССЫЛКА_НА_wleaf11.webp"',
+      '  ],',
+      '  branch: "ССЫЛКА_НА_branch.webp"'
+    ].join(String.fromCharCode(10)),
     blocks: [
       'head/1-tema-sezona.html',
       'head/2-raspisanie-blokov.html',
@@ -44,10 +50,16 @@ const SITES = [
     id: 'bp',
     file: 'barskie-HEAD.html',
     title: 'База отдыха «Барские поля» · barskie-polya.ru',
-    images: ['leaf-terracotta.webp', 'leaf-ochre.webp', 'leaf-sand.webp', 'leaf-olive.webp'],
-    assets:
-      '  leaves: ["ССЫЛКА_НА_leaf-terracotta.webp", "ССЫЛКА_НА_leaf-ochre.webp",\n' +
-      '           "ССЫЛКА_НА_leaf-sand.webp", "ССЫЛКА_НА_leaf-olive.webp"]',
+    images: ['wleaf1.webp', 'wleaf3.webp', 'wleaf5.webp', 'wleaf6.webp', 'wleaf7.webp', 'wleaf9.webp', 'wleaf10.webp', 'wleaf11.webp', 'branch.webp'],
+    assets: [
+      '  leaves: [',
+      '    "ССЫЛКА_НА_wleaf1.webp",  "ССЫЛКА_НА_wleaf3.webp",',
+      '    "ССЫЛКА_НА_wleaf5.webp",  "ССЫЛКА_НА_wleaf6.webp",',
+      '    "ССЫЛКА_НА_wleaf7.webp",  "ССЫЛКА_НА_wleaf9.webp",',
+      '    "ССЫЛКА_НА_wleaf10.webp", "ССЫЛКА_НА_wleaf11.webp"',
+      '  ],',
+      '  branch: "ССЫЛКА_НА_branch.webp"'
+    ].join(String.fromCharCode(10)),
     blocks: [
       'head/1-tema-sezona.html',
       'head/2-raspisanie-blokov.html',

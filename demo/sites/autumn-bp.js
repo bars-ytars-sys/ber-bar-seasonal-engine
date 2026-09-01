@@ -375,10 +375,9 @@ try { Object.keys(localStorage).forEach(function (k) {
 window.BB_AUTUMN_ASSETS = (function () {
   var me = document.currentScript && document.currentScript.src;
   var base = me ? me.replace(/sites\/[^/]*$/, "assets/") : "demo/assets/";
-  return {
-    leaves: [base + "leaf-terracotta.webp", base + "leaf-ochre.webp",
-             base + "leaf-sand.webp", base + "leaf-olive.webp"]
-  };
+  var L = ["wleaf1","wleaf3","wleaf5","wleaf6","wleaf7","wleaf9","wleaf10","wleaf11"];
+  var url = function (n) { return base + n + ".webp"; };
+  return { leaves: L.map(url), branch: base + "branch.webp" };
 })();
 
 (function () {
@@ -390,12 +389,12 @@ window.BB_AUTUMN_ASSETS = (function () {
      ССЫЛКИ НА КАРТИНКИ. Единственное, что заполняется руками.
      ========================================================================= */
   var ASSETS = window.BB_AUTUMN_ASSETS || {
-    leaves: [
-      'demo/assets/leaf-terracotta.webp',
-      'demo/assets/leaf-ochre.webp',
-      'demo/assets/leaf-sand.webp',
-      'demo/assets/leaf-olive.webp'
-    ]
+    /* Акварельные листья из присланных референсов, вырезаны с прозрачностью */
+    leaves: ['wleaf1', 'wleaf3', 'wleaf5', 'wleaf6',
+             'wleaf7', 'wleaf9', 'wleaf10', 'wleaf11']
+      .map(function (n) { return 'demo/assets/' + n + '.webp'; }),
+    /* Ветка с горящими фонарями — из того же набора референсов */
+    branch: 'demo/assets/branch.webp'
   };
 
   /* ========================= ТЕКУЩАЯ ФАЗА ================================= */
@@ -410,17 +409,24 @@ window.BB_AUTUMN_ASSETS = (function () {
   /* Раскладка снята с макета: листья по краям, центр свободен под заголовок.
      x, y — проценты от первого экрана, r — поворот, s — размер, a — прозрачность. */
   var LAYOUT = [
-    { x: 8,  y: 16, r: -18, s: 62, a: 0.85 },
-    { x: 15, y: 46, r: 24,  s: 48, a: 0.70 },
-    { x: 6,  y: 76, r: -8,  s: 54, a: 0.80 },
-    { x: 90, y: 22, r: 16,  s: 58, a: 0.80 },
-    { x: 94, y: 52, r: -26, s: 46, a: 0.70 },
-    { x: 88, y: 78, r: 10,  s: 60, a: 0.85 }
+    { x: 5,  y: 12, r: -18, s: 66, a: 0.88 },
+    { x: 12, y: 30, r: 22,  s: 52, a: 0.75 },
+    { x: 4,  y: 52, r: -34, s: 60, a: 0.82 },
+    { x: 13, y: 70, r: 12,  s: 48, a: 0.72 },
+    { x: 22, y: 14, r: 40,  s: 42, a: 0.62 },
+    { x: 95, y: 14, r: 16,  s: 62, a: 0.85 },
+    { x: 88, y: 32, r: -22, s: 50, a: 0.75 },
+    { x: 96, y: 54, r: 30,  s: 64, a: 0.82 },
+    { x: 87, y: 72, r: -12, s: 46, a: 0.72 },
+    { x: 78, y: 12, r: -40, s: 40, a: 0.60 }
   ];
+
+  /* Ветка с фонарями свисает из верхнего левого угла первого экрана */
+  var BRANCH = { w: 460, a: 0.95 };
 
   var LEVELS = {
     /* --- ФАЗА 1 · ЛЁГКАЯ ОСЕНЬ (сентябрь) --------------------------------- */
-    1: { leaves: LAYOUT },
+    1: { leaves: LAYOUT, branch: BRANCH },
 
     /* --- ФАЗА 2 · ОСЕНЬ ОСЕНЬ (конец сентября) ----------------------------
        НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Больше листьев и крупнее, осенние фотографии
@@ -475,6 +481,18 @@ window.BB_AUTUMN_ASSETS = (function () {
 
     var layer = document.createElement('div');
     layer.className = 'bb-fall';
+
+    if (cfg.branch && ASSETS.branch) {
+      var br = document.createElement('i');
+      br.className = 'bb-branch';
+      br.style.backgroundImage = 'url("' + ASSETS.branch + '")';
+      br.style.left = '0';
+      br.style.top = '0';
+      br.style.width = cfg.branch.w + 'px';
+      br.style.height = Math.round(cfg.branch.w * 0.95) + 'px';
+      br.style.opacity = cfg.branch.a;
+      layer.appendChild(br);
+    }
 
     cfg.leaves.forEach(function (L, i) {
       var el = document.createElement('i');

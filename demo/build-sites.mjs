@@ -257,10 +257,9 @@ function buildElements(s) {
     'window.BB_AUTUMN_ASSETS = (function () {\n' +
     '  var me = document.currentScript && document.currentScript.src;\n' +
     '  var base = me ? me.replace(/sites\\/[^/]*$/, "assets/") : "demo/assets/";\n' +
-    '  return {\n' +
-    '    leaves: [base + "leaf-terracotta.webp", base + "leaf-ochre.webp",\n' +
-    '             base + "leaf-sand.webp", base + "leaf-olive.webp"]\n' +
-    '  };\n' +
+    '  var L = ["wleaf1","wleaf3","wleaf5","wleaf6","wleaf7","wleaf9","wleaf10","wleaf11"];\n' +
+    '  var url = function (n) { return base + n + ".webp"; };\n' +
+    '  return { leaves: L.map(url), branch: base + "branch.webp" };\n' +
     '})();',
     script('head/10-osennie-elementy.html')
   ].join('\n');

@@ -959,22 +959,8 @@ window.BB_AUTUMN_ASSETS = {
   function mount() {
     if (document.querySelector('.bb-garland')) return;
 
-    var art = ASSETS.strip[BB.site] || ASSETS.strip.bp;
-    var leafSet = ASSETS.leaves[BB.site] || ASSETS.leaves.bp;
-    var g = document.createElement('div');
-    g.className = 'bb-garland';
-    g.style.backgroundImage = 'url("' + art.src + '")';
-    g.style.backgroundColor = art.bg;   /* докрашивает полосу на широких экранах */
-
-    /* Вставляем полосу в поток сразу после шапки. В Tilda то же самое делается
-       блоком T123, поставленным первым после блока шапки. */
-    var anchor = null, recs = document.querySelectorAll('[id^="rec"]');
-    var heads = HEADERS[BB.site] || [];
-    for (var k = 0; k < recs.length; k++) {
-      if (heads.indexOf(recs[k].id) === -1) { anchor = recs[k]; break; }
-    }
-    if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(g, anchor);
-    else document.body.insertBefore(g, document.body.firstChild);
+    /* Полоса с гирляндой убрана: между шапкой и обложкой она читалась
+       как мёртвый кусок фона и ломала первый экран. */
 
     for (var i = 0; i < L.count; i++) {
       var size = rnd(L.size[0], L.size[1]);

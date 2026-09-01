@@ -237,8 +237,10 @@ function buildElements(s) {
     `try { Object.keys(localStorage).forEach(function (k) {`,
     `  if (k.indexOf('bb_ab_') === 0) localStorage.removeItem(k); }); } catch (e) {}`,
     script('head/3-bnovo-deeplink.html'),
-    announce,
-    script('head/10-osennie-elementy.html')
+    announce
+    /* Блок 10 (листья, виньетка, рисованная гирлянда) намеренно отключён:
+       нарисованный кодом декор заказчику не подошёл. Осенние элементы
+       делаем картинками и ставим блоками, а не накладкой поверх. */
   ].join('\n');
 }
 

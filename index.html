@@ -185,17 +185,20 @@
   /* Tilda достраивает страницу ещё несколько секунд после readyState=interactive
      и по дороге сбрасывает прокрутку. Поэтому повторяем попытку несколько раз,
      пока пользователь сам не прокрутил. */
-  function goToSpot() {
-    var want = SITES[site].spot, tries = 0;
+  function settle() {
+    var want = SITES[site].spot, tries = 0, parked = false;
     var t = setInterval(function () {
       tries++;
       try {
         var w = frame.contentWindow, d = frame.contentDocument;
+        /* Tilda дописывает документ и по дороге выбрасывает наш <link>
+           со слоем — возвращаем его на место, пока страница не устоится. */
+        applyAutumn();
         var now = d.documentElement.scrollTop || d.body.scrollTop || 0;
-        if (tries > 1 && Math.abs(now - want) < 40) { clearInterval(t); return; }
-        if (d.documentElement.scrollHeight > want + 400) w.scrollTo(0, want);
-      } catch (e) { clearInterval(t); }
-      if (tries >= 12) clearInterval(t);
+        if (tries > 1 && Math.abs(now - want) < 40) parked = true;
+        if (!parked && d.documentElement.scrollHeight > want + 400) w.scrollTo(0, want);
+      } catch (e) { clearInterval(t); return; }
+      if (tries >= 20) clearInterval(t);
     }, 500);
   }
 
@@ -213,7 +216,7 @@
         clearInterval(poll);
         load.hidden = true;
         applyAutumn();
-        goToSpot();
+        settle();
       }
     }, 150);
   }

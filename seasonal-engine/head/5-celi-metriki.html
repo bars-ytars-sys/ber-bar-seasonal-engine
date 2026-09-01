@@ -1,0 +1,102 @@
+<!-- =============================================================================
+     БЛОК 5 · ЦЕЛИ ЯНДЕКС.МЕТРИКИ НА СТОРОНЕ САЙТА
+     Куда: Настройки сайта → Ещё → HTML-код внутрь HEAD, после блока 4.
+
+     ------------------------------------------------------------------------
+     СНАЧАЛА ПРОЧИТАЙТЕ — ЭТО ВАЖНЕЕ КОДА НИЖЕ.
+
+     Модуль бронирования Bnovo УЖЕ отправляет цели в ваши счётчики.
+     Проверено в исходнике reservationsteps.ru/dist/js/yandex_metrika_events*.js:
+       yaCounterId        = 50003071   (счётчик самого Bnovo)
+       yaCounterIdAccount = 108978291  (ecobr.ru)  /  109033653 (barskie-polya.ru)
+     и вызов ym(yaCounterIdAccount, 'reachGoal', <идентификатор>).
+
+     То есть события уже летят — их просто НЕ СОЗДАЛИ как цели в интерфейсе Метрики.
+     Заведите их в Метрике: Цели → Добавить цель → тип «JavaScript-событие»,
+     идентификатор — из списка ниже. Это работа на 20 минут, доступ к коду не нужен.
+
+     Воронка бронирования, по шагам (идентификаторы дословно из скрипта Bnovo):
+       search                     поиск по датам
+       check_button               нажата кнопка «Проверить/Найти»
+       no_availability            свободных домов на эти даты нет   ← смотреть каждую неделю
+       select_room                выбран дом
+       change_plan                выбран другой тариф
+       show_more_plans            раскрыл тарифы
+       select_service             добавлена услуга (чан, баня, завтрак) — доп. выручка
+       enter_promo_code           введён промокод
+       promo_code_window_apply    промокод применён
+       cart_first_step_button     шаг 1 корзины
+       cart_second_step_button    шаг 2 корзины
+       booking_submit_click       отправка брони
+       reservation_button_auto    бронь оплачена онлайн        ← ГЛАВНАЯ ЦЕЛЬ
+       reservation_button_manual  бронь без онлайн-оплаты      ← ГЛАВНАЯ ЦЕЛЬ
+       book                       завершение бронирования
+
+     Дополнительно в Метрике (Настройка → Счётчик):
+       добавьте reservationsteps.ru в «Зеркала сайта», иначе визит в модуле
+       считается отдельным визитом и источник трафика у брони теряется.
+       После настройки проверьте по Вебвизору, что сессия не рвётся.
+     ------------------------------------------------------------------------
+
+     ЧТО ДЕЛАЕТ КОД НИЖЕ: добавляет цели, которых у Bnovo быть не может —
+     клики по телефону, мессенджерам, офферам, глубина просмотра.
+     После вставки заведите эти же идентификаторы целями в Метрике.
+     ============================================================================= -->
+<script>
+(function () {
+  'use strict';
+  var BB = window.BB || {};
+  if (!BB.goal) return;
+
+  /* --- Клики по телефону, почте и мессенджерам ---------------------------- */
+  var MESSENGERS = [
+    { re: /(?:wa\.me|whatsapp)/i,       goal: 'click_whatsapp' },
+    { re: /(?:t\.me|telegram)/i,        goal: 'click_telegram' },
+    { re: /vk\.com/i,                   goal: 'click_vk' },
+    { re: /^tel:/i,                     goal: 'click_phone' },
+    { re: /^mailto:/i,                  goal: 'click_email' },
+    { re: /yandex\.[a-z]+\/maps/i,      goal: 'click_yandex_maps' },
+    { re: /2gis\./i,                    goal: 'click_2gis' }
+  ];
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+
+    for (var i = 0; i < MESSENGERS.length; i++) {
+      if (MESSENGERS[i].re.test(href)) { BB.goal(MESSENGERS[i].goal, { href: href }); return; }
+    }
+    /* Переход на страницу бронирования любым путём */
+    if (href.indexOf('/booking') > -1) BB.goal('go_to_booking', { from: location.pathname });
+  }, true);
+
+  /* --- Отправка любой формы Tilda ----------------------------------------- */
+  document.addEventListener('tildaform:aftersuccess', function (e) {
+    var name = (e.detail && e.detail.form && e.detail.form.getAttribute('data-formname')) || 'form';
+    BB.goal('form_submit', { form: name });
+  });
+  /* запасной путь, если событие Tilda не сработало */
+  document.addEventListener('submit', function (e) {
+    if (e.target && e.target.classList && e.target.classList.contains('t-form')) {
+      BB.goal('form_submit_try', { form: e.target.getAttribute('data-formname') || 'form' });
+    }
+  }, true);
+
+  /* --- Глубина просмотра: дошёл ли гость до офферов и до цен -------------- */
+  var fired = {};
+  function depth() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    if (h <= 0) return;
+    var p = Math.round((window.pageYOffset / h) * 100);
+    [50, 75].forEach(function (mark) {
+      if (p >= mark && !fired[mark]) { fired[mark] = 1; BB.goal('scroll_' + mark, { page: location.pathname }); }
+    });
+  }
+  var t;
+  window.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(depth, 250); }, { passive: true });
+
+  /* --- Время на странице 60 сек — отсечь случайный трафик ----------------- */
+  setTimeout(function () { BB.goal('engaged_60s', { page: location.pathname }); }, 60000);
+})();
+</script>

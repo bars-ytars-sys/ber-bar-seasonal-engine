@@ -1,0 +1,181 @@
+<!-- =============================================================================
+     БЛОК 3 · ПРЯМОЙ ПЕРЕХОД В БРОНИРОВАНИЕ BNOVO
+     Куда: Настройки сайта → Ещё → HTML-код внутрь HEAD, после блока 2.
+
+     ГЛАВНОЕ, ЧТО НУЖНО ЗНАТЬ (проверено на живом модуле, не из документации):
+
+     Страница /booking на обоих сайтах подключает библиотеку
+       https://widget.reservationsteps.ru/iframe/library/dist/booking_iframe.js
+     Эта библиотека читает GET-параметры АДРЕСНОЙ СТРОКИ и прокидывает их внутрь
+     iframe модуля. Значит прямая ссылка работает без всякого кода:
+
+       https://ecobr.ru/booking?dfrom=2026-12-30&dto=2027-01-03&adults=2&promoCode=NY2027&scroll_to_rooms=1
+
+     Поддерживаемые параметры (из исходника booking_iframe.js, поле в поле):
+       dfrom, dto              даты. Формат ГГГГ-ММ-ДД (проверено: модуль принял и
+                               отдал внутрь как 30-12-2026). ДД.ММ.ГГГГ тоже работает,
+                               но используйте ГГГГ-ММ-ДД — он однозначен.
+       adults, children        число гостей
+       promoCode               промокод. Проверено: подставляется в фильтр модуля
+                               и отображается как #ПРОМОКОД
+       onlyrooms               ID категорий через запятую — показать только их
+       scroll_to_rooms=1       сразу прокрутить к списку домов (ставим всегда)
+       currency, lang          валюта и язык
+       insidePopup, firstroom, servicemode, disable_block_scrolls  — служебные
+       utm_source/medium/campaign/term/content  — пробрасываются в модуль
+
+     UID модулей (для справки, менять не надо):
+       ecobr.ru         9b88bc59-76a6-4230-8e86-85790f3854d4
+       barskie-polya.ru 17f7bf8e-d176-4c55-83a8-a1c0cd6187ae
+
+     ЧТО ДОБАВЛЯЕТ ЭТОТ СКРИПТ поверх штатной ссылки:
+       1. Относительные даты — для вечных офферов («будни», «ближайшие выходные»).
+          В ссылке пишем dfrom=fri&dto=sun или dfrom=+14&dto=+16 —
+          скрипт подставит реальные даты в момент клика.
+       2. Автоматически дописывает scroll_to_rooms=1 и текущие UTM-метки.
+       3. Отправляет цель в Яндекс.Метрику до перехода.
+
+     ============================================================================= -->
+<script>
+(function () {
+  'use strict';
+  var BB = window.BB = window.BB || {};
+
+  /* Счётчики Метрики. Проверено на живых страницах. */
+  BB.COUNTER = { eco: 108978291, bp: 109033653 };
+  BB.counter = BB.COUNTER[BB.site || 'eco'];
+
+  BB.BOOKING_URL = { eco: 'https://ecobr.ru/booking', bp: 'https://barskie-polya.ru/booking' };
+
+  /* ---------------------------------------------------------------------
+     Разбор «умных» дат.
+       2026-12-30  — как есть
+       +14         — сегодня + 14 дней
+       fri         — ближайшая пятница (сегодня, если сегодня пятница)
+       fri+2       — ближайшая пятница + 2 дня
+       mon,tue,wed,thu,fri,sat,sun
+
+     Второй аргумент base — от какой даты считать. Для даты выезда всегда
+     передаём дату заезда, иначе «с понедельника по четверг» превратится
+     в выезд раньше заезда: ближайший четверг может быть до ближайшего понедельника.
+     --------------------------------------------------------------------- */
+  var DOW = { sun:0, mon:1, tue:2, wed:3, thu:4, fri:5, sat:6 };
+
+  BB.resolveDate = function (token, base) {
+    if (!token) return '';
+    token = String(token).trim().toLowerCase();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(token)) return token;
+
+    /* точка отсчёта: переданная дата или сегодня */
+    var d;
+    if (base && /^\d{4}-\d{2}-\d{2}$/.test(base)) {
+      var p = base.split('-');
+      d = new Date(+p[0], +p[1] - 1, +p[2]);
+    } else {
+      d = BB.now();
+      d.setHours(12, 0, 0, 0);
+    }
+
+    var m;
+    if ((m = token.match(/^\+(\d+)$/))) {
+      d.setDate(d.getDate() + (+m[1]));
+      return BB.ymd(d);
+    }
+    if ((m = token.match(/^(sun|mon|tue|wed|thu|fri|sat)(?:\+(\d+))?$/))) {
+      var delta = (DOW[m[1]] - d.getDay() + 7) % 7;
+      /* если считаем от даты заезда, выезд не может быть в тот же день */
+      if (delta === 0 && base) delta = 7;
+      d.setDate(d.getDate() + delta + (m[2] ? +m[2] : 0));
+      return BB.ymd(d);
+    }
+    return token; /* не распознали — отдаём как есть, модуль сам разберётся */
+  };
+
+  /* ---------------------------------------------------------------------
+     Сборка ссылки на бронирование.
+     BB.bookUrl({from:'fri', to:'sun', adults:2, promo:'BUDNI20', rooms:'123,456'})
+     --------------------------------------------------------------------- */
+  BB.bookUrl = function (o) {
+    o = o || {};
+    var base = o.base || BB.BOOKING_URL[BB.site] || BB.BOOKING_URL.eco;
+    var q = [];
+    var from = BB.resolveDate(o.from);
+    var to   = BB.resolveDate(o.to, from);   /* выезд считаем от заезда */
+
+    if (from) q.push('dfrom=' + encodeURIComponent(from));
+    if (to)   q.push('dto=' + encodeURIComponent(to));
+    if (o.adults)   q.push('adults=' + encodeURIComponent(o.adults));
+    if (o.children) q.push('children=' + encodeURIComponent(o.children));
+    if (o.promo)    q.push('promoCode=' + encodeURIComponent(o.promo));
+    if (o.rooms)    q.push('onlyrooms=' + encodeURIComponent(o.rooms));
+    q.push('scroll_to_rooms=1');
+
+    /* Донести источник трафика до модуля — иначе бронь потеряет канал */
+    ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function (u) {
+      var v = BB.param(u);
+      if (v) q.push(u + '=' + encodeURIComponent(v));
+    });
+
+    return base + '?' + q.join('&');
+  };
+
+  /* ---------------------------------------------------------------------
+     Цель в Метрику. Безопасна, если счётчик ещё не загрузился.
+     --------------------------------------------------------------------- */
+  BB.goal = function (name, params) {
+    try {
+      if (typeof window.ym === 'function' && BB.counter) window.ym(BB.counter, 'reachGoal', name, params || {});
+      if (window.VK && VK.Retargeting && VK.Retargeting.Event) VK.Retargeting.Event(name);
+      if (BB.param('goals') === 'debug') console.log('[BB goal]', name, params || {});
+    } catch (e) {}
+  };
+
+  /* ---------------------------------------------------------------------
+     Перехват кликов.
+
+     ВАРИАНТ А (для контент-менеджера, без кода):
+       в Tilda в ссылке кнопки написать относительные даты, например
+       https://ecobr.ru/booking?dfrom=fri&dto=sun&adults=2&promoCode=BUDNI20
+       Скрипт подменит fri/sun на реальные даты в момент клика.
+
+     ВАРИАНТ Б (для наших компонентов):
+       <a data-bb-book data-from="fri" data-to="sun" data-adults="2"
+          data-promo="BUDNI20" data-offer="budni-2026">Забронировать</a>
+     --------------------------------------------------------------------- */
+  function rewriteBookingHref(href) {
+    var mf = href.match(/[?&]dfrom=([^&#]*)/), mt = href.match(/[?&]dto=([^&#]*)/);
+    var from = mf ? BB.resolveDate(decodeURIComponent(mf[1])) : '';
+    var to   = mt ? BB.resolveDate(decodeURIComponent(mt[1]), from) : '';
+    if (mf) href = href.replace(/([?&]dfrom=)[^&#]*/, '$1' + encodeURIComponent(from));
+    if (mt) href = href.replace(/([?&]dto=)[^&#]*/,   '$1' + encodeURIComponent(to));
+    return href;
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a,[data-bb-book]') : null;
+    if (!a) return;
+
+    /* Б: собираем ссылку из data-атрибутов */
+    if (a.hasAttribute('data-bb-book')) {
+      var url = BB.bookUrl({
+        from: a.getAttribute('data-from'),
+        to: a.getAttribute('data-to'),
+        adults: a.getAttribute('data-adults'),
+        children: a.getAttribute('data-children'),
+        promo: a.getAttribute('data-promo'),
+        rooms: a.getAttribute('data-rooms')
+      });
+      BB.goal('offer_book_click', { offer: a.getAttribute('data-offer') || 'unknown' });
+      if (a.tagName === 'A') { a.href = url; return; }
+      e.preventDefault(); location.href = url; return;
+    }
+
+    /* А: обычная ссылка на /booking с относительными датами */
+    var href = a.getAttribute('href') || '';
+    if (href.indexOf('/booking') > -1 && /[?&](dfrom|dto)=/.test(href)) {
+      a.href = rewriteBookingHref(href);
+      BB.goal('offer_book_click', { offer: a.getAttribute('data-offer') || 'link' });
+    }
+  }, true);
+})();
+</script>

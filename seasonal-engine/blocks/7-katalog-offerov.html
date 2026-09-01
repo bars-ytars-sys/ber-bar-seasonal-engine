@@ -1,0 +1,443 @@
+<!-- =============================================================================
+     БЛОК 7 · КАТАЛОГ СПЕЦПРЕДЛОЖЕНИЙ
+     Куда: страница /special → добавить блок «Другое → T123 HTML-код» → вставить это.
+     Требует: блоки 1–3 в HEAD (тема, расписание, ссылки Bnovo).
+
+     Что даёт: каждый оффер получает цену, срок, условия, таймер, промокод и кнопку,
+     которая ведёт СРАЗУ в модуль бронирования с подставленными датами и промокодом.
+     Просроченные офферы исчезают сами.
+
+     ЧТО МЕНЯЕТ КОНТЕНТ-МЕНЕДЖЕР: только текст между <script id="bb-offers"> и </script>.
+     Это данные, не программа: ошибиться сложно, лишняя запятая в конце прощается.
+     Проверка перед публикацией: откройте /special?debug=offers — покажет ошибки списком.
+     ============================================================================= -->
+
+<script type="application/json" id="bb-offers">
+[
+  {
+    "id": "budni-osen",
+    "title": "Будни −20%",
+    "lead": "Заезд понедельник–четверг. Тот же дом, та же баня, цена ниже.",
+    "price": 11900,
+    "oldPrice": 14900,
+    "priceNote": "за дом в сутки",
+    "badge": "hot",
+    "tags": ["budni", "dvoim", "banya"],
+    "includes": [
+      "Завтрак «шведский стол» на двоих",
+      "Поздний выезд до 14:00",
+      "Парковка у дома"
+    ],
+    "excludes": ["Банный чан — 4 500 ₽ за 3 часа, бронируется отдельно"],
+    "rules": "Минимум 2 ночи. Не суммируется с другими акциями. Количество домов ограничено.",
+    "stay": { "from": "2026-09-01", "to": "2026-11-30" },
+    "sale": { "from": "2026-09-01", "to": "2026-11-25" },
+    "promo": "BUDNI20",
+    "book": { "from": "mon", "to": "thu", "adults": 2 },
+    "more": ""
+  },
+  {
+    "id": "ny-rannee",
+    "title": "Новый год: раннее бронирование",
+    "lead": "Фиксируем цену сентября на новогодние даты. Мест меньше, чем кажется.",
+    "price": 39000,
+    "priceNote": "за дом в сутки, 30.12–02.01",
+    "badge": "new",
+    "tags": ["kompaniey", "semya", "banya"],
+    "includes": [
+      "Новогодний ужин 31 декабря",
+      "Украшенный дом и ёлка",
+      "Программа для детей 1 января"
+    ],
+    "excludes": ["Банный чан и SPA оплачиваются отдельно"],
+    "rules": "Минимум 3 ночи. Предоплата 50%, невозвратная после 1 декабря.",
+    "stay": { "from": "2026-12-30", "to": "2027-01-08" },
+    "sale": { "from": "2026-10-01", "to": "2026-11-30" },
+    "promo": "NY2027",
+    "book": { "from": "2026-12-30", "to": "2027-01-03", "adults": 4 },
+    "more": "/newyear"
+  },
+  {
+    "id": "ny-programma",
+    "title": "Новогодние каникулы",
+    "lead": "Программа с посуточной раскладкой: 30 декабря — 8 января.",
+    "price": 34000,
+    "priceNote": "за дом в сутки",
+    "badge": "last",
+    "tags": ["semya", "kompaniey", "banya"],
+    "includes": [
+      "Новогодний ужин и программа 31 декабря",
+      "Завтраки все дни",
+      "Детская программа 1 и 2 января",
+      "Банный чан по записи"
+    ],
+    "excludes": ["Салют и фотограф — по отдельному прайсу"],
+    "rules": "Минимум 3 ночи. Предоплата 50%, невозвратная.",
+    "stay": { "from": "2026-12-30", "to": "2027-01-08" },
+    "sale": { "from": "2026-11-15", "to": "2026-12-29" },
+    "promo": "",
+    "book": { "from": "2026-12-30", "to": "2027-01-02", "adults": 4 },
+    "more": "/newyear"
+  },
+  {
+    "id": "dvoim-chan",
+    "title": "Для двоих: чан на закате",
+    "lead": "Ночь в А-фрейме, банный чан на 3 часа и ужин в дом.",
+    "price": 21500,
+    "priceNote": "пакет на двоих за ночь",
+    "badge": "",
+    "tags": ["dvoim", "banya"],
+    "includes": [
+      "Ночь в доме категории А-фрейм",
+      "Банный чан 3 часа с дровами и травами",
+      "Ужин на двоих в дом",
+      "Поздний выезд до 14:00"
+    ],
+    "excludes": [],
+    "rules": "Доступно по будням и в воскресенье. Бронируется не позднее чем за 2 дня.",
+    "stay": { "from": "2026-09-01", "to": "2027-03-31" },
+    "sale": { "from": "2026-09-01", "to": "2027-03-25" },
+    "promo": "",
+    "book": { "from": "+3", "to": "+1", "adults": 2 },
+    "more": ""
+  }
+]
+</script>
+
+<div class="bb-offers" id="bb-offers-root">
+  <div class="bb-offers__filters" id="bb-offers-filters" role="group" aria-label="Фильтр предложений"></div>
+  <div class="bb-offers__grid" id="bb-offers-grid"></div>
+  <p class="bb-offers__empty" id="bb-offers-empty" hidden>
+    По этому фильтру предложений сейчас нет.
+    <a href="#" data-bb-reset>Показать все</a>
+  </p>
+</div>
+
+<style>
+.bb-offers{font:16px/1.5 var(--bb-font);color:var(--bb-ink);max-width:1200px;margin:0 auto;padding:0 20px;box-sizing:border-box}
+.bb-offers *{box-sizing:border-box}
+.bb-offers__filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
+.bb-chip{border:1px solid var(--bb-line);background:var(--bb-surface);color:var(--bb-ink);
+  padding:8px 16px;border-radius:999px;font:500 14px/1 var(--bb-font);cursor:pointer;transition:.15s}
+.bb-chip:hover{border-color:var(--bb-accent)}
+.bb-chip[aria-pressed="true"]{background:var(--bb-accent);border-color:var(--bb-accent);color:var(--bb-accent-ink)}
+.bb-offers__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+
+.bb-card{display:flex;flex-direction:column;background:var(--bb-surface);border:1px solid var(--bb-line);
+  border-radius:var(--bb-radius);box-shadow:var(--bb-shadow);overflow:hidden}
+.bb-card__head{padding:18px 20px 0;position:relative}
+.bb-card__badge{display:inline-block;font:600 11px/1 var(--bb-font);letter-spacing:.06em;text-transform:uppercase;
+  padding:6px 10px;border-radius:6px;margin-bottom:10px;background:var(--bb-badge);color:var(--bb-ink)}
+.bb-card__badge--hot{background:var(--bb-hot);color:#fff}
+.bb-card__badge--new{background:var(--bb-accent);color:var(--bb-accent-ink)}
+.bb-card__badge--last{background:#2b2b2b;color:#fff}
+.bb-card__title{font:600 21px/1.25 var(--bb-font);margin:0 0 6px}
+.bb-card__lead{color:var(--bb-muted);font-size:15px;margin:0 0 16px}
+
+.bb-card__price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:0 20px 4px}
+.bb-card__price b{font:700 26px/1 var(--bb-font)}
+.bb-card__price s{color:var(--bb-muted);font-size:16px}
+.bb-card__pricenote{color:var(--bb-muted);font-size:13px;padding:0 20px 14px}
+
+.bb-card__body{padding:0 20px;flex:1}
+.bb-card__list{list-style:none;margin:0 0 14px;padding:0}
+.bb-card__list li{position:relative;padding-left:22px;margin:0 0 7px;font-size:15px}
+.bb-card__list li::before{content:"";position:absolute;left:2px;top:8px;width:9px;height:9px;border-radius:50%;
+  background:var(--bb-accent)}
+.bb-card__list--no li::before{background:var(--bb-line)}
+.bb-card__meta{border-top:1px solid var(--bb-line);margin-top:12px;padding-top:12px;font-size:13px;color:var(--bb-muted)}
+.bb-card__meta div{margin-bottom:5px}
+.bb-card__meta b{color:var(--bb-ink);font-weight:600}
+
+.bb-card__timer{display:flex;align-items:center;gap:8px;margin:12px 20px 0;padding:9px 12px;border-radius:8px;
+  background:var(--bb-badge);font:600 13px/1 var(--bb-font)}
+.bb-card__timer--soon{background:var(--bb-hot);color:#fff}
+
+.bb-card__promo{margin:12px 20px 0}
+.bb-promo{display:inline-flex;align-items:center;gap:8px;border:1px dashed var(--bb-accent);background:transparent;
+  color:var(--bb-ink);border-radius:8px;padding:8px 12px;font:600 14px/1 var(--bb-font);cursor:pointer}
+.bb-promo small{font-weight:400;color:var(--bb-muted)}
+.bb-promo.is-copied{border-style:solid;background:var(--bb-badge)}
+
+.bb-card__foot{padding:16px 20px 20px;display:flex;flex-direction:column;gap:8px}
+.bb-btn{display:block;text-align:center;text-decoration:none;border-radius:10px;padding:14px 18px;
+  font:600 16px/1 var(--bb-font);cursor:pointer;border:1px solid transparent}
+.bb-btn--main{background:var(--bb-accent);color:var(--bb-accent-ink)}
+.bb-btn--main:hover{filter:brightness(.94)}
+.bb-btn--ghost{background:transparent;color:var(--bb-ink);border-color:var(--bb-line);font-weight:500;font-size:15px}
+
+.bb-offers__empty{text-align:center;color:var(--bb-muted);padding:40px 0}
+.bb-debug{margin:20px 0;padding:16px;border:2px solid var(--bb-hot);border-radius:10px;background:#fff;
+  font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;color:#a01}
+@media(max-width:639px){
+  .bb-offers{padding:0 12px}
+  .bb-offers__grid{grid-template-columns:1fr;gap:14px}
+  .bb-card__title{font-size:19px}
+  .bb-card__price b{font-size:23px}
+}
+</style>
+
+<script>
+(function () {
+  'use strict';
+  var BB = window.BB || {};
+  if (!BB.num) { console.warn('BB: не подключены блоки 1–3 в HEAD'); return; }
+
+  /* Человеческие названия фильтров. Ключ = то, что пишется в "tags". */
+  var TAGS = {
+    dvoim:     'Для двоих',
+    semya:     'С детьми',
+    kompaniey: 'Компанией',
+    budni:     'Будни',
+    banya:     'С баней и чаном',
+    spa:       'SPA',
+    sertifikat:'Сертификаты',
+    korporativ:'Корпоративам'
+  };
+  var BADGES = { hot: 'горит', new: 'новинка', last: 'последние даты' };
+
+  var root = document.getElementById('bb-offers-root');
+  var grid = document.getElementById('bb-offers-grid');
+  var box  = document.getElementById('bb-offers-filters');
+  var empty= document.getElementById('bb-offers-empty');
+  var raw  = document.getElementById('bb-offers');
+  if (!root || !raw) return;
+
+  /* --- Прощающий разбор: убираем // комментарии и лишние запятые ---------- */
+  function parse(text) {
+    var clean = text
+      .replace(/^\s*\/\/.*$/gm, '')
+      .replace(/,(\s*[\]}])/g, '$1');
+    return JSON.parse(clean);
+  }
+
+  var offers = [], parseError = null;
+  try { offers = parse(raw.textContent); }
+  catch (e) { parseError = e.message; offers = []; }
+
+  /* --- Проверка данных. Ошибки видны на /special?debug=offers ------------- */
+  var problems = [];
+  if (parseError) problems.push('Список не читается: ' + parseError + '. Чаще всего — лишняя или пропущенная запятая.');
+
+  offers.forEach(function (o, i) {
+    var w = 'Оффер #' + (i + 1) + ' (' + (o.id || 'без id') + '): ';
+    if (!o.id)    problems.push(w + 'нет "id"');
+    if (!o.title) problems.push(w + 'нет "title"');
+    if (!o.price) problems.push(w + 'НЕТ ЦЕНЫ. Оффер без цены не работает — поставьте хотя бы "от"');
+    if (!o.sale || !o.sale.to) problems.push(w + 'нет срока действия sale.to — оффер не сможет исчезнуть сам');
+    if (!o.book || (!o.book.from && !o.more)) problems.push(w + 'нет ни book.from, ни more — кнопке некуда вести');
+    if (o.sale && o.sale.to && BB.num(o.sale.to) === null) problems.push(w + 'sale.to должен быть в формате ГГГГ-ММ-ДД');
+    (o.tags || []).forEach(function (t) { if (!TAGS[t]) problems.push(w + 'неизвестный фильтр "' + t + '"'); });
+  });
+
+  if (BB.param('debug') === 'offers') {
+    var d = document.createElement('div');
+    d.className = 'bb-debug';
+    d.innerHTML = '<b>Проверка каталога офферов</b><br>Всего: ' + offers.length + '<br>' +
+      (problems.length ? problems.map(function (p) { return '• ' + p; }).join('<br>') : 'Ошибок нет.');
+    root.insertBefore(d, root.firstChild);
+  } else if (problems.length) {
+    console.warn('BB офферы: ' + problems.length + ' замечаний. Откройте ' + location.pathname + '?debug=offers');
+  }
+
+  /* --- Отбор живых офферов ------------------------------------------------ */
+  var today = BB.today || BB.todayNum();
+  var live = offers.filter(function (o) {
+    if (!o.sale) return true;
+    if (o.sale.from && today < BB.num(o.sale.from)) return false;
+    if (o.sale.to   && today > BB.num(o.sale.to))   return false;
+    return true;
+  });
+
+  /* «Горит» и то, что кончается раньше, — выше */
+  var order = { hot: 0, last: 1, new: 2 };
+  live.sort(function (a, b) {
+    var oa = order[a.badge] === undefined ? 3 : order[a.badge];
+    var ob = order[b.badge] === undefined ? 3 : order[b.badge];
+    if (oa !== ob) return oa - ob;
+    return (BB.num(a.sale && a.sale.to) || 99999999) - (BB.num(b.sale && b.sale.to) || 99999999);
+  });
+
+  /* --- Вспомогательное ---------------------------------------------------- */
+  function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽'; }
+  function ruDate(s) {
+    var M = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+    var m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    return m ? (+m[3]) + ' ' + M[+m[2] - 1] : s;
+  }
+  function el(tag, cls, txt) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt !== undefined) n.textContent = txt;
+    return n;
+  }
+
+  /* --- Карточка ----------------------------------------------------------- */
+  function card(o) {
+    var c = el('article', 'bb-card');
+    c.setAttribute('data-tags', (o.tags || []).join(' '));
+
+    var head = el('div', 'bb-card__head');
+    if (o.badge && BADGES[o.badge]) head.appendChild(el('span', 'bb-card__badge bb-card__badge--' + o.badge, BADGES[o.badge]));
+    head.appendChild(el('h3', 'bb-card__title', o.title));
+    if (o.lead) head.appendChild(el('p', 'bb-card__lead', o.lead));
+    c.appendChild(head);
+
+    if (o.price) {
+      var p = el('div', 'bb-card__price');
+      p.appendChild(el('b', '', 'от ' + money(o.price)));
+      if (o.oldPrice) p.appendChild(el('s', '', money(o.oldPrice)));
+      c.appendChild(p);
+      if (o.priceNote) c.appendChild(el('div', 'bb-card__pricenote', o.priceNote));
+    }
+
+    var body = el('div', 'bb-card__body');
+    if ((o.includes || []).length) {
+      var ul = el('ul', 'bb-card__list');
+      o.includes.forEach(function (t) { ul.appendChild(el('li', '', t)); });
+      body.appendChild(ul);
+    }
+    if ((o.excludes || []).length) {
+      var ul2 = el('ul', 'bb-card__list bb-card__list--no');
+      o.excludes.forEach(function (t) { ul2.appendChild(el('li', '', t)); });
+      body.appendChild(ul2);
+    }
+
+    var meta = el('div', 'bb-card__meta');
+    if (o.stay && o.stay.from) {
+      var d1 = el('div');
+      d1.innerHTML = 'Даты заезда: <b>' + ruDate(o.stay.from) + ' — ' + ruDate(o.stay.to) + '</b>';
+      meta.appendChild(d1);
+    }
+    if (o.sale && o.sale.to) {
+      var d2 = el('div');
+      d2.innerHTML = 'Действует до <b>' + ruDate(o.sale.to) + '</b> включительно';
+      meta.appendChild(d2);
+    }
+    if (o.rules) meta.appendChild(el('div', '', o.rules));
+    body.appendChild(meta);
+    c.appendChild(body);
+
+    /* Таймер — только настоящий, от даты окончания. Не перезапускается. */
+    if (o.sale && o.sale.to) {
+      var timer = el('div', 'bb-card__timer');
+      timer.setAttribute('data-until', o.sale.to);
+      c.appendChild(timer);
+    }
+
+    if (o.promo) {
+      var wrap = el('div', 'bb-card__promo');
+      var btn = el('button', 'bb-promo');
+      btn.type = 'button';
+      btn.innerHTML = '<span>' + o.promo + '</span><small>нажмите, чтобы скопировать</small>';
+      btn.addEventListener('click', function () {
+        var done = function () {
+          btn.classList.add('is-copied');
+          btn.querySelector('small').textContent = 'скопировано';
+          BB.goal && BB.goal('promo_copy', { offer: o.id, promo: o.promo });
+        };
+        if (navigator.clipboard) navigator.clipboard.writeText(o.promo).then(done, done);
+        else done();
+      });
+      wrap.appendChild(btn);
+      c.appendChild(wrap);
+    }
+
+    var foot = el('div', 'bb-card__foot');
+    if (o.book && (o.book.from || o.book.to)) {
+      var a = el('a', 'bb-btn bb-btn--main', 'Выбрать даты и забронировать');
+      a.href = BB.bookUrl({
+        from: o.book.from, to: o.book.to,
+        adults: o.book.adults, children: o.book.children,
+        promo: o.promo, rooms: o.book.rooms
+      });
+      a.setAttribute('data-bb-book', '');
+      a.setAttribute('data-from', o.book.from || '');
+      a.setAttribute('data-to', o.book.to || '');
+      if (o.book.adults) a.setAttribute('data-adults', o.book.adults);
+      if (o.book.children) a.setAttribute('data-children', o.book.children);
+      if (o.promo) a.setAttribute('data-promo', o.promo);
+      if (o.book.rooms) a.setAttribute('data-rooms', o.book.rooms);
+      a.setAttribute('data-offer', o.id);
+      foot.appendChild(a);
+    }
+    if (o.more) {
+      var m = el('a', 'bb-btn bb-btn--ghost', 'Подробные условия');
+      m.href = o.more;
+      m.addEventListener('click', function () { BB.goal && BB.goal('offer_more_click', { offer: o.id }); });
+      foot.appendChild(m);
+    }
+    c.appendChild(foot);
+    return c;
+  }
+
+  /* --- Фильтры ------------------------------------------------------------ */
+  var used = {};
+  live.forEach(function (o) { (o.tags || []).forEach(function (t) { if (TAGS[t]) used[t] = 1; }); });
+
+  var active = 'all';
+  function chip(key, label) {
+    var b = el('button', 'bb-chip', label);
+    b.type = 'button';
+    b.setAttribute('aria-pressed', key === active ? 'true' : 'false');
+    b.addEventListener('click', function () {
+      active = key;
+      box.querySelectorAll('.bb-chip').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+      b.setAttribute('aria-pressed', 'true');
+      apply();
+      BB.goal && BB.goal('offer_filter', { filter: key });
+    });
+    return b;
+  }
+  box.appendChild(chip('all', 'Все предложения'));
+  Object.keys(TAGS).forEach(function (k) { if (used[k]) box.appendChild(chip(k, TAGS[k])); });
+
+  function apply() {
+    var shown = 0;
+    grid.querySelectorAll('.bb-card').forEach(function (c) {
+      var ok = active === 'all' || (' ' + c.getAttribute('data-tags') + ' ').indexOf(' ' + active + ' ') > -1;
+      c.hidden = !ok;
+      if (ok) shown++;
+    });
+    empty.hidden = shown > 0;
+    /* Разные пустые состояния: «фильтр не совпал» и «все акции истекли».
+       Второе — сигнал контент-менеджеру, что каталог пора обновить. */
+    if (!live.length) {
+      empty.innerHTML = 'Сейчас действующих предложений нет. ' +
+        'Позвоните в отдел бронирования — подберём вариант под ваши даты.';
+    }
+  }
+  empty.querySelector('[data-bb-reset]').addEventListener('click', function (e) {
+    e.preventDefault();
+    box.querySelector('.bb-chip').click();
+  });
+
+  /* --- Отрисовка ---------------------------------------------------------- */
+  live.forEach(function (o) { grid.appendChild(card(o)); });
+  apply();
+
+  /* --- Таймеры ------------------------------------------------------------ */
+  function plural(n, a, b, c) {
+    var n10 = n % 10, n100 = n % 100;
+    if (n10 === 1 && n100 !== 11) return a;
+    if (n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) return b;
+    return c;
+  }
+  function tick() {
+    var nowMsk = BB.now().getTime();
+    grid.querySelectorAll('[data-until]').forEach(function (t) {
+      var u = t.getAttribute('data-until');
+      var end = new Date(u + 'T23:59:59').getTime();
+      var left = end - nowMsk;
+      if (left <= 0) { t.textContent = 'Предложение завершено'; return; }
+      var d = Math.floor(left / 864e5), h = Math.floor(left % 864e5 / 36e5), m = Math.floor(left % 36e5 / 6e4);
+      t.classList.toggle('bb-card__timer--soon', d < 3);
+      t.textContent = d > 0
+        ? 'До конца предложения ' + d + ' ' + plural(d, 'день', 'дня', 'дней') + ' ' + h + ' ч'
+        : 'Осталось ' + h + ' ч ' + m + ' мин';
+    });
+  }
+  tick();
+  setInterval(tick, 60000);
+})();
+</script>

@@ -1,0 +1,177 @@
+<!-- =============================================================================
+     БЛОК 9 · ГЕНЕРАТОР ССЫЛОК В БРОНИРОВАНИЕ (служебный инструмент)
+     Куда: создать СКРЫТУЮ страницу /tools (не добавлять в меню, поставить noindex)
+           → блок T123 → вставить это.
+
+     Зачем: чтобы контент-менеджер и таргетолог никогда не собирали ссылку руками.
+     Выбрал даты, гостей, промокод — получил готовый URL для кнопки, рассылки
+     или объявления, вместе с UTM-метками.
+
+     Не требует блоков 1–3: работает сам по себе.
+     ============================================================================= -->
+<div class="bbg">
+  <h2 class="bbg__h">Генератор ссылок в модуль бронирования</h2>
+
+  <div class="bbg__row">
+    <label>База
+      <select id="g-site">
+        <option value="https://ecobr.ru/booking">Берёзовая роща — ecobr.ru</option>
+        <option value="https://barskie-polya.ru/booking">Барские поля — barskie-polya.ru</option>
+      </select>
+    </label>
+    <label>Тип дат
+      <select id="g-mode">
+        <option value="fixed">Конкретные даты (для акции с дедлайном)</option>
+        <option value="rel">Плавающие (для вечного оффера: «ближайшие будни»)</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="bbg__row" data-mode="fixed">
+    <label>Заезд <input type="date" id="g-from"></label>
+    <label>Выезд <input type="date" id="g-to"></label>
+  </div>
+
+  <div class="bbg__row" data-mode="rel" hidden>
+    <label>Заезд
+      <select id="g-rfrom">
+        <option value="mon">ближайший понедельник</option>
+        <option value="fri">ближайшая пятница</option>
+        <option value="sat">ближайшая суббота</option>
+        <option value="+3">через 3 дня</option>
+        <option value="+7">через неделю</option>
+        <option value="+14">через 2 недели</option>
+      </select>
+    </label>
+    <label>Выезд — считается от даты заезда
+      <select id="g-rto">
+        <option value="thu">ближайший четверг после заезда</option>
+        <option value="sun">ближайшее воскресенье после заезда</option>
+        <option value="mon">ближайший понедельник после заезда</option>
+        <option value="+1">+1 ночь</option>
+        <option value="+2">+2 ночи</option>
+        <option value="+3">+3 ночи</option>
+        <option value="+7">+7 ночей</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="bbg__row">
+    <label>Взрослых <input type="number" id="g-ad" min="1" max="10" value="2"></label>
+    <label>Детей <input type="number" id="g-ch" min="0" max="10" value="0"></label>
+    <label>Промокод <input type="text" id="g-promo" placeholder="BUDNI20"></label>
+  </div>
+
+  <div class="bbg__row">
+    <label>Только эти дома (ID через запятую, необязательно)
+      <input type="text" id="g-rooms" placeholder="оставьте пустым — покажет все">
+    </label>
+  </div>
+
+  <fieldset class="bbg__fs">
+    <legend>UTM-метки — если ссылка идёт в рекламу или рассылку</legend>
+    <div class="bbg__row">
+      <label>Источник
+        <select id="g-us">
+          <option value="">без меток</option>
+          <option value="yandex">yandex</option>
+          <option value="vk">vk</option>
+          <option value="telegram">telegram</option>
+          <option value="email">email</option>
+          <option value="instagram">instagram</option>
+        </select>
+      </label>
+      <label>Тип
+        <select id="g-um">
+          <option value="cpc">cpc — платная реклама</option>
+          <option value="social">social — пост</option>
+          <option value="email">email — рассылка</option>
+          <option value="referral">referral — партнёр</option>
+        </select>
+      </label>
+      <label>Кампания <input type="text" id="g-uc" placeholder="ny2027-rannee"></label>
+    </div>
+  </fieldset>
+
+  <div class="bbg__out">
+    <code id="g-url">—</code>
+    <div class="bbg__btns">
+      <button type="button" id="g-copy">Скопировать</button>
+      <a href="#" id="g-test" target="_blank" rel="noopener">Проверить ссылку</a>
+    </div>
+  </div>
+
+  <p class="bbg__note">
+    Параметры <b>dfrom</b>/<b>dto</b> — даты, <b>adults</b>/<b>children</b> — гости,
+    <b>promoCode</b> — промокод, <b>onlyrooms</b> — фильтр по домам,
+    <b>scroll_to_rooms=1</b> — сразу прокрутить к списку домов.
+    Плавающие даты (mon, fri, +7) превращаются в реальные в момент клика —
+    для этого на сайте должен стоять блок 3 в HEAD.
+  </p>
+</div>
+
+<style>
+.bbg{font:15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;max-width:900px;margin:0 auto;
+  padding:24px;border:1px solid #e6e9ef;border-radius:14px;background:#fff;color:#1a1b19}
+.bbg *{box-sizing:border-box}
+.bbg__h{font-size:20px;margin:0 0 18px}
+.bbg__row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+.bbg label{flex:1;min-width:180px;display:flex;flex-direction:column;gap:5px;font-size:13px;color:#6b7280}
+.bbg input,.bbg select{padding:10px 12px;border:1px solid #e6e9ef;border-radius:9px;font-size:15px;color:#1a1b19;
+  background:#fff;width:100%}
+.bbg__fs{border:1px solid #e6e9ef;border-radius:10px;padding:14px;margin:0 0 16px}
+.bbg__fs legend{font-size:13px;color:#6b7280;padding:0 6px}
+.bbg__out{background:#f4f6fb;border-radius:10px;padding:14px;word-break:break-all}
+.bbg__out code{display:block;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;margin-bottom:12px}
+.bbg__btns{display:flex;gap:10px;flex-wrap:wrap}
+.bbg__btns button,.bbg__btns a{padding:10px 18px;border-radius:9px;border:1px solid #1a1b19;background:#1a1b19;
+  color:#fff;font-size:14px;cursor:pointer;text-decoration:none}
+.bbg__btns a{background:#fff;color:#1a1b19}
+.bbg__note{font-size:13px;color:#6b7280;margin-top:14px}
+@media(max-width:639px){.bbg{padding:16px}.bbg label{min-width:100%}}
+</style>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+
+  function build() {
+    var base = $('g-site').value;
+    var mode = $('g-mode').value;
+    document.querySelectorAll('[data-mode]').forEach(function (r) { r.hidden = r.getAttribute('data-mode') !== mode; });
+
+    var q = [];
+    var from = mode === 'fixed' ? $('g-from').value : $('g-rfrom').value;
+    var to   = mode === 'fixed' ? $('g-to').value   : $('g-rto').value;
+    if (from) q.push('dfrom=' + from);
+    if (to)   q.push('dto=' + to);
+    if (+$('g-ad').value) q.push('adults=' + (+$('g-ad').value));
+    if (+$('g-ch').value) q.push('children=' + (+$('g-ch').value));
+    if ($('g-promo').value.trim()) q.push('promoCode=' + encodeURIComponent($('g-promo').value.trim().toUpperCase()));
+    if ($('g-rooms').value.trim()) q.push('onlyrooms=' + encodeURIComponent($('g-rooms').value.replace(/\s/g, '')));
+    q.push('scroll_to_rooms=1');
+
+    if ($('g-us').value) {
+      q.push('utm_source=' + $('g-us').value);
+      q.push('utm_medium=' + $('g-um').value);
+      if ($('g-uc').value.trim()) q.push('utm_campaign=' + encodeURIComponent($('g-uc').value.trim()));
+    }
+
+    var url = base + '?' + q.join('&');
+    $('g-url').textContent = url;
+    $('g-test').href = url;
+  }
+
+  document.querySelector('.bbg').addEventListener('input', build);
+  document.querySelector('.bbg').addEventListener('change', build);
+
+  $('g-copy').addEventListener('click', function () {
+    var t = $('g-url').textContent, b = this;
+    var done = function () { b.textContent = 'Скопировано'; setTimeout(function () { b.textContent = 'Скопировать'; }, 1500); };
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, done); else done();
+  });
+
+  build();
+})();
+</script>

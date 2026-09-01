@@ -1,0 +1,194 @@
+<!-- =============================================================================
+     БЛОК 1 · СЕЗОННАЯ ТЕМА  (ставится ПЕРВЫМ)
+     Куда: Настройки сайта → Ещё → HTML-код для вставки внутрь HEAD
+     Ставится одинаково на ecobr.ru и barskie-polya.ru — сайт определяется по домену.
+
+     Что делает:
+       1) определяет текущий сезон по московской дате;
+       2) вешает data-season="..." на <html>;
+       3) подменяет цветовые переменные Tilda → сайт перекрашивается целиком,
+          без правки блоков.
+
+     ПРОВЕРЕНО в коде живых страниц:
+       ecobr.ru собран на Цветовых стилях Tilda — вся палитра это 6 переменных:
+         --uc-color-color-qp7xN        #2ed8a3  акцент (131 использование)
+         --uc-color-color-mkOIs27      #9aed9b  светло-зелёный (129)
+         --uc-color-color-cPYWVKrTiQfG #313a39  тёмный фон (118)
+         --uc-color-color-Z3IU8y       #1a1b19  текст (88)
+         --uc-color-color-qvHJWc       #ffffff  белый (79)
+         --uc-color-color-n3E0FkCwyE   #f4f6fb  фон секций (63)
+       Переменные используются как var(--x,#hex) и нигде не объявлены.
+       Значит: достаточно объявить их в :root — и перекрасится весь сайт.
+
+       barskie-polya.ru Цветовых стилей НЕ использует (0 переменных, цвета вбиты
+       в блоки: #eee5d5 — 718 раз, #a36434 — 219, #995d2f — 115, #243d34 — 113).
+       До миграции палитры БП на Цветовые стили сезон у БП меняет только наши
+       компоненты (--bb-*), а не всю страницу. См. docs/smeta-i-poryadok.md, задача Б2.
+
+     Предпросмотр любого сезона: добавьте к URL ?season=newyear
+     Сезоны: newyear | winter | spring | summer | autumn
+     ============================================================================= -->
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- ЯДРО. Не трогать. ---------- */
+  var BB = window.BB = window.BB || {};
+  BB.TZ = 180; /* Europe/Moscow. Все даты в системе — московские. */
+
+  BB.param = function (name) {
+    var m = new RegExp('[?&]' + name + '=([^&#]*)').exec(location.search);
+    return m ? decodeURIComponent(m[1]) : null;
+  };
+
+  /* «Машина времени»: ?date=2026-12-25 сдвигает ВСЮ систему — сезон, расписание,
+     таймеры. Время суток остаётся текущим, поэтому таймеры считаются честно. */
+  var fake = (BB.param('date') || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+
+  BB.now = function () {
+    var d = new Date();
+    var msk = new Date(d.getTime() + (d.getTimezoneOffset() + BB.TZ) * 60000);
+    if (fake) msk.setFullYear(+fake[1], +fake[2] - 1, +fake[3]);
+    return msk;
+  };
+  BB.pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  BB.ymd = function (d) { return d.getFullYear() + '-' + BB.pad(d.getMonth() + 1) + '-' + BB.pad(d.getDate()); };
+
+  /* 'YYYY-MM-DD' -> 20261115. Сравнивать числа надёжнее, чем объекты Date. */
+  BB.num = function (s) {
+    var m = String(s || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    return m ? +(m[1] + m[2] + m[3]) : null;
+  };
+  BB.todayNum = function () { return BB.num(BB.ymd(BB.now())); };
+  BB.today = BB.todayNum();   /* сегодня одним числом, с учётом ?date= */
+
+  /* Обычно база определяется по домену. ?site=bp — посмотреть, как компоненты
+     выглядят в палитре второй базы, не уходя с этого сайта. */
+  BB.site = BB.param('site') || (/barskie/i.test(location.hostname) ? 'bp' : 'eco');
+
+  /* ---------- ТАБЛИЦА СЕЗОНОВ · МОЖНО МЕНЯТЬ ---------- */
+  /* Формат ММ-ДД. Диапазон может переходить через Новый год. */
+  var SEASONS = [
+    { id: 'newyear', from: '11-15', to: '01-10' },
+    { id: 'winter',  from: '01-11', to: '03-07' },
+    { id: 'spring',  from: '03-08', to: '05-08' },
+    { id: 'summer',  from: '05-09', to: '08-31' },
+    { id: 'autumn',  from: '09-01', to: '11-14' }
+  ];
+
+  function detect() {
+    var d = BB.now(), md = BB.pad(d.getMonth() + 1) + '-' + BB.pad(d.getDate());
+    for (var i = 0; i < SEASONS.length; i++) {
+      var s = SEASONS[i];
+      var ok = (s.from <= s.to) ? (md >= s.from && md <= s.to)
+                                : (md >= s.from || md <= s.to);
+      if (ok) return s.id;
+    }
+    return 'summer';
+  }
+
+  /* Предпросмотр ?season=winter — держится до закрытия вкладки. */
+  var forced = BB.param('season');
+  try {
+    if (forced) sessionStorage.setItem('bb_season', forced);
+    forced = forced || sessionStorage.getItem('bb_season');
+  } catch (e) {}
+
+  BB.season = forced || detect();
+  document.documentElement.setAttribute('data-season', BB.season);
+  document.documentElement.setAttribute('data-site', BB.site);
+  if (forced) document.documentElement.setAttribute('data-season-preview', '1');
+})();
+</script>
+
+<style>
+/* ============================================================================
+   ПАЛИТРА НАШИХ КОМПОНЕНТОВ (--bb-*).
+   Ими покрашены анонс-полоса, карточки офферов, таймеры, мобильная панель.
+   Меняются каждый сезон — это безопасно, ничего чужого не задевает.
+   ============================================================================ */
+:root{
+  --bb-accent:#2ed8a3;
+  --bb-accent-ink:#0d2b22;
+  --bb-ink:#1a1b19;
+  --bb-muted:#6b7280;
+  --bb-surface:#ffffff;
+  --bb-bg:#f4f6fb;
+  --bb-line:#e6e9ef;
+  --bb-hot:#e0533d;
+  --bb-badge:#eef7f3;
+  --bb-radius:14px;
+  --bb-shadow:0 2px 10px rgba(20,25,35,.06);
+  --bb-font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+}
+
+/* «Барские поля» — своя базовая палитра, снята с живого сайта */
+:root[data-site="bp"]{
+  --bb-accent:#a36434;
+  --bb-accent-ink:#ffffff;
+  --bb-ink:#243d34;
+  --bb-bg:#eee5d5;
+  --bb-line:#e5d9b9;
+  --bb-badge:#f2e9d0;
+  --bb-hot:#c0442c;
+}
+
+/* ------------------------------- СЕЗОНЫ ---------------------------------- */
+
+/* НОВЫЙ ГОД · 15 ноября – 10 января */
+:root[data-season="newyear"]{
+  --bb-accent:#1f7a5a; --bb-accent-ink:#fff8e7;
+  --bb-badge:#fdf3e0;  --bb-hot:#c0392b;
+  --bb-bg:#f2f5f3;
+}
+:root[data-season="newyear"][data-site="bp"]{
+  --bb-accent:#7d4d28; --bb-accent-ink:#f2e9d0; --bb-bg:#e9dfcb;
+}
+
+/* ЗИМА · 11 января – 7 марта */
+:root[data-season="winter"]{ --bb-accent:#2f8f9d; --bb-accent-ink:#ffffff; --bb-bg:#eef3f6; }
+:root[data-season="winter"][data-site="bp"]{ --bb-accent:#5a6f7d; --bb-accent-ink:#ffffff; --bb-bg:#e9e6de; }
+
+/* ВЕСНА · 8 марта – 8 мая */
+:root[data-season="spring"]{ --bb-accent:#57b894; --bb-accent-ink:#08281f; --bb-bg:#f2f8f4; }
+:root[data-season="spring"][data-site="bp"]{ --bb-accent:#8a8c46; --bb-accent-ink:#ffffff; --bb-bg:#efe9d8; }
+
+/* ЛЕТО · 9 мая – 31 августа (базовые цвета брендов) */
+:root[data-season="summer"]{ --bb-accent:#2ed8a3; --bb-bg:#f4f6fb; }
+:root[data-season="summer"][data-site="bp"]{ --bb-accent:#a36434; --bb-bg:#eee5d5; }
+
+/* ОСЕНЬ · 1 сентября – 14 ноября */
+:root[data-season="autumn"]{ --bb-accent:#c98a3c; --bb-accent-ink:#241a0c; --bb-bg:#f7f3ec; }
+:root[data-season="autumn"][data-site="bp"]{ --bb-accent:#b5642a; --bb-accent-ink:#ffffff; --bb-bg:#f0e4cd; }
+
+/* ============================================================================
+   ПЕРЕКРАСКА ВСЕГО САЙТА ecobr.ru ЧЕРЕЗ ЦВЕТОВЫЕ СТИЛИ TILDA
+
+   ПРАВИЛО: за сезон меняем максимум ДВЕ переменные — фон секций и (по решению
+   дизайнера) акцент. Текст (Z3IU8y) и тёмный фон (cPYWVKrTiQfG) не трогаем:
+   развалится контраст на 118 блоках.
+   Акцент #2ed8a3 совпадает с btn_background виджета Bnovo в блоке rec3032928101 —
+   если меняете акцент, поменяйте и там, иначе кнопка «поедет» по цвету.
+   ============================================================================ */
+:root[data-site="eco"][data-season="autumn"]{
+  --uc-color-color-n3E0FkCwyE:#f7f3ec;
+}
+:root[data-site="eco"][data-season="newyear"]{
+  --uc-color-color-n3E0FkCwyE:#f2f5f3;
+  /* --uc-color-color-qp7xN:#1f7a5a;  ← акцент. Включать только вместе с Bnovo */
+}
+:root[data-site="eco"][data-season="winter"]{
+  --uc-color-color-n3E0FkCwyE:#eef3f6;
+}
+:root[data-site="eco"][data-season="spring"]{
+  --uc-color-color-n3E0FkCwyE:#f2f8f4;
+}
+
+/* Плашка предпросмотра — видна только при открытии с ?season= */
+:root[data-season-preview] body::after{
+  content:"ПРЕДПРОСМОТР СЕЗОНА · закройте вкладку, чтобы сбросить";
+  position:fixed; left:0; right:0; bottom:0; z-index:99999;
+  background:#111; color:#fff; font:12px/32px var(--bb-font);
+  text-align:center; letter-spacing:.04em; pointer-events:none;
+}
+</style>

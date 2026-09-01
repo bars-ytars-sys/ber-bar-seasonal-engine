@@ -1,0 +1,90 @@
+<!-- =============================================================================
+     БЛОК 2 · РАСПИСАНИЕ БЛОКОВ ПО ДАТАМ
+     Куда: Настройки сайта → Ещё → HTML-код внутрь HEAD, СРАЗУ ПОСЛЕ блока 1.
+
+     Что делает: сам показывает и прячет блоки Tilda по календарю.
+     Новогодний баннер исчезает 10 января ночью — никто не должен снимать его руками.
+
+     Как это работает без мигания: скрипт пишет <style> прямо в HEAD, до того как
+     браузер отрисовал страницу. Блок не появляется и не «моргает».
+
+     ЧТО ДЕЛАЕТ КОНТЕНТ-МЕНЕДЖЕР: добавляет строку в таблицу SCHEDULE.
+     ID блока берётся в Tilda: наведите на блок → в левой панели написано #rec123456789.
+
+     Проверка: ?schedule=off — показать всё;  ?schedule=debug — таблица решений в консоли;
+               ?date=2026-12-25 — посмотреть, как сайт выглядит в этот день.
+     ============================================================================= -->
+<script>
+(function () {
+  'use strict';
+  var BB = window.BB || {};
+  if (!BB.num) { console.warn('BB: блок 1 (тема сезона) не подключён — расписание выключено'); return; }
+
+  /* =========================================================================
+     ТАБЛИЦА РАСПИСАНИЯ · ЭТО РЕДАКТИРУЕТ КОНТЕНТ-МЕНЕДЖЕР
+
+     rec    — ID блока Tilda (обязательно)
+     from   — с какой даты показывать (включительно), 'ГГГГ-ММ-ДД'
+     to     — по какую дату показывать (включительно)
+     season — показывать только в этот сезон: newyear|winter|spring|summer|autumn
+              (можно список: 'autumn,newyear'). Работает вместе с from/to.
+     mode   — 'show' (по умолчанию: вне окна блок скрыт)
+              'hide' (наоборот: внутри окна блок скрыт)
+     note   — комментарий для людей, на работу не влияет
+
+     Строки можно оставлять «на будущее» — блок просто не появится раньше срока.
+     ========================================================================= */
+  var SCHEDULE = [
+
+    /* ---------- ecobr.ru ---------- */
+    // { rec:'rec0000000001', from:'2026-10-01', to:'2026-12-25', note:'НГ: раннее бронирование' },
+    // { rec:'rec0000000002', from:'2026-11-24', to:'2026-12-01', note:'Чёрная пятница' },
+    // { rec:'rec0000000003', from:'2026-12-26', to:'2027-01-08', note:'НГ-программа по дням' },
+    // { rec:'rec0000000004', season:'winter,newyear',            note:'Чаны и бани на первый экран' },
+    // { rec:'rec0000000005', season:'summer',                    note:'Веранды и ферма на первый экран' },
+
+    /* ---------- barskie-polya.ru ---------- */
+    // { rec:'rec0000000010', from:'2026-11-01', to:'2026-12-31', note:'Сертификаты — предпраздничный блок' },
+
+    /* ---------- служебное ---------- */
+    // { rec:'rec0000000099', from:'2026-04-01', to:'2026-04-30', mode:'hide', note:'убрать блок «летние веранды» в апреле' }
+  ];
+  /* ======================= КОНЕЦ РЕДАКТИРУЕМОЙ ЧАСТИ ======================= */
+
+  var mode = BB.param('schedule');
+  if (mode === 'off') { document.documentElement.setAttribute('data-schedule', 'off'); return; }
+
+  /* «Сегодня» приходит из блока 1 и уже учитывает ?date=2026-12-25 */
+  var today = BB.today;
+
+  var season = document.documentElement.getAttribute('data-season');
+  var hide = [], log = [];
+
+  for (var i = 0; i < SCHEDULE.length; i++) {
+    var r = SCHEDULE[i];
+    if (!r || !r.rec) continue;
+
+    var inWindow = true;
+    if (r.from) { var f = BB.num(r.from); inWindow = inWindow && (f !== null) && today >= f; }
+    if (r.to)   { var t = BB.num(r.to);   inWindow = inWindow && (t !== null) && today <= t; }
+    if (r.season) inWindow = inWindow && (',' + r.season.replace(/\s/g, '') + ',').indexOf(',' + season + ',') > -1;
+
+    var visible = (r.mode === 'hide') ? !inWindow : inWindow;
+    if (!visible) hide.push('#' + r.rec);
+    log.push({ rec: r.rec, note: r.note || '', видим: visible });
+  }
+
+  if (hide.length) {
+    var css = hide.join(',') + '{display:none !important}';
+    var el = document.createElement('style');
+    el.setAttribute('data-bb', 'schedule');
+    el.appendChild(document.createTextNode(css));
+    (document.head || document.documentElement).appendChild(el);
+  }
+
+  if (mode === 'debug') {
+    console.log('%cBB расписание · дата ' + today + ' · сезон ' + season, 'font-weight:bold');
+    if (console.table) console.table(log); else console.log(log);
+  }
+})();
+</script>

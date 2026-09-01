@@ -1,0 +1,11 @@
+{
+  "name": "seasonal-engine",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Движок сезонности для сайтов на Tilda с модулем бронирования Bnovo",
+  "type": "module",
+  "scripts": {
+    "test": "node test/engine.test.mjs",
+    "build": "node demo/build.mjs"
+  }
+}

@@ -1,0 +1,720 @@
+<title>Сезонный движок Рощи и Полей</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+
+<style>
+:root{
+  --paper:#f6f8f6;
+  --surface:#ffffff;
+  --surface-2:#eef1ee;
+  --ink:#16211d;
+  --ink-2:#4a5751;
+  --ink-3:#7d8a84;
+  --line:#dde3df;
+  --line-2:#c8d2cc;
+  --eco:#12876a;
+  --eco-soft:#e3f4ee;
+  --bp:#9a5c2c;
+  --bp-soft:#f6ece0;
+  --flag:#b03d24;
+  --flag-soft:#fbe9e4;
+  --ok:#2f7a4f;
+
+  --f-display:'Bitter',Georgia,'Times New Roman',serif;
+  --f-body:'Golos Text','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+
+  --w:1180px;
+  --rail:236px;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0f1512;
+    --surface:#161d1a;
+    --surface-2:#1d2622;
+    --ink:#e6ece9;
+    --ink-2:#a7b3ad;
+    --ink-3:#7c8983;
+    --line:#28322d;
+    --line-2:#39443e;
+    --eco:#4ecfa6;
+    --eco-soft:#14312a;
+    --bp:#d09355;
+    --bp-soft:#2e2318;
+    --flag:#e8836a;
+    --flag-soft:#331d17;
+    --ok:#63b587;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0f1512;
+  --surface:#161d1a;
+  --surface-2:#1d2622;
+  --ink:#e6ece9;
+  --ink-2:#a7b3ad;
+  --ink-3:#7c8983;
+  --line:#28322d;
+  --line-2:#39443e;
+  --eco:#4ecfa6;
+  --eco-soft:#14312a;
+  --bp:#d09355;
+  --bp-soft:#2e2318;
+  --flag:#e8836a;
+  --flag-soft:#331d17;
+  --ok:#63b587;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font:400 16px/1.62 var(--f-body);
+  margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+
+/* ---------------- шапка ---------------- */
+.top{
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+}
+.top__in{
+  max-width:var(--w);margin:0 auto;padding:44px 28px 38px;
+}
+.eyebrow{
+  font:600 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 18px;
+}
+h1{
+  font:700 clamp(30px,4.4vw,46px)/1.1 var(--f-display);
+  margin:0 0 16px;text-wrap:balance;letter-spacing:-.015em;
+}
+.lede{
+  font-size:18px;color:var(--ink-2);margin:0;max-width:64ch;
+}
+.sites{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.site{
+  display:inline-flex;align-items:center;gap:9px;
+  border:1px solid var(--line-2);border-radius:999px;
+  padding:7px 15px 7px 11px;font:500 13px/1 var(--f-body);
+}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+.dot--eco{background:var(--eco)}
+.dot--bp{background:var(--bp)}
+.site small{color:var(--ink-3);font:400 12px/1 var(--f-mono)}
+
+/* ---------------- каркас ---------------- */
+.wrap{max-width:var(--w);margin:0 auto;padding:0 28px 90px;display:grid;
+  grid-template-columns:var(--rail) minmax(0,1fr);gap:52px;align-items:start}
+.rail{position:sticky;top:24px;padding-top:40px}
+.rail ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.rail a{
+  display:flex;gap:10px;text-decoration:none;color:var(--ink-3);
+  font:500 13.5px/1.35 var(--f-body);padding:7px 10px;border-radius:7px;
+  border-left:2px solid transparent;
+}
+.rail a:hover{color:var(--ink);background:var(--surface-2)}
+.rail a.is-on{color:var(--ink);border-left-color:var(--eco);background:var(--surface-2)}
+.rail a span{font:600 11px/1.5 var(--f-mono);color:var(--ink-3);flex:none;width:14px}
+.rail a:focus-visible{outline:2px solid var(--eco);outline-offset:2px}
+
+main{padding-top:40px;min-width:0}
+section{margin:0 0 58px;scroll-margin-top:24px}
+h2{
+  font:700 clamp(21px,2.6vw,27px)/1.2 var(--f-display);
+  margin:0 0 6px;letter-spacing:-.01em;text-wrap:balance;
+}
+h2 .num{
+  font:600 12px/1 var(--f-mono);color:var(--ink-3);
+  display:block;margin-bottom:9px;letter-spacing:.1em;
+}
+h3{font:600 17px/1.3 var(--f-body);margin:30px 0 10px}
+p{margin:0 0 14px;max-width:68ch}
+ul,ol.list{margin:0 0 16px;padding-left:20px;max-width:68ch}
+li{margin-bottom:7px}
+strong{font-weight:600}
+code{font:400 13.5px/1.5 var(--f-mono);background:var(--surface-2);
+  padding:2px 5px;border-radius:4px;word-break:break-word}
+
+.sub{color:var(--ink-2);margin:0 0 22px;max-width:68ch}
+
+/* ---------------- метки ---------------- */
+.tag{
+  display:inline-block;font:600 10.5px/1 var(--f-mono);letter-spacing:.09em;
+  text-transform:uppercase;padding:4px 7px;border-radius:4px;vertical-align:middle;
+}
+.tag--ok{background:var(--eco-soft);color:var(--eco)}
+.tag--need{background:var(--flag-soft);color:var(--flag)}
+.tag--eco{background:var(--eco-soft);color:var(--eco)}
+.tag--bp{background:var(--bp-soft);color:var(--bp)}
+
+/* ---------------- карточки-выводы ---------------- */
+.key{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;padding:22px 24px;margin:0 0 18px;
+}
+.key--hot{border-color:var(--eco);box-shadow:0 0 0 3px var(--eco-soft)}
+.key h3{margin:0 0 8px;font-size:17px}
+.key p:last-child{margin-bottom:0}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:20px}
+
+/* ---------------- таблицы ---------------- */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;
+  background:var(--surface);margin:0 0 20px}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:520px}
+th,td{text-align:left;padding:11px 15px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{
+  font:600 11px/1.3 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);background:var(--surface-2);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+td.mono{font:400 13px/1.5 var(--f-mono);color:var(--ink-2)}
+
+/* ---------------- код ---------------- */
+pre{
+  background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--eco);
+  border-radius:10px;padding:15px 17px;overflow-x:auto;margin:0 0 18px;
+  font:400 13px/1.65 var(--f-mono);color:var(--ink);
+}
+pre b{color:var(--eco);font-weight:600}
+
+/* ---------------- волны работ ---------------- */
+.wave{border:1px solid var(--line);border-radius:12px;background:var(--surface);
+  padding:20px 22px;margin-bottom:14px}
+.wave__h{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:4px}
+.wave__n{font:700 24px/1 var(--f-display);color:var(--eco)}
+.wave__t{font:600 17px/1.2 var(--f-body)}
+.wave__c{margin-left:auto;font:600 12px/1 var(--f-mono);color:var(--ink-3);
+  border:1px solid var(--line-2);border-radius:999px;padding:5px 10px;white-space:nowrap}
+.wave ul{margin:12px 0 0;padding-left:19px}
+.wave li{font-size:14.5px;margin-bottom:6px}
+
+/* ---------------- список правил ---------------- */
+.rules{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;max-width:68ch}
+.rules li{
+  padding-left:26px;position:relative;font-size:15px;margin:0;
+}
+.rules li::before{
+  content:"";position:absolute;left:0;top:8px;width:11px;height:11px;
+  border:2px solid var(--flag);border-radius:3px;
+}
+
+/* ---------------- подвал ---------------- */
+.foot{border-top:1px solid var(--line);margin-top:20px;padding-top:24px;
+  color:var(--ink-3);font-size:13.5px}
+
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr;gap:0;padding:0 20px 70px}
+  .rail{position:static;padding-top:26px;border-bottom:1px solid var(--line);padding-bottom:18px}
+  .rail ol{flex-direction:row;flex-wrap:wrap;gap:6px}
+  .rail a{border-left:0;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12.5px}
+  .rail a.is-on{border-color:var(--eco)}
+  .rail a span{display:none}
+  main{padding-top:30px}
+  .top__in{padding:32px 20px 28px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+
+<header class="top">
+  <div class="top__in">
+    <p class="eyebrow">Техническое задание · 1 сентября 2026</p>
+    <h1>Сезонный движок Рощи и Полей</h1>
+    <p class="lede">
+      Как перевести два сайта на Tilda из режима «позвать разработчика ради баннера»
+      в режим «контент-менеджер меняет акцию за двадцать минут». Всё, что помечено
+      «проверено», снято с живых страниц и исходников виджета Bnovo — не из документации.
+    </p>
+    <div class="sites">
+      <span class="site"><i class="dot dot--eco"></i>ЭкоБаза «Берёзовая роща» <small>ecobr.ru</small></span>
+      <span class="site"><i class="dot dot--bp"></i>База отдыха «Барские поля» <small>barskie-polya.ru</small></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="rail" aria-label="Разделы">
+    <ol>
+      <li><a href="#now"><span>01</span>Что делать сегодня</a></li>
+      <li><a href="#link"><span>02</span>Прямая ссылка в бронь</a></li>
+      <li><a href="#state"><span>03</span>Что стоит на сайтах</a></li>
+      <li><a href="#pain"><span>04</span>Что мешает</a></li>
+      <li><a href="#engine"><span>05</span>Архитектура движка</a></li>
+      <li><a href="#offers"><span>06</span>Формат оффера</a></li>
+      <li><a href="#goals"><span>07</span>Воронка в Метрике</a></li>
+      <li><a href="#calendar"><span>08</span>Календарь релизов</a></li>
+      <li><a href="#deploy"><span>09</span>Выкат и откат</a></li>
+      <li><a href="#plan"><span>10</span>Оценка и порядок</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+  <!-- 01 -->
+  <section id="now">
+    <h2><span class="num">01</span>Что делать на этой неделе</h2>
+    <p class="sub">Семь задач, ни одна из которых не требует вёрстки. Суммарно около шести часов.</p>
+
+    <div class="key key--hot">
+      <h3>Главное открытие аудита</h3>
+      <p>
+        Страница <code>/booking</code> на обоих сайтах <strong>уже принимает даты, число гостей
+        и промокод из адресной строки</strong>. Значит, кнопка «забронировать по акции»,
+        которая ведёт прямо в модуль с подставленными датами, — это просто другой URL
+        в кнопке Tilda. Разработчик для этого не нужен вообще.
+      </p>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Задача</th><th>Кто</th><th class="num">Время</th><th>Что даёт</th></tr></thead>
+        <tbody>
+          <tr><td>Заменить ссылки кнопок на <code>/special</code> на прямые в модуль</td><td>контент</td><td class="num">1 ч</td><td>Бронь без менеджера, включая ночь</td></tr>
+          <tr><td>Завести цели Bnovo в Метрике</td><td>аналитик</td><td class="num">1 ч</td><td>Впервые видна воронка целиком</td></tr>
+          <tr><td>Добавить <code>reservationsteps.ru</code> в «Зеркала сайта»</td><td>аналитик</td><td class="num">15 мин</td><td>Источник трафика перестаёт теряться</td></tr>
+          <tr><td>Пиксель ВК на ecobr.ru <span class="tag tag--eco">Роща</span></td><td>разработчик</td><td class="num">1 ч</td><td>Ретаргетинг «Рощи» становится возможен</td></tr>
+          <tr><td>Убрать <code>setTimeout</code> над кнопкой Bnovo <span class="tag tag--bp">Поля</span></td><td>разработчик</td><td class="num">20 мин</td><td>Снимает мину замедленного действия</td></tr>
+          <tr><td>Опубликовать <code>/tools</code> — генератор ссылок</td><td>разработчик</td><td class="num">30 мин</td><td>Никто больше не собирает URL руками</td></tr>
+          <tr><td>Поставить цены «от» в трёх главных офферах</td><td>контент + бронирование</td><td class="num">2 ч</td><td>Отсекает нецелевых до модуля</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section id="link">
+    <h2><span class="num">02</span>Прямая ссылка в бронирование <span class="tag tag--ok">проверено</span></h2>
+    <p class="sub">
+      Библиотека <code>booking_iframe.js</code>, подключённая на <code>/booking</code>,
+      читает GET-параметры страницы и передаёт их внутрь модуля. Проверено запросом
+      к живому модулю: даты, гости и промокод доехали.
+    </p>
+
+<pre>https://ecobr.ru/booking?<b>dfrom</b>=2026-12-30&amp;<b>dto</b>=2027-01-03&amp;<b>adults</b>=2&amp;<b>promoCode</b>=NY2027&amp;<b>scroll_to_rooms</b>=1</pre>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Параметр</th><th>Что делает</th><th>Формат</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">dfrom / dto</td><td>даты заезда и выезда</td><td class="mono">2026-12-30</td></tr>
+          <tr><td class="mono">adults / children</td><td>число гостей</td><td class="mono">2</td></tr>
+          <tr><td class="mono">promoCode</td><td>промокод — отрисовывается в фильтре как <code>#КОД</code></td><td class="mono">NY2027</td></tr>
+          <tr><td class="mono">onlyrooms</td><td>показать только эти категории домов</td><td class="mono">101,102</td></tr>
+          <tr><td class="mono">scroll_to_rooms</td><td>сразу прокрутить к списку домов</td><td class="mono">1</td></tr>
+          <tr><td class="mono">utm_*</td><td>источник доезжает до брони</td><td class="mono">utm_source=vk</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Сверх этого движок добавляет <strong>плавающие даты</strong>: в ссылке можно написать
+      <code>dfrom=mon&amp;dto=thu</code> — и оффер «будни» будет вести на ближайшую рабочую
+      неделю всегда, не протухая. Дата выезда считается <em>от даты заезда</em>, поэтому
+      «с понедельника по четверг» не превращается в выезд раньше заезда.
+    </p>
+  </section>
+
+  <!-- 03 -->
+  <section id="state">
+    <h2><span class="num">03</span>Что стоит на сайтах <span class="tag tag--ok">проверено</span></h2>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th></th><th>Берёзовая роща</th><th>Барские поля</th></tr></thead>
+        <tbody>
+          <tr><td>Проект / главная</td><td class="mono">project4027012 / 103448346</td><td class="mono">project8177746 / 41434555</td></tr>
+          <tr><td>Блоков на главной</td><td class="num">57</td><td class="num">72</td></tr>
+          <tr><td>Закреплённая шапка</td><td class="mono">#rec1729326481<br>#rec1730117851</td><td class="mono">#rec1185050691</td></tr>
+          <tr><td>Нижняя панель на мобильном</td><td><span class="tag tag--need">нет</span></td><td class="mono">#rec2461410871</td></tr>
+          <tr><td>UID модуля Bnovo</td><td class="mono">9b88bc59-…-85790f3854d4</td><td class="mono">17f7bf8e-…-a1c0cd6187ae</td></tr>
+          <tr><td>Яндекс.Метрика</td><td class="mono num">108978291</td><td class="mono num">109033653</td></tr>
+          <tr><td>Пиксель ВК</td><td><span class="tag tag--need">нет</span></td><td class="mono">VK-RTRG-1940166-5x5Vw</td></tr>
+          <tr><td>Цветовые стили Tilda</td><td><span class="tag tag--ok">6 переменных</span></td><td><span class="tag tag--need">нет, цвета в блоках</span></td></tr>
+          <tr><td>Сторонние виджеты</td><td>—</td><td class="num">6 виджетов NOLIM</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="key">
+      <h3>Палитра «Берёзовой рощи» — это шесть строк CSS</h3>
+      <p>
+        Весь сайт покрашен переменными Tilda, причём они используются как
+        <code>var(--x, #hex)</code> и <strong>нигде не объявлены</strong>. Объявить их
+        в <code>:root</code> — и сайт перекрашивается целиком, без единой правки блока.
+        Это готовый движок сезонности, который уже собран и не используется.
+      </p>
+      <div class="tw" style="margin:14px 0 0">
+        <table>
+          <thead><tr><th>Переменная</th><th>Цвет</th><th class="num">Использований</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">--uc-color-color-qp7xN</td><td class="mono">#2ed8a3 — акцент</td><td class="num">131</td></tr>
+            <tr><td class="mono">--uc-color-color-mkOIs27</td><td class="mono">#9aed9b</td><td class="num">129</td></tr>
+            <tr><td class="mono">--uc-color-color-cPYWVKrTiQfG</td><td class="mono">#313a39 — тёмный фон</td><td class="num">118</td></tr>
+            <tr><td class="mono">--uc-color-color-Z3IU8y</td><td class="mono">#1a1b19 — текст</td><td class="num">88</td></tr>
+            <tr><td class="mono">--uc-color-color-qvHJWc</td><td class="mono">#ffffff</td><td class="num">79</td></tr>
+            <tr><td class="mono">--uc-color-color-n3E0FkCwyE</td><td class="mono">#f4f6fb — фон секций</td><td class="num">63</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="key">
+      <h3>Палитра «Барских полей» — это 72 блока вручную</h3>
+      <p>
+        Цветовых стилей нет. <code>#eee5d5</code> встречается 718 раз, <code>#a36434</code> — 219,
+        <code>#995d2f</code> — 115, <code>#243d34</code> — 113. Пока это так, сезонная перекраска
+        Полей — ручная работа по всем блокам. Миграция на Цветовые стили делается
+        дизайнером в интерфейсе Tilda, без кода: один день работы, после которого
+        сезон у Полей работает так же, как у Рощи.
+      </p>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section id="pain">
+    <h2><span class="num">04</span>Что мешает менять контент быстро</h2>
+
+    <div class="grid2">
+      <div class="key">
+        <h3>Оффер — это вёрстка, а не данные</h3>
+        <p>Спецпредложения собраны как Zero Block. Смена акции — задача дизайнера.
+        Офферы на <code>/special</code> не менялись не по лени, а потому что их дорого менять.</p>
+      </div>
+      <div class="key">
+        <h3>Ничего не умеет исчезать само</h3>
+        <p>Ни одного механизма показа по датам. Каждый праздничный баннер снимается руками.
+        Февральский новогодний баннер — вопрос времени, а не случайность.</p>
+      </div>
+      <div class="key">
+        <h3>Кнопки уводят из воронки</h3>
+        <p>«Связаться с менеджером» и «Узнать подробнее». Отдел работает 9:00–24:00.
+        Ночной трафик теряется целиком — при том что модуль принимает бронь круглосуточно.</p>
+      </div>
+      <div class="key">
+        <h3>Нет цен нигде</h3>
+        <p>Ни на витрине домов, ни в офферах. Гость не может отсеять себя сам и не может
+        сравнить с конкурентом, у которого цена есть.</p>
+      </div>
+      <div class="key">
+        <h3>Асимметрия двух площадок</h3>
+        <p>У Полей есть пиксель ВК, квиз, сертификаты и мобильная панель.
+        У Рощи — ничего из этого. При этом Роща технически готова к сезонности лучше.</p>
+      </div>
+      <div class="key">
+        <h3>Хрупкий кастом на Полях</h3>
+        <p><code>setTimeout</code> переписывает текст кнопки Bnovo после инициализации виджета.
+        Сломается при первом обновлении виджета, причём молча. Текст задаётся штатным
+        параметром <code>btn_text</code> — он там тоже есть.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section id="engine">
+    <h2><span class="num">05</span>Архитектура движка</h2>
+    <p class="sub">
+      Девять файлов. Пять — в HEAD, четыре — блоками T123 на страницах.
+      Ни одной внешней зависимости: движок ничего не грузит и не замедляет сайт.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Компонент</th><th>Куда</th><th>Что делает</th><th>Кто меняет</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">1 · тема сезона</td><td>HEAD</td><td>определяет сезон по дате, подменяет палитру Tilda</td><td>дизайнер</td></tr>
+          <tr><td class="mono">2 · расписание блоков</td><td>HEAD</td><td>показывает и прячет блоки по календарю, без мигания</td><td>контент</td></tr>
+          <tr><td class="mono">3 · ссылки Bnovo</td><td>HEAD</td><td>плавающие даты, UTM, цели</td><td>—</td></tr>
+          <tr><td class="mono">4 · анонс-полоса</td><td>HEAD</td><td>сквозная полоса под шапкой, одна на весь сайт</td><td>контент</td></tr>
+          <tr><td class="mono">5 · цели Метрики</td><td>HEAD</td><td>клики по телефону, мессенджерам, офферам, глубина</td><td>аналитик</td></tr>
+          <tr><td class="mono">6 · пиксель ВК</td><td>HEAD <span class="tag tag--eco">Роща</span></td><td>сбор аудитории для ретаргетинга</td><td>разработчик</td></tr>
+          <tr><td class="mono">7 · каталог офферов</td><td>T123 → /special</td><td>карточки, фильтры, таймеры, промокоды, кнопки в бронь</td><td>контент</td></tr>
+          <tr><td class="mono">8 · мобильная панель</td><td>HEAD <span class="tag tag--eco">Роща</span></td><td>кнопка брони, когда шапка ушла вверх</td><td>контент</td></tr>
+          <tr><td class="mono">9 · генератор ссылок</td><td>T123 → /tools</td><td>собрать URL в модуль мышкой</td><td>контент</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Проверка без публикации</h3>
+    <p>Четыре параметра, которые видит только тот, кто их набрал:</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Адрес</th><th>Что показывает</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">?season=newyear</td><td>сайт в новогодней палитре, с плашкой предпросмотра</td></tr>
+          <tr><td class="mono">?date=2026-12-25</td><td>сайт таким, каким он будет 25 декабря — сезон, блоки, таймеры</td></tr>
+          <tr><td class="mono">?schedule=debug</td><td>таблица в консоли: какой блок виден и почему</td></tr>
+          <tr><td class="mono">/special?debug=offers</td><td>список ошибок в офферах, пустой если всё верно</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section id="offers">
+    <h2><span class="num">06</span>Единый формат оффера</h2>
+    <p class="sub">
+      Оффер перестаёт быть картинкой и становится строчкой данных. Контент-менеджер
+      правит один блок в Tilda; вёрстка, фильтры, таймер и кнопка собираются сами.
+    </p>
+
+<pre>{
+  "title": "Будни −20%",
+  "lead":  "Заезд понедельник–четверг. Тот же дом, та же баня, цена ниже.",
+  <b>"price": 11900,</b>            <span style="opacity:.6">// оффер без цены не публикуется</span>
+  "oldPrice": 14900,
+  "tags": ["budni", "dvoim", "banya"],
+  "includes": ["Завтрак на двоих", "Поздний выезд до 14:00"],
+  "rules": "Минимум 2 ночи. Не суммируется с другими акциями.",
+  "stay": { "from": "2026-09-01", "to": "2026-11-30" },
+  <b>"sale": { "from": "2026-09-01", "to": "2026-11-25" },</b>  <span style="opacity:.6">// после этой даты исчезнет сам</span>
+  "promo": "BUDNI20",
+  <b>"book":  { "from": "mon", "to": "thu", "adults": 2 }</b>   <span style="opacity:.6">// прямо в модуль</span>
+}</pre>
+
+    <p>
+      Обязательны шесть полей: название, суть одной строкой, <strong>цена</strong>,
+      <strong>срок действия</strong>, условия и <strong>куда ведёт кнопка</strong>.
+      Промокод, если он есть, копируется по клику и подставляется в модуль автоматически —
+      гость не вводит его руками и не ошибается.
+    </p>
+
+    <h3>Что ещё нужно на /special</h3>
+    <ul>
+      <li><strong>Фильтры:</strong> для двоих, с детьми, компанией, будни, с баней, SPA, сертификаты, корпоративам. Собираются автоматически из тегов живых офферов.</li>
+      <li><strong>Метки</strong> «горит», «новинка», «последние даты» — и сортировка по ним: то, что кончается раньше, выше.</li>
+      <li><strong>Постоянный будний оффер.</strong> Понедельник–четверг — главная дыра загрузки. Оффер висит круглый год на плавающих датах, меняется только глубина скидки.</li>
+      <li><strong>Сертификаты «Рощи»</strong> как отдельный продукт с моментальной покупкой. У Полей они есть, у Рощи нет — и это прямая потеря ноября и декабря.</li>
+    </ul>
+  </section>
+
+  <!-- 07 -->
+  <section id="goals">
+    <h2><span class="num">07</span>Воронка в Метрике <span class="tag tag--ok">проверено</span></h2>
+
+    <div class="key key--hot">
+      <h3>Цели уже приходят — их просто не создали</h3>
+      <p>
+        В скрипте модуля Bnovo прописан вызов <code>ym(yaCounterIdAccount, 'reachGoal', …)</code>,
+        где <code>yaCounterIdAccount</code> — это ваши счётчики <code>108978291</code> и
+        <code>109033653</code>. События идут прямо сейчас. Остаётся завести их целями
+        в интерфейсе Метрики: тип «JavaScript-событие», идентификатор из списка ниже.
+        Двадцать минут работы, доступ к коду не нужен.
+      </p>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Шаг</th><th>Идентификатор</th><th>Что смотреть</th></tr></thead>
+        <tbody>
+          <tr><td>Поиск по датам</td><td class="mono">search</td><td>верх воронки</td></tr>
+          <tr><td>Нажата «Проверить»</td><td class="mono">check_button</td><td>намерение</td></tr>
+          <tr><td>Свободных домов нет</td><td class="mono">no_availability</td><td><strong>смотреть каждую неделю</strong> — это вопрос к тарифам, а не к сайту</td></tr>
+          <tr><td>Выбран дом</td><td class="mono">select_room</td><td>какие категории тянут</td></tr>
+          <tr><td>Добавлена услуга</td><td class="mono">select_service</td><td>доп. выручка: чан, баня, завтрак</td></tr>
+          <tr><td>Введён промокод</td><td class="mono">enter_promo_code</td><td>работает ли акция</td></tr>
+          <tr><td>Шаг 1 корзины</td><td class="mono">cart_first_step_button</td><td>где отваливаются</td></tr>
+          <tr><td>Шаг 2 корзины</td><td class="mono">cart_second_step_button</td><td>где отваливаются</td></tr>
+          <tr><td>Бронь оплачена онлайн</td><td class="mono">reservation_button_auto</td><td><strong>главная цель</strong></td></tr>
+          <tr><td>Бронь без онлайн-оплаты</td><td class="mono">reservation_button_manual</td><td><strong>главная цель</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Отдельно: модуль живёт на <code>reservationsteps.ru</code>. Пока этот домен не добавлен
+      в «Зеркала сайта» в настройках счётчика, визит в модуле считается отдельным визитом,
+      и источник трафика у брони теряется. <span class="tag tag--need">нужен доступ к Метрике</span>
+    </p>
+  </section>
+
+  <!-- 08 -->
+  <section id="calendar">
+    <h2><span class="num">08</span>Календарь релизов</h2>
+    <p class="sub">
+      Правило одно: <strong>сезон готовится за 6–8 недель до начала.</strong>
+      Дата подготовки — день постановки задачи, а не день выката.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Месяц</th><th>Что происходит</th><th>Что стоит на сайте</th><th>Готовить с</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Январь</strong></td><td>каникулы — пик, после 10-го обвал</td><td>«тихий январь», крещенские купания, будние тарифы</td><td>15 ноября</td></tr>
+          <tr><td><strong>Февраль</strong></td><td>14 и 23 февраля, Масленица</td><td>романтические пакеты, ужин при свечах + чан, мужские банные программы</td><td>25 декабря</td></tr>
+          <tr><td><strong>Март</strong></td><td>8 марта, весенние каникулы</td><td>женские SPA-пакеты, семейные каникулы, старт продаж мая</td><td>20 января</td></tr>
+          <tr><td><strong>Апрель</strong></td><td>самый провальный месяц года</td><td>максимальные скидки, ретриты, открытие сезона, Пасха, длинные тарифы</td><td>20 февраля</td></tr>
+          <tr><td><strong>Май</strong></td><td>двойной пик, старт свадеб</td><td>веранды, мангалы, выкуп базы, свадебный и корпоративный лендинг</td><td>1 марта</td></tr>
+          <tr><td><strong>Июнь–август</strong></td><td>высокий сезон, семьи с детьми</td><td>детские активности, ферма, рыбалка, веранды, длинные заезды</td><td>10 апреля</td></tr>
+          <tr><td><strong>Сентябрь</strong></td><td>бархатный сезон, пик свадеб</td><td>свадьбы, тимбилдинги, «золотая осень»</td><td>15 июля</td></tr>
+          <tr><td><strong>Октябрь</strong></td><td>золотая осень + <strong>старт продаж НГ</strong></td><td>НГ-лендинг, раннее бронирование</td><td>15 августа</td></tr>
+          <tr><td><strong>Ноябрь</strong></td><td>провал загрузки + Чёрная пятница</td><td>распродажа сертификатов, невозвратные тарифы, догрев НГ</td><td>20 сентября</td></tr>
+          <tr><td><strong>Декабрь</strong></td><td>корпоративы, затем НГ; пик сертификатов</td><td>корпоративный лендинг, НГ-программа по дням, сертификаты</td><td>15 октября</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="key">
+      <h3>Ритм работы</h3>
+      <p>
+        <strong>Каждый понедельник, 15 минут.</strong> Открыть <code>/special?debug=offers</code>
+        на обоих сайтах. Посмотреть цель <code>no_availability</code> за неделю.<br>
+        <strong>1-е число месяца.</strong> Сверить цены «от» — они вбиты руками и устаревают.
+        Прогнать <code>?date=</code> на месяц вперёд.<br>
+        <strong>За две недели до сезона.</strong> Прогнать <code>?season=</code> следующего
+        сезона на телефоне, не в браузере на десктопе.
+      </p>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section id="deploy">
+    <h2><span class="num">09</span>Выкат и откат</h2>
+
+    <h3>Перед публикацией</h3>
+    <ul>
+      <li>Копия страницы как бэкап: <code>Страницы → ⋯ → Дублировать</code>, название с датой, копию не публиковать.</li>
+      <li>Правится HEAD — сохранить его текущее содержимое в файл. <strong>Tilda не хранит версии HEAD, откатить будет нечем.</strong></li>
+      <li><code>/special?debug=offers</code> — пусто.</li>
+      <li>Каждая кнопка проверена вручную: даты подставились, промокод виден в фильтре модуля.</li>
+      <li><code>?date=</code> на день начала и на день после окончания акции.</li>
+      <li>Телефон, реальный, не эмулятор: первый экран, <code>/special</code>, <code>/booking</code>.</li>
+      <li>PageSpeed мобильный до и после — записать обе цифры. Просадка больше 5 пунктов разбирается до публикации.</li>
+      <li>Title, description и OG-картинка обновлены под сезон.</li>
+    </ul>
+
+    <h3>Чего делать нельзя</h3>
+    <ul class="rules">
+      <li>Менять адреса существующих страниц — развалится выдача и часть рекламы.</li>
+      <li>Пересоздавать блоки, чьи номера стоят в расписании или в целях Метрики: новый блок получает новый номер, и статистика обнуляется.</li>
+      <li>Трогать блок с виджетом Bnovo — там UID модуля, ошибка убирает бронирование со всего сайта.</li>
+      <li>Ставить таймер на акцию без реального дедлайна. Таймер, который каждый день начинается заново, гости замечают — и перестают верить остальному.</li>
+      <li>Писать «осталось 2 дома», не посмотрев в Bnovo.</li>
+      <li>Выкатывать в пятницу вечером и в первый день праздников.</li>
+    </ul>
+
+    <h3>Откат</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Что случилось</th><th>Что делать</th><th class="num">Время</th></tr></thead>
+        <tbody>
+          <tr><td>Сломалась страница</td><td>Поменять адреса местами: бэкап-копии дать адрес сломанной, сломанной — временный</td><td class="num">3 мин</td></tr>
+          <tr><td>Сломался сайт после правки HEAD</td><td>Вставить сохранённый HEAD, опубликовать все страницы</td><td class="num">5 мин</td></tr>
+          <tr><td>Пропало бронирование</td><td>Проверить UID в блоке виджета и открыть <code>/booking</code> напрямую</td><td class="num">5 мин</td></tr>
+          <tr><td>Каталог офферов пустой</td><td><code>?debug=offers</code> покажет ошибку; быстрое лечение — удалить последний добавленный оффер</td><td class="num">2 мин</td></tr>
+          <tr><td>Нужно выключить всё</td><td>Добавить <code>return;</code> в начало первого блока HEAD — сайт вернётся к обычному виду Tilda</td><td class="num">1 мин</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section id="plan">
+    <h2><span class="num">10</span>Оценка и порядок</h2>
+    <p class="sub">
+      Порядок задан одним правилом: сначала то, что даёт брони на этой неделе.
+      Сезонное оформление — в конце, а не в начале.
+    </p>
+
+    <div class="wave">
+      <div class="wave__h">
+        <span class="wave__n">1</span>
+        <span class="wave__t">Часы — сегодня и завтра</span>
+        <span class="wave__c">~6 часов</span>
+      </div>
+      <p style="margin:0;color:var(--ink-2);font-size:14.5px">
+        Ни одной задачи, требующей вёрстки. Всё уже поддерживается сайтами.
+        Самая выгодная работа во всём документе — раздел 01.
+      </p>
+    </div>
+
+    <div class="wave">
+      <div class="wave__h">
+        <span class="wave__n">2</span>
+        <span class="wave__t">Дни — первые две недели</span>
+        <span class="wave__c">~30 часов</span>
+      </div>
+      <ul>
+        <li>Блоки 1–3 в HEAD обоих сайтов — фундамент, дальше всё быстро <span class="tag" style="background:var(--surface-2);color:var(--ink-3)">4 ч</span></li>
+        <li><strong>Миграция палитры Полей на Цветовые стили</strong> — перекраска с 72 блоков сжимается до шести строк <span class="tag" style="background:var(--surface-2);color:var(--ink-3)">8 ч</span></li>
+        <li>Каталог офферов на /special Рощи и перенос текущих офферов в формат <span class="tag" style="background:var(--surface-2);color:var(--ink-3)">6 ч</span></li>
+        <li>То же на Полях — уже по готовому <span class="tag" style="background:var(--surface-2);color:var(--ink-3)">3 ч</span></li>
+        <li>Анонс-полоса и мобильная панель <span class="tag" style="background:var(--surface-2);color:var(--ink-3)">4 ч</span></li>
+        <li>Постоянный будний оффер на обеих базах <span class="tag" style="background:var(--surface-2);color:var(--ink-3)">3 ч</span></li>
+        <li>Цели сайта в Метрике и сверка <span class="tag" style="background:var(--surface-2);color:var(--ink-3)">2 ч</span></li>
+      </ul>
+    </div>
+
+    <div class="wave">
+      <div class="wave__h">
+        <span class="wave__n">3</span>
+        <span class="wave__t">Недели — месяц-полтора</span>
+        <span class="wave__c">~110 часов</span>
+      </div>
+      <ul>
+        <li><strong>НГ-лендинг и раннее бронирование</strong> на обеих базах — главная выручка года, запуск в октябре <span class="tag" style="background:var(--surface-2);color:var(--ink-3)">30 ч</span></li>
+        <li>Сертификаты Рощи как продукт: страница с моментальной покупкой <span class="tag" style="background:var(--surface-2);color:var(--ink-3)">20 ч</span></li>
+        <li>Перенос квиза-подбора дома с Полей на Рощу <span class="tag" style="background:var(--surface-2);color:var(--ink-3)">12 ч</span></li>
+        <li>Библиотека сезонных первых экранов: пять комплектов на базу <span class="tag" style="background:var(--surface-2);color:var(--ink-3)">20 ч</span></li>
+        <li>Сезонные подборки домов через <code>onlyrooms</code> <span class="tag" style="background:var(--surface-2);color:var(--ink-3)">8 ч</span></li>
+        <li>Посадочные под крупные офферы, поп-ап на уход, A/B-тест первого экрана <span class="tag" style="background:var(--surface-2);color:var(--ink-3)">20 ч</span></li>
+      </ul>
+    </div>
+
+    <h3>Что осознанно не делаем сейчас</h3>
+    <ul>
+      <li><strong>Живые цены и остатки из Bnovo на витрине.</strong> Модуль отдаёт их только внутри себя. Показать настоящую цифру на карточке дома можно только через свой сервер-прокси к API — отдельный проект на 30–40 часов плюс хостинг. Пока цены ручные, со сверкой 1-го числа.</li>
+      <li><strong>Честный счётчик «осталось N домов».</strong> По той же причине. Рисовать его вручную нельзя: если цифра не сойдётся с модулем, доверие теряется целиком.</li>
+      <li><strong>Снегопад и анимации на первом экране.</strong> Ноль броней и минус к скорости на телефоне, где основной трафик.</li>
+    </ul>
+
+    <h3>Кто что меняет</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Действие</th><th>Контент</th><th>Дизайнер</th><th>Разработчик</th></tr></thead>
+        <tbody>
+          <tr><td>Текст, цена, условия, промокод оффера</td><td>✓</td><td></td><td></td></tr>
+          <tr><td>Даты жизни акции</td><td>✓</td><td></td><td></td></tr>
+          <tr><td>Куда ведёт кнопка брони</td><td>✓ через /tools</td><td></td><td></td></tr>
+          <tr><td>Текст и срок анонс-полосы</td><td>✓</td><td></td><td></td></tr>
+          <tr><td>Показ блока по датам</td><td>✓ по номеру блока</td><td></td><td></td></tr>
+          <tr><td>Предпросмотр сезона</td><td>✓</td><td></td><td></td></tr>
+          <tr><td>Новый первый экран сезона</td><td></td><td>✓</td><td></td></tr>
+          <tr><td>Цвета сезона</td><td></td><td>✓</td><td>✓</td></tr>
+          <tr><td>Новый тип компонента</td><td></td><td></td><td>✓</td></tr>
+          <tr><td>Цели, пиксели, счётчики</td><td></td><td></td><td>✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="foot">
+      Код всех девяти компонентов, инструкция контент-менеджеру, полный чек-лист выката
+      и смета лежат в папке <code>seasonal-engine/</code> рядом с этим документом.
+      Логика движка покрыта двадцатью автотестами: определение сезона на границах,
+      машина времени, разбор плавающих дат, сборка ссылок для обеих баз.
+      Итоговая ссылка проверена на живом модуле Bnovo — даты и промокод доезжают.
+    </p>
+  </section>
+
+  </main>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  function sync() {
+    var y = window.pageYOffset + 90, cur = 0;
+    secs.forEach(function (s, i) { if (s && s.offsetTop <= y) cur = i; });
+    links.forEach(function (a, i) { a.classList.toggle('is-on', i === cur); });
+  }
+  var t;
+  window.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(sync, 60); }, { passive: true });
+  sync();
+})();
+</script>

@@ -262,11 +262,14 @@ function buildElements(s) {
     '  var me = document.currentScript && document.currentScript.src;\n' +
     '  var base = me ? me.replace(/sites\\/[^/]*$/, "assets/") : "demo/assets/";\n' +
     '  return {\n' +
-    '    garland: {\n' +
+    '    strip: {\n' +
     '      eco: { src: base + "garland-eco.webp", bg: "#f6efdc" },\n' +
-    '      bp:  { src: base + "garland-bp.webp",  bg: "#36523e" }\n' +
+    '      bp:  { src: base + "garland-bp.webp", bg: "#36523e" }\n' +
     '    },\n' +
-    '    leaves: [base + "leaf1.webp", base + "leaf3.webp"]\n' +
+    '    leaves: {\n' +
+    '      eco: [base + "leaf-birch.webp"],\n' +
+    '      bp:  [base + "leaf-maple.webp", base + "leaf-oak.webp"]\n' +
+    '    }\n' +
     '  };\n' +
     '})();',
     script('head/10-osennie-elementy.html')

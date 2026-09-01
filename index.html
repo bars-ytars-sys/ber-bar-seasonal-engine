@@ -61,6 +61,15 @@
   @keyframes sp{to{transform:rotate(360deg)}}
   @media (prefers-reduced-motion:reduce){.spin{animation:none}}
 
+  /* Панель скрыта: остаётся только сайт и маленькая кнопка возврата */
+  body.is-bare header{display:none}
+  .hint{position:fixed;left:12px;bottom:12px;z-index:50;
+    background:rgba(28,35,31,.82);color:var(--ink);border:1px solid var(--line);
+    border-radius:999px;padding:7px 14px;font:500 12.5px/1 var(--f);cursor:pointer;
+    backdrop-filter:blur(4px);opacity:.55;transition:opacity .2s}
+  .hint:hover{opacity:1}
+  .hint[hidden]{display:none}
+
   @media(max-width:760px){
     .row{gap:12px;padding:9px 12px}
     .links{width:100%;margin-left:0;order:9}
@@ -104,7 +113,8 @@
   <p class="note">
     Это <b>настоящие страницы</b> ecobr.ru и barskie-polya.ru, а не макет. Осень включается слоем CSS
     поверх — вёрстка, тексты и блоки не трогаются. Прокрутка при переключении сохраняется,
-    так что можно щёлкать туда-обратно и сравнивать: <kbd>пробел</kbd> — переключить оформление.
+    так что можно щёлкать туда-обратно и сравнивать. <kbd>пробел</kbd> — переключить оформление,
+    <kbd>H</kbd> — убрать эту панель и смотреть сайт целиком.
     Счётчики аналитики и отправка форм в копиях отключены.
   </p>
 </header>
@@ -113,6 +123,8 @@
   <div class="load" id="load"><span class="spin"></span><span>Загружаем страницу целиком…</span></div>
   <iframe id="frame" title="Витрина сайта"></iframe>
 </div>
+
+<button class="hint" id="hint" type="button" hidden>H — показать панель</button>
 
 <script>
 (function () {
@@ -134,6 +146,7 @@
   var cost = document.getElementById('cost');
   var siteSeg = document.getElementById('siteSeg');
   var seasonSeg = document.getElementById('seasonSeg');
+  var hint = document.getElementById('hint');
 
   var site = 'eco';
   var autumn = false;
@@ -267,13 +280,46 @@
     applyAutumn();                     /* прокрутка не сбрасывается */
   });
 
-  document.addEventListener('keydown', function (e) {
-    if (e.code !== 'Space' || e.target.closest('input,textarea')) return;
-    e.preventDefault();
-    autumn = !autumn;
-    press(seasonSeg, 'data-on', autumn ? '1' : '0');
-    applyAutumn();
-  });
+  /* Панель прячется, чтобы посмотреть сайт целиком, без витринной обвязки. */
+  var hidden = false;
+  function togglePanel(force) {
+    hidden = force === undefined ? !hidden : force;
+    document.body.classList.toggle('is-bare', hidden);
+    hint.hidden = !hidden;
+  }
+
+  /* e.code, а не e.key: на русской раскладке «H» даёт «р», и проверка
+     по символу перестала бы работать. */
+  function onKey(e) {
+    var tag = e.target && e.target.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target && e.target.isContentEditable)) return;
+
+    if (e.code === 'KeyH' || e.code === 'Escape') {
+      e.preventDefault();
+      togglePanel();
+      return;
+    }
+    if (e.code === 'Space') {
+      e.preventDefault();
+      autumn = !autumn;
+      press(seasonSeg, 'data-on', autumn ? '1' : '0');
+      applyAutumn();
+    }
+  }
+
+  document.addEventListener('keydown', onKey);
+  hint.addEventListener('click', function () { togglePanel(false); });
+
+  /* Когда фокус ушёл в iframe, клавиши до нас не долетают. Копия
+     того же происхождения, поэтому вешаем обработчик и внутри неё. */
+  function bindFrameKeys() {
+    try {
+      var d = frame.contentDocument;
+      if (d && !d.__bbKeys) { d.__bbKeys = 1; d.addEventListener('keydown', onKey); }
+    } catch (e) {}
+  }
+  frame.addEventListener('load', bindFrameKeys);
+  setInterval(bindFrameKeys, 1500);
 
   measure('eco');
   measure('bp');

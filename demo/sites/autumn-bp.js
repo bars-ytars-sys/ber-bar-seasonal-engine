@@ -376,11 +376,14 @@ window.BB_AUTUMN_ASSETS = (function () {
   var me = document.currentScript && document.currentScript.src;
   var base = me ? me.replace(/sites\/[^/]*$/, "assets/") : "demo/assets/";
   return {
-    garland: {
+    strip: {
       eco: { src: base + "garland-eco.webp", bg: "#f6efdc" },
-      bp:  { src: base + "garland-bp.webp",  bg: "#36523e" }
+      bp:  { src: base + "garland-bp.webp", bg: "#36523e" }
     },
-    leaves: [base + "leaf1.webp", base + "leaf3.webp"]
+    leaves: {
+      eco: [base + "leaf-birch.webp"],
+      bp:  [base + "leaf-maple.webp", base + "leaf-oak.webp"]
+    }
   };
 })();
 
@@ -396,11 +399,19 @@ window.BB_AUTUMN_ASSETS = (function () {
     /* Гирлянда нарисована на фоне цвета самой базы и ставится ПОЛОСОЙ В ПОТОК
        сразу под шапкой — как обычный блок. Поверх фотографии её вешать нельзя:
        непрозрачная полоса закроет обложку. */
-    garland: {
+    /* Декор у баз РАЗНЫЙ и подобран под каждую:
+       «Барские поля» — тёмно-зелёный вечерний сайт, дерево, чаны: гирлянда
+         с горящими лампами, красный клён и дуб в листопаде;
+       «Берёзовая роща» — светлая и воздушная, и название про рощу:
+         берёзовые ветви с золотой листвой, жёлтый берёзовый лист. */
+    strip: {
       eco: { src: 'demo/assets/garland-eco.webp', bg: '#f6efdc' },
-      bp:  { src: 'demo/assets/garland-bp.webp',  bg: '#36523e' }
+      bp:  { src: 'demo/assets/garland-bp.webp', bg: '#36523e' }
     },
-    leaves: ['demo/assets/leaf1.webp', 'demo/assets/leaf3.webp']
+    leaves: {
+      eco: ['demo/assets/leaf-birch.webp'],
+      bp:  ['demo/assets/leaf-maple.webp', 'demo/assets/leaf-oak.webp']
+    }
   };
 
   /* ========================= ТЕКУЩАЯ ФАЗА ================================= */
@@ -418,7 +429,9 @@ window.BB_AUTUMN_ASSETS = (function () {
        намеренно — крупные читаются как стикеры поверх фотографий. */
     1: {
       garland: { height: 132, opacity: 0.95 },
-      leaves: { count: 7, size: [22, 38], fall: [16, 27], opacity: [0.55, 0.9], drift: [30, 80] }
+      /* Листьев мало и они приглушены: на фотографиях яркая листва
+         выбивается и читается как наклейка. */
+      leaves: { count: 4, size: [18, 30], fall: [19, 31], opacity: [0.32, 0.55], drift: [30, 80] }
     },
 
     /* --- ФАЗА 2 · ОСЕНЬ ОСЕНЬ (конец сентября) ----------------------------
@@ -489,7 +502,8 @@ window.BB_AUTUMN_ASSETS = (function () {
   function mount() {
     if (document.querySelector('.bb-garland')) return;
 
-    var art = ASSETS.garland[BB.site] || ASSETS.garland.bp;
+    var art = ASSETS.strip[BB.site] || ASSETS.strip.bp;
+    var leafSet = ASSETS.leaves[BB.site] || ASSETS.leaves.bp;
     var g = document.createElement('div');
     g.className = 'bb-garland';
     g.style.backgroundImage = 'url("' + art.src + '")';
@@ -519,7 +533,7 @@ window.BB_AUTUMN_ASSETS = (function () {
       wrap.style.opacity = rnd(L.opacity[0], L.opacity[1]);
 
       var inner = document.createElement('b');
-      inner.style.backgroundImage = 'url("' + ASSETS.leaves[i % ASSETS.leaves.length] + '")';
+      inner.style.backgroundImage = 'url("' + leafSet[i % leafSet.length] + '")';
       inner.style.animationDuration = rnd(3.2, 6).toFixed(2) + 's';
       inner.style.animationDelay = (-Math.random() * 4).toFixed(2) + 's';
       inner.style.setProperty('--bb-drift', rnd(L.drift[0], L.drift[1]).toFixed(0) + 'px');

@@ -247,9 +247,9 @@ try { Object.keys(localStorage).forEach(function (k) {
     eco: {
       enabled: true,
       id: "eco-2026-09-osen",
-      text: "Бархатный сезон: −20% на будни в сентябре. Промокод OSEN20",
-      cta: "Выбрать даты",
-      href: "/booking?dfrom=mon&dto=thu&adults=2&promoCode=OSEN20",
+      text: "Осенние каникулы −20%: раннее бронирование до 15 сентября",
+      cta: "Забронировать",
+      href: "/booking?dfrom=2026-10-23&dto=2026-10-26&adults=2&children=2",
       from:  '2020-01-01',
       until: '2035-12-31'
     },

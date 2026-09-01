@@ -371,3 +371,164 @@ try { Object.keys(localStorage).forEach(function (k) {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
   else mount();
 })();
+
+window.BB_AUTUMN_ASSETS = (function () {
+  var me = document.currentScript && document.currentScript.src;
+  var base = me ? me.replace(/sites\/[^/]*$/, "assets/") : "demo/assets/";
+  return {
+    garland: {
+      eco: { src: base + "garland-eco.webp", bg: "#f6efdc" },
+      bp:  { src: base + "garland-bp.webp",  bg: "#36523e" }
+    },
+    leaves: [base + "leaf1.webp", base + "leaf3.webp"]
+  };
+})();
+
+(function () {
+  'use strict';
+  var BB = window.BB || {};
+  if (!BB.num) { console.warn('BB: блок 1 не подключён — осенние элементы выключены'); return; }
+
+  /* =========================================================================
+     ССЫЛКИ НА КАРТИНКИ. Подставить после загрузки в Файлы Tilda.
+     ========================================================================= */
+  var ASSETS = window.BB_AUTUMN_ASSETS || {
+    /* Гирлянда нарисована на фоне цвета самой базы и ставится ПОЛОСОЙ В ПОТОК
+       сразу под шапкой — как обычный блок. Поверх фотографии её вешать нельзя:
+       непрозрачная полоса закроет обложку. */
+    garland: {
+      eco: { src: 'demo/assets/garland-eco.webp', bg: '#f6efdc' },
+      bp:  { src: 'demo/assets/garland-bp.webp',  bg: '#36523e' }
+    },
+    leaves: ['demo/assets/leaf1.webp', 'demo/assets/leaf3.webp']
+  };
+
+  /* ========================= ТЕКУЩАЯ ФАЗА ================================= */
+  var LEVEL = 1;
+  /* ======================================================================== */
+
+  var HEADERS = {
+    eco: ['rec1729326481', 'rec1730117851'],
+    bp:  ['rec1185050691']
+  };
+
+  var LEVELS = {
+    /* --- ФАЗА 1 · ЛЁГКАЯ ОСЕНЬ (сентябрь) ---------------------------------
+       Осень «только началась»: гирлянда и считаные листья. Листья мелкие
+       намеренно — крупные читаются как стикеры поверх фотографий. */
+    1: {
+      garland: { height: 132, opacity: 0.95 },
+      leaves: { count: 7, size: [22, 38], fall: [16, 27], opacity: [0.55, 0.9], drift: [30, 80] }
+    },
+
+    /* --- ФАЗА 2 · ОСЕНЬ ОСЕНЬ (конец сентября) ----------------------------
+       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Когда попросят: листьев больше и крупнее,
+       вторая гирлянда, осенние фотографии на обложках, сезонные подборки
+       домов через onlyrooms. */
+    2: null,
+
+    /* --- ФАЗА 3 · ОСЕНЬ ПЕРЕХОДИТ В ЗИМУ (начало ноября) ------------------
+       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Последние листья, холодная примесь, лампы
+       уходят в холодный белый. Стыкуется с newyear (15 ноября). */
+    3: null
+  };
+
+  /* --- Предпросмотр и выключатель ---------------------------------------- */
+  var q = BB.param('decor');
+  if (q === 'off') return;
+  if (q === '1' || q === '2' || q === '3') LEVEL = +q;
+  if (BB.season !== 'autumn' && !q) return;
+
+  var cfg = LEVELS[LEVEL];
+  if (!cfg) {
+    console.info('BB: фаза ' + LEVEL + ' ещё не наполнена — осенние элементы не рисуются');
+    return;
+  }
+
+  var rnd = function (a, b) { return a + Math.random() * (b - a); };
+  var L = cfg.leaves;
+
+  var css =
+    '.bb-garland{width:100%;height:' + cfg.garland.height + 'px;pointer-events:none;' +
+      'background-repeat:no-repeat;background-position:center center;background-size:cover}' +
+
+    /* Два слоя движения: внешний падает, внутренний сносит вбок и вращает.
+       Одной анимацией лист летел бы по прямой. */
+    '.bb-leaf{position:fixed;top:-12vh;z-index:6;pointer-events:none;' +
+      'will-change:transform;animation:bbFall linear infinite}' +
+    '.bb-leaf b{display:block;width:100%;height:100%;background-repeat:no-repeat;' +
+      'background-size:contain;will-change:transform;' +
+      'animation:bbDrift ease-in-out infinite alternate}' +
+    '@keyframes bbFall{to{transform:translate3d(0,122vh,0)}}' +
+    '@keyframes bbDrift{' +
+      'from{transform:translateX(calc(var(--bb-drift) * -1)) rotate(-30deg)}' +
+      'to{transform:translateX(var(--bb-drift)) rotate(34deg)}}' +
+
+    /* На телефоне листья не сыплем: трафик у баз мобильный. Гирлянду
+       оставляем — она и есть осенний признак. */
+    '@media(max-width:639px){.bb-leaf{display:none}' +
+      '.bb-garland{height:' + Math.round(cfg.garland.height * 0.6) + 'px}}' +
+    '@media(prefers-reduced-motion:reduce){.bb-leaf{display:none}}';
+
+  var st = document.createElement('style');
+  st.setAttribute('data-bb', 'autumn-decor');
+  st.appendChild(document.createTextNode(css));
+  (document.head || document.documentElement).appendChild(st);
+
+  function headerBottom() {
+    var max = 0;
+    (HEADERS[BB.site] || []).forEach(function (rec) {
+      var el = document.querySelector('#' + rec + ' .t396__artboard') || document.getElementById(rec);
+      if (!el) return;
+      var r = el.getBoundingClientRect();
+      if (r.height && r.bottom > max) max = r.bottom;
+    });
+    return max || 64;
+  }
+
+  function mount() {
+    if (document.querySelector('.bb-garland')) return;
+
+    var art = ASSETS.garland[BB.site] || ASSETS.garland.bp;
+    var g = document.createElement('div');
+    g.className = 'bb-garland';
+    g.style.backgroundImage = 'url("' + art.src + '")';
+    g.style.backgroundColor = art.bg;   /* докрашивает полосу на широких экранах */
+
+    /* Вставляем полосу в поток сразу после шапки. В Tilda то же самое делается
+       блоком T123, поставленным первым после блока шапки. */
+    var anchor = null, recs = document.querySelectorAll('[id^="rec"]');
+    var heads = HEADERS[BB.site] || [];
+    for (var k = 0; k < recs.length; k++) {
+      if (heads.indexOf(recs[k].id) === -1) { anchor = recs[k]; break; }
+    }
+    if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(g, anchor);
+    else document.body.insertBefore(g, document.body.firstChild);
+
+    for (var i = 0; i < L.count; i++) {
+      var size = rnd(L.size[0], L.size[1]);
+      var dur = rnd(L.fall[0], L.fall[1]);
+
+      var wrap = document.createElement('div');
+      wrap.className = 'bb-leaf';
+      wrap.style.left = Math.max(1, Math.min(95, (i + 0.5) / L.count * 100 + rnd(-7, 7))) + '%';
+      wrap.style.width = size + 'px';
+      wrap.style.height = size + 'px';
+      wrap.style.animationDuration = dur + 's';
+      wrap.style.animationDelay = (-Math.random() * dur) + 's';
+      wrap.style.opacity = rnd(L.opacity[0], L.opacity[1]);
+
+      var inner = document.createElement('b');
+      inner.style.backgroundImage = 'url("' + ASSETS.leaves[i % ASSETS.leaves.length] + '")';
+      inner.style.animationDuration = rnd(3.2, 6).toFixed(2) + 's';
+      inner.style.animationDelay = (-Math.random() * 4).toFixed(2) + 's';
+      inner.style.setProperty('--bb-drift', rnd(L.drift[0], L.drift[1]).toFixed(0) + 'px');
+
+      wrap.appendChild(inner);
+      document.body.appendChild(wrap);
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
+  else mount();
+})();

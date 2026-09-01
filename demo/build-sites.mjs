@@ -19,6 +19,10 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'demo', 'sites');
+/* --offline: не качать сайты заново, взять уже сохранённые копии.
+   Нужно, когда правишь только слой или элементы: сеть до tildacdn
+   периодически отваливается и роняет всю сборку. */
+const OFFLINE = process.argv.includes('--offline');
 fs.mkdirSync(OUT, { recursive: true });
 
 const SITES = [
@@ -104,8 +108,15 @@ const NEUTER = `
 for (const s of SITES) {
   console.log('\n' + s.title);
 
-  const html = await (await fetch(s.url, { headers: { 'user-agent': 'Mozilla/5.0 Chrome/120' } })).text();
-  console.log('  скачано: ' + (html.length / 1024 / 1024).toFixed(1) + ' МБ');
+  const copy = path.join(OUT, s.id + '.html');
+  let html;
+  if (OFFLINE && fs.existsSync(copy)) {
+    html = fs.readFileSync(copy, 'utf8');
+    console.log('  взята сохранённая копия: ' + (html.length / 1024 / 1024).toFixed(1) + ' МБ');
+  } else {
+    html = await (await fetch(s.url, { headers: { 'user-agent': 'Mozilla/5.0 Chrome/120' } })).text();
+    console.log('  скачано: ' + (html.length / 1024 / 1024).toFixed(1) + ' МБ');
+  }
 
   let out = html, killed = 0;
   for (const tag of ['script', 'noscript']) {
@@ -120,10 +131,14 @@ for (const s of SITES) {
     if (out.includes(b)) console.log(`  ! в копии осталось упоминание ${b}`);
   }
 
-  out = out.replace(/<head[^>]*>/i, m => m
-    + '\n<meta name="robots" content="noindex,nofollow">'
-    + `\n<base href="${s.url}" target="_blank">`
-    + NEUTER);
+  /* В офлайн-режиме копия уже подготовлена — не вставляем служебное дважды */
+  if (!out.includes('BB_NEUTERED')) {
+    out = out.replace(/<head[^>]*>/i, m => m
+      + '\n<meta name="robots" content="noindex,nofollow">'
+      + `\n<base href="${s.url}" target="_blank">`
+      + '\n<!-- BB_NEUTERED -->'
+      + NEUTER);
+  }
 
   const file = path.join(OUT, s.id + '.html');
   fs.writeFileSync(file, out, 'utf8');
@@ -148,7 +163,9 @@ for (const s of SITES) {
     const tmpCss = path.join(OUT, `.hard-${s.id}.css`);
     const tmpProj = path.join(OUT, `.proj-${s.id}.css`);
     fs.writeFileSync(tmpMap, JSON.stringify(s.hard), 'utf8');
-    fs.writeFileSync(tmpProj, await (await fetch(s.projectCss)).text(), 'utf8');
+    const projCache = path.join(OUT, '.proj-cache-' + s.id + '.css');
+    if (!fs.existsSync(projCache)) fs.writeFileSync(projCache, await (await fetch(s.projectCss)).text(), 'utf8');
+    fs.copyFileSync(projCache, tmpProj);
     fs.writeFileSync(path.join(OUT, `.page-${s.id}.html`), html, 'utf8');
 
     execFileSync(process.execPath, [
@@ -237,10 +254,22 @@ function buildElements(s) {
     `try { Object.keys(localStorage).forEach(function (k) {`,
     `  if (k.indexOf('bb_ab_') === 0) localStorage.removeItem(k); }); } catch (e) {}`,
     script('head/3-bnovo-deeplink.html'),
-    announce
-    /* Блок 10 (листья, виньетка, рисованная гирлянда) намеренно отключён:
-       нарисованный кодом декор заказчику не подошёл. Осенние элементы
-       делаем картинками и ставим блоками, а не накладкой поверх. */
+    announce,
+    /* В копии сайта стоит <base href> боевого домена, поэтому относительные
+       пути уехали бы на ecobr.ru. Считаем адреса от src самого бандла:
+       .../demo/sites/autumn-eco.js  ->  .../demo/assets/... */
+    'window.BB_AUTUMN_ASSETS = (function () {\n' +
+    '  var me = document.currentScript && document.currentScript.src;\n' +
+    '  var base = me ? me.replace(/sites\\/[^/]*$/, "assets/") : "demo/assets/";\n' +
+    '  return {\n' +
+    '    garland: {\n' +
+    '      eco: { src: base + "garland-eco.webp", bg: "#f6efdc" },\n' +
+    '      bp:  { src: base + "garland-bp.webp",  bg: "#36523e" }\n' +
+    '    },\n' +
+    '    leaves: [base + "leaf1.webp", base + "leaf3.webp"]\n' +
+    '  };\n' +
+    '})();',
+    script('head/10-osennie-elementy.html')
   ].join('\n');
 }
 

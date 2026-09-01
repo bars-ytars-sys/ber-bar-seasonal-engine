@@ -1,0 +1,301 @@
+<!-- ТЁПЛАЯ ОСЕНЬ — блок с акциями для ecobr.ru
+     Тильда → Библиотека → Другое → T123 (HTML-код) → вставить целиком.
+
+     КУДА СТАВИТЬ: на главной, сразу под блоком с заголовком
+     «Ради нас берут выходной!» (запись rec1694735441).
+     Сам заголовок в том блоке меняется в редакторе Тильды
+     на «Тёплая осень» — мышкой, код для этого не нужен.
+
+     ОФОРМЛЕНИЕ ВЗЯТО С САЙТА, замерено на живых карточках:
+       карточка   белая, скругление 14px, без рамки и тени
+       заголовок  DespairDisplay, 700, заглавными, #1a1b19
+       текст      TildaSans, 16px
+       кнопка     контурная мятная: цвет и рамка #2ed8a3,
+                  фон #f4f6fb, скругление 5px, заглавными
+     Поэтому блок не выбивается из остальной страницы.
+
+     ПЕРЕД ВСТАВКОЙ: загрузите три фото из tilda/images в
+     Настройки сайта → Файлы и подставьте ссылки вместо ФОТО_…
+
+     КНОПКИ ведут прямо в модуль бронирования с подставленными
+     датами и промокодом — проверено на живом модуле Bnovo.
+     -->
+<div class="to-wrap">
+  <div class="to-grid">
+
+    <!-- 1. Банный отдых с самоваром — обычная карточка, выбор из двух
+         программ открывается по нажатию, чтобы не раздувать блок -->
+    <article class="to-card">
+      <div class="to-pic" style="background-image:url('ФОТО_card-banya.webp')"></div>
+      <div class="to-body">
+        <h3 class="to-t">Банный отдых с самоваром</h3>
+        <p class="to-d">Две программы на выбор: с берёзовым паром или полная баня по-русски.</p>
+        <p class="to-big">от 8 000 ₽</p>
+
+        <button class="to-btn to-btn--toggle" type="button" aria-expanded="false" data-pick>
+          Выбрать программу
+        </button>
+
+        <div class="to-pick" hidden>
+          <div class="to-opt">
+            <div class="to-row">
+              <span class="to-name">В берёзовом пару</span>
+              <span class="to-price">8 000 ₽</span>
+            </div>
+            <p class="to-note">Панорама — 12 000 ₽</p>
+            <ul class="to-list">
+              <li>Баня и банные шапки</li>
+              <li>Самовар и алтайский травяной чай</li>
+              <li>Мёд, сушки или орехи — на выбор</li>
+              <li>Вода 0,5 л на каждого гостя</li>
+            </ul>
+            <a class="to-btn" href="https://ecobr.ru/booking?dfrom=fri&amp;dto=sun&amp;adults=2&amp;scroll_to_rooms=1">
+              Забронировать
+            </a>
+          </div>
+
+          <div class="to-opt">
+            <div class="to-row">
+              <span class="to-name">Баня по-русски</span>
+              <span class="to-price">15 000 ₽</span>
+            </div>
+            <p class="to-note">С холодным чаном</p>
+            <ul class="to-list">
+              <li>Баня, берёзовые веники, банные шапки</li>
+              <li>Самовар и алтайский травяной чай</li>
+              <li>Мёд, сушки или орехи — на выбор</li>
+              <li>Вода 0,5 л на каждого гостя</li>
+              <li>Холодный чан</li>
+            </ul>
+            <a class="to-btn" href="https://ecobr.ru/booking?dfrom=fri&amp;dto=sun&amp;adults=4&amp;scroll_to_rooms=1">
+              Забронировать
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 2. Ароматная осень -->
+    <article class="to-card">
+      <div class="to-pic" style="background-image:url('ФОТО_card-chan.webp')"></div>
+      <div class="to-body">
+        <h3 class="to-t">Ароматная осень</h3>
+        <p class="to-d">Ароматное наполнение в чан — в подарок.</p>
+        <ul class="to-list">
+          <li>Действует на брони, заезд которых попадает в период акции</li>
+        </ul>
+        <div class="to-promo" data-code="ОСЕНЬ2026">
+          <span>ОСЕНЬ2026</span><small>нажмите, чтобы скопировать</small>
+        </div>
+        <a class="to-btn" href="https://ecobr.ru/booking?dfrom=fri&amp;dto=sun&amp;adults=2&amp;promoCode=%D0%9E%D0%A1%D0%95%D0%9D%D0%AC2026&amp;scroll_to_rooms=1">
+          Забронировать с промокодом
+        </a>
+      </div>
+    </article>
+
+    <!-- 3. Осенние каникулы -->
+    <article class="to-card">
+      <div class="to-pic" style="background-image:url('ФОТО_card-kanikuly.webp')"></div>
+      <div class="to-body">
+        <h3 class="to-t">Осенние каникулы в Берёзовой Роще</h3>
+        <p class="to-d">Раннее бронирование пакета «Осенние каникулы».</p>
+        <p class="to-big">Скидка 10%</p>
+        <ul class="to-list">
+          <li>При бронировании на официальном сайте до 15.09.2026</li>
+        </ul>
+        <details class="to-more">
+          <summary>Подробные условия</summary>
+          <p class="to-fine">
+            При бронировании пакета «Осенние каникулы» дарим скидку 20% —
+            при заключении договора и внесении предоплаты до 15 сентября.
+            Предложение действует до 15 сентября.
+            Период каникул: с 23 октября по 4 ноября 2026 года.
+          </p>
+        </details>
+        <a class="to-btn" href="https://ecobr.ru/booking?dfrom=2026-10-23&amp;dto=2026-10-26&amp;adults=2&amp;children=2&amp;scroll_to_rooms=1">
+          Забронировать каникулы
+        </a>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<style>
+/* Все значения ниже сняты с живых карточек сайта — блок должен
+   читаться как его часть, а не как вставка. */
+.to-wrap{
+  --to-accent:#2ed8a3;
+  --to-ink:#1a1b19;
+  --to-muted:#6c7370;
+  --to-btn-bg:#f4f6fb;
+  --to-radius:14px;
+  max-width:1200px;margin:0 auto;padding:0 20px;box-sizing:border-box;
+  font-family:'TildaSans',Arial,sans-serif;color:var(--to-ink);
+}
+.to-wrap *{box-sizing:border-box}
+
+.to-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+
+/* Выбор из двух программ раскрывается по нажатию — карточка остаётся
+   такой же, как соседние, и блок не разрастается. */
+.to-pick{margin-top:16px;border-top:1px solid #eceeed;padding-top:16px}
+.to-pick[hidden]{display:none}
+.to-opt + .to-opt{margin-top:18px;padding-top:16px;border-top:1px solid #eceeed}
+.to-opt .to-btn{margin-top:4px}
+
+.to-btn--toggle{cursor:pointer;font-family:'DespairDisplay',Arial,sans-serif}
+/* Подробности каникул убраны под раскрытие — иначе карточка выше соседних */
+.to-more{margin:0 0 12px}
+.to-more summary{cursor:pointer;font-size:13px;color:var(--to-accent);list-style:none}
+.to-more summary::-webkit-details-marker{display:none}
+.to-more summary::after{content:" ↓";font-size:10px}
+.to-more[open] summary::after{content:" ↑"}
+.to-btn--toggle::after{content:" ↓";font-size:11px}
+.to-btn--toggle[aria-expanded="true"]::after{content:" ↑"}
+
+.to-card{
+  background:#fff;border-radius:var(--to-radius);overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.to-pic{
+  height:150px;background-size:cover;background-position:center;
+  background-repeat:no-repeat;flex:none;
+}
+.to-body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+
+.to-t{
+  font-family:'DespairDisplay',Arial,sans-serif;font-weight:700;
+  text-transform:uppercase;font-size:17px;line-height:1.25;
+  color:var(--to-ink);margin:0 0 8px;
+}
+.to-d{margin:0 0 10px;font-size:14.5px;line-height:1.4}
+
+.to-row{display:flex;align-items:baseline;gap:12px;margin:0 0 2px}
+.to-row--sep{margin-top:18px;padding-top:16px;border-top:1px solid #eceeed}
+.to-name{
+  font-family:'DespairDisplay',Arial,sans-serif;font-weight:700;
+  text-transform:uppercase;font-size:14px;line-height:1.3;
+}
+.to-price{margin-left:auto;font-weight:700;font-size:18px;white-space:nowrap}
+.to-note{margin:0 0 10px;font-size:13px;color:var(--to-muted)}
+
+.to-big{
+  font-family:'DespairDisplay',Arial,sans-serif;font-weight:700;
+  font-size:24px;margin:2px 0 10px;
+}
+
+.to-list{list-style:none;margin:0 0 14px;padding:0}
+.to-list li{position:relative;padding-left:16px;margin-bottom:5px;font-size:13.5px;line-height:1.38}
+.to-list li::before{
+  content:"";position:absolute;left:1px;top:8px;width:6px;height:6px;
+  border-radius:50%;background:var(--to-accent);
+}
+
+.to-promo{
+  display:inline-flex;align-items:center;gap:9px;align-self:flex-start;
+  border:1px dashed var(--to-accent);border-radius:5px;padding:8px 13px;
+  margin:0 0 14px;cursor:pointer;font-weight:700;font-size:14px;
+}
+.to-promo small{font-weight:400;font-size:12px;color:var(--to-muted)}
+.to-promo.is-copied{border-style:solid;background:#f0faf6}
+
+.to-fine{font-size:12px;line-height:1.45;color:var(--to-muted);margin:0 0 12px}
+
+/* Кнопка — точная копия кнопок сайта: контур, а не заливка */
+.to-btn{
+  margin-top:auto;align-self:flex-start;display:inline-block;text-decoration:none;
+  font-family:'DespairDisplay',Arial,sans-serif;font-weight:600;font-size:12px;
+  text-transform:uppercase;color:var(--to-accent);
+  background:var(--to-btn-bg);border:1px solid var(--to-accent);border-radius:5px;
+  padding:10px 16px;
+}
+.to-btn:hover{background:var(--to-accent);color:#fff}
+
+@media(max-width:1023px){
+  .to-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:639px){
+  .to-wrap{padding:0 14px}
+  .to-grid{grid-template-columns:1fr;gap:14px}
+  .to-grid{grid-template-columns:1fr}
+  .to-pic{height:190px}
+  .to-body{padding:20px}
+}
+
+/* --- Блок с заголовком «Тёплая осень» (rec1694735441) ---
+   Это Zero Block высотой 261px, а содержимого в нём две строки: заголовок
+   и «Хорошее место по версии Яндекса». Пустоты больше, чем текста.
+   Поджимаем его сверху вниз, чтобы карточки шли сразу под заголовком.
+
+   Почему !important в таблице стилей, а не inline: Тильда сама пишет top
+   в inline-стиль при каждом пересчёте масштаба и затирает любую нашу
+   правку. Объявление !important в стилях такой inline-стиль перебивает.
+   Значения — в «проектных» пикселях: их масштабирует zoom самого элемента,
+   поэтому раскладка остаётся верной на всех ширинах.
+
+   В редакторе Тильды то же самое делается мышкой: потянуть низ блока вверх
+   и подвинуть строки. Тогда этот кусок можно удалить. */
+@media screen and (min-width:961px){
+  #rec1694735441 .tn-elem[data-elem-id="1765543910875"]{top:26px!important}
+  #rec1694735441 .tn-elem[data-elem-id="1774001435540000002"]{top:88px!important}
+}
+@media screen and (min-width:641px) and (max-width:960px){
+  #rec1694735441 .tn-elem[data-elem-id="1765543910875"]{top:26px!important}
+  #rec1694735441 .tn-elem[data-elem-id="1774001435540000002"]{top:96px!important}
+}
+</style>
+
+<script>
+/* Промокод копируется по клику — гость не переписывает его руками. */
+(function () {
+  /* Выбор из двух программ раскрывается по нажатию */
+  var t = document.querySelector('[data-pick]');
+  if (t) {
+    var panel = t.parentNode.querySelector('.to-pick');
+    t.addEventListener('click', function () {
+      var open = t.getAttribute('aria-expanded') === 'true';
+      t.setAttribute('aria-expanded', String(!open));
+      panel.hidden = open;
+      t.textContent = open ? 'Выбрать программу' : 'Свернуть';
+    });
+  }
+
+
+  /* Высота холста Zero Block задаётся в экранных пикселях и в стилях её
+     не выразить — считаем сами: «проектная» высота × zoom элемента.
+     Тильда пересчитывает её при resize, поэтому повторяем после неё.
+     Значения берутся из констант, так что от повторов ничего не копится. */
+  (function () {
+    var rec = document.getElementById('rec1694735441');
+    if (!rec) return;
+    function squeeze() {
+      var head = rec.querySelector('[data-elem-id="1765543910875"]');
+      if (!head) return;
+      var w = window.innerWidth;
+      var h = w > 960 ? 150 : w > 640 ? 158 : 0;   /* на телефонах блок и так низкий */
+      if (!h) return;
+      var px = Math.round(h * (parseFloat(head.style.zoom) || 1)) + 'px';
+      ['.t396__artboard', '.t396__carrier', '.t396__filter'].forEach(function (sel) {
+        var n = rec.querySelector(sel);
+        if (n) n.style.setProperty('height', px, 'important');
+      });
+    }
+    squeeze();
+    [150, 600, 1500, 3000].forEach(function (ms) { setTimeout(squeeze, ms); });
+    window.addEventListener('resize', function () { setTimeout(squeeze, 80); });
+  })();
+
+  var el = document.querySelector('.to-promo');
+  if (!el) return;
+  el.addEventListener('click', function () {
+    var done = function () {
+      el.classList.add('is-copied');
+      el.querySelector('small').textContent = 'скопировано';
+    };
+    var code = el.getAttribute('data-code');
+    if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, done);
+    else done();
+  });
+})();
+</script>

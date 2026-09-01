@@ -1,517 +1,353 @@
-/* Осенние элементы для витрины. Собрано из seasonal-engine/ автоматически,
-   правьте компоненты, а не этот файл. База: ЭкоБаза «Берёзовая роща» */
 
+window.AUTUMN = {
+  intensity: 1,        // плотность листопада: 0.2 … 2
+  wind: 0.4,           // снос вбок
+  zIndex: 900,         // 900 — листья за фиксированным меню, 1000 — поверх него
+  corners: 'auto',     // ветки в углах: 'auto' | ['rec812345678','rec812345901'] | []
+  cornersSkip: [],     // блоки, которые пропустить в режиме 'auto'
+  branchAfter: [],     // веточка-разделитель после этих блоков
+  reveal: []           // плавное появление блока при скролле
+};
+
+
+/* ===== ОСЕННИЙ СЛОЙ ДЛЯ ТИЛЬДЫ — скрипт =====
+   Работает с уже опубликованными блоками Тильды: ничего в вёрстке
+   не переписывает, классы навешивает сам по id записей (rec…).
+
+   НАСТРОЙКИ — window.AUTUMN, задаются ДО подключения скрипта:
+     intensity   плотность листопада, 0.2 … 2
+     wind        сила бокового сноса
+     zIndex      слой листопада (900 — под меню Тильды, 1000 — над ним)
+     corners     'auto' | ['rec123456','rec123457'] | []  — ветки в углах
+     cornersSkip ['rec123456']  — какие записи пропустить в режиме auto
+     branchAfter ['rec123456']  — после каких записей вставить веточку
+     reveal      ['rec123456']  — какие записи плавно проявлять при скролле
+   ================================================================ */
 (function () {
   'use strict';
 
-  /* ---------- ЯДРО. Не трогать. ---------- */
-  var BB = window.BB = window.BB || {};
-  BB.TZ = 180; /* Europe/Moscow. Все даты в системе — московские. */
+  var cfg = Object.assign({
+    intensity: 1,
+    wind: 0.4,
+    zIndex: 900,
+    minWidth: 480,
+    corners: 'auto',
+    cornersSkip: [],
+    branchAfter: [],
+    reveal: [],
+    colors: ['#D9A441', '#C98A2E', '#B4661F', '#9E3B23', '#7E8C3C', '#E7C878']
+  }, window.AUTUMN || {});
 
-  BB.param = function (name) {
-    var m = new RegExp('[?&]' + name + '=([^&#]*)').exec(location.search);
-    return m ? decodeURIComponent(m[1]) : null;
-  };
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var NS = 'http://www.w3.org/2000/svg';
+  var id = function (s) { return String(s).replace(/^#/, ''); };
 
-  /* «Машина времени»: ?date=2026-12-25 сдвигает ВСЮ систему — сезон, расписание,
-     таймеры. Время суток остаётся текущим, поэтому таймеры считаются честно. */
-  var fake = (BB.param('date') || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  /* ---------- 1. формы листьев (единичные координаты) ---------- */
+  function birch(c) {
+    c.beginPath();
+    c.moveTo(0, -0.5);
+    c.bezierCurveTo(0.34, -0.24, 0.29, 0.27, 0, 0.48);
+    c.bezierCurveTo(-0.29, 0.27, -0.34, -0.24, 0, -0.5);
+    c.closePath();
+  }
+  function lobed(lobes, depth, stretch) {
+    return function (c) {
+      c.beginPath();
+      for (var i = 0; i <= 80; i++) {
+        var a = i / 80 * Math.PI * 2 - Math.PI / 2;
+        var r = 0.30 + depth * Math.cos(lobes * a) + 0.05 * Math.cos(2 * lobes * a);
+        var x = Math.cos(a) * r, y = Math.sin(a) * r * stretch;
+        i ? c.lineTo(x, y) : c.moveTo(x, y);
+      }
+      c.closePath();
+    };
+  }
+  var SHAPES = [birch, lobed(5, 0.20, 1.02), lobed(7, 0.09, 1.28)];
 
-  BB.now = function () {
-    var d = new Date();
-    var msk = new Date(d.getTime() + (d.getTimezoneOffset() + BB.TZ) * 60000);
-    if (fake) msk.setFullYear(+fake[1], +fake[2] - 1, +fake[3]);
-    return msk;
-  };
-  BB.pad = function (n) { return (n < 10 ? '0' : '') + n; };
-  BB.ymd = function (d) { return d.getFullYear() + '-' + BB.pad(d.getMonth() + 1) + '-' + BB.pad(d.getDate()); };
+  /* ---------- 2. листопад ---------- */
+  var cv = document.getElementById('au-canvas');
+  if (!cv) {
+    cv = document.createElement('canvas');
+    cv.id = 'au-canvas';
+    cv.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(cv);
+  }
+  cv.style.zIndex = cfg.zIndex;
 
-  /* 'YYYY-MM-DD' -> 20261115. Сравнивать числа надёжнее, чем объекты Date. */
-  BB.num = function (s) {
-    var m = String(s || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
-    return m ? +(m[1] + m[2] + m[3]) : null;
-  };
-  BB.todayNum = function () { return BB.num(BB.ymd(BB.now())); };
-  BB.today = BB.todayNum();   /* сегодня одним числом, с учётом ?date= */
+  var ctx = cv.getContext('2d');
+  var W = 0, H = 0, dpr = 1, leaves = [], last = 0, raf = null, running = false;
 
-  /* Обычно база определяется по домену. ?site=bp — посмотреть, как компоненты
-     выглядят в палитре второй базы, не уходя с этого сайта. */
-  BB.site = BB.param('site') || (/barskie/i.test(location.hostname) ? 'bp' : 'eco');
+  function rnd(a, b) { return a + Math.random() * (b - a); }
 
-  /* ---------- ТАБЛИЦА СЕЗОНОВ · МОЖНО МЕНЯТЬ ---------- */
-  /* Формат ММ-ДД. Диапазон может переходить через Новый год. */
-  var SEASONS = [
-    { id: 'newyear', from: '11-15', to: '01-10' },
-    { id: 'winter',  from: '01-11', to: '03-07' },
-    { id: 'spring',  from: '03-08', to: '05-08' },
-    { id: 'summer',  from: '05-09', to: '08-31' },
-    { id: 'autumn',  from: '09-01', to: '11-14' }
-  ];
-
-  function detect() {
-    var d = BB.now(), md = BB.pad(d.getMonth() + 1) + '-' + BB.pad(d.getDate());
-    for (var i = 0; i < SEASONS.length; i++) {
-      var s = SEASONS[i];
-      var ok = (s.from <= s.to) ? (md >= s.from && md <= s.to)
-                                : (md >= s.from || md <= s.to);
-      if (ok) return s.id;
-    }
-    return 'summer';
+  function make(fresh) {
+    var z = rnd(0.35, 1);
+    return {
+      x: rnd(-0.05, 1.05) * W,
+      y: fresh ? rnd(-0.2, 1) * H : rnd(-0.35, -0.02) * H,
+      z: z,
+      size: 11 + 23 * z,
+      alpha: 0.22 + 0.5 * z,
+      color: cfg.colors[(Math.random() * cfg.colors.length) | 0],
+      shape: SHAPES[(Math.random() * SHAPES.length) | 0],
+      rot: rnd(0, Math.PI * 2),
+      spin: rnd(-0.5, 0.5),
+      flip: rnd(0, Math.PI * 2),
+      flipSpd: rnd(0.5, 1.5),
+      sway: rnd(0, Math.PI * 2),
+      swaySpd: rnd(0.4, 1.0),
+      swayAmp: rnd(14, 46) * z
+    };
   }
 
-  /* Предпросмотр ?season=winter — держится до закрытия вкладки. */
-  var forced = BB.param('season');
-  try {
-    if (forced) sessionStorage.setItem('bb_season', forced);
-    forced = forced || sessionStorage.getItem('bb_season');
-  } catch (e) {}
-
-  BB.season = forced || detect();
-  document.documentElement.setAttribute('data-season', BB.season);
-  document.documentElement.setAttribute('data-site', BB.site);
-  if (forced) document.documentElement.setAttribute('data-season-preview', '1');
-})();
-
-/* палитра компонентов --bb-* из того же блока 1 */
-(function(){var s=document.createElement('style');s.setAttribute('data-bb','theme');s.appendChild(document.createTextNode("\n/* ============================================================================\n   ПАЛИТРА НАШИХ КОМПОНЕНТОВ (--bb-*).\n   Ими покрашены анонс-полоса, карточки офферов, таймеры, мобильная панель.\n   Меняются каждый сезон — это безопасно, ничего чужого не задевает.\n   ============================================================================ */\n:root{\n  --bb-accent:#2ed8a3;\n  --bb-accent-ink:#0d2b22;\n  --bb-ink:#1a1b19;\n  --bb-muted:#6b7280;\n  --bb-surface:#ffffff;\n  --bb-bg:#f4f6fb;\n  --bb-line:#e6e9ef;\n  --bb-hot:#e0533d;\n  --bb-badge:#eef7f3;\n  --bb-radius:14px;\n  --bb-shadow:0 2px 10px rgba(20,25,35,.06);\n  --bb-font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;\n}\n\n/* «Барские поля» — своя базовая палитра, снята с живого сайта */\n:root[data-site=\"bp\"]{\n  --bb-accent:#a36434;\n  --bb-accent-ink:#ffffff;\n  --bb-ink:#243d34;\n  --bb-bg:#eee5d5;\n  --bb-line:#e5d9b9;\n  --bb-badge:#f2e9d0;\n  --bb-hot:#c0442c;\n}\n\n/* ------------------------------- СЕЗОНЫ ---------------------------------- */\n\n/* НОВЫЙ ГОД · 15 ноября – 10 января */\n:root[data-season=\"newyear\"]{\n  --bb-accent:#1f7a5a; --bb-accent-ink:#fff8e7;\n  --bb-badge:#fdf3e0;  --bb-hot:#c0392b;\n  --bb-bg:#f2f5f3;\n}\n:root[data-season=\"newyear\"][data-site=\"bp\"]{\n  --bb-accent:#7d4d28; --bb-accent-ink:#f2e9d0; --bb-bg:#e9dfcb;\n}\n\n/* ЗИМА · 11 января – 7 марта */\n:root[data-season=\"winter\"]{ --bb-accent:#2f8f9d; --bb-accent-ink:#ffffff; --bb-bg:#eef3f6; }\n:root[data-season=\"winter\"][data-site=\"bp\"]{ --bb-accent:#5a6f7d; --bb-accent-ink:#ffffff; --bb-bg:#e9e6de; }\n\n/* ВЕСНА · 8 марта – 8 мая */\n:root[data-season=\"spring\"]{ --bb-accent:#57b894; --bb-accent-ink:#08281f; --bb-bg:#f2f8f4; }\n:root[data-season=\"spring\"][data-site=\"bp\"]{ --bb-accent:#8a8c46; --bb-accent-ink:#ffffff; --bb-bg:#efe9d8; }\n\n/* ЛЕТО · 9 мая – 31 августа (базовые цвета брендов) */\n:root[data-season=\"summer\"]{ --bb-accent:#2ed8a3; --bb-bg:#f4f6fb; }\n:root[data-season=\"summer\"][data-site=\"bp\"]{ --bb-accent:#a36434; --bb-bg:#eee5d5; }\n\n/* ОСЕНЬ · 1 сентября – 14 ноября */\n:root[data-season=\"autumn\"]{ --bb-accent:#c98a3c; --bb-accent-ink:#241a0c; --bb-bg:#f7f3ec; }\n:root[data-season=\"autumn\"][data-site=\"bp\"]{ --bb-accent:#b5642a; --bb-accent-ink:#ffffff; --bb-bg:#f0e4cd; }\n\n/* ============================================================================\n   ПЕРЕКРАСКА ВСЕГО САЙТА ecobr.ru ЧЕРЕЗ ЦВЕТОВЫЕ СТИЛИ TILDA\n\n   ПРАВИЛО: за сезон меняем максимум ДВЕ переменные — фон секций и (по решению\n   дизайнера) акцент. Текст (Z3IU8y) и тёмный фон (cPYWVKrTiQfG) не трогаем:\n   развалится контраст на 118 блоках.\n   Акцент #2ed8a3 совпадает с btn_background виджета Bnovo в блоке rec3032928101 —\n   если меняете акцент, поменяйте и там, иначе кнопка «поедет» по цвету.\n   ============================================================================ */\n:root[data-site=\"eco\"][data-season=\"autumn\"] #allrecords .r,\n:root[data-site=\"eco\"][data-season=\"autumn\"] body{\n  --uc-color-color-n3E0FkCwyE:#f6f1e4 !important;\n}\n:root[data-site=\"eco\"][data-season=\"newyear\"] #allrecords .r,\n:root[data-site=\"eco\"][data-season=\"newyear\"] body{\n  --uc-color-color-n3E0FkCwyE:#f2f5f3 !important;\n  /* --uc-color-color-qp7xN:#1f7a5a !important;  ← акцент. Только вместе с Bnovo */\n}\n:root[data-site=\"eco\"][data-season=\"winter\"] #allrecords .r,\n:root[data-site=\"eco\"][data-season=\"winter\"] body{\n  --uc-color-color-n3E0FkCwyE:#eef3f6 !important;\n}\n:root[data-site=\"eco\"][data-season=\"spring\"] #allrecords .r,\n:root[data-site=\"eco\"][data-season=\"spring\"] body{\n  --uc-color-color-n3E0FkCwyE:#f2f8f4 !important;\n}\n\n/* Плашка предпросмотра — видна только при открытии с ?season= */\n:root[data-season-preview] body::after{\n  content:\"ПРЕДПРОСМОТР СЕЗОНА · закройте вкладку, чтобы сбросить\";\n  position:fixed; left:0; right:0; bottom:0; z-index:99999;\n  background:#111; color:#fff; font:12px/32px var(--bb-font);\n  text-align:center; letter-spacing:.04em; pointer-events:none;\n}\n"));(document.head||document.documentElement).appendChild(s);})();
-/* витрина: база и сезон заданы явно */
-window.BB.site = "eco";
-window.BB.season = 'autumn';
-document.documentElement.setAttribute('data-site', "eco");
-document.documentElement.setAttribute('data-season', 'autumn');
-/* витрина: не помним закрытие полосы, иначе её не вернуть 7 дней */
-try { Object.keys(localStorage).forEach(function (k) {
-  if (k.indexOf('bb_ab_') === 0) localStorage.removeItem(k); }); } catch (e) {}
-
-(function () {
-  'use strict';
-  var BB = window.BB = window.BB || {};
-
-  /* Счётчики Метрики. Проверено на живых страницах. */
-  BB.COUNTER = { eco: 108978291, bp: 109033653 };
-  BB.counter = BB.COUNTER[BB.site || 'eco'];
-
-  BB.BOOKING_URL = { eco: 'https://ecobr.ru/booking', bp: 'https://barskie-polya.ru/booking' };
-
-  /* ---------------------------------------------------------------------
-     Разбор «умных» дат.
-       2026-12-30  — как есть
-       +14         — сегодня + 14 дней
-       fri         — ближайшая пятница (сегодня, если сегодня пятница)
-       fri+2       — ближайшая пятница + 2 дня
-       mon,tue,wed,thu,fri,sat,sun
-
-     Второй аргумент base — от какой даты считать. Для даты выезда всегда
-     передаём дату заезда, иначе «с понедельника по четверг» превратится
-     в выезд раньше заезда: ближайший четверг может быть до ближайшего понедельника.
-     --------------------------------------------------------------------- */
-  var DOW = { sun:0, mon:1, tue:2, wed:3, thu:4, fri:5, sat:6 };
-
-  BB.resolveDate = function (token, base) {
-    if (!token) return '';
-    token = String(token).trim().toLowerCase();
-    if (/^\d{4}-\d{2}-\d{2}$/.test(token)) return token;
-
-    /* точка отсчёта: переданная дата или сегодня */
-    var d;
-    if (base && /^\d{4}-\d{2}-\d{2}$/.test(base)) {
-      var p = base.split('-');
-      d = new Date(+p[0], +p[1] - 1, +p[2]);
-    } else {
-      d = BB.now();
-      d.setHours(12, 0, 0, 0);
-    }
-
-    var m;
-    if ((m = token.match(/^\+(\d+)$/))) {
-      d.setDate(d.getDate() + (+m[1]));
-      return BB.ymd(d);
-    }
-    if ((m = token.match(/^(sun|mon|tue|wed|thu|fri|sat)(?:\+(\d+))?$/))) {
-      var delta = (DOW[m[1]] - d.getDay() + 7) % 7;
-      /* если считаем от даты заезда, выезд не может быть в тот же день */
-      if (delta === 0 && base) delta = 7;
-      d.setDate(d.getDate() + delta + (m[2] ? +m[2] : 0));
-      return BB.ymd(d);
-    }
-    return token; /* не распознали — отдаём как есть, модуль сам разберётся */
-  };
-
-  /* ---------------------------------------------------------------------
-     Сборка ссылки на бронирование.
-     BB.bookUrl({from:'fri', to:'sun', adults:2, promo:'BUDNI20', rooms:'123,456'})
-     --------------------------------------------------------------------- */
-  BB.bookUrl = function (o) {
-    o = o || {};
-    var base = o.base || BB.BOOKING_URL[BB.site] || BB.BOOKING_URL.eco;
-    var q = [];
-    var from = BB.resolveDate(o.from);
-    var to   = BB.resolveDate(o.to, from);   /* выезд считаем от заезда */
-
-    if (from) q.push('dfrom=' + encodeURIComponent(from));
-    if (to)   q.push('dto=' + encodeURIComponent(to));
-    if (o.adults)   q.push('adults=' + encodeURIComponent(o.adults));
-    if (o.children) q.push('children=' + encodeURIComponent(o.children));
-    if (o.promo)    q.push('promoCode=' + encodeURIComponent(o.promo));
-    if (o.rooms)    q.push('onlyrooms=' + encodeURIComponent(o.rooms));
-    q.push('scroll_to_rooms=1');
-
-    /* Донести источник трафика до модуля — иначе бронь потеряет канал */
-    ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function (u) {
-      var v = BB.param(u);
-      if (v) q.push(u + '=' + encodeURIComponent(v));
-    });
-
-    return base + '?' + q.join('&');
-  };
-
-  /* ---------------------------------------------------------------------
-     Цель в Метрику. Безопасна, если счётчик ещё не загрузился.
-     --------------------------------------------------------------------- */
-  BB.goal = function (name, params) {
-    try {
-      if (typeof window.ym === 'function' && BB.counter) window.ym(BB.counter, 'reachGoal', name, params || {});
-      if (window.VK && VK.Retargeting && VK.Retargeting.Event) VK.Retargeting.Event(name);
-      if (BB.param('goals') === 'debug') console.log('[BB goal]', name, params || {});
-    } catch (e) {}
-  };
-
-  /* ---------------------------------------------------------------------
-     Перехват кликов.
-
-     ВАРИАНТ А (для контент-менеджера, без кода):
-       в Tilda в ссылке кнопки написать относительные даты, например
-       https://ecobr.ru/booking?dfrom=fri&dto=sun&adults=2&promoCode=BUDNI20
-       Скрипт подменит fri/sun на реальные даты в момент клика.
-
-     ВАРИАНТ Б (для наших компонентов):
-       <a data-bb-book data-from="fri" data-to="sun" data-adults="2"
-          data-promo="BUDNI20" data-offer="budni-2026">Забронировать</a>
-     --------------------------------------------------------------------- */
-  function rewriteBookingHref(href) {
-    var mf = href.match(/[?&]dfrom=([^&#]*)/), mt = href.match(/[?&]dto=([^&#]*)/);
-    var from = mf ? BB.resolveDate(decodeURIComponent(mf[1])) : '';
-    var to   = mt ? BB.resolveDate(decodeURIComponent(mt[1]), from) : '';
-    if (mf) href = href.replace(/([?&]dfrom=)[^&#]*/, '$1' + encodeURIComponent(from));
-    if (mt) href = href.replace(/([?&]dto=)[^&#]*/,   '$1' + encodeURIComponent(to));
-    return href;
+  function target() {
+    return Math.round(Math.min(46, Math.max(12, W / 34)) * cfg.intensity);
+  }
+  function fillLeaves() {
+    var n = target();
+    while (leaves.length < n) leaves.push(make(true));
+    if (leaves.length > n) leaves.length = n;
+  }
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    fillLeaves();
   }
 
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest ? e.target.closest('a,[data-bb-book]') : null;
-    if (!a) return;
+  function frame(t) {
+    raf = requestAnimationFrame(frame);
+    var dt = Math.min((t - last) / 1000, 0.05); last = t;
+    ctx.clearRect(0, 0, W, H);
+    var wind = cfg.wind * (0.7 + 0.5 * Math.sin(t * 0.00012));
 
-    /* Б: собираем ссылку из data-атрибутов */
-    if (a.hasAttribute('data-bb-book')) {
-      var url = BB.bookUrl({
-        from: a.getAttribute('data-from'),
-        to: a.getAttribute('data-to'),
-        adults: a.getAttribute('data-adults'),
-        children: a.getAttribute('data-children'),
-        promo: a.getAttribute('data-promo'),
-        rooms: a.getAttribute('data-rooms')
+    for (var i = 0; i < leaves.length; i++) {
+      var p = leaves[i];
+      p.sway += p.swaySpd * dt;
+      p.rot += p.spin * dt;
+      p.flip += p.flipSpd * dt;
+      p.y += (16 + 54 * p.z) * dt;
+      p.x += (Math.cos(p.sway) * p.swayAmp + wind * 34 * p.z) * dt;
+
+      if (p.y - p.size > H) { leaves[i] = make(false); continue; }
+      if (p.x < -p.size * 2) p.x = W + p.size;
+      if (p.x > W + p.size * 2) p.x = -p.size;
+
+      var squash = Math.max(0.12, Math.abs(Math.cos(p.flip)));
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.scale(p.size * squash, p.size);
+      ctx.globalAlpha = p.alpha;
+      ctx.fillStyle = p.color;
+      p.shape(ctx);
+      ctx.fill();
+      ctx.globalAlpha = p.alpha * 0.5;
+      ctx.strokeStyle = 'rgba(60,40,10,.85)';
+      ctx.lineWidth = 0.035;
+      ctx.beginPath();
+      ctx.moveTo(0, 0.56); ctx.lineTo(0, -0.34);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  function start() {
+    if (running || reduce.matches || window.innerWidth < cfg.minWidth) return;
+    running = true; last = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function stop() {
+    running = false;
+    if (raf) cancelAnimationFrame(raf);
+    raf = null;
+    if (W && H) ctx.clearRect(0, 0, W, H);
+  }
+
+  window.addEventListener('resize', resize, { passive: true });
+  document.addEventListener('visibilitychange', function () {
+    document.hidden ? stop() : start();
+  });
+  if (reduce.addEventListener) {
+    reduce.addEventListener('change', function () { reduce.matches ? stop() : start(); });
+  }
+  resize();
+  start();
+
+  /* ---------- 3. веточка с листьями (SVG, рисуется кодом) ---------- */
+  function sprigSVG() {
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 200 140');
+    svg.setAttribute('fill', 'currentColor');
+    svg.setAttribute('aria-hidden', 'true');
+
+    var stem = document.createElementNS(NS, 'path');
+    stem.setAttribute('d', 'M2 6 C 48 22, 92 48, 132 92 C 146 108, 160 122, 178 132');
+    stem.setAttribute('stroke', 'currentColor');
+    stem.setAttribute('stroke-width', '2.4');
+    stem.setAttribute('fill', 'none');
+    stem.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(stem);
+
+    for (var i = 0; i < 11; i++) {
+      var t = 0.10 + i * 0.082;
+      var x = 2 + 176 * t + 14 * Math.sin(t * 3.1);
+      var y = 6 + 126 * Math.pow(t, 1.35);
+      var side = i % 2 ? 1 : -1;
+      var g = document.createElementNS(NS, 'g');
+      g.setAttribute('transform',
+        'translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ') rotate(' +
+        (side * (34 + i * 6)).toFixed(0) + ') scale(' +
+        (0.9 + 0.35 * Math.sin(i * 1.7)).toFixed(2) + ')');
+      var leaf = document.createElementNS(NS, 'path');
+      leaf.setAttribute('d', 'M0 0 C 10 -9, 26 -9, 34 0 C 26 9, 10 9, 0 0 Z');
+      g.appendChild(leaf);
+      svg.appendChild(g);
+    }
+    return svg;
+  }
+
+  function addSprig(rec, pos) {
+    if (!rec) return;
+    rec.classList.add('au-corner');
+    var s = sprigSVG();
+    s.setAttribute('class', 'au-sprig');
+    s.setAttribute('data-pos', pos);
+    rec.insertBefore(s, rec.firstChild);
+  }
+
+  var POS = ['tr', 'bl', 'br', 'tl'];
+
+  function applyCorners() {
+    if (Array.isArray(cfg.corners)) {
+      cfg.corners.forEach(function (rid, i) {
+        addSprig(document.getElementById(id(rid)), POS[i % POS.length]);
       });
-      BB.goal('offer_book_click', { offer: a.getAttribute('data-offer') || 'unknown' });
-      if (a.tagName === 'A') { a.href = url; return; }
-      e.preventDefault(); location.href = url; return;
+      return;
     }
+    if (cfg.corners !== 'auto') return;
 
-    /* А: обычная ссылка на /booking с относительными датами */
-    var href = a.getAttribute('href') || '';
-    if (href.indexOf('/booking') > -1 && /[?&](dfrom|dto)=/.test(href)) {
-      a.href = rewriteBookingHref(href);
-      BB.goal('offer_book_click', { offer: a.getAttribute('data-offer') || 'link' });
-    }
-  }, true);
-})();
-
-
-(function () {
-  'use strict';
-  var BB = window.BB || {};
-  if (!BB.num) return;
-
-  /* =========================================================================
-     НАСТРОЙКА ПОЛОСЫ · РЕДАКТИРУЕТ КОНТЕНТ-МЕНЕДЖЕР
-
-     id      — короткий код кампании. МЕНЯЙТЕ при каждой новой акции:
-               иначе гость, закрывший прошлую полосу, не увидит новую.
-     text    — одна строка, без воды. Хорошо: «−20% на будни в ноябре, промокод BUDNI20»
-     cta     — надпись на кнопке
-     href    — куда ведёт. Лучше сразу в бронирование (см. блок 3):
-               '/booking?dfrom=mon&dto=thu&adults=2&promoCode=BUDNI20'
-               или на посадочную '/november'
-     from/until — окно показа, ГГГГ-ММ-ДД, включительно
-     ========================================================================= */
-  var ANNOUNCE = {
-    eco: {
-      enabled: true,
-      id: "eco-2026-09-osen",
-      text: "Осенние каникулы −20%: раннее бронирование до 15 сентября",
-      cta: "Забронировать",
-      href: "/booking?dfrom=2026-10-23&dto=2026-10-26&adults=2&children=2",
-      from:  '2020-01-01',
-      until: '2035-12-31'
-    },
-    bp: {
-      enabled: true,
-      id:    'bp-2026-11-sert',
-      text:  'Подарочные сертификаты 10 / 20 / 30 тыс. — успеть до Нового года',
-      cta:   'Купить сертификат',
-      href:  '/sertifikaty',
-      from:  '2020-01-01',
-      until: '2035-12-31'
-    }
-  };
-
-  var HEADERS = {
-    eco: ['rec1729326481', 'rec1730117851'],
-    bp:  ['rec1185050691']
-  };
-  /* ======================= КОНЕЦ РЕДАКТИРУЕМОЙ ЧАСТИ ======================= */
-
-  /* ?announce=preview — посмотреть полосу, не включая её для гостей.
-     Игнорирует enabled, окно дат и то, что вы её уже закрывали. */
-  var preview = BB.param('announce') === 'preview';
-
-  var cfg = ANNOUNCE[BB.site];
-  if (!cfg) return;
-  if (!preview) {
-    if (!cfg.enabled) return;
-    if (location.pathname.indexOf('/booking') === 0) return; /* не мешаем в оплате */
-
-    var today = BB.today || BB.todayNum();
-    if (cfg.from  && today < BB.num(cfg.from))  return;
-    if (cfg.until && today > BB.num(cfg.until)) return;
-
-    try {
-      var until = localStorage.getItem('bb_ab_' + cfg.id);
-      if (until && +until > Date.now()) return;
-    } catch (e) {}
-  }
-
-  /* Стартовая оценка высоты — чтобы не было прыжка до первого замера.
-     Реальная высота измеряется после отрисовки: на телефоне длинный текст
-     переносится на две-три строки, и зашитая константа увела бы шапку под полосу. */
-  var HEIGHT_DESKTOP = 44, HEIGHT_MOBILE = 52;
-
-  var css =
-    ':root{--bb-ab-h:' + HEIGHT_DESKTOP + 'px}' +
-    '@media(max-width:639px){:root{--bb-ab-h:' + HEIGHT_MOBILE + 'px}}' +
-    'body{padding-top:var(--bb-ab-h)}' +
-    HEADERS[BB.site].map(function (r) {
-      return '#' + r + ' .t396__artboard{top:var(--bb-ab-h) !important}';
-    }).join('') +
-    '.bb-ab{position:fixed;top:0;left:0;right:0;z-index:9990;display:flex;align-items:center;' +
-      'gap:14px;min-height:var(--bb-ab-h);padding:6px 44px 6px 16px;box-sizing:border-box;' +
-      'background:var(--bb-accent);color:var(--bb-accent-ink);font:500 14px/1.3 var(--bb-font);' +
-      'justify-content:center;text-align:center}' +
-    '.bb-ab__t{max-width:820px}' +
-    '.bb-ab__b{flex:none;background:var(--bb-accent-ink);color:var(--bb-accent);' +
-      'text-decoration:none;padding:7px 16px;border-radius:999px;font-weight:600;white-space:nowrap}' +
-    '.bb-ab__x{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;' +
-      'border:0;background:transparent;color:inherit;font-size:20px;line-height:1;cursor:pointer;opacity:.65}' +
-    '.bb-ab__x:hover{opacity:1}' +
-    '@media(max-width:639px){.bb-ab{flex-direction:column;gap:6px;padding:8px 40px 8px 12px;' +
-      'font-size:13px}.bb-ab__b{padding:5px 14px;font-size:13px}}';
-
-  var st = document.createElement('style');
-  st.setAttribute('data-bb', 'announce');
-  st.appendChild(document.createTextNode(css));
-  (document.head || document.documentElement).appendChild(st);
-
-  function mount() {
-    if (document.querySelector('.bb-ab')) return;
-    var bar = document.createElement('div');
-    bar.className = 'bb-ab';
-    bar.setAttribute('role', 'region');
-    bar.setAttribute('aria-label', 'Специальное предложение');
-
-    var t = document.createElement('span');
-    t.className = 'bb-ab__t';
-    t.textContent = cfg.text;
-
-    var a = document.createElement('a');
-    a.className = 'bb-ab__b';
-    a.href = cfg.href;
-    a.textContent = cfg.cta;
-    a.setAttribute('data-offer', cfg.id);
-    a.addEventListener('click', function () { BB.goal && BB.goal('announce_click', { id: cfg.id }); });
-
-    var x = document.createElement('button');
-    x.className = 'bb-ab__x';
-    x.type = 'button';
-    x.setAttribute('aria-label', 'Закрыть');
-    x.innerHTML = '&times;';
-    x.addEventListener('click', function () {
-      bar.remove();
-      document.documentElement.style.setProperty('--bb-ab-h', '0px');
-      try { localStorage.setItem('bb_ab_' + cfg.id, Date.now() + 7 * 864e5); } catch (e) {}
-      BB.goal && BB.goal('announce_close', { id: cfg.id });
+    var recs = [].slice.call(document.querySelectorAll('.t-rec')).filter(function (r) {
+      if (cfg.cornersSkip.indexOf(r.id) > -1) return false;
+      if (r.querySelector('.t-menu__nav, .t-menusub, .t-popup, .t-popup__container')) return false;
+      if (r.classList.contains('t-records')) return false;
+      return r.offsetHeight > 260;
     });
-
-    bar.appendChild(t); bar.appendChild(a); bar.appendChild(x);
-    document.body.insertBefore(bar, document.body.firstChild);
-
-    /* Подгоняем отступ под фактическую высоту полосы. Иначе на телефоне,
-       где текст переносится, шапка сайта окажется под полосой. */
-    function syncHeight() {
-      var h = bar.offsetHeight;
-      if (h) document.documentElement.style.setProperty('--bb-ab-h', h + 'px');
-    }
-    syncHeight();
-    window.addEventListener('resize', syncHeight);
-    window.addEventListener('orientationchange', syncHeight);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncHeight);
-    setTimeout(syncHeight, 400);   /* запасной замер: шрифты Tilda грузятся позже */
-
-    BB.goal && BB.goal('announce_show', { id: cfg.id });
+    var k = 0;
+    recs.forEach(function (r, i) {
+      if (i % 2) return;              // через один блок — чтобы не пестрило
+      addSprig(r, POS[k++ % POS.length]);
+    });
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
-  else mount();
-})();
+  /* ---------- 4. веточки-разделители ---------- */
+  function branchSVG(n) {
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 600 40');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('fill', 'currentColor');
 
-window.BB_AUTUMN_ASSETS = (function () {
-  var me = document.currentScript && document.currentScript.src;
-  var base = me ? me.replace(/sites\/[^/]*$/, "assets/") : "demo/assets/";
-  var L = ["wleaf1","wleaf3","wleaf5","wleaf6","wleaf7","wleaf9","wleaf10","wleaf11"];
-  var url = function (n) { return base + n + ".webp"; };
-  return { leaves: L.map(url), branch: base + "branch.webp" };
+    var stem = document.createElementNS(NS, 'path');
+    stem.setAttribute('d', 'M40 20 C 180 6, 420 34, 560 20');
+    stem.setAttribute('stroke', 'currentColor');
+    stem.setAttribute('stroke-width', '1.4');
+    stem.setAttribute('fill', 'none');
+    stem.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(stem);
+
+    for (var i = 0; i < n; i++) {
+      var t = (i + 0.5) / n;
+      var x = 40 + 520 * t;
+      var y = 20 - 14 * Math.sin(Math.PI * t) * (t < 0.5 ? 1 : -1) * 0.55;
+      var g = document.createElementNS(NS, 'g');
+      g.setAttribute('transform', 'translate(' + x.toFixed(1) + ',' + y.toFixed(1) +
+        ') rotate(' + ((i % 2 ? -1 : 1) * (30 + 18 * Math.sin(i))).toFixed(0) + ') scale(0.62)');
+      var leaf = document.createElementNS(NS, 'path');
+      leaf.setAttribute('d', 'M0 0 C 9 -8, 24 -8, 32 0 C 24 8, 9 8, 0 0 Z');
+      g.appendChild(leaf);
+      svg.appendChild(g);
+    }
+    return svg;
+  }
+
+  function applyBranches() {
+    // уже размеченные вручную
+    [].slice.call(document.querySelectorAll('.au-branch:empty')).forEach(function (el) {
+      el.appendChild(branchSVG(parseInt(el.getAttribute('data-leaves') || '8', 10)));
+    });
+    // после указанных записей Тильды
+    cfg.branchAfter.forEach(function (rid) {
+      var rec = document.getElementById(id(rid));
+      if (!rec) return;
+      var d = document.createElement('div');
+      d.className = 'au-branch';
+      d.appendChild(branchSVG(9));
+      rec.parentNode.insertBefore(d, rec.nextSibling);
+    });
+  }
+
+  /* ---------- 5. появление при скролле ---------- */
+  function applyReveal() {
+    cfg.reveal.forEach(function (rid) {
+      var rec = document.getElementById(id(rid));
+      if (rec) rec.classList.add('au-reveal');
+    });
+    var targets = document.querySelectorAll('.au-reveal');
+    if (!targets.length) return;
+    if (!('IntersectionObserver' in window) || reduce.matches) {
+      [].forEach.call(targets, function (el) { el.classList.add('au-in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('au-in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    [].forEach.call(targets, function (el) { io.observe(el); });
+  }
+
+  /* ---------- запуск после отрисовки блоков Тильды ---------- */
+  function decorate() {
+    applyCorners();
+    applyBranches();
+    applyReveal();
+  }
+  if (document.readyState === 'complete') {
+    setTimeout(decorate, 300);
+  } else {
+    window.addEventListener('load', function () { setTimeout(decorate, 300); });
+  }
+
+  window.autumnLayer = {
+    start: start,
+    stop: stop,
+    decorate: decorate,
+    setIntensity: function (v) { cfg.intensity = v; fillLeaves(); }
+  };
 })();
 
 (function () {
-  'use strict';
-  var BB = window.BB || {};
-  if (!BB.num) { console.warn('BB: блок 1 не подключён — осенние элементы выключены'); return; }
-
-  /* =========================================================================
-     ССЫЛКИ НА КАРТИНКИ. Единственное, что заполняется руками.
-     ========================================================================= */
-  var ASSETS = window.BB_AUTUMN_ASSETS || {
-    /* Акварельные листья из присланных референсов, вырезаны с прозрачностью */
-    leaves: ['wleaf1', 'wleaf3', 'wleaf5', 'wleaf6',
-             'wleaf7', 'wleaf9', 'wleaf10', 'wleaf11']
-      .map(function (n) { return 'demo/assets/' + n + '.webp'; }),
-    /* Ветка с горящими фонарями — из того же набора референсов */
-    branch: 'demo/assets/branch.webp'
-  };
-
-  /* ========================= ТЕКУЩАЯ ФАЗА ================================= */
-  var LEVEL = 1;
-  /* ======================================================================== */
-
-  var HEADERS = {
-    eco: ['rec1729326481', 'rec1730117851'],
-    bp:  ['rec1185050691']
-  };
-
-  /* Раскладка снята с макета: листья по краям, центр свободен под заголовок.
-     x, y — проценты от первого экрана, r — поворот, s — размер, a — прозрачность. */
-  var LAYOUT = [
-    { x: 5,  y: 12, r: -18, s: 66, a: 0.88 },
-    { x: 12, y: 30, r: 22,  s: 52, a: 0.75 },
-    { x: 4,  y: 52, r: -34, s: 60, a: 0.82 },
-    { x: 13, y: 70, r: 12,  s: 48, a: 0.72 },
-    { x: 22, y: 14, r: 40,  s: 42, a: 0.62 },
-    { x: 95, y: 14, r: 16,  s: 62, a: 0.85 },
-    { x: 88, y: 32, r: -22, s: 50, a: 0.75 },
-    { x: 96, y: 54, r: 30,  s: 64, a: 0.82 },
-    { x: 87, y: 72, r: -12, s: 46, a: 0.72 },
-    { x: 78, y: 12, r: -40, s: 40, a: 0.60 }
-  ];
-
-  /* Ветка с фонарями свисает из верхнего левого угла первого экрана */
-  var BRANCH = { w: 460, a: 0.95 };
-
-  var LEVELS = {
-    /* --- ФАЗА 1 · ЛЁГКАЯ ОСЕНЬ (сентябрь) --------------------------------- */
-    1: { leaves: LAYOUT, branch: BRANCH },
-
-    /* --- ФАЗА 2 · ОСЕНЬ ОСЕНЬ (конец сентября) ----------------------------
-       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Больше листьев и крупнее, осенние фотографии
-       на обложках, сезонные подборки домов через onlyrooms. */
-    2: null,
-
-    /* --- ФАЗА 3 · ОСЕНЬ ПЕРЕХОДИТ В ЗИМУ (начало ноября) ------------------
-       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Последние листья, холодная примесь.
-       Стыкуется с сезоном newyear, который включается 15 ноября. */
-    3: null
-  };
-
-  /* --- Предпросмотр и выключатель ---------------------------------------- */
-  var q = BB.param('decor');
-  if (q === 'off') return;
-  if (q === '1' || q === '2' || q === '3') LEVEL = +q;
-  if (BB.season !== 'autumn' && !q) return;
-
-  var cfg = LEVELS[LEVEL];
-  if (!cfg) {
-    console.info('BB: фаза ' + LEVEL + ' ещё не наполнена — осенние элементы не рисуются');
-    return;
-  }
-
-  var css =
-    /* Слой лежит внутри первого экрана и уезжает вместе с ним при прокрутке —
-       как на макете. Кликам не мешает. */
-    '.bb-fall{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:3}' +
-    '.bb-fall i{position:absolute;display:block;background-repeat:no-repeat;' +
-      'background-size:contain;background-position:center}' +
-    /* На узком экране правые листья убираем: полей нет, они лезут в текст */
-    '@media(max-width:767px){.bb-fall i[data-side="r"]{display:none}}';
-
-  var st = document.createElement('style');
-  st.setAttribute('data-bb', 'autumn-decor');
-  st.appendChild(document.createTextNode(css));
-  (document.head || document.documentElement).appendChild(st);
-
+  var HTML = "<!-- ТЁПЛАЯ ОСЕНЬ — блок с акциями для ecobr.ru\n     Тильда → Библиотека → Другое → T123 (HTML-код) → вставить целиком.\n\n     КУДА СТАВИТЬ: на главной, на место блока с заголовком\n     «Ради нас берут выходной!» (это запись rec1694735441).\n     Сам заголовок в том блоке меняется в редакторе Тильды\n     на «Тёплая осень» — это делается мышкой, код для этого не нужен.\n\n     Ничего чужого не переопределяет: все стили на классах to-*.\n     Шрифты и цвета наследуются от сайта, поэтому блок выглядит родным.\n\n     ССЫЛКИ КНОПОК ведут прямо в модуль бронирования с подставленными\n     датами и промокодом — проверено на живом модуле Bnovo.\n     -->\n<div class=\"to-wrap\">\n  <!-- Заголовка здесь нет намеренно: его роль играет заголовок блока\n       сверху, который в Тильде меняется на «Тёплая осень». Иначе\n       на странице оказываются два одинаковых заголовка подряд. -->\n  <p class=\"to-lead\">\n    Банные ритуалы с самоваром, ароматный чан и раннее бронирование\n    на осенние каникулы.\n  </p>\n\n  <div class=\"to-grid\">\n\n    <!-- 1. Банный отдых с самоваром: две программы внутри -->\n    <article class=\"to-card to-card--wide\">\n      <h3 class=\"to-t\">Банный отдых с самоваром</h3>\n\n      <div class=\"to-sub\">\n        <div class=\"to-sub__head\">\n          <span class=\"to-sub__name\">В берёзовом пару</span>\n          <span class=\"to-price\">8 000 ₽<small>Панорама — 12 000 ₽</small></span>\n        </div>\n        <ul class=\"to-list\">\n          <li>Баня и банные шапки</li>\n          <li>Самовар и алтайский травяной чай</li>\n          <li>Мёд, сушки или орехи — на выбор</li>\n          <li>Вода 0,5 л на каждого гостя</li>\n        </ul>\n      </div>\n\n      <div class=\"to-sub\">\n        <div class=\"to-sub__head\">\n          <span class=\"to-sub__name\">Баня по-русски</span>\n          <span class=\"to-price\">15 000 ₽</span>\n        </div>\n        <ul class=\"to-list\">\n          <li>Баня, берёзовые веники, банные шапки</li>\n          <li>Самовар и алтайский травяной чай</li>\n          <li>Мёд, сушки или орехи — на выбор</li>\n          <li>Вода 0,5 л на каждого гостя</li>\n          <li>Холодный чан</li>\n        </ul>\n      </div>\n\n      <a class=\"to-btn\" href=\"https://ecobr.ru/booking?dfrom=fri&amp;dto=sun&amp;adults=2&amp;scroll_to_rooms=1\">\n        Выбрать даты и забронировать\n      </a>\n    </article>\n\n    <!-- 2. Ароматная осень -->\n    <article class=\"to-card\">\n      <h3 class=\"to-t\">Ароматная осень</h3>\n      <p class=\"to-d\">Ароматное наполнение в чан — в подарок.</p>\n      <ul class=\"to-list\">\n        <li>Действует на брони, заезд которых попадает в период акции</li>\n      </ul>\n      <div class=\"to-promo\" data-code=\"ОСЕНЬ2026\">\n        <span>ОСЕНЬ2026</span><small>нажмите, чтобы скопировать</small>\n      </div>\n      <a class=\"to-btn\" href=\"https://ecobr.ru/booking?dfrom=fri&amp;dto=sun&amp;adults=2&amp;promoCode=%D0%9E%D0%A1%D0%95%D0%9D%D0%AC2026&amp;scroll_to_rooms=1\">\n        Забронировать с промокодом\n      </a>\n    </article>\n\n    <!-- 3. Осенние каникулы -->\n    <article class=\"to-card\">\n      <h3 class=\"to-t\">Осенние каникулы в Берёзовой Роще</h3>\n      <p class=\"to-d\">Раннее бронирование пакета «Осенние каникулы».</p>\n      <p class=\"to-big\">Скидка 10%</p>\n      <ul class=\"to-list\">\n        <li>При бронировании на официальном сайте до 15.09.2026</li>\n      </ul>\n      <p class=\"to-fine\">\n        При бронировании пакета «Осенние каникулы» дарим скидку 20% —\n        при заключении договора и внесении предоплаты до 15 сентября.\n        Предложение действует до 15 сентября.\n        Период каникул: с 23 октября по 4 ноября 2026 года.\n      </p>\n      <a class=\"to-btn\" href=\"https://ecobr.ru/booking?dfrom=2026-10-23&amp;dto=2026-10-26&amp;adults=2&amp;children=2&amp;scroll_to_rooms=1\">\n        Забронировать каникулы\n      </a>\n    </article>\n\n  </div>\n</div>\n\n<style>\n/* Блок наследует шрифты сайта, поэтому смотрится родным.\n   Собственные цвета — только акцент кнопки и тонкие линии. */\n.to-wrap{\n  --to-accent:#2ed8a3;\n  --to-ink:#1a1b19;\n  --to-muted:#6c7370;\n  --to-line:#e4e7e5;\n  --to-card:#ffffff;\n  max-width:1200px;margin:0 auto;padding:0 20px;\n  font:16px/1.55 inherit;color:var(--to-ink);box-sizing:border-box;\n}\n.to-wrap *{box-sizing:border-box}\n\n.to-lead{color:var(--to-muted);margin:0 0 26px;max-width:62ch;font-size:16.5px}\n\n.to-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}\n.to-card--wide{grid-row:span 2}\n\n.to-card{\n  background:var(--to-card);border:1px solid var(--to-line);border-radius:16px;\n  padding:26px 26px 24px;display:flex;flex-direction:column;height:100%;\n}\n.to-t{font:inherit;font-weight:600;font-size:20px;line-height:1.25;margin:0 0 8px}\n.to-d{color:var(--to-muted);margin:0 0 14px}\n\n.to-sub{padding:18px 0;border-top:1px solid var(--to-line)}\n.to-sub:first-of-type{border-top:0;padding-top:4px}\n.to-sub__head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:10px}\n.to-sub__name{font-weight:600;font-size:17px}\n.to-price{\n  margin-left:auto;font-weight:700;font-size:22px;white-space:nowrap;\n  display:flex;flex-direction:column;align-items:flex-end;line-height:1.15;\n}\n.to-price small{font-weight:400;font-size:12.5px;color:var(--to-muted);white-space:nowrap}\n\n.to-big{font-weight:700;font-size:30px;margin:2px 0 10px}\n\n.to-list{list-style:none;margin:0 0 16px;padding:0}\n.to-list li{position:relative;padding-left:20px;margin-bottom:7px;font-size:15px}\n.to-list li::before{\n  content:\"\";position:absolute;left:2px;top:9px;width:7px;height:7px;\n  border-radius:50%;background:var(--to-accent);\n}\n\n.to-promo{\n  display:inline-flex;align-items:center;gap:10px;align-self:flex-start;\n  border:1px dashed var(--to-accent);border-radius:10px;padding:9px 14px;\n  margin:0 0 16px;cursor:pointer;font-weight:600;\n}\n.to-promo small{font-weight:400;font-size:12.5px;color:var(--to-muted)}\n.to-promo.is-copied{border-style:solid;background:#f0faf6}\n\n.to-fine{font-size:13px;line-height:1.5;color:var(--to-muted);margin:0 0 16px}\n\n.to-btn{\n  margin-top:auto;display:block;text-align:center;text-decoration:none;\n  background:var(--to-accent);color:#0d2b22;font-weight:700;font-size:15px;\n  padding:15px 18px;border-radius:12px;letter-spacing:.01em;\n}\n.to-btn:hover{filter:brightness(.94)}\n\n@media(max-width:1023px){\n  .to-grid{grid-template-columns:1fr 1fr}\n  .to-card--wide{grid-column:1 / -1;grid-row:auto}\n}\n@media(max-width:639px){\n  .to-wrap{padding:0 14px}\n  .to-grid{grid-template-columns:1fr;gap:14px}\n  .to-card{padding:22px 20px}\n  .to-price{margin-left:0;align-items:flex-start}\n  .to-sub__head{gap:6px}\n}\n</style>\n\n<script>\n/* Промокод копируется по клику — гость не переписывает его руками\n   и не ошибается на шаге бронирования. */\n(function () {\n  var el = document.querySelector('.to-promo');\n  if (!el) return;\n  el.addEventListener('click', function () {\n    var code = el.getAttribute('data-code');\n    var done = function () {\n      el.classList.add('is-copied');\n      el.querySelector('small').textContent = 'скопировано';\n    };\n    if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, done);\n    else done();\n  });\n})();\n</script>\n";
   function mount() {
-    if (document.querySelector('.bb-fall')) return;
+    if (document.getElementById("to-host")) return;
+    var target = document.getElementById("rec1694735441");
+    if (!target || !target.parentNode) return;
 
-    /* Первый экран — первый достаточно высокий блок, который не шапка. */
-    var heads = HEADERS[BB.site] || [];
-    var hero = null, recs = document.querySelectorAll('[id^="rec"]');
-    for (var k = 0; k < recs.length; k++) {
-      if (heads.indexOf(recs[k].id) !== -1) continue;
-      if (recs[k].getBoundingClientRect().height > 320) { hero = recs[k]; break; }
-    }
-    if (!hero) return;
+    var h = target.querySelector('[field="tn_text_1765543910875"]');
+    if (h) h.textContent = "Тёплая осень";
 
-    if (getComputedStyle(hero).position === 'static') hero.style.position = 'relative';
+    var host = document.createElement("div");
+    host.id = "to-host";
+    host.style.cssText = "padding:10px 0 56px";
+    host.innerHTML = HTML;
+    target.parentNode.insertBefore(host, target.nextSibling);
 
-    var layer = document.createElement('div');
-    layer.className = 'bb-fall';
-
-    if (cfg.branch && ASSETS.branch) {
-      var br = document.createElement('i');
-      br.className = 'bb-branch';
-      br.style.backgroundImage = 'url("' + ASSETS.branch + '")';
-      br.style.left = '0';
-      br.style.top = '0';
-      br.style.width = cfg.branch.w + 'px';
-      br.style.height = Math.round(cfg.branch.w * 0.95) + 'px';
-      br.style.opacity = cfg.branch.a;
-      layer.appendChild(br);
-    }
-
-    cfg.leaves.forEach(function (L, i) {
-      var el = document.createElement('i');
-      el.style.backgroundImage = 'url("' + ASSETS.leaves[i % ASSETS.leaves.length] + '")';
-      el.style.left = L.x + '%';
-      el.style.top = L.y + '%';
-      el.style.width = L.s + 'px';
-      el.style.height = L.s + 'px';
-      el.style.marginLeft = (-L.s / 2) + 'px';
-      el.style.marginTop = (-L.s / 2) + 'px';
-      el.style.opacity = L.a;
-      el.style.transform = 'rotate(' + L.r + 'deg)';
-      el.setAttribute('data-side', L.x > 50 ? 'r' : 'l');
-      layer.appendChild(el);
+    host.querySelectorAll("script").forEach(function (old) {
+      var neo = document.createElement("script");
+      neo.text = old.textContent;
+      old.parentNode.replaceChild(neo, old);
     });
-
-    hero.appendChild(layer);
   }
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
   else mount();
 })();

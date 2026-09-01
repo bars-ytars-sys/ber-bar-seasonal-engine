@@ -4,328 +4,73 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Лёгкая осень — Роща и Поля</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&display=swap">
+<title>Берёзовая роща — осень 2026</title>
 <style>
   :root{
-    --bar:#1c231f;
-    --bar-2:#28312b;
-    --ink:#eef1ec;
-    --dim:#98a49c;
-    --line:#38423b;
-    --on:#d8b978;
-    --on-ink:#221a0c;
-    --f:'Golos Text','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+    --bar:#14171a;
+    --line:#2b3036;
+    --dim:#8d979f;
+    --eco:#2ed8a3;   /* мятный акцент Берёзовой рощи */
+    --bp:#c07a41;    /* коричневый акцент Барских полей */
   }
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;background:var(--bar);color:var(--ink);font:15px/1.5 var(--f);
-       display:flex;flex-direction:column;overflow:hidden}
-
-  header{flex:none;background:var(--bar);border-bottom:1px solid var(--line)}
-  .row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 16px}
-
-  .brand{font-weight:600;letter-spacing:.01em;margin-right:4px;white-space:nowrap}
-  .brand small{display:block;font-weight:400;font-size:11.5px;color:var(--dim);letter-spacing:.02em}
-
-  .grp{display:flex;align-items:center;gap:8px}
-  .lbl{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
-  .seg{display:flex;background:var(--bar-2);border:1px solid var(--line);border-radius:9px;padding:2px}
-  .seg button{appearance:none;border:0;background:transparent;color:var(--dim);cursor:pointer;
-    font:500 13.5px/1 var(--f);padding:8px 14px;border-radius:7px;white-space:nowrap}
-  .seg button:hover{color:var(--ink)}
-  .seg button[aria-pressed="true"]{background:var(--on);color:var(--on-ink);font-weight:600}
-  .seg button:focus-visible{outline:2px solid var(--on);outline-offset:2px}
-
-  .cost{font-size:12.5px;color:var(--dim);white-space:nowrap}
-  .cost b{color:var(--ink);font-weight:600}
-
-  .links{margin-left:auto;display:flex;gap:14px;font-size:13px}
-  .links a{color:var(--dim);text-decoration:none;border-bottom:1px solid transparent;white-space:nowrap}
-  .links a:hover{color:var(--ink);border-bottom-color:var(--on)}
-
-  .note{padding:0 16px 10px;font-size:12.5px;color:var(--dim);max-width:none}
-  .note b{color:var(--ink);font-weight:500}
-  kbd{background:var(--bar-2);border:1px solid var(--line);border-bottom-width:2px;
-      border-radius:5px;padding:1px 6px;font:12px var(--f);color:var(--ink)}
-
-  .stage{flex:1;position:relative;background:#fff;min-height:0}
-  iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
-  .load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-    background:var(--bar);color:var(--dim);font-size:14px;gap:10px;z-index:2}
-  .load[hidden]{display:none}
-  .spin{width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--on);
-        border-radius:50%;animation:sp .8s linear infinite}
-  @keyframes sp{to{transform:rotate(360deg)}}
-  @media (prefers-reduced-motion:reduce){.spin{animation:none}}
-
-  /* Панель скрыта: остаётся только сайт и маленькая кнопка возврата */
-  body.is-bare header{display:none}
-  .hint{position:fixed;left:12px;bottom:12px;z-index:50;
-    background:rgba(28,35,31,.82);color:var(--ink);border:1px solid var(--line);
-    border-radius:999px;padding:7px 14px;font:500 12.5px/1 var(--f);cursor:pointer;
-    backdrop-filter:blur(4px);opacity:.55;transition:opacity .2s}
-  .hint:hover{opacity:1}
-  .hint[hidden]{display:none}
-
-  @media(max-width:760px){
-    .row{gap:12px;padding:9px 12px}
-    .links{width:100%;margin-left:0;order:9}
-    .brand small{display:none}
-    .note{padding:0 12px 9px}
+  body{
+    margin:0;background:var(--bar);
+    font:14px/1.4 -apple-system,'Segoe UI',system-ui,Arial,sans-serif;
+    display:flex;flex-direction:column;overflow:hidden;
   }
+  nav{flex:none;display:flex;gap:8px;padding:8px}
+  nav a{
+    flex:1;text-align:center;padding:8px 14px;border-radius:5px;
+    border:1px solid var(--line);color:var(--dim);
+    text-decoration:none;white-space:nowrap;
+  }
+  nav a:hover{color:#eceff2}
+  /* Активная вкладка красится акцентом своего сайта */
+  nav a[aria-current="page"]{color:#0f1214;font-weight:600;border-color:transparent}
+  nav a[data-site="bereza"][aria-current="page"]{background:var(--eco)}
+  nav a[data-site="barskie"][aria-current="page"]{background:var(--bp);color:#fff}
+  iframe{flex:1;width:100%;border:0;background:#fff}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="row">
-    <div class="brand">Лёгкая осень<small>сезонный слой поверх живых сайтов</small></div>
+<nav>
+  <a href="#bereza"  data-site="bereza">Берёзовая роща</a>
+  <a href="#barskie" data-site="barskie">Барские поля</a>
+</nav>
 
-    <div class="grp">
-      <span class="lbl">База</span>
-      <div class="seg" id="siteSeg">
-        <button type="button" data-site="eco" aria-pressed="true">Берёзовая роща</button>
-        <button type="button" data-site="bp" aria-pressed="false">Барские поля</button>
-      </div>
-    </div>
-
-    <div class="grp">
-      <span class="lbl">Оформление</span>
-      <div class="seg" id="seasonSeg">
-        <button type="button" data-on="0" aria-pressed="true">Как сейчас</button>
-        <button type="button" data-on="1" aria-pressed="false">Лёгкая осень</button>
-      </div>
-    </div>
-
-    <div class="cost" id="cost">&nbsp;</div>
-
-    <div class="links">
-      <a href="special.html">Акции осени</a>
-      <a href="stend.html">Стенд движка</a>
-      <a href="playbook.html">Playbook</a>
-      <a href="audit-konkurentov.html">Аудит конкурентов</a>
-      <a href="https://github.com/bars-ytars-sys/ber-bar-seasonal-engine" target="_blank" rel="noopener">Код</a>
-    </div>
-  </div>
-
-  <p class="note">
-    Это <b>настоящие страницы</b> ecobr.ru и barskie-polya.ru, а не макет. Осень включается слоем CSS
-    поверх — вёрстка, тексты и блоки не трогаются. Прокрутка при переключении сохраняется,
-    так что можно щёлкать туда-обратно и сравнивать. <kbd>пробел</kbd> — переключить оформление,
-    <kbd>H</kbd> — убрать эту панель и смотреть сайт целиком.
-    Счётчики аналитики и отправка форм в копиях отключены.
-  </p>
-</header>
-
-<div class="stage">
-  <div class="load" id="load"><span class="spin"></span><span>Загружаем страницу целиком…</span></div>
-  <iframe id="frame" title="Витрина сайта"></iframe>
-</div>
-
-<button class="hint" id="hint" type="button" hidden>H — показать панель</button>
+<iframe id="frame" title="Просмотр сайта"></iframe>
 
 <script>
+/* Один адрес на оба сайта. Выбор живёт в хэше, поэтому ссылкой
+   вида …/#barskie можно сразу открыть нужный. */
 (function () {
-  'use strict';
-
-  /* spot — куда прокрутить при открытии: на первом экране фотография во всю
-     ширину, и разницу в тоне подложек там просто не на чем увидеть. */
-  var SITES = {
-    eco: { page: 'demo/sites/eco.html', css: 'demo/sites/autumn-eco.css',
-           js: 'demo/sites/autumn-eco.js', spot: 980,
-           note: 'Цветовые стили Tilda есть — цвет умещается в несколько строк' },
-    bp:  { page: 'demo/sites/bp.html',  css: 'demo/sites/autumn-bp.css',
-           js: 'demo/sites/autumn-bp.js',  spot: 1450,
-           note: 'Цветовых стилей нет — тот же цвет приходится расписывать по блокам' }
-  };
-
+  var САЙТЫ = { bereza: 'bereza.html', barskie: 'barskie.html' };
   var frame = document.getElementById('frame');
-  var load = document.getElementById('load');
-  var cost = document.getElementById('cost');
-  var siteSeg = document.getElementById('siteSeg');
-  var seasonSeg = document.getElementById('seasonSeg');
-  var hint = document.getElementById('hint');
+  var tabs = document.querySelectorAll('nav a');
 
-  var site = 'eco';
-  var autumn = false;
-  var sizes = {};
+  function показать() {
+    var имя = (location.hash || '#bereza').slice(1);
+    if (!САЙТЫ[имя]) имя = 'bereza';
 
-  /* Внутри копии стоит <base href="https://ecobr.ru/">, поэтому путь к слою
-     считаем здесь и передаём абсолютным — иначе он уедет на боевой домен. */
-  function absolute(p) { return new URL(p, location.href).href; }
-
-  function press(seg, attr, value) {
-    seg.querySelectorAll('button').forEach(function (b) {
-      b.setAttribute('aria-pressed', String(b.getAttribute(attr) === String(value)));
+    /* Перезагружаем кадр только при смене сайта: страницы тяжёлые. */
+    if (frame.dataset.site !== имя) {
+      frame.dataset.site = имя;
+      frame.src = САЙТЫ[имя];
+    }
+    tabs.forEach(function (a) {
+      if (a.dataset.site === имя) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
     });
+    document.title = (имя === 'bereza' ? 'Берёзовая роща' : 'Барские поля') + ' — осень 2026';
   }
 
-  /* Осень — это два файла: цвет (css) и элементы (js: листья, виньетка,
-     анонс-полоса). Элементы собраны из тех же компонентов, что идут в Tilda. */
-  function applyAutumn() {
-    var doc = frame.contentDocument;
-    if (!doc || !doc.head) return;
-
-    var link = doc.getElementById('bb-autumn');
-    var scr = doc.getElementById('bb-autumn-js');
-
-    if (autumn) {
-      if (!link) {
-        link = doc.createElement('link');
-        link.id = 'bb-autumn';
-        link.rel = 'stylesheet';
-        link.href = absolute(SITES[site].css);
-        doc.head.appendChild(link);
-      }
-      if (!scr) {
-        scr = doc.createElement('script');
-        scr.id = 'bb-autumn-js';
-        scr.src = absolute(SITES[site].js);
-        doc.head.appendChild(scr);
-      }
-      return;
-    }
-
-    /* Выключаем: снимаем и файлы, и всё, что элементы успели нарисовать. */
-    if (link) link.remove();
-    if (scr) scr.remove();
-    ['.bb-leaf', '.bb-autumn-vig', '.bb-garland', '.bb-wash', '.bb-beam', '.bb-branch', '.bb-corner', '.bb-ab', 'style[data-bb]'].forEach(function (sel) {
-      var nodes = doc.querySelectorAll(sel);
-      for (var i = 0; i < nodes.length; i++) nodes[i].remove();
-    });
-    doc.documentElement.style.removeProperty('--bb-ab-h');
-  }
-
-  function showCost() {
-    var kb = sizes[site];
-    cost.innerHTML = kb === undefined
-      ? '&nbsp;'
-      : 'Слой: <b>' + kb + ' КБ</b> · ' + SITES[site].note;
-  }
-
-  function measure(id) {
-    if (sizes[id] !== undefined) { showCost(); return; }
-    fetch(SITES[id].css).then(function (r) { return r.text(); }).then(function (t) {
-      sizes[id] = (new Blob([t]).size / 1024).toFixed(1);
-      showCost();
-    }).catch(function () {});
-  }
-
-  /* Страницы тяжёлые (до 3 МБ плюс фотографии), и событие load ждёт вообще
-     все картинки. Поэтому снимаем плашку, как только документ стал
-     интерактивным, и тогда же накладываем слой. */
-  /* Tilda достраивает страницу ещё несколько секунд после readyState=interactive
-     и по дороге сбрасывает прокрутку. Поэтому повторяем попытку несколько раз,
-     пока пользователь сам не прокрутил. */
-  function settle() {
-    var want = SITES[site].spot, tries = 0, parked = false;
-    var t = setInterval(function () {
-      tries++;
-      try {
-        var w = frame.contentWindow, d = frame.contentDocument;
-        /* Tilda дописывает документ и по дороге выбрасывает наш <link>
-           со слоем — возвращаем его на место, пока страница не устоится. */
-        applyAutumn();
-        var now = d.documentElement.scrollTop || d.body.scrollTop || 0;
-        if (tries > 1 && Math.abs(now - want) < 40) parked = true;
-        if (!parked && d.documentElement.scrollHeight > want + 400) w.scrollTo(0, want);
-      } catch (e) { clearInterval(t); return; }
-      if (tries >= 20) clearInterval(t);
-    }, 500);
-  }
-
-  var poll = null;
-  function loadSite() {
-    load.hidden = false;
-    frame.src = SITES[site].page;
-
-    clearInterval(poll);
-    var started = Date.now();
-    poll = setInterval(function () {
-      var doc = frame.contentDocument;
-      var ready = doc && doc.readyState !== 'loading' && doc.body && doc.body.children.length > 3;
-      if (ready || Date.now() - started > 15000) {
-        clearInterval(poll);
-        load.hidden = true;
-        applyAutumn();
-        settle();
-      }
-    }, 150);
-  }
-
-  frame.addEventListener('load', function () {
-    clearInterval(poll);
-    load.hidden = true;
-    applyAutumn();
-  });
-
-  siteSeg.addEventListener('click', function (e) {
-    var b = e.target.closest('button');
-    if (!b || b.getAttribute('data-site') === site) return;
-    site = b.getAttribute('data-site');
-    press(siteSeg, 'data-site', site);
-    measure(site);
-    loadSite();
-  });
-
-  seasonSeg.addEventListener('click', function (e) {
-    var b = e.target.closest('button');
-    if (!b) return;
-    var next = b.getAttribute('data-on') === '1';
-    if (next === autumn) return;
-    autumn = next;
-    press(seasonSeg, 'data-on', autumn ? '1' : '0');
-    applyAutumn();                     /* прокрутка не сбрасывается */
-  });
-
-  /* Панель прячется, чтобы посмотреть сайт целиком, без витринной обвязки. */
-  var hidden = false;
-  function togglePanel(force) {
-    hidden = force === undefined ? !hidden : force;
-    document.body.classList.toggle('is-bare', hidden);
-    hint.hidden = !hidden;
-  }
-
-  /* e.code, а не e.key: на русской раскладке «H» даёт «р», и проверка
-     по символу перестала бы работать. */
-  function onKey(e) {
-    var tag = e.target && e.target.tagName;
-    if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target && e.target.isContentEditable)) return;
-
-    if (e.code === 'KeyH' || e.code === 'Escape') {
-      e.preventDefault();
-      togglePanel();
-      return;
-    }
-    if (e.code === 'Space') {
-      e.preventDefault();
-      autumn = !autumn;
-      press(seasonSeg, 'data-on', autumn ? '1' : '0');
-      applyAutumn();
-    }
-  }
-
-  document.addEventListener('keydown', onKey);
-  hint.addEventListener('click', function () { togglePanel(false); });
-
-  /* Когда фокус ушёл в iframe, клавиши до нас не долетают. Копия
-     того же происхождения, поэтому вешаем обработчик и внутри неё. */
-  function bindFrameKeys() {
-    try {
-      var d = frame.contentDocument;
-      if (d && !d.__bbKeys) { d.__bbKeys = 1; d.addEventListener('keydown', onKey); }
-    } catch (e) {}
-  }
-  frame.addEventListener('load', bindFrameKeys);
-  setInterval(bindFrameKeys, 1500);
-
-  measure('eco');
-  measure('bp');
-  loadSite();
+  window.addEventListener('hashchange', показать);
+  показать();
 })();
 </script>
+
 </body>
 </html>

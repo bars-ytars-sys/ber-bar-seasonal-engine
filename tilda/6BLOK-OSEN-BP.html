@@ -1,0 +1,252 @@
+<!-- ОСЕННИЕ АКЦИИ — блок для barskie-polya.ru
+     Тильда → Библиотека → Другое → T123 (HTML-код) → вставить целиком.
+
+     КУДА СТАВИТЬ: на главной, перед блоком «Отдых сейчас — оплата потом!»
+     (запись rec1655343021), сразу под первым экраном.
+
+     ОФОРМЛЕНИЕ ВЗЯТО С САЙТА, замерено на живых карточках Барских полей:
+       карточка   #243D34, скругление 4px, внутренний отступ 20px
+       фон блока  #314C44 — родной фон страницы
+       заголовок  Lora, 400, заглавными, #EE995D
+       текст      Rubik, #EEE5D5
+       кнопка     сплошная коричневая #995D2F, текст #EEE5D5,
+                  скругление 4px, Rubik, без заглавных
+     Поэтому блок читается как часть страницы, а не как вставка.
+
+     ПЕРЕД ВСТАВКОЙ: загрузите три фото из tilda/images в
+     Настройки сайта → Файлы и подставьте ссылки вместо ФОТО_…
+
+     КНОПКИ ведут прямо в модуль бронирования с подставленными
+     датами и промокодом — те же параметры, что проверены на Bnovo.
+     -->
+<div class="bo-wrap">
+  <div class="bo-grid">
+
+    <!-- 1. Банный отдых с самоваром — выбор из двух программ
+         раскрывается по нажатию, чтобы карточка не разрасталась -->
+    <article class="bo-card">
+      <div class="bo-pic" style="background-image:url('ФОТО_bp-banya.webp')"></div>
+      <div class="bo-body">
+        <h3 class="bo-t">Банный отдых с самоваром</h3>
+        <p class="bo-d">Две программы на выбор: барский отдых или полная баня по-русски.</p>
+        <p class="bo-hl">
+          <span class="bo-hl__label">Стоимость</span>
+          <span class="bo-hl__val">от 8 000 ₽</span>
+        </p>
+
+        <button class="bo-btn bo-btn--toggle" type="button" aria-expanded="false" data-bo-pick>
+          Выбрать программу
+        </button>
+
+        <div class="bo-pick" hidden>
+          <div class="bo-opt">
+            <div class="bo-row">
+              <span class="bo-name">Барский отдых</span>
+              <span class="bo-price">8 000 ₽</span>
+            </div>
+            <p class="bo-note">Панорама — 12 000 ₽</p>
+            <ul class="bo-list">
+              <li>Баня и банные шапки</li>
+              <li>Самовар и алтайский травяной чай</li>
+              <li>Мёд, сушки или орехи — на выбор</li>
+              <li>Вода 0,5 л на каждого гостя</li>
+            </ul>
+            <a class="bo-btn" href="https://barskie-polya.ru/booking?dfrom=fri&amp;dto=sun&amp;adults=2&amp;scroll_to_rooms=1">
+              Забронировать
+            </a>
+          </div>
+
+          <div class="bo-opt">
+            <div class="bo-row">
+              <span class="bo-name">Баня по-русски</span>
+              <span class="bo-price">15 000 ₽</span>
+            </div>
+            <p class="bo-note">С холодным чаном</p>
+            <ul class="bo-list">
+              <li>Баня, берёзовые веники, банные шапки</li>
+              <li>Самовар и алтайский травяной чай</li>
+              <li>Мёд, сушки или орехи — на выбор</li>
+              <li>Вода 0,5 л на каждого гостя</li>
+              <li>Холодный чан (купель)</li>
+            </ul>
+            <a class="bo-btn" href="https://barskie-polya.ru/booking?dfrom=fri&amp;dto=sun&amp;adults=4&amp;scroll_to_rooms=1">
+              Забронировать
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 2. Вкусная осень. Якорь bo-zavtrak — на него ведёт всплывающее
+         окно с акцией на завтраки. -->
+    <article class="bo-card" id="bo-zavtrak">
+      <div class="bo-pic" style="background-image:url('ФОТО_bp-zavtrak.webp')"></div>
+      <div class="bo-body">
+        <h3 class="bo-t">Вкусная осень</h3>
+        <p class="bo-d">Завтраки в будни — в подарок.</p>
+        <ul class="bo-list">
+          <li>Действует на брони, заезд которых попадает в период акции</li>
+        </ul>
+        <div class="bo-promo" data-code="ОСЕНЬ2026">
+          <span>ОСЕНЬ2026</span><small>нажмите, чтобы скопировать</small>
+        </div>
+        <a class="bo-btn" href="https://barskie-polya.ru/booking?dfrom=mon&amp;dto=thu&amp;adults=2&amp;promoCode=%D0%9E%D0%A1%D0%95%D0%9D%D0%AC2026&amp;scroll_to_rooms=1">
+          Забронировать с промокодом
+        </a>
+      </div>
+    </article>
+
+    <!-- 3. Осенние каникулы -->
+    <article class="bo-card">
+      <div class="bo-pic" style="background-image:url('ФОТО_bp-family.webp')"></div>
+      <div class="bo-body">
+        <h3 class="bo-t">Осенние каникулы в Барских полях</h3>
+        <p class="bo-d">Каникулы с 23 октября по 4 ноября.</p>
+        <p class="bo-hl">
+          <span class="bo-hl__label">Раннее бронирование</span>
+          <span class="bo-hl__val">−10%</span>
+        </p>
+        <details class="bo-more">
+          <summary>Подробные условия</summary>
+          <p class="bo-fine">
+            Скидка 10% при бронировании пакета «Осенние каникулы»
+            на официальном сайте до 15.09.2026.
+            При заключении договора и внесении предоплаты до 15 сентября —
+            скидка 20%. Период каникул: с 23 октября по 4 ноября 2026 года.
+          </p>
+        </details>
+        <a class="bo-btn" href="https://barskie-polya.ru/booking?dfrom=2026-10-23&amp;dto=2026-10-26&amp;adults=2&amp;children=2&amp;scroll_to_rooms=1">
+          Забронировать каникулы
+        </a>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<style>
+/* Значения сняты с живых карточек Барских полей — блок должен читаться
+   как их часть, а не как вставка. */
+.bo-wrap{
+  --bo-page:#314c44;      /* фон страницы */
+  --bo-card:#243d34;      /* карточка */
+  --bo-ink:#eee5d5;       /* основной текст, кремовый */
+  --bo-muted:rgba(238,229,213,.66);
+  --bo-accent:#ee995d;    /* заголовки и акценты */
+  --bo-btn:#995d2f;       /* кнопка */
+  --bo-btn-hover:#a36434;
+  --bo-line:rgba(238,229,213,.16);
+  background:var(--bo-page);
+  padding:56px 20px 60px;box-sizing:border-box;
+  font-family:'Rubik',Arial,sans-serif;color:var(--bo-ink);
+}
+.bo-wrap *{box-sizing:border-box}
+.bo-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+
+.bo-card{background:var(--bo-card);border-radius:4px;overflow:hidden;display:flex;flex-direction:column}
+.bo-pic{height:180px;background-size:cover;background-position:center;background-repeat:no-repeat;flex:none}
+.bo-body{padding:20px;display:flex;flex-direction:column;flex:1}
+
+.bo-t{
+  font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400;
+  text-transform:uppercase;font-size:20px;line-height:1.25;
+  color:var(--bo-accent);margin:0 0 10px;
+}
+.bo-d{margin:0 0 12px;font-size:14px;line-height:1.45;color:var(--bo-ink)}
+
+/* Цена и скидка подаются одинаково: мелкая подпись сверху, значение —
+   акцентным цветом, слева тонкая черта. Обе карточки в одном ритме. */
+.bo-hl{margin:4px 0 16px;padding-left:13px;border-left:2px solid var(--bo-accent)}
+.bo-hl__label{
+  display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--bo-muted);margin-bottom:4px;
+}
+.bo-hl__val{
+  display:block;font-family:'Lora','NotoSerif',Georgia,serif;
+  font-size:24px;line-height:1.1;color:var(--bo-accent);
+}
+
+.bo-list{list-style:none;margin:0 0 14px;padding:0}
+.bo-list li{position:relative;padding-left:16px;margin-bottom:6px;font-size:13.5px;line-height:1.4;color:var(--bo-ink)}
+.bo-list li::before{
+  content:"";position:absolute;left:1px;top:8px;width:6px;height:6px;
+  border-radius:50%;background:var(--bo-accent);
+}
+
+/* Выбор из двух программ раскрывается по нажатию — карточка остаётся
+   такой же, как соседние, и блок не разрастается. */
+.bo-pick{margin-top:16px;border-top:1px solid var(--bo-line);padding-top:16px}
+.bo-pick[hidden]{display:none}
+.bo-opt + .bo-opt{margin-top:18px;padding-top:16px;border-top:1px solid var(--bo-line)}
+.bo-opt .bo-btn{margin-top:4px}
+
+.bo-row{display:flex;align-items:baseline;gap:12px;margin:0 0 2px}
+.bo-name{font-family:'Lora','NotoSerif',Georgia,serif;text-transform:uppercase;font-size:14px;line-height:1.3;color:var(--bo-accent)}
+.bo-price{margin-left:auto;font-family:'NotoSerif',Georgia,serif;font-size:18px;white-space:nowrap}
+.bo-note{margin:0 0 10px;font-size:13px;color:var(--bo-muted)}
+
+.bo-promo{
+  display:inline-flex;align-items:center;gap:9px;align-self:flex-start;
+  border:1px dashed var(--bo-accent);border-radius:4px;padding:8px 13px;
+  margin:0 0 14px;cursor:pointer;font-size:14px;color:var(--bo-accent);
+}
+.bo-promo small{font-size:12px;color:var(--bo-muted)}
+.bo-promo.is-copied{border-style:solid}
+
+/* Подробности каникул убраны под раскрытие — иначе карточка выше соседних */
+.bo-more{margin:0 0 12px}
+.bo-more summary{cursor:pointer;font-size:13px;color:var(--bo-accent);list-style:none}
+.bo-more summary::-webkit-details-marker{display:none}
+.bo-more summary::after{content:" ↓";font-size:10px}
+.bo-more[open] summary::after{content:" ↑"}
+.bo-fine{font-size:12.5px;line-height:1.5;color:var(--bo-muted);margin:8px 0 0}
+
+/* Кнопка — точная копия кнопок сайта: сплошная коричневая заливка */
+.bo-btn{
+  margin-top:auto;align-self:flex-start;display:inline-block;text-decoration:none;
+  font-family:'Rubik',Arial,sans-serif;font-weight:400;font-size:13px;
+  color:var(--bo-ink);background:var(--bo-btn);border:0;border-radius:4px;
+  padding:12px 20px;cursor:pointer;
+}
+.bo-btn:hover{background:var(--bo-btn-hover)}
+.bo-btn--toggle::after{content:" ↓";font-size:11px}
+.bo-btn--toggle[aria-expanded="true"]::after{content:" ↑"}
+
+@media(max-width:1023px){
+  .bo-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:639px){
+  .bo-wrap{padding:36px 14px 40px}
+  .bo-grid{grid-template-columns:1fr;gap:14px}
+  .bo-pic{height:200px}
+}
+</style>
+
+<script>
+(function () {
+  /* Выбор из двух программ раскрывается по нажатию */
+  var t = document.querySelector('[data-bo-pick]');
+  if (t) {
+    var panel = t.parentNode.querySelector('.bo-pick');
+    t.addEventListener('click', function () {
+      var open = t.getAttribute('aria-expanded') === 'true';
+      t.setAttribute('aria-expanded', String(!open));
+      panel.hidden = open;
+      t.textContent = open ? 'Выбрать программу' : 'Свернуть';
+    });
+  }
+
+  /* Промокод копируется по клику — гость не переписывает его руками */
+  var el = document.querySelector('.bo-promo');
+  if (!el) return;
+  el.addEventListener('click', function () {
+    var done = function () {
+      el.classList.add('is-copied');
+      el.querySelector('small').textContent = 'скопировано';
+    };
+    var code = el.getAttribute('data-code');
+    if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, done);
+    else done();
+  });
+})();
+</script>

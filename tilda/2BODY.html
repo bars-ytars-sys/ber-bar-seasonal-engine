@@ -1,4 +1,9 @@
+<!-- ОСЕННИЙ СЛОЙ — часть 2 из 2
+     Тильда → Настройки сайта → Ещё → HTML-код для вставки перед </body>
+     Вставьте всё содержимое этого файла, сохраните и опубликуйте все страницы. -->
 
+<!-- 1. Настройки. Номера блоков (rec...) видно в редакторе при наведении на блок. -->
+<script>
 window.AUTUMN = {
   intensity: 1,        // плотность листопада: 0.2 … 2
   wind: 0.4,           // снос вбок
@@ -8,8 +13,10 @@ window.AUTUMN = {
   branchAfter: [],     // веточка-разделитель после этих блоков
   reveal: []           // плавное появление блока при скролле
 };
+</script>
 
-
+<!-- 2. Сам слой. Ниже ничего править не нужно. -->
+<script>
 /* ===== ОСЕННИЙ СЛОЙ ДЛЯ ТИЛЬДЫ — скрипт =====
    Работает с уже опубликованными блоками Тильды: ничего в вёрстке
    не переписывает, классы навешивает сам по id записей (rec…).
@@ -35,34 +42,30 @@ window.AUTUMN = {
     cornersSkip: [],
     branchAfter: [],
     reveal: [],
-    colors: ['#D9A441', '#C98A2E', '#B4661F', '#9E3B23', '#7E8C3C', '#E7C878']
+    colors: ['#EFC248', '#E5A238', '#EFC248', '#D9782F', '#E5A238', '#B6C24E', '#DCBE74', '#B4552A']
   }, window.AUTUMN || {});
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   var NS = 'http://www.w3.org/2000/svg';
   var id = function (s) { return String(s).replace(/^#/, ''); };
 
-  /* ---------- 1. формы листьев (единичные координаты) ---------- */
-  function birch(c) {
-    c.beginPath();
-    c.moveTo(0, -0.5);
-    c.bezierCurveTo(0.34, -0.24, 0.29, 0.27, 0, 0.48);
-    c.bezierCurveTo(-0.29, 0.27, -0.34, -0.24, 0, -0.5);
-    c.closePath();
+  /* ---------- 1. формы листьев ----------
+     Те же силуэты, что и в наборе 2. Канвас рисует их через Path2D,
+     координаты — в системе 100 единиц на лист. */
+  var PATHS = {
+    maple: 'M0.00 0.00 C-19.76 -17.68 -9.09 -44.20 0.00 -52.00 C9.09 -44.20 19.76 -17.68 0.00 0.00ZM0.00 0.00 C1.61 -24.86 27.00 -30.52 37.86 -27.51 C37.37 -16.25 24.14 6.15 0.00 0.00ZM0.00 0.00 C16.66 -12.69 29.36 2.06 31.27 11.38 C23.81 17.29 4.60 20.43 0.00 0.00ZM0.00 0.00 C-24.14 6.15 -37.37 -16.25 -37.86 -27.51 C-27.00 -30.52 -1.61 -24.86 0.00 0.00ZM0.00 0.00 C-4.60 20.43 -23.81 17.29 -31.27 11.38 C-29.36 2.06 -16.66 -12.69 0.00 0.00ZM0 -12.48A16.64 12.48 0 1 1 0 12.48A16.64 12.48 0 1 1 0 -12.48Z',
+    ovate: 'M0 -52 C 20 -40, 30 -14, 28 8 C 26 30, 12 44, 0 50 C -12 44, -26 30, -28 8 C -30 -14, -20 -40, 0 -52 Z',
+    oval: 'M0 -50 C 23 -26, 20 26, 0 48 C -20 26, -23 -26, 0 -50 Z'
+  };
+  var SHAPES = {};
+  var hasPath2D = typeof Path2D === 'function';
+  if (hasPath2D) for (var kk in PATHS) SHAPES[kk] = new Path2D(PATHS[kk]);
+  /* мелкий клён превращается в звёздочку, поэтому маленькие листья — овальные */
+  function pickShape(size) {
+    if (size < 26) return Math.random() < 0.5 ? 'ovate' : 'oval';
+    var r = Math.random();
+    return r < 0.62 ? 'maple' : (r < 0.85 ? 'ovate' : 'oval');
   }
-  function lobed(lobes, depth, stretch) {
-    return function (c) {
-      c.beginPath();
-      for (var i = 0; i <= 80; i++) {
-        var a = i / 80 * Math.PI * 2 - Math.PI / 2;
-        var r = 0.30 + depth * Math.cos(lobes * a) + 0.05 * Math.cos(2 * lobes * a);
-        var x = Math.cos(a) * r, y = Math.sin(a) * r * stretch;
-        i ? c.lineTo(x, y) : c.moveTo(x, y);
-      }
-      c.closePath();
-    };
-  }
-  var SHAPES = [birch, lobed(5, 0.20, 1.02), lobed(7, 0.09, 1.28)];
 
   /* ---------- 2. листопад ---------- */
   var cv = document.getElementById('au-canvas');
@@ -85,22 +88,22 @@ window.AUTUMN = {
       x: rnd(-0.05, 1.05) * W,
       y: fresh ? rnd(-0.2, 1) * H : rnd(-0.35, -0.02) * H,
       z: z,
-      size: 11 + 23 * z,
-      alpha: 0.22 + 0.5 * z,
+      size: 15 + 31 * z,
+      alpha: 0.30 + 0.52 * z,
       color: cfg.colors[(Math.random() * cfg.colors.length) | 0],
-      shape: SHAPES[(Math.random() * SHAPES.length) | 0],
+      shape: pickShape(15 + 31 * z),
       rot: rnd(0, Math.PI * 2),
-      spin: rnd(-0.5, 0.5),
+      spin: rnd(-0.28, 0.28),
       flip: rnd(0, Math.PI * 2),
-      flipSpd: rnd(0.5, 1.5),
+      flipSpd: rnd(0.22, 0.7),
       sway: rnd(0, Math.PI * 2),
-      swaySpd: rnd(0.4, 1.0),
-      swayAmp: rnd(14, 46) * z
+      swaySpd: rnd(0.22, 0.55),
+      swayAmp: rnd(26, 74) * z
     };
   }
 
   function target() {
-    return Math.round(Math.min(46, Math.max(12, W / 34)) * cfg.intensity);
+    return Math.round(Math.min(28, Math.max(8, W / 52)) * cfg.intensity);
   }
   function fillLeaves() {
     var n = target();
@@ -126,34 +129,34 @@ window.AUTUMN = {
       p.sway += p.swaySpd * dt;
       p.rot += p.spin * dt;
       p.flip += p.flipSpd * dt;
-      p.y += (16 + 54 * p.z) * dt;
-      p.x += (Math.cos(p.sway) * p.swayAmp + wind * 34 * p.z) * dt;
+      p.y += (11 + 34 * p.z) * dt;                       // падают медленнее
+      p.x += (Math.cos(p.sway) * p.swayAmp + wind * 46 * p.z) * dt;  // и уходят по диагонали
 
       if (p.y - p.size > H) { leaves[i] = make(false); continue; }
       if (p.x < -p.size * 2) p.x = W + p.size;
       if (p.x > W + p.size * 2) p.x = -p.size;
 
-      var squash = Math.max(0.12, Math.abs(Math.cos(p.flip)));
+      var squash = 0.42 + 0.58 * Math.abs(Math.cos(p.flip));  // лист поворачивается, но не схлопывается
+      var k = p.size / 100;
       ctx.save();
       ctx.translate(p.x, p.y);
       ctx.rotate(p.rot);
-      ctx.scale(p.size * squash, p.size);
+      ctx.scale(k * squash, k);
       ctx.globalAlpha = p.alpha;
       ctx.fillStyle = p.color;
-      p.shape(ctx);
-      ctx.fill();
-      ctx.globalAlpha = p.alpha * 0.5;
-      ctx.strokeStyle = 'rgba(60,40,10,.85)';
-      ctx.lineWidth = 0.035;
+      ctx.fill(SHAPES[p.shape]);
+      ctx.globalAlpha = p.alpha * 0.45;
+      ctx.strokeStyle = 'rgba(90,66,30,.9)';
+      ctx.lineWidth = 3.4;
       ctx.beginPath();
-      ctx.moveTo(0, 0.56); ctx.lineTo(0, -0.34);
+      ctx.moveTo(0, 56); ctx.lineTo(0, -30);
       ctx.stroke();
       ctx.restore();
     }
   }
 
   function start() {
-    if (running || reduce.matches || window.innerWidth < cfg.minWidth) return;
+    if (running || !hasPath2D || reduce.matches || window.innerWidth < cfg.minWidth) return;
     running = true; last = performance.now();
     raf = requestAnimationFrame(frame);
   }
@@ -325,4 +328,4 @@ window.AUTUMN = {
     setIntensity: function (v) { cfg.intensity = v; fillLeaves(); }
   };
 })();
-
+</script>

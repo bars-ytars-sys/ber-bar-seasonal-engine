@@ -1,0 +1,108 @@
+<!-- ОСЕННИЕ ЭЛЕМЕНТЫ, НАБОР 2 — часть 1 из 2
+     Тильда -> Настройки сайта -> Ещё -> HTML-код для вставки внутрь HEAD -->
+<style>
+/* ===== ОСЕННИЕ ЭЛЕМЕНТЫ, НАБОР 2 — стили =====
+   Гирлянда с фонариками, боковые ботанические полосы, угловые букеты,
+   свисающие веточки с рябиной, разделители из колосьев, куча листьев внизу,
+   осенняя печать для спецпредложений.
+
+   Ставится вместе с первым набором или отдельно — они не конфликтуют.
+   Всё рисуется в SVG, картинки не нужны. Фон не трогается. */
+
+:root{
+  --au2-opacity: .82;        /* общая заметность декора */
+  --au2-side-opacity: .36;   /* боковые полосы бледнее — они у самого края */
+  --au2-z: 880;              /* ниже листопада (900) и меню Тильды (990) */
+}
+
+.au2, .au2 svg{ pointer-events:none; }
+.au2 svg{ display:block; width:100%; height:auto; overflow:visible; }
+
+/* --- гирлянда с фонариками: свисает от верхнего края страницы --- */
+.au2-garland{
+  position:absolute; top:0; left:0; right:0;
+  z-index:var(--au2-z);
+  opacity:var(--au2-opacity);
+}
+
+/* --- вертикальные ботанические полосы по краям экрана --- */
+.au2-side{
+  position:fixed; top:0; bottom:0;
+  width:clamp(48px,4.6vw,86px);
+  z-index:var(--au2-z);
+  opacity:var(--au2-side-opacity);
+  display:none;                 /* включаются только на широких экранах */
+  overflow:hidden;              /* полоса не выходит за край, что бы ни нарисовали */
+}
+.au2-side svg{ height:100%; width:100%; overflow:hidden; }
+.au2-side[data-side="left"]{ left:0; }
+.au2-side[data-side="right"]{ right:0; transform:scaleX(-1); }
+@media (min-width:1480px){ .au2-side{ display:block; } }
+
+/* --- угловой букет внутри блока --- */
+.au2-host{ position:relative; }
+.au2-bouquet{
+  position:absolute;
+  width:clamp(150px,20vw,280px);
+  opacity:var(--au2-opacity);
+  z-index:0;
+}
+.au2-bouquet[data-pos="bl"]{ bottom:0; left:0; }
+.au2-bouquet[data-pos="br"]{ bottom:0; right:0; transform:scaleX(-1); }
+
+/* --- свисающие веточки от верхнего края блока --- */
+.au2-hang{
+  position:absolute; top:0; left:0; right:0;
+  opacity:calc(var(--au2-opacity) * .7);
+  z-index:0;
+}
+
+/* --- разделитель из колосьев и ягод --- */
+.au2-divider{
+  display:block; max-width:760px; margin:0 auto;
+  padding:10px 20px;
+  opacity:var(--au2-opacity);
+}
+
+/* --- куча листьев у нижнего края страницы --- */
+.au2-pile{
+  position:absolute; left:0; right:0; bottom:0;
+  opacity:var(--au2-opacity);
+  z-index:0;
+}
+
+/* --- осенняя печать для спецпредложения --- */
+.au2-stamp{
+  position:absolute;
+  width:clamp(104px,11vw,168px);
+  z-index:1;
+  opacity:.95;
+}
+.au2-stamp[data-pos="tr"]{ top:18px; right:18px; transform:rotate(9deg); }
+.au2-stamp[data-pos="tl"]{ top:18px; left:18px; transform:rotate(-9deg); }
+.au2-stamp[data-pos="br"]{ bottom:18px; right:18px; transform:rotate(-7deg); }
+.au2-stamp[data-pos="bl"]{ bottom:18px; left:18px; transform:rotate(7deg); }
+.au2-stamp text{ font-family:inherit; letter-spacing:.14em; }
+
+/* содержимое блока — всегда выше декора */
+.au2-host > *:not(.au2){ position:relative; z-index:1; }
+
+/* --- тёплое мерцание лампочек и фонарей --- */
+.au2-glow{ transform-origin:center; animation:au2-breathe 4.6s ease-in-out infinite; }
+.au2-glow:nth-of-type(even){ animation-duration:6.1s; animation-delay:-1.7s; }
+@keyframes au2-breathe{
+  0%,100%{ opacity:.72 }
+  50%    { opacity:1 }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .au2-glow{ animation:none; opacity:.9 }
+}
+
+/* на телефоне оставляем только то, что не мешает читать */
+@media (max-width:639px){
+  .au2-bouquet{ width:120px; opacity:.6 }
+  .au2-stamp{ width:88px }
+  .au2-garland{ opacity:.75 }
+}
+</style>

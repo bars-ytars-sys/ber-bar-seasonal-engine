@@ -141,128 +141,107 @@ for (const s of SITES) {
   console.log(`  вырезано блоков аналитики: ${killed}`);
   console.log(`  ${path.relative(ROOT, file)}  ${(out.length / 1024 / 1024).toFixed(1)} МБ`);
 
-  /* --- осенний слой --- */
-  let css = `/* ЛЁГКАЯ ОСЕНЬ · ${s.title}\n   Бренд не трогаем: акцентные цвета остаются как есть.\n`
-          + `   Двигается только «земля» — фоны уходят из холодных в тёплые. */\n`;
-
-  const varLines = Object.entries(s.vars)
-    .map(([k, [from, to]]) => `  ${k}:${to} !important;   /* было ${from} */`);
-  if (varLines.length) {
-    css += `\n/* Через Цветовые стили Tilda — одним блоком на весь сайт */\n`
-         + `#allrecords .r, body{\n${varLines.join('\n')}\n}\n`;
-  } else {
-    css += `\n/* Цветовых стилей на этом сайте нет — всё ниже сгенерировано по блокам */\n`;
-  }
-
-  if (Object.keys(s.hard).length) {
-    const tmpMap = path.join(OUT, `.map-${s.id}.json`);
-    const tmpCss = path.join(OUT, `.hard-${s.id}.css`);
-    const tmpProj = path.join(OUT, `.proj-${s.id}.css`);
-    fs.writeFileSync(tmpMap, JSON.stringify(s.hard), 'utf8');
-    const projCache = path.join(OUT, '.proj-cache-' + s.id + '.css');
-    if (!fs.existsSync(projCache)) fs.writeFileSync(projCache, await (await fetch(s.projectCss)).text(), 'utf8');
-    fs.copyFileSync(projCache, tmpProj);
-    fs.writeFileSync(path.join(OUT, `.page-${s.id}.html`), html, 'utf8');
-
-    execFileSync(process.execPath, [
-      path.join(ROOT, 'seasonal-engine', 'tools', 'recolor.mjs'),
-      path.join(OUT, `.page-${s.id}.html`), tmpMap, tmpCss, '--css=' + tmpProj
-    ], { stdio: 'inherit' });
-
-    css += '\n' + fs.readFileSync(tmpCss, 'utf8');
-    for (const f of [tmpMap, tmpCss, tmpProj, path.join(OUT, `.page-${s.id}.html`)]) fs.unlinkSync(f);
-  }
-
-  if (s.extra) css += s.extra + '\n';
-
+  /* --- осенний слой: ваши файлы, без единой моей правки --- */
   const cssFile = path.join(OUT, `autumn-${s.id}.css`);
-  fs.writeFileSync(cssFile, css, 'utf8');
-  console.log(`  ${path.relative(ROOT, cssFile)}  ${(css.length / 1024).toFixed(1)} КБ`);
+  fs.writeFileSync(cssFile, buildLayerCss(), "utf8");
+  console.log(`  ${path.relative(ROOT, cssFile)}  ${(fs.statSync(cssFile).size / 1024).toFixed(1)} КБ`);
 
   /* --- осенние элементы: собираем из настоящих компонентов --------------- */
-  fs.writeFileSync(path.join(OUT, `autumn-${s.id}.js`), buildElements(s), 'utf8');
-  console.log(`  demo/sites/autumn-${s.id}.js  ${(buildElements(s).length / 1024).toFixed(1)} КБ`);
+  fs.writeFileSync(path.join(OUT, `autumn-${s.id}.js`), buildElements(s.id), "utf8");
+  console.log(`  demo/sites/autumn-${s.id}.js  ${(buildElements(s.id).length / 1024).toFixed(1)} КБ`);
 }
 
 /**
- * Витрина показывает не бутафорию, а те же блоки 1, 4 и 10, что идут в Tilda.
- * Меняем ровно три вещи:
- *   — базу задаём явно (внутри iframe домен github.io, по нему её не определить);
- *   — анонс-полосу включаем и даём ей осенний оффер;
- *   — сезон фиксируем на autumn, чтобы элементы не зависели от даты запуска.
+ * Слой для витрины собирается ИЗ ВАШИХ ФАЙЛОВ tilda/1HEAD.html и 2BODY.html.
+ * Ничего своего сюда не добавляется: ни палитры, ни декора, ни полос.
  */
-function buildElements(s) {
-  const readPart = (file, tag) => {
-    const html = fs.readFileSync(path.join(ROOT, 'seasonal-engine', file), 'utf8');
-    const re = new RegExp(`<${tag}(?![^>]*application/json)[^>]*>([\\s\\S]*?)</${tag}>`);
-    const m = re.exec(html);
-    if (!m) throw new Error(`нет <${tag}> в ${file}`);
-    return m[1];
-  };
-  const script = (file) => readPart(file, 'script');
+/**
+ * Настройки слоя под каждый сайт. В самом 2BODY.html эти списки пустые —
+ * без них веточки-разделители и плавное появление просто не включаются.
+ * Номера блоков сняты с живых страниц.
+ */
+const AUTUMN_CFG = {
+  eco: {
+    /* веточка-разделитель после смысловых секций */
+    branchAfter: ['rec1684467611', 'rec1747907231', 'rec2710401401'],
+    /* плавное появление при прокрутке — крупные контентные блоки */
+    reveal: ['rec2486811301', 'rec2851363001', 'rec2421263681',
+             'rec1758781921', 'rec2263527021', 'rec2710223901']
+  },
+  bp: {
+    branchAfter: ['rec1534422731', 'rec1216602591', 'rec1185039536'],
+    reveal: ['rec1185039476', 'rec2463108211', 'rec2241691831',
+             'rec1216607536', 'rec2010822961']
+  }
+};
 
-  /* Палитра --bb-* лежит в <style> первого блока. Без неё анонс-полоса
-     отрисуется без цвета — проверено на витрине. */
-  const theme = readPart('head/1-tema-sezona.html', 'style');
-  const injectTheme =
-    `(function(){var s=document.createElement('style');s.setAttribute('data-bb','theme');` +
-    `s.appendChild(document.createTextNode(${JSON.stringify(theme)}));` +
-    `(document.head||document.documentElement).appendChild(s);})();`;
+function buildElements(siteId) {
+  let body = fs.readFileSync(path.join(ROOT, "tilda", "2BODY.html"), "utf8");
 
-  const ANNOUNCE = {
-    eco: {
-      id: 'eco-2026-09-osen',
-      text: 'Осенние каникулы −20%: раннее бронирование до 15 сентября',
-      cta: 'Забронировать',
-      href: '/booking?dfrom=2026-10-23&dto=2026-10-26&adults=2&children=2'
-    },
-    bp: {
-      id: 'bp-2026-09-osen',
-      text: 'Осенние каникулы −20%: раннее бронирование до 15 сентября',
-      cta: 'Забронировать',
-      href: '/booking?dfrom=2026-10-23&dto=2026-10-26&adults=2&children=2'
+  const cfg = AUTUMN_CFG[siteId];
+  if (cfg) {
+    for (const key of ['branchAfter', 'reveal']) {
+      const re = new RegExp('(' + key + ':\\s*)\\[\\s*\\]');
+      if (!re.test(body)) throw new Error(`в 2BODY.html не найден пустой список ${key}`);
+      body = body.replace(re, '$1' + JSON.stringify(cfg[key]));
     }
-  }[s.id];
-
-  let announce = script('head/4-anons-polosa.html')
-    .replace(/enabled: false/g, 'enabled: true')
-    .replace(/from:\s*'20\d\d-\d\d-\d\d'/g, "from:  '2020-01-01'")
-    .replace(/until:\s*'20\d\d-\d\d-\d\d'/g, "until: '2035-12-31'");
-
-  for (const [key, val] of Object.entries(ANNOUNCE)) {
-    const re = new RegExp(`(${s.id}: \\{[\\s\\S]*?)${key}:\\s*'[^']*'`);
-    if (!re.test(announce)) throw new Error(`не нашёл ${key} у ${s.id} в анонс-полосе`);
-    announce = announce.replace(re, `$1${key}: ${JSON.stringify(val)}`);
   }
 
+  const out = [];
+  const re = /<script[^>]*>([\s\S]*?)<\/script>/g;
+  let m;
+  while ((m = re.exec(body))) out.push(m[1]);
+  if (!out.length) throw new Error("в 2BODY.html не найдено ни одного <script>");
+  return out.join("\n") + "\n" + buildTeplayaOsen(siteId);
+}
+
+/**
+ * Врезает блок «Тёплая осень» после записи с заголовком
+ * «Ради нас берут выходной!» и меняет сам заголовок на сезонный.
+ * Только для ecobr.ru — на «Барских полях» такого блока нет.
+ *
+ * В Tilda то же самое делается руками: заголовок правится мышкой,
+ * блок ставится как T123 из tilda/4BLOK-TEPLAYA-OSEN.html.
+ */
+function buildTeplayaOsen(siteId) {
+  if (siteId !== 'eco') return '';
+  let block = fs.readFileSync(path.join(ROOT, 'tilda', '4BLOK-TEPLAYA-OSEN.html'), 'utf8');
+  /* В витрине подставляем настоящие адреса фото вместо заглушек ФОТО_… */
+  block = block.replace(/ФОТО_([a-z-]+\.webp)/g, (_, name) => '../assets/' + name);
+
   return [
-    `/* Осенние элементы для витрины. Собрано из seasonal-engine/ автоматически,`,
-    `   правьте компоненты, а не этот файл. База: ${s.title} */`,
-    script('head/1-tema-sezona.html'),
-    `/* палитра компонентов --bb-* из того же блока 1 */`,
-    injectTheme,
-    `/* витрина: база и сезон заданы явно */`,
-    `window.BB.site = ${JSON.stringify(s.id)};`,
-    `window.BB.season = 'autumn';`,
-    `document.documentElement.setAttribute('data-site', ${JSON.stringify(s.id)});`,
-    `document.documentElement.setAttribute('data-season', 'autumn');`,
-    `/* витрина: не помним закрытие полосы, иначе её не вернуть 7 дней */`,
-    `try { Object.keys(localStorage).forEach(function (k) {`,
-    `  if (k.indexOf('bb_ab_') === 0) localStorage.removeItem(k); }); } catch (e) {}`,
-    script('head/3-bnovo-deeplink.html'),
-    announce,
-    /* В копии сайта стоит <base href> боевого домена, поэтому относительные
-       пути уехали бы на ecobr.ru. Считаем адреса от src самого бандла:
-       .../demo/sites/autumn-eco.js  ->  .../demo/assets/... */
-    'window.BB_AUTUMN_ASSETS = (function () {\n' +
-    '  var me = document.currentScript && document.currentScript.src;\n' +
-    '  var base = me ? me.replace(/sites\\/[^/]*$/, "assets/") : "demo/assets/";\n' +
-    '  var L = ["wleaf1","wleaf3","wleaf5","wleaf6","wleaf7","wleaf9","wleaf10","wleaf11"];\n' +
-    '  var url = function (n) { return base + n + ".webp"; };\n' +
-    '  return { leaves: L.map(url), branch: base + "branch.webp" };\n' +
-    '})();',
-    script('head/10-osennie-elementy.html')
+    '(function () {',
+    '  var HTML = ' + JSON.stringify(block).replace(/<\/script>/gi, String.fromCharCode(60) + String.fromCharCode(92) + String.fromCharCode(47) + "script" + String.fromCharCode(62)) + ';',
+    '  function mount() {',
+    '    if (document.getElementById("to-host")) return;',
+    '    var target = document.getElementById("rec1694735441");',
+    '    if (!target || !target.parentNode) return;',
+    '',
+    '    var h = target.querySelector(\'[field="tn_text_1765543910875"]\');',
+    '    if (h) h.textContent = ' + JSON.stringify('Тёплая осень') + ';',
+    '',
+    '    var host = document.createElement("div");',
+    '    host.id = "to-host";',
+    '    host.style.cssText = "padding:10px 0 56px";',
+    '    host.innerHTML = HTML;',
+    '    target.parentNode.insertBefore(host, target.nextSibling);',
+    '',
+    '    host.querySelectorAll("script").forEach(function (old) {',
+    '      var neo = document.createElement("script");',
+    '      neo.text = old.textContent;',
+    '      old.parentNode.replaceChild(neo, old);',
+    '    });',
+    '  }',
+    '  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);',
+    '  else mount();',
+    '})();'
   ].join('\n');
 }
 
-console.log('\nГотово. Витрина: index.html');
+/** Стили слоя — из вашего 1HEAD.html. */
+function buildLayerCss() {
+  const head = fs.readFileSync(path.join(ROOT, "tilda", "1HEAD.html"), "utf8");
+  const m = /<style[^>]*>([\s\S]*?)<\/style>/.exec(head);
+  if (!m) throw new Error("в 1HEAD.html не найден <style>");
+  return m[1];
+}

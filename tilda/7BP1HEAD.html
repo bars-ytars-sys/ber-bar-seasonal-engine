@@ -1,0 +1,70 @@
+<!-- ОСЕННИЙ НАБОР для barskie-polya.ru — часть 1 из 2, СТИЛИ
+     Тильда -> Настройки сайта -> Ещё -> HTML-код в HEAD.
+
+     ВНИМАНИЕ: это замена. В загрузках была только часть 2 (BP2BODY.html),
+     часть 1 не скачалась. Скрипт набора расставляет листья через left/top
+     в процентах и transform, но сам никаких стилей не задаёт — без них
+     холст листопада имеет нулевой размер, а раскладки по краям блоков
+     сваливаются в поток. Здесь описано ровно то, чего скрипту не хватает:
+     ни цветов, ни шрифтов сайта это не трогает.
+     Придёт настоящая часть 1 — просто замените этот файл на неё.
+     -->
+<style>
+/* Холст падающих листьев: поверх страницы, на всю видимую область,
+   кликам не мешает. Слой задаётся скриптом из настройки zIndex. */
+#bp-canvas{
+  position:fixed;left:0;top:0;width:100vw;height:100vh;
+  pointer-events:none;
+}
+
+/* Блок, к которому прицепили раскладку, становится точкой отсчёта. */
+.bp-host{position:relative}
+
+/* Общая коробка раскладки: лежит поверх фона блока, но НИЖЕ его текста
+   и кнопок, и не перехватывает клики. */
+.bp{position:absolute;pointer-events:none;z-index:1}
+.bp-leaf{position:absolute;pointer-events:none;user-select:none;display:block}
+/* Листья не режем рамкой — они держатся внутри за счёт отступов ниже
+   и мелкого масштаба в настройках набора. */
+
+/* Россыпь в углу. Скрипт помечает коробку data-pos, а зеркалим её здесь,
+   чтобы одна и та же раскладка работала на все четыре угла.
+   Коробка с отступом от края: иначе крайние листья свисают на фон. */
+.bp-corner{width:250px;height:250px}
+.bp-corner[data-pos="tl"]{top:14px}
+.bp-corner[data-pos="tr"]{top:14px;transform:scaleX(-1)}
+.bp-corner[data-pos="bl"]{bottom:14px;transform:scaleY(-1)}
+.bp-corner[data-pos="br"]{bottom:14px;transform:scale(-1,-1)}
+/* Блоки Тильды во всю ширину, а содержимое внутри — колонкой по центру.
+   Если цепляться за край блока, на широком экране россыпь оказывается
+   на пустом фоне сбоку. Поэтому прижимаемся к краю колонки. */
+.bp-corner[data-pos="tl"],.bp-corner[data-pos="bl"]{left:max(14px,calc(50% - 600px + 14px))}
+.bp-corner[data-pos="tr"],.bp-corner[data-pos="br"]{right:max(14px,calc(50% - 600px + 14px))}
+
+/* Дуга по верхнему краю и полоса по нижнему — во всю ширину блока. */
+/* Полосы — по той же колонке, иначе края уезжают за содержимое. */
+.bp-top{left:max(0px,calc(50% - 600px));width:min(100%,1200px);top:18px;height:120px}
+.bp-bottom{left:max(0px,calc(50% - 600px));width:min(100%,1200px);bottom:26px;height:110px}
+
+/* Цепочка между блоками вставляется отдельной строкой, поэтому она
+   в потоке, а не поверх. */
+.bp-divider{position:relative;width:min(100%,1200px);margin:0 auto;height:96px}
+
+/* Телефоны: раскладки мельче, чтобы не лезли на текст. */
+@media(max-width:639px){
+  .bp-corner{width:180px;height:180px}
+  .bp-top{height:90px}
+  .bp-bottom{height:80px}
+  .bp-divider{height:64px}
+}
+
+/* Пока открыто всплывающее окно или форма — листопад убираем.
+   Иначе листья ложатся поверх кнопок и полосы прокрутки. */
+body.t-body_popupshowed #bp-canvas,
+body:has(.t-popup_show) #bp-canvas,
+body:has(.t-popup[style*="display: block"]) #bp-canvas{display:none}
+
+@media(prefers-reduced-motion:reduce){
+  #bp-canvas{display:none}
+}
+</style>

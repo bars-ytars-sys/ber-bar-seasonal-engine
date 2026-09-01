@@ -286,7 +286,7 @@ const index = `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Движок сезонности — демо-стенд</title>
+<title>Движок сезонности — стенд движка</title>
 <!-- ВНИМАНИЕ: файл собран автоматически. Правьте seasonal-engine/, потом node demo/build.mjs -->
 ${head1}
 ${head2}
@@ -319,10 +319,10 @@ ${playbookInner}
 
 /* ------------------------------------------------------------------ */
 
-fs.writeFileSync(path.join(ROOT, 'index.html'), index, 'utf8');
+fs.writeFileSync(path.join(ROOT, 'stend.html'), index, 'utf8');
 fs.writeFileSync(path.join(ROOT, 'playbook.html'), playbook, 'utf8');
 
 console.log('Собрано:');
-console.log('  index.html     ' + (index.length / 1024).toFixed(1) + ' КБ  — демо-стенд');
+console.log('  stend.html     ' + (index.length / 1024).toFixed(1) + ' КБ  — стенд движка');
 console.log('  playbook.html  ' + (playbook.length / 1024).toFixed(1) + ' КБ  — документ для команды');
 console.log('Источник: seasonal-engine/ (компоненты не менялись, кроме демо-строк расписания)');

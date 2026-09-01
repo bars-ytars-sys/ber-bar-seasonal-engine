@@ -3,1500 +3,239 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<title>Движок сезонности — демо-стенд</title>
-<!-- ВНИМАНИЕ: файл собран автоматически. Правьте seasonal-engine/, потом node demo/build.mjs -->
-<!-- =============================================================================
-     БЛОК 1 · СЕЗОННАЯ ТЕМА  (ставится ПЕРВЫМ)
-     Куда: Настройки сайта → Ещё → HTML-код для вставки внутрь HEAD
-     Ставится одинаково на ecobr.ru и barskie-polya.ru — сайт определяется по домену.
-
-     Что делает:
-       1) определяет текущий сезон по московской дате;
-       2) вешает data-season="..." на <html>;
-       3) подменяет цветовые переменные Tilda → сайт перекрашивается целиком,
-          без правки блоков.
-
-     ПРОВЕРЕНО в коде живых страниц:
-       ecobr.ru собран на Цветовых стилях Tilda — вся палитра это 6 переменных:
-         --uc-color-color-qp7xN        #2ed8a3  акцент (131 использование)
-         --uc-color-color-mkOIs27      #9aed9b  светло-зелёный (129)
-         --uc-color-color-cPYWVKrTiQfG #313a39  тёмный фон (118)
-         --uc-color-color-Z3IU8y       #1a1b19  текст (88)
-         --uc-color-color-qvHJWc       #ffffff  белый (79)
-         --uc-color-color-n3E0FkCwyE   #f4f6fb  фон секций (63)
-       Переменные используются как var(--x,#hex) и нигде не объявлены.
-       Значит: достаточно объявить их в :root — и перекрасится весь сайт.
-
-       barskie-polya.ru Цветовых стилей НЕ использует (0 переменных, цвета вбиты
-       в блоки: #eee5d5 — 718 раз, #a36434 — 219, #995d2f — 115, #243d34 — 113).
-       До миграции палитры БП на Цветовые стили сезон у БП меняет только наши
-       компоненты (--bb-*), а не всю страницу. См. docs/smeta-i-poryadok.md, задача Б2.
-
-     Предпросмотр любого сезона: добавьте к URL ?season=newyear
-     Сезоны: newyear | winter | spring | summer | autumn
-     ============================================================================= -->
-<script>
-(function () {
-  'use strict';
-
-  /* ---------- ЯДРО. Не трогать. ---------- */
-  var BB = window.BB = window.BB || {};
-  BB.TZ = 180; /* Europe/Moscow. Все даты в системе — московские. */
-
-  BB.param = function (name) {
-    var m = new RegExp('[?&]' + name + '=([^&#]*)').exec(location.search);
-    return m ? decodeURIComponent(m[1]) : null;
-  };
-
-  /* «Машина времени»: ?date=2026-12-25 сдвигает ВСЮ систему — сезон, расписание,
-     таймеры. Время суток остаётся текущим, поэтому таймеры считаются честно. */
-  var fake = (BB.param('date') || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
-
-  BB.now = function () {
-    var d = new Date();
-    var msk = new Date(d.getTime() + (d.getTimezoneOffset() + BB.TZ) * 60000);
-    if (fake) msk.setFullYear(+fake[1], +fake[2] - 1, +fake[3]);
-    return msk;
-  };
-  BB.pad = function (n) { return (n < 10 ? '0' : '') + n; };
-  BB.ymd = function (d) { return d.getFullYear() + '-' + BB.pad(d.getMonth() + 1) + '-' + BB.pad(d.getDate()); };
-
-  /* 'YYYY-MM-DD' -> 20261115. Сравнивать числа надёжнее, чем объекты Date. */
-  BB.num = function (s) {
-    var m = String(s || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
-    return m ? +(m[1] + m[2] + m[3]) : null;
-  };
-  BB.todayNum = function () { return BB.num(BB.ymd(BB.now())); };
-  BB.today = BB.todayNum();   /* сегодня одним числом, с учётом ?date= */
-
-  /* Обычно база определяется по домену. ?site=bp — посмотреть, как компоненты
-     выглядят в палитре второй базы, не уходя с этого сайта. */
-  BB.site = BB.param('site') || (/barskie/i.test(location.hostname) ? 'bp' : 'eco');
-
-  /* ---------- ТАБЛИЦА СЕЗОНОВ · МОЖНО МЕНЯТЬ ---------- */
-  /* Формат ММ-ДД. Диапазон может переходить через Новый год. */
-  var SEASONS = [
-    { id: 'newyear', from: '11-15', to: '01-10' },
-    { id: 'winter',  from: '01-11', to: '03-07' },
-    { id: 'spring',  from: '03-08', to: '05-08' },
-    { id: 'summer',  from: '05-09', to: '08-31' },
-    { id: 'autumn',  from: '09-01', to: '11-14' }
-  ];
-
-  function detect() {
-    var d = BB.now(), md = BB.pad(d.getMonth() + 1) + '-' + BB.pad(d.getDate());
-    for (var i = 0; i < SEASONS.length; i++) {
-      var s = SEASONS[i];
-      var ok = (s.from <= s.to) ? (md >= s.from && md <= s.to)
-                                : (md >= s.from || md <= s.to);
-      if (ok) return s.id;
-    }
-    return 'summer';
-  }
-
-  /* Предпросмотр ?season=winter — держится до закрытия вкладки. */
-  var forced = BB.param('season');
-  try {
-    if (forced) sessionStorage.setItem('bb_season', forced);
-    forced = forced || sessionStorage.getItem('bb_season');
-  } catch (e) {}
-
-  BB.season = forced || detect();
-  document.documentElement.setAttribute('data-season', BB.season);
-  document.documentElement.setAttribute('data-site', BB.site);
-  if (forced) document.documentElement.setAttribute('data-season-preview', '1');
-})();
-</script>
-
+<meta name="robots" content="noindex,nofollow">
+<title>Лёгкая осень — Роща и Поля</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&display=swap">
 <style>
-/* ============================================================================
-   ПАЛИТРА НАШИХ КОМПОНЕНТОВ (--bb-*).
-   Ими покрашены анонс-полоса, карточки офферов, таймеры, мобильная панель.
-   Меняются каждый сезон — это безопасно, ничего чужого не задевает.
-   ============================================================================ */
-:root{
-  --bb-accent:#2ed8a3;
-  --bb-accent-ink:#0d2b22;
-  --bb-ink:#1a1b19;
-  --bb-muted:#6b7280;
-  --bb-surface:#ffffff;
-  --bb-bg:#f4f6fb;
-  --bb-line:#e6e9ef;
-  --bb-hot:#e0533d;
-  --bb-badge:#eef7f3;
-  --bb-radius:14px;
-  --bb-shadow:0 2px 10px rgba(20,25,35,.06);
-  --bb-font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
-}
-
-/* «Барские поля» — своя базовая палитра, снята с живого сайта */
-:root[data-site="bp"]{
-  --bb-accent:#a36434;
-  --bb-accent-ink:#ffffff;
-  --bb-ink:#243d34;
-  --bb-bg:#eee5d5;
-  --bb-line:#e5d9b9;
-  --bb-badge:#f2e9d0;
-  --bb-hot:#c0442c;
-}
-
-/* ------------------------------- СЕЗОНЫ ---------------------------------- */
-
-/* НОВЫЙ ГОД · 15 ноября – 10 января */
-:root[data-season="newyear"]{
-  --bb-accent:#1f7a5a; --bb-accent-ink:#fff8e7;
-  --bb-badge:#fdf3e0;  --bb-hot:#c0392b;
-  --bb-bg:#f2f5f3;
-}
-:root[data-season="newyear"][data-site="bp"]{
-  --bb-accent:#7d4d28; --bb-accent-ink:#f2e9d0; --bb-bg:#e9dfcb;
-}
-
-/* ЗИМА · 11 января – 7 марта */
-:root[data-season="winter"]{ --bb-accent:#2f8f9d; --bb-accent-ink:#ffffff; --bb-bg:#eef3f6; }
-:root[data-season="winter"][data-site="bp"]{ --bb-accent:#5a6f7d; --bb-accent-ink:#ffffff; --bb-bg:#e9e6de; }
-
-/* ВЕСНА · 8 марта – 8 мая */
-:root[data-season="spring"]{ --bb-accent:#57b894; --bb-accent-ink:#08281f; --bb-bg:#f2f8f4; }
-:root[data-season="spring"][data-site="bp"]{ --bb-accent:#8a8c46; --bb-accent-ink:#ffffff; --bb-bg:#efe9d8; }
-
-/* ЛЕТО · 9 мая – 31 августа (базовые цвета брендов) */
-:root[data-season="summer"]{ --bb-accent:#2ed8a3; --bb-bg:#f4f6fb; }
-:root[data-season="summer"][data-site="bp"]{ --bb-accent:#a36434; --bb-bg:#eee5d5; }
-
-/* ОСЕНЬ · 1 сентября – 14 ноября */
-:root[data-season="autumn"]{ --bb-accent:#c98a3c; --bb-accent-ink:#241a0c; --bb-bg:#f7f3ec; }
-:root[data-season="autumn"][data-site="bp"]{ --bb-accent:#b5642a; --bb-accent-ink:#ffffff; --bb-bg:#f0e4cd; }
-
-/* ============================================================================
-   ПЕРЕКРАСКА ВСЕГО САЙТА ecobr.ru ЧЕРЕЗ ЦВЕТОВЫЕ СТИЛИ TILDA
-
-   ПРАВИЛО: за сезон меняем максимум ДВЕ переменные — фон секций и (по решению
-   дизайнера) акцент. Текст (Z3IU8y) и тёмный фон (cPYWVKrTiQfG) не трогаем:
-   развалится контраст на 118 блоках.
-   Акцент #2ed8a3 совпадает с btn_background виджета Bnovo в блоке rec3032928101 —
-   если меняете акцент, поменяйте и там, иначе кнопка «поедет» по цвету.
-   ============================================================================ */
-:root[data-site="eco"][data-season="autumn"]{
-  --uc-color-color-n3E0FkCwyE:#f7f3ec;
-}
-:root[data-site="eco"][data-season="newyear"]{
-  --uc-color-color-n3E0FkCwyE:#f2f5f3;
-  /* --uc-color-color-qp7xN:#1f7a5a;  ← акцент. Включать только вместе с Bnovo */
-}
-:root[data-site="eco"][data-season="winter"]{
-  --uc-color-color-n3E0FkCwyE:#eef3f6;
-}
-:root[data-site="eco"][data-season="spring"]{
-  --uc-color-color-n3E0FkCwyE:#f2f8f4;
-}
-
-/* Плашка предпросмотра — видна только при открытии с ?season= */
-:root[data-season-preview] body::after{
-  content:"ПРЕДПРОСМОТР СЕЗОНА · закройте вкладку, чтобы сбросить";
-  position:fixed; left:0; right:0; bottom:0; z-index:99999;
-  background:#111; color:#fff; font:12px/32px var(--bb-font);
-  text-align:center; letter-spacing:.04em; pointer-events:none;
-}
-</style>
-
-<!-- =============================================================================
-     БЛОК 2 · РАСПИСАНИЕ БЛОКОВ ПО ДАТАМ
-     Куда: Настройки сайта → Ещё → HTML-код внутрь HEAD, СРАЗУ ПОСЛЕ блока 1.
-
-     Что делает: сам показывает и прячет блоки Tilda по календарю.
-     Новогодний баннер исчезает 10 января ночью — никто не должен снимать его руками.
-
-     Как это работает без мигания: скрипт пишет <style> прямо в HEAD, до того как
-     браузер отрисовал страницу. Блок не появляется и не «моргает».
-
-     ЧТО ДЕЛАЕТ КОНТЕНТ-МЕНЕДЖЕР: добавляет строку в таблицу SCHEDULE.
-     ID блока берётся в Tilda: наведите на блок → в левой панели написано #rec123456789.
-
-     Проверка: ?schedule=off — показать всё;  ?schedule=debug — таблица решений в консоли;
-               ?date=2026-12-25 — посмотреть, как сайт выглядит в этот день.
-     ============================================================================= -->
-<script>
-(function () {
-  'use strict';
-  var BB = window.BB || {};
-  if (!BB.num) { console.warn('BB: блок 1 (тема сезона) не подключён — расписание выключено'); return; }
-
-  /* =========================================================================
-     ТАБЛИЦА РАСПИСАНИЯ · ЭТО РЕДАКТИРУЕТ КОНТЕНТ-МЕНЕДЖЕР
-
-     rec    — ID блока Tilda (обязательно)
-     from   — с какой даты показывать (включительно), 'ГГГГ-ММ-ДД'
-     to     — по какую дату показывать (включительно)
-     season — показывать только в этот сезон: newyear|winter|spring|summer|autumn
-              (можно список: 'autumn,newyear'). Работает вместе с from/to.
-     mode   — 'show' (по умолчанию: вне окна блок скрыт)
-              'hide' (наоборот: внутри окна блок скрыт)
-     note   — комментарий для людей, на работу не влияет
-
-     Строки можно оставлять «на будущее» — блок просто не появится раньше срока.
-     ========================================================================= */
-  var SCHEDULE = [
-    /* --- строки добавлены сборщиком стенда, в боевом файле их нет --- */
-    { rec:'rec9000000001', season:'autumn',                     note:'Осенний блок' },
-    { rec:'rec9000000002', from:'2026-11-15', to:'2027-01-10',  note:'Новогодний баннер' },
-    { rec:'rec9000000003', season:'summer',                     note:'Летние веранды' },
-
-    /* ---------- ecobr.ru ---------- */
-    // { rec:'rec0000000001', from:'2026-10-01', to:'2026-12-25', note:'НГ: раннее бронирование' },
-    // { rec:'rec0000000002', from:'2026-11-24', to:'2026-12-01', note:'Чёрная пятница' },
-    // { rec:'rec0000000003', from:'2026-12-26', to:'2027-01-08', note:'НГ-программа по дням' },
-    // { rec:'rec0000000004', season:'winter,newyear',            note:'Чаны и бани на первый экран' },
-    // { rec:'rec0000000005', season:'summer',                    note:'Веранды и ферма на первый экран' },
-
-    /* ---------- barskie-polya.ru ---------- */
-    // { rec:'rec0000000010', from:'2026-11-01', to:'2026-12-31', note:'Сертификаты — предпраздничный блок' },
-
-    /* ---------- служебное ---------- */
-    // { rec:'rec0000000099', from:'2026-04-01', to:'2026-04-30', mode:'hide', note:'убрать блок «летние веранды» в апреле' }
-  ];
-  /* ======================= КОНЕЦ РЕДАКТИРУЕМОЙ ЧАСТИ ======================= */
-
-  var mode = BB.param('schedule');
-  if (mode === 'off') { document.documentElement.setAttribute('data-schedule', 'off'); return; }
-
-  /* «Сегодня» приходит из блока 1 и уже учитывает ?date=2026-12-25 */
-  var today = BB.today;
-
-  var season = document.documentElement.getAttribute('data-season');
-  var hide = [], log = [];
-
-  for (var i = 0; i < SCHEDULE.length; i++) {
-    var r = SCHEDULE[i];
-    if (!r || !r.rec) continue;
-
-    var inWindow = true;
-    if (r.from) { var f = BB.num(r.from); inWindow = inWindow && (f !== null) && today >= f; }
-    if (r.to)   { var t = BB.num(r.to);   inWindow = inWindow && (t !== null) && today <= t; }
-    if (r.season) inWindow = inWindow && (',' + r.season.replace(/\s/g, '') + ',').indexOf(',' + season + ',') > -1;
-
-    var visible = (r.mode === 'hide') ? !inWindow : inWindow;
-    if (!visible) hide.push('#' + r.rec);
-    log.push({ rec: r.rec, note: r.note || '', видим: visible });
+  :root{
+    --bar:#1c231f;
+    --bar-2:#28312b;
+    --ink:#eef1ec;
+    --dim:#98a49c;
+    --line:#38423b;
+    --on:#d8b978;
+    --on-ink:#221a0c;
+    --f:'Golos Text','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
   }
-
-  if (hide.length) {
-    var css = hide.join(',') + '{display:none !important}';
-    var el = document.createElement('style');
-    el.setAttribute('data-bb', 'schedule');
-    el.appendChild(document.createTextNode(css));
-    (document.head || document.documentElement).appendChild(el);
-  }
-
-  if (mode === 'debug') {
-    console.log('%cBB расписание · дата ' + today + ' · сезон ' + season, 'font-weight:bold');
-    if (console.table) console.table(log); else console.log(log);
-  }
-})();
-</script>
-
-<!-- =============================================================================
-     БЛОК 3 · ПРЯМОЙ ПЕРЕХОД В БРОНИРОВАНИЕ BNOVO
-     Куда: Настройки сайта → Ещё → HTML-код внутрь HEAD, после блока 2.
-
-     ГЛАВНОЕ, ЧТО НУЖНО ЗНАТЬ (проверено на живом модуле, не из документации):
-
-     Страница /booking на обоих сайтах подключает библиотеку
-       https://widget.reservationsteps.ru/iframe/library/dist/booking_iframe.js
-     Эта библиотека читает GET-параметры АДРЕСНОЙ СТРОКИ и прокидывает их внутрь
-     iframe модуля. Значит прямая ссылка работает без всякого кода:
-
-       https://ecobr.ru/booking?dfrom=2026-12-30&dto=2027-01-03&adults=2&promoCode=NY2027&scroll_to_rooms=1
-
-     Поддерживаемые параметры (из исходника booking_iframe.js, поле в поле):
-       dfrom, dto              даты. Формат ГГГГ-ММ-ДД (проверено: модуль принял и
-                               отдал внутрь как 30-12-2026). ДД.ММ.ГГГГ тоже работает,
-                               но используйте ГГГГ-ММ-ДД — он однозначен.
-       adults, children        число гостей
-       promoCode               промокод. Проверено: подставляется в фильтр модуля
-                               и отображается как #ПРОМОКОД
-       onlyrooms               ID категорий через запятую — показать только их
-       scroll_to_rooms=1       сразу прокрутить к списку домов (ставим всегда)
-       currency, lang          валюта и язык
-       insidePopup, firstroom, servicemode, disable_block_scrolls  — служебные
-       utm_source/medium/campaign/term/content  — пробрасываются в модуль
-
-     UID модулей (для справки, менять не надо):
-       ecobr.ru         9b88bc59-76a6-4230-8e86-85790f3854d4
-       barskie-polya.ru 17f7bf8e-d176-4c55-83a8-a1c0cd6187ae
-
-     ЧТО ДОБАВЛЯЕТ ЭТОТ СКРИПТ поверх штатной ссылки:
-       1. Относительные даты — для вечных офферов («будни», «ближайшие выходные»).
-          В ссылке пишем dfrom=fri&dto=sun или dfrom=+14&dto=+16 —
-          скрипт подставит реальные даты в момент клика.
-       2. Автоматически дописывает scroll_to_rooms=1 и текущие UTM-метки.
-       3. Отправляет цель в Яндекс.Метрику до перехода.
-
-     ============================================================================= -->
-<script>
-(function () {
-  'use strict';
-  var BB = window.BB = window.BB || {};
-
-  /* Счётчики Метрики. Проверено на живых страницах. */
-  BB.COUNTER = { eco: 108978291, bp: 109033653 };
-  BB.counter = BB.COUNTER[BB.site || 'eco'];
-
-  BB.BOOKING_URL = { eco: 'https://ecobr.ru/booking', bp: 'https://barskie-polya.ru/booking' };
-
-  /* ---------------------------------------------------------------------
-     Разбор «умных» дат.
-       2026-12-30  — как есть
-       +14         — сегодня + 14 дней
-       fri         — ближайшая пятница (сегодня, если сегодня пятница)
-       fri+2       — ближайшая пятница + 2 дня
-       mon,tue,wed,thu,fri,sat,sun
-
-     Второй аргумент base — от какой даты считать. Для даты выезда всегда
-     передаём дату заезда, иначе «с понедельника по четверг» превратится
-     в выезд раньше заезда: ближайший четверг может быть до ближайшего понедельника.
-     --------------------------------------------------------------------- */
-  var DOW = { sun:0, mon:1, tue:2, wed:3, thu:4, fri:5, sat:6 };
-
-  BB.resolveDate = function (token, base) {
-    if (!token) return '';
-    token = String(token).trim().toLowerCase();
-    if (/^\d{4}-\d{2}-\d{2}$/.test(token)) return token;
-
-    /* точка отсчёта: переданная дата или сегодня */
-    var d;
-    if (base && /^\d{4}-\d{2}-\d{2}$/.test(base)) {
-      var p = base.split('-');
-      d = new Date(+p[0], +p[1] - 1, +p[2]);
-    } else {
-      d = BB.now();
-      d.setHours(12, 0, 0, 0);
-    }
-
-    var m;
-    if ((m = token.match(/^\+(\d+)$/))) {
-      d.setDate(d.getDate() + (+m[1]));
-      return BB.ymd(d);
-    }
-    if ((m = token.match(/^(sun|mon|tue|wed|thu|fri|sat)(?:\+(\d+))?$/))) {
-      var delta = (DOW[m[1]] - d.getDay() + 7) % 7;
-      /* если считаем от даты заезда, выезд не может быть в тот же день */
-      if (delta === 0 && base) delta = 7;
-      d.setDate(d.getDate() + delta + (m[2] ? +m[2] : 0));
-      return BB.ymd(d);
-    }
-    return token; /* не распознали — отдаём как есть, модуль сам разберётся */
-  };
-
-  /* ---------------------------------------------------------------------
-     Сборка ссылки на бронирование.
-     BB.bookUrl({from:'fri', to:'sun', adults:2, promo:'BUDNI20', rooms:'123,456'})
-     --------------------------------------------------------------------- */
-  BB.bookUrl = function (o) {
-    o = o || {};
-    var base = o.base || BB.BOOKING_URL[BB.site] || BB.BOOKING_URL.eco;
-    var q = [];
-    var from = BB.resolveDate(o.from);
-    var to   = BB.resolveDate(o.to, from);   /* выезд считаем от заезда */
-
-    if (from) q.push('dfrom=' + encodeURIComponent(from));
-    if (to)   q.push('dto=' + encodeURIComponent(to));
-    if (o.adults)   q.push('adults=' + encodeURIComponent(o.adults));
-    if (o.children) q.push('children=' + encodeURIComponent(o.children));
-    if (o.promo)    q.push('promoCode=' + encodeURIComponent(o.promo));
-    if (o.rooms)    q.push('onlyrooms=' + encodeURIComponent(o.rooms));
-    q.push('scroll_to_rooms=1');
-
-    /* Донести источник трафика до модуля — иначе бронь потеряет канал */
-    ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function (u) {
-      var v = BB.param(u);
-      if (v) q.push(u + '=' + encodeURIComponent(v));
-    });
-
-    return base + '?' + q.join('&');
-  };
-
-  /* ---------------------------------------------------------------------
-     Цель в Метрику. Безопасна, если счётчик ещё не загрузился.
-     --------------------------------------------------------------------- */
-  BB.goal = function (name, params) {
-    try {
-      if (typeof window.ym === 'function' && BB.counter) window.ym(BB.counter, 'reachGoal', name, params || {});
-      if (window.VK && VK.Retargeting && VK.Retargeting.Event) VK.Retargeting.Event(name);
-      if (BB.param('goals') === 'debug') console.log('[BB goal]', name, params || {});
-    } catch (e) {}
-  };
-
-  /* ---------------------------------------------------------------------
-     Перехват кликов.
-
-     ВАРИАНТ А (для контент-менеджера, без кода):
-       в Tilda в ссылке кнопки написать относительные даты, например
-       https://ecobr.ru/booking?dfrom=fri&dto=sun&adults=2&promoCode=BUDNI20
-       Скрипт подменит fri/sun на реальные даты в момент клика.
-
-     ВАРИАНТ Б (для наших компонентов):
-       <a data-bb-book data-from="fri" data-to="sun" data-adults="2"
-          data-promo="BUDNI20" data-offer="budni-2026">Забронировать</a>
-     --------------------------------------------------------------------- */
-  function rewriteBookingHref(href) {
-    var mf = href.match(/[?&]dfrom=([^&#]*)/), mt = href.match(/[?&]dto=([^&#]*)/);
-    var from = mf ? BB.resolveDate(decodeURIComponent(mf[1])) : '';
-    var to   = mt ? BB.resolveDate(decodeURIComponent(mt[1]), from) : '';
-    if (mf) href = href.replace(/([?&]dfrom=)[^&#]*/, '$1' + encodeURIComponent(from));
-    if (mt) href = href.replace(/([?&]dto=)[^&#]*/,   '$1' + encodeURIComponent(to));
-    return href;
-  }
-
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest ? e.target.closest('a,[data-bb-book]') : null;
-    if (!a) return;
-
-    /* Б: собираем ссылку из data-атрибутов */
-    if (a.hasAttribute('data-bb-book')) {
-      var url = BB.bookUrl({
-        from: a.getAttribute('data-from'),
-        to: a.getAttribute('data-to'),
-        adults: a.getAttribute('data-adults'),
-        children: a.getAttribute('data-children'),
-        promo: a.getAttribute('data-promo'),
-        rooms: a.getAttribute('data-rooms')
-      });
-      BB.goal('offer_book_click', { offer: a.getAttribute('data-offer') || 'unknown' });
-      if (a.tagName === 'A') { a.href = url; return; }
-      e.preventDefault(); location.href = url; return;
-    }
-
-    /* А: обычная ссылка на /booking с относительными датами */
-    var href = a.getAttribute('href') || '';
-    if (href.indexOf('/booking') > -1 && /[?&](dfrom|dto)=/.test(href)) {
-      a.href = rewriteBookingHref(href);
-      BB.goal('offer_book_click', { offer: a.getAttribute('data-offer') || 'link' });
-    }
-  }, true);
-})();
-</script>
-
-<!-- =============================================================================
-     БЛОК 4 · АНОНС-ПОЛОСА ПОД ШАПКОЙ (сквозная, на всех страницах)
-     Куда: Настройки сайта → Ещё → HTML-код внутрь HEAD, после блока 3.
-
-     Один источник правды на весь сайт: меняете текст здесь — меняется везде.
-     Полоса сама исчезает после даты `until`. Гость может её закрыть — не увидит 7 дней.
-
-     ПОДВИНУТЫЕ ШАПКИ (ID сняты с живых страниц, не менять без проверки):
-       ecobr.ru         #rec1729326481 (десктоп), #rec1730117851 (мобильная)
-       barskie-polya.ru #rec1185050691
-     Если в Tilda добавят новую шапку — допишите её ID в HEADERS ниже.
-
-     ЧТО МЕНЯЕТ КОНТЕНТ-МЕНЕДЖЕР: только объект ANNOUNCE.
-     Чтобы выключить полосу — поставьте enabled:false.
-     ============================================================================= -->
-<script>
-(function () {
-  'use strict';
-  var BB = window.BB || {};
-  if (!BB.num) return;
-
-  /* =========================================================================
-     НАСТРОЙКА ПОЛОСЫ · РЕДАКТИРУЕТ КОНТЕНТ-МЕНЕДЖЕР
-
-     id      — короткий код кампании. МЕНЯЙТЕ при каждой новой акции:
-               иначе гость, закрывший прошлую полосу, не увидит новую.
-     text    — одна строка, без воды. Хорошо: «−20% на будни в ноябре, промокод BUDNI20»
-     cta     — надпись на кнопке
-     href    — куда ведёт. Лучше сразу в бронирование (см. блок 3):
-               '/booking?dfrom=mon&dto=thu&adults=2&promoCode=BUDNI20'
-               или на посадочную '/november'
-     from/until — окно показа, ГГГГ-ММ-ДД, включительно
-     ========================================================================= */
-  var ANNOUNCE = {
-    eco: {
-      enabled: true,
-      id:    'eco-2026-11-budni',
-      text:  'Будни ноября: −20% при заезде с понедельника по четверг. Промокод BUDNI20',
-      cta:   'Выбрать даты',
-      href:  '/booking?dfrom=mon&dto=thu&adults=2&promoCode=BUDNI20',
-      from:  '2020-01-01',
-      until: '2035-12-31'
-    },
-    bp: {
-      enabled: true,
-      id:    'bp-2026-11-sert',
-      text:  'Подарочные сертификаты 10 / 20 / 30 тыс. — успеть до Нового года',
-      cta:   'Купить сертификат',
-      href:  '/sertifikaty',
-      from:  '2020-01-01',
-      until: '2035-12-31'
-    }
-  };
-
-  var HEADERS = {
-    eco: ['rec1729326481', 'rec1730117851'],
-    bp:  ['rec1729326481']
-  };
-  /* ======================= КОНЕЦ РЕДАКТИРУЕМОЙ ЧАСТИ ======================= */
-
-  /* ?announce=preview — посмотреть полосу, не включая её для гостей.
-     Игнорирует enabled, окно дат и то, что вы её уже закрывали. */
-  var preview = BB.param('announce') === 'preview';
-
-  var cfg = ANNOUNCE[BB.site];
-  if (!cfg) return;
-  if (!preview) {
-    if (!cfg.enabled) return;
-    if (location.pathname.indexOf('/booking') === 0) return; /* не мешаем в оплате */
-
-    var today = BB.today || BB.todayNum();
-    if (cfg.from  && today < BB.num(cfg.from))  return;
-    if (cfg.until && today > BB.num(cfg.until)) return;
-
-    try {
-      var until = localStorage.getItem('bb_ab_' + cfg.id);
-      if (until && +until > Date.now()) return;
-    } catch (e) {}
-  }
-
-  /* Стартовая оценка высоты — чтобы не было прыжка до первого замера.
-     Реальная высота измеряется после отрисовки: на телефоне длинный текст
-     переносится на две-три строки, и зашитая константа увела бы шапку под полосу. */
-  var HEIGHT_DESKTOP = 44, HEIGHT_MOBILE = 52;
-
-  var css =
-    ':root{--bb-ab-h:' + HEIGHT_DESKTOP + 'px}' +
-    '@media(max-width:639px){:root{--bb-ab-h:' + HEIGHT_MOBILE + 'px}}' +
-    'body{padding-top:var(--bb-ab-h)}' +
-    HEADERS[BB.site].map(function (r) {
-      return '#' + r + ' .t396__artboard{top:var(--bb-ab-h) !important}';
-    }).join('') +
-    '.bb-ab{position:fixed;top:0;left:0;right:0;z-index:9990;display:flex;align-items:center;' +
-      'gap:14px;min-height:var(--bb-ab-h);padding:6px 44px 6px 16px;box-sizing:border-box;' +
-      'background:var(--bb-accent);color:var(--bb-accent-ink);font:500 14px/1.3 var(--bb-font);' +
-      'justify-content:center;text-align:center}' +
-    '.bb-ab__t{max-width:820px}' +
-    '.bb-ab__b{flex:none;background:var(--bb-accent-ink);color:var(--bb-accent);' +
-      'text-decoration:none;padding:7px 16px;border-radius:999px;font-weight:600;white-space:nowrap}' +
-    '.bb-ab__x{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;' +
-      'border:0;background:transparent;color:inherit;font-size:20px;line-height:1;cursor:pointer;opacity:.65}' +
-    '.bb-ab__x:hover{opacity:1}' +
-    '@media(max-width:639px){.bb-ab{flex-direction:column;gap:6px;padding:8px 40px 8px 12px;' +
-      'font-size:13px}.bb-ab__b{padding:5px 14px;font-size:13px}}';
-
-  var st = document.createElement('style');
-  st.setAttribute('data-bb', 'announce');
-  st.appendChild(document.createTextNode(css));
-  (document.head || document.documentElement).appendChild(st);
-
-  function mount() {
-    if (document.querySelector('.bb-ab')) return;
-    var bar = document.createElement('div');
-    bar.className = 'bb-ab';
-    bar.setAttribute('role', 'region');
-    bar.setAttribute('aria-label', 'Специальное предложение');
-
-    var t = document.createElement('span');
-    t.className = 'bb-ab__t';
-    t.textContent = cfg.text;
-
-    var a = document.createElement('a');
-    a.className = 'bb-ab__b';
-    a.href = cfg.href;
-    a.textContent = cfg.cta;
-    a.setAttribute('data-offer', cfg.id);
-    a.addEventListener('click', function () { BB.goal && BB.goal('announce_click', { id: cfg.id }); });
-
-    var x = document.createElement('button');
-    x.className = 'bb-ab__x';
-    x.type = 'button';
-    x.setAttribute('aria-label', 'Закрыть');
-    x.innerHTML = '&times;';
-    x.addEventListener('click', function () {
-      bar.remove();
-      document.documentElement.style.setProperty('--bb-ab-h', '0px');
-      try { localStorage.setItem('bb_ab_' + cfg.id, Date.now() + 7 * 864e5); } catch (e) {}
-      BB.goal && BB.goal('announce_close', { id: cfg.id });
-    });
-
-    bar.appendChild(t); bar.appendChild(a); bar.appendChild(x);
-    document.body.insertBefore(bar, document.body.firstChild);
-
-    /* Подгоняем отступ под фактическую высоту полосы. Иначе на телефоне,
-       где текст переносится, шапка сайта окажется под полосой. */
-    function syncHeight() {
-      var h = bar.offsetHeight;
-      if (h) document.documentElement.style.setProperty('--bb-ab-h', h + 'px');
-    }
-    syncHeight();
-    window.addEventListener('resize', syncHeight);
-    window.addEventListener('orientationchange', syncHeight);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncHeight);
-    setTimeout(syncHeight, 400);   /* запасной замер: шрифты Tilda грузятся позже */
-
-    BB.goal && BB.goal('announce_show', { id: cfg.id });
-  }
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
-  else mount();
-})();
-</script>
-
-<!-- =============================================================================
-     БЛОК 5 · ЦЕЛИ ЯНДЕКС.МЕТРИКИ НА СТОРОНЕ САЙТА
-     Куда: Настройки сайта → Ещё → HTML-код внутрь HEAD, после блока 4.
-
-     ------------------------------------------------------------------------
-     СНАЧАЛА ПРОЧИТАЙТЕ — ЭТО ВАЖНЕЕ КОДА НИЖЕ.
-
-     Модуль бронирования Bnovo УЖЕ отправляет цели в ваши счётчики.
-     Проверено в исходнике reservationsteps.ru/dist/js/yandex_metrika_events*.js:
-       yaCounterId        = 50003071   (счётчик самого Bnovo)
-       yaCounterIdAccount = 108978291  (ecobr.ru)  /  109033653 (barskie-polya.ru)
-     и вызов ym(yaCounterIdAccount, 'reachGoal', <идентификатор>).
-
-     То есть события уже летят — их просто НЕ СОЗДАЛИ как цели в интерфейсе Метрики.
-     Заведите их в Метрике: Цели → Добавить цель → тип «JavaScript-событие»,
-     идентификатор — из списка ниже. Это работа на 20 минут, доступ к коду не нужен.
-
-     Воронка бронирования, по шагам (идентификаторы дословно из скрипта Bnovo):
-       search                     поиск по датам
-       check_button               нажата кнопка «Проверить/Найти»
-       no_availability            свободных домов на эти даты нет   ← смотреть каждую неделю
-       select_room                выбран дом
-       change_plan                выбран другой тариф
-       show_more_plans            раскрыл тарифы
-       select_service             добавлена услуга (чан, баня, завтрак) — доп. выручка
-       enter_promo_code           введён промокод
-       promo_code_window_apply    промокод применён
-       cart_first_step_button     шаг 1 корзины
-       cart_second_step_button    шаг 2 корзины
-       booking_submit_click       отправка брони
-       reservation_button_auto    бронь оплачена онлайн        ← ГЛАВНАЯ ЦЕЛЬ
-       reservation_button_manual  бронь без онлайн-оплаты      ← ГЛАВНАЯ ЦЕЛЬ
-       book                       завершение бронирования
-
-     Дополнительно в Метрике (Настройка → Счётчик):
-       добавьте reservationsteps.ru в «Зеркала сайта», иначе визит в модуле
-       считается отдельным визитом и источник трафика у брони теряется.
-       После настройки проверьте по Вебвизору, что сессия не рвётся.
-     ------------------------------------------------------------------------
-
-     ЧТО ДЕЛАЕТ КОД НИЖЕ: добавляет цели, которых у Bnovo быть не может —
-     клики по телефону, мессенджерам, офферам, глубина просмотра.
-     После вставки заведите эти же идентификаторы целями в Метрике.
-     ============================================================================= -->
-<script>
-(function () {
-  'use strict';
-  var BB = window.BB || {};
-  if (!BB.goal) return;
-
-  /* --- Клики по телефону, почте и мессенджерам ---------------------------- */
-  var MESSENGERS = [
-    { re: /(?:wa\.me|whatsapp)/i,       goal: 'click_whatsapp' },
-    { re: /(?:t\.me|telegram)/i,        goal: 'click_telegram' },
-    { re: /vk\.com/i,                   goal: 'click_vk' },
-    { re: /^tel:/i,                     goal: 'click_phone' },
-    { re: /^mailto:/i,                  goal: 'click_email' },
-    { re: /yandex\.[a-z]+\/maps/i,      goal: 'click_yandex_maps' },
-    { re: /2gis\./i,                    goal: 'click_2gis' }
-  ];
-
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[href]');
-    if (!a) return;
-    var href = a.getAttribute('href') || '';
-
-    for (var i = 0; i < MESSENGERS.length; i++) {
-      if (MESSENGERS[i].re.test(href)) { BB.goal(MESSENGERS[i].goal, { href: href }); return; }
-    }
-    /* Переход на страницу бронирования любым путём */
-    if (href.indexOf('/booking') > -1) BB.goal('go_to_booking', { from: location.pathname });
-  }, true);
-
-  /* --- Отправка любой формы Tilda ----------------------------------------- */
-  document.addEventListener('tildaform:aftersuccess', function (e) {
-    var name = (e.detail && e.detail.form && e.detail.form.getAttribute('data-formname')) || 'form';
-    BB.goal('form_submit', { form: name });
-  });
-  /* запасной путь, если событие Tilda не сработало */
-  document.addEventListener('submit', function (e) {
-    if (e.target && e.target.classList && e.target.classList.contains('t-form')) {
-      BB.goal('form_submit_try', { form: e.target.getAttribute('data-formname') || 'form' });
-    }
-  }, true);
-
-  /* --- Глубина просмотра: дошёл ли гость до офферов и до цен -------------- */
-  var fired = {};
-  function depth() {
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    if (h <= 0) return;
-    var p = Math.round((window.pageYOffset / h) * 100);
-    [50, 75].forEach(function (mark) {
-      if (p >= mark && !fired[mark]) { fired[mark] = 1; BB.goal('scroll_' + mark, { page: location.pathname }); }
-    });
-  }
-  var t;
-  window.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(depth, 250); }, { passive: true });
-
-  /* --- Время на странице 60 сек — отсечь случайный трафик ----------------- */
-  setTimeout(function () { BB.goal('engaged_60s', { page: location.pathname }); }, 60000);
-})();
-</script>
-
-<!-- =============================================================================
-     БЛОК 8 · МОБИЛЬНАЯ НИЖНЯЯ ПАНЕЛЬ (для ecobr.ru)
-     Куда: ecobr.ru → Настройки сайта → Ещё → HTML-код внутрь HEAD, последним.
-
-     Зачем: у «Барских полей» нижняя закреплённая панель уже есть — это блок
-     #rec2461410871 (position:fixed; bottom:0). У «Берёзовой рощи» её нет:
-     на живой странице два закреплённых блока и оба сверху (#rec1729326481,
-     #rec1730117851). На телефоне гость, пролиставший до середины, остаётся
-     без кнопки брони вообще.
-
-     Панель появляется только на мобильных, только после 25% прокрутки
-     (чтобы не закрывать первый экран) и не показывается на /booking.
-
-     ЧТО МЕНЯЕТ КОНТЕНТ-МЕНЕДЖЕР: текст и телефон в блоке CFG.
-     ============================================================================= -->
-<script>
-(function () {
-  'use strict';
-  var BB = window.BB || {};
-  if (!BB.num || BB.site !== 'eco') return;             /* у БП своя панель */
-  if (location.pathname.indexOf('/booking') === 0) return;
-
-  var CFG = {
-    phone:    '+74951202008',
-    phoneText:'Позвонить',
-    cta:      'Проверить даты',
-    href:     '/booking?scroll_to_rooms=1',
-    hint:     'от 11 900 ₽ / сутки'                     /* пусто — не показывать */
-  };
-
-  var css =
-    '.bb-sticky{position:fixed;left:0;right:0;bottom:0;z-index:9980;display:none;align-items:center;gap:10px;' +
-      'padding:10px 12px;box-sizing:border-box;background:var(--bb-surface);' +
-      'border-top:1px solid var(--bb-line);box-shadow:0 -4px 16px rgba(0,0,0,.08);' +
-      'padding-bottom:calc(10px + env(safe-area-inset-bottom))}' +
-    '.bb-sticky.is-on{display:flex}' +
-    '.bb-sticky__l{flex:1;min-width:0;font:12px/1.25 var(--bb-font);color:var(--bb-muted)}' +
-    '.bb-sticky__l b{display:block;font:600 14px/1.2 var(--bb-font);color:var(--bb-ink)}' +
-    '.bb-sticky__tel{flex:none;width:46px;height:46px;border-radius:12px;border:1px solid var(--bb-line);' +
-      'display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--bb-ink)}' +
-    '.bb-sticky__go{flex:none;background:var(--bb-accent);color:var(--bb-accent-ink);text-decoration:none;' +
-      'border-radius:12px;padding:14px 20px;font:600 15px/1 var(--bb-font)}' +
-    '@media(min-width:640px){.bb-sticky{display:none !important}}' +
-    '@media(max-width:639px){body{padding-bottom:72px}}';
-
-  var st = document.createElement('style');
-  st.appendChild(document.createTextNode(css));
-  (document.head || document.documentElement).appendChild(st);
-
-  function mount() {
-    var bar = document.createElement('div');
-    bar.className = 'bb-sticky';
-
-    var l = document.createElement('div');
-    l.className = 'bb-sticky__l';
-    l.innerHTML = '<b>Экобаза «Берёзовая роща»</b>' + (CFG.hint ? CFG.hint : '');
-
-    var tel = document.createElement('a');
-    tel.className = 'bb-sticky__tel';
-    tel.href = 'tel:' + CFG.phone;
-    tel.setAttribute('aria-label', CFG.phoneText);
-    tel.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
-      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 ' +
-      '2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.6 2.8a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.2-1.1a2 2 0 0 1 ' +
-      '2.1-.5c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.8 2Z"/></svg>';
-
-    var go = document.createElement('a');
-    go.className = 'bb-sticky__go';
-    go.href = CFG.href;
-    go.textContent = CFG.cta;
-    go.setAttribute('data-offer', 'sticky-mobile');
-
-    bar.appendChild(l); bar.appendChild(tel); bar.appendChild(go);
-    document.body.appendChild(bar);
-
-    var shown = false;
-    function onScroll() {
-      var h = document.documentElement.scrollHeight - window.innerHeight;
-      var on = h > 0 && (window.pageYOffset / h) > 0.25;
-      bar.classList.toggle('is-on', on);
-      if (on && !shown) { shown = true; BB.goal && BB.goal('sticky_show'); }
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  }
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
-  else mount();
-})();
-</script>
-
-
-<style>
-  /* Стенд намеренно простой: он показывает работу движка, а не дизайн Tilda.
-     Всё покрашено переменными --bb-*, поэтому меняется вместе с сезоном. */
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bb-bg);color:var(--bb-ink);
-       font:16px/1.6 var(--bb-font);transition:background .3s}
-  .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+  html,body{height:100%}
+  body{margin:0;background:var(--bar);color:var(--ink);font:15px/1.5 var(--f);
+       display:flex;flex-direction:column;overflow:hidden}
 
-  /* Шапка: те же id и классы, что на живом ecobr.ru, чтобы анонс-полоса
-     двигала её ровно так же, как на боевом сайте. */
-  #rec1729326481 .t396__artboard{
-    position:fixed;width:100%;left:0;top:0;z-index:10;height:72px;
-    background:var(--bb-surface);border-bottom:1px solid var(--bb-line);
-    display:flex;align-items:center}
-  .hdr{max-width:1200px;margin:0 auto;padding:0 20px;width:100%;
-       display:flex;align-items:center;gap:24px}
-  .hdr__logo{font-weight:600;letter-spacing:.02em;margin-right:auto;min-width:0;
-             overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .hdr__nav{display:flex;gap:20px;font-size:14px;color:var(--bb-muted)}
-  .hdr__cta{background:var(--bb-accent);color:var(--bb-accent-ink);flex:none;
-            text-decoration:none;padding:11px 18px;border-radius:10px;
-            font-weight:600;font-size:14px;white-space:nowrap}
-  @media(max-width:800px){.hdr__nav{display:none}}
-  @media(max-width:639px){
-    .hdr{gap:12px;padding:0 14px}
-    .hdr__logo{font-size:14px}
-    .hdr__cta{padding:9px 13px;font-size:13px}
-    #rec1729326481 .t396__artboard{height:60px}
-  }
+  header{flex:none;background:var(--bar);border-bottom:1px solid var(--line)}
+  .row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 16px}
 
-  .hero{padding:132px 0 56px;text-align:center}
-  .hero h1{font-size:clamp(28px,5vw,46px);line-height:1.1;margin:0 0 14px;
-           text-wrap:balance}
-  .hero p{color:var(--bb-muted);max-width:52ch;margin:0 auto 26px}
-  .hero__badge{display:inline-block;background:var(--bb-badge);
-    border-radius:999px;padding:7px 15px;font-size:13px;font-weight:600;margin-bottom:18px}
+  .brand{font-weight:600;letter-spacing:.01em;margin-right:4px;white-space:nowrap}
+  .brand small{display:block;font-weight:400;font-size:11.5px;color:var(--dim);letter-spacing:.02em}
 
-  .sec{padding:36px 0}
-  .sec h2{font-size:24px;margin:0 0 6px}
-  .sec > p{color:var(--bb-muted);margin:0 0 22px}
+  .grp{display:flex;align-items:center;gap:8px}
+  .lbl{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
+  .seg{display:flex;background:var(--bar-2);border:1px solid var(--line);border-radius:9px;padding:2px}
+  .seg button{appearance:none;border:0;background:transparent;color:var(--dim);cursor:pointer;
+    font:500 13.5px/1 var(--f);padding:8px 14px;border-radius:7px;white-space:nowrap}
+  .seg button:hover{color:var(--ink)}
+  .seg button[aria-pressed="true"]{background:var(--on);color:var(--on-ink);font-weight:600}
+  .seg button:focus-visible{outline:2px solid var(--on);outline-offset:2px}
 
-  /* Блоки под расписанием — визуально помечены, чтобы было видно, что происходит */
-  .sched{border:2px dashed var(--bb-line);border-radius:14px;padding:22px 24px;
-         margin-bottom:14px;background:var(--bb-surface)}
-  .sched h3{margin:0 0 6px;font-size:18px}
-  .sched p{margin:0;color:var(--bb-muted);font-size:14.5px}
-  .sched code{font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;
-              background:var(--bb-badge);padding:2px 6px;border-radius:4px}
+  .cost{font-size:12.5px;color:var(--dim);white-space:nowrap}
+  .cost b{color:var(--ink);font-weight:600}
 
-  .foot{border-top:1px solid var(--bb-line);margin-top:40px;padding:26px 0 96px;
-        color:var(--bb-muted);font-size:14px}
+  .links{margin-left:auto;display:flex;gap:14px;font-size:13px}
+  .links a{color:var(--dim);text-decoration:none;border-bottom:1px solid transparent;white-space:nowrap}
+  .links a:hover{color:var(--ink);border-bottom-color:var(--on)}
 
-  /* Панель управления стендом */
-  .panel{position:fixed;right:16px;top:136px;z-index:9995;width:250px;
-    background:var(--bb-surface);border:1px solid var(--bb-line);border-radius:14px;
-    box-shadow:0 6px 28px rgba(15,25,20,.14);font-size:13px;overflow:hidden}
-  .panel__h{display:flex;align-items:center;gap:8px;padding:11px 14px;
-    background:var(--bb-badge);font-weight:600;cursor:pointer;user-select:none}
-  .panel__h span{margin-left:auto;color:var(--bb-muted);font-weight:400}
-  .panel__b{padding:14px}
-  .panel.is-off .panel__b{display:none}
-  .panel h4{margin:0 0 7px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
-            color:var(--bb-muted);font-weight:600}
-  .panel h4:not(:first-child){margin-top:16px}
-  .panel__row{display:flex;flex-wrap:wrap;gap:5px}
-  .panel a,.panel button{display:inline-block;border:1px solid var(--bb-line);
-    background:var(--bb-surface);color:var(--bb-ink);border-radius:7px;
-    padding:6px 10px;font:500 12.5px/1 var(--bb-font);text-decoration:none;cursor:pointer}
-  .panel a:hover{border-color:var(--bb-accent)}
-  .panel a.is-on{background:var(--bb-accent);border-color:var(--bb-accent);
-                 color:var(--bb-accent-ink)}
-  .panel input[type=date]{width:100%;padding:7px 9px;border:1px solid var(--bb-line);
-    border-radius:7px;font:13px var(--bb-font);color:var(--bb-ink);background:var(--bb-surface)}
-  .panel__note{margin:14px 0 0;color:var(--bb-muted);font-size:11.5px;line-height:1.45}
-  @media(max-width:900px){
-    .panel{right:10px;left:10px;top:auto;bottom:80px;width:auto}
-    /* Свёрнутая панель не должна закрывать сам стенд — сжимаем её в уголок */
-    .panel.is-off{left:auto;width:auto}
-    .panel.is-off .panel__h{padding:9px 13px;font-size:12.5px}
+  .note{padding:0 16px 10px;font-size:12.5px;color:var(--dim);max-width:none}
+  .note b{color:var(--ink);font-weight:500}
+  kbd{background:var(--bar-2);border:1px solid var(--line);border-bottom-width:2px;
+      border-radius:5px;padding:1px 6px;font:12px var(--f);color:var(--ink)}
+
+  .stage{flex:1;position:relative;background:#fff;min-height:0}
+  iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+  .load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:var(--bar);color:var(--dim);font-size:14px;gap:10px;z-index:2}
+  .load[hidden]{display:none}
+  .spin{width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--on);
+        border-radius:50%;animation:sp .8s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.spin{animation:none}}
+
+  @media(max-width:760px){
+    .row{gap:12px;padding:9px 12px}
+    .links{width:100%;margin-left:0;order:9}
+    .brand small{display:none}
+    .note{padding:0 12px 9px}
   }
 </style>
 </head>
 <body>
 
-<div id="rec1729326481">
-  <div class="t396__artboard">
-    <div class="hdr">
-      <div class="hdr__logo">ЭкоБаза «Берёзовая роща»</div>
-      <nav class="hdr__nav">
-        <span>О базе</span><span>Каталог домов</span><span>Спецпредложения</span><span>SPA</span>
-      </nav>
-      <a class="hdr__cta" href="/booking?scroll_to_rooms=1">Проверить даты</a>
+<header>
+  <div class="row">
+    <div class="brand">Лёгкая осень<small>сезонный слой поверх живых сайтов</small></div>
+
+    <div class="grp">
+      <span class="lbl">База</span>
+      <div class="seg" id="siteSeg">
+        <button type="button" data-site="eco" aria-pressed="true">Берёзовая роща</button>
+        <button type="button" data-site="bp" aria-pressed="false">Барские поля</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Оформление</span>
+      <div class="seg" id="seasonSeg">
+        <button type="button" data-on="0" aria-pressed="true">Как сейчас</button>
+        <button type="button" data-on="1" aria-pressed="false">Лёгкая осень</button>
+      </div>
+    </div>
+
+    <div class="cost" id="cost">&nbsp;</div>
+
+    <div class="links">
+      <a href="stend.html">Стенд движка</a>
+      <a href="playbook.html">Playbook</a>
+      <a href="https://github.com/bars-ytars-sys/ber-bar-seasonal-engine" target="_blank" rel="noopener">Код</a>
     </div>
   </div>
-</div>
 
-<div class="wrap">
-  <section class="hero">
-    <div class="hero__badge">Хорошее место по версии Яндекса 5 лет подряд</div>
-    <h1>Демо-стенд движка сезонности</h1>
-    <p>
-      Страница-макет, на которой работают настоящие компоненты из
-      <code>seasonal-engine/</code>. Переключайте сезон и дату в панели справа —
-      меняется всё: палитра, анонс-полоса, состав блоков, живые офферы.
-    </p>
-  </section>
-
-  <section class="sec">
-    <h2>Показ блоков по датам</h2>
-    <p>Три блока с разными правилами. Ничего не снимается руками.</p>
-
-    <div class="sched" id="rec9000000001">
-      <h3>Осенний блок</h3>
-      <p>Правило: <code>season:'autumn'</code> — виден только осенью.</p>
-    </div>
-
-    <div class="sched" id="rec9000000002">
-      <h3>🎄 Новогодний баннер</h3>
-      <p>Правило: <code>from:'2026-11-15' to:'2027-01-10'</code> — появится и исчезнет сам.
-         Поставьте дату 1 февраля и убедитесь.</p>
-    </div>
-
-    <div class="sched" id="rec9000000003">
-      <h3>Летние веранды</h3>
-      <p>Правило: <code>season:'summer'</code> — на витрине только в сезон.</p>
-    </div>
-  </section>
-
-  <section class="sec">
-    <h2>Каталог спецпредложений</h2>
-    <p>
-      Тот же блок, что ставится на <code>/special</code>. Фильтры собираются
-      из тегов, таймеры считают до реального дедлайна, промокод копируется по клику,
-      кнопка ведёт прямо в модуль Bnovo с подставленными датами.
-    </p>
-  </section>
-</div>
-
-<!-- =============================================================================
-     БЛОК 7 · КАТАЛОГ СПЕЦПРЕДЛОЖЕНИЙ
-     Куда: страница /special → добавить блок «Другое → T123 HTML-код» → вставить это.
-     Требует: блоки 1–3 в HEAD (тема, расписание, ссылки Bnovo).
-
-     Что даёт: каждый оффер получает цену, срок, условия, таймер, промокод и кнопку,
-     которая ведёт СРАЗУ в модуль бронирования с подставленными датами и промокодом.
-     Просроченные офферы исчезают сами.
-
-     ЧТО МЕНЯЕТ КОНТЕНТ-МЕНЕДЖЕР: только текст между <script id="bb-offers"> и </script>.
-     Это данные, не программа: ошибиться сложно, лишняя запятая в конце прощается.
-     Проверка перед публикацией: откройте /special?debug=offers — покажет ошибки списком.
-     ============================================================================= -->
-
-<script type="application/json" id="bb-offers">
-[
-  {
-    "id": "budni-osen",
-    "title": "Будни −20%",
-    "lead": "Заезд понедельник–четверг. Тот же дом, та же баня, цена ниже.",
-    "price": 11900,
-    "oldPrice": 14900,
-    "priceNote": "за дом в сутки",
-    "badge": "hot",
-    "tags": ["budni", "dvoim", "banya"],
-    "includes": [
-      "Завтрак «шведский стол» на двоих",
-      "Поздний выезд до 14:00",
-      "Парковка у дома"
-    ],
-    "excludes": ["Банный чан — 4 500 ₽ за 3 часа, бронируется отдельно"],
-    "rules": "Минимум 2 ночи. Не суммируется с другими акциями. Количество домов ограничено.",
-    "stay": { "from": "2026-09-01", "to": "2026-11-30" },
-    "sale": { "from": "2026-09-01", "to": "2026-11-25" },
-    "promo": "BUDNI20",
-    "book": { "from": "mon", "to": "thu", "adults": 2 },
-    "more": ""
-  },
-  {
-    "id": "ny-rannee",
-    "title": "Новый год: раннее бронирование",
-    "lead": "Фиксируем цену сентября на новогодние даты. Мест меньше, чем кажется.",
-    "price": 39000,
-    "priceNote": "за дом в сутки, 30.12–02.01",
-    "badge": "new",
-    "tags": ["kompaniey", "semya", "banya"],
-    "includes": [
-      "Новогодний ужин 31 декабря",
-      "Украшенный дом и ёлка",
-      "Программа для детей 1 января"
-    ],
-    "excludes": ["Банный чан и SPA оплачиваются отдельно"],
-    "rules": "Минимум 3 ночи. Предоплата 50%, невозвратная после 1 декабря.",
-    "stay": { "from": "2026-12-30", "to": "2027-01-08" },
-    "sale": { "from": "2026-10-01", "to": "2026-11-30" },
-    "promo": "NY2027",
-    "book": { "from": "2026-12-30", "to": "2027-01-03", "adults": 4 },
-    "more": "/newyear"
-  },
-  {
-    "id": "ny-programma",
-    "title": "Новогодние каникулы",
-    "lead": "Программа с посуточной раскладкой: 30 декабря — 8 января.",
-    "price": 34000,
-    "priceNote": "за дом в сутки",
-    "badge": "last",
-    "tags": ["semya", "kompaniey", "banya"],
-    "includes": [
-      "Новогодний ужин и программа 31 декабря",
-      "Завтраки все дни",
-      "Детская программа 1 и 2 января",
-      "Банный чан по записи"
-    ],
-    "excludes": ["Салют и фотограф — по отдельному прайсу"],
-    "rules": "Минимум 3 ночи. Предоплата 50%, невозвратная.",
-    "stay": { "from": "2026-12-30", "to": "2027-01-08" },
-    "sale": { "from": "2026-11-15", "to": "2026-12-29" },
-    "promo": "",
-    "book": { "from": "2026-12-30", "to": "2027-01-02", "adults": 4 },
-    "more": "/newyear"
-  },
-  {
-    "id": "dvoim-chan",
-    "title": "Для двоих: чан на закате",
-    "lead": "Ночь в А-фрейме, банный чан на 3 часа и ужин в дом.",
-    "price": 21500,
-    "priceNote": "пакет на двоих за ночь",
-    "badge": "",
-    "tags": ["dvoim", "banya"],
-    "includes": [
-      "Ночь в доме категории А-фрейм",
-      "Банный чан 3 часа с дровами и травами",
-      "Ужин на двоих в дом",
-      "Поздний выезд до 14:00"
-    ],
-    "excludes": [],
-    "rules": "Доступно по будням и в воскресенье. Бронируется не позднее чем за 2 дня.",
-    "stay": { "from": "2026-09-01", "to": "2027-03-31" },
-    "sale": { "from": "2026-09-01", "to": "2027-03-25" },
-    "promo": "",
-    "book": { "from": "+3", "to": "+1", "adults": 2 },
-    "more": ""
-  }
-]
-</script>
-
-<div class="bb-offers" id="bb-offers-root">
-  <div class="bb-offers__filters" id="bb-offers-filters" role="group" aria-label="Фильтр предложений"></div>
-  <div class="bb-offers__grid" id="bb-offers-grid"></div>
-  <p class="bb-offers__empty" id="bb-offers-empty" hidden>
-    По этому фильтру предложений сейчас нет.
-    <a href="#" data-bb-reset>Показать все</a>
+  <p class="note">
+    Это <b>настоящие страницы</b> ecobr.ru и barskie-polya.ru, а не макет. Осень включается слоем CSS
+    поверх — вёрстка, тексты и блоки не трогаются. Прокрутка при переключении сохраняется,
+    так что можно щёлкать туда-обратно и сравнивать: <kbd>пробел</kbd> — переключить оформление.
+    Счётчики аналитики и отправка форм в копиях отключены.
   </p>
+</header>
+
+<div class="stage">
+  <div class="load" id="load"><span class="spin"></span><span>Загружаем страницу целиком…</span></div>
+  <iframe id="frame" title="Витрина сайта"></iframe>
 </div>
-
-<style>
-.bb-offers{font:16px/1.5 var(--bb-font);color:var(--bb-ink);max-width:1200px;margin:0 auto;padding:0 20px;box-sizing:border-box}
-.bb-offers *{box-sizing:border-box}
-.bb-offers__filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
-.bb-chip{border:1px solid var(--bb-line);background:var(--bb-surface);color:var(--bb-ink);
-  padding:8px 16px;border-radius:999px;font:500 14px/1 var(--bb-font);cursor:pointer;transition:.15s}
-.bb-chip:hover{border-color:var(--bb-accent)}
-.bb-chip[aria-pressed="true"]{background:var(--bb-accent);border-color:var(--bb-accent);color:var(--bb-accent-ink)}
-.bb-offers__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
-
-.bb-card{display:flex;flex-direction:column;background:var(--bb-surface);border:1px solid var(--bb-line);
-  border-radius:var(--bb-radius);box-shadow:var(--bb-shadow);overflow:hidden}
-.bb-card__head{padding:18px 20px 0;position:relative}
-.bb-card__badge{display:inline-block;font:600 11px/1 var(--bb-font);letter-spacing:.06em;text-transform:uppercase;
-  padding:6px 10px;border-radius:6px;margin-bottom:10px;background:var(--bb-badge);color:var(--bb-ink)}
-.bb-card__badge--hot{background:var(--bb-hot);color:#fff}
-.bb-card__badge--new{background:var(--bb-accent);color:var(--bb-accent-ink)}
-.bb-card__badge--last{background:#2b2b2b;color:#fff}
-.bb-card__title{font:600 21px/1.25 var(--bb-font);margin:0 0 6px}
-.bb-card__lead{color:var(--bb-muted);font-size:15px;margin:0 0 16px}
-
-.bb-card__price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:0 20px 4px}
-.bb-card__price b{font:700 26px/1 var(--bb-font)}
-.bb-card__price s{color:var(--bb-muted);font-size:16px}
-.bb-card__pricenote{color:var(--bb-muted);font-size:13px;padding:0 20px 14px}
-
-.bb-card__body{padding:0 20px;flex:1}
-.bb-card__list{list-style:none;margin:0 0 14px;padding:0}
-.bb-card__list li{position:relative;padding-left:22px;margin:0 0 7px;font-size:15px}
-.bb-card__list li::before{content:"";position:absolute;left:2px;top:8px;width:9px;height:9px;border-radius:50%;
-  background:var(--bb-accent)}
-.bb-card__list--no li::before{background:var(--bb-line)}
-.bb-card__meta{border-top:1px solid var(--bb-line);margin-top:12px;padding-top:12px;font-size:13px;color:var(--bb-muted)}
-.bb-card__meta div{margin-bottom:5px}
-.bb-card__meta b{color:var(--bb-ink);font-weight:600}
-
-.bb-card__timer{display:flex;align-items:center;gap:8px;margin:12px 20px 0;padding:9px 12px;border-radius:8px;
-  background:var(--bb-badge);font:600 13px/1 var(--bb-font)}
-.bb-card__timer--soon{background:var(--bb-hot);color:#fff}
-
-.bb-card__promo{margin:12px 20px 0}
-.bb-promo{display:inline-flex;align-items:center;gap:8px;border:1px dashed var(--bb-accent);background:transparent;
-  color:var(--bb-ink);border-radius:8px;padding:8px 12px;font:600 14px/1 var(--bb-font);cursor:pointer}
-.bb-promo small{font-weight:400;color:var(--bb-muted)}
-.bb-promo.is-copied{border-style:solid;background:var(--bb-badge)}
-
-.bb-card__foot{padding:16px 20px 20px;display:flex;flex-direction:column;gap:8px}
-.bb-btn{display:block;text-align:center;text-decoration:none;border-radius:10px;padding:14px 18px;
-  font:600 16px/1 var(--bb-font);cursor:pointer;border:1px solid transparent}
-.bb-btn--main{background:var(--bb-accent);color:var(--bb-accent-ink)}
-.bb-btn--main:hover{filter:brightness(.94)}
-.bb-btn--ghost{background:transparent;color:var(--bb-ink);border-color:var(--bb-line);font-weight:500;font-size:15px}
-
-.bb-offers__empty{text-align:center;color:var(--bb-muted);padding:40px 0}
-.bb-debug{margin:20px 0;padding:16px;border:2px solid var(--bb-hot);border-radius:10px;background:#fff;
-  font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;color:#a01}
-@media(max-width:639px){
-  .bb-offers{padding:0 12px}
-  .bb-offers__grid{grid-template-columns:1fr;gap:14px}
-  .bb-card__title{font-size:19px}
-  .bb-card__price b{font-size:23px}
-}
-</style>
 
 <script>
 (function () {
   'use strict';
-  var BB = window.BB || {};
-  if (!BB.num) { console.warn('BB: не подключены блоки 1–3 в HEAD'); return; }
 
-  /* Человеческие названия фильтров. Ключ = то, что пишется в "tags". */
-  var TAGS = {
-    dvoim:     'Для двоих',
-    semya:     'С детьми',
-    kompaniey: 'Компанией',
-    budni:     'Будни',
-    banya:     'С баней и чаном',
-    spa:       'SPA',
-    sertifikat:'Сертификаты',
-    korporativ:'Корпоративам'
+  /* spot — куда прокрутить при открытии: на первом экране фотография во всю
+     ширину, и разницу в тоне подложек там просто не на чем увидеть. */
+  var SITES = {
+    eco: { page: 'demo/sites/eco.html', css: 'demo/sites/autumn-eco.css', spot: 980,
+           note: 'Цветовые стили Tilda есть — слой умещается в несколько строк' },
+    bp:  { page: 'demo/sites/bp.html',  css: 'demo/sites/autumn-bp.css',  spot: 1450,
+           note: 'Цветовых стилей нет — тот же эффект приходится расписывать по блокам' }
   };
-  var BADGES = { hot: 'горит', new: 'новинка', last: 'последние даты' };
 
-  var root = document.getElementById('bb-offers-root');
-  var grid = document.getElementById('bb-offers-grid');
-  var box  = document.getElementById('bb-offers-filters');
-  var empty= document.getElementById('bb-offers-empty');
-  var raw  = document.getElementById('bb-offers');
-  if (!root || !raw) return;
+  var frame = document.getElementById('frame');
+  var load = document.getElementById('load');
+  var cost = document.getElementById('cost');
+  var siteSeg = document.getElementById('siteSeg');
+  var seasonSeg = document.getElementById('seasonSeg');
 
-  /* --- Прощающий разбор: убираем // комментарии и лишние запятые ---------- */
-  function parse(text) {
-    var clean = text
-      .replace(/^\s*\/\/.*$/gm, '')
-      .replace(/,(\s*[\]}])/g, '$1');
-    return JSON.parse(clean);
-  }
+  var site = 'eco';
+  var autumn = false;
+  var sizes = {};
 
-  var offers = [], parseError = null;
-  try { offers = parse(raw.textContent); }
-  catch (e) { parseError = e.message; offers = []; }
+  /* Внутри копии стоит <base href="https://ecobr.ru/">, поэтому путь к слою
+     считаем здесь и передаём абсолютным — иначе он уедет на боевой домен. */
+  function absolute(p) { return new URL(p, location.href).href; }
 
-  /* --- Проверка данных. Ошибки видны на /special?debug=offers ------------- */
-  var problems = [];
-  if (parseError) problems.push('Список не читается: ' + parseError + '. Чаще всего — лишняя или пропущенная запятая.');
-
-  offers.forEach(function (o, i) {
-    var w = 'Оффер #' + (i + 1) + ' (' + (o.id || 'без id') + '): ';
-    if (!o.id)    problems.push(w + 'нет "id"');
-    if (!o.title) problems.push(w + 'нет "title"');
-    if (!o.price) problems.push(w + 'НЕТ ЦЕНЫ. Оффер без цены не работает — поставьте хотя бы "от"');
-    if (!o.sale || !o.sale.to) problems.push(w + 'нет срока действия sale.to — оффер не сможет исчезнуть сам');
-    if (!o.book || (!o.book.from && !o.more)) problems.push(w + 'нет ни book.from, ни more — кнопке некуда вести');
-    if (o.sale && o.sale.to && BB.num(o.sale.to) === null) problems.push(w + 'sale.to должен быть в формате ГГГГ-ММ-ДД');
-    (o.tags || []).forEach(function (t) { if (!TAGS[t]) problems.push(w + 'неизвестный фильтр "' + t + '"'); });
-  });
-
-  if (BB.param('debug') === 'offers') {
-    var d = document.createElement('div');
-    d.className = 'bb-debug';
-    d.innerHTML = '<b>Проверка каталога офферов</b><br>Всего: ' + offers.length + '<br>' +
-      (problems.length ? problems.map(function (p) { return '• ' + p; }).join('<br>') : 'Ошибок нет.');
-    root.insertBefore(d, root.firstChild);
-  } else if (problems.length) {
-    console.warn('BB офферы: ' + problems.length + ' замечаний. Откройте ' + location.pathname + '?debug=offers');
-  }
-
-  /* --- Отбор живых офферов ------------------------------------------------ */
-  var today = BB.today || BB.todayNum();
-  var live = offers.filter(function (o) {
-    if (!o.sale) return true;
-    if (o.sale.from && today < BB.num(o.sale.from)) return false;
-    if (o.sale.to   && today > BB.num(o.sale.to))   return false;
-    return true;
-  });
-
-  /* «Горит» и то, что кончается раньше, — выше */
-  var order = { hot: 0, last: 1, new: 2 };
-  live.sort(function (a, b) {
-    var oa = order[a.badge] === undefined ? 3 : order[a.badge];
-    var ob = order[b.badge] === undefined ? 3 : order[b.badge];
-    if (oa !== ob) return oa - ob;
-    return (BB.num(a.sale && a.sale.to) || 99999999) - (BB.num(b.sale && b.sale.to) || 99999999);
-  });
-
-  /* --- Вспомогательное ---------------------------------------------------- */
-  function money(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽'; }
-  function ruDate(s) {
-    var M = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
-    var m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})$/);
-    return m ? (+m[3]) + ' ' + M[+m[2] - 1] : s;
-  }
-  function el(tag, cls, txt) {
-    var n = document.createElement(tag);
-    if (cls) n.className = cls;
-    if (txt !== undefined) n.textContent = txt;
-    return n;
-  }
-
-  /* --- Карточка ----------------------------------------------------------- */
-  function card(o) {
-    var c = el('article', 'bb-card');
-    c.setAttribute('data-tags', (o.tags || []).join(' '));
-
-    var head = el('div', 'bb-card__head');
-    if (o.badge && BADGES[o.badge]) head.appendChild(el('span', 'bb-card__badge bb-card__badge--' + o.badge, BADGES[o.badge]));
-    head.appendChild(el('h3', 'bb-card__title', o.title));
-    if (o.lead) head.appendChild(el('p', 'bb-card__lead', o.lead));
-    c.appendChild(head);
-
-    if (o.price) {
-      var p = el('div', 'bb-card__price');
-      p.appendChild(el('b', '', 'от ' + money(o.price)));
-      if (o.oldPrice) p.appendChild(el('s', '', money(o.oldPrice)));
-      c.appendChild(p);
-      if (o.priceNote) c.appendChild(el('div', 'bb-card__pricenote', o.priceNote));
-    }
-
-    var body = el('div', 'bb-card__body');
-    if ((o.includes || []).length) {
-      var ul = el('ul', 'bb-card__list');
-      o.includes.forEach(function (t) { ul.appendChild(el('li', '', t)); });
-      body.appendChild(ul);
-    }
-    if ((o.excludes || []).length) {
-      var ul2 = el('ul', 'bb-card__list bb-card__list--no');
-      o.excludes.forEach(function (t) { ul2.appendChild(el('li', '', t)); });
-      body.appendChild(ul2);
-    }
-
-    var meta = el('div', 'bb-card__meta');
-    if (o.stay && o.stay.from) {
-      var d1 = el('div');
-      d1.innerHTML = 'Даты заезда: <b>' + ruDate(o.stay.from) + ' — ' + ruDate(o.stay.to) + '</b>';
-      meta.appendChild(d1);
-    }
-    if (o.sale && o.sale.to) {
-      var d2 = el('div');
-      d2.innerHTML = 'Действует до <b>' + ruDate(o.sale.to) + '</b> включительно';
-      meta.appendChild(d2);
-    }
-    if (o.rules) meta.appendChild(el('div', '', o.rules));
-    body.appendChild(meta);
-    c.appendChild(body);
-
-    /* Таймер — только настоящий, от даты окончания. Не перезапускается. */
-    if (o.sale && o.sale.to) {
-      var timer = el('div', 'bb-card__timer');
-      timer.setAttribute('data-until', o.sale.to);
-      c.appendChild(timer);
-    }
-
-    if (o.promo) {
-      var wrap = el('div', 'bb-card__promo');
-      var btn = el('button', 'bb-promo');
-      btn.type = 'button';
-      btn.innerHTML = '<span>' + o.promo + '</span><small>нажмите, чтобы скопировать</small>';
-      btn.addEventListener('click', function () {
-        var done = function () {
-          btn.classList.add('is-copied');
-          btn.querySelector('small').textContent = 'скопировано';
-          BB.goal && BB.goal('promo_copy', { offer: o.id, promo: o.promo });
-        };
-        if (navigator.clipboard) navigator.clipboard.writeText(o.promo).then(done, done);
-        else done();
-      });
-      wrap.appendChild(btn);
-      c.appendChild(wrap);
-    }
-
-    var foot = el('div', 'bb-card__foot');
-    if (o.book && (o.book.from || o.book.to)) {
-      var a = el('a', 'bb-btn bb-btn--main', 'Выбрать даты и забронировать');
-      a.href = BB.bookUrl({
-        from: o.book.from, to: o.book.to,
-        adults: o.book.adults, children: o.book.children,
-        promo: o.promo, rooms: o.book.rooms
-      });
-      a.setAttribute('data-bb-book', '');
-      a.setAttribute('data-from', o.book.from || '');
-      a.setAttribute('data-to', o.book.to || '');
-      if (o.book.adults) a.setAttribute('data-adults', o.book.adults);
-      if (o.book.children) a.setAttribute('data-children', o.book.children);
-      if (o.promo) a.setAttribute('data-promo', o.promo);
-      if (o.book.rooms) a.setAttribute('data-rooms', o.book.rooms);
-      a.setAttribute('data-offer', o.id);
-      foot.appendChild(a);
-    }
-    if (o.more) {
-      var m = el('a', 'bb-btn bb-btn--ghost', 'Подробные условия');
-      m.href = o.more;
-      m.addEventListener('click', function () { BB.goal && BB.goal('offer_more_click', { offer: o.id }); });
-      foot.appendChild(m);
-    }
-    c.appendChild(foot);
-    return c;
-  }
-
-  /* --- Фильтры ------------------------------------------------------------ */
-  var used = {};
-  live.forEach(function (o) { (o.tags || []).forEach(function (t) { if (TAGS[t]) used[t] = 1; }); });
-
-  var active = 'all';
-  function chip(key, label) {
-    var b = el('button', 'bb-chip', label);
-    b.type = 'button';
-    b.setAttribute('aria-pressed', key === active ? 'true' : 'false');
-    b.addEventListener('click', function () {
-      active = key;
-      box.querySelectorAll('.bb-chip').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
-      b.setAttribute('aria-pressed', 'true');
-      apply();
-      BB.goal && BB.goal('offer_filter', { filter: key });
+  function press(seg, attr, value) {
+    seg.querySelectorAll('button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute(attr) === String(value)));
     });
-    return b;
   }
-  box.appendChild(chip('all', 'Все предложения'));
-  Object.keys(TAGS).forEach(function (k) { if (used[k]) box.appendChild(chip(k, TAGS[k])); });
 
-  function apply() {
-    var shown = 0;
-    grid.querySelectorAll('.bb-card').forEach(function (c) {
-      var ok = active === 'all' || (' ' + c.getAttribute('data-tags') + ' ').indexOf(' ' + active + ' ') > -1;
-      c.hidden = !ok;
-      if (ok) shown++;
-    });
-    empty.hidden = shown > 0;
-    /* Разные пустые состояния: «фильтр не совпал» и «все акции истекли».
-       Второе — сигнал контент-менеджеру, что каталог пора обновить. */
-    if (!live.length) {
-      empty.innerHTML = 'Сейчас действующих предложений нет. ' +
-        'Позвоните в отдел бронирования — подберём вариант под ваши даты.';
+  function applyAutumn() {
+    var doc = frame.contentDocument;
+    if (!doc || !doc.head) return;
+    var link = doc.getElementById('bb-autumn');
+    if (autumn) {
+      if (!link) {
+        link = doc.createElement('link');
+        link.id = 'bb-autumn';
+        link.rel = 'stylesheet';
+        link.href = absolute(SITES[site].css);
+        doc.head.appendChild(link);
+      }
+    } else if (link) {
+      link.remove();
     }
   }
-  empty.querySelector('[data-bb-reset]').addEventListener('click', function (e) {
+
+  function showCost() {
+    var kb = sizes[site];
+    cost.innerHTML = kb === undefined
+      ? '&nbsp;'
+      : 'Слой: <b>' + kb + ' КБ</b> · ' + SITES[site].note;
+  }
+
+  function measure(id) {
+    if (sizes[id] !== undefined) { showCost(); return; }
+    fetch(SITES[id].css).then(function (r) { return r.text(); }).then(function (t) {
+      sizes[id] = (new Blob([t]).size / 1024).toFixed(1);
+      showCost();
+    }).catch(function () {});
+  }
+
+  /* Страницы тяжёлые (до 3 МБ плюс фотографии), и событие load ждёт вообще
+     все картинки. Поэтому снимаем плашку, как только документ стал
+     интерактивным, и тогда же накладываем слой. */
+  var poll = null;
+  function loadSite() {
+    load.hidden = false;
+    frame.src = SITES[site].page;
+
+    clearInterval(poll);
+    var started = Date.now();
+    poll = setInterval(function () {
+      var doc = frame.contentDocument;
+      var ready = doc && doc.readyState !== 'loading' && doc.body && doc.body.children.length > 3;
+      if (ready || Date.now() - started > 15000) {
+        clearInterval(poll);
+        load.hidden = true;
+        applyAutumn();
+        try { frame.contentWindow.scrollTo(0, SITES[site].spot); } catch (e) {}
+      }
+    }, 150);
+  }
+
+  frame.addEventListener('load', function () {
+    clearInterval(poll);
+    load.hidden = true;
+    applyAutumn();
+  });
+
+  siteSeg.addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b || b.getAttribute('data-site') === site) return;
+    site = b.getAttribute('data-site');
+    press(siteSeg, 'data-site', site);
+    measure(site);
+    loadSite();
+  });
+
+  seasonSeg.addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b) return;
+    var next = b.getAttribute('data-on') === '1';
+    if (next === autumn) return;
+    autumn = next;
+    press(seasonSeg, 'data-on', autumn ? '1' : '0');
+    applyAutumn();                     /* прокрутка не сбрасывается */
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.code !== 'Space' || e.target.closest('input,textarea')) return;
     e.preventDefault();
-    box.querySelector('.bb-chip').click();
+    autumn = !autumn;
+    press(seasonSeg, 'data-on', autumn ? '1' : '0');
+    applyAutumn();
   });
 
-  /* --- Отрисовка ---------------------------------------------------------- */
-  live.forEach(function (o) { grid.appendChild(card(o)); });
-  apply();
-
-  /* --- Таймеры ------------------------------------------------------------ */
-  function plural(n, a, b, c) {
-    var n10 = n % 10, n100 = n % 100;
-    if (n10 === 1 && n100 !== 11) return a;
-    if (n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) return b;
-    return c;
-  }
-  function tick() {
-    var nowMsk = BB.now().getTime();
-    grid.querySelectorAll('[data-until]').forEach(function (t) {
-      var u = t.getAttribute('data-until');
-      var end = new Date(u + 'T23:59:59').getTime();
-      var left = end - nowMsk;
-      if (left <= 0) { t.textContent = 'Предложение завершено'; return; }
-      var d = Math.floor(left / 864e5), h = Math.floor(left % 864e5 / 36e5), m = Math.floor(left % 36e5 / 6e4);
-      t.classList.toggle('bb-card__timer--soon', d < 3);
-      t.textContent = d > 0
-        ? 'До конца предложения ' + d + ' ' + plural(d, 'день', 'дня', 'дней') + ' ' + h + ' ч'
-        : 'Осталось ' + h + ' ч ' + m + ' мин';
-    });
-  }
-  tick();
-  setInterval(tick, 60000);
-})();
-</script>
-
-
-<div class="wrap">
-  <div class="foot">
-    Демо-стенд. Кнопки «Забронировать» ведут на настоящий модуль
-    <code>ecobr.ru/booking</code> с подставленными параметрами — это и есть проверка,
-    что механика работает.
-  </div>
-</div>
-
-<div class="panel" id="panel">
-  <div class="panel__h" id="panelH">Панель стенда <span id="panelS">свернуть</span></div>
-  <div class="panel__b">
-    <h4>Сезон</h4>
-    <div class="panel__row" id="seasons"></div>
-
-    <h4>Дата — машина времени</h4>
-    <input type="date" id="dateIn">
-
-    <h4>База</h4>
-    <div class="panel__row" id="sites"></div>
-
-    <h4>Режимы проверки</h4>
-    <div class="panel__row">
-      <a href="?debug=offers">офферы</a>
-      <a href="?schedule=debug">расписание</a>
-      <a href="?goals=debug">цели</a>
-      <a href="?announce=preview">вернуть полосу</a>
-      <a href="?">сброс</a>
-    </div>
-
-    <p class="panel__note">
-      Это те же параметры, которыми проверяют боевой сайт. Их видит только тот,
-      кто их набрал.
-    </p>
-  </div>
-</div>
-
-<script>
-(function () {
-  var qs = new URLSearchParams(location.search);
-  function link(param, value, label) {
-    var q = new URLSearchParams(location.search);
-    q.set(param, value);
-    var a = document.createElement('a');
-    a.href = '?' + q.toString();
-    a.textContent = label;
-    if (qs.get(param) === value) a.className = 'is-on';
-    return a;
-  }
-
-  var S = [['autumn','Осень'],['newyear','Новый год'],['winter','Зима'],
-           ['spring','Весна'],['summer','Лето']];
-  var box = document.getElementById('seasons');
-  S.forEach(function (s) { box.appendChild(link('season', s[0], s[1])); });
-
-  var sites = document.getElementById('sites');
-  sites.appendChild(link('site', 'eco', 'Роща'));
-  sites.appendChild(link('site', 'bp', 'Барские поля'));
-
-  var d = document.getElementById('dateIn');
-  d.value = qs.get('date') || (window.BB ? BB.ymd(BB.now()) : '');
-  d.addEventListener('change', function () {
-    var q = new URLSearchParams(location.search);
-    q.set('date', d.value);
-    q.delete('season');           // дата должна сама определить сезон
-    location.search = q.toString();
-  });
-
-  var p = document.getElementById('panel');
-  var s = document.getElementById('panelS');
-  function label() { s.textContent = p.classList.contains('is-off') ? 'развернуть' : 'свернуть'; }
-  /* На телефоне панель мешает смотреть сам стенд — сворачиваем её сразу. */
-  if (window.matchMedia('(max-width:900px)').matches) p.classList.add('is-off');
-  label();
-  document.getElementById('panelH').addEventListener('click', function () {
-    p.classList.toggle('is-off');
-    label();
-  });
+  measure('eco');
+  measure('bp');
+  loadSite();
 })();
 </script>
 </body>

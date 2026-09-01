@@ -17,5 +17,5 @@ jobs:
       - name: Стенд собирается и не разошёлся с исходниками
         run: |
           node demo/build.mjs
-          git diff --exit-code -- index.html playbook.html \
-            || (echo "index.html/playbook.html не пересобраны — запустите node demo/build.mjs и закоммитьте" && exit 1)
+          git diff --exit-code -- stend.html playbook.html \
+            || (echo "stend.html/playbook.html не пересобраны — запустите node demo/build.mjs и закоммитьте" && exit 1)

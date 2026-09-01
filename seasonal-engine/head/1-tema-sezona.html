@@ -17,8 +17,16 @@
          --uc-color-color-Z3IU8y       #1a1b19  текст (88)
          --uc-color-color-qvHJWc       #ffffff  белый (79)
          --uc-color-color-n3E0FkCwyE   #f4f6fb  фон секций (63)
-       Переменные используются как var(--x,#hex) и нигде не объявлены.
-       Значит: достаточно объявить их в :root — и перекрасится весь сайт.
+       Палитра объявлена в css проекта (tilda-blocks-pageXXXXX.min.css) правилом
+         #allrecords .r, body { --uc-color-color-qp7xN:#2ed8a3; ... }
+       Селектор с ID, поэтому переопределять надо ТЕМ ЖЕ селектором и с !important.
+       Объявление в :root не сработает: каждый блок .r перебьёт его для себя.
+       Проверено на живой странице.
+
+       Переменными покрыто не всё: на главной остаётся ~149 элементов, где мятный
+       #2ed8a3 вбит в Zero Block напрямую (включая главную кнопку «Проверить даты»).
+       Для лёгкой сезонной подкраски фона это неважно — акцент и должен остаться
+       прежним. Если понадобится сменить и акцент, есть tools/recolor.mjs.
 
        barskie-polya.ru Цветовых стилей НЕ использует (0 переменных, цвета вбиты
        в блоки: #eee5d5 — 718 раз, #a36434 — 219, #995d2f — 115, #243d34 — 113).
@@ -170,18 +178,22 @@
    Акцент #2ed8a3 совпадает с btn_background виджета Bnovo в блоке rec3032928101 —
    если меняете акцент, поменяйте и там, иначе кнопка «поедет» по цвету.
    ============================================================================ */
-:root[data-site="eco"][data-season="autumn"]{
-  --uc-color-color-n3E0FkCwyE:#f7f3ec;
+:root[data-site="eco"][data-season="autumn"] #allrecords .r,
+:root[data-site="eco"][data-season="autumn"] body{
+  --uc-color-color-n3E0FkCwyE:#f6f1e4 !important;
 }
-:root[data-site="eco"][data-season="newyear"]{
-  --uc-color-color-n3E0FkCwyE:#f2f5f3;
-  /* --uc-color-color-qp7xN:#1f7a5a;  ← акцент. Включать только вместе с Bnovo */
+:root[data-site="eco"][data-season="newyear"] #allrecords .r,
+:root[data-site="eco"][data-season="newyear"] body{
+  --uc-color-color-n3E0FkCwyE:#f2f5f3 !important;
+  /* --uc-color-color-qp7xN:#1f7a5a !important;  ← акцент. Только вместе с Bnovo */
 }
-:root[data-site="eco"][data-season="winter"]{
-  --uc-color-color-n3E0FkCwyE:#eef3f6;
+:root[data-site="eco"][data-season="winter"] #allrecords .r,
+:root[data-site="eco"][data-season="winter"] body{
+  --uc-color-color-n3E0FkCwyE:#eef3f6 !important;
 }
-:root[data-site="eco"][data-season="spring"]{
-  --uc-color-color-n3E0FkCwyE:#f2f8f4;
+:root[data-site="eco"][data-season="spring"] #allrecords .r,
+:root[data-site="eco"][data-season="spring"] body{
+  --uc-color-color-n3E0FkCwyE:#f2f8f4 !important;
 }
 
 /* Плашка предпросмотра — видна только при открытии с ?season= */

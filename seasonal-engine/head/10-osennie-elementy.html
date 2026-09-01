@@ -1,0 +1,146 @@
+<!-- =============================================================================
+     БЛОК 10 · ОСЕННИЕ ЭЛЕМЕНТЫ
+     Куда: Настройки сайта → Ещё → HTML-код внутрь HEAD, после блока 4.
+     Работает на обоих сайтах, включается сам в сезон autumn.
+
+     ЗАЧЕМ ОТДЕЛЬНЫЙ БЛОК. Сезон — это не только цветокоррекция. Цвет двигает
+     настроение на полтона, а «осень» гость замечает по элементам: листьям,
+     тёплой виньетке, сезонной полосе с оффером.
+
+     ТРИ ФАЗЫ. Осень раскатывается постепенно, а не одним выкатом:
+
+       LEVEL 1 · «лёгкая осень»       сентябрь        ← СДЕЛАНО, работает сейчас
+       LEVEL 2 · «осень осень»        конец сентября  ← слот пустой, не заполнять заранее
+       LEVEL 3 · «осень в зиму»       начало ноября   ← слот пустой, стыкуется с сезоном newyear
+
+     Смена фазы = смена одной цифры в LEVEL ниже. Ничего другого править не надо.
+     Первая фаза намеренно сдержанная: если сейчас насыпать листьев на весь
+     экран, второй и третьей фазе некуда будет усиливаться.
+
+     Проверка: ?decor=off — выключить;  ?decor=1|2|3 — посмотреть нужную фазу.
+     ============================================================================= -->
+<script>
+(function () {
+  'use strict';
+  var BB = window.BB || {};
+  if (!BB.num) { console.warn('BB: блок 1 не подключён — осенние элементы выключены'); return; }
+
+  /* =========================================================================
+     ТЕКУЩАЯ ФАЗА. Меняет разработчик или контент-менеджер по календарю.
+     ========================================================================= */
+  var LEVEL = 1;
+  /* ========================================================================= */
+
+  var LEVELS = {
+    /* --- ФАЗА 1 · ЛЁГКАЯ ОСЕНЬ (сентябрь) ---------------------------------
+       Осень «только началась»: несколько листьев, еле заметная тёплая
+       виньетка. Гость должен почувствовать тепло, а не увидеть листопад. */
+    1: {
+      leaves: 5,
+      size: [13, 21],
+      fall: [26, 40],           /* секунд на пролёт: медленно */
+      opacity: 0.38,
+      colors: ['#c9903f', '#b5702c', '#9a8c3c'],
+      vignette: 'rgba(150,95,35,.055)',
+      wind: 26                  /* горизонтальный снос, px */
+    },
+
+    /* --- ФАЗА 2 · ОСЕНЬ ОСЕНЬ (конец сентября) ----------------------------
+       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Когда попросят, здесь появятся: больше листьев
+       и крупнее, насыщеннее палитра, плотнее виньетка. Плюс за пределами
+       этого блока — осенние фотографии на обложках и сезонные подборки
+       домов (чаны, камины, бани) через onlyrooms. */
+    2: null,
+
+    /* --- ФАЗА 3 · ОСЕНЬ ПЕРЕХОДИТ В ЗИМУ (начало ноября) ------------------
+       НЕ ЗАПОЛНЯТЬ ЗАРАНЕЕ. Здесь будут: холодная примесь в палитре,
+       редкие последние листья, первые признаки инея. Стыкуется с сезоном
+       newyear, который включается 15 ноября (блок 1, таблица SEASONS). */
+    3: null
+  };
+
+  /* --- Предпросмотр и выключатель ---------------------------------------- */
+  var q = BB.param('decor');
+  if (q === 'off') return;
+  if (q === '1' || q === '2' || q === '3') LEVEL = +q;
+
+  /* Элементы живут только осенью. Предпросмотр сезона (?season=autumn) тоже
+     их включит — это удобно для проверки. */
+  if (BB.season !== 'autumn' && !q) return;
+
+  var cfg = LEVELS[LEVEL];
+  if (!cfg) {
+    console.info('BB: фаза ' + LEVEL + ' ещё не наполнена — осенние элементы не рисуются');
+    return;
+  }
+
+  /* --- Лист рисуем сами, без картинок и без внешних файлов ---------------- */
+  function leafSvg(color) {
+    var svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 26">' +
+        '<path d="M12 1C6.6 5.4 3.5 10.6 3.5 15.2c0 4.7 3.8 8.3 8.5 8.3s8.5-3.6 8.5-8.3C20.5 10.6 17.4 5.4 12 1z" fill="' + color + '"/>' +
+        '<path d="M12 4v20" stroke="rgba(0,0,0,.18)" stroke-width="1" fill="none"/>' +
+        '<path d="M12 10l-4 3M12 15l4 3" stroke="rgba(0,0,0,.13)" stroke-width="1" fill="none"/>' +
+      '</svg>';
+    return 'url("data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg) + '")';
+  }
+
+  var css =
+    /* Виньетка: тёплый край экрана. Самый дешёвый способ «согреть» страницу,
+       не трогая ни одного блока. */
+    '.bb-autumn-vig{position:fixed;inset:0;z-index:4;pointer-events:none;' +
+      'background:radial-gradient(125% 100% at 50% 0%,transparent 58%,' + cfg.vignette + ' 100%)}' +
+
+    '.bb-leaf{position:fixed;top:-8vh;z-index:5;pointer-events:none;' +
+      'background-repeat:no-repeat;background-size:contain;' +
+      'opacity:0;will-change:transform,opacity;' +
+      'animation-name:bbFall;animation-timing-function:linear;animation-iteration-count:infinite}' +
+
+    '@keyframes bbFall{' +
+      '0%{transform:translate3d(0,0,0) rotate(0deg);opacity:0}' +
+      '8%{opacity:' + cfg.opacity + '}' +
+      '92%{opacity:' + cfg.opacity + '}' +
+      '100%{transform:translate3d(var(--bb-wind),118vh,0) rotate(320deg);opacity:0}}' +
+
+    /* На телефоне не рисуем: трафик у баз мобильный, а листья — это лишние
+       кадры анимации на слабых устройствах. Виньетку оставляем. */
+    '@media(max-width:639px){.bb-leaf{display:none}}' +
+    '@media(prefers-reduced-motion:reduce){.bb-leaf{display:none}}';
+
+  var st = document.createElement('style');
+  st.setAttribute('data-bb', 'autumn-decor');
+  st.appendChild(document.createTextNode(css));
+  (document.head || document.documentElement).appendChild(st);
+
+  function mount() {
+    if (document.querySelector('.bb-autumn-vig')) return;
+
+    var vig = document.createElement('div');
+    vig.className = 'bb-autumn-vig';
+    document.body.appendChild(vig);
+
+    /* Раскладываем листья по ширине равномерно, но со сдвигом — иначе видно
+       колонки. Задержки отрицательные, чтобы листья уже были в полёте
+       и первый экран не начинался с пустоты. */
+    for (var i = 0; i < cfg.leaves; i++) {
+      var leaf = document.createElement('div');
+      var size = cfg.size[0] + Math.random() * (cfg.size[1] - cfg.size[0]);
+      var dur = cfg.fall[0] + Math.random() * (cfg.fall[1] - cfg.fall[0]);
+      var left = (i + 0.5) / cfg.leaves * 100 + (Math.random() * 12 - 6);
+
+      leaf.className = 'bb-leaf';
+      leaf.style.left = Math.max(1, Math.min(96, left)) + '%';
+      leaf.style.width = size + 'px';
+      leaf.style.height = size * 1.08 + 'px';
+      leaf.style.backgroundImage = leafSvg(cfg.colors[i % cfg.colors.length]);
+      leaf.style.animationDuration = dur + 's';
+      leaf.style.animationDelay = (-Math.random() * dur) + 's';
+      leaf.style.setProperty('--bb-wind', (Math.random() * cfg.wind * 2 - cfg.wind).toFixed(0) + 'px');
+      document.body.appendChild(leaf);
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
+  else mount();
+})();
+</script>

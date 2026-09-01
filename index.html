@@ -121,10 +121,12 @@
   /* spot — куда прокрутить при открытии: на первом экране фотография во всю
      ширину, и разницу в тоне подложек там просто не на чем увидеть. */
   var SITES = {
-    eco: { page: 'demo/sites/eco.html', css: 'demo/sites/autumn-eco.css', spot: 980,
-           note: 'Цветовые стили Tilda есть — слой умещается в несколько строк' },
-    bp:  { page: 'demo/sites/bp.html',  css: 'demo/sites/autumn-bp.css',  spot: 1450,
-           note: 'Цветовых стилей нет — тот же эффект приходится расписывать по блокам' }
+    eco: { page: 'demo/sites/eco.html', css: 'demo/sites/autumn-eco.css',
+           js: 'demo/sites/autumn-eco.js', spot: 980,
+           note: 'Цветовые стили Tilda есть — цвет умещается в несколько строк' },
+    bp:  { page: 'demo/sites/bp.html',  css: 'demo/sites/autumn-bp.css',
+           js: 'demo/sites/autumn-bp.js',  spot: 1450,
+           note: 'Цветовых стилей нет — тот же цвет приходится расписывать по блокам' }
   };
 
   var frame = document.getElementById('frame');
@@ -147,10 +149,15 @@
     });
   }
 
+  /* Осень — это два файла: цвет (css) и элементы (js: листья, виньетка,
+     анонс-полоса). Элементы собраны из тех же компонентов, что идут в Tilda. */
   function applyAutumn() {
     var doc = frame.contentDocument;
     if (!doc || !doc.head) return;
+
     var link = doc.getElementById('bb-autumn');
+    var scr = doc.getElementById('bb-autumn-js');
+
     if (autumn) {
       if (!link) {
         link = doc.createElement('link');
@@ -159,9 +166,23 @@
         link.href = absolute(SITES[site].css);
         doc.head.appendChild(link);
       }
-    } else if (link) {
-      link.remove();
+      if (!scr) {
+        scr = doc.createElement('script');
+        scr.id = 'bb-autumn-js';
+        scr.src = absolute(SITES[site].js);
+        doc.head.appendChild(scr);
+      }
+      return;
     }
+
+    /* Выключаем: снимаем и файлы, и всё, что элементы успели нарисовать. */
+    if (link) link.remove();
+    if (scr) scr.remove();
+    ['.bb-leaf', '.bb-autumn-vig', '.bb-ab', 'style[data-bb]'].forEach(function (sel) {
+      var nodes = doc.querySelectorAll(sel);
+      for (var i = 0; i < nodes.length; i++) nodes[i].remove();
+    });
+    doc.documentElement.style.removeProperty('--bb-ab-h');
   }
 
   function showCost() {

@@ -165,6 +165,81 @@ for (const s of SITES) {
   const cssFile = path.join(OUT, `autumn-${s.id}.css`);
   fs.writeFileSync(cssFile, css, 'utf8');
   console.log(`  ${path.relative(ROOT, cssFile)}  ${(css.length / 1024).toFixed(1)} КБ`);
+
+  /* --- осенние элементы: собираем из настоящих компонентов --------------- */
+  fs.writeFileSync(path.join(OUT, `autumn-${s.id}.js`), buildElements(s), 'utf8');
+  console.log(`  demo/sites/autumn-${s.id}.js  ${(buildElements(s).length / 1024).toFixed(1)} КБ`);
+}
+
+/**
+ * Витрина показывает не бутафорию, а те же блоки 1, 4 и 10, что идут в Tilda.
+ * Меняем ровно три вещи:
+ *   — базу задаём явно (внутри iframe домен github.io, по нему её не определить);
+ *   — анонс-полосу включаем и даём ей осенний оффер;
+ *   — сезон фиксируем на autumn, чтобы элементы не зависели от даты запуска.
+ */
+function buildElements(s) {
+  const readPart = (file, tag) => {
+    const html = fs.readFileSync(path.join(ROOT, 'seasonal-engine', file), 'utf8');
+    const re = new RegExp(`<${tag}(?![^>]*application/json)[^>]*>([\\s\\S]*?)</${tag}>`);
+    const m = re.exec(html);
+    if (!m) throw new Error(`нет <${tag}> в ${file}`);
+    return m[1];
+  };
+  const script = (file) => readPart(file, 'script');
+
+  /* Палитра --bb-* лежит в <style> первого блока. Без неё анонс-полоса
+     отрисуется без цвета — проверено на витрине. */
+  const theme = readPart('head/1-tema-sezona.html', 'style');
+  const injectTheme =
+    `(function(){var s=document.createElement('style');s.setAttribute('data-bb','theme');` +
+    `s.appendChild(document.createTextNode(${JSON.stringify(theme)}));` +
+    `(document.head||document.documentElement).appendChild(s);})();`;
+
+  const ANNOUNCE = {
+    eco: {
+      id: 'eco-2026-09-osen',
+      text: 'Бархатный сезон: −20% на будни в сентябре. Промокод OSEN20',
+      cta: 'Выбрать даты',
+      href: '/booking?dfrom=mon&dto=thu&adults=2&promoCode=OSEN20'
+    },
+    bp: {
+      id: 'bp-2026-09-osen',
+      text: 'Золотая осень: третья ночь в подарок при заезде с понедельника по четверг',
+      cta: 'Посмотреть даты',
+      href: '/booking?dfrom=mon&dto=thu&adults=2&promoCode=OSEN3X2'
+    }
+  }[s.id];
+
+  let announce = script('head/4-anons-polosa.html')
+    .replace(/enabled: false/g, 'enabled: true')
+    .replace(/from:\s*'20\d\d-\d\d-\d\d'/g, "from:  '2020-01-01'")
+    .replace(/until:\s*'20\d\d-\d\d-\d\d'/g, "until: '2035-12-31'");
+
+  for (const [key, val] of Object.entries(ANNOUNCE)) {
+    const re = new RegExp(`(${s.id}: \\{[\\s\\S]*?)${key}:\\s*'[^']*'`);
+    if (!re.test(announce)) throw new Error(`не нашёл ${key} у ${s.id} в анонс-полосе`);
+    announce = announce.replace(re, `$1${key}: ${JSON.stringify(val)}`);
+  }
+
+  return [
+    `/* Осенние элементы для витрины. Собрано из seasonal-engine/ автоматически,`,
+    `   правьте компоненты, а не этот файл. База: ${s.title} */`,
+    script('head/1-tema-sezona.html'),
+    `/* палитра компонентов --bb-* из того же блока 1 */`,
+    injectTheme,
+    `/* витрина: база и сезон заданы явно */`,
+    `window.BB.site = ${JSON.stringify(s.id)};`,
+    `window.BB.season = 'autumn';`,
+    `document.documentElement.setAttribute('data-site', ${JSON.stringify(s.id)});`,
+    `document.documentElement.setAttribute('data-season', 'autumn');`,
+    `/* витрина: не помним закрытие полосы, иначе её не вернуть 7 дней */`,
+    `try { Object.keys(localStorage).forEach(function (k) {`,
+    `  if (k.indexOf('bb_ab_') === 0) localStorage.removeItem(k); }); } catch (e) {}`,
+    script('head/3-bnovo-deeplink.html'),
+    announce,
+    script('head/10-osennie-elementy.html')
+  ].join('\n');
 }
 
 console.log('\nГотово. Витрина: index.html');

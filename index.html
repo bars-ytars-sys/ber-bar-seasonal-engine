@@ -96,6 +96,7 @@
     <div class="links">
       <a href="stend.html">Стенд движка</a>
       <a href="playbook.html">Playbook</a>
+      <a href="audit-konkurentov.html">Аудит конкурентов</a>
       <a href="https://github.com/bars-ytars-sys/ber-bar-seasonal-engine" target="_blank" rel="noopener">Код</a>
     </div>
   </div>
@@ -181,6 +182,23 @@
   /* Страницы тяжёлые (до 3 МБ плюс фотографии), и событие load ждёт вообще
      все картинки. Поэтому снимаем плашку, как только документ стал
      интерактивным, и тогда же накладываем слой. */
+  /* Tilda достраивает страницу ещё несколько секунд после readyState=interactive
+     и по дороге сбрасывает прокрутку. Поэтому повторяем попытку несколько раз,
+     пока пользователь сам не прокрутил. */
+  function goToSpot() {
+    var want = SITES[site].spot, tries = 0;
+    var t = setInterval(function () {
+      tries++;
+      try {
+        var w = frame.contentWindow, d = frame.contentDocument;
+        var now = d.documentElement.scrollTop || d.body.scrollTop || 0;
+        if (tries > 1 && Math.abs(now - want) < 40) { clearInterval(t); return; }
+        if (d.documentElement.scrollHeight > want + 400) w.scrollTo(0, want);
+      } catch (e) { clearInterval(t); }
+      if (tries >= 12) clearInterval(t);
+    }, 500);
+  }
+
   var poll = null;
   function loadSite() {
     load.hidden = false;
@@ -195,7 +213,7 @@
         clearInterval(poll);
         load.hidden = true;
         applyAutumn();
-        try { frame.contentWindow.scrollTo(0, SITES[site].spot); } catch (e) {}
+        goToSpot();
       }
     }, 150);
   }

@@ -1,0 +1,708 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;font:14px system-ui;color-scheme:light}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<title>Берёзовая роща и Барские поля</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --paper:#F1F3EF; --surface:#FFFFFF; --surface-2:#E7EBE4; --sunken:#DDE3D9;
+  --ink:#151C18; --ink-2:#3B4740; --muted:#6C7872; --line:#D2D9CF; --line-2:#BCC6B8;
+  --accent:#2C6A4B; --accent-soft:#E0EBE3;
+  --crit:#9E3423; --crit-soft:#F6E3DE;
+  --warn:#8E6410; --warn-soft:#F5EBD6;
+  --shadow:0 1px 2px rgba(21,28,24,.06),0 8px 24px -16px rgba(21,28,24,.25);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1310; --surface:#161B16; --surface-2:#1D241E; --sunken:#242C24;
+    --ink:#E8ECE4; --ink-2:#C3CCBE; --muted:#8A968A; --line:#2B332B; --line-2:#3A443A;
+    --accent:#71C296; --accent-soft:#19271F;
+    --crit:#E5836D; --crit-soft:#2C1D19;
+    --warn:#D9AE5C; --warn-soft:#2A2315;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1310; --surface:#161B16; --surface-2:#1D241E; --sunken:#242C24;
+  --ink:#E8ECE4; --ink-2:#C3CCBE; --muted:#8A968A; --line:#2B332B; --line-2:#3A443A;
+  --accent:#71C296; --accent-soft:#19271F;
+  --crit:#E5836D; --crit-soft:#2C1D19;
+  --warn:#D9AE5C; --warn-soft:#2A2315;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{background:var(--paper); color:var(--ink); font-family:"Source Serif 4",Georgia,serif; font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:Archivo,"Helvetica Neue",Arial,sans-serif; text-wrap:balance; margin:0; line-height:1.16; letter-spacing:-.015em}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace}
+a{color:var(--accent)}
+.wrap{max-width:1140px; margin:0 auto; padding:0 28px}
+.prose{max-width:76ch}
+p{margin:0 0 .85em}
+ul,ol{margin:0 0 .9em; padding-left:1.2em}
+li{margin:.3em 0}
+
+.masthead{background:var(--surface); border-bottom:1px solid var(--line-2); padding:52px 0 36px}
+.kicker{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted)}
+.masthead h1{font-size:clamp(32px,5vw,54px); font-weight:700; margin:13px 0 0; max-width:17ch}
+.dek{font-size:18.5px; color:var(--ink-2); max-width:64ch; margin:16px 0 0}
+.meta-row{display:flex; flex-wrap:wrap; gap:6px 26px; margin-top:26px; padding-top:20px; border-top:1px solid var(--line)}
+.meta-row div{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--muted)}
+.meta-row b{color:var(--ink); font-weight:500}
+
+nav.toc{position:sticky; top:0; z-index:30; background:var(--paper); border-bottom:1px solid var(--line); overflow-x:auto}
+nav.toc ul{display:flex; list-style:none; margin:0; padding:0; min-width:max-content}
+nav.toc a{display:block; padding:11px 14px; font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); text-decoration:none; border-bottom:2px solid transparent; white-space:nowrap}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--ink); border-bottom-color:var(--accent); background:var(--surface-2)}
+
+section{padding:48px 0; border-bottom:1px solid var(--line)}
+.sec-head{display:flex; align-items:baseline; gap:13px; margin-bottom:22px}
+.sec-num{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--accent); font-weight:600; letter-spacing:.08em; flex:none}
+.sec-head h2{font-size:clamp(23px,3vw,32px); font-weight:700}
+h3{font-size:19px; font-weight:600; margin:30px 0 11px}
+h4{font-size:15px; font-weight:600; margin:20px 0 7px; letter-spacing:0}
+
+.card{background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:20px 22px; box-shadow:var(--shadow)}
+.grid{display:grid; gap:15px}
+@media(min-width:760px){ .g2{grid-template-columns:1fr 1fr} .g3{grid-template-columns:repeat(3,1fr)} }
+
+.finding{background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:0 4px 4px 0; padding:16px 20px}
+.finding h4{margin:0 0 5px; font-size:16.5px}
+.finding p:last-child{margin-bottom:0}
+
+.tbl-scroll{overflow-x:auto; border:1px solid var(--line); border-radius:4px; background:var(--surface); margin-bottom:8px}
+table{border-collapse:collapse; width:100%; min-width:720px; font-family:Archivo,sans-serif; font-size:13.5px; line-height:1.45}
+th{background:var(--surface-2); text-align:left; font-weight:600; font-size:11px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-2); padding:10px 12px; border-bottom:1px solid var(--line-2); vertical-align:bottom}
+td{padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-2)}
+tr:last-child td{border-bottom:0}
+td strong{color:var(--ink); font-weight:600}
+.num{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; white-space:nowrap}
+tbody tr:hover{background:var(--surface-2)}
+
+.src{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--muted); margin:4px 0 0; display:block}
+.callout{background:var(--surface-2); border:1px solid var(--line); border-radius:4px; padding:16px 20px; margin:20px 0}
+.callout p:last-child{margin-bottom:0}
+.lede{font-size:18.5px; color:var(--ink-2)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+footer{padding:32px 0 56px; color:var(--muted); font-family:"IBM Plex Mono",monospace; font-size:12px}
+ol.steps{counter-reset:s; list-style:none; padding-left:0}
+ol.steps li{counter-increment:s; position:relative; padding-left:28px; margin:.45em 0}
+ol.steps li::before{content:counter(s); position:absolute; left:0; top:.2em; font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600; color:var(--accent); border:1px solid color-mix(in srgb,var(--accent) 40%,transparent); border-radius:50%; width:18px; height:18px; display:grid; place-items:center}
+.snip{background:var(--sunken); border:1px solid var(--line); border-radius:3px; padding:10px 13px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; line-height:1.5; color:var(--ink); white-space:pre-wrap; margin:0 0 10px; overflow-x:auto}
+.lbl{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); display:block; margin:14px 0 4px}
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="kicker">Конкурентный аудит и программа роста · 1 сентября 2026</div>
+    <h1>Берёзовая роща и Барские поля</h1>
+    <p class="dek">Разбор конкурентного поля по двум направлениям, оценка разрывов по одиннадцати блокам и готовая к внедрению программа: пакеты с составом и ценой, тарифная сетка, тексты страниц, скрипты продаж и план работ на 90 дней.</p>
+    <div class="meta-row">
+      <div>Объектов: <b>2</b></div>
+      <div>Конкурентов в разборе: <b>21</b></div>
+      <div>Готовых предложений: <b>24</b></div>
+      <div>Горизонт плана: <b>90 дней</b></div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc"><div class="wrap"><ul>
+  <li><a href="#summary">Резюме</a></li>
+  <li><a href="#field">Конкурентное поле</a></li>
+  <li><a href="#take">Что берём с рынка</a></li>
+  <li><a href="#gaps">Разрывы</a></li>
+  <li><a href="#packages">Пакеты</a></li>
+  <li><a href="#tariffs">Тарифы</a></li>
+  <li><a href="#site">Сайт и тексты</a></li>
+  <li><a href="#sales">Карты и продажи</a></li>
+  <li><a href="#upsell">Допвыручка</a></li>
+  <li><a href="#plan">План работ</a></li>
+  <li><a href="#metrics">Контроль</a></li>
+</ul></div></nav>
+
+<section id="summary">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Резюме</h2></div>
+    <div class="grid" style="gap:13px">
+      <div class="finding">
+        <h4>1. Цена скрыта, а рынок её показывает</h4>
+        <p>На обеих площадках цена проживания появляется только внутри модуля бронирования. Дурыкино публикует полный прайс (7 000–16 000 ₽ за дом, баня 4 000 ₽ за 2 часа, рыбалка 1 500–5 000 ₽), «След Лося» — «от 7 013 ₽», «Рядом Даль» — «от 9 000 ₽». Открытая цена отсекает нецелевое обращение до звонка и повышает долю доведённых до брони.</p>
+      </div>
+      <div class="finding">
+        <h4>2. У каждой базы прямой конкурент в той же деревне</h4>
+        <p>Васюково — эко-деревня «Бабин двор»: 12 коттеджей, 40 км от МКАД, от 8 400 ₽, собственный SPA с бассейном, банкетный зал, форелевая ферма. SPA-комплекс, который «Берёзовая роща» указывает в своих преимуществах, расположен на их территории в 300 метрах. Степаньково — глэмпинг «Рядом Даль»: около километра, рейтинг 4,8–5,0, формат «всё включено», 2 часа бани в тарифе, −20% при бронировании от трёх суток.</p>
+      </div>
+      <div class="finding">
+        <h4>3. Позиционирование «Барских полей» расходится с географией</h4>
+        <p>Каталоги указывают 83 км от МКАД по Новорижскому шоссе, сайт — «час от Москвы». На этом плече конкуренты — «Заповедник» (74 км, от 5 407 ₽) и New Riga Village (70 км, от 5 000 ₽), а не объекты Истринского направления. Требуется либо более сильный пакет, либо более агрессивная цена входа.</p>
+      </div>
+      <div class="finding">
+        <h4>4. Техническая часть сайтов ограничивает органический трафик</h4>
+        <p>В robots.txt «Барских полей» закрыты <span class="mono">/contacts</span> и <span class="mono">/otzyvy</span>. На обеих площадках отсутствует разметка schema.org Hotel, AggregateRating и Offer — в выдаче нет рейтинга и цены. Заголовки главных страниц не содержат гео-модификаторов. Посадочных под небрендовые запросы нет.</p>
+      </div>
+      <div class="finding">
+        <h4>5. Управление доходом развито неравномерно</h4>
+        <p>У «Берёзовой рощи» на странице спецпредложений четыре блока без цен, процентов и сроков. У «Барских полей» четыре механики есть, но все они дают скидку на дополнительные услуги, а не на стоимость ночи, — поэтому на загрузку будней не влияют. У «След Лося» шесть механик, и все применяются к цене ночи.</p>
+      </div>
+    </div>
+    <h3>Первоочередные работы</h3>
+    <ol class="steps">
+      <li>Опубликовать цены и календарь на карточках всех домов — 25 страниц у «Рощи», 14 у «Полей».</li>
+      <li>Ввести в Bnovo три тарифа: невозвратный −15%, раннее бронирование −10% за 30 дней, будни вс–чт по лестнице 2 / 3 / 4 ночи.</li>
+      <li>Привести в порядок карточки на картах: единый адрес, товары и услуги с ценами, посты, регулярный сбор отзывов.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="field">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Конкурентное поле</h2></div>
+    <p class="prose">Гость выбирает направление, а затем объект внутри него. Поэтому поля разобраны раздельно: Ленинградское и Пятницкое для «Берёзовой рощи», Новорижское и Волоколамское для «Барских полей».</p>
+
+    <h3>Берёзовая роща · Солнечногорское направление</h3>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th style="width:16%">Объект</th><th style="width:11%">Расстояние</th><th style="width:12%">Цена входа</th><th style="width:31%">Сильная сторона</th><th>Что это значит для нас</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Бабин двор</strong><br>д. Васюково</td><td class="num">40 км</td><td class="num">от 8 400 ₽</td><td>12 коттеджей, собственный SPA с круглогодичным бассейном 25 м, баня, хамам, банкетный зал, форелевая ферма, ферма с животными, конные прогулки.</td><td>Ближайший конкурент и одновременно владелец SPA, которым пользуются гости «Рощи». Формулировка на сайте должна быть точной: «SPA-комплекс в 300 метрах».</td></tr>
+          <tr><td><strong>Дурыкино</strong></td><td class="num">Солнечногорский р-н</td><td class="num">от 7 000 ₽</td><td>Открытый прайс целиком: дома 7 000–16 000 ₽, баня 4 000 ₽ за 2 часа, рыбалка 1 500–5 000 ₽, беседка от 3 000 ₽, завтрак 500 ₽. Два водоёма с форелью.</td><td>Забирает гостя, который сравнивает цены до звонка. Ответ — публикация нашего прайса и пакетов.</td></tr>
+          <tr><td><strong>Истра Коттедж</strong></td><td class="num">1-я линия вдхр</td><td class="num">—</td><td>5 га по первой линии водохранилища, 16 коттеджей и купольных домов, баня с чаном, у каждого дома индивидуальная опция.</td><td>Конкурент по видовой составляющей. Наш ответ — питание и SPA, которых у него нет.</td></tr>
+          <tr><td><strong>Берег желаний</strong></td><td class="num">Истринский п-ов</td><td class="num">от 14 900 ₽</td><td>Круглогодичный банный комплекс, сапы и каноэ, скидка 15% на вторую ночь.</td><td>Механика «−15% на вторую ночь» применима у нас без изменений.</td></tr>
+          <tr><td><strong>След Лося</strong><br>д. Аннёнка, Клин</td><td class="num">70–100 км</td><td class="num">от 6 600 ₽</td><td>9 домов. Шесть скидочных механик на цену ночи: −25% при заезде в день обращения, −15% от трёх будних ночей, −10% за 30 дней, лояльность 3–10%, −10% в месяц дня рождения, −20% на баню при раннем бронировании.</td><td>Образец тарифной политики направления. Раздел 06 построен на этой модели.</td></tr>
+          <tr><td><strong>Ёлкино.life</strong><br>Истринский р-н</td><td class="num">40 мин от Москвы</td><td class="num">от 11 700 ₽</td><td>Рейтинг 5,0. Ресторан и доставка блюд в дом, банный all inclusive, площадки под мероприятия до 50 человек, каналы Telegram, WhatsApp, MAX.</td><td>Верхний ценовой ориентир направления. Показывает, что премиальный сегмент здесь платит.</td></tr>
+          <tr><td><strong>New Riga Village</strong><br>Истра</td><td class="num">70 км</td><td class="num">от 5 000 ₽</td><td>58 юнитов. Продажа пакетами вместо прайса: романтический, SPA-выходные, «отдых для мамы», день рождения −10% и десерт от шефа. Полный событийный блок.</td><td>Модель пакетной витрины, перенесённая в раздел 05.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <span class="src">Источники: glampinginfo.ru, durykino-glamping.ru, sledlosya.ru, elkino.life, newrigavillage.ru, beregzhelaniy.ru, babindvor.ru, turbazy.ru — 01.09.2026</span>
+
+    <h3>Барские поля · Новорижское направление</h3>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th style="width:16%">Объект</th><th style="width:11%">Расстояние</th><th style="width:12%">Цена входа</th><th style="width:31%">Сильная сторона</th><th>Что это значит для нас</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Рядом Даль</strong><br>д. Степаньково</td><td class="num">1 км от нас</td><td class="num">от 9 000 ₽</td><td>Рейтинг 4,8–5,0. Формат «всё включено» с двумя часами бани в тарифе. Сферы от 9 000 ₽, бунгало на 4–6 человек от 12 000 ₽, дома с купелью от 11 000 ₽. Скидка 20% от трёх суток, минимум двое суток на выходные, предоплата 50%, подогреваемый бассейн бесплатно до октября.</td><td>Основной конкурент. Наши преимущества, которых нет у него: 14 домов против меньшего фонда, ферма, стрельба из лука, детская комната, веранда на 24 человека.</td></tr>
+          <tr><td><strong>Ёлкино.life</strong></td><td class="num">10,6 км</td><td class="num">от 12 000 ₽</td><td>Рейтинг 5,0, 90 отзывов. Ресторан, SPA-программы, банный all inclusive, мероприятия до 50 человек.</td><td>Верхняя граница цены в радиусе. Показывает потолок ADR для направления.</td></tr>
+          <tr><td><strong>Лис и Лес</strong></td><td class="num">9,1 км</td><td class="num">от 11 000 ₽</td><td>Рейтинг 5,0 при 28 отзывах.</td><td>Малый объект с управляемым качеством. Конкуренция за пары.</td></tr>
+          <tr><td><strong>Икс Лес</strong></td><td class="num">9,1 км</td><td class="num">от 10 000 ₽</td><td>Рейтинг 4,8 при 26 отзывах.</td><td>Ценовой ориентир ближнего радиуса.</td></tr>
+          <tr><td><strong>Заповедник</strong><br>Рузское направление</td><td class="num">74 км</td><td class="num">от 5 407 ₽</td><td>Рейтинг 5,0. 11 сафари-вилл на озере Еловом, купель фуро.</td><td>Забирает гостя, чувствительного к цене, на более коротком плече. Требует ответа пакетом, а не скидкой.</td></tr>
+          <tr><td><strong>New Riga Village</strong></td><td class="num">70 км</td><td class="num">от 5 000 ₽</td><td>58 юнитов, пакетная витрина, полный событийный контур: свадьбы, корпоративы, йога-туры, выпускные.</td><td>Основной конкурент по групповому и событийному сегменту на направлении.</td></tr>
+          <tr><td><strong>А у реки</strong></td><td class="num">130 км</td><td class="num">от 10 000 ₽</td><td>Рейтинг 5,0 на плече 130 км. 13 цветных A-frame и этнодомов с купелями на террасах.</td><td>Подтверждает: на дальнем плече цену держит архитектура и оформление, а не близость к Москве.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <span class="src">Источники: domdal.ru, tripinglamp.ru, глэмпинги.рф, vc.ru/travel — 01.09.2026</span>
+  </div>
+</section>
+
+<style>
+@media print{
+  @page{ size:A4; margin:14mm 12mm 14mm 12mm }
+  :root,:root[data-theme="dark"]{
+    --paper:#FFFFFF; --surface:#FFFFFF; --surface-2:#F2F4F0; --sunken:#E8ECE4;
+    --ink:#101610; --ink-2:#33403A; --muted:#5F6B65; --line:#C9D1C6; --line-2:#B2BCAE;
+    --accent:#245B3F; --accent-soft:#EAF1EC;
+    --crit:#8C2C1C; --crit-soft:#FAEDE9;
+    --warn:#7A5509; --warn-soft:#FAF2E0;
+    --shadow:none;
+  }
+  html,body{background:#fff !important; color:#101610 !important}
+  body{font-size:10pt; line-height:1.48}
+  nav.toc{display:none !important}
+  .masthead{padding:0 0 14pt; border-bottom:1.5pt solid #B2BCAE; background:#fff}
+  .masthead h1{font-size:26pt; max-width:none}
+  .dek{font-size:11pt}
+  .meta-row{margin-top:12pt; padding-top:10pt; gap:4pt 16pt}
+  .meta-row div{font-size:8pt}
+  .wrap{max-width:none; padding:0}
+  section{padding:14pt 0 16pt; break-before:page; border-bottom:0}
+  #summary{break-before:auto}
+  .sec-head{margin-bottom:12pt; padding-bottom:5pt; border-bottom:1pt solid #C9D1C6}
+  .sec-head h2{font-size:17pt}
+  .sec-num{font-size:9pt}
+  h3{font-size:12.5pt; margin:16pt 0 7pt; break-after:avoid}
+  h4{font-size:10.5pt; break-after:avoid}
+  p{margin:0 0 .6em}
+  .prose{max-width:none}
+  .lede{font-size:11pt}
+
+  .finding,.card,.hcard,.callout{break-inside:avoid; box-shadow:none; padding:9pt 11pt}
+  .finding{border:.75pt solid #C9D1C6; border-left:2.5pt solid #245B3F}
+  .finding.bad{border-left-color:#8C2C1C}
+  .card,.hcard{border:.75pt solid #C9D1C6}
+  .callout{border:.75pt solid #C9D1C6; margin:12pt 0}
+
+  .grid{gap:9pt}
+  .g2{grid-template-columns:1fr !important}
+  .g3{grid-template-columns:repeat(3,1fr) !important}
+
+  .tbl-scroll{overflow:visible !important; border:.75pt solid #B2BCAE; break-inside:auto}
+  table{min-width:0 !important; width:100% !important; max-width:100%; font-size:7.6pt; line-height:1.32; table-layout:auto}
+  thead{display:table-header-group}
+  tr{break-inside:avoid}
+  th{padding:4pt 5pt; font-size:6.8pt; white-space:normal !important; background:#F2F4F0 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+  td{padding:4pt 5pt; word-wrap:break-word; overflow-wrap:break-word; hyphens:auto}
+  td.num,.num{white-space:normal !important}
+  td br{content:"" }
+  tbody tr:hover{background:transparent}
+
+  .tag{font-size:6.5pt; padding:1pt 4pt; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+  .src{font-size:7.5pt; margin-top:4pt}
+  .ice-bar{-webkit-print-color-adjust:exact; print-color-adjust:exact; width:34px}
+  .ice b{font-size:8pt}
+  dl.hx dt{font-size:7.5pt; margin-top:6pt}
+  dl.hx dd{font-size:9.5pt}
+  .hcard header{margin-bottom:2pt}
+  .hcard h4{font-size:11pt}
+  .hid{font-size:8pt}
+  ol.steps li{margin:.35em 0}
+  ol.steps li::before{width:14px; height:14px; font-size:8pt}
+  .snip{font-size:8.2pt; line-height:1.42; padding:7pt 9pt; background:#F2F4F0 !important; border:.75pt solid #C9D1C6; break-inside:avoid; -webkit-print-color-adjust:exact; print-color-adjust:exact; white-space:pre-wrap; overflow:visible}
+  .lbl{font-size:7.5pt; margin:11pt 0 3pt}
+  a{color:#245B3F; text-decoration:none}
+  footer{padding:14pt 0 0; border-top:1pt solid #C9D1C6; break-before:avoid; font-size:8pt}
+  .print-only{display:block !important}
+}
+.print-only{display:none}
+</style>
+
+<section id="take">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Что берём с рынка</h2></div>
+    <p class="prose">В таблице оставлены только приёмы, которые применяют несколько независимых объектов, — то есть проверенные рынком, а не единичные эксперименты.</p>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th style="width:20%">Приём</th><th style="width:30%">Кто применяет</th><th style="width:14%">Внедрение</th><th>Решение по нам</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Цена «от» на первом экране</strong></td><td>Дурыкино, След Лося, Рядом Даль, Заповедник, New Riga Village, А у реки</td><td class="num">0 ₽ · 2 дня</td><td>Внедряем на обеих базах. Формат: «от N ₽ вс–чт · от M ₽ пт–сб» на карточке каждого дома и в плитке каталога.</td></tr>
+          <tr><td><strong>Скидка от длины пребывания в будни</strong></td><td>Трофимов Берег (−10 / −15%), След Лося (−15% от 3 ночей), Рядом Даль (−20% от 3 суток), Берег желаний (−15% на вторую ночь)</td><td class="num">0 ₽ · 1 день</td><td>Внедряем лестницу 2 / 3 / 4 ночи. Раздел 06.</td></tr>
+          <tr><td><strong>Пакет вместо ночи</strong></td><td>Рядом Даль, Ёлкино.life, New Riga Village, Под Небом</td><td class="num">до 30 000 ₽ · 3 недели</td><td>Внедряем 12 пакетов, по шесть на базу. Раздел 05. Основа для «Рощи» — существующие тарифы «Комфорт релакс» и «Комфорт актив».</td></tr>
+          <tr><td><strong>Открытый прайс на дополнительные услуги</strong></td><td>Дурыкино, Барские поля (веранда 12 000–17 000 ₽)</td><td class="num">0 ₽ · 1 день</td><td>Сводим все допуслуги в единый прайс на страницах «Бани и чаны», SPA и «Досуг».</td></tr>
+          <tr><td><strong>Раннее бронирование</strong></td><td>След Лося (−10% за 30 дней)</td><td class="num">0 ₽ · 1 день</td><td>Внедряем две ступени: −10% за 30 дней, −15% за 60 дней. Не действует на праздники.</td></tr>
+          <tr><td><strong>Заезд в день обращения</strong></td><td>След Лося (−25%, окно 6:00–15:00)</td><td class="num">0 ₽ · 1 неделя</td><td>Внедряем только через Telegram-канал и только вс–чт, чтобы не переносить скидку на публичную витрину.</td></tr>
+          <tr><td><strong>Минимум двое суток на выходные и предоплата 50%</strong></td><td>Рядом Даль</td><td class="num">0 ₽ · 1 день</td><td>Вводим после сверки доли однодневных броней в Bnovo. Предоплату 50% — сразу.</td></tr>
+          <tr><td><strong>Подарочные сертификаты со скидкой</strong></td><td>Барские поля: 10 000 → 8 000, 20 000 → 17 000, 30 000 → 25 000 ₽</td><td class="num">0 ₽ · 3 дня</td><td>Переносим механику на «Берёзовую рощу» без изменений. Пиковые продажи — декабрь, февраль, март.</td></tr>
+          <tr><td><strong>Программа лояльности за повторные заезды</strong></td><td>След Лося (3–10%)</td><td class="num">0 ₽ · 1 неделя</td><td>Делаем единую для двух баз: 2-й заезд −5%, 3-й −10%, 4-й и далее −15%.</td></tr>
+          <tr><td><strong>Скидка в месяц дня рождения</strong></td><td>След Лося (−10% на допуслуги), New Riga Village (−10% и десерт от шефа)</td><td class="num">0 ₽ · 3 дня</td><td>Внедряем. Требуется поле «дата рождения» в анкете гостя в Bnovo.</td></tr>
+          <tr><td><strong>Платное размещение с питомцем</strong></td><td>След Лося 1 500 ₽, New Riga Village 3 000 ₽, Барские поля 1 000–2 000 ₽</td><td class="num">0 ₽ · 1 день</td><td>Ставим 1 500 ₽ за заезд на «Роще», выравниваем «Поля» до 1 500 ₽.</td></tr>
+          <tr><td><strong>Событийный контур с готовым коммерческим предложением</strong></td><td>New Riga Village, Ёлкино.life (до 50 человек)</td><td class="num">15 000–40 000 ₽ · 4 недели</td><td>Строим на базе «Полей»: веранда до 24 человек с опубликованным прайсом и русско-народная программа. На «Роще» — банкетный и конференц-зал.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="gaps">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Разрывы по одиннадцати блокам</h2></div>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th style="width:13%">Блок</th><th style="width:29%">Как сейчас</th><th style="width:26%">Как на рынке</th><th>Что делаем</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. Оффер и упаковка</strong></td><td>Тарифы «Комфорт релакс» и «Комфорт актив» существуют: 2 ночи, чан, 2 завтрака, обед, 2 ужина, день SPA или квадроциклы, сертификат на следующий визит. Цены нет, страница оформлена как новость, из меню вход отсутствует. VIP-программы «Свидание года» и «Полная перезагрузка» — без цен.</td><td>Рядом Даль зашивает 2 часа бани в тариф, Ёлкино продаёт «банный all inclusive», New Riga Village заменил прайс пакетами.</td><td>Раздел 05: 12 пакетов с составом и ценой, каждый — отдельный тариф в Bnovo и отдельная страница.</td></tr>
+          <tr><td><strong>2. Управление доходом</strong></td><td>«Роща»: скидочных механик нет. «Поля»: четыре механики, все на дополнительные услуги — 2+ суток −30% на допуслуги, 3+ суток бесплатный чан, 3+ дома −5%, сертификаты.</td><td>След Лося — шесть механик на цену ночи. Рядом Даль — −20% от трёх суток.</td><td>Раздел 06: единая тарифная сетка из 12 позиций для обеих баз.</td></tr>
+          <tr><td><strong>3. Трафик и SEO</strong></td><td>Заголовок главной «Рощи» не содержит ни «Солнечногорск», ни «Ленинградское шоссе», ни «глэмпинг». Заголовок «Полей» не содержит «Новорижское шоссе». В картах сайта 41 и 40 адресов, среди них нет блога, отзывов, страницы питания и событийных страниц. У «Полей» в robots.txt закрыты <span class="mono">/contacts</span> и <span class="mono">/otzyvy</span>. Разметка schema.org отсутствует. Страница <span class="mono">/mayskiye2026</span> остаётся в карте сайта.</td><td>Посадочные под гео- и товарные запросы, отдельная страница на каждый дом с ценой, рейтинг и цена в сниппете.</td><td>Раздел 07: готовые заголовки и описания для 12 страниц, структура четырёх новых посадочных, разметка schema.org.</td></tr>
+          <tr><td><strong>4. Карты</strong></td><td>2ГИС «Рощи»: 4,8 при 20 отзывах против примерно сотни на других площадках. Адрес в 2ГИС «КДЗ Новое Мишкино, 1/3», на сайте «1/5».</td><td>Заполненные карточки с товарами и услугами, посты, ответы на отзывы в течение суток.</td><td>Раздел 08: регламент карточки и конвейер сбора отзывов.</td></tr>
+          <tr><td><strong>5. Платный трафик</strong></td><td>На barskie-polya.ru установлен пиксель VK. На ecobr.ru его нет — аудитория для повторного показа не собирается. Метрика стоит на обеих площадках.</td><td>Ретаргетинг на посетителей, не завершивших бронирование.</td><td>Ставим пиксель VK на ecobr.ru, заводим три цели в Метрике, собираем сегмент «открыл модуль, не оплатил».</td></tr>
+          <tr><td><strong>6. Дистрибуция</strong></td><td>«Роща» представлена на Яндекс Путешествиях, Booking (8,3 из 10), Tripinglamp, Локал, Натуралист. «Поля» — на глэмпинги.рф (4,47 при 301 отзыве), Tripinglamp (4,7 при 103), Zoon, 2ГИС, Mirturbaz. Сайт указывает 22 дома, агрегаторы — 14–15.</td><td>Полный номерной фонд во всех каналах, паритет цен с собственным сайтом.</td><td>Актуализируем карточки во всех каналах, сверяем цены на одинаковые даты, вводим бонус за прямое бронирование.</td></tr>
+          <tr><td><strong>7. Конверсия сайта</strong></td><td>До цены пять-шесть шагов. Элементов ограниченной доступности, социального доказательства на шаге брони и допродажи внутри модуля нет. Правила отмены и предоплаты не опубликованы. Яндекс Сплит и квиз работают.</td><td>Цена на первом экране, календарь в карточке, допродажа в модуле.</td><td>Разделы 07 и 09: блок цены на карточке, публикация правил, чек-лист допродажи в модуле.</td></tr>
+          <tr><td><strong>8. Репутация</strong></td><td>«Роща»: 4,5 на Tripinglamp, 4,8 в 2ГИС, 8,3 из 10 на Booking при 46 отзывах. «Поля»: 4,47 при 301 отзыве. Механики сбора отзывов не выстроены.</td><td>Ближайшие конкуренты держат 4,8–5,0.</td><td>Раздел 08: конвейер отзывов, целевой показатель 4,8 и не менее 12 новых отзывов в месяц на объект.</td></tr>
+          <tr><td><strong>9. Контент и соцсети</strong></td><td>В разметке главных страниц и контактов присутствуют только Telegram и WhatsApp.</td><td>Лента с фотографиями гостей — стандартная точка проверки перед бронированием.</td><td>Выводим все аккаунты в шапку и подвал обеих площадок, задаём контент-план: 3 публикации в неделю на объект.</td></tr>
+          <tr><td><strong>10. Допвыручка</strong></td><td>Прайс опубликован частично: SPA 1 000–4 000 ₽, бани 6 000–7 000 ₽, программы от 9 000 ₽, веранда 12 000–17 000 ₽, уборка 3 000 ₽. Допродажа в момент бронирования отсутствует.</td><td>Допуслуги выбираются чекбоксом на шаге оплаты.</td><td>Раздел 09: перечень из 14 позиций для допродажи в модуле и в подтверждающем письме.</td></tr>
+          <tr><td><strong>11. Групповой и событийный сегмент</strong></td><td>У «Полей» есть страница событий с ценами на веранду до 24 человек. У «Рощи» отдельной страницы нет, хотя банкетный и конференц-зал указаны в 2ГИС. Коммерческого предложения в файле нет ни у одной базы.</td><td>Отдельные страницы под каждый формат, скачиваемое предложение, менеджер направления.</td><td>Раздел 05: два групповых пакета. Раздел 07: структура пяти событийных страниц и состав коммерческого предложения.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="packages">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Пакетные предложения</h2></div>
+    <p class="prose lede">Двенадцать пакетов, по шесть на объект. Каждый заводится отдельным тарифом в Bnovo, получает страницу на сайте и бронируется без участия менеджера.</p>
+
+    <h3>Берёзовая роща</h3>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th style="width:17%">Пакет</th><th style="width:9%">Срок</th><th style="width:40%">Состав</th><th style="width:12%">Цена</th><th>Для кого</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Тихие будни</strong></td><td class="num">2 ночи<br>вс–чт</td><td>Дом для двоих, 2 завтрака «шведский стол», 1 ужин, банный чан 2 часа с еловым набором, поздний выезд до 14:00.</td><td class="num">26 900 ₽<br><span style="color:var(--muted)">по отдельности 33 400 ₽</span></td><td>Пары, удалённая работа, отпуск не в выходные</td></tr>
+          <tr><td><strong>Выходные под ключ</strong></td><td class="num">2 ночи<br>пт–вс</td><td>Дом для двоих, 2 завтрака, ужин при свечах с сервировкой, банный чан 2 часа, поздний выезд до 15:00.</td><td class="num">44 900 ₽</td><td>Основной пакет выходного дня</td></tr>
+          <tr><td><strong>Свидание года</strong><br><span style="color:var(--muted)">действующая VIP-программа</span></td><td class="num">1 ночь</td><td>Дом категории A-FRAME или SFERA, чан с оформлением и подсветкой, ужин при свечах, массаж 60 минут на двоих, фотосессия 40 минут, поздний выезд.</td><td class="num">34 900 ₽</td><td>Годовщина, предложение руки, подарок</td></tr>
+          <tr><td><strong>Полная перезагрузка</strong><br><span style="color:var(--muted)">действующая VIP-программа</span></td><td class="num">3 ночи<br>вс–ср</td><td>Дом для двоих, целый день SPA на двоих, банная церемония с парением и авторскими составами, 2 массажа по 60 минут, 3 завтрака, 2 ужина.</td><td class="num">74 900 ₽</td><td>Верхний сегмент, восстановление</td></tr>
+          <tr><td><strong>Семейные выходные</strong></td><td class="num">2 ночи</td><td>Дом на 4 человек, 4 завтрака, экскурсия на ферму с кормлением животных, детский мастер-класс, детская кроватка и стульчик, поздний выезд до 15:00.</td><td class="num">52 900 ₽</td><td>Семьи с детьми до 12 лет</td></tr>
+          <tr><td><strong>Рабочая неделя</strong></td><td class="num">4 ночи<br>вс–чт</td><td>Дом для двоих, 4 завтрака, 3 ужина, интернет с гарантией скорости не ниже 50 Мбит/с, рабочий стол и офисное кресло, уборка на третий день.</td><td class="num">46 900 ₽</td><td>Удалённая работа, длинные будни</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Барские поля</h3>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th style="width:17%">Пакет</th><th style="width:9%">Срок</th><th style="width:40%">Состав</th><th style="width:12%">Цена</th><th>Для кого</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Два дня по-барски</strong></td><td class="num">2 ночи<br>вс–чт</td><td>Дом категории РИВЕР, 2 завтрака, банный чан классический, стрельба из лука, поздний выезд до 14:00.</td><td class="num">27 900 ₽<br><span style="color:var(--muted)">по отдельности 33 800 ₽</span></td><td>Пары, будние поездки</td></tr>
+          <tr><td><strong>Выходные в Барских полях</strong></td><td class="num">2 ночи<br>пт–вс</td><td>Дом категории РИВЕР, 2 завтрака, ужин с доставкой в дом, банный чан 2 часа, поздний выезд до 15:00.</td><td class="num">42 900 ₽</td><td>Основной пакет выходного дня</td></tr>
+          <tr><td><strong>Свидание в Шале</strong></td><td class="num">1 ночь</td><td>Дом ШАЛЕ, чан с оформлением, ужин при свечах в доме, завтрак в дом, поздний выезд до 15:00.</td><td class="num">29 900 ₽</td><td>Годовщина, подарок, продвижение новой категории</td></tr>
+          <tr><td><strong>Семья на ферме</strong></td><td class="num">2 ночи</td><td>Дом категории ГАРДЕН, 4 завтрака, ферма с животными, детская комната, мастер-класс, стрельба из лука для детей от 8 лет.</td><td class="num">44 900 ₽</td><td>Семьи с детьми</td></tr>
+          <tr><td><strong>Компания по-барски</strong></td><td class="num">2 ночи</td><td>3 дома, аренда веранды 6 часов, банкет, русско-народная программа с костюмами и чаепитием, стрельба из лука, банный чан, фотограф 2 часа.</td><td class="num">от 149 000 ₽<br><span style="color:var(--muted)">12–18 человек</span></td><td>Дни рождения, встречи компаний</td></tr>
+          <tr><td><strong>Корпоративный день</strong></td><td class="num">1 день<br>пн–чт</td><td>Веранда 15:00–23:00 до 24 человек, обед и ужин, русско-народная программа, стрельба из лука, банный чан, звук и гриль. Без проживания.</td><td class="num">от 89 000 ₽<br><span style="color:var(--muted)">до 24 человек</span></td><td>Выездные дни компаний, тимбилдинг</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <p><strong>Правило ценообразования пакетов.</strong> Цена пакета = сумма позиций по действующему прайсу × 0,85. Наценка к стоимости «голого» проживания держится в диапазоне 40–60%. Цены в таблицах рассчитаны от тарифов, опубликованных в агрегаторах: «Барские поля» от 9 900 ₽ вс–чт и от 15 400 ₽ пт–сб, «Берёзовая роща» от 8 000 ₽, веранда 12 000–17 000 ₽ по дням недели, чан от 5 500 ₽, SPA 1 000–4 000 ₽, бани 6 000–7 000 ₽. Подставьте фактические тарифы из Bnovo — структура и коэффициенты сохраняются.</p>
+    </div>
+
+    <div class="callout">
+      <p><strong>Правила публикации.</strong> Каждый пакет получает отдельную страницу с одним экраном: состав списком, цена, экономия по сравнению с покупкой по отдельности, 8–12 фотографий, календарь доступных дат, кнопка бронирования. На главной странице обеих баз пакеты выводятся блоком из шести карточек сразу под первым экраном. В модуле Bnovo пакет доступен как отдельный тариф с фиксированной длительностью.</p>
+    </div>
+  </div>
+</section>
+
+<section id="tariffs">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Тарифная сетка</h2></div>
+    <p class="prose">Единая сетка для обеих баз. Заводится в Bnovo за один рабочий день и публикуется на странице спецпредложений.</p>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th style="width:20%">Тариф</th><th style="width:24%">Условие</th><th style="width:10%">Скидка</th><th>Ограничения</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Гибкий</strong></td><td>Базовый тариф. Отмена без удержания за 3 суток до заезда, предоплата 50%.</td><td class="num">—</td><td>Действует всегда</td></tr>
+          <tr><td><strong>Невозвратный</strong></td><td>Полная оплата при бронировании, отмена без возврата.</td><td class="num">−15%</td><td>Кроме 30 декабря — 8 января и майских праздников</td></tr>
+          <tr><td><strong>Раннее бронирование 30</strong></td><td>Бронирование не позднее чем за 30 дней до заезда.</td><td class="num">−10%</td><td>Кроме праздничных периодов</td></tr>
+          <tr><td><strong>Раннее бронирование 60</strong></td><td>Бронирование не позднее чем за 60 дней до заезда.</td><td class="num">−15%</td><td>Кроме праздничных периодов</td></tr>
+          <tr><td><strong>Будни: 2 ночи</strong></td><td>Заезд и выезд в интервале воскресенье — четверг.</td><td class="num">−10%</td><td>Не суммируется с пакетами</td></tr>
+          <tr><td><strong>Будни: 3 ночи</strong></td><td>Три ночи подряд в интервале воскресенье — четверг.</td><td class="num">−15%</td><td>Не суммируется с пакетами</td></tr>
+          <tr><td><strong>Будни: 4 ночи и более</strong></td><td>Четыре и более ночей подряд в интервале воскресенье — четверг.</td><td class="num">−20%</td><td>Не суммируется с пакетами</td></tr>
+          <tr><td><strong>Вторая ночь выходных</strong></td><td>Вторая ночь при заезде в пятницу или субботу.</td><td class="num">−15%</td><td>Только на вторую ночь</td></tr>
+          <tr><td><strong>Заезд сегодня</strong></td><td>Бронирование в день заезда, заселение до 15:00. Публикуется в Telegram-канале в 9:00 при наличии от трёх свободных домов.</td><td class="num">−25%</td><td>Только воскресенье — четверг, не публикуется на сайте</td></tr>
+          <tr><td><strong>Лояльность</strong></td><td>Второй заезд −5%, третий −10%, четвёртый и последующие −15%. Учитываются заезды на обеих базах.</td><td class="num">5–15%</td><td>По номеру телефона гостя в Bnovo</td></tr>
+          <tr><td><strong>Месяц дня рождения</strong></td><td>Заезд в календарный месяц дня рождения гостя.</td><td class="num">−10%</td><td>На дополнительные услуги</td></tr>
+          <tr><td><strong>Группа от трёх домов</strong></td><td>Одновременное бронирование трёх и более домов.</td><td class="num">−7%</td><td>Кроме праздничных периодов</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid g2" style="margin-top:18px">
+      <div class="card">
+        <h4>Правила применения</h4>
+        <ul>
+          <li>Одновременно применяются не более двух скидок, суммарно не более 25%.</li>
+          <li>Пакеты из раздела 05 продаются по фиксированной цене и не участвуют в скидках.</li>
+          <li>Минимальный срок: пятница и суббота — от двух ночей; праздничные периоды — от трёх ночей.</li>
+          <li>Предоплата 50% по всем бронированиям, 100% по невозвратному тарифу.</li>
+          <li>Размещение с питомцем — 1 500 ₽ за заезд на обеих базах.</li>
+          <li>Ранний заезд и поздний выезд — 50% стоимости суток; в пакетах включены.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Публикация на сайте</h4>
+        <p>Страница <span class="mono">/special</span> обеих баз перестраивается в таблицу тарифов с процентами и условиями. Требования к странице:</p>
+        <ul>
+          <li>Каждое предложение содержит процент или сумму — формулировок «уточняйте у менеджера» на странице нет.</li>
+          <li>Одно предложение на витрине всегда имеет дату окончания.</li>
+          <li>Правила отмены и предоплаты публикуются отдельным блоком на странице бронирования.</li>
+          <li>Блок «Оплата частями с Яндекс Сплит — от N ₽ в месяц» размещается непосредственно под ценой, а не отдельной новостью.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="site">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">07</span><h2>Сайт: структура и тексты</h2></div>
+
+    <h3>Технические работы первой недели</h3>
+    <ol class="steps">
+      <li>Удалить из <span class="mono">barskie-polya.ru/robots.txt</span> строки <span class="mono">Disallow: /contacts</span>, <span class="mono">Disallow: /otzyvy</span>, <span class="mono">Disallow: /chanyibani</span> и добавить эти адреса в карту сайта.</li>
+      <li>Настроить постоянные переадресации со старых адресов (<span class="mono">/river1</span>, <span class="mono">/garden1</span>, <span class="mono">/barnhouse1</span> и других) на действующие вложенные адреса.</li>
+      <li>Удалить <span class="mono">/mayskiye2026</span> из карт сайта обеих площадок до следующего сезона.</li>
+      <li>Заполнить пустое описание страницы <span class="mono">ecobr.ru/special</span>.</li>
+      <li>Установить пиксель VK на ecobr.ru и завести три цели в Метрике: открытие модуля Bnovo, отправка формы обратного звонка, переход в мессенджер.</li>
+      <li>Добавить разметку schema.org на главные страницы и карточки домов.</li>
+    </ol>
+
+    <span class="lbl">Разметка для главных страниц — блок HTML в Tilda</span>
+    <div class="snip">&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Resort",
+  "name": "Экобаза «Берёзовая роща»",
+  "url": "https://ecobr.ru/",
+  "telephone": "+7 495 120-20-08",
+  "priceRange": "8000-45000 RUB",
+  "address": {
+    "@type": "PostalAddress",
+    "addressRegion": "Московская область",
+    "addressLocality": "д. Васюково",
+    "streetAddress": "КДЗ Новое Мишкино, 1/5"
+  },
+  "amenityFeature": ["Ресторан", "SPA", "Баня", "Банный чан", "Ферма", "Рыбалка", "Размещение с животными"],
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "100" }
+}
+&lt;/script&gt;</div>
+    <p class="prose" style="font-size:15px;color:var(--muted)">Значения рейтинга и количества отзывов подставляются фактические и обновляются раз в квартал. На карточках домов дополнительно добавляется блок <span class="mono">Offer</span> с полями <span class="mono">price</span> и <span class="mono">priceCurrency</span>.</p>
+
+    <h3>Заголовки и описания страниц</h3>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th style="width:16%">Страница</th><th style="width:38%">Заголовок Title</th><th>Описание Description</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">ecobr.ru/</td><td>База отдыха в Солнечногорске — 40 минут от Москвы | Берёзовая роща</td><td>22 дизайнерских дома с банными чанами, ресторан, SPA с бассейном, ферма. 40 минут по Ленинградскому шоссе. Цены от 8 000 ₽. Бронирование онлайн, оплата частями.</td></tr>
+          <tr><td class="mono">ecobr.ru/doma</td><td>Домики для отдыха в Подмосковье — цены и фото | Берёзовая роща</td><td>22 дома: A-frame, барнхаусы, шале, сканди, купольная сфера. Собственная территория у каждого дома, банные чаны, мангальные зоны. Цены от 8 000 ₽ за ночь.</td></tr>
+          <tr><td class="mono">ecobr.ru/banchan</td><td>Дом с банным чаном в Подмосковье — 40 минут от Москвы</td><td>Банные чаны и бани на дровах с авторскими программами парения. Чан у собственной территории дома. Цены и свободные даты — на сайте базы «Берёзовая роща».</td></tr>
+          <tr><td class="mono">ecobr.ru/spa</td><td>SPA с бассейном под открытым небом в Подмосковье | Берёзовая роща</td><td>Горячий бассейн под открытым небом, русская баня на дровах, хамам, массаж, флоатинг. SPA-комплекс в 300 метрах от домов. Цены от 1 000 ₽.</td></tr>
+          <tr><td class="mono">ecobr.ru/deti</td><td>Отдых с детьми в Подмосковье — база с фермой и животными</td><td>Ферма с животными, детская площадка, домашний кинотеатр, катание на лошадях. Кроватки и стульчики бесплатно. Дома для семей на 4–6 человек.</td></tr>
+          <tr><td class="mono">ecobr.ru/pitanie<br><span style="color:var(--muted)">новая</span></td><td>Ресторан на базе отдыха в Подмосковье — завтраки и ужины</td><td>Завтраки «шведский стол», комплексные обеды и ужины, доставка блюд в дом. Меню, цены и режим работы ресторана базы «Берёзовая роща».</td></tr>
+          <tr><td class="mono">barskie-polya.ru/</td><td>База отдыха на Новорижском шоссе — домики с чаном | Барские поля</td><td>Дома RIVER, GARDEN, БАРНХАУС и ШАЛЕ с банным чаном у террасы. Завтраки, ферма, стрельба из лука, веранда для компаний. Цены от 9 900 ₽ за ночь.</td></tr>
+          <tr><td class="mono">barskie-polya.ru/banchan</td><td>Домики с банным чаном и баней на Новой Риге | Барские поля</td><td>Банный чан у каждого дома, личные бани в категориях GARDEN и БАРСКИЙ ДОМ. Цены на банные программы и свободные даты на сайте базы.</td></tr>
+          <tr><td class="mono">barskie-polya.ru/rivers</td><td>Дома RIVER с чаном и видом на реку | Барские поля</td><td>Шесть домов RIVER на 55 м² и 4 спальных места, банный чан у террасы, мангальная зона, полностью оборудованная кухня. Цены от 9 900 ₽ вс–чт.</td></tr>
+          <tr><td class="mono">barskie-polya.ru/events</td><td>Корпоратив за городом на Новорижском шоссе — до 24 человек</td><td>Аренда веранды с грилем и звуком, банкет, русско-народная программа с костюмами, стрельба из лука. Пн–чт 12 000 ₽, пятница и воскресенье 15 000 ₽, суббота 17 000 ₽.</td></tr>
+          <tr><td class="mono">barskie-polya.ru/dosug</td><td>Чем заняться на базе отдыха — ферма, лук, рыбалка | Барские поля</td><td>Ферма с животными, стрельба из лука, детская комната, рыбалка на озере в 10 минутах, велосипеды. Программа досуга и цены на дополнительные услуги.</td></tr>
+          <tr><td class="mono">barskie-polya.ru/svadba<br><span style="color:var(--muted)">новая</span></td><td>Свадьба за городом на Новой Риге — площадка до 24 гостей</td><td>Камерная свадьба на веранде с грилем, размещение гостей в домах, банкет, фотограф, банный чан. Программа дня, цены и свободные даты.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose" style="font-size:15px;color:var(--muted)">Эмодзи из заголовков убираются: они сокращают полезную длину и не отображаются в части выдачи. Длина заголовка — до 70 знаков, описания — до 180.</p>
+
+    <h3>Новые посадочные страницы</h3>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th style="width:26%">Адрес</th><th style="width:26%">Заголовок H1</th><th>Обязательные блоки</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">ecobr.ru/<br>baza-otdyha-leningradskoe-shosse</td><td>База отдыха на Ленинградском шоссе — 40 минут от Москвы</td><td>Расстояние в километрах и минутах, схема съезда, карта, цены «от», календарь, 15 фотографий, отзывы, ответы на вопросы о дороге (пробки в пятницу, проезд зимой, как добраться без машины), блок «что рядом».</td></tr>
+          <tr><td class="mono">ecobr.ru/<br>doma-s-chanom</td><td>Дома с банным чаном в Подмосковье</td><td>Цены «от», календарь, 12 фотографий чана в разные сезоны, список домов с чаном со ссылками, банные программы с ценами, шесть ответов на вопросы: время нагрева, входит ли в стоимость, работа зимой, вместимость, наличие купели, что брать с собой.</td></tr>
+          <tr><td class="mono">ecobr.ru/<br>otdyh-dlya-dvoih</td><td>Отдых для двоих в Подмосковье — дома с чаном и SPA</td><td>Три пакета из раздела 05 с ценами, дома для двоих, романтическое оформление и его стоимость, фотосессия, поздний выезд, отзывы пар.</td></tr>
+          <tr><td class="mono">barskie-polya.ru/<br>baza-otdyha-novorizhskoe-shosse</td><td>База отдыха на Новорижском шоссе</td><td>Расстояние 83 км и фактическое время в пути, схема съезда, карта, цены «от», календарь, 15 фотографий, ответы на вопросы о дороге. Указание точного расстояния снимает расхождение ожиданий при заезде.</td></tr>
+          <tr><td class="mono">barskie-polya.ru/<br>korporativ</td><td>Корпоратив за городом на Новорижском шоссе</td><td>Вместимость, тайминг дня по часам, три пакета с ценами, фотографии прошедших мероприятий, схема площадки, кнопка «Скачать предложение» с отправкой файла на почту, форма «опишите задачу — пришлём смету за 2 часа».</td></tr>
+          <tr><td class="mono">barskie-polya.ru/<br>den-rozhdeniya</td><td>Где отметить день рождения за городом</td><td>Пакет «Компания по-барски» с ценой, аренда веранды с прайсом по дням недели, оформление, торт, фотограф, программа с костюмами, отзывы.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <span class="lbl">Блок цены на карточке дома — размещается сразу под первым экраном</span>
+    <div class="snip">Дом RIVER-3 · 55 м² · до 4 гостей
+
+от 9 900 ₽ / ночь         воскресенье — четверг
+от 15 400 ₽ / ночь        пятница — суббота
+или от 1 650 ₽ в месяц с Яндекс Сплит
+
+В стоимости: банный чан у террасы, мангальная зона,
+оборудованная кухня, Wi-Fi, парковка у дома.
+
+[ Выбрать даты и забронировать ]     [ Спросить в Telegram ]</div>
+  </div>
+</section>
+
+<section id="sales">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">08</span><h2>Карты, отзывы и обработка обращений</h2></div>
+
+    <h3>Регламент карточки на картах</h3>
+    <div class="grid g2">
+      <div class="card">
+        <h4>Разовые работы</h4>
+        <ul>
+          <li>Привести адрес к единому виду во всех источниках. В 2ГИС у «Берёзовой рощи» указано «КДЗ Новое Мишкино, 1/3», на сайте — «1/5». Название, адрес и телефон должны совпадать посимвольно на сайте, в Яндекс Бизнесе, 2ГИС и во всех агрегаторах.</li>
+          <li>Загрузить не менее 30 фотографий по рубрикам: дома снаружи, интерьеры, чан, еда, ферма, зима, территория.</li>
+          <li>Заполнить раздел «Товары и услуги» с ценами — это отдельный источник показов в поиске по картам.</li>
+          <li>Проставить все релевантные рубрики: база отдыха, глэмпинг, банный комплекс, ресторан, ферма, конференц-зал.</li>
+          <li>Указать актуальный номерной фонд: 22 дома у «Рощи», 14 у «Полей». В агрегаторах сейчас указано 14–15 у «Рощи».</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Регулярные работы</h4>
+        <ul>
+          <li>Один пост или акция в карточке в неделю: новый пакет, сезонное предложение, событие.</li>
+          <li>Ответ на каждый отзыв в течение суток, включая положительные.</li>
+          <li>Обновление фотографий раз в квартал — по сезону.</li>
+          <li>Ежемесячная сверка позиций по запросам «база отдыха рядом», «глэмпинг с чаном», «база отдыха Солнечногорск» и «база отдыха Новорижское шоссе».</li>
+          <li>Оценка приоритетного размещения по этим запросам после того, как карточка заполнена полностью.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Конвейер отзывов</h3>
+    <p class="prose">Целевые показатели: рейтинг 4,8 и не менее 12 новых отзывов в месяц на каждый объект. Ближайшие конкуренты — «Рядом Даль», «Лис и Лес», «Ёлкино.life» — держат 4,8–5,0.</p>
+
+    <span class="lbl">Табличка с QR-кодом в каждом доме</span>
+    <div class="snip">Понравилось? Расскажите об этом.
+
+Оставьте отзыв — и получите 5% скидки на следующий заезд.
+Наведите камеру на код, выберите Яндекс Карты или 2ГИС.
+
+Промокод скидки придёт в ответном сообщении.</div>
+
+    <span class="lbl">Сообщение через 24 часа после выезда — в тот же канал, где бронировали</span>
+    <div class="snip">Добрый день, [имя]. Спасибо, что были у нас в [даты].
+
+Если всё понравилось — расскажите об этом в двух предложениях:
+[ссылка на отзыв]
+
+За отзыв дарим 5% на следующий заезд — промокод пришлём в ответ.
+Если что-то было не так, напишите нам напрямую, разберёмся.</div>
+
+    <span class="lbl">Ответ на отрицательный отзыв — структура из трёх частей</span>
+    <div class="snip">1. Факт: «Кондиционер в доме Barn-2 действительно не работал 12 июля.»
+2. Что сделали: «Заменили блок 15 июля, добавили проверку климата
+   в чек-лист подготовки дома перед каждым заездом.»
+3. Приглашение: «Компенсируем — приезжайте, чан и поздний выезд за наш счёт.
+   Напишите на BR.BP.House@yandex.ru, забронируем удобные даты.»
+
+Без оправданий, без спора с гостем, без шаблонных извинений.</div>
+
+    <h3>Обработка обращений</h3>
+    <div class="grid g2">
+      <div class="card">
+        <h4>Норматив</h4>
+        <ul>
+          <li>Первый ответ — 5 минут в рабочие часы 9:00–24:00 во всех каналах.</li>
+          <li>Все каналы — телефон, Telegram, WhatsApp, форма обратного звонка — сводятся в одно окно.</li>
+          <li>Вне рабочих часов — автоответ с ценой «от» и ссылкой на модуль бронирования.</li>
+          <li>Ежедневный отчёт: количество обращений, медиана времени ответа, количество обращений без ответа.</li>
+          <li>Обращение без ответа дольше 30 минут разбирается управляющим в тот же день.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Догрев незавершённого бронирования</h4>
+        <ol style="padding-left:1.1em">
+          <li>Через 30 минут — сообщение с ценой на выбранные даты и прямой ссылкой на оплату.</li>
+          <li>Через 24 часа — два альтернативных варианта дат или категории дома.</li>
+          <li>Через 7 дней — предложение будних дат по тарифу из раздела 06.</li>
+          <li>Все три касания — в канал, из которого пришёл гость.</li>
+        </ol>
+      </div>
+    </div>
+
+    <span class="lbl">Первое сообщение менеджера — заменяет «Здравствуйте, уточните пожалуйста»</span>
+    <div class="snip">Добрый день! На 12–14 сентября свободны три дома:
+
+· RIVER-3, 55 м², до 4 гостей, чан у террасы — 30 600 ₽ за 2 ночи
+· БАРНХАУС-1, 70 м², до 6 гостей, чан и мангал — 37 400 ₽ за 2 ночи
+· ШАЛЕ, новая категория, до 4 гостей, своя баня — 41 200 ₽ за 2 ночи
+
+Фото и планировки: [ссылки]
+Оплата целиком или частями с Яндекс Сплит, от 2 550 ₽ в месяц.
+
+Сколько вас будет и нужен ли завтрак?</div>
+    <p class="prose" style="font-size:15px;color:var(--muted)">Обязательные элементы первого сообщения: цена на запрошенные даты, три конкретных варианта со ссылками, упоминание рассрочки, один уточняющий вопрос в конце.</p>
+  </div>
+</section>
+
+<section id="upsell">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">09</span><h2>Дополнительная выручка</h2></div>
+    <p class="prose">Позиции предлагаются чекбоксом на шаге оплаты в модуле Bnovo и повторно — в письме подтверждения бронирования за 3 дня до заезда. Продажа на стойке при заселении сохраняется как третья точка, но не как основная.</p>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th style="width:24%">Позиция</th><th style="width:14%">Цена</th><th style="width:22%">Где предлагается</th><th>Комментарий</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Банный чан, 2 часа</strong></td><td class="num">от 5 500 ₽</td><td>Модуль, письмо, стойка</td><td>Основная позиция допродажи. В пакетах включена.</td></tr>
+          <tr><td><strong>Чан с оформлением</strong></td><td class="num">+1 500 ₽</td><td>Модуль, письмо</td><td>Лапник, цитрусы, подсветка, свечи.</td></tr>
+          <tr><td><strong>Баня с парением</strong></td><td class="num">6 000–7 000 ₽</td><td>Модуль, письмо</td><td>Авторские составы, веники, халаты, травяной чай.</td></tr>
+          <tr><td><strong>Парение и массаж 30 минут</strong></td><td class="num">по прайсу SPA</td><td>Модуль, стойка</td><td>Доступно в домах Барнхаус-4, A-frame Black, Сфера.</td></tr>
+          <tr><td><strong>День SPA на двоих</strong></td><td class="num">1 000–4 000 ₽</td><td>Модуль, письмо</td><td>Бассейн под открытым небом, хамам, флоатинг.</td></tr>
+          <tr><td><strong>Завтрак «шведский стол»</strong></td><td class="num">по прайсу ресторана</td><td>Модуль</td><td>Включать в пакеты по умолчанию.</td></tr>
+          <tr><td><strong>Ужин при свечах в доме</strong></td><td class="num">по прайсу ресторана</td><td>Модуль, письмо</td><td>Сервировка, свечи, подача в дом.</td></tr>
+          <tr><td><strong>Доставка блюд в дом</strong></td><td class="num">по прайсу ресторана</td><td>Письмо, стойка</td><td>Обязательно указывать время работы кухни.</td></tr>
+          <tr><td><strong>Романтическое оформление дома</strong></td><td class="num">от 3 500 ₽</td><td>Модуль, письмо</td><td>Шары, свечи, лепестки, надпись.</td></tr>
+          <tr><td><strong>Фотосессия 40 минут</strong></td><td class="num">от 8 000 ₽</td><td>Модуль, письмо</td><td>15 обработанных кадров, съёмка на территории.</td></tr>
+          <tr><td><strong>Поздний выезд до 18:00</strong></td><td class="num">50% суток</td><td>Письмо за 3 дня, стойка</td><td>Бесплатно при бронировании будних дат по лестнице из раздела 06.</td></tr>
+          <tr><td><strong>Ранний заезд с 10:00</strong></td><td class="num">50% суток</td><td>Модуль</td><td>—</td></tr>
+          <tr><td><strong>Размещение с питомцем</strong></td><td class="num">1 500 ₽ / заезд</td><td>Модуль</td><td>Единая цена на обеих базах.</td></tr>
+          <tr><td><strong>Стрельба из лука и ферма</strong></td><td class="num">по прайсу досуга</td><td>Модуль, стойка</td><td>«Барские поля». Включено в семейный пакет.</td></tr>
+          <tr><td><strong>Аренда веранды</strong></td><td class="num">12 000–17 000 ₽</td><td>Отдельная страница, менеджер</td><td>«Барские поля». Пн–чт 12 000 ₽, пт и вс 15 000 ₽, сб 17 000 ₽.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="plan">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">10</span><h2>План работ</h2></div>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th style="width:34%">Работа</th><th style="width:11%">Объект</th><th style="width:18%">Ответственный</th><th style="width:11%">Срок</th><th>Бюджет</th></tr></thead>
+        <tbody>
+          <tr><td colspan="5" style="background:var(--surface-2);font-family:Archivo;font-weight:600;color:var(--ink)">Первые 14 дней</td></tr>
+          <tr><td>Открыть <span class="mono">/contacts</span> и <span class="mono">/otzyvy</span>, настроить переадресации, обновить карту сайта</td><td>Поля</td><td>Контент-менеджер</td><td class="num">День 1</td><td class="num">0 ₽</td></tr>
+          <tr><td>Установить пиксель VK, завести три цели в Метрике</td><td>Роща</td><td>Маркетолог</td><td class="num">День 1</td><td class="num">0 ₽</td></tr>
+          <tr><td>Завести тарифную сетку из раздела 06 в Bnovo</td><td>Обе</td><td>Менеджер бронирования</td><td class="num">День 2</td><td class="num">0 ₽</td></tr>
+          <tr><td>Исправить адрес в 2ГИС, заполнить товары и услуги, загрузить фотографии</td><td>Обе</td><td>Маркетолог</td><td class="num">День 3–5</td><td class="num">0 ₽</td></tr>
+          <tr><td>Запустить сертификаты по модели «Полей»</td><td>Роща</td><td>Управляющий</td><td class="num">День 5</td><td class="num">0 ₽</td></tr>
+          <tr><td>Ввести норматив ответа 5 минут, внедрить шаблон первого сообщения</td><td>Обе</td><td>Управляющий</td><td class="num">День 5</td><td class="num">0 ₽</td></tr>
+          <tr><td>Напечатать таблички с QR, запустить сообщения после выезда</td><td>Обе</td><td>Администратор</td><td class="num">День 7</td><td class="num">3 000 ₽</td></tr>
+          <tr><td>Перестроить страницу <span class="mono">/special</span> в таблицу тарифов</td><td>Обе</td><td>Контент-менеджер</td><td class="num">День 10</td><td class="num">0 ₽</td></tr>
+          <tr><td>Вывести ссылки на все соцсети в шапку и подвал</td><td>Обе</td><td>Контент-менеджер</td><td class="num">День 10</td><td class="num">0 ₽</td></tr>
+          <tr><td>Актуализировать номерной фонд и цены во всех агрегаторах</td><td>Обе</td><td>Менеджер бронирования</td><td class="num">День 14</td><td class="num">0 ₽</td></tr>
+
+          <tr><td colspan="5" style="background:var(--surface-2);font-family:Archivo;font-weight:600;color:var(--ink)">Дни 15–30</td></tr>
+          <tr><td>Опубликовать цены и календарь на 39 карточках домов</td><td>Обе</td><td>Контент-менеджер</td><td class="num">День 20</td><td class="num">0 ₽</td></tr>
+          <tr><td>Собрать и запустить 12 пакетов из раздела 05: страницы и тарифы в Bnovo</td><td>Обе</td><td>Маркетолог + управляющий</td><td class="num">День 25</td><td class="num">до 30 000 ₽</td></tr>
+          <tr><td>Внедрить заголовки и описания из раздела 07 на 12 страницах</td><td>Обе</td><td>Контент-менеджер</td><td class="num">День 25</td><td class="num">0 ₽</td></tr>
+          <tr><td>Добавить разметку schema.org, отправить страницы на переобход</td><td>Обе</td><td>Маркетолог</td><td class="num">День 27</td><td class="num">0 ₽</td></tr>
+          <tr><td>Настроить допродажу в модуле Bnovo и в письме за 3 дня до заезда</td><td>Обе</td><td>Менеджер бронирования</td><td class="num">День 28</td><td class="num">0 ₽</td></tr>
+          <tr><td>Запустить догрев незавершённых бронирований</td><td>Обе</td><td>Маркетолог</td><td class="num">День 30</td><td class="num">до 10 000 ₽</td></tr>
+          <tr><td>Запустить публикацию «Заезд сегодня» в Telegram</td><td>Обе</td><td>Администратор</td><td class="num">День 30</td><td class="num">0 ₽</td></tr>
+
+          <tr><td colspan="5" style="background:var(--surface-2);font-family:Archivo;font-weight:600;color:var(--ink)">Дни 31–90</td></tr>
+          <tr><td>Собрать шесть новых посадочных страниц из раздела 07</td><td>Обе</td><td>Маркетолог + контент-менеджер</td><td class="num">День 50</td><td class="num">0 ₽</td></tr>
+          <tr><td>Подготовить коммерческое предложение в файле и событийные страницы</td><td>Обе</td><td>Маркетолог</td><td class="num">День 60</td><td class="num">15 000–40 000 ₽</td></tr>
+          <tr><td>Запустить единую программу лояльности и кросс-предложение между базами</td><td>Обе</td><td>Управляющий</td><td class="num">День 65</td><td class="num">до 20 000 ₽</td></tr>
+          <tr><td>Ввести тариф «Рабочая неделя» с гарантией скорости интернета</td><td>Обе</td><td>Управляющий</td><td class="num">День 70</td><td class="num">10 000–25 000 ₽</td></tr>
+          <tr><td>Запустить блог: две публикации в месяц под запросы из раздела 07</td><td>Обе</td><td>Контент-менеджер</td><td class="num">День 75</td><td class="num">от 30 000 ₽ / мес</td></tr>
+          <tr><td>Провести тестовые размещения в телеграм-каналах о загородном отдыхе с промокодом на канал</td><td>Обе</td><td>Маркетолог</td><td class="num">День 90</td><td class="num">от 50 000 ₽</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <p><strong>Работы, не требующие бюджета и разработки</strong> и выполнимые силами администратора и контент-менеджера за одну неделю: robots.txt и карта сайта «Полей», пиксель VK на «Роще», адрес в 2ГИС, тарифная сетка в Bnovo, сертификаты «Рощи», шаблон первого сообщения, таблички с QR, удаление страницы майских праздников из карты сайта, описание страницы спецпредложений, номерной фонд в агрегаторах.</p>
+    </div>
+  </div>
+</section>
+
+<section id="metrics">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">11</span><h2>Контрольные показатели</h2></div>
+    <p class="prose">Значения на старте снимаются в первую неделю и фиксируются в таблице. Далее — сверка раз в месяц.</p>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th style="width:26%">Показатель</th><th style="width:26%">Источник</th><th style="width:22%">Цель через 90 дней</th><th>Как влияем</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Доля ночей пн–чт в общем объёме</strong></td><td>Bnovo, отчёт занятости</td><td>Рост относительно старта</td><td>Разделы 05, 06: будние пакеты и лестница скидок</td></tr>
+          <tr><td><strong>ADR будни и выходные раздельно</strong></td><td>Bnovo</td><td>Разрыв не более 35%</td><td>Раздел 06: тарифы вс–чт</td></tr>
+          <tr><td><strong>Конверсия визит → открытие модуля</strong></td><td>Метрика, цель «открытие модуля»</td><td>Рост относительно старта</td><td>Раздел 07: цена и календарь на карточках</td></tr>
+          <tr><td><strong>Медиана первого ответа</strong></td><td>Mango, выгрузка мессенджеров</td><td>До 5 минут</td><td>Раздел 08: норматив и шаблон</td></tr>
+          <tr><td><strong>Обращения без ответа</strong></td><td>Mango, выгрузка мессенджеров</td><td>0 в неделю</td><td>Раздел 08: ежедневный отчёт</td></tr>
+          <tr><td><strong>Рейтинг на картах</strong></td><td>Яндекс Карты, 2ГИС</td><td>4,8 на обеих площадках</td><td>Раздел 08: конвейер отзывов</td></tr>
+          <tr><td><strong>Новых отзывов в месяц</strong></td><td>Ручной подсчёт по датам</td><td>От 12 на объект</td><td>Раздел 08: QR и сообщение после выезда</td></tr>
+          <tr><td><strong>Средний чек с дополнительными услугами</strong></td><td>Bnovo</td><td>Рост относительно старта</td><td>Раздел 09: допродажа в модуле</td></tr>
+          <tr><td><strong>Доля пакетных бронирований</strong></td><td>Bnovo, тариф пакета</td><td>От 25% бронирований</td><td>Раздел 05</td></tr>
+          <tr><td><strong>Глубина бронирования</strong></td><td>Bnovo, лаг между бронью и заездом</td><td>Рост относительно старта</td><td>Раздел 06: раннее бронирование</td></tr>
+          <tr><td><strong>Доля повторных гостей</strong></td><td>Bnovo по номеру телефона</td><td>Рост относительно старта</td><td>Раздел 06: лояльность, кросс-предложение</td></tr>
+          <tr><td><strong>Небрендовые визиты из поиска</strong></td><td>Метрика, Вебмастер</td><td>Рост относительно старта</td><td>Раздел 07: посадочные страницы</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Что снять в первую неделю</h3>
+    <p class="prose">Пять выгрузок, после которых цены в пакетах и целевые значения показателей уточняются под фактические данные:</p>
+    <ul class="prose">
+      <li>Загрузка по месяцам за 12 месяцев, отдельно будни и выходные, по каждой базе — Bnovo.</li>
+      <li>ADR по категориям в разрезе будни, выходные, праздники — Bnovo.</li>
+      <li>Распределение подтверждённых бронирований по источникам за 12 месяцев — Bnovo, Mango, CRM.</li>
+      <li>Доля повторных гостей и их доля в выручке — Bnovo по номеру телефона.</li>
+      <li>Воронка сайта за 12 месяцев: визиты, открытия модуля, бронирования, отдельно мобильные устройства — Метрика, счётчики 108978291 и 109033653.</li>
+    </ul>
+    <p class="prose">Дополнительно раз в квартал: количество новых отзывов у себя и у трёх ближайших конкурентов, занятость их календарей на четыре ближайших выходных и четыре будних дня, сверка цен на одинаковые даты между собственным сайтом и агрегаторами.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Конкурентный аудит и программа роста. 1 сентября 2026. Источники по конкурентам: официальные сайты объектов, 2ГИС, Tripinglamp, глэмпинги.рф, Booking, vc.ru, glampinginfo.ru — проверено 01.09.2026.
+  </div>
+</footer>
+</body></html>

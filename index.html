@@ -178,7 +178,7 @@
     /* Выключаем: снимаем и файлы, и всё, что элементы успели нарисовать. */
     if (link) link.remove();
     if (scr) scr.remove();
-    ['.bb-leaf', '.bb-autumn-vig', '.bb-garland', '.bb-branch', '.bb-corner', '.bb-ab', 'style[data-bb]'].forEach(function (sel) {
+    ['.bb-leaf', '.bb-autumn-vig', '.bb-garland', '.bb-wash', '.bb-beam', '.bb-branch', '.bb-corner', '.bb-ab', 'style[data-bb]'].forEach(function (sel) {
       var nodes = doc.querySelectorAll(sel);
       for (var i = 0; i < nodes.length; i++) nodes[i].remove();
     });

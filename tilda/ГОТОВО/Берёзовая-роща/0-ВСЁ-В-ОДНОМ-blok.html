@@ -1,0 +1,1110 @@
+<!-- БЕРЁЗОВАЯ РОЩА — стили и скрипты одним блоком.
+     Тильда → Библиотека → Другое → T123 (HTML-код).
+     Поставить ПОСЛЕДНИМ блоком на главной странице.
+
+     Это замена частям 1 и 2: если код уже вставлен в настройках сайта,
+     этот блок не нужен — иначе оформление задвоится.
+
+     Блок действует только на той странице, где он стоит. Для оформления
+     всего сайта код всё же лучше положить в настройки. -->
+<style>
+/* ===== ОСЕННИЙ СЛОЙ ДЛЯ ТИЛЬДЫ — стили =====
+   Ничего из вашего оформления не переопределяет:
+   все правила живут только на собственных классах au-*.
+   Цвет декора меняется одной переменной ниже. */
+
+:root{
+  --au-decor: #9C7220;      /* охра: ветки и листья в углах блоков */
+  --au-decor-alpha: .17;    /* насколько заметны силуэты           */
+  --au-branch-alpha: .5;    /* веточки-разделители                 */
+}
+
+/* холст с листопадом: прозрачный, клики не перехватывает */
+#au-canvas{
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 900;             /* ниже фиксированного меню Тильды (990) и попапов */
+}
+
+/* ветки с листьями в углах блока.
+   overflow у блока НЕ трогаем — Zero Block этого не любит,
+   поэтому веточки размещаются внутри границ записи. */
+.t-rec.au-corner{ position: relative; }
+.au-sprig{
+  position: absolute;
+  color: var(--au-decor);
+  opacity: var(--au-decor-alpha);
+  pointer-events: none;
+  width: clamp(120px, 21vw, 290px);
+  height: auto;
+  z-index: 0;
+}
+.au-sprig[data-pos="tl"]{ top: 0; left: 0; transform: rotate(6deg); }
+.au-sprig[data-pos="tr"]{ top: 0; right: 0; transform: scaleX(-1) rotate(6deg); }
+.au-sprig[data-pos="bl"]{ bottom: 0; left: 0; transform: scaleY(-1) rotate(-6deg); }
+.au-sprig[data-pos="br"]{ bottom: 0; right: 0; transform: scale(-1,-1) rotate(6deg); }
+
+/* веточка-разделитель между блоками */
+.au-branch{
+  display: block;
+  color: var(--au-decor);
+  opacity: var(--au-branch-alpha);
+  padding: 6px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.au-branch svg{ display: block; width: 100%; height: auto; }
+
+/* плавное появление блока при скролле (по умолчанию выключено —
+   у Тильды есть собственные анимации, включайте точечно) */
+.au-reveal{
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .7s cubic-bezier(.22,.61,.36,1),
+              transform .7s cubic-bezier(.22,.61,.36,1);
+}
+.au-reveal.au-in{ opacity: 1; transform: none; }
+
+/* бережный режим и телефоны */
+@media (prefers-reduced-motion: reduce){
+  #au-canvas{ display: none; }
+  .au-reveal{ opacity: 1; transform: none; transition: none; }
+}
+@media (max-width: 479px){
+  #au-canvas{ display: none; }
+  .au-sprig{ width: 130px; }
+}
+
+/* ===== ОСЕННИЕ ЭЛЕМЕНТЫ, НАБОР 2 — стили =====
+   Гирлянда с фонариками, боковые ботанические полосы, угловые букеты,
+   свисающие веточки с рябиной, разделители из колосьев, куча листьев внизу,
+   осенняя печать для спецпредложений.
+
+   Ставится вместе с первым набором или отдельно — они не конфликтуют.
+   Всё рисуется в SVG, картинки не нужны. Фон не трогается. */
+
+:root{
+  --au2-opacity: .82;        /* общая заметность декора */
+  --au2-side-opacity: .36;   /* боковые полосы бледнее — они у самого края */
+  --au2-z: 880;              /* ниже листопада (900) и меню Тильды (990) */
+}
+
+.au2, .au2 svg{ pointer-events:none; }
+.au2 svg{ display:block; width:100%; height:auto; overflow:visible; }
+
+/* --- гирлянда с фонариками: свисает от верхнего края страницы --- */
+.au2-garland{
+  position:absolute; top:0; left:0; right:0;
+  z-index:var(--au2-z);
+  opacity:var(--au2-opacity);
+}
+
+/* --- вертикальные ботанические полосы по краям экрана --- */
+.au2-side{
+  position:fixed; top:0; bottom:0;
+  width:clamp(48px,4.6vw,86px);
+  z-index:var(--au2-z);
+  opacity:var(--au2-side-opacity);
+  display:none;                 /* включаются только на широких экранах */
+  overflow:hidden;              /* полоса не выходит за край, что бы ни нарисовали */
+}
+.au2-side svg{ height:100%; width:100%; overflow:hidden; }
+.au2-side[data-side="left"]{ left:0; }
+.au2-side[data-side="right"]{ right:0; transform:scaleX(-1); }
+@media (min-width:1480px){ .au2-side{ display:block; } }
+
+/* --- угловой букет внутри блока --- */
+.au2-host{ position:relative; }
+.au2-bouquet{
+  position:absolute;
+  width:clamp(150px,20vw,280px);
+  opacity:var(--au2-opacity);
+  z-index:0;
+}
+.au2-bouquet[data-pos="bl"]{ bottom:0; left:0; }
+.au2-bouquet[data-pos="br"]{ bottom:0; right:0; transform:scaleX(-1); }
+
+/* --- свисающие веточки от верхнего края блока --- */
+.au2-hang{
+  position:absolute; top:0; left:0; right:0;
+  opacity:calc(var(--au2-opacity) * .7);
+  z-index:0;
+}
+
+/* --- разделитель из колосьев и ягод --- */
+.au2-divider{
+  display:block; max-width:760px; margin:0 auto;
+  padding:10px 20px;
+  opacity:var(--au2-opacity);
+}
+
+/* --- куча листьев у нижнего края страницы --- */
+.au2-pile{
+  position:absolute; left:0; right:0; bottom:0;
+  opacity:var(--au2-opacity);
+  z-index:0;
+}
+
+/* --- осенняя печать для спецпредложения --- */
+.au2-stamp{
+  position:absolute;
+  width:clamp(104px,11vw,168px);
+  z-index:1;
+  opacity:.95;
+}
+.au2-stamp[data-pos="tr"]{ top:18px; right:18px; transform:rotate(9deg); }
+.au2-stamp[data-pos="tl"]{ top:18px; left:18px; transform:rotate(-9deg); }
+.au2-stamp[data-pos="br"]{ bottom:18px; right:18px; transform:rotate(-7deg); }
+.au2-stamp[data-pos="bl"]{ bottom:18px; left:18px; transform:rotate(7deg); }
+.au2-stamp text{ font-family:inherit; letter-spacing:.14em; }
+
+/* содержимое блока — всегда выше декора */
+.au2-host > *:not(.au2){ position:relative; z-index:1; }
+
+/* --- тёплое мерцание лампочек и фонарей --- */
+.au2-glow{ transform-origin:center; animation:au2-breathe 4.6s ease-in-out infinite; }
+.au2-glow:nth-of-type(even){ animation-duration:6.1s; animation-delay:-1.7s; }
+@keyframes au2-breathe{
+  0%,100%{ opacity:.72 }
+  50%    { opacity:1 }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .au2-glow{ animation:none; opacity:.9 }
+}
+
+/* на телефоне оставляем только то, что не мешает читать */
+@media (max-width:639px){
+  .au2-bouquet{ width:120px; opacity:.6 }
+  .au2-stamp{ width:88px }
+  .au2-garland{ opacity:.75 }
+}
+</style>
+
+<script>
+
+window.AUTUMN = {
+  intensity: 1,        // плотность листопада: 0.2 … 2
+  wind: 0.4,           // снос вбок
+  zIndex: 900,         // 900 — листья за фиксированным меню, 1000 — поверх него
+  corners: 'auto',     // ветки в углах: 'auto' | ['rec812345678','rec812345901'] | []
+  cornersSkip: [],     // блоки, которые пропустить в режиме 'auto'
+  branchAfter: ["rec1684467611","rec1747907231","rec2710401401"],     // веточка-разделитель после этих блоков
+  reveal: ["rec2486811301","rec2851363001","rec2421263681","rec1758781921","rec2263527021","rec2710223901"]           // плавное появление блока при скролле
+};
+
+
+/* ===== ОСЕННИЙ СЛОЙ ДЛЯ ТИЛЬДЫ — скрипт =====
+   Работает с уже опубликованными блоками Тильды: ничего в вёрстке
+   не переписывает, классы навешивает сам по id записей (rec…).
+
+   НАСТРОЙКИ — window.AUTUMN, задаются ДО подключения скрипта:
+     intensity   плотность листопада, 0.2 … 2
+     wind        сила бокового сноса
+     zIndex      слой листопада (900 — под меню Тильды, 1000 — над ним)
+     corners     'auto' | ['rec123456','rec123457'] | []  — ветки в углах
+     cornersSkip ['rec123456']  — какие записи пропустить в режиме auto
+     branchAfter ['rec123456']  — после каких записей вставить веточку
+     reveal      ['rec123456']  — какие записи плавно проявлять при скролле
+   ================================================================ */
+(function () {
+  'use strict';
+
+  var cfg = Object.assign({
+    intensity: 1,
+    wind: 0.4,
+    zIndex: 900,
+    minWidth: 480,
+    corners: 'auto',
+    cornersSkip: [],
+    branchAfter: [],
+    reveal: [],
+    colors: ['#EFC248', '#E5A238', '#EFC248', '#D9782F', '#E5A238', '#B6C24E', '#DCBE74', '#B4552A']
+  }, window.AUTUMN || {});
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var NS = 'http://www.w3.org/2000/svg';
+  var id = function (s) { return String(s).replace(/^#/, ''); };
+
+  /* ---------- 1. формы листьев ----------
+     Те же силуэты, что и в наборе 2. Канвас рисует их через Path2D,
+     координаты — в системе 100 единиц на лист. */
+  var PATHS = {
+    maple: 'M0.00 0.00 C-19.76 -17.68 -9.09 -44.20 0.00 -52.00 C9.09 -44.20 19.76 -17.68 0.00 0.00ZM0.00 0.00 C1.61 -24.86 27.00 -30.52 37.86 -27.51 C37.37 -16.25 24.14 6.15 0.00 0.00ZM0.00 0.00 C16.66 -12.69 29.36 2.06 31.27 11.38 C23.81 17.29 4.60 20.43 0.00 0.00ZM0.00 0.00 C-24.14 6.15 -37.37 -16.25 -37.86 -27.51 C-27.00 -30.52 -1.61 -24.86 0.00 0.00ZM0.00 0.00 C-4.60 20.43 -23.81 17.29 -31.27 11.38 C-29.36 2.06 -16.66 -12.69 0.00 0.00ZM0 -12.48A16.64 12.48 0 1 1 0 12.48A16.64 12.48 0 1 1 0 -12.48Z',
+    ovate: 'M0 -52 C 20 -40, 30 -14, 28 8 C 26 30, 12 44, 0 50 C -12 44, -26 30, -28 8 C -30 -14, -20 -40, 0 -52 Z',
+    oval: 'M0 -50 C 23 -26, 20 26, 0 48 C -20 26, -23 -26, 0 -50 Z'
+  };
+  var SHAPES = {};
+  var hasPath2D = typeof Path2D === 'function';
+  if (hasPath2D) for (var kk in PATHS) SHAPES[kk] = new Path2D(PATHS[kk]);
+  /* мелкий клён превращается в звёздочку, поэтому маленькие листья — овальные */
+  function pickShape(size) {
+    if (size < 26) return Math.random() < 0.5 ? 'ovate' : 'oval';
+    var r = Math.random();
+    return r < 0.62 ? 'maple' : (r < 0.85 ? 'ovate' : 'oval');
+  }
+
+  /* ---------- 2. листопад ---------- */
+  var cv = document.getElementById('au-canvas');
+  if (!cv) {
+    cv = document.createElement('canvas');
+    cv.id = 'au-canvas';
+    cv.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(cv);
+  }
+  cv.style.zIndex = cfg.zIndex;
+
+  var ctx = cv.getContext('2d');
+  var W = 0, H = 0, dpr = 1, leaves = [], last = 0, raf = null, running = false;
+
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+
+  function make(fresh) {
+    var z = rnd(0.35, 1);
+    return {
+      x: rnd(-0.05, 1.05) * W,
+      y: fresh ? rnd(-0.2, 1) * H : rnd(-0.35, -0.02) * H,
+      z: z,
+      size: 15 + 31 * z,
+      alpha: 0.30 + 0.52 * z,
+      color: cfg.colors[(Math.random() * cfg.colors.length) | 0],
+      shape: pickShape(15 + 31 * z),
+      rot: rnd(0, Math.PI * 2),
+      spin: rnd(-0.28, 0.28),
+      flip: rnd(0, Math.PI * 2),
+      flipSpd: rnd(0.22, 0.7),
+      sway: rnd(0, Math.PI * 2),
+      swaySpd: rnd(0.22, 0.55),
+      swayAmp: rnd(26, 74) * z
+    };
+  }
+
+  function target() {
+    return Math.round(Math.min(28, Math.max(8, W / 52)) * cfg.intensity);
+  }
+  function fillLeaves() {
+    var n = target();
+    while (leaves.length < n) leaves.push(make(true));
+    if (leaves.length > n) leaves.length = n;
+  }
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    fillLeaves();
+  }
+
+  function frame(t) {
+    raf = requestAnimationFrame(frame);
+    var dt = Math.min((t - last) / 1000, 0.05); last = t;
+    ctx.clearRect(0, 0, W, H);
+    var wind = cfg.wind * (0.7 + 0.5 * Math.sin(t * 0.00012));
+
+    for (var i = 0; i < leaves.length; i++) {
+      var p = leaves[i];
+      p.sway += p.swaySpd * dt;
+      p.rot += p.spin * dt;
+      p.flip += p.flipSpd * dt;
+      p.y += (11 + 34 * p.z) * dt;                       // падают медленнее
+      p.x += (Math.cos(p.sway) * p.swayAmp + wind * 46 * p.z) * dt;  // и уходят по диагонали
+
+      if (p.y - p.size > H) { leaves[i] = make(false); continue; }
+      if (p.x < -p.size * 2) p.x = W + p.size;
+      if (p.x > W + p.size * 2) p.x = -p.size;
+
+      var squash = 0.42 + 0.58 * Math.abs(Math.cos(p.flip));  // лист поворачивается, но не схлопывается
+      var k = p.size / 100;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.scale(k * squash, k);
+      ctx.globalAlpha = p.alpha;
+      ctx.fillStyle = p.color;
+      ctx.fill(SHAPES[p.shape]);
+      ctx.globalAlpha = p.alpha * 0.45;
+      ctx.strokeStyle = 'rgba(90,66,30,.9)';
+      ctx.lineWidth = 3.4;
+      ctx.beginPath();
+      ctx.moveTo(0, 56); ctx.lineTo(0, -30);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  function start() {
+    if (running || !hasPath2D || reduce.matches || window.innerWidth < cfg.minWidth) return;
+    running = true; last = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function stop() {
+    running = false;
+    if (raf) cancelAnimationFrame(raf);
+    raf = null;
+    if (W && H) ctx.clearRect(0, 0, W, H);
+  }
+
+  window.addEventListener('resize', resize, { passive: true });
+  document.addEventListener('visibilitychange', function () {
+    document.hidden ? stop() : start();
+  });
+  if (reduce.addEventListener) {
+    reduce.addEventListener('change', function () { reduce.matches ? stop() : start(); });
+  }
+  resize();
+  start();
+
+  /* ---------- 3. веточка с листьями (SVG, рисуется кодом) ---------- */
+  function sprigSVG() {
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 200 140');
+    svg.setAttribute('fill', 'currentColor');
+    svg.setAttribute('aria-hidden', 'true');
+
+    var stem = document.createElementNS(NS, 'path');
+    stem.setAttribute('d', 'M2 6 C 48 22, 92 48, 132 92 C 146 108, 160 122, 178 132');
+    stem.setAttribute('stroke', 'currentColor');
+    stem.setAttribute('stroke-width', '2.4');
+    stem.setAttribute('fill', 'none');
+    stem.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(stem);
+
+    for (var i = 0; i < 11; i++) {
+      var t = 0.10 + i * 0.082;
+      var x = 2 + 176 * t + 14 * Math.sin(t * 3.1);
+      var y = 6 + 126 * Math.pow(t, 1.35);
+      var side = i % 2 ? 1 : -1;
+      var g = document.createElementNS(NS, 'g');
+      g.setAttribute('transform',
+        'translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ') rotate(' +
+        (side * (34 + i * 6)).toFixed(0) + ') scale(' +
+        (0.9 + 0.35 * Math.sin(i * 1.7)).toFixed(2) + ')');
+      var leaf = document.createElementNS(NS, 'path');
+      leaf.setAttribute('d', 'M0 0 C 10 -9, 26 -9, 34 0 C 26 9, 10 9, 0 0 Z');
+      g.appendChild(leaf);
+      svg.appendChild(g);
+    }
+    return svg;
+  }
+
+  function addSprig(rec, pos) {
+    if (!rec) return;
+    rec.classList.add('au-corner');
+    var s = sprigSVG();
+    s.setAttribute('class', 'au-sprig');
+    s.setAttribute('data-pos', pos);
+    rec.insertBefore(s, rec.firstChild);
+  }
+
+  var POS = ['tr', 'bl', 'br', 'tl'];
+
+  function applyCorners() {
+    if (Array.isArray(cfg.corners)) {
+      cfg.corners.forEach(function (rid, i) {
+        addSprig(document.getElementById(id(rid)), POS[i % POS.length]);
+      });
+      return;
+    }
+    if (cfg.corners !== 'auto') return;
+
+    var recs = [].slice.call(document.querySelectorAll('.t-rec')).filter(function (r) {
+      if (cfg.cornersSkip.indexOf(r.id) > -1) return false;
+      if (r.querySelector('.t-menu__nav, .t-menusub, .t-popup, .t-popup__container')) return false;
+      if (r.classList.contains('t-records')) return false;
+      return r.offsetHeight > 260;
+    });
+    var k = 0;
+    recs.forEach(function (r, i) {
+      if (i % 2) return;              // через один блок — чтобы не пестрило
+      addSprig(r, POS[k++ % POS.length]);
+    });
+  }
+
+  /* ---------- 4. веточки-разделители ---------- */
+  function branchSVG(n) {
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 600 40');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('fill', 'currentColor');
+
+    var stem = document.createElementNS(NS, 'path');
+    stem.setAttribute('d', 'M40 20 C 180 6, 420 34, 560 20');
+    stem.setAttribute('stroke', 'currentColor');
+    stem.setAttribute('stroke-width', '1.4');
+    stem.setAttribute('fill', 'none');
+    stem.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(stem);
+
+    for (var i = 0; i < n; i++) {
+      var t = (i + 0.5) / n;
+      var x = 40 + 520 * t;
+      var y = 20 - 14 * Math.sin(Math.PI * t) * (t < 0.5 ? 1 : -1) * 0.55;
+      var g = document.createElementNS(NS, 'g');
+      g.setAttribute('transform', 'translate(' + x.toFixed(1) + ',' + y.toFixed(1) +
+        ') rotate(' + ((i % 2 ? -1 : 1) * (30 + 18 * Math.sin(i))).toFixed(0) + ') scale(0.62)');
+      var leaf = document.createElementNS(NS, 'path');
+      leaf.setAttribute('d', 'M0 0 C 9 -8, 24 -8, 32 0 C 24 8, 9 8, 0 0 Z');
+      g.appendChild(leaf);
+      svg.appendChild(g);
+    }
+    return svg;
+  }
+
+  function applyBranches() {
+    // уже размеченные вручную
+    [].slice.call(document.querySelectorAll('.au-branch:empty')).forEach(function (el) {
+      el.appendChild(branchSVG(parseInt(el.getAttribute('data-leaves') || '8', 10)));
+    });
+    // после указанных записей Тильды
+    cfg.branchAfter.forEach(function (rid) {
+      var rec = document.getElementById(id(rid));
+      if (!rec) return;
+      var d = document.createElement('div');
+      d.className = 'au-branch';
+      d.appendChild(branchSVG(9));
+      rec.parentNode.insertBefore(d, rec.nextSibling);
+    });
+  }
+
+  /* ---------- 5. появление при скролле ---------- */
+  function applyReveal() {
+    cfg.reveal.forEach(function (rid) {
+      var rec = document.getElementById(id(rid));
+      if (rec) rec.classList.add('au-reveal');
+    });
+    var targets = document.querySelectorAll('.au-reveal');
+    if (!targets.length) return;
+    if (!('IntersectionObserver' in window) || reduce.matches) {
+      [].forEach.call(targets, function (el) { el.classList.add('au-in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('au-in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    [].forEach.call(targets, function (el) { io.observe(el); });
+  }
+
+  /* ---------- запуск после отрисовки блоков Тильды ---------- */
+  function decorate() {
+    applyCorners();
+    applyBranches();
+    applyReveal();
+  }
+  if (document.readyState === 'complete') {
+    setTimeout(decorate, 300);
+  } else {
+    window.addEventListener('load', function () { setTimeout(decorate, 300); });
+  }
+
+  window.autumnLayer = {
+    start: start,
+    stop: stop,
+    decorate: decorate,
+    setIntensity: function (v) { cfg.intensity = v; fillLeaves(); }
+  };
+})();
+
+
+window.AUTUMN_PACK2 = {
+  garland: false,          // гирлянда с фонариками сверху страницы: 'top' | 'rec812345678' | false
+  sides: true,             // ботанические полосы по краям экрана (видны от 1480px)
+  bouquets: ["rec1694735441","rec2421263681","rec2710223901"],            // угловые букеты: ['rec812345678', 'rec812345901']
+  hangs: ["rec1684467611","rec1758781921"],               // свисающие веточки физалиса сверху блока
+  dividersAfter: ["rec2486811301","rec2263527021"],       // разделитель из колосьев после блока
+  pile: 'last',            // куча листьев у низа страницы: 'last' | 'rec812345678' | false
+  stamps: [],              // печать: [{ rec:'rec812345678', text:'осень 2026', pos:'tr' }]
+  drift: true              // лёгкий параллакс при прокрутке
+};
+
+
+/* ===== ОСЕННИЕ ЭЛЕМЕНТЫ, НАБОР 2 — скрипт =====
+   Гирлянда с фонариками · боковые ботанические полосы · угловые букеты ·
+   свисающие веточки с рябиной · разделители из колосьев · куча листьев внизу ·
+   осенняя печать.
+
+   Всё рисуется в SVG прямо в браузере: картинок и файлов не нужно,
+   вес — только этот скрипт, качество не теряется ни на каком экране.
+
+   НАСТРОЙКИ — window.AUTUMN_PACK2, задаются ДО подключения скрипта:
+     garland      'top' | 'rec812345678' | false   — гирлянда сверху страницы
+     sides        true | false                     — полосы по краям (от 1480px)
+     bouquets     ['rec812345678', ...]            — угловые букеты
+     hangs        ['rec812345678', ...]            — свисающие веточки сверху блока
+     dividersAfter ['rec812345678', ...]           — разделитель после блока
+     pile         'last' | 'rec812345678' | false  — куча листьев у низа страницы
+     stamps       [{rec:'rec812345678', text:'осень 2026', pos:'tr'}]
+     drift        true | false                     — лёгкий параллакс при скролле
+   ================================================================ */
+(function () {
+  'use strict';
+
+  var cfg = Object.assign({
+    garland: 'top',
+    sides: true,
+    bouquets: [],
+    hangs: [],
+    dividersAfter: [],
+    pile: 'last',
+    stamps: [],
+    drift: true
+  }, window.AUTUMN_PACK2 || {});
+
+  var NS = 'http://www.w3.org/2000/svg';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var rid = function (s) { return String(s).replace(/^#/, ''); };
+
+  var C = {
+    gold: '#D99A3C', orange: '#DE7A38', rust: '#BE522C', red: '#9C3320',
+    olive: '#8A8F4A', plum: '#7C4A5B', wheat: '#D6B269',
+    stem: '#8A6A42', stemLight: '#A98A5E', glow: '#F6D07E', dark: '#6B5230'
+  };
+  /* тёплая осень: золото и охра — основа, олива и тёмно-красный — редкие акценты */
+  /* формы листьев: клён — основной, берёза и дуб — для разнообразия */
+  var KINDS = ['maple', 'maple', 'ovate', 'maple', 'oval', 'maple', 'maple', 'ovate', 'maple', 'oval'];
+  var WASH = ['au2-g0', 'au2-g1', 'au2-g0', 'au2-g1', 'au2-g2', 'au2-g0',
+              'au2-g1', 'au2-g5', 'au2-g0', 'au2-g3', 'au2-g2', 'au2-g4'];
+
+  /* маленький генератор со стабильным зерном — раскладка не прыгает при перезагрузке */
+  function seeded(seed) {
+    var s = seed || 1;
+    return function () { s = (s * 1664525 + 1013904223) % 4294967296; return s / 4294967296; };
+  }
+
+  function el(name, attrs) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) if (attrs[k] !== undefined && attrs[k] !== null) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function g(attrs) { return el('g', attrs); }
+  function add(parent, child) { parent.appendChild(child); return child; }
+
+  function newSvg(vb, cls, par) {
+    var s = el('svg', { viewBox: vb, 'aria-hidden': 'true', fill: 'none' });
+    if (par) s.setAttribute('preserveAspectRatio', par);
+    s.setAttribute('class', cls || '');
+    return s;
+  }
+
+  /* ---------- 1. акварельные фильтры и заливки, один раз на страницу ---------- */
+  function injectDefs() {
+    if (document.getElementById('au2-defs')) return;
+    var holder = el('svg', { id: 'au2-defs', width: '0', height: '0', 'aria-hidden': 'true' });
+    holder.setAttribute('style', 'position:absolute;width:0;height:0;overflow:hidden');
+
+    var washes = [
+      ['#FBE79A', '#EFC248', '#C08A18'],   // золото — основной тон
+      ['#F8D080', '#E5A238', '#B87418'],   // янтарь
+      ['#F3B47C', '#D9782F', '#A54D18'],   // охра-апельсин
+      ['#E9E895', '#B6C24E', '#7E8C30'],   // жёлто-зелёный, как на молодых листьях
+      ['#EBA478', '#B4552A', '#83321A'],   // ржавчина
+      ['#F6E9BE', '#DCBE74', '#AC8A40']    // сухая трава
+    ];
+
+    var d = '<defs>';
+    washes.forEach(function (w, i) {
+      d += '<radialGradient id="au2-g' + i + '" cx="34%" cy="26%" r="86%">' +
+           stops(w) + '</radialGradient>';
+    });
+    function stops(w) {
+      return '<stop offset="0%" stop-color="' + w[0] + '"/>' +
+             '<stop offset="58%" stop-color="' + w[1] + '"/>' +
+             '<stop offset="100%" stop-color="' + w[2] + '"/>';
+    }
+    d += '<radialGradient id="au2-glow" cx="50%" cy="50%" r="50%">' +
+         '<stop offset="0%" stop-color="' + C.glow + '" stop-opacity=".95"/>' +
+         '<stop offset="55%" stop-color="' + C.glow + '" stop-opacity=".38"/>' +
+         '<stop offset="100%" stop-color="' + C.glow + '" stop-opacity="0"/>' +
+         '</radialGradient>';
+    d += '<linearGradient id="au2-strip" x1="0" y1="0" x2="0" y2="1">' +
+         '<stop offset="0%" stop-color="#E9D3A8" stop-opacity=".0"/>' +
+         '<stop offset="18%" stop-color="#E4C08A" stop-opacity=".75"/>' +
+         '<stop offset="82%" stop-color="#C98F52" stop-opacity=".7"/>' +
+         '<stop offset="100%" stop-color="#B4762F" stop-opacity="0"/>' +
+         '</linearGradient>';
+
+    /* акварель: рваный край + зерно бумаги */
+    d += '<filter id="au2-wc" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">' +
+         '<feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="11" result="n"/>' +
+         '<feDisplacementMap in="SourceGraphic" in2="n" scale="4.5" xChannelSelector="R" yChannelSelector="G" result="dsp"/>' +
+         '<feTurbulence type="fractalNoise" baseFrequency="0.62" numOctaves="2" seed="5" result="gr"/>' +
+         '<feColorMatrix in="gr" type="saturate" values="0" result="grm"/>' +
+         '<feComponentTransfer in="grm" result="gra"><feFuncA type="linear" slope="0.30" intercept="-0.04"/></feComponentTransfer>' +
+         '<feComposite in="gra" in2="dsp" operator="in" result="grain"/>' +
+         '<feBlend in="dsp" in2="grain" mode="multiply"/>' +
+         '</filter>';
+    d += '<filter id="au2-soft" x="-30%" y="-30%" width="160%" height="160%">' +
+         '<feGaussianBlur stdDeviation="1.1"/></filter>';
+    d += '</defs>';
+
+    holder.innerHTML = d;
+    document.body.appendChild(holder);
+  }
+
+  /* ---------- 2. кирпичики: лист, колос, ягоды, физалис, фонарь ---------- */
+
+  /* ---- силуэты листьев ----
+     Клён собран из лопастей-клиньев с острыми кончиками; овальные —
+     берёза и ива. Мелкий клён превращается в кашу, поэтому на маленьком
+     масштабе автоматически подставляется овальный лист. */
+  var PATHS = {
+    maple: 'M0.00 0.00 C-19.76 -17.68 -9.09 -44.20 0.00 -52.00 C9.09 -44.20 19.76 -17.68 0.00 0.00ZM0.00 0.00 C1.61 -24.86 27.00 -30.52 37.86 -27.51 C37.37 -16.25 24.14 6.15 0.00 0.00ZM0.00 0.00 C16.66 -12.69 29.36 2.06 31.27 11.38 C23.81 17.29 4.60 20.43 0.00 0.00ZM0.00 0.00 C-24.14 6.15 -37.37 -16.25 -37.86 -27.51 C-27.00 -30.52 -1.61 -24.86 0.00 0.00ZM0.00 0.00 C-4.60 20.43 -23.81 17.29 -31.27 11.38 C-29.36 2.06 -16.66 -12.69 0.00 0.00ZM0 -12.48A16.64 12.48 0 1 1 0 12.48A16.64 12.48 0 1 1 0 -12.48Z',
+    ovate: 'M0 -52 C 20 -40, 30 -14, 28 8 C 26 30, 12 44, 0 50 C -12 44, -26 30, -28 8 C -30 -14, -20 -40, 0 -52 Z',
+    oval: 'M0 -50 C 23 -26, 20 26, 0 48 C -20 26, -23 -26, 0 -50 Z'
+  };
+  function leafPath(kind) { return PATHS[kind] || PATHS.ovate; }
+
+  /* лист: заливка-размывка, прожилки, черешок */
+  function leaf(kind, wash, scale, rot) {
+    scale = scale || 1;
+    if (kind === 'maple' && scale < 0.3) kind = 'ovate';   // мелкий клён не читается
+    var grp = g({ transform: 'rotate(' + (rot || 0) + ') scale(' + scale + ')' });
+    add(grp, el('path', { d: leafPath(kind), fill: 'url(#' + WASH[wash % WASH.length] + ')', opacity: '.93' }));
+    var veins = add(grp, g({ stroke: C.dark, 'stroke-opacity': '.32', 'stroke-width': '1.5', 'stroke-linecap': 'round', fill: 'none' }));
+    add(veins, el('path', { d: 'M0 52 L0 -44' }));
+    for (var i = -2; i <= 2; i++) {
+      if (!i) continue;
+      var y0 = 14 - Math.abs(i) * 16;
+      add(veins, el('path', {
+        d: 'M0 ' + y0 + ' Q ' + (i * 14) + ' ' + (y0 - 14) + ', ' + (i * 26) + ' ' + (y0 - 30),
+        'stroke-opacity': '.24'
+      }));
+    }
+    add(grp, el('path', { d: 'M0 46 L0 68', stroke: C.stem, 'stroke-width': '2.4', 'stroke-linecap': 'round' }));
+    return grp;
+  }
+
+  /* колос: стебель и зёрна ёлочкой */
+  function wheat(h, rnd) {
+    var grp = g({});
+    add(grp, el('path', {
+      d: 'M0 0 C ' + (6 - rnd() * 12) + ' ' + (-h * 0.4) + ', ' + (4 - rnd() * 8) + ' ' + (-h * 0.7) + ', 0 ' + (-h),
+      stroke: C.stemLight, 'stroke-width': '2.2', 'stroke-linecap': 'round', fill: 'none'
+    }));
+    var n = Math.round(h / 13);
+    for (var i = 0; i < n; i++) {
+      var t = 0.28 + 0.72 * (i / n);
+      var y = -h * t, side = i % 2 ? 1 : -1;
+      add(grp, el('ellipse', {
+        cx: side * 5.4, cy: y, rx: 3.4, ry: 7.6,
+        transform: 'rotate(' + (side * 26) + ' ' + (side * 5.4) + ' ' + y + ')',
+        fill: 'url(#au2-g5)', opacity: '.9'
+      }));
+    }
+    add(grp, el('path', { d: 'M0 ' + (-h) + ' l0 -9', stroke: C.wheat, 'stroke-width': '2', 'stroke-linecap': 'round' }));
+    return grp;
+  }
+
+  /* гроздь рябины */
+  function berries(n, rnd) {
+    var grp = g({});
+    add(grp, el('path', { d: 'M0 0 C 2 10, -3 18, 0 28', stroke: C.stem, 'stroke-width': '1.8', fill: 'none', 'stroke-linecap': 'round' }));
+    for (var i = 0; i < n; i++) {
+      var a = (i / n) * Math.PI * 2, r = 7 + rnd() * 9;
+      add(grp, el('circle', {
+        cx: (Math.cos(a) * r).toFixed(1),
+        cy: (28 + Math.sin(a) * r * 0.72).toFixed(1),
+        r: (3.4 + rnd() * 1.9).toFixed(1),
+        fill: i % 3 ? C.red : C.rust, opacity: '.93'
+      }));
+    }
+    return grp;
+  }
+
+  /* фонарь со стеклом и тёплым светом */
+  function lantern(size) {
+    var grp = g({ transform: 'scale(' + size + ')' });
+    add(grp, el('circle', { cx: 0, cy: 20, r: 40, fill: 'url(#au2-glow)', class: 'au2-glow' }));
+    add(grp, el('path', { d: 'M0 -30 L0 -20', stroke: C.dark, 'stroke-width': '2.2', 'stroke-linecap': 'round' }));
+    add(grp, el('path', { d: 'M-9 -20 L9 -20 L13 -12 L-13 -12 Z', fill: C.dark, opacity: '.86' }));
+    add(grp, el('path', { d: 'M-11 -12 L11 -12 L13 32 L-13 32 Z', fill: '#FBE6BC', opacity: '.8' }));
+    add(grp, el('path', {
+      d: 'M-11 -12 L11 -12 L13 32 L-13 32 Z M-11 -12 L-13 32 M11 -12 L13 32 M0 -12 L0 32',
+      stroke: C.dark, 'stroke-width': '2', fill: 'none', opacity: '.82'
+    }));
+    add(grp, el('ellipse', { cx: 0, cy: 16, rx: 5, ry: 8, fill: C.glow, class: 'au2-glow' }));
+    add(grp, el('path', { d: 'M-14 32 L14 32 L11 38 L-11 38 Z', fill: C.dark, opacity: '.86' }));
+    return grp;
+  }
+
+  function bulb(size) {
+    var grp = g({ transform: 'scale(' + size + ')' });
+    add(grp, el('circle', { cx: 0, cy: 10, r: 15, fill: 'url(#au2-glow)', class: 'au2-glow' }));
+    add(grp, el('path', { d: 'M-3 0 L3 0 L3 4 L-3 4 Z', fill: C.dark, opacity: '.8' }));
+    add(grp, el('circle', { cx: 0, cy: 10, r: 5.2, fill: C.glow, opacity: '.95' }));
+    return grp;
+  }
+
+  /* простой сухоцвет — для боковых полос */
+  function bloom(rnd) {
+    var grp = g({});
+    var petals = 8 + Math.round(rnd() * 4);
+    for (var i = 0; i < petals; i++) {
+      var a = i / petals * 360;
+      add(grp, el('ellipse', {
+        cx: 0, cy: -11, rx: 4.2, ry: 10,
+        transform: 'rotate(' + a.toFixed(0) + ')',
+        fill: 'url(#au2-g' + (rnd() > .5 ? 0 : 1) + ')', opacity: '.82'
+      }));
+    }
+    add(grp, el('circle', { cx: 0, cy: 0, r: 5.6, fill: C.dark, opacity: '.7' }));
+    return grp;
+  }
+
+  /* ---------- 3. композиции ---------- */
+
+  /* гирлянда: ветка через всю ширину, листья, лампочки, три фонаря */
+  function buildGarland() {
+    var W = 1200, svg = newSvg('0 0 ' + W + ' 150', 'au2-svg');
+    var root = add(svg, g({ filter: 'url(#au2-wc)' }));
+    var rnd = seeded(20260901);
+
+    function curve(t, lift) {
+      return { x: W * t, y: 16 + 18 * t + (56 + (lift || 0)) * Math.pow(Math.sin(Math.PI * t), 1.15) };
+    }
+
+    // две ветки для глубины
+    [[-16, .45, 1.6], [0, 1, 2.6]].forEach(function (v) {
+      var d = '', i, p;
+      for (i = 0; i <= 60; i++) { p = curve(i / 60, v[0]); d += (i ? 'L' : 'M') + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ' '; }
+      add(root, el('path', { d: d, stroke: C.stem, 'stroke-opacity': v[1], 'stroke-width': v[2], fill: 'none', 'stroke-linecap': 'round' }));
+    });
+
+    // листья вдоль ветки
+    for (var i = 0; i < 30; i++) {
+      var t = 0.02 + 0.96 * (i / 29), p = curve(t);
+      var lf = leaf(KINDS[i % KINDS.length], i % WASH.length, 0.22 + rnd() * 0.2, (i % 2 ? 1 : -1) * (25 + rnd() * 70));
+      lf.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ',' + (p.y + 6).toFixed(1) + ') ' + lf.getAttribute('transform'));
+      add(root, lf);
+    }
+
+    // лампочки
+    for (var b = 0; b < 11; b++) {
+      var tb = 0.06 + 0.88 * (b / 10), pb = curve(tb);
+      var bl = bulb(0.72 + rnd() * 0.3);
+      bl.setAttribute('transform', 'translate(' + pb.x.toFixed(1) + ',' + (pb.y + 4).toFixed(1) + ') ' + bl.getAttribute('transform'));
+      add(root, bl);
+    }
+
+    // фонари
+    [[0.19, 26, 0.8], [0.5, 42, 0.95], [0.78, 22, 0.72]].forEach(function (v) {
+      var p = curve(v[0]);
+      add(root, el('path', {
+        d: 'M' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ' L' + p.x.toFixed(1) + ' ' + (p.y + v[1]).toFixed(1),
+        stroke: C.stem, 'stroke-width': '1.8', 'stroke-linecap': 'round'
+      }));
+      var ln = lantern(v[2]);
+      ln.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ',' + (p.y + v[1] + 30).toFixed(1) + ') ' + ln.getAttribute('transform'));
+      add(root, ln);
+    });
+
+    return svg;
+  }
+
+  /* вертикальная ботаническая полоса у края экрана */
+  function buildSide(seed) {
+    var svg = newSvg('0 0 120 900', 'au2-svg', 'xMinYMid slice');
+    var root = add(svg, g({ filter: 'url(#au2-wc)' }));
+    var rnd = seeded(seed);
+
+    // мягкая акварельная подложка — как полоса краски
+    add(root, el('path', {
+      d: 'M14 -10 C 30 120, 4 260, 22 400 C 40 540, 8 690, 20 910 L 78 910 C 66 690, 96 540, 76 400 C 58 260, 86 120, 70 -10 Z',
+      fill: 'url(#au2-strip)', opacity: '.3'
+    }));
+
+    for (var i = 0; i < 7; i++) {
+      var y = 40 + i * 128 + rnd() * 30;
+      var x = 26 + rnd() * 52;
+      var w = wheat(70 + rnd() * 60, rnd);
+      w.setAttribute('transform', 'translate(' + x.toFixed(0) + ',' + y.toFixed(0) + ') rotate(' + (rnd() * 16 - 8).toFixed(0) + ')');
+      add(root, w);
+
+      var lf = leaf(KINDS[i % KINDS.length], i % WASH.length, 0.26 + rnd() * 0.14, rnd() * 360);
+      lf.setAttribute('transform', 'translate(' + (18 + rnd() * 64).toFixed(0) + ',' + (y - 60 - rnd() * 40).toFixed(0) + ') ' + lf.getAttribute('transform'));
+      add(root, lf);
+
+      if (i % 2) {
+        var lf2 = leaf(KINDS[(i + 3) % KINDS.length], (i + 2) % WASH.length, 0.22 + rnd() * 0.12, rnd() * 360);
+        lf2.setAttribute('transform', 'translate(' + (30 + rnd() * 50).toFixed(0) + ',' + (y - 100).toFixed(0) + ') ' + lf2.getAttribute('transform'));
+        add(root, lf2);
+      } else {
+        var br = berries(9, rnd);
+        br.setAttribute('transform', 'translate(' + (34 + rnd() * 44).toFixed(0) + ',' + (y - 120).toFixed(0) + ') scale(' + (0.75 + rnd() * .4).toFixed(2) + ')');
+        add(root, br);
+      }
+    }
+    return svg;
+  }
+
+  /* угловой букет: колосья, ягоды, физалис, листья — расходится из угла */
+  function buildBouquet(seed) {
+    var svg = newSvg('0 0 300 250', 'au2-svg');
+    var root = add(svg, g({ filter: 'url(#au2-wc)', transform: 'translate(8,6)' }));
+    var rnd = seeded(seed);
+
+    // веер стеблей из угла
+    for (var i = 0; i < 5; i++) {
+      var a = 14 + i * 17;
+      var w = wheat(78 + rnd() * 62, rnd);
+      w.setAttribute('transform', 'translate(24,232) rotate(' + (180 - a).toFixed(0) + ')');
+      add(root, w);
+    }
+    // листья
+    [[92, 150, 0.5, -28, 1], [150, 96, 0.42, 34, 2], [58, 96, 0.36, -64, 0], [186, 158, 0.34, 62, 4]].forEach(function (v, i) {
+      var lf = leaf(KINDS[i % KINDS.length], v[4], v[2], v[3]);
+      lf.setAttribute('transform', 'translate(' + v[0] + ',' + v[1] + ') ' + lf.getAttribute('transform'));
+      add(root, lf);
+    });
+    // ягоды и физалис
+    var br = berries(11, rnd);
+    br.setAttribute('transform', 'translate(120,182) scale(1.05)');
+    add(root, br);
+    var br2 = berries(8, rnd);
+    br2.setAttribute('transform', 'translate(178,190) scale(.8)');
+    add(root, br2);
+    var lf3 = leaf('maple', 2, 0.44, 24);
+    lf3.setAttribute('transform', 'translate(64,166) ' + lf3.getAttribute('transform'));
+    add(root, lf3);
+    return svg;
+  }
+
+  /* свисающие от верхнего края блока веточки с физалисом */
+  function buildHang(seed) {
+    var svg = newSvg('0 0 900 210', 'au2-svg');
+    var root = add(svg, g({ filter: 'url(#au2-wc)' }));
+    var rnd = seeded(seed);
+    var xs = [88, 232, 402, 566, 726, 848];
+
+    xs.forEach(function (x, i) {
+      var len = 44 + rnd() * 62;
+      var bend = (i % 2 ? 1 : -1) * (10 + rnd() * 16);
+      add(root, el('path', {
+        d: 'M' + x + ' -4 Q ' + (x + bend) + ' ' + (len * .55).toFixed(0) + ', ' + (x + bend * .4).toFixed(0) + ' ' + len.toFixed(0),
+        stroke: C.stem, 'stroke-width': '2', fill: 'none', 'stroke-linecap': 'round'
+      }));
+      for (var k = 0; k < 3; k++) {
+        var t = 0.32 + k * 0.26;
+        var lf = leaf(KINDS[(i + k) % KINDS.length], (i + k) % WASH.length, 0.13 + rnd() * 0.08, (k % 2 ? 1 : -1) * (40 + rnd() * 50));
+        lf.setAttribute('transform', 'translate(' + (x + bend * t * .7).toFixed(0) + ',' + (len * t).toFixed(0) + ') ' + lf.getAttribute('transform'));
+        add(root, lf);
+      }
+      var br = berries(6, rnd);
+      br.setAttribute('transform', 'translate(' + (x + bend * .4).toFixed(0) + ',' + (len - 2).toFixed(0) + ') scale(' + (0.5 + rnd() * .25).toFixed(2) + ')');
+      add(root, br);
+    });
+    return svg;
+  }
+
+  /* разделитель: колосья и ягоды, симметрично от центра */
+  function buildDivider(seed) {
+    var svg = newSvg('0 0 600 70', 'au2-svg');
+    var root = add(svg, g({ filter: 'url(#au2-wc)' }));
+    var rnd = seeded(seed);
+    add(root, el('path', {
+      d: 'M40 40 C 180 26, 420 54, 560 40',
+      stroke: C.stemLight, 'stroke-width': '1.5', fill: 'none', 'stroke-linecap': 'round'
+    }));
+    [-1, 1].forEach(function (s) {
+      for (var i = 0; i < 3; i++) {
+        var x = 300 + s * (46 + i * 62);
+        var w = wheat(30 + i * 6, rnd);
+        w.setAttribute('transform', 'translate(' + x + ',44) rotate(' + (s * (16 + i * 7)) + ')');
+        add(root, w);
+      }
+      var lf = leaf('maple', 1, 0.2, s * 40);
+      lf.setAttribute('transform', 'translate(' + (300 + s * 128) + ',36) ' + lf.getAttribute('transform'));
+      add(root, lf);
+    });
+    var br = berries(7, rnd);
+    br.setAttribute('transform', 'translate(300,16) scale(.8)');
+    add(root, br);
+    return svg;
+  }
+
+  /* куча листьев у нижнего края страницы */
+  function buildPile(seed) {
+    var svg = newSvg('0 0 1200 150', 'au2-svg');
+    var root = add(svg, g({ filter: 'url(#au2-wc)' }));
+    var rnd = seeded(seed);
+        for (var i = 0; i < 104; i++) {
+      var t = rnd();
+      // плотнее к центру, редеет к краям
+      var x = 600 + (t - 0.5) * 1180 * (0.5 + rnd() * 0.8);
+      var hump = Math.cos((x - 600) / 600 * Math.PI * 0.5);
+      var y = 152 - rnd() * (20 + 78 * Math.max(0, hump));
+      var lf = leaf(KINDS[i % KINDS.length], i % WASH.length, 0.22 + rnd() * 0.26, rnd() * 360);
+      lf.setAttribute('transform', 'translate(' + x.toFixed(0) + ',' + y.toFixed(0) + ') ' + lf.getAttribute('transform'));
+      add(root, lf);
+    }
+    return svg;
+  }
+
+  /* осенняя печать для спецпредложения */
+  function buildStamp(text) {
+    var svg = newSvg('0 0 200 200', 'au2-svg');
+    var root = add(svg, g({ filter: 'url(#au2-wc)' }));
+    var rnd = seeded(4242);
+    add(root, el('circle', { cx: 100, cy: 100, r: 74, fill: '#FFFFFF', 'fill-opacity': '.72' }));
+    add(root, el('circle', { cx: 100, cy: 100, r: 74, stroke: C.rust, 'stroke-width': '2.4', 'stroke-opacity': '.75', fill: 'none' }));
+    add(root, el('circle', { cx: 100, cy: 100, r: 64, stroke: C.rust, 'stroke-width': '1', 'stroke-opacity': '.5', fill: 'none' }));
+    for (var i = 0; i < 9; i++) {
+      var a = i / 9 * Math.PI * 2;
+      var lf = leaf(KINDS[i % KINDS.length], i % WASH.length, 0.14, (a * 180 / Math.PI) + 90);
+      lf.setAttribute('transform',
+        'translate(' + (100 + Math.cos(a) * 84).toFixed(1) + ',' + (100 + Math.sin(a) * 84).toFixed(1) + ') ' +
+        lf.getAttribute('transform'));
+      add(root, lf);
+    }
+    var pathId = 'au2-stamp-arc-' + Math.random().toString(36).slice(2, 8);
+    var defs = add(svg, el('defs', {}));
+    add(defs, el('path', { id: pathId, d: 'M 100 100 m -50 0 a 50 50 0 1 1 100 0', fill: 'none' }));
+    var t = add(root, el('text', { fill: C.rust, 'fill-opacity': '.9', 'font-size': '19', 'text-anchor': 'middle' }));
+    var tp = add(t, el('textPath', { href: '#' + pathId, startOffset: '50%' }));
+    tp.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#' + pathId);
+    tp.textContent = (text || 'осень 2026').toUpperCase();
+    var mid = add(root, el('text', {
+      x: 100, y: 118, fill: C.rust, 'fill-opacity': '.85', 'font-size': '15',
+      'text-anchor': 'middle', 'letter-spacing': '2'
+    }));
+    mid.textContent = 'БЕРЁЗОВАЯ РОЩА';
+    return svg;
+  }
+
+  /* ---------- 4. расстановка по сайту ---------- */
+
+  function wrapEl(cls, pos) {
+    var d = document.createElement('div');
+    d.className = 'au2 ' + cls;
+    if (pos) d.setAttribute('data-pos', pos);
+    return d;
+  }
+
+  function host(node) { node.classList.add('au2-host'); return node; }
+
+  function place() {
+    injectDefs();
+
+    /* гирлянда */
+    if (cfg.garland) {
+      var gHost = cfg.garland === 'top' ? document.body : document.getElementById(rid(cfg.garland));
+      if (gHost) {
+        if (gHost !== document.body) host(gHost);
+        var gw = wrapEl('au2-garland');
+        gw.appendChild(buildGarland());
+        gHost.insertBefore(gw, gHost.firstChild);
+        if (gHost === document.body) {
+          gw.style.position = 'absolute';
+          gw.style.top = '0';
+        }
+      }
+    }
+
+    /* боковые полосы */
+    if (cfg.sides) {
+      ['left', 'right'].forEach(function (side, i) {
+        var w = wrapEl('au2-side');
+        w.setAttribute('data-side', side);
+        w.appendChild(buildSide(917 + i * 373));
+        document.body.appendChild(w);
+      });
+    }
+
+    /* угловые букеты — растут снизу, поэтому только нижние углы */
+    var POS = ['bl', 'br'];
+    (cfg.bouquets || []).forEach(function (r, i) {
+      var rec = document.getElementById(rid(r));
+      if (!rec) return;
+      host(rec);
+      var w = wrapEl('au2-bouquet', POS[i % POS.length]);
+      w.appendChild(buildBouquet(3300 + i * 111));
+      rec.insertBefore(w, rec.firstChild);
+    });
+
+    /* свисающие веточки */
+    (cfg.hangs || []).forEach(function (r, i) {
+      var rec = document.getElementById(rid(r));
+      if (!rec) return;
+      host(rec);
+      var w = wrapEl('au2-hang');
+      w.appendChild(buildHang(770 + i * 97));
+      rec.insertBefore(w, rec.firstChild);
+    });
+
+    /* разделители */
+    (cfg.dividersAfter || []).forEach(function (r, i) {
+      var rec = document.getElementById(rid(r));
+      if (!rec || !rec.parentNode) return;
+      var w = wrapEl('au2-divider');
+      w.appendChild(buildDivider(510 + i * 61));
+      rec.parentNode.insertBefore(w, rec.nextSibling);
+    });
+
+    /* куча листьев внизу */
+    if (cfg.pile) {
+      var pHost = null;
+      if (cfg.pile === 'last') {
+        var recs = document.querySelectorAll('.t-rec');
+        pHost = recs.length ? recs[recs.length - 1] : document.body;
+      } else {
+        pHost = document.getElementById(rid(cfg.pile));
+      }
+      if (pHost) {
+        if (pHost !== document.body) host(pHost);
+        var pw = wrapEl('au2-pile');
+        pw.appendChild(buildPile(6060));
+        pHost.appendChild(pw);
+      }
+    }
+
+    /* печати */
+    (cfg.stamps || []).forEach(function (s) {
+      var rec = document.getElementById(rid(s.rec));
+      if (!rec) return;
+      host(rec);
+      var w = wrapEl('au2-stamp', s.pos || 'tr');
+      w.appendChild(buildStamp(s.text));
+      rec.appendChild(w);
+    });
+
+    if (cfg.drift) initDrift();
+  }
+
+  /* ---------- 5. лёгкий параллакс ---------- */
+  function initDrift() {
+    if (reduce.matches) return;
+    var items = [].slice.call(document.querySelectorAll('.au2-bouquet, .au2-hang, .au2-garland'));
+    if (!items.length) return;
+    var ticking = false;
+
+    function apply() {
+      ticking = false;
+      var vh = window.innerHeight;
+      items.forEach(function (it) {
+        var r = it.getBoundingClientRect();
+        if (r.bottom < -200 || r.top > vh + 200) return;
+        var inner = it.firstElementChild;          // двигаем svg, а не обёртку,
+        if (!inner) return;                        // чтобы не сбить её собственный transform
+        var k = (r.top + r.height / 2 - vh / 2) / vh;   // -1 … 1
+        inner.style.transform = 'translate3d(0,' + (k * 16).toFixed(1) + 'px,0)';
+      });
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(apply); }
+    }, { passive: true });
+    window.addEventListener('resize', apply, { passive: true });
+    apply();
+  }
+
+  /* ---------- запуск после отрисовки блоков Тильды ---------- */
+  function go() { setTimeout(place, 350); }
+  if (document.readyState === 'complete') go();
+  else window.addEventListener('load', go);
+
+  window.autumnPack2 = { place: place };
+})();
+
+</script>

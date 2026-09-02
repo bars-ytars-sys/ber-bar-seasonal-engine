@@ -119,10 +119,64 @@ const blockJs = `
   else mount();
 })();`;
 
+/* --- листопад растворяется после первого экрана ---
+   Холст листопада и боковые полосы у набора закреплены за окном
+   (position:fixed), поэтому едут за гостем через весь сайт и мешают
+   читать. Оставляем их на первом экране и гасим к полутора экранам:
+   осень встречает на входе, дальше не отвлекает. */
+const fadeJs = `
+(function () {
+  var КОНЕЦ = 1.5;              /* к скольким экранам прокрутки исчезнут */
+  var слои = [];
+  var ждём = false;
+
+  function собрать() {
+    слои = [document.getElementById('au-canvas')]
+      .concat([].slice.call(document.querySelectorAll('.au2-side')))
+      .filter(Boolean);
+    return слои.length > 0;
+  }
+
+  function пересчёт() {
+    ждём = false;
+    собрать();
+    if (!слои.length) return;
+    var предел = window.innerHeight * КОНЕЦ;
+    var доля = Math.min(1, (window.pageYOffset || document.documentElement.scrollTop || 0) / предел);
+    for (var i = 0; i < слои.length; i++) {
+      var слой = слои[i];
+      /* У боковых полос своя прозрачность в стилях набора — запоминаем её
+         при первом проходе и гасим от неё, а не от единицы. */
+      if (!слой.dataset.auBase) {
+        слой.dataset.auBase = getComputedStyle(слой).opacity || '1';
+      }
+      var прозрачность = parseFloat(слой.dataset.auBase) * (1 - доля);
+      /* В наборе прозрачность задана через !important, поэтому обычная
+         запись в style её не перебивает. */
+      слой.style.setProperty('opacity', прозрачность.toFixed(3), 'important');
+      /* Невидимый холст всё равно перерисовывается — прячем, чтобы
+         не тратить батарею на анимацию, которой не видно. */
+      слой.style.visibility = прозрачность < 0.01 ? 'hidden' : '';
+    }
+  }
+
+  function покадрово() {
+    if (ждём) return;
+    ждём = true;
+    requestAnimationFrame(пересчёт);
+  }
+
+  window.addEventListener('scroll', покадрово, { passive: true });
+  window.addEventListener('resize', покадрово, { passive: true });
+  /* Слои создаются набором не сразу — пробуем несколько раз. */
+  [0, 400, 1200, 2500].forEach(function (ms) { setTimeout(пересчёт, ms); });
+})();`;
+
 /* --- собираем страницу --- */
 let page = read('demo', 'sites', 'eco.html');
 page = page.replace(/<\/head>/i, `<style>\n${css1}\n${css2}\n</style>\n</head>`);
-page = page.replace(/<\/body>/i, `<script>\n${js1}\n${js2}\n${blockJs}\n</script>\n</body>`);
+page = page.replace(/<\/body>/i,
+  `<script>\n${js1}\n${js2}\n${blockJs}\n${fadeJs}\n</script>\n</body>`);
 
 fs.writeFileSync(path.join(ROOT, 'bereza.html'), page, 'utf8');
 console.log(`  bereza.html  ${(page.length / 1024 / 1024).toFixed(1)} МБ`);

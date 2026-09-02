@@ -1,0 +1,116 @@
+<!-- БАРСКИЕ ПОЛЯ — правки без редактора.
+     Тильда → Библиотека → Другое → T123 (HTML-код).
+     Поставить ПОСЛЕДНИМ блоком на главной, после блока с декором.
+
+     Делает три вещи:
+       1. прячет карточку «Продлеваем лето» — акция кончилась 10.09,
+          ряд выложен флексом, поэтому соседние сдвигаются сами;
+       2. переписывает всплывающее окно на «Вкусную осень»:
+          заголовок, текст с промокодом, фотографию и кнопку;
+       3. выделяет «заправка в удобном месте» акцентным цветом.
+
+     Всё это можно в любой момент отменить — просто убрать блок. -->
+<style>
+#rec1655343021 [data-group-id="1785352752557000001"],
+#rec1655343021 [data-elem-id="1785352752557000001"]{display:none!important}
+</style>
+
+<script>
+(function () {
+  var ФОТО = 'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/bp-popup.webp';
+
+  /* ── всплывающее окно ── */
+  var окноГотово = false;
+  function окно() {
+    if (окноГотово) return true;
+    var rec = document.getElementById('rec2461410871');
+    if (!rec) return false;
+
+    var h = rec.querySelector('[field="tn_text_1779479956023"]');
+    var t = rec.querySelector('[field="tn_text_1779480103511"]');
+    var pic = rec.querySelector('[data-elem-id="1764653785569000002"] .tn-atom');
+    var btn = rec.querySelector('[data-elem-id="1764653785624000005"] .tn-atom');
+    if (!h || !t || !pic || !btn) return false;
+
+    h.textContent = 'Вкусная осень';
+    t.innerHTML =
+      '<div style="margin-bottom:7px">Завтраки в будни — в подарок</div>' +
+      '<span data-bo-code="ОСЕНЬ2026" style="display:inline-block;padding:5px 12px;' +
+      'border:1px dashed currentColor;border-radius:4px;letter-spacing:.09em;' +
+      'font-size:12px;line-height:1;cursor:pointer">ОСЕНЬ2026</span>' +
+      '<div style="margin-top:7px;font-size:11px;opacity:.7">Акции не суммируются</div>';
+
+    var чип = t.querySelector('[data-bo-code]');
+    чип.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var готово = function () { чип.textContent = 'скопировано'; };
+      if (navigator.clipboard) navigator.clipboard.writeText('ОСЕНЬ2026').then(готово, готово);
+      else готово();
+    });
+
+    pic.style.backgroundImage = "url('" + ФОТО + "')";
+    pic.style.backgroundSize = 'cover';
+    pic.style.backgroundPosition = 'center';
+
+    btn.textContent = 'Подробнее об акции';
+    btn.setAttribute('href', '#bo-zavtrak');
+    btn.removeAttribute('target');
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var закрыть = rec.querySelector('[data-elem-id="1779480618329000002"]');
+      if (закрыть) закрыть.click();
+      var цель = document.getElementById('bo-zavtrak');
+      if (цель) цель.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    окноГотово = true;
+    return true;
+  }
+
+  /* ── выделение фразы ──
+     По разметке искать бесполезно: между словами стоят неразрывные
+     пробелы, и в innerHTML они то символом, то мнемоникой &nbsp;.
+     Поэтому ищем по тексту узла, заменив неразрывный пробел обычным —
+     длина строки при этом не меняется, значит позиции остаются верны. */
+  var ФРАЗА = 'заправка в удобном месте';
+  function фраза() {
+    var поле = document.querySelector('[field="li_descr__1771852717075"]');
+    if (!поле) return false;
+    if (поле.dataset.boDone) return true;
+
+    var обход = document.createTreeWalker(поле, NodeFilter.SHOW_TEXT);
+    var узел, начало = -1, цель = null;
+    while ((узел = обход.nextNode())) {
+      начало = узел.nodeValue.replace(/ /g, ' ').indexOf(ФРАЗА);
+      if (начало >= 0) { цель = узел; break; }
+    }
+    if (!цель) return false;
+
+    var хвост = цель.splitText(начало);
+    хвост.splitText(ФРАЗА.length);
+    var окраска = document.createElement('span');
+    окраска.style.color = '#ee995d';
+    окраска.style.fontWeight = '500';
+    окраска.textContent = хвост.nodeValue;
+    хвост.parentNode.replaceChild(окраска, хвост);
+
+    поле.dataset.boDone = '1';
+    return true;
+  }
+
+  /* Обе части страницы рисуются не сразу, и рисуются в разное время.
+     Раньше они ждали друг друга в одном условии: пока не готово окно,
+     до фразы дело не доходило. Теперь у каждой свой опрос, и вдобавок
+     обе перепроверяются на любое изменение страницы. */
+  function запустить(правка) {
+    if (правка()) return;
+    var t = setInterval(function () { if (правка()) clearInterval(t); }, 400);
+    setTimeout(function () { clearInterval(t); }, 120000);
+    new MutationObserver(function (_, наблюдатель) {
+      if (правка()) наблюдатель.disconnect();
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+  запустить(окно);
+  запустить(фраза);
+})();
+</script>

@@ -1,0 +1,446 @@
+<!-- БАРСКИЕ ПОЛЯ — часть 2 из 3: СКРИПТЫ
+     Тильда → Настройки сайта → Ещё → HTML-код перед </body>.
+     После вставки — «Опубликовать все страницы».
+
+     ПЕРЕД ВСТАВКОЙ: загрузите листья из tilda/images/leaves в
+     Настройки сайта → Файлы и впишите их адреса в leafImages
+     и decorImages ниже. Без картинок набор ничего не покажет.
+
+     Раскладка проверена замером: ни один лист не ложится на кнопки
+     и текст ни на 1600px, ни на 390px.
+       rec1534422731  перед картой         цепочка после блока
+       rec1216602591  заголовок программ   дуга сверху
+       rec1185039476  «Дома»               россыпь, нижний левый
+       rec1185039536  заголовок отзывов    дуга сверху
+       rec2709575101  заголовок внизу      россыпь, верхний правый
+     Первый экран не тронут — там видео и две кнопки, ему достаётся
+     только листопад. Листья по низу экрана выключены: справа внизу
+     висит чат-виджет. -->
+<script>
+
+window.BARSKIE = Object.assign({
+  /* СЮДА вставьте адреса загруженных листьев (файлы из tilda/images/leaves).
+     Без картинок набор ничего не покажет — он весь построен на них. */
+  leafImages: [
+    // 'https://static.tildacdn.com/.../leaf-01.png',
+  ],
+  /* Клёны: в раскладки по краям блоков подмешиваются, с неба не падают. */
+  decorImages: [
+    // 'https://static.tildacdn.com/.../maple-01.png',
+  ]
+}, {
+  "falling": true,
+  "ground": false,
+  "corners": [
+    "rec2709575101",
+    "rec1185039476"
+  ],
+  "topStrips": [
+    "rec1216602591",
+    "rec1185039536"
+  ],
+  "bottomStrips": [],
+  "dividersAfter": [
+    "rec1534422731"
+  ],
+  "scale": 0.85,
+  "fallScale": 0.8,
+  "density": 0.6,
+  "opacity": 0.9
+});
+
+
+/* ===== ОСЕННИЙ НАБОР для barskie-polya.ru =====
+   Весь декор собран из ОДНИХ И ТЕХ ЖЕ картинок листьев: и то, что падает,
+   и то, что лежит по краям блоков. Никакой отдельной рисованной графики —
+   стиль задаёте вы, загрузив свои png.
+
+   ЧТО НУЖНО СДЕЛАТЬ: загрузить 4–8 листьев (png с прозрачным фоном)
+   в Тильду и вписать их адреса в leafImages. Без картинок набор ничего
+   не покажет — он весь построен на них.
+
+   НАСТРОЙКИ — window.BARSKIE, задаются ДО подключения скрипта:
+     leafImages   ['https://…/leaf-1.png', …]   — обязательное: то, что летит
+     decorImages  ['https://…/acorn.png', …]     — необязательное: жёлуди, шишки,
+                  грибы, ягоды, колосья. Не падают с неба, а подмешиваются
+                  в раскладки по краям блоков — там они уместны.
+     falling      true|false                    — листья падают через экран
+     ground       true|false                    — листья катятся по низу экрана
+     corners      ['rec812345678', …]           — россыпь листьев в углу блока
+     topStrips    ['rec812345678', …]           — листья дугой по верхнему краю
+     bottomStrips ['rec812345678', …]           — листья вдоль нижнего края
+     dividersAfter ['rec812345678', …]          — цепочка листьев между блоками
+     density      1                             — плотность листопада, 0.3 … 2
+     scale        1                             — размер листьев в раскладках, 0.5 … 2
+     fallScale    1                             — размер летящих листьев отдельно, 0.5 … 2
+     opacity      1                             — общая заметность, 0.3 … 1
+     zIndex       870                           — слой падающих листьев
+   ================================================================ */
+(function () {
+  'use strict';
+
+  var cfg = Object.assign({
+    leafImages: [],
+    decorImages: [],
+    falling: true,
+    ground: true,
+    corners: [],
+    topStrips: [],
+    bottomStrips: [],
+    dividersAfter: [],
+    density: 1,
+    scale: 1,
+    fallScale: 1,
+    opacity: 1,
+    zIndex: 870,
+    minWidth: 640
+  }, window.BARSKIE || {});
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var rid = function (s) { return String(s).replace(/^#/, ''); };
+
+  /* ---------- картинки ---------- */
+  var IMGS = [];
+  (cfg.leafImages || []).forEach(function (src) {
+    var im = new Image();
+    im.decoding = 'async';
+    im.onload = function () { im._ok = im.naturalWidth > 0; };
+    im.src = src;
+    IMGS.push(im);
+  });
+  var HAS_IMGS = IMGS.length > 0;
+
+  /* силуэты, которые лежат, но не летают: жёлуди, шишки, грибы, ягоды */
+  var DECOR = [];
+  (cfg.decorImages || []).forEach(function (src) {
+    var im = new Image();
+    im.decoding = 'async';
+    im.onload = function () { im._ok = im.naturalWidth > 0; };
+    im.src = src;
+    DECOR.push(im);
+  });
+
+  /* в раскладках примерно каждый третий силуэт — не лист */
+  function mixSrc(idx, r) {
+    if (DECOR.length && r() < 0.34) return DECOR[idx % DECOR.length].src;
+    return IMGS.length ? IMGS[idx % IMGS.length].src : null;
+  }
+
+  function imgAt(i) {
+    if (!IMGS.length) return null;
+    var im = IMGS[i % IMGS.length];
+    return (im && im._ok) ? im : null;
+  }
+  function srcAt(i) {
+    return IMGS.length ? IMGS[i % IMGS.length].src : null;
+  }
+
+  /* стабильный генератор: раскладка не прыгает при каждой перезагрузке */
+  function seeded(seed) {
+    var s = seed || 1;
+    return function () { s = (s * 1664525 + 1013904223) % 4294967296; return s / 4294967296; };
+  }
+
+  /* ---------- падающие листья и листья по низу экрана ---------- */
+  var cv = document.getElementById('bp-canvas');
+  if (!cv) {
+    cv = document.createElement('canvas');
+    cv.id = 'bp-canvas';
+    cv.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(cv);
+  }
+  cv.style.zIndex = cfg.zIndex;
+
+  var ctx = cv.getContext('2d');
+  var W = 0, H = 0, dpr = 1, raf = null, running = false, last = 0;
+  var falling = [], ground = [];
+
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+
+  function makeFalling(fresh) {
+    var z = rnd(0.4, 1);
+    return {
+      x: rnd(-0.05, 1.05) * W,
+      y: fresh ? rnd(-0.2, 1) * H : rnd(-0.45, -0.05) * H,
+      z: z,
+      s: (11 + 15 * z) * cfg.scale * cfg.fallScale,
+      a: (0.45 + 0.4 * z) * cfg.opacity,
+      i: (Math.random() * 999) | 0,
+      rot: rnd(0, Math.PI * 2),
+      spin: rnd(-0.32, 0.32),
+      flip: rnd(0, Math.PI * 2),
+      flipSpd: rnd(0.2, 0.55),
+      sway: rnd(0, Math.PI * 2),
+      swaySpd: rnd(0.2, 0.48),
+      amp: rnd(20, 56) * z
+    };
+  }
+
+  function makeGround(fresh) {
+    var dir = Math.random() < 0.72 ? 1 : -1;
+    return {
+      x: fresh ? rnd(0, 1) * W : (dir > 0 ? -80 : W + 80),
+      y: H - rnd(4, 46),
+      s: rnd(9, 16) * cfg.scale * cfg.fallScale,
+      v: dir * rnd(26, 74),
+      rot: rnd(0, Math.PI * 2),
+      spin: dir * rnd(1, 2.8),
+      bob: rnd(0, 6.3),
+      a: rnd(0.45, 0.8) * cfg.opacity,
+      i: (Math.random() * 999) | 0
+    };
+  }
+
+  function seedScene() {
+    falling = []; ground = [];
+    var n = Math.round(Math.min(30, Math.max(8, W / 52)) * cfg.density);
+    for (var i = 0; i < n; i++) falling.push(makeFalling(true));
+    for (var k = 0; k < Math.round(7 * cfg.density); k++) ground.push(makeGround(true));
+  }
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    seedScene();
+  }
+
+  function paint(im, size, alpha) {
+    var ar = (im.naturalHeight / im.naturalWidth) || 1;
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(im, -size / 2, -size * ar / 2, size, size * ar);
+  }
+
+  function frame(now) {
+    raf = requestAnimationFrame(frame);
+    var dt = Math.min((now - last) / 1000, 0.05); last = now;
+    ctx.clearRect(0, 0, W, H);
+    var wind = 0.4 * (0.7 + 0.5 * Math.sin(now * 0.00012));
+    var i, p, im;
+
+    if (cfg.falling) {
+      for (i = 0; i < falling.length; i++) {
+        p = falling[i];
+        p.sway += p.swaySpd * dt;
+        p.rot += p.spin * dt;
+        p.flip += p.flipSpd * dt;
+        p.y += (13 + 36 * p.z) * dt;
+        p.x += (Math.cos(p.sway) * p.amp + wind * 42 * p.z) * dt;
+        if (p.y - p.s > H) { falling[i] = makeFalling(false); continue; }
+        if (p.x < -p.s * 2) p.x = W + p.s;
+        if (p.x > W + p.s * 2) p.x = -p.s;
+        im = imgAt(p.i);
+        if (!im) continue;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.scale(0.45 + 0.55 * Math.abs(Math.cos(p.flip)), 1);
+        paint(im, p.s, p.a);
+        ctx.restore();
+      }
+    }
+
+    if (cfg.ground) {
+      for (i = 0; i < ground.length; i++) {
+        var g = ground[i];
+        g.x += g.v * dt;
+        g.rot += g.spin * dt;
+        g.bob += dt * 2;
+        if (g.x < -100 || g.x > W + 100) { ground[i] = makeGround(false); continue; }
+        im = imgAt(g.i);
+        if (!im) continue;
+        ctx.save();
+        ctx.translate(g.x, g.y + Math.sin(g.bob) * 3);
+        ctx.rotate(g.rot);
+        paint(im, g.s, g.a);
+        ctx.restore();
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function start() {
+    if (running || !HAS_IMGS || reduce.matches || window.innerWidth < cfg.minWidth) return;
+    running = true; last = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function stop() {
+    running = false;
+    if (raf) cancelAnimationFrame(raf);
+    raf = null;
+    if (W && H) ctx.clearRect(0, 0, W, H);
+  }
+
+  window.addEventListener('resize', resize, { passive: true });
+  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+  if (reduce.addEventListener) reduce.addEventListener('change', function () { reduce.matches ? stop() : start(); });
+  resize();
+  start();
+
+  /* ---------- статичные раскладки: те же листья, только лежат ---------- */
+
+  function leafImg(idx, size, rotDeg, opacity, src) {
+    src = src || srcAt(idx);
+    if (!src) return null;
+    var el = document.createElement('img');
+    el.src = src;
+    el.alt = '';
+    el.setAttribute('aria-hidden', 'true');
+    el.className = 'bp-leaf';
+    el.style.width = size.toFixed(0) + 'px';
+    el.style.transform = 'translate(-50%,-50%) rotate(' + rotDeg.toFixed(0) + 'deg)';
+    el.style.opacity = Math.min(1, opacity * cfg.opacity).toFixed(2);
+    return el;
+  }
+
+  function put(box, el, xPct, yPct) {
+    if (!el) return;
+    el.style.left = xPct.toFixed(2) + '%';
+    el.style.top = yPct.toFixed(2) + '%';
+    box.appendChild(el);
+  }
+
+  function wrap(cls) {
+    var d = document.createElement('div');
+    d.className = 'bp ' + cls;
+    return d;
+  }
+  function host(n) { n.classList.add('bp-host'); return n; }
+
+  /* россыпь в углу: крупные у самого угла, мельче к середине */
+  function buildCorner(seed) {
+    var box = wrap('bp-corner');
+    var r = seeded(seed);
+    for (var i = 0; i < 9; i++) {
+      var t = i / 8;
+      var size = (66 - 40 * t) * cfg.scale * (0.8 + r() * 0.4);
+      var x = 6 + t * 62 + (r() - 0.5) * 16;
+      var y = 8 + Math.pow(t, 1.4) * 76 + (r() - 0.5) * 14;
+      put(box, leafImg(i * 3, size, r() * 360, 0.75 + r() * 0.25, mixSrc(i * 3, r)), x, y);
+    }
+    return box;
+  }
+
+  /* дуга листьев по верхнему краю блока */
+  function buildTopStrip(seed) {
+    var box = wrap('bp-top');
+    var r = seeded(seed);
+    var n = 9;
+    for (var i = 0; i < n; i++) {
+      var t = (i + 0.5) / n;
+      var x = t * 100;
+      var y = 16 + 44 * Math.sin(Math.PI * t) + (r() - 0.5) * 16;
+      var size = (26 + 22 * Math.sin(Math.PI * t)) * cfg.scale * (0.75 + r() * 0.45);
+      put(box, leafImg(i, size, (i % 2 ? 1 : -1) * (20 + r() * 120), 0.7 + r() * 0.3, mixSrc(i, r)), x, y);
+    }
+    return box;
+  }
+
+  /* листья лежат вдоль нижнего края блока */
+  function buildBottomStrip(seed) {
+    var box = wrap('bp-bottom');
+    var r = seeded(seed);
+    var n = 11;
+    for (var i = 0; i < n; i++) {
+      var x = (i + 0.5) / n * 100 + (r() - 0.5) * 6;
+      var y = 96 - r() * 30;
+      var size = (22 + r() * 26) * cfg.scale;
+      put(box, leafImg(i, size, r() * 360, 0.65 + r() * 0.35, mixSrc(i, r)), x, y);
+    }
+    return box;
+  }
+
+  /* цепочка листьев между блоками */
+  function buildDivider(seed) {
+    var box = wrap('bp-divider');
+    var r = seeded(seed);
+    var n = 7;
+    for (var i = 0; i < n; i++) {
+      var t = (i + 0.5) / n;
+      var x = 50 + (t - 0.5) * 76;
+      var y = 50 + Math.sin(t * Math.PI * 2) * 18;
+      var size = (22 + 20 * Math.sin(Math.PI * t)) * cfg.scale;
+      put(box, leafImg(i, size, (i % 2 ? 1 : -1) * (25 + r() * 90), 0.8 + r() * 0.2, mixSrc(i, r)), x, y);
+    }
+    return box;
+  }
+
+  function place() {
+    if (!HAS_IMGS) return;   // весь набор построен на картинках
+
+    (cfg.corners || []).forEach(function (id, i) {
+      var rec = document.getElementById(rid(id));
+      if (!rec) return;
+      host(rec);
+      var box = buildCorner(3100 + i * 97);
+      box.setAttribute('data-pos', ['tr', 'bl', 'br', 'tl'][i % 4]);
+      rec.insertBefore(box, rec.firstChild);
+    });
+
+    (cfg.topStrips || []).forEach(function (id, i) {
+      var rec = document.getElementById(rid(id));
+      if (!rec) return;
+      host(rec);
+      rec.insertBefore(buildTopStrip(4200 + i * 61), rec.firstChild);
+    });
+
+    (cfg.bottomStrips || []).forEach(function (id, i) {
+      var rec = document.getElementById(rid(id));
+      if (!rec) return;
+      host(rec);
+      rec.appendChild(buildBottomStrip(5300 + i * 43));
+    });
+
+    (cfg.dividersAfter || []).forEach(function (id, i) {
+      var rec = document.getElementById(rid(id));
+      if (!rec || !rec.parentNode) return;
+      rec.parentNode.insertBefore(buildDivider(6400 + i * 29), rec.nextSibling);
+    });
+  }
+
+  /* картинки могут ещё грузиться — ждём их, потом раскладываем */
+  function whenReady(cb) {
+    if (!HAS_IMGS) return cb();
+    var all = IMGS.concat(DECOR);
+    var left = all.length, done = false;
+    function tick() { if (--left <= 0 && !done) { done = true; cb(); } }
+    all.forEach(function (im) {
+      if (im.complete) tick();
+      else { im.addEventListener('load', tick); im.addEventListener('error', tick); }
+    });
+    setTimeout(function () { if (!done) { done = true; cb(); } }, 4000);
+  }
+
+  function go() { setTimeout(function () { whenReady(place); }, 300); }
+  if (document.readyState === 'complete') go();
+  else window.addEventListener('load', go);
+
+  window.barskieLayer = { start: start, stop: stop, place: place };
+})();
+
+
+(function () {
+  setTimeout(function () {
+    if (document.querySelector('.bp')) return;
+    if (window.barskieLayer && window.barskieLayer.place) window.barskieLayer.place();
+  }, 12000);
+
+  var видел = {};
+  function проверить(box) {
+    if (!box.classList || !box.classList.contains('bp')) return;
+    var хозяин = box.closest ? box.closest('.bp-host') : null;
+    var k = (хозяин ? хозяин.id : 'между') + '|' + box.className +
+            '|' + (box.getAttribute('data-pos') || '');
+    if (видел[k]) { if (box.parentNode) box.parentNode.removeChild(box); }
+    else видел[k] = true;
+  }
+  new MutationObserver(function (записи) {
+    записи.forEach(function (з) {
+      Array.prototype.forEach.call(з.addedNodes, function (n) {
+        if (n.nodeType === 1) проверить(n);
+      });
+    });
+  }).observe(document.body, { childList: true, subtree: true });
+})();
+</script>

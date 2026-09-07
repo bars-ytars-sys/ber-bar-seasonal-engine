@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Зимняя сказка — Барские поля</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=Rubik:wght@300;400;500&display=swap">
+<style>
+:root{
+  --фон:#314c44;
+  --панель:#36564b;
+  --текст:#eee5d5;
+  --акцент:#ee995d;
+  --кнопка:#995d2f;
+  --кнопка-навод:#a36434;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--фон);color:var(--текст);font-family:'Rubik',Arial,sans-serif;
+     font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.полоса{max-width:1200px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
+
+/* ── шапка ── */
+.шапка{display:flex;align-items:center;justify-content:space-between;
+       padding:22px 0;border-bottom:1px solid rgba(238,229,213,.12)}
+.лого{font-family:'Lora',Georgia,serif;font-size:22px;letter-spacing:.12em;text-transform:uppercase}
+.телефон{font-size:15px;text-align:right}
+.телефон span{display:block;font-size:12px;opacity:.6}
+
+/* ── обложка ── */
+.обложка{padding:70px 0 64px;text-align:center;position:relative;overflow:hidden}
+.обложка img{display:block;margin:0 auto;opacity:.85}
+.гирлянда{width:min(1100px,92%)}
+.деревья{width:min(320px,60%);margin-top:-18px!important}
+.обложка h1{font-size:clamp(46px,8vw,104px);line-height:1;text-transform:uppercase;
+            margin:26px 0 0;letter-spacing:.02em}
+.подзаголовок{margin-top:20px;font-size:19px;color:var(--акцент)}
+.ночи{margin-top:8px;font-size:15px;opacity:.75;font-weight:300}
+
+/* ── постер и описание ── */
+.описание{background:var(--панель);border-radius:6px;padding:34px;
+          display:grid;grid-template-columns:390px 1fr;gap:44px;align-items:start}
+.описание img{width:100%;display:block;border-radius:4px}
+.описание h2{font-size:30px;color:var(--акцент);text-transform:uppercase;margin-bottom:20px}
+.описание p{margin-bottom:16px}
+.список{list-style:none;margin:22px 0}
+.список li{position:relative;padding-left:26px;margin-bottom:11px}
+.список li::before{content:'';position:absolute;left:2px;top:11px;width:7px;height:7px;
+                   border-radius:50%;background:var(--акцент)}
+.мелко{font-size:14px;opacity:.75;font-weight:300}
+.кнопка{display:inline-block;margin-top:22px;padding:15px 34px;border-radius:4px;
+        background:var(--кнопка);color:#fff;text-decoration:none;font-size:15px}
+.кнопка:hover{background:var(--кнопка-навод)}
+
+/* ── программа ── */
+.раздел{padding:76px 0 0}
+.раздел h2{font-size:34px;text-transform:uppercase;text-align:center;margin-bottom:38px}
+.дни{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.день{background:var(--панель);border-radius:6px;padding:30px 32px}
+.день__дата{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--акцент)}
+.день__имя{font-size:23px;margin:10px 0 14px;text-transform:uppercase;line-height:1.25}
+.день__текст{font-size:15px;opacity:.9}
+.приписка{margin-top:24px;text-align:center;font-size:14px;opacity:.7;font-weight:300}
+
+/* ── дома ── */
+.дома{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.дом{background:var(--панель);border-radius:6px;padding:28px}
+.дом__имя{font-size:22px;text-transform:uppercase;color:var(--акцент)}
+.дом__свойства{margin:8px 0 12px;font-size:13px;letter-spacing:.02em;opacity:.7}
+.дом__текст{font-size:15px;opacity:.9}
+.дома-приписка{margin-top:18px;font-size:14px;opacity:.7;font-weight:300;text-align:center}
+
+/* ── низ ── */
+.низ{margin-top:80px;padding:44px 0 60px;border-top:1px solid rgba(238,229,213,.12);
+     text-align:center;font-size:15px;opacity:.8;font-weight:300}
+
+/* ── снег ── */
+.снег{position:fixed;inset:0;pointer-events:none;z-index:5}
+.снежинка{position:absolute;top:-12px;border-radius:50%;background:#fff;opacity:.5;
+          animation:падать linear infinite}
+@keyframes падать{
+  0%{transform:translate3d(0,-12px,0)}
+  100%{transform:translate3d(24px,105vh,0)}
+}
+@media(prefers-reduced-motion:reduce){.снежинка{display:none}}
+
+@media(max-width:900px){
+  .описание{grid-template-columns:1fr;gap:26px;padding:24px}
+  .дни,.дома{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="снег" aria-hidden="true"></div>
+
+<header class="шапка полоса">
+  <div class="лого">Барские поля</div>
+  <div class="телефон">+7 (495) 150-39-08<span>Принимаем звонки с 9:00 до 24:00</span></div>
+</header>
+
+<section class="обложка полоса">
+  <img class="гирлянда" src="https://static.tildacdn.com/tild3638-6438-4366-b766-613130643330/_.svg" alt="">
+  <img class="деревья" src="https://static.tildacdn.com/tild3533-3034-4864-a235-613732613230/___.svg" alt="">
+  <h1>Зимняя сказка</h1>
+  <p class="подзаголовок">Новогодний заезд 31 декабря — 3 января</p>
+  <p class="ночи">Три ночи в зимнем лесу, час от Москвы</p>
+</section>
+
+<section class="полоса">
+  <div class="описание">
+    <img src="demo/assets/bp-zima-poster.png" alt="Зимняя сказка в Барских полях">
+    <div>
+      <h2>Зимняя сказка в Барских полях</h2>
+      <p>❄️ Новый год за городом — это когда снег скрипит под ногами, в доме натоплено,
+        а на террасе парит банный чан. Час от Москвы по Новорижскому шоссе — и вы
+        в зимнем лесу, а не в пробке.</p>
+      <ul class="список">
+        <li>Дом с ёлкой и гирляндами — заезжаете в уже наряженный.</li>
+        <li>Банный чан у террасы каждого дома — прямо в снегу.</li>
+        <li>Баня и сауна: в Барском доме сауна прямо внутри.</li>
+        <li>Ферма с кроликами, шиншиллами, козочками и павлинами — бесплатно.</li>
+        <li>Игровая комната «Детский мир» — дети заняты, вы отдыхаете.</li>
+        <li>Русские народные костюмы выдаём бесплатно — для фото у ёлки.</li>
+      </ul>
+      <p class="мелко">Новогодний стол — на ваше усмотрение: полноценная кухня в каждом доме,
+        можно привезти своё или заказать кейтеринг. Для большой компании сдаётся
+        крытая веранда с грилем и колонкой.</p>
+      <p class="мелко">Заезд с 16:00, выезд до 13:00. Оплата частями через «Яндекс Сплит».
+        Стоимость зависит от дома — уточните у менеджера.</p>
+      <a class="кнопка" href="https://barskie-polya.ru/booking?dfrom=2026-12-31&amp;dto=2027-01-03&amp;adults=2&amp;scroll_to_rooms=1">Забронировать новогодний заезд</a>
+    </div>
+  </div>
+</section>
+
+<section class="раздел полоса">
+  <h2>Программа зимней сказки</h2>
+  <div class="дни">
+      <article class="день">
+        <div class="день__дата">31 декабря</div>
+        <h3 class="день__имя">Встречаем год по-барски</h3>
+        <p class="день__текст">Приезжаете без спешки, размещаетесь в наряженном доме. Кто хочет — сразу в чан, кто хочет — накрывать стол. Ближе к полуночи выходим на улицу: бой курантов под открытым небом, на снегу, с бенгальскими огнями.</p>
+      </article>
+      <article class="день">
+        <div class="день__дата">1 января</div>
+        <h3 class="день__имя">День, который не хочется торопить</h3>
+        <p class="день__текст">Позднее утро и неспешный завтрак. Днём — прогулка на ферму к животным, снежные забавы во дворе, детская комната для тех, кто помладше. Вечером снова тепло: баня, чан, самовар с алтайским чаем, мёд и сушки.</p>
+      </article>
+      <article class="день">
+        <div class="день__дата">2 января</div>
+        <h3 class="день__имя">Зимние забавы</h3>
+        <p class="день__текст">Гуляем, катаемся, топим чан. Фото у ёлки в русских народных костюмах — костюмы выдаём бесплатно. Вечер по своему сценарию: у кого-то тихий, у кого-то шумный.</p>
+      </article>
+      <article class="день">
+        <div class="день__дата">3 января</div>
+        <h3 class="день__имя">Тёплые проводы</h3>
+        <p class="день__текст">Спокойное утро, последний чан и дорога домой. Уезжаете отдохнувшими — и обычно уже с датами следующего приезда.</p>
+      </article>
+  </div>
+  <p class="приписка">Программа дополняется. Точный распорядок пришлём перед заездом.</p>
+</section>
+
+<section class="раздел полоса">
+  <h2>Дома</h2>
+  <div class="дома">
+      <article class="дом">
+        <h3 class="дом__имя">Ривер и Гарден</h3>
+        <p class="дом__свойства">4 спальных места · 55 м² · два этажа</p>
+        <p class="дом__текст">Своя территория и банный чан у террасы. Ривер — с живой изгородью, Гарден огорожен полностью.</p>
+      </article>
+      <article class="дом">
+        <h3 class="дом__имя">Барнхаус</h3>
+        <p class="дом__свойства">6 спальных мест · 65 м² · один этаж</p>
+        <p class="дом__текст">Просторный дом со своей территорией и банным чаном у террасы — для компании без суеты.</p>
+      </article>
+      <article class="дом">
+        <h3 class="дом__имя">Барский дом</h3>
+        <p class="дом__свойства">6 спальных мест · 95 м² · один этаж</p>
+        <p class="дом__текст">Самый большой: банный чан у террасы и сауна прямо в доме.</p>
+      </article>
+  </div>
+  <p class="дома-приписка">При бронировании от 3 домов цена за дополнительного гостя не взимается.</p>
+</section>
+
+<footer class="низ полоса">
+  Московская область, Новорижское шоссе, деревня Степаньково · barskie-polya.ru
+</footer>
+
+<script>
+/* Снег: несколько десятков точек со своим размером, скоростью и сдвигом,
+   чтобы не выглядело сеткой. Двигаем только transform — страница
+   от этого не пересчитывается. */
+(function () {
+  var поле = document.querySelector('.снег');
+  for (var i = 0; i < 60; i++) {
+    var с = document.createElement('i');
+    с.className = 'снежинка';
+    var р = 2 + Math.random() * 4;
+    с.style.width = с.style.height = р.toFixed(1) + 'px';
+    с.style.left = (Math.random() * 100).toFixed(2) + '%';
+    с.style.opacity = (0.25 + Math.random() * 0.45).toFixed(2);
+    с.style.animationDuration = (9 + Math.random() * 14).toFixed(1) + 's';
+    с.style.animationDelay = (-Math.random() * 20).toFixed(1) + 's';
+    поле.appendChild(с);
+  }
+})();
+</script>
+</body>
+</html>

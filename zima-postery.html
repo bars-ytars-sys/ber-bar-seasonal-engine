@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Постеры «Зимняя сказка» — на согласование</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400&family=Rubik:wght@300;400&display=swap">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#314c44;color:#eee5d5;font-family:'Rubik',Arial,sans-serif;line-height:1.6}
+.полоса{max-width:1200px;margin:0 auto;padding:48px 24px 80px}
+h1{font-family:'Lora',Georgia,serif;font-weight:400;font-size:36px;text-transform:uppercase}
+.лид{margin-top:12px;opacity:.8;font-weight:300;max-width:60ch}
+.пара{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:40px}
+figure{background:#36564b;border-radius:6px;padding:20px}
+figure img{width:100%;display:block;border-radius:4px}
+figcaption{margin-top:16px}
+.имя{font-family:'Lora',Georgia,serif;font-size:22px;color:#ee995d}
+.опис{margin-top:8px;font-size:15px;opacity:.85;font-weight:300}
+a{color:#f0c59a}
+@media(max-width:860px){.пара{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="полоса">
+  <h1>Зимняя сказка — постеры на выбор</h1>
+  <p class="лид">Два варианта одного постера: текст и вёрстка одинаковые, отличается только фон.
+    Скажите, какой берём, — он встанет на страницу и пойдёт в соцсети.</p>
+
+  <div class="пара">
+    <figure>
+      <img src="demo/assets/bp-zima-poster-dom.png" alt="Постер на фото дома базы">
+      <figcaption>
+        <div class="имя">Вариант 1 — наш дом</div>
+        <p class="опис">Сделан из реального снимка с сайта: тот же дом, та же дверь, тот же ракурс.
+          Зима, снег, ёлка с гирляндой и свет в окнах добавлены поверх. Гость узнаёт базу.</p>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <img src="demo/assets/bp-zima-poster.png" alt="Постер на нарисованном фоне">
+      <figcaption>
+        <div class="имя">Вариант 2 — нарисованный вечер</div>
+        <p class="опис">Полностью нарисованный кадр: дом с тёплыми окнами, наряженная ёлка,
+          парящий чан в снегу, сосны. Красивее по картинке, но это не наша база.</p>
+      </figcaption>
+    </figure>
+  </div>
+
+  <p class="лид" style="margin-top:40px">Страница целиком —
+    <a href="zima.html">посмотреть демо «Зимней сказки»</a>.</p>
+</div>
+</body>
+</html>

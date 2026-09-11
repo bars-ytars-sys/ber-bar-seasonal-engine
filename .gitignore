@@ -15,3 +15,20 @@ prompt-*.md
 screens-barskie/
 screens-preview/
 ban*.jpg
+
+# ключи Tilda API — в репозиторий не кладём
+mcp/.tilda_keys
+
+# ключ kie.ai — в репозиторий не кладём
+tools/.kie_key
+.kie_key
+
+# результаты инструментов проверки — временные
+CODEX/tools/out/
+
+# исходники генерации картинок (4K, по 3–27 МБ) — в репозиторий не идут
+demo/assets/bp-zima-ng-*.png
+demo/assets/bp-zima-ng-a.webp
+demo/assets/bp-zima-ng-b-4k.webp
+demo/assets/bp-hero-*.jpg
+demo/assets/bp-dom-*.jpg

@@ -21,6 +21,17 @@ const записать = (папка, имя, текст) => {
   console.log(`  ${папка}/${имя}  ${(текст.length / 1024).toFixed(0)} КБ`);
 };
 
+/* Замер на телефонах: угловая веточка на блоке «Посмотреть все дома»
+   садится прямо на кнопку — набор расставляет углы сам, а на узком
+   экране блок короче. На десктопе там всё в порядке, поэтому убираем
+   только на телефонах. */
+const ПРАВКА_ТЕЛЕФОН = `
+@media(max-width:639px){
+  #rec2851363001 .au-sprig,
+  #rec2851363001 .au2,
+  #rec2851363001 > svg{display:none!important}
+}`;
+
 const стиль = (файл) => {
   const m = /<style[^>]*>([\s\S]*?)<\/style>/.exec(read('tilda', файл));
   if (!m) throw new Error(`в ${файл} не найден <style>`);
@@ -66,6 +77,41 @@ ${стиль('1HEAD.html')}
 ${стиль('4HEADPACK2.html')}
 </style>
 `);
+
+/* Холст листопада и боковые полосы закреплены за окном браузера и едут
+   за гостем через весь сайт. Здесь они живут на первом экране и гаснут
+   к полутора экранам прокрутки. */
+const РАСТВОРЕНИЕ = `
+(function () {
+  var КОНЕЦ = 1.5;              /* к скольким экранам прокрутки исчезнут */
+  var слои = [];
+  function собрать() {
+    слои = [document.getElementById('au-canvas')]
+      .concat([].slice.call(document.querySelectorAll('.au2-side')))
+      .filter(Boolean);
+  }
+  var ждём = false;
+  function пересчёт() {
+    ждём = false;
+    собрать();
+    if (!слои.length) return;
+    var предел = window.innerHeight * КОНЕЦ;
+    var доля = Math.min(1, (window.pageYOffset || document.documentElement.scrollTop || 0) / предел);
+    for (var i = 0; i < слои.length; i++) {
+      var слой = слои[i];
+      /* У боковых полос своя прозрачность в наборе — гасим от неё. */
+      if (!слой.dataset.auBase) слой.dataset.auBase = getComputedStyle(слой).opacity || '1';
+      var прозрачность = parseFloat(слой.dataset.auBase) * (1 - доля);
+      /* В наборе прозрачность задана через !important — пишем так же. */
+      слой.style.setProperty('opacity', прозрачность.toFixed(3), 'important');
+      слой.style.visibility = прозрачность < 0.01 ? 'hidden' : '';
+    }
+  }
+  function покадрово() { if (!ждём) { ждём = true; requestAnimationFrame(пересчёт); } }
+  window.addEventListener('scroll', покадрово, { passive: true });
+  window.addEventListener('resize', покадрово, { passive: true });
+  [0, 400, 1200, 2500, 6000].forEach(function (ms) { setTimeout(пересчёт, ms); });
+})();`;
 
 записать('Берёзовая-роща', '2-BODY.html',
 `<!-- БЕРЁЗОВАЯ РОЩА — часть 2 из 3: СКРИПТЫ
@@ -259,9 +305,9 @@ ${скрипты}
 `);
 
 однимБлоком('Берёзовая-роща', 'БЕРЁЗОВАЯ РОЩА',
-  стиль('1HEAD.html') + '\n\n' + стиль('4HEADPACK2.html'),
+  стиль('1HEAD.html') + '\n\n' + стиль('4HEADPACK2.html') + '\n' + ПРАВКА_ТЕЛЕФОН,
   скрипты(заполнить(read('tilda', '2BODY.html'), ЭКО1)) + '\n' +
-  скрипты(заполнить(read('tilda', '5BODYPACK2.html'), ЭКО2)));
+  скрипты(заполнить(read('tilda', '5BODYPACK2.html'), ЭКО2)) + '\n' + РАСТВОРЕНИЕ);
 
 /* Вшивать листья прямо в код оказалось громоздко: один блок на 300 тысяч
    символов. Берём их по ссылке — файлы лежат в нашем репозитории и
@@ -315,6 +361,24 @@ const сФото = (текст) => текст.replace(/ФОТО_([a-z-]+\.webp)/
 <style>
 #rec1655343021 [data-group-id="1785352752557000001"],
 #rec1655343021 [data-elem-id="1785352752557000001"]{display:none!important}
+
+/* Окно занимало слишком много экрана. Уменьшаем целиком, а не по
+   частям: Zero Block считает раскладку сам, и правка отдельных
+   элементов ловит съехавшую вёрстку.
+   Точка отсчёта — правый нижний угол: zoom уменьшал коробку от левого
+   верхнего, и окно уезжало к середине экрана. */
+/* Всплывающее окно занимало слишком много экрана. Масштабируем весь его
+   артборд: фотография, текст и кнопка — отдельные элементы рядом с
+   карточкой, и сжатие одной карточки их не двигает.
+   Точка отсчёта — правый нижний угол экрана, там окно и висит; при
+   отсчёте от левого верхнего оно уезжает к середине. */
+#rec2461410871 .t396__artboard{
+  transform:scale(.8)!important;
+  transform-origin:100% 100%!important;
+}
+@media(max-width:639px){
+  #rec2461410871 .t396__artboard{transform:scale(.72)!important}
+}
 </style>
 
 <script>
@@ -417,3 +481,115 @@ const сФото = (текст) => текст.replace(/ФОТО_([a-z-]+\.webp)/
 })();
 </script>
 `);
+
+/* ─────────── правки Рощи без редактора ───────────
+   Заголовок блока над карточками, подзаголовок и высота самого блока.
+   В Тильде это правится мышкой, но Zero Block тяжёлый — тот же
+   результат даёт блок с кодом. */
+записать('Берёзовая-роща', '5-BLOK-pravki.html',
+`<!-- БЕРЁЗОВАЯ РОЩА — правки без редактора.
+     Тильда → Библиотека → Другое → T123 (HTML-код).
+     Поставить ПОСЛЕДНИМ блоком на главной.
+
+     Меняет заголовок блока rec1694735441 на «Тёплая осень»,
+     подзаголовок — на «Ради нас берут выходной!» и поджимает сам блок:
+     он высотой 261 при двух строках текста, из-за чего между заголовком
+     и карточками остаётся дыра почти в экран.
+
+     ВАЖНО. Zero Block перерисовывает себя сам — по своим data-атрибутам,
+     при пересчёте размеров и при смене окна. Тогда он возвращает старый
+     текст и старую высоту, а половинчатое состояние выглядит как наезд
+     строк друг на друга. Поэтому здесь стоит наблюдатель: как только
+     Тильда откатывает наше — ставим обратно. Событий не рассылаем,
+     иначе получается бесконечный пересчёт и страницу трясёт. -->
+<script>
+(function () {
+  var ЗАГОЛОВОК = 'Тёплая осень';
+  var ПОДЗАГОЛОВОК = 'Ради нас берут выходной!';
+
+  var ВЫСОТА = { '': 155, '-res-960': 162, '-res-640': 168 };
+  var ВЕРХ = {
+    '1765543910875':       { '': 30, '-res-960': 28, '-res-640': 28 },
+    '1774001435540000002': { '': 94, '-res-960': 100, '-res-640': 105 }
+  };
+
+  var свои = false;          /* правим сейчас сами — наблюдателю не мешать */
+  var занято = false;        /* пересчёт уже идёт */
+
+  function пересчитать() {
+    if (занято) return;
+    занято = true;
+    try { if (window.t396_initialScale) window.t396_initialScale('1694735441'); }
+    catch (e) {}
+    setTimeout(function () { занято = false; }, 600);
+  }
+
+  function правка() {
+    var rec = document.getElementById('rec1694735441');
+    if (!rec) return false;
+
+    var h = rec.querySelector('[field="tn_text_1765543910875"]');
+    var s = rec.querySelector('[field="tn_text_1774001435540000002"]');
+    var art = rec.querySelector('.t396__artboard');
+    if (!h || !s || !art) return false;
+
+    var надо = false;
+    свои = true;
+
+    if (h.textContent.trim() !== ЗАГОЛОВОК) { h.textContent = ЗАГОЛОВОК; надо = true; }
+    if (s.textContent.trim() !== ПОДЗАГОЛОВОК) { s.textContent = ПОДЗАГОЛОВОК; надо = true; }
+
+    for (var k in ВЫСОТА) {
+      if (art.getAttribute('data-artboard-height' + k) !== String(ВЫСОТА[k])) {
+        art.setAttribute('data-artboard-height' + k, ВЫСОТА[k]);
+        надо = true;
+      }
+    }
+    for (var id in ВЕРХ) {
+      var el = rec.querySelector('[data-elem-id="' + id + '"]');
+      if (!el) continue;
+      for (var r in ВЕРХ[id]) {
+        if (el.getAttribute('data-field-top' + r + '-value') !== String(ВЕРХ[id][r])) {
+          el.setAttribute('data-field-top' + r + '-value', ВЕРХ[id][r]);
+          надо = true;
+        }
+      }
+    }
+
+    setTimeout(function () { свои = false; }, 50);
+    if (надо) пересчитать();
+    return true;
+  }
+
+  правка();
+  var t = setInterval(function () { if (правка()) clearInterval(t); }, 500);
+  setTimeout(function () { clearInterval(t); }, 30000);
+
+  /* Тильда перерисовывает блок по своим причинам — возвращаем своё. */
+  var rec = document.getElementById('rec1694735441') || document.body;
+  var ждём;
+  new MutationObserver(function () {
+    if (свои) return;
+    clearTimeout(ждём);
+    ждём = setTimeout(правка, 250);
+  }).observe(rec, { childList: true, subtree: true, characterData: true });
+
+  window.addEventListener('resize', function () {
+    clearTimeout(ждём);
+    ждём = setTimeout(правка, 400);
+  }, { passive: true });
+})();
+</script>
+`);
+
+/* ─────────── новый подбор дома вместо опросника ───────────
+   Фотографии вариантов взяты с самого сайта, загружать ничего не нужно.
+   Старый блок rec2486811301 прячется отдельным правилом — оно вшито
+   в этот же файл, чтобы вставка была одна. */
+записать('Берёзовая-роща', '7-BLOK-podbor-doma.html',
+  read('tilda', '8BLOK-KVIZ.html').replace('</style>',
+`
+/* Старый опросник rec2486811301 прячем: подбор занимает его место.
+   В редакторе то же самое делается галочкой «скрыть блок». */
+#rec2486811301{display:none!important}
+</style>`));

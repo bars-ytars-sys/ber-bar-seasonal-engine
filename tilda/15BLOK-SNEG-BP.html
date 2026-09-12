@@ -1,0 +1,82 @@
+<!-- СНЕГОПАД — блок для barskie-polya.ru
+     Тильда → Библиотека → Другое → T123 (HTML-код) → вставить целиком.
+
+     КУДА СТАВИТЬ
+       на одну страницу — любым блоком, лучше последним;
+       сразу на все страницы — Настройки сайта → Ещё → HTML-код
+       для вставки внутрь BODY. Тогда снег идёт по всему сайту
+       и убирается одним движением, когда сезон закончится.
+
+     ЧТО ДЕЛАЕТ. Рисует над страницей тихий снегопад. Слой не ловит
+     мышь — под ним всё нажимается как обычно. Ничего не двигает
+     и не перестраивает: блоки страницы остаются на своих местах.
+
+     КАК СДЕЛАНО, ЧТОБЫ НЕ ТОРМОЗИЛО
+       снежинки двигаются только свойством transform — от этого
+         браузер не пересчитывает раскладку страницы;
+       когда вкладку сворачивают, снег останавливается;
+       на телефоне снежинок вдвое меньше;
+       если в системе включено «уменьшить движение», снега нет вовсе.
+
+     Уберёте блок — страница вернётся к прежнему виду.
+     -->
+<style>
+.bps-sneg{
+  position:fixed;inset:0;overflow:hidden;
+  pointer-events:none;          /* клики проходят насквозь */
+  z-index:880;                  /* ниже всплывающих окон и меню */
+}
+.bps-sneg i{
+  position:absolute;top:-14px;display:block;border-radius:50%;
+  background:#fff;
+  animation-name:bps-padat;
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+  will-change:transform;
+}
+@keyframes bps-padat{
+  from{transform:translate3d(0,-14px,0)}
+  to{transform:translate3d(28px,105vh,0)}
+}
+/* Гостям, которым движение мешает, снег не показываем. */
+@media(prefers-reduced-motion:reduce){ .bps-sneg{display:none} }
+</style>
+
+<script>
+(function () {
+  /* Уменьшить или прибавить снега — здесь. */
+  var СКОЛЬКО = 70;             /* на компьютере */
+  var СКОЛЬКО_ТЕЛЕФОН = 35;
+
+  if (document.querySelector('.bps-sneg')) return;   /* второй раз не заводим */
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var слой = document.createElement('div');
+  слой.className = 'bps-sneg';
+  слой.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(слой);
+
+  var сколько = window.matchMedia('(max-width: 640px)').matches
+    ? СКОЛЬКО_ТЕЛЕФОН : СКОЛЬКО;
+
+  for (var i = 0; i < сколько; i++) {
+    var с = document.createElement('i');
+    var р = 2 + Math.random() * 4;                    /* от 2 до 6 пикселей */
+    с.style.width = с.style.height = р.toFixed(1) + 'px';
+    с.style.left = (Math.random() * 100).toFixed(2) + '%';
+    с.style.opacity = (0.2 + Math.random() * 0.45).toFixed(2);
+    /* Мелкие падают медленнее — так появляется глубина. */
+    с.style.animationDuration = (16 - р + Math.random() * 10).toFixed(1) + 's';
+    с.style.animationDelay = (-Math.random() * 25).toFixed(1) + 's';
+    слой.appendChild(с);
+  }
+
+  /* Во вкладке, которую не смотрят, крутить анимацию незачем. */
+  document.addEventListener('visibilitychange', function () {
+    слой.style.animationPlayState = '';
+    [].forEach.call(слой.children, function (с) {
+      с.style.animationPlayState = document.hidden ? 'paused' : 'running';
+    });
+  });
+})();
+</script>

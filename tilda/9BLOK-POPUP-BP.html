@@ -1,0 +1,242 @@
+<!-- ВСПЛЫВАЮЩЕЕ ОКНО С АКЦИЯМИ — блок для barskie-polya.ru
+     Тильда → Библиотека → Другое → T123 (HTML-код) → вставить целиком.
+     Поставить ЛЮБЫМ блоком на главной, лучше последним: окно само
+     закрепляется у нижнего края экрана и в потоке страницы места
+     не занимает.
+
+     ЧТО ДЕЛАЕТ
+       появляется через 15 секунд после загрузки;
+       показывает три осенние акции с переключением точками и стрелкой;
+       закрыли — больше не показывается сутки (помнит в браузере гостя);
+       на телефоне занимает всю ширину внизу, фото сверху.
+
+     РАЗМЕР. Окно намеренно небольшое — 420 px: оно висит поверх страницы
+     и на широком экране заезжало на правую карточку акций, закрывая
+     строку со скидкой. Узкое окно закрывает только поле у самого края.
+
+     НЕ ЗАКРЫВАЕТ РАБОТУ. Пока в нижней трети экрана блок акций или
+     подбор дома, окно прячется и возвращается, когда гость прокрутил
+     дальше: иначе оно садилось на правую карточку и на последний
+     вариант подбора.
+
+     СТАРОЕ ОКНО ТИЛЬДЫ. Родное окно rec2461410871 отключено правилом
+     ниже: два всплывающих окна на одной странице — перебор. Уберёте
+     этот блок — вернётся прежнее.
+
+     ОФОРМЛЕНИЕ взято с сайта: кремовая карточка #F2E9D0, коричневая
+     кнопка #995D2F, заголовки Lora, текст Rubik.
+     -->
+<div class="bpop" id="bpop" hidden>
+  <button class="bpop__close" type="button" aria-label="Закрыть" data-bpop-close>×</button>
+
+  <div class="bpop__slides">
+
+    <article class="bpop__slide" data-bpop-slide>
+      <div class="bpop__pic" style="background-image:url('ФОТО_bp-banya.webp')"></div>
+      <div class="bpop__body">
+        <h3 class="bpop__t">Банный отдых с самоваром</h3>
+        <p class="bpop__d">Баня, шапки, самовар с алтайским чаем, мёд и сушки.
+          Две программы на выбор — от 8 000 ₽.</p>
+        <a class="bpop__btn" href="https://t.me/bazabarskie_polya" target="_blank" rel="noopener">
+          Уточнить у менеджера</a>
+      </div>
+    </article>
+
+    <article class="bpop__slide" data-bpop-slide hidden>
+      <div class="bpop__pic" style="background-image:url('ФОТО_bp-zavtrak.webp')"></div>
+      <div class="bpop__body">
+        <h3 class="bpop__t">Вкусная осень</h3>
+        <p class="bpop__d">Завтраки в будни — в подарок. По промокоду
+          <b>ОСЕНЬ2026</b>, на брони с 3 сентября.</p>
+        <a class="bpop__btn" href="https://barskie-polya.ru/booking?adults=2&amp;promoCode=%D0%9E%D0%A1%D0%95%D0%9D%D0%AC2026&amp;scroll_to_rooms=1">
+          Забронировать</a>
+      </div>
+    </article>
+
+    <article class="bpop__slide" data-bpop-slide hidden>
+      <div class="bpop__pic" style="background-image:url('ФОТО_bp-family.webp')"></div>
+      <div class="bpop__body">
+        <h3 class="bpop__t">Осенние каникулы</h3>
+        <p class="bpop__d">Скидка 10% на проживание при бронировании пакета
+          до 15 октября. Каникулы с 26 октября по 3 ноября.</p>
+        <a class="bpop__btn" href="https://barskie-polya.ru/booking?dfrom=2026-10-26&amp;dto=2026-10-29&amp;adults=2&amp;scroll_to_rooms=1">
+          Забронировать</a>
+      </div>
+    </article>
+
+  </div>
+
+  <footer class="bpop__nav">
+    <div class="bpop__dots" data-bpop-dots></div>
+    <button class="bpop__next" type="button" aria-label="Следующая акция" data-bpop-next>→</button>
+  </footer>
+</div>
+
+<style>
+/* Цвета сняты с сайта: кремовая карточка, коричневая кнопка, Lora
+   в заголовках. Окно закреплено у нижнего края и не влияет на поток. */
+.bpop{
+  --bp-card:#f2e9d0;
+  --bp-ink:#3a3226;
+  --bp-muted:#7a6a52;
+  --bp-btn:#995d2f;
+  --bp-btn-hover:#a36434;
+  position:fixed;right:24px;bottom:96px;z-index:9000;
+  width:420px;max-width:calc(100vw - 40px);
+  background:var(--bp-card);border-radius:8px;overflow:hidden;
+  box-shadow:0 12px 40px rgba(0,0,0,.28);
+  font-family:'Rubik',Arial,sans-serif;color:var(--bp-ink);
+  opacity:0;transform:translateY(14px);
+  transition:opacity .28s ease,transform .28s ease;
+}
+.bpop *{box-sizing:border-box}
+.bpop[hidden]{display:none!important}
+.bpop.is-in{opacity:1;transform:none}
+/* Пока гость в блоке акций или в подборе дома, окно уходит: оно висит
+   поверх страницы и закрывает как раз правую карточку и последний
+   вариант подбора — то, по чему в этот момент и надо кликать.
+   Прокрутил дальше — окно возвращается. */
+.bpop.is-away{opacity:0;transform:translateY(14px);pointer-events:none}
+
+.bpop__close{
+  position:absolute;top:8px;right:10px;z-index:2;
+  width:28px;height:28px;padding:0;border:0;background:none;cursor:pointer;
+  font-size:24px;line-height:1;color:var(--bp-muted);
+}
+.bpop__close:hover{color:var(--bp-ink)}
+
+.bpop__slide{display:flex;align-items:stretch}
+.bpop__slide[hidden]{display:none!important}
+.bpop__pic{
+  flex:none;width:158px;min-height:172px;
+  background:#ddd center/cover no-repeat;
+}
+.bpop__body{padding:16px 18px 15px;display:flex;flex-direction:column}
+
+.bpop__t{
+  font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400;
+  font-size:17px;line-height:1.25;margin:0 0 8px;padding-right:20px;
+}
+.bpop__d{margin:0 0 12px;font-size:13px;line-height:1.45;color:var(--bp-muted)}
+.bpop__d b{color:var(--bp-ink);font-weight:500}
+
+.bpop__btn{
+  margin-top:auto;align-self:flex-start;display:inline-block;text-decoration:none;
+  font-size:13px;color:#fff;background:var(--bp-btn);
+  border-radius:4px;padding:9px 16px;
+}
+.bpop__btn:hover{background:var(--bp-btn-hover)}
+
+.bpop__nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 14px 9px;background:rgba(0,0,0,.04);
+}
+.bpop__dots{display:flex;gap:7px}
+.bpop__dot{
+  width:8px;height:8px;padding:0;border:0;border-radius:50%;cursor:pointer;
+  background:rgba(122,106,82,.32);
+}
+.bpop__dot.is-on{background:var(--bp-btn)}
+.bpop__next{
+  padding:0;border:0;background:none;cursor:pointer;
+  font-size:20px;line-height:1;color:var(--bp-btn);
+}
+.bpop__next:hover{color:var(--bp-ink)}
+
+@media(max-width:639px){
+  .bpop{left:10px;right:10px;bottom:10px;width:auto}
+  .bpop__slide{display:block}
+  .bpop__pic{width:auto;min-height:140px}
+  .bpop__body{padding:18px 18px 16px}
+  .bpop__t{font-size:18px}
+}
+
+/* Родное окно Тильды выключаем: два всплывающих окна на странице —
+   перебор. Уберёте этот блок — прежнее вернётся. */
+#rec2461410871{display:none!important}
+</style>
+
+<script>
+(function () {
+  var ЗАДЕРЖКА = 15000;          /* через сколько показать, миллисекунды */
+  var ПОМНИТЬ = 24 * 60 * 60 * 1000;  /* сколько не показывать после закрытия */
+  var КЛЮЧ = 'bpopЗакрыто';
+
+  var окно = document.getElementById('bpop');
+  if (!окно) return;
+
+  /* Закрыли недавно — не надоедаем. Приватный режим может запретить
+     хранилище, поэтому любые обращения к нему в try. */
+  try {
+    var было = +localStorage.getItem(КЛЮЧ);
+    if (было && Date.now() - было < ПОМНИТЬ) return;
+  } catch (e) {}
+
+  var слайды = [].slice.call(окно.querySelectorAll('[data-bpop-slide]'));
+  var точки = окно.querySelector('[data-bpop-dots]');
+  var текущий = 0;
+
+  слайды.forEach(function (_, i) {
+    var d = document.createElement('button');
+    d.type = 'button';
+    d.className = 'bpop__dot' + (i ? '' : ' is-on');
+    d.setAttribute('aria-label', 'Акция ' + (i + 1));
+    d.addEventListener('click', function () { показать(i); });
+    точки.appendChild(d);
+  });
+
+  function показать(n) {
+    текущий = (n + слайды.length) % слайды.length;
+    слайды.forEach(function (s, i) { s.hidden = i !== текущий; });
+    [].forEach.call(точки.children, function (d, i) {
+      d.classList.toggle('is-on', i === текущий);
+    });
+  }
+
+  окно.querySelector('[data-bpop-next]').addEventListener('click', function () {
+    показать(текущий + 1);
+  });
+
+  окно.querySelector('[data-bpop-close]').addEventListener('click', function () {
+    окно.classList.remove('is-in');
+    setTimeout(function () { окно.hidden = true; }, 280);
+    try { localStorage.setItem(КЛЮЧ, Date.now()); } catch (e) {}
+  });
+
+  /* Блоки, поверх которых окно висеть не должно. Считаем не «виден ли
+     блок вообще», а «попадает ли он в нижнюю треть экрана» — именно там
+     стоит окно, выше оно никому не мешает. */
+  var НЕ_МЕШАТЬ = ['.bo-wrap', '.kv'];
+  function следить() {
+    if (!('IntersectionObserver' in window)) return;
+    var занято = {};
+    var наблюдатель = new IntersectionObserver(function (записи) {
+      записи.forEach(function (з) { занято[з.target.dataset.bpopKey] = з.isIntersecting; });
+      var мешает = Object.keys(занято).some(function (k) { return занято[k]; });
+      окно.classList.toggle('is-away', мешает);
+    }, { rootMargin: '-62% 0px 0px 0px', threshold: 0 });
+
+    var номер = 0;
+    function собрать() {
+      НЕ_МЕШАТЬ.forEach(function (сел) {
+        document.querySelectorAll(сел).forEach(function (у) {
+          if (у.dataset.bpopKey) return;
+          у.dataset.bpopKey = 'у' + (++номер);
+          наблюдатель.observe(у);
+        });
+      });
+    }
+    собрать();
+    /* Блоки встают не сразу — досматриваем несколько раз. */
+    var т = setInterval(собрать, 1200);
+    setTimeout(function () { clearInterval(т); }, 30000);
+  }
+
+  setTimeout(function () {
+    окно.hidden = false;
+    следить();
+    /* Кадр на отрисовку — иначе переход не сыграет. */
+    requestAnimationFrame(function () { окно.classList.add('is-in'); });
+  }, ЗАДЕРЖКА);
+})();
+</script>

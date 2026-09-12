@@ -54,7 +54,11 @@ const ИКОНКИ = {
   часы: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
   дом: '<path d="M4 11 12 4l8 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/>',
   карта: '<rect x="3" y="6" width="18" height="12.5" rx="2"/><path d="M3 10h18M7 15h4"/>',
-  снежинка: '<path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/><path d="m9.5 4.5 2.5 2 2.5-2M9.5 19.5l2.5-2 2.5 2"/>'
+  снежинка: '<path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/><path d="m9.5 4.5 2.5 2 2.5-2M9.5 19.5l2.5-2 2.5 2"/>',
+  трубка: '<path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5Z"/>',
+  чат: '<path d="M20.5 12.5c0 4-3.8 7-8.5 7-1 0-2-.14-2.9-.4L4 21l1.3-3.6C4.2 16.1 3.5 14.4 3.5 12.5c0-4 3.8-7 8.5-7s8.5 3 8.5 7Z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/>',
+  галка: '<path d="m6 9.5 6 6 6-6"/>',
+  календарь: '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3.5v3M16 3.5v3"/><path d="M7.5 14h3v3h-3z"/>'
 };
 const иконка = (имя, класс = 'иконка') =>
   `<svg class="${класс}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ИКОНКИ[имя]}</svg>`;
@@ -165,6 +169,8 @@ const программа = [
   ['31 декабря — Дед Мороз и Снегурочка', Ф('tild3464-3537-4638-b134-336139313930', 'konnaa-ezda-na-.jpg'),
    'Поздравления от главных волшебников праздника — встречайте, фотографируйтесь и вручайте подарки своим детям!']
 ];
+/* якоря разделов расширенной страницы — в том же порядке, что и карточки */
+const ЯКОРЯ = ['loterea', 'elka', 'fotozony', 'podarki', 'razvlecheniya', 'ded-moroz'];
 
 const вопросы = [
   ['Во сколько заезд и выезд?',
@@ -197,12 +203,13 @@ const дома = [
    ФОТО_ДОМОВ.шале]
 ];
 
-const карточкаПрограммы = ([имя, фото, текст]) => `
+const карточкаПрограммы = ([имя, фото, текст], i) => `
       <article class="праздник">
         <div class="праздник__фото" style="background-image:url('${фото}')"></div>
         <div class="праздник__низ">
           <h3 class="праздник__имя">${имя}</h3>
           <div class="праздник__текст">${текст.startsWith('<') ? текст : '<p>' + текст + '</p>'}</div>
+          <a class="подробнее" href="${ПОДРОБНО}#${ЯКОРЯ[i]}">Подробнее<span aria-hidden="true">→</span></a>
         </div>
       </article>`;
 
@@ -223,6 +230,8 @@ const карточкаДома = ([имя, свойства, текст, фот�
       </article>`;
 
 const БРОНЬ = 'https://barskie-polya.ru/booking?dfrom=2026-12-31&amp;dto=2027-01-03&amp;adults=2&amp;scroll_to_rooms=1';
+/* Третий уровень: отдельная страница со всей программой (demo/build-zima-programma.mjs) */
+const ПОДРОБНО = 'zima-programma.html';
 
 const html = `<!doctype html>
 <html lang="ru">
@@ -462,6 +471,75 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
 .ждёт.видно{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.ждёт{opacity:1;transform:none;transition:none}}
 
+/* ── липкая навигация по разделам ── */
+html{scroll-behavior:smooth}
+section[id]{scroll-margin-top:92px}
+.навигация{position:sticky;top:0;z-index:30;background:rgba(26,42,36,.92);backdrop-filter:blur(12px);
+           border-bottom:1px solid rgba(238,229,213,.14)}
+.навигация__полоса{display:flex;gap:10px;align-items:center;max-width:1200px;margin:0 auto;
+                   padding:12px 24px;overflow-x:auto;scrollbar-width:none}
+.навигация__полоса::-webkit-scrollbar{display:none}
+.навигация a{position:relative;white-space:nowrap;text-decoration:none;color:var(--текст);font-size:14.5px;
+             padding:10px 18px;border-radius:999px;background:rgba(238,229,213,.06);
+             box-shadow:inset 0 0 0 1px rgba(238,229,213,.16);transition:background .25s,transform .25s}
+.навигация a:hover{background:rgba(238,229,213,.14);transform:translateY(-1px)}
+.навигация a.активна{color:#ffd9b8;background:rgba(238,153,93,.2);box-shadow:inset 0 0 0 1px rgba(238,153,93,.6)}
+.навигация .бронь{margin-left:auto;color:#fff;font-weight:500;background:var(--кнопка);
+                  box-shadow:0 10px 22px -12px rgba(153,93,47,.95)}
+.навигация .бронь::after{content:'';position:absolute;inset:0;border-radius:999px;animation:пульс 2.8s ease-out infinite}
+@keyframes пульс{0%{box-shadow:0 0 0 0 rgba(238,153,93,.5)}70%{box-shadow:0 0 0 14px rgba(238,153,93,0)}
+                 100%{box-shadow:0 0 0 0 rgba(238,153,93,0)}}
+section:target h2,section:target .заезд__даты{animation:вспышка 1.6s ease-out}
+@keyframes вспышка{0%{color:#ffd9b8;text-shadow:0 0 30px rgba(255,197,143,.8)}100%{color:inherit;text-shadow:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.навигация .бронь::after{animation:none}}
+
+/* ── новогодний заезд: коротко → подробно → вся программа ── */
+.заезд{background:linear-gradient(150deg,#3a5c50,#2f4a41);border-radius:14px;overflow:hidden;
+       box-shadow:0 28px 56px -32px rgba(0,0,0,.6)}
+.заезд__кратко{padding:34px 38px}
+.заезд__даты{display:inline-block;padding:8px 16px;border-radius:999px;color:#ffd9b8;font-size:14px;
+             letter-spacing:.06em;background:rgba(238,153,93,.16);box-shadow:inset 0 0 0 1px rgba(238,153,93,.5)}
+.заезд__лид{margin:18px 0 0;font-size:19px;max-width:660px}
+.заезд__список{list-style:none;display:flex;flex-wrap:wrap;gap:14px 28px;margin:20px 0 24px}
+.заезд__список li{display:flex;align-items:center;gap:10px;font-size:15px;opacity:.92}
+.заезд__список .иконка{width:36px;height:36px;padding:7px;border-radius:50%;flex:none;
+                       background:rgba(238,153,93,.12);box-shadow:inset 0 0 0 1px rgba(238,153,93,.35)}
+.раскрыть{display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;font:inherit}
+.раскрыть .галка{width:16px;height:16px;transition:transform .3s}
+.раскрыть[aria-expanded="true"] .галка{transform:rotate(180deg)}
+.заезд__подробно{padding:0 38px 34px;border-top:1px solid rgba(238,229,213,.14)}
+.заезд__подробно[hidden]{display:none}
+.подробно__сетка{display:grid;grid-template-columns:1fr 1fr;gap:24px 40px;padding:26px 0 4px}
+.подробно__сетка h3{font-size:19px;color:var(--акцент);margin-bottom:10px}
+.подробно__сетка ul{list-style:none}
+.подробно__сетка li{margin-bottom:8px;font-size:15px;opacity:.9;padding-left:18px;text-indent:-18px}
+.подробно__сетка li::before{content:'— '}
+.действия{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+.действие{display:block;padding:20px;border-radius:12px;color:var(--текст);text-decoration:none;
+          background:rgba(20,32,28,.32);box-shadow:inset 0 0 0 1px rgba(238,229,213,.14);
+          transition:background .3s,transform .3s}
+a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px)}
+.действие .иконка{width:38px;height:38px;padding:8px;border-radius:50%;color:var(--акцент);background:rgba(238,153,93,.14)}
+.действие b{display:block;margin:12px 0 4px;font-size:17px;font-weight:500}
+.действие span{display:block;font-size:13.5px;opacity:.75}
+.модуль{display:grid;gap:10px;margin-top:14px}
+.модуль label{display:grid;gap:4px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.модуль input,.модуль select{font:inherit;color:var(--текст);background:rgba(14,24,21,.5);border:0;border-radius:8px;
+                             padding:10px 12px;box-shadow:inset 0 0 0 1px rgba(238,229,213,.18)}
+.модуль .кнопка{margin-top:6px;text-align:center;padding:13px 18px}
+.дальше{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;
+        margin-top:24px;padding-top:18px;border-top:1px solid rgba(238,229,213,.14);font-size:15px}
+.дальше a{display:inline-flex;align-items:center;gap:8px;color:#ffd9b8}
+.дальше a span,.подробнее span{transition:transform .25s}
+.дальше a:hover span,.подробнее:hover span{transform:translateX(4px)}
+.подробнее{display:inline-flex;align-items:center;gap:8px;margin-top:14px;color:#ffd9b8;
+           text-decoration:none;font-size:14.5px}
+@media(max-width:900px){
+  .заезд__кратко{padding:26px 20px}
+  .заезд__подробно{padding:0 20px 26px}
+  .подробно__сетка,.действия{grid-template-columns:1fr}
+}
+
 /* телефон: фото отдельной частью сверху, текст ниже на фоне — чтобы
    заголовок не ложился на фасад дома */
 @media(max-width:700px){
@@ -504,6 +582,17 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
     <a class="вниз" href="#описание" aria-label="Листать вниз"></a>
   </div>
 </section>
+<nav class="навигация" aria-label="Разделы страницы">
+  <div class="навигация__полоса">
+    <a href="#заезд">Заезд</a>
+    <a href="#программа">Программа</a>
+    <a href="#дома">Дома</a>
+    <a href="#включено">Что включено</a>
+    <a href="#вопросы">Вопросы</a>
+    <a class="бронь" href="${БРОНЬ}">Забронировать</a>
+  </div>
+</nav>
+
 <section class="полоса отсчёт-полоса">
   <div class="отсчёт">
     <div class="отсчёт__заг"><span>До Нового года</span>Дома на праздники разбирают заранее</div>
@@ -547,6 +636,63 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
   </div>
 </section>
 
+<section class="раздел полоса" id="заезд">
+  <h2>Новогодний заезд</h2>
+  <div class="заезд">
+    <div class="заезд__кратко">
+      <div class="заезд__даты">31 декабря — 10 января</div>
+      <p class="заезд__лид">Дом уже наряжен, чан топится к вашему приезду, а вокруг — праздничная программа:
+        лотерея при заезде, ёлка с хороводом, Дед Мороз 31 декабря и снежные забавы.</p>
+      <ul class="заезд__список">
+        <li>${иконка('ёлка')}Наряженный дом с порога</li>
+        <li>${иконка('чан')}Банный чан у каждого дома</li>
+        <li>${иконка('часы')}Заезд с 16:00, выезд до 13:00</li>
+      </ul>
+      <button class="кнопка кнопка--контур раскрыть" type="button" aria-expanded="false" aria-controls="заезд-подробно">Подробнее${иконка('галка', 'иконка галка')}</button>
+    </div>
+    <div class="заезд__подробно" id="заезд-подробно" hidden>
+      <div class="подробно__сетка">
+        <div>
+          <h3>Что входит в проживание</h3>
+          <ul>
+            <li>дом с новогодним убранством: ёлка и гирлянды</li>
+            <li>банный чан у дома, топим к приезду (наполнение оплачивается отдельно)</li>
+            <li>ферма с кроликами, шиншиллами, козочками и павлинами — бесплатно</li>
+            <li>детская игровая «Детский мир»</li>
+            <li>русские народные костюмы для фото — бесплатно</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Праздничная программа</h3>
+          <ul>
+            <li>беспроигрышная лотерея при заезде</li>
+            <li>большая ёлка, хоровод и фотозоны с костюмами</li>
+            <li>праздничные сувениры в каждом домике</li>
+            <li>каток, лесная горка, лыжные прогулки, снежные забавы</li>
+            <li>31 декабря — поздравление Деда Мороза и Снегурочки</li>
+          </ul>
+        </div>
+      </div>
+      <div class="действия">
+        <a class="действие" href="tel:+74951503908">${иконка('трубка')}<b>Позвонить</b><span>+7 (495) 150-39-08 · с 9:00 до 24:00</span></a>
+        <a class="действие" href="https://t.me/bazabarskie_polya">${иконка('чат')}<b>Оставить заявку</b><span>менеджер подберёт дом и посчитает стоимость</span></a>
+        <div class="действие">${иконка('календарь')}<b>Подобрать даты</b><span>посмотрим свободные дома на ваши числа</span>
+          <div class="модуль">
+            <label>Заезд<input type="date" id="дата-заезд" value="2026-12-31" min="2026-12-25" max="2027-01-10"></label>
+            <label>Выезд<input type="date" id="дата-выезд" value="2027-01-03" min="2026-12-26" max="2027-01-11"></label>
+            <label>Гостей<select id="гостей"><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>8</option></select></label>
+            <a class="кнопка" id="кнопка-брони" href="${БРОНЬ}">Смотреть свободные дома</a>
+          </div>
+        </div>
+      </div>
+      <div class="дальше">
+        <span>Хотите увидеть программу целиком — по дням и с подробностями?</span>
+        <a href="${ПОДРОБНО}">Вся программа праздников<span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="раздел полоса" id="программа">
   <h2>Праздники в «Барских полях» — отдохни по-барски! 🎅</h2>
   <p class="вступление">Погрузитесь в волшебство зимней сказки и встретьте праздник с русским размахом!
@@ -559,14 +705,14 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
 </section>
 
 <div class="разделитель" aria-hidden="true">${гирлянда()}</div>
-<section class="раздел полоса">
+<section class="раздел полоса" id="дома">
   <h2>Дома</h2>
   <div class="дома">${дома.map(карточкаДома).join('')}
   </div>
   <p class="дома-приписка">При бронировании от 3 домов цена за дополнительного гостя не взимается.</p>
 </section>
 
-<section class="раздел полоса">
+<section class="раздел полоса" id="включено">
   <div class="двое">
     <div class="плита">
       <h3>Новогодний стол</h3>
@@ -585,7 +731,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
 </section>
 
 <div class="разделитель" aria-hidden="true">${гирлянда()}</div>
-<section class="раздел полоса">
+<section class="раздел полоса" id="вопросы">
   <h2>Частые вопросы</h2>
   ${вопросы.map(вопрос).join('')}
 </section>
@@ -606,7 +752,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
   </div>
 </section>
 
-<section class="полоса">
+<section class="полоса" id="заявка">
   <div class="заявка">
     ${гирлянда()}
     <h2>Поможем подобрать дом за 5 минут</h2>
@@ -653,6 +799,56 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
     поля.с.textContent = два(с % 60);
   }
   тик(); setInterval(тик, 1000);
+})();
+
+/* Навигация: подсвечиваем раздел, который сейчас на экране. */
+(function () {
+  var ссылки = [].slice.call(document.querySelectorAll('.навигация a[href^="#"]'));
+  if (!ссылки.length || !('IntersectionObserver' in window)) return;
+  var карта = {}, видимые = {};
+  ссылки.forEach(function (а) {
+    var р = document.getElementById(decodeURIComponent(а.getAttribute('href').slice(1)));
+    if (р) карта[р.id] = а;
+  });
+  var н = new IntersectionObserver(function (записи) {
+    записи.forEach(function (з) { видимые[з.target.id] = з.isIntersecting; });
+    var текущий = Object.keys(карта).filter(function (id) { return видимые[id]; })[0];
+    ссылки.forEach(function (а) { а.classList.remove('активна'); });
+    if (текущий) карта[текущий].classList.add('активна');
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  Object.keys(карта).forEach(function (id) { н.observe(document.getElementById(id)); });
+})();
+
+/* Второй уровень блока заезда: «Подробнее» раскрывает подробности и действия. */
+(function () {
+  var кнопка = document.querySelector('.раскрыть');
+  var блок = document.getElementById('заезд-подробно');
+  if (!кнопка || !блок) return;
+  кнопка.addEventListener('click', function () {
+    var открыт = кнопка.getAttribute('aria-expanded') === 'true';
+    кнопка.setAttribute('aria-expanded', открыт ? 'false' : 'true');
+    блок.hidden = открыт;
+    кнопка.firstChild.textContent = открыт ? 'Подробнее' : 'Свернуть';
+  });
+})();
+
+/* Подбор дат: собираем ссылку в модуль бронирования Bnovo. */
+(function () {
+  var заезд = document.getElementById('дата-заезд');
+  var выезд = document.getElementById('дата-выезд');
+  var гостей = document.getElementById('гостей');
+  var кнопка = document.getElementById('кнопка-брони');
+  if (!заезд || !выезд || !гостей || !кнопка) return;
+  function собрать() {
+    if (выезд.value <= заезд.value) {
+      var д = new Date(заезд.value); д.setDate(д.getDate() + 1);
+      выезд.value = д.toISOString().slice(0, 10);
+    }
+    кнопка.href = 'https://barskie-polya.ru/booking?dfrom=' + заезд.value + '&dto=' + выезд.value +
+                  '&adults=' + гостей.value + '&scroll_to_rooms=1';
+  }
+  [заезд, выезд, гостей].forEach(function (п) { п.addEventListener('change', собрать); });
+  собрать();
 })();
 
 /* Блоки мягко появляются при прокрутке. Класс «ждёт» ставим скриптом —

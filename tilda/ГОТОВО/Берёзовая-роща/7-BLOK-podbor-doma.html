@@ -1,0 +1,327 @@
+<!-- ПОДБОР ДОМА — блок для ecobr.ru, замена нынешнему опроснику
+     Тильда → Библиотека → Другое → T123 (HTML-код) → вставить целиком.
+
+     КУДА СТАВИТЬ: на место блока rec2486811301 «Давайте подберём
+     идеальный дом» — сам блок скрыть галочкой в редакторе.
+
+     ЧТО ИЗМЕНИЛОСЬ ПРОТИВ НЫНЕШНЕГО
+       было пять шагов — стало три, доходит больше людей;
+       подписи вариантов были серым под фото — теперь на самой карточке,
+         читаются сразу, выбранная отмечена мятной рамкой и галочкой;
+       в конце был просто «Отправить» — теперь экран с подбором:
+         какой дом подходит, сколько он вмещает и что в нём есть;
+       прогресс виден крупно и словами, а не мелкой строчкой.
+
+     СБОР КОНТАКТОВ. Здесь его нет намеренно: заявки собирает родная
+     форма сайта, кнопка «Получить сертификат» ведёт на неё (#zayavka).
+     Ничего никуда не отправляется мимо Тильды.
+
+     ОФОРМЛЕНИЕ снято с живых блоков сайта: белая карточка со
+     скруглением 14px, заголовок DespairDisplay заглавными, мятный
+     акцент #2ED8A3, кнопки как у остальных блоков.
+     -->
+<div class="kv" id="kv">
+  <div class="kv__box">
+
+    <header class="kv__head">
+      <h2 class="kv__title">Подберём дом под ваш отдых</h2>
+      <p class="kv__lead">Три вопроса — и мы покажем, какой домик вам подойдёт.
+        А за прохождение подарим сертификат на отдых.</p>
+    </header>
+
+    <div class="kv__bar"><i class="kv__bar-in" data-kv-bar></i></div>
+    <p class="kv__step" data-kv-step>Шаг 1 из 3</p>
+
+    <!-- ── шаг 1 ── -->
+    <section class="kv__q" data-kv-q="0">
+      <h3 class="kv__qt">С кем едете?</h3>
+      <div class="kv__grid">
+        <button class="kv__opt" type="button" data-kv-pick="кто" data-kv-val="семья"
+          style="background-image:url('https://optim.tildacdn.com/tild3930-6534-4539-b936-316463303364/-/resize/360x360/-/format/webp/IMG_3263_1.webp')">
+          <span>Семьёй, с детьми</span></button>
+        <button class="kv__opt" type="button" data-kv-pick="кто" data-kv-val="друзья"
+          style="background-image:url('https://optim.tildacdn.com/tild3737-6439-4835-b861-656430336366/-/resize/360x360/-/format/webp/photo_2026-07-22_10-.jpg.webp')">
+          <span>С друзьями</span></button>
+        <button class="kv__opt" type="button" data-kv-pick="кто" data-kv-val="двое"
+          style="background-image:url('https://optim.tildacdn.com/tild3237-6331-4331-a466-376635303833/-/resize/360x360/-/format/webp/photo_2026-07-22_10-.webp')">
+          <span>Вдвоём</span></button>
+        <button class="kv__opt" type="button" data-kv-pick="кто" data-kv-val="компания"
+          style="background-image:url('https://optim.tildacdn.com/tild3662-3633-4832-a433-313264376533/-/resize/360x360/-/format/webp/27.webp')">
+          <span>Большой компанией</span></button>
+      </div>
+    </section>
+
+    <!-- ── шаг 2 ── -->
+    <section class="kv__q" data-kv-q="1" hidden>
+      <h3 class="kv__qt">Сколько вас будет?</h3>
+      <div class="kv__grid kv__grid--text">
+        <button class="kv__opt kv__opt--text" type="button" data-kv-pick="сколько" data-kv-val="2">
+          <span>Двое</span></button>
+        <button class="kv__opt kv__opt--text" type="button" data-kv-pick="сколько" data-kv-val="4">
+          <span>Трое-четверо</span></button>
+        <button class="kv__opt kv__opt--text" type="button" data-kv-pick="сколько" data-kv-val="6">
+          <span>Пять-шесть</span></button>
+        <button class="kv__opt kv__opt--text" type="button" data-kv-pick="сколько" data-kv-val="8">
+          <span>Семь-восемь</span></button>
+        <button class="kv__opt kv__opt--text" type="button" data-kv-pick="сколько" data-kv-val="9">
+          <span>Больше восьми</span></button>
+      </div>
+    </section>
+
+    <!-- ── шаг 3 ── -->
+    <section class="kv__q" data-kv-q="2" hidden>
+      <h3 class="kv__qt">Что важнее всего?</h3>
+      <div class="kv__grid kv__grid--text">
+        <button class="kv__opt kv__opt--text" type="button" data-kv-pick="важно" data-kv-val="баня">
+          <span>Своя баня и чан</span></button>
+        <button class="kv__opt kv__opt--text" type="button" data-kv-pick="важно" data-kv-val="спа">
+          <span>SPA-комплекс</span></button>
+        <button class="kv__opt kv__opt--text" type="button" data-kv-pick="важно" data-kv-val="тишина">
+          <span>Тишина и лес</span></button>
+        <button class="kv__opt kv__opt--text" type="button" data-kv-pick="важно" data-kv-val="дети">
+          <span>Занятия для детей</span></button>
+      </div>
+    </section>
+
+    <!-- ── результат ── -->
+    <section class="kv__res" hidden data-kv-res>
+      <p class="kv__res-label">Вам подойдёт</p>
+      <h3 class="kv__res-name" data-kv-name></h3>
+      <p class="kv__res-text" data-kv-text></p>
+      <ul class="kv__res-list" data-kv-list></ul>
+      <div class="kv__res-btns">
+        <a class="kv__btn kv__btn--main" data-kv-book href="#">Посмотреть даты</a>
+        <a class="kv__btn" href="#zayavka">Получить сертификат</a>
+      </div>
+      <button class="kv__again" type="button" data-kv-again>Пройти заново</button>
+    </section>
+
+    <div class="kv__nav">
+      <button class="kv__btn kv__btn--ghost" type="button" data-kv-back hidden>Назад</button>
+    </div>
+
+  </div>
+</div>
+
+<style>
+/* Оформление снято с живых блоков сайта: белая карточка, скругление 14px,
+   заголовки DespairDisplay заглавными, мятный акцент, кнопки как везде. */
+.kv{
+  --kv-accent:#2ed8a3;
+  --kv-ink:#1a1b19;
+  --kv-muted:#6c7370;
+  --kv-line:#eceeed;
+  --kv-btn-bg:#f4f6fb;
+  max-width:1200px;margin:0 auto;padding:0 20px;box-sizing:border-box;
+  font-family:'TildaSans',Arial,sans-serif;color:var(--kv-ink);
+}
+.kv *{box-sizing:border-box}
+.kv [hidden]{display:none!important}
+.kv__box{background:#fff;border-radius:14px;padding:38px 40px 34px}
+
+.kv__title{
+  font-family:'DespairDisplay',Arial,sans-serif;font-weight:700;
+  text-transform:uppercase;font-size:30px;line-height:1.2;margin:0 0 10px;
+}
+.kv__lead{margin:0 0 26px;font-size:16px;line-height:1.5;color:var(--kv-muted);max-width:640px}
+
+/* Прогресс: полоса плюс слова — мелкую строчку «шаг 1/5» не читают */
+.kv__bar{height:4px;border-radius:2px;background:var(--kv-line);overflow:hidden}
+.kv__bar-in{
+  display:block;height:100%;width:33%;background:var(--kv-accent);
+  transition:width .25s ease;
+}
+.kv__step{margin:10px 0 22px;font-size:13px;color:var(--kv-muted)}
+
+.kv__qt{
+  font-family:'DespairDisplay',Arial,sans-serif;font-weight:700;
+  text-transform:uppercase;font-size:19px;margin:0 0 18px;
+}
+
+.kv__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kv__grid--text{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+
+/* Вариант с фотографией: подпись лежит на самом снимке, а не серым
+   текстом под ним — так её видно и на телефоне. */
+.kv__opt{
+  position:relative;display:block;height:290px;padding:0;cursor:pointer;
+  border:2px solid transparent;border-radius:12px;overflow:hidden;
+  background:#dfe3e6 center/cover no-repeat;
+  font:inherit;text-align:left;
+}
+.kv__opt::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.66) 0%,rgba(0,0,0,0) 62%);
+}
+.kv__opt span{
+  position:absolute;left:18px;right:18px;bottom:16px;z-index:1;
+  color:#fff;font-size:17px;line-height:1.3;font-weight:600;
+}
+.kv__opt:hover{border-color:rgba(46,216,163,.5)}
+.kv__opt[aria-pressed="true"]{border-color:var(--kv-accent)}
+.kv__opt[aria-pressed="true"]::before{
+  content:"✓";position:absolute;top:10px;right:10px;z-index:2;
+  width:26px;height:26px;border-radius:50%;background:var(--kv-accent);
+  color:#fff;font-size:15px;line-height:26px;text-align:center;
+}
+
+/* Вариант без фотографии — простая карточка */
+.kv__grid--text .kv__opt{
+  height:auto;min-height:74px;display:flex;align-items:center;
+  background:var(--kv-btn-bg);border-color:var(--kv-line);
+}
+.kv__grid--text .kv__opt::after{display:none}
+.kv__grid--text .kv__opt span{
+  position:static;color:var(--kv-ink);font-size:16px;padding:18px 18px 18px 20px;
+}
+.kv__grid--text .kv__opt[aria-pressed="true"]{background:#f0faf6}
+
+.kv__nav{margin-top:22px}
+
+.kv__btn{
+  display:inline-block;text-decoration:none;cursor:pointer;
+  font-family:'DespairDisplay',Arial,sans-serif;font-weight:600;font-size:13.5px;
+  text-transform:uppercase;color:var(--kv-accent);
+  background:var(--kv-btn-bg);border:1px solid var(--kv-accent);border-radius:5px;
+  padding:13px 22px;
+}
+.kv__btn:hover{background:var(--kv-accent);color:#fff}
+.kv__btn--main{background:var(--kv-accent);color:#fff}
+.kv__btn--main:hover{background:#26bd8e;color:#fff}
+.kv__btn--ghost{color:var(--kv-muted);border-color:var(--kv-line);background:#fff}
+.kv__btn--ghost:hover{background:var(--kv-btn-bg);color:var(--kv-ink)}
+
+/* Результат */
+.kv__res-label{margin:0 0 6px;font-size:13px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--kv-muted)}
+.kv__res-name{
+  font-family:'DespairDisplay',Arial,sans-serif;font-weight:700;
+  text-transform:uppercase;font-size:34px;line-height:1.15;margin:0 0 12px;
+}
+.kv__res-text{margin:0 0 16px;font-size:16px;line-height:1.5;max-width:620px}
+.kv__res-list{list-style:none;margin:0 0 24px;padding:0}
+.kv__res-list li{position:relative;padding-left:18px;margin-bottom:7px;font-size:15px}
+.kv__res-list li::before{
+  content:"";position:absolute;left:1px;top:8px;width:6px;height:6px;
+  border-radius:50%;background:var(--kv-accent);
+}
+.kv__res-btns{display:flex;gap:12px;flex-wrap:wrap}
+.kv__again{
+  display:block;margin:18px 0 0;padding:0;border:0;background:none;cursor:pointer;
+  font:inherit;font-size:14px;color:var(--kv-muted);text-decoration:underline;
+}
+.kv__again:hover{color:var(--kv-ink)}
+
+@media(max-width:1023px){
+  .kv__grid{grid-template-columns:1fr 1fr}
+  .kv__box{padding:30px 26px 28px}
+  .kv__title{font-size:25px}
+  .kv__res-name{font-size:28px}
+}
+@media(max-width:639px){
+  .kv{padding:0 14px}
+  .kv__grid{grid-template-columns:1fr;gap:10px}
+  .kv__opt{height:220px}
+  .kv__res-btns{flex-direction:column}
+  .kv__btn{text-align:center}
+}
+
+/* Старый опросник rec2486811301 прячем: подбор занимает его место.
+   В редакторе то же самое делается галочкой «скрыть блок». */
+#rec2486811301{display:none!important}
+</style>
+
+<script>
+(function () {
+  var корень = document.getElementById('kv');
+  if (!корень) return;
+
+  /* Подбор по числу гостей — дома взяты с сайта. */
+  var ДОМА = {
+    2: { имя: 'Баус',
+         гостей: 'до 2 гостей',
+         текст: 'Современный формат отдыха для тех, кто ценит архитектуру, тишину и ощущение пространства.' },
+    4: { имя: 'А-фрейм, Сфера или Холидей Хаус',
+         гостей: 'до 4 гостей',
+         текст: 'А-фрейм — классика загородного отдыха, Сфера — необычный формат с полным погружением в природу, Холидей Хаус — уютный дом для семьи.' },
+    6: { имя: 'Хаус, Шале или Барнхаус',
+         гостей: 'до 5–6 гостей',
+         текст: 'Хаус — просто и по-домашнему, Шале — тёплый дом для неспешных вечеров, Барнхаус — просторный, с характером.' },
+    8: { имя: 'Барилоче, Сканди или Панорама',
+         гостей: 'до 7–8 гостей',
+         текст: 'Барилоче — светлый дом для семьи или компании, Сканди — скандинавская лаконичность, Панорама — флагманский дом базы.' },
+    9: { имя: 'Два дома рядом',
+         гостей: 'больше 8 гостей',
+         текст: 'Самый вместительный дом базы рассчитан на восьмерых. Для компании больше менеджер подберёт два дома по соседству.' }
+  };
+
+  var ДОБАВКИ = {
+    баня:   'Собственная баня и чан у дома',
+    спа:    'SPA-комплекс: бассейн, сауны, зона отдыха',
+    тишина: 'Дальняя часть базы, вокруг только лес',
+    дети:   'Ферма с животными и детская площадка рядом'
+  };
+
+  var ответы = {}, шаг = 0;
+  var ВОПРОСЫ = [].slice.call(корень.querySelectorAll('[data-kv-q]'));
+  var результат = корень.querySelector('[data-kv-res]');
+  var полоса = корень.querySelector('[data-kv-bar]');
+  var подпись = корень.querySelector('[data-kv-step]');
+  var назад = корень.querySelector('[data-kv-back]');
+
+  function показать() {
+    ВОПРОСЫ.forEach(function (q, i) { q.hidden = i !== шаг; });
+    var финал = шаг >= ВОПРОСЫ.length;
+    результат.hidden = !финал;
+    назад.hidden = шаг === 0;
+    полоса.style.width = Math.round((Math.min(шаг, ВОПРОСЫ.length) / ВОПРОСЫ.length) * 100) + '%';
+    подпись.textContent = финал
+      ? 'Готово'
+      : 'Шаг ' + (шаг + 1) + ' из ' + ВОПРОСЫ.length;
+  }
+
+  корень.addEventListener('click', function (e) {
+    var кн = e.target.closest('[data-kv-pick]');
+    if (кн) {
+      var поле = кн.getAttribute('data-kv-pick');
+      ответы[поле] = кн.getAttribute('data-kv-val');
+      /* Отмечаем выбор и сразу идём дальше — лишний «Дальше» не нужен. */
+      [].forEach.call(кн.parentNode.children, function (д) {
+        д.setAttribute('aria-pressed', String(д === кн));
+      });
+      setTimeout(function () { шаг++; показать(); if (шаг >= ВОПРОСЫ.length) собрать(); }, 180);
+      return;
+    }
+    if (e.target.closest('[data-kv-back]')) { if (шаг > 0) { шаг--; показать(); } }
+    if (e.target.closest('[data-kv-again]')) {
+      ответы = {}; шаг = 0;
+      корень.querySelectorAll('[aria-pressed]').forEach(function (д) {
+        д.removeAttribute('aria-pressed');
+      });
+      показать();
+    }
+  });
+
+  function собрать() {
+    var дом = ДОМА[ответы.сколько] || ДОМА[4];
+    корень.querySelector('[data-kv-name]').textContent = дом.имя;
+    корень.querySelector('[data-kv-text]').textContent = дом.текст;
+
+    var список = корень.querySelector('[data-kv-list]');
+    список.innerHTML = '';
+    [дом.гостей, ДОБАВКИ[ответы.важно]].forEach(function (t) {
+      if (!t) return;
+      var li = document.createElement('li');
+      li.textContent = t;
+      список.appendChild(li);
+    });
+
+    /* Число гостей передаём в модуль бронирования. Даты не подставляем:
+       модуль принимает только формат ГГГГ-ММ-ДД, а гость их ещё не выбрал. */
+    корень.querySelector('[data-kv-book]').setAttribute('href',
+      'https://ecobr.ru/booking?adults=' + Math.min(ответы.сколько || 2, 8) + '&scroll_to_rooms=1');
+  }
+
+  показать();
+})();
+</script>

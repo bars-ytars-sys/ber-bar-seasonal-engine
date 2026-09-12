@@ -16,8 +16,11 @@
      ПЕРЕД ВСТАВКОЙ: загрузите три фото из tilda/images в
      Настройки сайта → Файлы и подставьте ссылки вместо ФОТО_…
 
-     КНОПКИ ведут прямо в модуль бронирования с подставленными
-     датами и промокодом — те же параметры, что проверены на Bnovo.
+     КНОПКИ: по баням — в телеграм базы, как и родная кнопка сайта
+     «Связаться с менеджером»: бани онлайн не бронируют. По остальным
+     акциям — в модуль бронирования с промокодом и датами каникул.
+     Дни недели в датах не передаём: модуль их не понимает и вовсе
+     не создаёт iframe — проверено на живом.
      -->
 <div class="bo-wrap">
   <div class="bo-grid">
@@ -45,15 +48,14 @@
               <span class="bo-name">Барский отдых</span>
               <span class="bo-price">8 000 ₽</span>
             </div>
-            <p class="bo-note">Панорама — 12 000 ₽</p>
             <ul class="bo-list">
               <li>Баня и банные шапки</li>
               <li>Самовар и алтайский травяной чай</li>
               <li>Мёд, сушки или орехи — на выбор</li>
               <li>Вода 0,5 л на каждого гостя</li>
             </ul>
-            <a class="bo-btn" href="https://barskie-polya.ru/booking?dfrom=fri&amp;dto=sun&amp;adults=2&amp;scroll_to_rooms=1">
-              Забронировать
+            <a class="bo-btn" href="https://t.me/bazabarskie_polya" target="_blank" rel="noopener">
+              Уточнить у менеджера
             </a>
           </div>
 
@@ -70,8 +72,8 @@
               <li>Вода 0,5 л на каждого гостя</li>
               <li>Холодный чан (купель)</li>
             </ul>
-            <a class="bo-btn" href="https://barskie-polya.ru/booking?dfrom=fri&amp;dto=sun&amp;adults=4&amp;scroll_to_rooms=1">
-              Забронировать
+            <a class="bo-btn" href="https://t.me/bazabarskie_polya" target="_blank" rel="noopener">
+              Уточнить у менеджера
             </a>
           </div>
         </div>
@@ -92,7 +94,7 @@
         <div class="bo-promo" data-code="ОСЕНЬ2026">
           <span>ОСЕНЬ2026</span><small>нажмите, чтобы скопировать</small>
         </div>
-        <a class="bo-btn" href="https://barskie-polya.ru/booking?dfrom=mon&amp;dto=thu&amp;adults=2&amp;promoCode=%D0%9E%D0%A1%D0%95%D0%9D%D0%AC2026&amp;scroll_to_rooms=1">
+        <a class="bo-btn" href="https://barskie-polya.ru/booking?adults=2&amp;promoCode=%D0%9E%D0%A1%D0%95%D0%9D%D0%AC2026&amp;scroll_to_rooms=1">
           Забронировать с промокодом
         </a>
         <p class="bo-terms">Акции не суммируются.</p>
@@ -113,7 +115,7 @@
           <li>Скидка 10% на проживание при бронировании пакета
               до 15 октября 2026</li>
         </ul>
-        <a class="bo-btn" href="https://barskie-polya.ru/booking?dfrom=2026-10-26&amp;dto=2026-10-29&amp;adults=2&amp;children=2&amp;scroll_to_rooms=1">
+        <a class="bo-btn" href="https://barskie-polya.ru/booking?dfrom=2026-10-26&amp;dto=2026-10-29&amp;adults=2&amp;scroll_to_rooms=1">
           Забронировать каникулы
         </a>
         <p class="bo-terms">Акции не суммируются.</p>
@@ -147,6 +149,7 @@
 /* Оговорка внизу карточки, под кнопкой: относится к своей акции. */
 .bo-terms{margin:14px 0 0;font-size:12.5px;color:var(--bo-muted)}
 
+.bo-grid.is-open{align-items:start}
 .bo-card{background:var(--bo-card);border-radius:4px;overflow:hidden;display:flex;flex-direction:column}
 .bo-pic{height:240px;background-size:cover;background-position:center;background-repeat:no-repeat;flex:none}
 .bo-body{padding:26px 26px 28px;display:flex;flex-direction:column;flex:1}
@@ -236,6 +239,8 @@
       var open = t.getAttribute('aria-expanded') === 'true';
       t.setAttribute('aria-expanded', String(!open));
       panel.hidden = open;
+      var сетка = t.closest('.bo-grid');
+      if (сетка) сетка.classList.toggle('is-open', !open);
       t.textContent = open ? 'Выбрать программу' : 'Свернуть';
     });
   }

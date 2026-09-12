@@ -1,0 +1,52 @@
+<!-- ====================================================================
+     ОТЛОЖЕННЫЕ ФОТО — Берёзовая роща, главная
+
+     Зачем. На телефоне главная грузит сразу 17 фото из блоков далеко
+     внизу — карточки домов (9-й блок, ~5000 px от верха), СПА-комплекс
+     (12-й) и два блока, которые на телефоне вообще скрыты. Они идут
+     в одной очереди с первой картинкой слайдера, и та появляется только
+     на 17-й секунде (замер 11.09.2026, медленный 4G).
+
+     Как. Фото в этих блоках вставлены фоном прямо в style — Тильда их
+     не откладывает. Правило ниже временно убирает фон, а когда гость
+     подходит к блоку ближе чем на 800 px, блок получает класс
+     eco-foto-pora и фото грузятся. Скрытые на телефоне блоки так и не
+     качаются. На компьютере всё то же самое — просто по мере прокрутки.
+
+     Страховка: через 8 секунд после полной загрузки страницы фото
+     показываются везде, даже если что-то пойдёт не так.
+     ================================================================== -->
+<style>
+#rec2851363001:not(.eco-foto-pora) [style*="static.tildacdn.com"],
+#rec2421263681:not(.eco-foto-pora) [style*="static.tildacdn.com"],
+#rec2421311281:not(.eco-foto-pora) [style*="static.tildacdn.com"],
+#rec2421311371:not(.eco-foto-pora) [style*="static.tildacdn.com"] {
+  background-image: none !important;
+}
+</style>
+<script>
+(function () {
+  var БЛОКИ = ['rec2851363001', 'rec2421263681', 'rec2421311281', 'rec2421311371'];
+
+  function показать(блок) { блок.classList.add('eco-foto-pora'); }
+  function показатьВсе() {
+    БЛОКИ.forEach(function (id) { var б = document.getElementById(id); if (б) показать(б); });
+  }
+
+  function начать() {
+    var список = БЛОКИ.map(function (id) { return document.getElementById(id); })
+                      .filter(Boolean);
+    if (!('IntersectionObserver' in window)) { показатьВсе(); return; }
+    var наблюдатель = new IntersectionObserver(function (записи) {
+      записи.forEach(function (з) {
+        if (з.isIntersecting) { показать(з.target); наблюдатель.unobserve(з.target); }
+      });
+    }, { rootMargin: '800px 0px' });
+    список.forEach(function (б) { наблюдатель.observe(б); });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', начать);
+  else начать();
+  window.addEventListener('load', function () { setTimeout(показатьВсе, 8000); });
+})();
+</script>

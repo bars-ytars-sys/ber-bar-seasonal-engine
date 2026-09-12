@@ -1,0 +1,205 @@
+<!-- РАЗМЕТКА ДЛЯ ПОИСКОВИКОВ — код для ecobr.ru
+     Тильда → Настройки сайта → Вставка кода →
+     «HTML-код для вставки внутрь тега HEAD».
+
+     ВАЖНО: если в поле уже что-то есть — вставить В КОНЕЦ, не заменяя.
+     На 10.09.2026 своего кода в HEAD у сайта не было, но проверьте.
+
+     ЧТО ЛЕЧИМ. На сайте нет ни одной разметки schema.org — проверено
+     по всем 41 странице. Поисковик видит обычный текст и не понимает,
+     что перед ним база отдыха: нет карточки организации, нет цен
+     в сниппете, вместо хлебных крошек голый адрес страницы.
+
+     ЧТО ДЕЛАЕМ. Три вещи, всё из данных, которые уже есть на сайте:
+
+       1) LodgingBusiness — карточка базы: название, адрес, координаты,
+          телефон, часы бронирования, цены, удобства, соцсети, карты.
+          Ставится на каждой странице: организация одна и та же,
+          повторение поисковики считают нормой.
+
+       2) BreadcrumbList — хлебные крошки из адреса страницы. В выдаче
+          вместо «ecobr.ru/doma/aframe-white» появится
+          «Берёзовая роща → Дома → A-FRAME WHITE».
+
+       3) FAQPage — включится сам, если на странице есть блок
+          вопросов-ответов Тильды. Нет блока — скрипт молчит.
+
+     ОТКУДА ЦИФРЫ. Адрес и телефон — из подвала сайта. Координаты сняты
+     с карточки организации в Яндекс.Картах (91160063546). Цены —
+     с страниц домов: будни от 10 000 ₽, выходные до 18 700 ₽
+     (проверено на шести домах: A-FRAME, HOUSE, BARN, SFERA, BAUS).
+     Поменяются цены на сайте — поправить и здесь, иначе разметка
+     разойдётся с содержимым, а это поисковики считают обманом.
+
+     ЧЕГО ЗДЕСЬ НЕТ. Рейтинг не размечен намеренно: отзывы лежат
+     в Яндекс.Картах, то есть на чужой площадке. Размечать чужие отзывы
+     как свои запрещено правилами Google — снимают расширенный сниппет
+     целиком. Звёзды появятся, когда отзывы будут собираться на своём
+     домене.
+
+     Цены по каждому дому отдельно (Offer на страницах /doma/...) —
+     следующий шаг, но его надо делать с подтверждёнными тарифами:
+     на страницах домов две цены без подписи, будни и выходные,
+     и угадывать, какая к чему, в разметке нельзя.
+
+     ПРОВЕРИТЬ ПОСЛЕ ПУБЛИКАЦИИ:
+       Яндекс  — webmaster.yandex.ru/tools/microtest/
+       Google  — search.google.com/test/rich-results
+     -->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LodgingBusiness",
+  "@id": "https://ecobr.ru/#organization",
+  "name": "ЭкоБаза «Берёзовая роща»",
+  "description": "База отдыха в Подмосковье с питанием и SPA-комплексом: отдельные дома в лесу, банные чаны, баня, рыбалка и ферма.",
+  "url": "https://ecobr.ru/",
+  "image": "https://static.tildacdn.com/tild6335-6362-4237-b234-346365613763/7c64e09f-8309-46b2-a.png",
+  "telephone": "+7 (495) 120-20-08",
+  "priceRange": "от 10 000 ₽ за ночь",
+  "currenciesAccepted": "RUB",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "RU",
+    "addressRegion": "Московская область",
+    "addressLocality": "деревня Васюково",
+    "streetAddress": "Солнечногорский район, деревня Васюково, КДЗ Новое Мишкино 1/5"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 56.110515,
+    "longitude": 36.984035
+  },
+  "hasMap": "https://yandex.ru/maps/org/beryozovaya_roshcha/91160063546/",
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "09:00",
+    "closes": "23:59",
+    "description": "Часы работы отдела бронирования"
+  },
+  "amenityFeature": [
+    { "@type": "LocationFeatureSpecification", "name": "SPA-комплекс", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Банные чаны", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Баня", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Питание, шведский стол", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Рыбалка", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Ферма с животными", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Бесплатная парковка", "value": true }
+  ],
+  "sameAs": [
+    "https://t.me/ecobazabr",
+    "https://www.instagram.com/ecobaza_br",
+    "https://yandex.ru/maps/org/beryozovaya_roshcha/91160063546/"
+  ],
+  "potentialAction": {
+    "@type": "ReserveAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://ecobr.ru/booking",
+      "actionPlatform": [
+        "http://schema.org/DesktopWebPlatform",
+        "http://schema.org/MobileWebPlatform"
+      ]
+    },
+    "result": { "@type": "LodgingReservation", "name": "Бронирование дома" }
+  }
+}
+</script>
+
+<script>
+(function () {
+  /* Названия разделов для крошек. Ключ — кусок адреса страницы.
+     Чего нет в списке — берём заголовок страницы, он всегда осмысленный. */
+  var РАЗДЕЛЫ = {
+    'doma':          'Дома',
+    'spa':           'SPA-комплекс',
+    'banchan':       'Бани и банные чаны',
+    'booking':       'Бронирование',
+    'special':       'Специальные предложения',
+    'vip-programmy': 'VIP-программы',
+    'svidanie':      'Свидание года',
+    'perezagruzka':  'Перезагрузка',
+    'deti':          'Детям',
+    'about':         'О базе отдыха',
+    'contacts':      'Контакты',
+    'kartabr':       'Карта базы отдыха',
+    'tarif':         'Тарифы',
+    'aktivnosti-v-beryozovoj-roshhe': 'Активности'
+  };
+
+  function добавить(данные) {
+    var s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.textContent = JSON.stringify(данные);
+    document.head.appendChild(s);
+  }
+
+  /* ── хлебные крошки ── */
+  function крошки() {
+    var части = location.pathname.split('/').filter(Boolean);
+    if (!части.length) return;               /* на главной крошки не нужны */
+
+    var список = [{
+      '@type': 'ListItem', position: 1,
+      name: 'Берёзовая роща', item: 'https://ecobr.ru/'
+    }];
+    var путь = '';
+    for (var i = 0; i < части.length; i++) {
+      путь += '/' + части[i];
+      var последний = i === части.length - 1;
+      var имя = РАЗДЕЛЫ[части[i]];
+      if (!имя && последний) {
+        /* Заголовок страницы без хвоста с названием базы. Эмодзи в начале
+           убираем: в крошках выдачи домик смотрится мусором. */
+        имя = (document.title || '').split(/[|–—]/)[0]
+                .replace(/^[^\p{L}\p{N}]+/u, '').trim();
+      }
+      if (!имя) имя = части[i];
+      var пункт = { '@type': 'ListItem', position: i + 2, name: имя };
+      if (!последний) пункт.item = 'https://ecobr.ru' + путь;
+      список.push(пункт);
+    }
+    добавить({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: список });
+  }
+
+  /* ── вопросы и ответы ── */
+  var вопросыДобавлены = false;
+  function вопросы() {
+    if (вопросыДобавлены) return;
+    /* Аккордеоны Тильды: T585, T668 и родня. Берём пары «заголовок — текст». */
+    var пары = [];
+    var узлы = document.querySelectorAll(
+      '.t585__title, .t668__title, .t525__title, [class*="__accordion"] [class*="title"]');
+    for (var i = 0; i < узлы.length; i++) {
+      var з = узлы[i];
+      var тело = з.parentNode &&
+        з.parentNode.querySelector('[class*="text"], [class*="descr"], [class*="content"]');
+      var в = (з.textContent || '').replace(/\s+/g, ' ').trim();
+      var о = тело ? (тело.textContent || '').replace(/\s+/g, ' ').trim() : '';
+      if (в.length > 5 && о.length > 15) пары.push({ в: в, о: о });
+    }
+    if (пары.length < 2) return;             /* одна пара — не FAQ, не размечаем */
+
+    вопросыДобавлены = true;
+    добавить({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: пары.map(function (p) {
+        return {
+          '@type': 'Question', name: p.в,
+          acceptedAnswer: { '@type': 'Answer', text: p.о }
+        };
+      })
+    });
+  }
+
+  function пуск() { крошки(); вопросы(); }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', пуск);
+  else пуск();
+  /* Блоки Тильды доезжают позже — досматриваем вопросы ещё раз. */
+  setTimeout(вопросы, 4000);
+})();
+</script>

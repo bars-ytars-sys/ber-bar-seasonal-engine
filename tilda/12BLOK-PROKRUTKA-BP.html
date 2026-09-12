@@ -1,0 +1,177 @@
+<!-- ПОЧИНКА ГОРИЗОНТАЛЬНОЙ ПРОКРУТКИ — блок для barskie-polya.ru
+     Тильда → Библиотека → Другое → T123 (HTML-код) → вставить целиком.
+     Поставить последним блоком на главной. Блок ничего не рисует.
+
+     ЧТО ЛЕЧИМ. Два блока должны листаться перетаскиванием мыши:
+       rec1216607536 — «Программа День рождения», 3534 px содержимого,
+       rec1185039551 — «Отзывы гостей», 2926 px,
+     против 1600 видимых. Третий, rec1655343021 «Отдых сейчас — оплата
+     потом», с сайта убран; в списке он оставлен на случай возврата —
+     блок молча пропускает то, чего на странице нет.
+
+     Прокрутку даёт самописный скрипт из блока rec1655343001: он ищет
+     свои блоки опросом с ограничением в 8 секунд, а часть настройки
+     в 5. Страница весит 40 МБ и 74 блока — на медленной загрузке
+     скрипт в это окно не попадает и падает с ошибкой
+     «Cannot read properties of undefined (reading 'ab1216607536')»:
+     он зовёт пересчёт зеро-блока раньше, чем тот успел объявиться.
+     Тогда либо не создаётся обёртка прокрутки и карточки просто
+     обрезаются краем экрана, либо обёртка есть, а перетаскивание
+     к ней не привязано — правая половина недостижима.
+     Ошибка не постоянная: какой блок не успеет, зависит от загрузки,
+     в замерах 08.09.2026 попадались оба.
+
+     ЧТО ДЕЛАЕМ. Ждём дольше — до минуты вместо восьми секунд.
+     Потом каждый блок проверяем пробной протяжкой: незаметно тянем
+     его на 40 пикселей и возвращаем назад. Сдвинулся — родной скрипт
+     жив, не трогаем. Не сдвинулся — вешаем своё перетаскивание.
+
+     Поэтому блок безопасно оставить насовсем: он вмешивается только
+     там, где прокрутка действительно не работает, и не задваивает её.
+     -->
+<style>
+/* Ставим руку только там, где прокрутку вернули мы. */
+.bps-drag { cursor: grab; }
+.bps-drag.bps-held { cursor: grabbing; }
+/* Пока тянут — не выделять текст и не тащить картинки. */
+.bps-drag.bps-held * { user-select: none; }
+</style>
+
+<script>
+(function () {
+  var БЛОКИ = ['1655343021', '1216607536', '1185039551'];
+
+  /* Раньше 12 секунд не лезем: у родного скрипта окна 5 и 8 секунд.
+     Начнём раньше — рискуем обернуть блок вторым слоем поверх его
+     собственного. Ждём, пока он отработал или сдался. */
+  var ЖДЁМ_РОДНОЙ = 12000;
+  var ДОКОЛЕ = 60000;
+
+  /* ── обёртка прокрутки, если родной скрипт её не создал ── */
+  function обернуть(запись, артборд) {
+    артборд.classList.add('scrollbooster-viewport');
+    var внутри = document.createElement('div');
+    внутри.className = 'scrollbooster-content';
+    while (артборд.firstChild) внутри.appendChild(артборд.firstChild);
+    артборд.appendChild(внутри);
+
+    /* Без обрезки карточки лягут поверх соседних блоков. */
+    var рамка = запись.querySelector('.t396');
+    if (рамка) рамка.style.overflow = 'hidden';
+    артборд.style.overflowX = 'auto';
+
+    /* Просим Тильду пересчитать блок. Каждую функцию проверяем: библиотека
+       зеро-блоков грузится отдельно и может опоздать — на этом родной
+       скрипт и падал с ошибкой в консоли. */
+    try {
+      if (window.t396_allgroups__renderView) window.t396_allgroups__renderView(запись);
+      if (window.t396_allelems__renderView) window.t396_allelems__renderView(запись);
+      if (window.t396_doResize) window.t396_doResize(запись.id.replace('rec', ''));
+    } catch (e) {}
+
+    внутри.style.opacity = '1';
+    return внутри;
+  }
+
+  /* ── пробная протяжка: работает ли перетаскивание сейчас ── */
+  function работает(окно) {
+    if (окно.scrollWidth - окно.clientWidth < 20) return true;   /* листать нечего */
+    var было = окно.scrollLeft;
+    окно.scrollLeft = 0;
+
+    var р = окно.getBoundingClientRect();
+    var x = р.left + р.width / 2;
+    var y = р.top + Math.min(р.height / 2, 150);
+
+    function послать(имя, сx) {
+      окно.dispatchEvent(new MouseEvent(имя, {
+        bubbles: true, cancelable: true, clientX: сx, clientY: y, button: 0, buttons: имя === 'mouseup' ? 0 : 1
+      }));
+    }
+    послать('mousedown', x);
+    for (var i = 1; i <= 4; i++) послать('mousemove', x - i * 10);
+    послать('mouseup', x - 40);
+
+    var сдвинулось = окно.scrollLeft > 3;
+    окно.scrollLeft = было;
+    return сдвинулось;
+  }
+
+  /* ── своё перетаскивание ── */
+  function повесить(окно) {
+    if (окно.dataset.bpsСвоё) return;
+    окно.dataset.bpsСвоё = '1';
+    окно.classList.add('bps-drag');
+
+    var тянем = false, началX = 0, началСдвиг = 0, путь = 0;
+
+    окно.addEventListener('pointerdown', function (с) {
+      if (с.button !== 0) return;
+      тянем = true; путь = 0;
+      началX = с.clientX;
+      началСдвиг = окно.scrollLeft;
+      окно.classList.add('bps-held');
+      окно.setPointerCapture(с.pointerId);
+    });
+
+    окно.addEventListener('pointermove', function (с) {
+      if (!тянем) return;
+      var разница = с.clientX - началX;
+      путь = Math.max(путь, Math.abs(разница));
+      окно.scrollLeft = началСдвиг - разница;
+      if (путь > 4) с.preventDefault();
+    });
+
+    function отпустить(с) {
+      if (!тянем) return;
+      тянем = false;
+      окно.classList.remove('bps-held');
+      try { окно.releasePointerCapture(с.pointerId); } catch (e) {}
+    }
+    окно.addEventListener('pointerup', отпустить);
+    окно.addEventListener('pointercancel', отпустить);
+
+    /* Карточки — ссылки. Если гость тянул, а не кликал, переход гасим,
+       иначе любое перетаскивание уводило бы со страницы. */
+    окно.addEventListener('click', function (с) {
+      if (путь > 6) { с.preventDefault(); с.stopPropagation(); путь = 0; }
+    }, true);
+
+    /* Колесо мыши вбок — тем же движением. */
+    окно.addEventListener('wheel', function (с) {
+      if (Math.abs(с.deltaX) > Math.abs(с.deltaY)) {
+        окно.scrollLeft += с.deltaX;
+        с.preventDefault();
+      }
+    }, { passive: false });
+  }
+
+  function заняться(номер) {
+    var запись = document.getElementById('rec' + номер);
+    if (!запись) return true;               /* блока нет — и ладно */
+    var артборд = запись.querySelector('.t396__artboard');
+    if (!артборд) return false;
+    if (артборд.dataset.bpsГотово) return true;
+
+    var окно = запись.querySelector('.scrollbooster-viewport');
+    if (!окно) { обернуть(запись, артборд); окно = артборд; }
+    артборд.dataset.bpsГотово = '1';
+
+    if (!работает(окно)) повесить(окно);
+    return true;
+  }
+
+  function пройтись() {
+    var осталось = 0;
+    БЛОКИ.forEach(function (н) { if (!заняться(н)) осталось++; });
+    return осталось === 0;
+  }
+
+  setTimeout(function () {
+    if (пройтись()) return;
+    /* Блоки встают по мере прокрутки — доходим до каждого. */
+    var т = setInterval(function () { if (пройтись()) clearInterval(т); }, 700);
+    setTimeout(function () { clearInterval(т); }, ДОКОЛЕ);
+  }, ЖДЁМ_РОДНОЙ);
+})();
+</script>

@@ -1,0 +1,152 @@
+<!-- ЗАЖЖЁННАЯ ГИРЛЯНДА И ОСЕННИЕ ДЕРЕВЬЯ — блок для barskie-polya.ru
+     Тильда → Библиотека → Другое → T123 (HTML-код) → вставить целиком.
+     Поставить ЛЮБЫМ блоком на главной, лучше последним: блок ничего
+     не рисует сам, а перекрашивает уже стоящие на странице рисунки.
+
+     ЧТО ДЕЛАЕТ
+       гирлянда: лампочки загораются тёплым янтарным светом с мягким
+         ореолом и еле заметно подрагивают, как настоящие;
+       деревья: контур из кремового становится осенним — охра, рыжий,
+         терракота, вразнобой, чтобы не выглядело покрашенным под копирку.
+
+     КАК УСТРОЕНО. Рисунки стоят на странице картинками <img>, а внутрь
+     картинки стилями не залезть. Поэтому блок подтягивает те же файлы
+     с сервера Тильды и подставляет их разметкой — тогда каждая линия
+     становится обычным элементом, и её можно красить.
+     Файлы уже загружены страницей, так что лишнего веса это не даёт.
+
+     Гирлянда и деревья стоят на девяти блоках: «Здесь отдых становится
+     особенным», «В каждом доме», «Карта территории», «Категория эмоций»,
+     «О базе отдыха», «Отзывы», «Наши новости», FAQ и «Контакты».
+     Перекрашиваются все.
+
+     Уберёте блок — рисунки вернутся к прежнему виду.
+     -->
+<style>
+/* Лампочка: тёплое стекло и ореол вокруг. Ореол рисуем тенью, а не
+   лишними кругами, — так он мягкий и не мешает линиям. */
+.bpl-bulb{
+  fill:#ffd489;
+  stroke:#ffc46a;
+  filter:drop-shadow(0 0 5px rgba(255,190,90,.95))
+         drop-shadow(0 0 12px rgba(255,170,60,.55));
+  animation:bpl-flicker 3.4s ease-in-out infinite;
+  transform-box:fill-box;transform-origin:center;
+}
+/* Вся гирлянда дышит одним тактом: сдвигов у лампочек нет, поэтому
+   светлеют и притухают они разом, как одна цепь на одном питании. */
+
+@keyframes bpl-flicker{
+  0%,100%{opacity:1}
+  42%{opacity:.86}
+  58%{opacity:1}
+  72%{opacity:.93}
+}
+
+/* Провод чуть теплее кремового, чтобы не спорил с лампочками */
+.bpl-wire{stroke:#e6d9bb}
+
+@media(prefers-reduced-motion:reduce){
+  .bpl-bulb{animation:none}
+}
+</style>
+
+<script>
+(function () {
+  /* Имена файлов на сервере Тильды: две гирлянды и деревья. */
+  var ГИРЛЯНДЫ = ['tild3638-6438-4366-b766-613130643330',
+                  'tild6437-3263-4262-b731-313863653934'];
+  var ДЕРЕВЬЯ  = 'tild3533-3034-4864-a235-613732613230';
+
+  /* Осенние цвета контура. Идут по кругу, поэтому соседние деревья
+     получают разный оттенок. */
+  var ОСЕНЬ = ['#e3ab63', '#d38b4a', '#c2703c', '#b8573a', '#dcc07d', '#cf9a53'];
+
+  var кэш = {};                 /* один файл тянем один раз */
+
+  function достать(адрес) {
+    if (кэш[адрес]) return кэш[адрес];
+    кэш[адрес] = fetch(адрес)
+      .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+      .catch(function () { return null; });
+    return кэш[адрес];
+  }
+
+  function зажечь(svg) {
+    /* Стекло лампочки — самый крупный путь в каждой лампочке, около
+       17×21. Провод — единственный длинный. Остальное мелочь: цоколь,
+       нить, крепление, их не трогаем. */
+    var пути = [].slice.call(svg.querySelectorAll('path'));
+    пути.forEach(function (п) {
+      var b;
+      try { b = п.getBBox(); } catch (e) { return; }
+      if (b.width > 150) { п.classList.add('bpl-wire'); return; }
+      if (b.width >= 14 && b.width <= 23 && b.height >= 16 && b.height <= 26) {
+        п.classList.add('bpl-bulb');
+      }
+    });
+  }
+
+  function осень(svg) {
+    var пути = [].slice.call(svg.querySelectorAll('path'));
+    пути.forEach(function (п, i) {
+      /* Землю под деревьями оставляем как есть — это длинная линия. */
+      var b;
+      try { b = п.getBBox(); } catch (e) { return; }
+      if (b.width > 200 && b.height < 12) return;
+      п.setAttribute('stroke', ОСЕНЬ[i % ОСЕНЬ.length]);
+    });
+  }
+
+  function подменить(картинка, адрес, какой) {
+    достать(адрес).then(function (текст) {
+      if (!текст || !картинка.parentNode) return;
+
+      var коробка = document.createElement('div');
+      коробка.innerHTML = текст;
+      var svg = коробка.querySelector('svg');
+      if (!svg) return;
+
+      /* Размер берём из вычисленных стилей картинки, а не из замера рамки
+         на экране. Блоки Тильды масштабируют содержимое, и замер рамки
+         этот масштаб уже учитывает — записав его рисунку, мы умножали бы
+         масштаб второй раз, отчего рисунок и вылезал крупнее прежнего.
+         Вычисленные стили дают размер до масштабирования — то, что нужно. */
+      var стиль = getComputedStyle(картинка);
+      svg.removeAttribute('width');
+      svg.removeAttribute('height');
+      svg.setAttribute('class', картинка.getAttribute('class') || '');
+      svg.style.cssText = картинка.style.cssText;
+      svg.style.width = стиль.width;
+      svg.style.height = стиль.height;
+      svg.style.display = 'block';
+      svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+      svg.setAttribute('aria-hidden', 'true');
+
+      картинка.parentNode.replaceChild(svg, картинка);
+      if (какой === 'гирлянда') зажечь(svg); else осень(svg);
+    });
+  }
+
+  function пройтись() {
+    document.querySelectorAll('img').forEach(function (i) {
+      var u = i.getAttribute('data-original') || i.getAttribute('src') || '';
+      if (!u || i.dataset.bplDone) return;
+      var какой = null;
+      if (ГИРЛЯНДЫ.some(function (id) { return u.indexOf(id) >= 0; })) какой = 'гирлянда';
+      else if (u.indexOf(ДЕРЕВЬЯ) >= 0) какой = 'деревья';
+      if (!какой) return;
+      /* Пока картинка не отрисована, размеров нет — ждём следующего круга. */
+      if (i.getBoundingClientRect().width < 20) return;
+      i.dataset.bplDone = '1';
+      подменить(i, u, какой);
+    });
+  }
+
+  пройтись();
+  /* Блоки появляются по мере прокрутки — проверяем несколько раз. */
+  var t = setInterval(пройтись, 900);
+  setTimeout(function () { clearInterval(t); }, 30000);
+  window.addEventListener('scroll', пройтись, { passive: true });
+})();
+</script>

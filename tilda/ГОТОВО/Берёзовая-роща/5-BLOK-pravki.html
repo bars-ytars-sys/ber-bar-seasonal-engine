@@ -1,0 +1,93 @@
+<!-- БЕРЁЗОВАЯ РОЩА — правки без редактора.
+     Тильда → Библиотека → Другое → T123 (HTML-код).
+     Поставить ПОСЛЕДНИМ блоком на главной.
+
+     Меняет заголовок блока rec1694735441 на «Тёплая осень»,
+     подзаголовок — на «Ради нас берут выходной!» и поджимает сам блок:
+     он высотой 261 при двух строках текста, из-за чего между заголовком
+     и карточками остаётся дыра почти в экран.
+
+     ВАЖНО. Zero Block перерисовывает себя сам — по своим data-атрибутам,
+     при пересчёте размеров и при смене окна. Тогда он возвращает старый
+     текст и старую высоту, а половинчатое состояние выглядит как наезд
+     строк друг на друга. Поэтому здесь стоит наблюдатель: как только
+     Тильда откатывает наше — ставим обратно. Событий не рассылаем,
+     иначе получается бесконечный пересчёт и страницу трясёт. -->
+<script>
+(function () {
+  var ЗАГОЛОВОК = 'Тёплая осень';
+  var ПОДЗАГОЛОВОК = 'Ради нас берут выходной!';
+
+  var ВЫСОТА = { '': 155, '-res-960': 162, '-res-640': 168 };
+  var ВЕРХ = {
+    '1765543910875':       { '': 30, '-res-960': 28, '-res-640': 28 },
+    '1774001435540000002': { '': 94, '-res-960': 100, '-res-640': 105 }
+  };
+
+  var свои = false;          /* правим сейчас сами — наблюдателю не мешать */
+  var занято = false;        /* пересчёт уже идёт */
+
+  function пересчитать() {
+    if (занято) return;
+    занято = true;
+    try { if (window.t396_initialScale) window.t396_initialScale('1694735441'); }
+    catch (e) {}
+    setTimeout(function () { занято = false; }, 600);
+  }
+
+  function правка() {
+    var rec = document.getElementById('rec1694735441');
+    if (!rec) return false;
+
+    var h = rec.querySelector('[field="tn_text_1765543910875"]');
+    var s = rec.querySelector('[field="tn_text_1774001435540000002"]');
+    var art = rec.querySelector('.t396__artboard');
+    if (!h || !s || !art) return false;
+
+    var надо = false;
+    свои = true;
+
+    if (h.textContent.trim() !== ЗАГОЛОВОК) { h.textContent = ЗАГОЛОВОК; надо = true; }
+    if (s.textContent.trim() !== ПОДЗАГОЛОВОК) { s.textContent = ПОДЗАГОЛОВОК; надо = true; }
+
+    for (var k in ВЫСОТА) {
+      if (art.getAttribute('data-artboard-height' + k) !== String(ВЫСОТА[k])) {
+        art.setAttribute('data-artboard-height' + k, ВЫСОТА[k]);
+        надо = true;
+      }
+    }
+    for (var id in ВЕРХ) {
+      var el = rec.querySelector('[data-elem-id="' + id + '"]');
+      if (!el) continue;
+      for (var r in ВЕРХ[id]) {
+        if (el.getAttribute('data-field-top' + r + '-value') !== String(ВЕРХ[id][r])) {
+          el.setAttribute('data-field-top' + r + '-value', ВЕРХ[id][r]);
+          надо = true;
+        }
+      }
+    }
+
+    setTimeout(function () { свои = false; }, 50);
+    if (надо) пересчитать();
+    return true;
+  }
+
+  правка();
+  var t = setInterval(function () { if (правка()) clearInterval(t); }, 500);
+  setTimeout(function () { clearInterval(t); }, 30000);
+
+  /* Тильда перерисовывает блок по своим причинам — возвращаем своё. */
+  var rec = document.getElementById('rec1694735441') || document.body;
+  var ждём;
+  new MutationObserver(function () {
+    if (свои) return;
+    clearTimeout(ждём);
+    ждём = setTimeout(правка, 250);
+  }).observe(rec, { childList: true, subtree: true, characterData: true });
+
+  window.addEventListener('resize', function () {
+    clearTimeout(ждём);
+    ждём = setTimeout(правка, 400);
+  }, { passive: true });
+})();
+</script>

@@ -1,0 +1,183 @@
+<!-- КОД В HEAD САЙТА — barskie-polya.ru
+     Тильда → Настройки сайта → Вставка кода →
+     «HTML-код для вставки внутрь тега HEAD». Здесь две части:
+     уменьшение картинок и починка обрезанных надписей на телефоне.
+
+     ЧАСТЬ ПЕРВАЯ: УМЕНЬШЕННЫЕ КАРТИНКИ
+     Именно в HEAD: правила должны примениться до того, как браузер начнёт
+     качать картинки, иначе он скачает и оригинал, и копию.
+
+     ЧТО ЛЕЧИМ. Главная запрашивает 156 картинок на 40,6 МБ, потому что
+     фотографии лежат оригиналами: IMG_6566.PNG весит 2,47 МБ и
+     показывается размером 335×296 точек. На мобильном канале страница
+     не догружается вовсе — событие load не наступает и за 70 секунд,
+     поэтому PageSpeed выдаёт ошибку вместо оценок.
+
+     ЧТО ДЕЛАЕМ. Ничего не перезаливаем. У Тильды есть служба
+     optim.tildacdn.com: по адресу вида
+       optim.tildacdn.com/<файл>/-/resize/900x/-/format/webp/<имя>
+     она сама делает уменьшенную копию уже загруженного файла — первый
+     запрос ставит её в обработку, дальше отдаётся готовая. Копии для
+     всех адресов ниже уже созданы и проверены 08.09.2026.
+     Здесь мы просто подставляем их вместо оригиналов:
+       29 фотографий вставлены фоном — перебиваем правилом с !important;
+       15 картинок во всплывающих подсказках зеро-блока хранят адрес
+       в data-tipimg-original и грузятся скриптом Тильды — переписываем
+       адрес до того, как он его прочитает.
+
+     ИТОГО по этим файлам: 38,06 МБ → 7,27 МБ.
+
+     Ширина копии выбрана по тому, как картинка показывается на странице,
+     с запасом на экраны 2×, потолок 1200. Картинкам скрытого всплывающего
+     окна — 900, подсказкам зеро-блока — 400: их видно только при наведении.
+     Подписи над каждым правилом: блок, файл, было → стало.
+
+     ЧТО ЭТО ДАЁТ (замер на живой странице, медленный 4G, CPU ×4):
+       было  — событие load не наступает и за 70 секунд, PageSpeed
+               выдаёт ошибку; висит 68 незавершённых запросов;
+       стало — загрузка завершается за 47 секунд, скачано 11,8 МБ
+               вместо 40,6; оригиналов качается 24 вместо 68.
+     Двойной загрузки нет: правило с !important выигрывает у инлайнового
+     стиля до отрисовки, поэтому оригинал даже не запрашивается.
+
+     ЕСЛИ ФОТОГРАФИЮ ЗАМЕНЯТ в Тильде, у неё будет новый адрес, правило
+     перестанет совпадать и просто ничего не сделает — покажется оригинал.
+     Сломать этим блоком ничего нельзя, но после большой замены фотографий
+     список стоит пересобрать.
+     -->
+<style>
+/* rec2224203281 · 1233.png · 3,00 → 0,32 МБ */
+[style*="tild3435-6431-4631-a339-386132303133"]{background-image:url("https://optim.tildacdn.com/tild3435-6431-4631-a339-386132303133/-/resize/900x/-/format/webp/1233.png")!important}
+/* rec2224203281 · Mask_group123_2.png · 2,90 → 0,63 МБ */
+[style*="tild6661-3734-4134-a166-333339666663"]{background-image:url("https://optim.tildacdn.com/tild6661-3734-4134-a166-333339666663/-/resize/900x/-/format/webp/Mask_group123_2.png")!important}
+/* rec2224203281 · Mask_group.png · 2,61 → 0,14 МБ */
+[style*="tild6531-6664-4537-a362-306236633964"]{background-image:url("https://optim.tildacdn.com/tild6531-6664-4537-a362-306236633964/-/resize/900x/-/format/webp/Mask_group.png")!important}
+/* rec2241691831 · IMG_6569.PNG · 2,60 → 0,12 МБ */
+[style*="tild6466-3362-4437-a532-656565306330"]{background-image:url("https://optim.tildacdn.com/tild6466-3362-4437-a532-656565306330/-/resize/772x/-/format/webp/IMG_6569.PNG")!important}
+/* rec2224203281 · Mask_group67_3.png · 2,47 → 1,17 МБ */
+[style*="tild3861-3537-4432-b434-353535313161"]{background-image:url("https://optim.tildacdn.com/tild3861-3537-4432-b434-353535313161/-/resize/900x/-/format/webp/Mask_group67_3.png")!important}
+/* rec1216607536 · IMG_6566.PNG · 2,47 → 0,09 МБ */
+[style*="tild3861-3332-4533-a630-323865613262"]{background-image:url("https://optim.tildacdn.com/tild3861-3332-4533-a630-323865613262/-/resize/670x/-/format/webp/IMG_6566.PNG")!important}
+/* rec2241691831 · IMG_6543.PNG · 2,45 → 0,11 МБ */
+[style*="tild6536-3632-4234-b164-356131663432"]{background-image:url("https://optim.tildacdn.com/tild6536-3632-4234-b164-356131663432/-/resize/772x/-/format/webp/IMG_6543.PNG")!important}
+/* rec2224203281 · 3333.png · 2,07 → 0,14 МБ */
+[style*="tild6331-3735-4363-a261-353938363937"]{background-image:url("https://optim.tildacdn.com/tild6331-3735-4363-a261-353938363937/-/resize/900x/-/format/webp/3333.png")!important}
+/* rec2241691831 · IMG_9940-318.jpg · 1,08 → 0,24 МБ */
+[style*="tild3331-6231-4262-b931-613133303037"]{background-image:url("https://optim.tildacdn.com/tild3331-6231-4262-b931-613133303037/-/resize/772x/-/format/webp/IMG_9940-318.jpg")!important}
+/* rec2224203281 · 555.png · 0,98 → 0,07 МБ */
+[style*="tild6339-6631-4637-a266-396331326138"]{background-image:url("https://optim.tildacdn.com/tild6339-6631-4637-a266-396331326138/-/resize/900x/-/format/webp/555.png")!important}
+/* rec1216607536 · 7a72ad67-a4e9-41dc-9.png · 0,83 → 0,11 МБ */
+[style*="tild3539-3661-4230-a237-626133353638"]{background-image:url("https://optim.tildacdn.com/tild3539-3661-4230-a237-626133353638/-/resize/670x/-/format/webp/7a72ad67-a4e9-41dc-9.png")!important}
+/* rec2241691831 · IMG_9614-233.jpg · 0,78 → 0,17 МБ */
+[style*="tild6536-3835-4738-a232-323537366438"]{background-image:url("https://optim.tildacdn.com/tild6536-3835-4738-a232-323537366438/-/resize/772x/-/format/webp/IMG_9614-233.jpg")!important}
+/* rec2241691831 · IMG_0202-393.jpg · 0,71 → 0,17 МБ */
+[style*="tild6539-3038-4266-a630-626632313130"]{background-image:url("https://optim.tildacdn.com/tild6539-3038-4266-a630-626632313130/-/resize/772x/-/format/webp/IMG_0202-393.jpg")!important}
+/* rec1216607536 · image_121.png · 0,57 → 0,04 МБ */
+[style*="tild3330-3932-4330-b038-333465373865"]{background-image:url("https://optim.tildacdn.com/tild3330-3932-4330-b038-333465373865/-/resize/670x/-/format/webp/image_121.png")!important}
+/* rec1649328981 · IMG_5521_2.jpg · 0,56 → 0,18 МБ */
+[style*="tild3438-6562-4364-a338-343831626633"]{background-image:url("https://optim.tildacdn.com/tild3438-6562-4364-a338-343831626633/-/resize/772x/-/format/webp/IMG_5521_2.jpg")!important}
+/* rec1649328981 · IMG_5540_1_1.jpg · 0,51 → 0,13 МБ */
+[style*="tild6661-6663-4661-a462-656465333165"]{background-image:url("https://optim.tildacdn.com/tild6661-6663-4661-a462-656465333165/-/resize/772x/-/format/webp/IMG_5540_1_1.jpg")!important}
+/* rec1649328981 · IMG_5232_2.jpg · 0,44 → 0,10 МБ */
+[style*="tild6630-6462-4837-b861-336466616361"]{background-image:url("https://optim.tildacdn.com/tild6630-6462-4837-b861-336466616361/-/resize/600x/-/format/webp/IMG_5232_2.jpg")!important}
+/* rec1649328981 · IMG_4759_2.jpg · 0,41 → 0,10 МБ */
+[style*="tild6537-3066-4132-a235-393464393731"]{background-image:url("https://optim.tildacdn.com/tild6537-3066-4132-a235-393464393731/-/resize/600x/-/format/webp/IMG_4759_2.jpg")!important}
+/* rec1649328981 · IMG_4759_2_1.jpg · 0,37 → 0,18 МБ */
+[style*="tild6436-6233-4062-a261-393634353633"]{background-image:url("https://optim.tildacdn.com/tild6436-6233-4062-a261-393634353633/-/resize/772x/-/format/webp/IMG_4759_2_1.jpg")!important}
+/* rec2241691831 · WLId7Hj1QzlAotbQ_kVU.jpg · 0,34 → 0,13 МБ */
+[style*="tild3362-6231-4061-b765-346339646263"]{background-image:url("https://optim.tildacdn.com/tild3362-6231-4061-b765-346339646263/-/resize/772x/-/format/webp/WLId7Hj1QzlAotbQ_kVU.jpg")!important}
+/* rec2224203281 · photo.png · 0,32 → 0,13 МБ */
+[style*="tild3566-3439-4563-b437-363036393734"]{background-image:url("https://optim.tildacdn.com/tild3566-3439-4563-b437-363036393734/-/resize/900x/-/format/webp/photo.png")!important}
+/* rec2224203281 · photo.png · 0,31 → 0,18 МБ */
+[style*="tild3863-3863-4162-a137-373266326338"]{background-image:url("https://optim.tildacdn.com/tild3863-3863-4162-a137-373266326338/-/resize/900x/-/format/webp/photo.png")!important}
+/* rec2224203281 · _1.png · 0,30 → 0,14 МБ */
+[style*="tild6139-6465-4462-a236-653039613664"]{background-image:url("https://optim.tildacdn.com/tild6139-6465-4462-a236-653039613664/-/resize/900x/-/format/webp/_1.png")!important}
+/* rec2224203281 · -.png · 0,30 → 0,12 МБ */
+[style*="tild6533-6261-4430-b366-303134623561"]{background-image:url("https://optim.tildacdn.com/tild6533-6261-4430-b366-303134623561/-/resize/900x/-/format/webp/-.png")!important}
+/* rec2224203281 · Mask-group-min.webp · 0,29 → 0,29 МБ */
+[style*="tild6630-3665-4534-b635-646533616366"]{background-image:url("https://optim.tildacdn.com/tild6630-3665-4534-b635-646533616366/-/resize/900x/-/format/webp/Mask-group-min.webp")!important}
+/* rec2224203281 · _.png · 0,29 → 0,17 МБ */
+[style*="tild3163-3531-4666-b861-346637366364"]{background-image:url("https://optim.tildacdn.com/tild3163-3531-4666-b861-346637366364/-/resize/900x/-/format/webp/_.png")!important}
+/* rec1649328981 · IMG_5497_5.jpg · 0,27 → 0,05 МБ */
+[style*="tild6532-3063-4334-b734-333337323030"]{background-image:url("https://optim.tildacdn.com/tild6532-3063-4334-b734-333337323030/-/resize/600x/-/format/webp/IMG_5497_5.jpg")!important}
+/* rec2224203281 · -.png · 0,24 → 0,09 МБ */
+[style*="tild6164-6661-4666-b539-633731336362"]{background-image:url("https://optim.tildacdn.com/tild6164-6661-4666-b539-633731336362/-/resize/900x/-/format/webp/-.png")!important}
+/* rec1216607536 · photo_2026-03-29_22-.jpg · 0,21 → 0,09 МБ */
+[style*="tild6138-3530-4339-b336-303031633638"]{background-image:url("https://optim.tildacdn.com/tild6138-3530-4339-b336-303031633638/-/resize/670x/-/format/webp/photo_2026-03-29_22-.jpg")!important}
+</style>
+
+<script>
+(function () {
+  /* Подсказки зеро-блока: адрес лежит в data-tipimg-original, скрипт
+     Тильды позже переносит его в src. Успеваем переписать раньше.
+     Работаем по любому такому адресу, а не по списку: добавят подсказку —
+     она тоже будет уменьшенной. */
+  var ШИРИНА = 400;
+
+  var НАЧАЛО = 'https://static.tildacdn.com/';
+
+  function уменьшить(адрес) {
+    if (!адрес || адрес.indexOf(НАЧАЛО) !== 0) return null;
+    var хвост = адрес.slice(НАЧАЛО.length);
+    var черта = хвост.indexOf('/');
+    if (черта < 1) return null;
+    var файл = хвост.slice(0, черта), имя = хвост.slice(черта + 1);
+    if (файл.indexOf('tild') !== 0 || !имя) return null;
+    if (имя.slice(-4).toLowerCase() === '.svg') return null;
+    return 'https://optim.tildacdn.com/' + файл + '/-/resize/' + ШИРИНА + 'x/-/format/webp/' + имя;
+  }
+
+  function пройтись() {
+    var список = document.querySelectorAll('[data-tipimg-original]');
+    for (var i = 0; i < список.length; i++) {
+      var э = список[i];
+      if (э.dataset.умен) continue;
+      var новый = уменьшить(э.getAttribute('data-tipimg-original'));
+      if (!новый) { э.dataset.умен = '1'; continue; }
+      э.dataset.умен = '1';
+      э.setAttribute('data-tipimg-original', новый);
+      /* если Тильда уже успела проставить src — поправим и его */
+      if (э.getAttribute('src')) э.setAttribute('src', новый);
+    }
+  }
+
+  пройтись();
+  /* Подсказки в зеро-блоках появляются по мере разбора страницы. */
+  var т = setInterval(пройтись, 300);
+  setTimeout(function () { clearInterval(т); пройтись(); }, 20000);
+  document.addEventListener('DOMContentLoaded', пройтись);
+})();
+</script>
+
+<!-- ===================================================================
+     ОБРЕЗАННЫЕ НАДПИСИ НА ТЕЛЕФОНЕ
+
+     В зеро-блоке у каждой надписи задана жёсткая высота под одну
+     строку. На узком экране длинный текст переносится на две, вторая
+     строка в коробку не влезает и срезается по букве — видно половину.
+     Ниже разрешаем этим трём надписям вырасти. Место под ними есть:
+     проверено на 320, 360 и 390 точках ширины.
+     ================================================================== -->
+<style>
+@media screen and (max-width: 480px) {
+
+  /* Меню, «Часто задаваемые вопросы»: коробка 30 px, тексту нужно 37.
+     До следующего заголовка 31 px свободного места. */
+  .tn-elem__11850506961785781367990000001 .tn-atom,
+
+  /* Подвал, «ИП Резниченко В.Ю. ИНН … Юридическая информация»:
+     коробка 23 px, тексту нужно 31. Ниже 10 px до «Правил проживания». */
+  .tn-elem__11850688011753438844931 .tn-atom {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Меню, стрелка у «Все дома и цены» съехала на 26 px вверх и легла
+     на заголовок «КАТЕГОРИЯ ДОМОВ». Ставим её туда же, где она стоит
+     на компьютере: вплотную справа от надписи, по центру строки. */
+  .tn-elem__11850506961753779156721 {
+    top: 429px !important;
+    left: 156px !important;
+  }
+}
+</style>

@@ -1,0 +1,49 @@
+<!-- БЕРЁЗОВАЯ РОЩА — возврат переключателя домов.
+     Тильда → Библиотека → Другое → T123 (HTML-код).
+     Поставить ПОСЛЕДНИМ блоком на главной.
+
+     ЧТО СЛУЧИЛОСЬ: карточки домов в блоке rec2851363001 спрятаны
+     стилями и показываются по клику своим скриптом. Скрипт лежал
+     в коде сайта и после вставки нашего кода пропал — стили остались,
+     показывать домики стало некому, отсюда пустое белое поле.
+
+     Здесь тот же самый скрипт, снятый с копии сайта, сделанной
+     до наших правок. В нём ничего не менялось.
+     Если найдёте оригинал в истории версий Тильды — верните его
+     на место, а этот блок удалите. -->
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+var b=document.getElementById('rec2851363001');
+if(!b)return;
+var houses=[];
+for(var i=1;i<=10;i++)houses.push(b.querySelector('.house-'+i));
+var tabs=[].slice.call(b.querySelectorAll('.tn-elem[data-elem-type="button"]')).filter(function(e){
+return e.querySelector('.tn-atom__button-icon')&&!e.closest('[class*="house-"]');
+});
+for(var j=0;j<tabs.length;j++)tabs[j].classList.add('h-tab');
+function warm(n){
+var g=houses[n];
+if(!g||g.getAttribute('data-warm'))return;
+g.setAttribute('data-warm','1');
+var d=g.querySelectorAll('[data-original]');
+for(var i=0;i<d.length;i++){var u=d[i].getAttribute('data-original');if(u)d[i].src=u;}
+var a=g.querySelectorAll('*');
+for(var k=0;k<a.length;k++){var m=(getComputedStyle(a[k]).backgroundImage||'').match(/url\("?([^"')]+)"?\)/);if(m){var im=new Image();im.src=m[1];}}
+}
+function show(n){
+for(var i=0;i<10;i++){if(houses[i])houses[i].classList.toggle('h-on',i===n);}
+for(var k=0;k<tabs.length;k++)tabs[k].classList.toggle('h-on',k===n);
+}
+b.addEventListener('mouseover',function(e){
+var t=e.target.closest('.h-tab');
+if(t)warm(tabs.indexOf(t));
+});
+b.addEventListener('click',function(e){
+var t=e.target.closest('.h-tab');
+if(!t)return;
+e.preventDefault();
+show(tabs.indexOf(t));
+});
+show(0);
+});
+</script>

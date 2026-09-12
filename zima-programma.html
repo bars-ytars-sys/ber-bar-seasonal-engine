@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Вся программа праздников — «Зимняя сказка» в Барских полях</title>
+<meta name="description" content="Программа новогодних праздников на базе отдыха «Барские поля» с 31 декабря по 10 января: лотерея, ёлка, фотозоны и костюмы, подарки, каток и лесная горка, Дед Мороз 31 декабря.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=Rubik:wght@300;400;500&display=swap">
+<style>
+
+:root{
+  --фон:#314c44;
+  --панель:#36564b;
+  --текст:#eee5d5;
+  --акцент:#ee995d;
+  --кнопка:#995d2f;
+  --кнопка-навод:#a36434;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--фон);color:var(--текст);font-family:'Rubik',Arial,sans-serif;
+     font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.полоса{max-width:1200px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
+
+/* ── шапка ── */
+.шапка{display:flex;align-items:center;justify-content:space-between;gap:16px;
+       padding-block:22px;border-bottom:1px solid rgba(238,229,213,.12)}
+.лого img{display:block;width:172px;height:auto}
+.телефон{font-size:15px;text-align:right}
+.телефон span{display:block;font-size:12px;opacity:.6}
+
+/* ── герой: фото на весь первый экран ── */
+.герой{position:relative;min-height:min(100svh,920px);display:flex;flex-direction:column;overflow:hidden;
+       background:#1c2c26}
+.герой__фон{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%}
+.герой__тень{position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 42% at 50% 70%,rgba(12,20,17,.62),rgba(12,20,17,0) 100%),
+    linear-gradient(180deg,rgba(14,24,21,.72) 0%,rgba(14,24,21,.18) 22%,rgba(14,24,21,.05) 40%,
+                    rgba(20,34,29,.5) 62%,rgba(34,54,47,.94) 88%,var(--фон) 100%)}
+/* внутри флекс-колонки margin:auto у .полоса сжимает её по содержимому — растягиваем */
+.герой > .полоса{width:100%}
+.герой .шапка{position:relative;z-index:3;border-bottom-color:rgba(238,229,213,.18)}
+.герой .гирлянда{position:absolute;z-index:2;left:50%;top:78px;transform:translateX(-50%);
+                 width:min(1280px,108%);pointer-events:none}
+.герой__текст{position:relative;z-index:3;margin-top:auto;padding-block:0 64px;text-align:center}
+.герой__над{font-size:13px;letter-spacing:.24em;text-transform:uppercase;opacity:.85}
+.герой h1{font-size:clamp(58px,9vw,132px);line-height:.95;margin:14px 0 0;letter-spacing:.01em;
+          text-shadow:0 0 40px rgba(255,200,120,.35),0 4px 30px rgba(0,0,0,.45)}
+.герой .подзаголовок{margin-top:18px;font-size:clamp(17px,1.8vw,22px);color:#ffc58f;
+                     text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.герой .ночи{text-shadow:0 2px 10px rgba(0,0,0,.6);opacity:.9}
+.герой .кнопки{justify-content:center;margin-top:30px}
+.вниз{display:block;margin:30px auto 0;width:26px;height:40px;border-radius:14px;
+      box-shadow:inset 0 0 0 1.5px rgba(238,229,213,.55);position:relative}
+.вниз::after{content:'';position:absolute;left:50%;top:9px;width:4px;height:8px;margin-left:-2px;
+             border-radius:2px;background:var(--текст);animation:вниз 1.8s ease-in-out infinite}
+@keyframes вниз{0%{opacity:0;transform:translateY(0)}40%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
+
+/* ── обложка (старая, не используется) ── */
+.обложка{padding-block:40px 64px;text-align:center;position:relative;overflow:hidden}
+.гирлянда{display:block;width:min(1100px,100%);height:auto;margin:0 auto}
+.лампа{animation:мерцать 2.2s ease-in-out infinite}
+@keyframes мерцать{0%,100%{opacity:1}50%{opacity:.55}}
+.лес{display:block;width:min(560px,92%);height:auto;margin:-6px auto 0}
+.обложка h1{font-size:clamp(46px,8vw,104px);line-height:1;text-transform:uppercase;
+            margin:22px 0 0;letter-spacing:.02em;text-shadow:0 0 28px rgba(255,210,122,.25)}
+.подзаголовок{margin-top:20px;font-size:19px;color:var(--акцент)}
+.ночи{margin-top:8px;font-size:15px;opacity:.75;font-weight:300}
+
+/* ── описание: фото дома и что внутри ── */
+.описание{background:linear-gradient(160deg,#3a5c50,#2f4a41);border-radius:10px;overflow:hidden;
+          display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);
+          box-shadow:0 30px 60px -30px rgba(0,0,0,.55)}
+.описание__фото{position:relative;min-height:100%}
+.описание__фото img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%}
+.описание__фото::after{content:'';position:absolute;inset:auto 0 0 0;height:45%;
+                       background:linear-gradient(transparent,rgba(20,32,28,.78))}
+.значок{position:absolute;left:28px;bottom:28px;z-index:2;padding:12px 18px;border-radius:8px;
+        background:rgba(238,229,213,.94);color:#2b433b;line-height:1.25}
+.значок b{display:block;font-family:'Lora',Georgia,serif;font-weight:500;font-size:20px}
+.значок span{font-size:13px;opacity:.8}
+.описание__текст{padding:52px 52px 46px}
+.над{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.18em;
+     text-transform:uppercase;color:var(--акцент)}
+.над .иконка{width:18px;height:18px}
+.описание h2{font-size:clamp(28px,3vw,38px);line-height:1.18;margin:14px 0 18px}
+.вводный{font-size:17px;opacity:.9;max-width:560px}
+.пункты{display:grid;grid-template-columns:1fr 1fr;gap:22px 30px;margin:34px 0 30px;list-style:none}
+.пункт{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+.иконка{width:24px;height:24px;color:var(--акцент)}
+.пункт .иконка{width:44px;height:44px;padding:10px;border-radius:50%;
+               background:rgba(238,153,93,.12);box-shadow:inset 0 0 0 1px rgba(238,153,93,.35)}
+.пункт b{display:block;font-weight:500;font-size:16px;line-height:1.35}
+.пункт span{display:block;margin-top:4px;font-size:14px;line-height:1.5;opacity:.78}
+.стол{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;padding:16px 18px;
+      border-radius:8px;background:rgba(20,32,28,.28);font-size:14.5px}
+.стол .иконка{width:44px;height:44px;padding:10px}
+.стол b{font-weight:500}
+.условия{display:grid;grid-template-columns:repeat(3,1fr);margin:22px 0 0;
+         border-top:1px solid rgba(238,229,213,.14);border-bottom:1px solid rgba(238,229,213,.14)}
+.условие{display:flex;gap:10px;align-items:flex-start;padding:16px 14px 16px 0;font-size:13.5px;line-height:1.45}
+.условие+.условие{padding-left:14px;border-left:1px solid rgba(238,229,213,.14)}
+.условие .иконка{flex:none;width:20px;height:20px;margin-top:1px}
+.условие b{display:block;font-weight:500;font-size:14px}
+.условие span{opacity:.75}
+.кнопки{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.кнопка{display:inline-block;padding:16px 32px;border-radius:6px;
+        background:var(--кнопка);color:#fff;text-decoration:none;font-size:15px;font-weight:500;
+        box-shadow:0 10px 24px -12px rgba(153,93,47,.9)}
+.кнопка:hover{background:var(--кнопка-навод)}
+.кнопка--контур{background:transparent;color:var(--текст);box-shadow:inset 0 0 0 1px rgba(238,229,213,.4)}
+.кнопка--контур:hover{background:rgba(238,229,213,.08)}
+
+/* ── программа ── */
+.раздел{padding:76px 0 0}
+.раздел h2{font-size:34px;text-transform:uppercase;text-align:center;margin-bottom:18px}
+.вступление{max-width:760px;margin:0 auto 34px;text-align:center;opacity:.9}
+.вступление b{display:block;margin-top:14px;color:var(--акцент);font-weight:500}
+.праздники{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.праздник{background:var(--панель);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;
+          transition:transform .35s ease,box-shadow .35s ease}
+.праздник:hover{transform:translateY(-6px);box-shadow:0 24px 44px -24px rgba(0,0,0,.65)}
+.праздник__фото{height:230px;background:#26382f center/cover no-repeat;transition:transform .7s ease}
+.праздник:hover .праздник__фото{transform:scale(1.06)}
+.праздник__низ{position:relative;background:var(--панель)}
+.праздник__низ{padding:22px 26px 26px}
+.праздник__имя{font-size:20px;color:var(--акцент);line-height:1.3;text-transform:uppercase;
+               padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid rgba(238,229,213,.18)}
+.праздник__текст{font-size:14.5px;opacity:.92}
+.черты{list-style:none}
+.черты li::before{content:'— '}
+.приписка{margin-top:26px;text-align:center;font-size:15px;opacity:.85}
+
+/* ── дома ── */
+.дома{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.дом{background:var(--панель);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;
+     transition:transform .35s ease,box-shadow .35s ease}
+.дом:hover{transform:translateY(-6px);box-shadow:0 24px 44px -24px rgba(0,0,0,.65)}
+.дом__фото{height:190px;background:#26382f center/cover no-repeat;transition:transform .7s ease}
+.дом:hover .дом__фото{transform:scale(1.06)}
+.дом__низ{position:relative;padding:22px 24px 26px;background:var(--панель)}
+.дом__имя{font-size:22px;text-transform:uppercase;color:var(--акцент)}
+.дом__свойства{margin:8px 0 12px;font-size:13px;letter-spacing:.02em;opacity:.7}
+.дом__текст{font-size:15px;opacity:.9}
+.дома-приписка{margin-top:18px;font-size:14px;opacity:.7;font-weight:300;text-align:center}
+
+/* ── питание и сертификат ── */
+.двое{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.плита{background:var(--панель);border-radius:6px;padding:30px 32px}
+.плита h3{font-size:23px;text-transform:uppercase;color:var(--акцент);margin-bottom:14px}
+.плита p{font-size:15px;opacity:.9;margin-bottom:12px}
+
+/* ── вопросы ── */
+.вопрос{background:var(--панель);border-radius:6px;padding:20px 26px;margin-bottom:12px}
+.вопрос summary{cursor:pointer;font-size:17px;list-style:none;position:relative;padding-right:34px}
+.вопрос summary::-webkit-details-marker{display:none}
+.вопрос summary::after{content:'+';position:absolute;right:4px;top:-4px;font-size:24px;
+                       color:var(--акцент);line-height:1}
+.вопрос[open] summary::after{content:'−'}
+.вопрос p{margin-top:12px;font-size:15px;opacity:.9}
+
+/* ── заявка ── */
+.заявка{margin-top:76px;background:var(--панель);border-radius:6px;padding:44px 40px;text-align:center}
+.заявка h2{font-size:30px;text-transform:uppercase;margin-bottom:10px}
+.заявка p{opacity:.85;font-weight:300;margin-bottom:24px}
+.заявка a{margin:0 8px}
+.кнопка--светлая{background:var(--текст);color:#314c44}
+.кнопка--светлая:hover{background:#f4ecdd}
+
+/* ── дорога ── */
+.дорога{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
+.дорога__текст p{margin-bottom:12px;font-size:15px;opacity:.9}
+
+/* ── низ ── */
+.низ{margin-top:80px;padding:44px 0 60px;border-top:1px solid rgba(238,229,213,.12);
+     text-align:center;font-size:15px;opacity:.8;font-weight:300}
+
+/* ── снег ── */
+.снег{position:fixed;inset:0;pointer-events:none;z-index:5}
+.снежинка{position:absolute;top:-12px;border-radius:50%;background:#fff;opacity:.5;
+          animation:падать linear infinite}
+@keyframes падать{
+  0%{transform:translate3d(0,-12px,0)}
+  100%{transform:translate3d(24px,105vh,0)}
+}
+@media(prefers-reduced-motion:reduce){.снежинка{display:none}.лампа{animation:none}}
+
+@media(max-width:1000px){.дома{grid-template-columns:repeat(2,1fr)}.праздники{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1100px){.пункты{grid-template-columns:1fr}}
+@media(max-width:900px){
+  .герой__над{letter-spacing:.1em;font-size:11.5px}
+  .описание{grid-template-columns:1fr}
+  .описание__фото{min-height:0;height:320px}
+  .описание__текст{padding:30px 22px 28px}
+  .условия{grid-template-columns:1fr}
+  .условие{padding:12px 0}
+  .условие+.условие{padding-left:0;border-left:0;border-top:1px solid rgba(238,229,213,.14)}
+  .кнопка{width:100%;text-align:center}
+  .праздники,.дома,.двое,.дорога{grid-template-columns:1fr}
+  .лого img{width:136px}
+}
+/* ── отсчёт до Нового года ── */
+.отсчёт-полоса{position:relative;z-index:4;margin-top:-44px;margin-bottom:8px}
+.отсчёт{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:30px;align-items:center;
+        padding:24px 32px;border-radius:14px;position:relative;overflow:hidden;
+        background:linear-gradient(120deg,#3d6154,#2d473e);box-shadow:0 26px 50px -30px rgba(0,0,0,.7)}
+.отсчёт::before{content:'';position:absolute;inset:-40% auto auto -10%;width:420px;height:260px;
+                background:radial-gradient(closest-side,rgba(255,197,143,.22),transparent);pointer-events:none}
+.отсчёт__заг{position:relative;font-family:'Lora',Georgia,serif;font-size:22px;line-height:1.25}
+.отсчёт__заг span{display:block;margin-bottom:6px;font-family:'Rubik',Arial,sans-serif;font-size:12.5px;
+                  letter-spacing:.18em;text-transform:uppercase;color:var(--акцент)}
+.отсчёт__числа{display:flex;gap:12px}
+.ячейка{min-width:82px;padding:12px 8px 10px;border-radius:10px;text-align:center;
+        background:rgba(14,24,21,.35);box-shadow:inset 0 0 0 1px rgba(238,229,213,.12)}
+.ячейка b{display:block;font-family:'Lora',Georgia,serif;font-weight:400;font-size:40px;line-height:1;
+          font-variant-numeric:tabular-nums}
+.ячейка span{display:block;margin-top:6px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.отсчёт .кнопка{white-space:nowrap;position:relative}
+@media(max-width:900px){
+  .отсчёт{grid-template-columns:1fr;text-align:center;gap:18px;padding:22px 16px}
+  .отсчёт__числа{justify-content:center;gap:8px}
+  .ячейка{min-width:0;flex:1}
+  .ячейка b{font-size:30px}
+  .отсчёт-полоса{margin-top:-10px}
+}
+
+/* ── гирлянда-разделитель ── */
+.разделитель{padding-top:46px;margin-bottom:-52px;pointer-events:none}
+.разделитель .гирлянда{display:block;width:min(760px,96%);height:auto;margin:0 auto}
+.заявка{position:relative;overflow:hidden;
+        background:radial-gradient(ellipse 70% 90% at 50% 120%,rgba(238,153,93,.32),transparent 70%),var(--панель)}
+.заявка .гирлянда{display:block;width:min(640px,100%);height:auto;margin:-18px auto 6px}
+
+/* ── появление при прокрутке (класс ставит скрипт, без JS всё видно сразу) ── */
+.ждёт{opacity:0;transform:translateY(34px);
+      transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.ждёт.видно{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.ждёт{opacity:1;transform:none;transition:none}}
+
+/* ── липкая навигация по разделам ── */
+html{scroll-behavior:smooth}
+section[id]{scroll-margin-top:92px}
+.навигация{position:sticky;top:0;z-index:30;background:rgba(26,42,36,.92);backdrop-filter:blur(12px);
+           border-bottom:1px solid rgba(238,229,213,.14)}
+.навигация__полоса{display:flex;gap:10px;align-items:center;max-width:1200px;margin:0 auto;
+                   padding:12px 24px;overflow-x:auto;scrollbar-width:none}
+.навигация__полоса::-webkit-scrollbar{display:none}
+.навигация a{position:relative;white-space:nowrap;text-decoration:none;color:var(--текст);font-size:14.5px;
+             padding:10px 18px;border-radius:999px;background:rgba(238,229,213,.06);
+             box-shadow:inset 0 0 0 1px rgba(238,229,213,.16);transition:background .25s,transform .25s}
+.навигация a:hover{background:rgba(238,229,213,.14);transform:translateY(-1px)}
+.навигация a.активна{color:#ffd9b8;background:rgba(238,153,93,.2);box-shadow:inset 0 0 0 1px rgba(238,153,93,.6)}
+.навигация .бронь{margin-left:auto;color:#fff;font-weight:500;background:var(--кнопка);
+                  box-shadow:0 10px 22px -12px rgba(153,93,47,.95)}
+.навигация .бронь::after{content:'';position:absolute;inset:0;border-radius:999px;animation:пульс 2.8s ease-out infinite}
+@keyframes пульс{0%{box-shadow:0 0 0 0 rgba(238,153,93,.5)}70%{box-shadow:0 0 0 14px rgba(238,153,93,0)}
+                 100%{box-shadow:0 0 0 0 rgba(238,153,93,0)}}
+section:target h2,section:target .заезд__даты{animation:вспышка 1.6s ease-out}
+@keyframes вспышка{0%{color:#ffd9b8;text-shadow:0 0 30px rgba(255,197,143,.8)}100%{color:inherit;text-shadow:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.навигация .бронь::after{animation:none}}
+
+/* ── новогодний заезд: коротко → подробно → вся программа ── */
+.заезд{background:linear-gradient(150deg,#3a5c50,#2f4a41);border-radius:14px;overflow:hidden;
+       box-shadow:0 28px 56px -32px rgba(0,0,0,.6)}
+.заезд__кратко{padding:34px 38px}
+.заезд__даты{display:inline-block;padding:8px 16px;border-radius:999px;color:#ffd9b8;font-size:14px;
+             letter-spacing:.06em;background:rgba(238,153,93,.16);box-shadow:inset 0 0 0 1px rgba(238,153,93,.5)}
+.заезд__лид{margin:18px 0 0;font-size:19px;max-width:660px}
+.заезд__список{list-style:none;display:flex;flex-wrap:wrap;gap:14px 28px;margin:20px 0 24px}
+.заезд__список li{display:flex;align-items:center;gap:10px;font-size:15px;opacity:.92}
+.заезд__список .иконка{width:36px;height:36px;padding:7px;border-radius:50%;flex:none;
+                       background:rgba(238,153,93,.12);box-shadow:inset 0 0 0 1px rgba(238,153,93,.35)}
+.раскрыть{display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;font:inherit}
+.раскрыть .галка{width:16px;height:16px;transition:transform .3s}
+.раскрыть[aria-expanded="true"] .галка{transform:rotate(180deg)}
+.заезд__подробно{padding:0 38px 34px;border-top:1px solid rgba(238,229,213,.14)}
+.заезд__подробно[hidden]{display:none}
+.подробно__сетка{display:grid;grid-template-columns:1fr 1fr;gap:24px 40px;padding:26px 0 4px}
+.подробно__сетка h3{font-size:19px;color:var(--акцент);margin-bottom:10px}
+.подробно__сетка ul{list-style:none}
+.подробно__сетка li{margin-bottom:8px;font-size:15px;opacity:.9;padding-left:18px;text-indent:-18px}
+.подробно__сетка li::before{content:'— '}
+.действия{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+.действие{display:block;padding:20px;border-radius:12px;color:var(--текст);text-decoration:none;
+          background:rgba(20,32,28,.32);box-shadow:inset 0 0 0 1px rgba(238,229,213,.14);
+          transition:background .3s,transform .3s}
+a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px)}
+.действие .иконка{width:38px;height:38px;padding:8px;border-radius:50%;color:var(--акцент);background:rgba(238,153,93,.14)}
+.действие b{display:block;margin:12px 0 4px;font-size:17px;font-weight:500}
+.действие span{display:block;font-size:13.5px;opacity:.75}
+.модуль{display:grid;gap:10px;margin-top:14px}
+.модуль label{display:grid;gap:4px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.модуль input,.модуль select{font:inherit;color:var(--текст);background:rgba(14,24,21,.5);border:0;border-radius:8px;
+                             padding:10px 12px;box-shadow:inset 0 0 0 1px rgba(238,229,213,.18)}
+.модуль .кнопка{margin-top:6px;text-align:center;padding:13px 18px}
+.дальше{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;
+        margin-top:24px;padding-top:18px;border-top:1px solid rgba(238,229,213,.14);font-size:15px}
+.дальше a{display:inline-flex;align-items:center;gap:8px;color:#ffd9b8}
+.дальше a span,.подробнее span{transition:transform .25s}
+.дальше a:hover span,.подробнее:hover span{transform:translateX(4px)}
+.подробнее{display:inline-flex;align-items:center;gap:8px;margin-top:14px;color:#ffd9b8;
+           text-decoration:none;font-size:14.5px}
+@media(max-width:900px){
+  .заезд__кратко{padding:26px 20px}
+  .заезд__подробно{padding:0 20px 26px}
+  .подробно__сетка,.действия{grid-template-columns:1fr}
+}
+
+/* телефон: фото отдельной частью сверху, текст ниже на фоне — чтобы
+   заголовок не ложился на фасад дома */
+@media(max-width:700px){
+  .герой{min-height:0;display:block}
+  .герой picture{display:block}
+  .герой__фон,.герой__тень{position:relative;height:60svh;min-height:360px;max-height:540px}
+  .герой__тень{position:absolute;inset:0 0 auto 0;
+    background:linear-gradient(180deg,rgba(14,24,21,.7) 0%,rgba(14,24,21,0) 26%,rgba(14,24,21,0) 64%,var(--фон) 100%)}
+  .герой .шапка{position:absolute;top:0;left:0;right:0}
+  .герой .гирлянда{top:84px;width:120%}
+  .герой__текст{margin-top:-34px;padding-bottom:36px}
+  .вниз{display:none}
+}
+
+/* страница программы: компактная шапка вместо первого экрана */
+.верх{position:relative;padding-block:30px 44px;text-align:center;overflow:hidden}
+.верх::before{content:'';position:absolute;inset:-40% -10% auto -10%;height:340px;
+              background:radial-gradient(closest-side,rgba(238,153,93,.2),transparent);pointer-events:none}
+.верх h1{position:relative;font-size:clamp(34px,5vw,58px);line-height:1.05;margin-top:12px}
+.верх .подзаголовок{position:relative;margin-top:14px;font-size:18px;color:var(--акцент)}
+/* разделы чередуются: фото то слева, то справа; на телефоне — всегда сверху */
+.описание.фото-справа .описание__фото{order:2}
+@media(max-width:900px){.описание.фото-справа .описание__фото{order:0}}
+.назад{display:inline-flex;align-items:center;gap:8px;margin-top:18px;color:var(--текст);
+       text-decoration:none;font-size:15px;opacity:.85}
+.назад:hover{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="снег" aria-hidden="true"></div>
+
+<header class="шапка полоса">
+  <a class="лого" href="https://barskie-polya.ru/"><img src="https://static.tildacdn.com/tild3262-6436-4764-a235-366133623239/photo.svg" alt="Барские поля"></a>
+  <div class="телефон">+7 (495) 150-39-08<span>Принимаем звонки с 9:00 до 24:00</span></div>
+</header>
+
+<nav class="навигация" aria-label="Разделы программы">
+  <div class="навигация__полоса">
+    <a href="#loterea">Лотерея</a>
+    <a href="#elka">Ёлка</a>
+    <a href="#fotozony">Фотозоны</a>
+    <a href="#podarki">Подарки</a>
+    <a href="#razvlecheniya">Развлечения</a>
+    <a href="#ded-moroz">Дед Мороз</a>
+    <a href="#territoriya">На территории</a>
+    <a href="#usloviya">Условия</a>
+    <a class="бронь" href="https://barskie-polya.ru/booking?dfrom=2026-12-31&amp;dto=2027-01-03&amp;adults=2&amp;scroll_to_rooms=1">Забронировать</a>
+  </div>
+</nav>
+
+<section class="верх полоса">
+  <div class="герой__над">База отдыха «Барские поля» · Подмосковье</div>
+  <h1>Вся программа праздников</h1>
+  <p class="подзаголовок">С 31 декабря по 10 января</p>
+  <div><a class="назад" href="zima.html"><span aria-hidden="true">←</span>Вернуться на «Зимнюю сказку»</a></div>
+</section>
+
+
+<section class="раздел полоса" id="loterea">
+  <div class="описание">
+    <div class="описание__фото">
+      <img src="https://optim.tildacdn.com/tild6135-3933-4964-b961-373634613538/-/resize/900x/-/format/webp/ukrasennaa-elka-s-po.jpg" alt="Беспроигрышная лотерея" loading="lazy">
+    </div>
+    <div class="описание__текст">
+      <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">Беспроигрышная лотерея</h2>
+      <p class="вводный" style="margin-bottom:14px">Лотерея ждёт каждого гостя прямо при заезде — проигравших нет.</p><p class="вводный" style="margin-bottom:14px">Тянете билет, забираете подарок или сюрприз и оказываетесь в празднике ещё до того, как разобрали вещи.</p>
+    </div>
+  </div>
+</section>
+<section class="раздел полоса" id="elka">
+  <div class="описание фото-справа">
+    <div class="описание__фото">
+      <img src="https://optim.tildacdn.com/tild3866-3538-4737-b964-363961616335/-/resize/900x/-/format/webp/portret-zensiny-v-ro.jpg" alt="Большая новогодняя ёлка" loading="lazy">
+    </div>
+    <div class="описание__текст">
+      <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">Большая новогодняя ёлка</h2>
+      <p class="вводный" style="margin-bottom:14px">На территории наряжена большая ёлка — та самая, вокруг которой водят хоровод.</p><p class="вводный" style="margin-bottom:14px">Приходите танцевать с детьми и фотографироваться у сверкающей красавицы: вечером она горит огнями и получается лучший кадр праздника.</p>
+    </div>
+  </div>
+</section>
+<section class="раздел полоса" id="fotozony">
+  <div class="описание">
+    <div class="описание__фото">
+      <img src="https://optim.tildacdn.com/tild3636-3566-4263-a665-393639366466/-/resize/900x/-/format/webp/4H3A0913.jpg" alt="Фотозоны и костюмы" loading="lazy">
+    </div>
+    <div class="описание__текст">
+      <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">Фотозоны и костюмы</h2>
+      <p class="вводный" style="margin-bottom:14px">Окунитесь в атмосферу русского праздника: примеряйте костюмы Деда Мороза, Снегурочки и народные наряды.</p><p class="вводный" style="margin-bottom:14px">Костюмы выдаём бесплатно. Памятные снимки — у баннера-тантамарески и в праздничных декорациях на территории.</p>
+    </div>
+  </div>
+</section>
+<section class="раздел полоса" id="podarki">
+  <div class="описание фото-справа">
+    <div class="описание__фото">
+      <img src="https://optim.tildacdn.com/tild3736-3363-4133-b537-363264303466/-/resize/900x/-/format/webp/noroot.png" alt="Подарки для всех" loading="lazy">
+    </div>
+    <div class="описание__текст">
+      <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">Подарки для всех</h2>
+      <p class="вводный" style="margin-bottom:14px">В каждом домике гостей ждут праздничные сувениры — и для взрослых, и для детей.</p><p class="вводный" style="margin-bottom:14px">Подарки лежат в доме к вашему заезду: открывайте сразу или оставьте на новогоднюю ночь.</p>
+    </div>
+  </div>
+</section>
+<section class="раздел полоса" id="razvlecheniya">
+  <div class="описание">
+    <div class="описание__фото">
+      <img src="https://optim.tildacdn.com/tild3531-6663-4639-b236-303638323533/-/resize/900x/-/format/webp/deti-v-zimnei-odezde.jpg" alt="Развлечения для всей семьи" loading="lazy">
+    </div>
+    <div class="описание__текст">
+      <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">Развлечения для всей семьи</h2>
+      <p class="вводный" style="margin-bottom:14px">Зимой работают снежные забавы: боулинг и настольные игры, каток и лесная горка, лыжные прогулки и уличные игры.</p><p class="вводный" style="margin-bottom:14px">Кататься можно весь день: горка рядом с домами, каток на территории, лыжи — по лесным дорожкам вокруг базы.</p>
+    </div>
+  </div>
+</section>
+<section class="раздел полоса" id="ded-moroz">
+  <div class="описание фото-справа">
+    <div class="описание__фото">
+      <img src="https://optim.tildacdn.com/tild3464-3537-4638-b134-336139313930/-/resize/900x/-/format/webp/konnaa-ezda-na-.jpg" alt="31 декабря — Дед Мороз и Снегурочка" loading="lazy">
+    </div>
+    <div class="описание__текст">
+      <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">31 декабря — Дед Мороз и Снегурочка</h2>
+      <p class="вводный" style="margin-bottom:14px">Главные волшебники праздника приезжают 31 декабря и поздравляют гостей.</p><p class="вводный" style="margin-bottom:14px">Встречайте их, фотографируйтесь и вручайте подготовленные подарки своим детям. Подробности у администратора.</p>
+    </div>
+  </div>
+</section>
+
+<div class="разделитель" aria-hidden="true"></div>
+
+<section class="раздел полоса" id="territoriya">
+  <h2>Что есть на территории</h2>
+  <p class="вступление">Программа идёт поверх обычной жизни базы: ферма, детская игровая,
+    бани и чаны работают всю зиму.</p>
+</section>
+
+<section class="раздел полоса" id="ferma">
+  <div class="описание">
+    <div class="описание__фото">
+      <img src="demo/assets/bp-zima-dom-garden1.webp" alt="Своя ферма" loading="lazy">
+    </div>
+    <div class="описание__текст">
+      <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">Своя ферма</h2>
+      <p class="вводный" style="margin-bottom:14px">Кролики, шиншиллы, козочки и павлины живут на базе круглый год.</p><p class="вводный" style="margin-bottom:14px">Посещение бесплатное и без ограничений — дети готовы проводить там полдня даже зимой.</p>
+    </div>
+  </div>
+</section>
+<section class="раздел полоса" id="detskiy">
+  <div class="описание фото-справа">
+    <div class="описание__фото">
+      <img src="demo/assets/bp-zima-dom-barnhaus.webp" alt="Детская игровая «Детский мир»" loading="lazy">
+    </div>
+    <div class="описание__текст">
+      <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">Детская игровая «Детский мир»</h2>
+      <p class="вводный" style="margin-bottom:14px">Отдельная игровая комната для самых маленьких гостей.</p><p class="вводный" style="margin-bottom:14px">Дети заняты и в тепле, родители в это время отдыхают — в чане, в бане или просто в тишине.</p>
+    </div>
+  </div>
+</section>
+<section class="раздел полоса" id="banya">
+  <div class="описание">
+    <div class="описание__фото">
+      <img src="demo/assets/bp-zima-dom-barski.webp" alt="Баня, сауна и банный чан" loading="lazy">
+    </div>
+    <div class="описание__текст">
+      <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">Баня, сауна и банный чан</h2>
+      <p class="вводный" style="margin-bottom:14px">Банный чан стоит у каждого дома — прямо в снегу, под открытым небом. Топим к приезду, наполнение оплачивается отдельно.</p><p class="вводный" style="margin-bottom:14px">В Барском доме сауна прямо внутри дома — не нужно выходить на мороз. На территории нескольких домов есть своя баня.</p>
+    </div>
+  </div>
+</section>
+<section class="раздел полоса" id="pitanie">
+  <div class="описание фото-справа">
+    <div class="описание__фото">
+      <img src="demo/assets/bp-zima-dom-chalet.webp" alt="Новогодний стол и питание" loading="lazy">
+    </div>
+    <div class="описание__текст">
+      <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">Новогодний стол и питание</h2>
+      <p class="вводный" style="margin-bottom:14px">Стол — как вам удобнее: в каждом доме полноценная кухня, можно готовить самим, привезти своё или заказать кейтеринг.</p><p class="вводный" style="margin-bottom:14px">Для компании сдаётся крытая веранда с газовым грилем и колонкой, с 15:00 до 23:00, от 12 000 ₽ — свою еду приносить можно.</p>
+    </div>
+  </div>
+</section>
+
+<section class="раздел полоса" id="usloviya">
+  <h2>Условия</h2>
+  <div class="двое" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+    <div class="плита"><h3>Даты программы</h3><p>Праздничная программа идёт с 31 декабря по 10 января.</p></div><div class="плита"><h3>Заезд и выезд</h3><p>Заезд с 16:00, выезд до 13:00. Ранний заезд и поздний выезд — по согласованию, при наличии мест, оплачиваются отдельно.</p></div><div class="плита"><h3>Стоимость</h3><p>Зависит от дома и дат: дома разного размера и вместимости. Менеджер посчитает под вашу компанию.</p></div><div class="плита"><h3>Оплата</h3><p>Можно оплатить сразу целиком, а по желанию — частями через «Яндекс Сплит».</p></div><div class="плита"><h3>С питомцем</h3><p>Можно: за весь период до 5 кг — 1000 ₽, более 5 кг — 2000 ₽. Дадим миску, для крупных — лежанку.</p></div><div class="плита"><h3>Сертификат</h3><p>Есть подарочные сертификаты на 10 000, 20 000 и 30 000 ₽ — на проживание и дополнительные услуги.</p></div>
+  </div>
+</section>
+
+<section class="полоса" id="zayavka">
+  <div class="заявка">
+    <h2>Забронировать новогодний отдых</h2>
+    <p>Расскажите, сколько вас и что важно, — подберём дом и посчитаем стоимость.</p>
+    <div class="действия" style="text-align:left;margin-top:6px">
+      <a class="действие" href="tel:+74951503908"><b>Позвонить</b><span>+7 (495) 150-39-08 · с 9:00 до 24:00</span></a>
+      <a class="действие" href="https://t.me/bazabarskie_polya"><b>Оставить заявку</b><span>менеджер ответит в Телеграме</span></a>
+      <a class="действие" href="https://barskie-polya.ru/booking?dfrom=2026-12-31&amp;dto=2027-01-03&amp;adults=2&amp;scroll_to_rooms=1"><b>Выбрать даты</b><span>свободные дома на 31.12 — 10.01</span></a>
+    </div>
+  </div>
+</section>
+
+<footer class="низ полоса">
+  <a class="назад" href="zima.html"><span aria-hidden="true">←</span>Вернуться на «Зимнюю сказку»</a><br><br>
+  Московская область, Новорижское шоссе, деревня Степаньково · barskie-polya.ru
+</footer>
+
+<script>
+/* Снег — как на главной. */
+(function () {
+  var поле = document.querySelector('.снег');
+  for (var i = 0; i < 50; i++) {
+    var с = document.createElement('i');
+    с.className = 'снежинка';
+    var р = 2 + Math.random() * 4;
+    с.style.width = с.style.height = р.toFixed(1) + 'px';
+    с.style.left = (Math.random() * 100).toFixed(2) + '%';
+    с.style.opacity = (0.25 + Math.random() * 0.45).toFixed(2);
+    с.style.animationDuration = (9 + Math.random() * 14).toFixed(1) + 's';
+    с.style.animationDelay = (-Math.random() * 20).toFixed(1) + 's';
+    поле.appendChild(с);
+  }
+})();
+
+/* Навигация: подсветка раздела, который сейчас на экране. */
+(function () {
+  var ссылки = [].slice.call(document.querySelectorAll('.навигация a[href^="#"]'));
+  if (!ссылки.length || !('IntersectionObserver' in window)) return;
+  var карта = {}, видимые = {};
+  ссылки.forEach(function (а) {
+    var р = document.getElementById(decodeURIComponent(а.getAttribute('href').slice(1)));
+    if (р) карта[р.id] = а;
+  });
+  var н = new IntersectionObserver(function (записи) {
+    записи.forEach(function (з) { видимые[з.target.id] = з.isIntersecting; });
+    var текущий = Object.keys(карта).filter(function (id) { return видимые[id]; })[0];
+    ссылки.forEach(function (а) { а.classList.remove('активна'); });
+    if (текущий) карта[текущий].classList.add('активна');
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  Object.keys(карта).forEach(function (id) { н.observe(document.getElementById(id)); });
+})();
+
+/* Блоки появляются при прокрутке. */
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  var список = document.querySelectorAll('.описание, .раздел h2, .вступление, .плита, .заявка');
+  var н = new IntersectionObserver(function (записи) {
+    записи.forEach(function (з) { if (з.isIntersecting) { з.target.classList.add('видно'); н.unobserve(з.target); } });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  список.forEach(function (е) { е.classList.add('ждёт'); н.observe(е); });
+})();
+</script>
+</body>
+</html>

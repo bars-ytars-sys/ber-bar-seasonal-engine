@@ -1,0 +1,121 @@
+<!-- ПОДАРКИ ИМЕНИННИКАМ — блок для barskie-polya.ru, страница /special
+     Тильда → Библиотека → Другое → T123 (HTML-код) → вставить целиком.
+
+     КУДА СТАВИТЬ: на страницу «Специальные предложения» (pageid 74584865),
+     любым блоком. Карточка сама встаёт следом за «Отдых большой компанией
+     по-барски» внутри вкладки «Программы лояльности» — значит и
+     показывается только когда открыта эта вкладка.
+
+     ОФОРМЛЕНИЕ снято с соседней карточки той же вкладки: фон #314C44,
+     панель чуть светлее страницы, заголовок Lora 20px #EE995D, текст Rubik 12px
+     #EEE5D5, мелкий шрифт 10px, кнопка на #EEE5D5 с текстом #A36434.
+
+     ТЕКСТ — как прислала Валерия, слово в слово.
+     -->
+<div class="bi-wrap" hidden>
+  <article class="bi-card">
+    <div class="bi-pic"></div>
+    <div class="bi-body">
+      <h3 class="bi-title">Подарки именинникам в Барских полях</h3>
+      <p class="bi-lead">Отметьте день рождения на базе — скидка 10% на проживание.
+        Скидка действует на основные и дополнительные места при проживании от 1 суток.</p>
+      <p class="bi-small">Дом должен быть забронирован на ФИО именинника и распространяется
+        только на дом, в котором он проживает. Срок действия — 7 суток до и после дня
+        рождения (включая сам день). Предварительное бронирование обязательно.
+        Скидка предоставляется при предъявлении копии паспорта или свидетельства
+        о рождении. Не суммируется с другими акциями и не действует для агентств.</p>
+      <a class="bi-btn" href="https://t.me/bazabarskie_polya" target="_blank" rel="noopener">
+        Связаться с менеджером</a>
+    </div>
+  </article>
+</div>
+
+<style>
+.bi-wrap{padding:0 20px 40px;background:transparent}
+.bi-wrap[hidden]{display:none!important}
+.bi-wrap *{box-sizing:border-box}
+
+.bi-card{
+  max-width:1200px;margin:0 auto;display:flex;gap:0;
+  background:#36564b;border-radius:4px;overflow:hidden;
+  font-family:'Rubik',Arial,sans-serif;
+}
+.bi-pic{
+  flex:none;width:375px;min-height:340px;margin:28px 0 28px 28px;border-radius:4px;
+  background:#26382f center/cover no-repeat;
+  background-image:url('https://optim.tildacdn.com/tild3961-6563-4333-a566-366466373539/-/resize/600x600/-/format/webp/1.png.webp');
+}
+.bi-body{padding:28px 32px 28px 40px;display:flex;flex-direction:column;align-items:flex-start}
+
+/* Подарочная коробка — тем же контуром, что у соседней карточки. */
+.bi-body::before{
+  content:'';display:block;width:38px;height:38px;margin-bottom:18px;opacity:.8;
+  background:no-repeat center/contain;
+  background-image:url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none' stroke='%23eee5d5' stroke-width='1.2'>\
+<rect x='4' y='15' width='32' height='21'/><rect x='2' y='10' width='36' height='6'/>\
+<line x1='20' y1='10' x2='20' y2='36'/>\
+<path d='M20 10c-4-6-11-6-11-2 0 3 6 2 11 2zm0 0c4-6 11-6 11-2 0 3-6 2-11 2z'/></svg>");
+}
+
+.bi-title{
+  margin:0 0 14px;font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400;
+  font-size:20px;line-height:1.3;color:#ee995d;text-transform:uppercase;max-width:22em;
+}
+.bi-lead{margin:0 0 14px;font-size:12px;line-height:1.6;color:#eee5d5;max-width:34em}
+.bi-small{margin:0 0 22px;font-size:10px;line-height:1.6;color:#eee5d5;opacity:.7;max-width:38em}
+
+.bi-btn{
+  margin-top:auto;display:inline-block;text-decoration:none;
+  font-size:11px;color:#a36434;background:#eee5d5;
+  border-radius:4px;padding:14px 34px;
+}
+.bi-btn:hover{background:#f2e9d0}
+
+@media(max-width:960px){
+  .bi-card{display:block}
+  .bi-pic{width:auto;margin:20px 20px 0;min-height:240px}
+  .bi-body{padding:22px 24px 26px}
+}
+</style>
+
+<script>
+(function () {
+  /* Карточку ставим следом за «Отдых большой компанией по-барски»:
+     она лежит внутри вкладки «Программы лояльности», поэтому наша
+     карточка сама показывается и прячется вместе с этой вкладкой. */
+  var СОСЕД = 'rec1753397921';
+
+  var коробка = document.querySelector('.bi-wrap');
+  if (!коробка) return;
+
+  function поставить() {
+    var сосед = document.getElementById(СОСЕД);
+    if (!сосед) return false;
+    if (коробка.dataset.biГотово) return true;
+    коробка.dataset.biГотово = '1';
+    /* Кладём внутрь самого блока, а не рядом: вкладка прячет
+       блок целиком, и карточка прячется вместе с ним. */
+    сосед.appendChild(коробка);
+
+    /* Вкладка не прячет блок, а схлопывает его содержимое: по высоте
+       не понять — наша карточка держит её сама. Смотрим на сами вкладки:
+       у выбранной появляется класс t1281__tab_active. Показываемся,
+       когда выбрана вторая — «Программы лояльности». */
+    function сверить() {
+      var вкладки = document.querySelectorAll('.t1281__tab');
+      if (вкладки.length < 2) { коробка.hidden = false; return; }
+      коробка.hidden = !вкладки[1].classList.contains('t1281__tab_active');
+    }
+    сверить();
+    setInterval(сверить, 300);
+    window.addEventListener('hashchange', сверить);
+    return true;
+  }
+
+  if (!поставить()) {
+    var т = setInterval(function () { if (поставить()) clearInterval(т); }, 300);
+    setTimeout(function () { clearInterval(т); }, 20000);
+  }
+})();
+</script>

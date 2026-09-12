@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "ber-bar": {
+      "command": "node",
+      "args": ["mcp/ber-bar-mcp.mjs"],
+      "env": {}
+    }
+  }
+}

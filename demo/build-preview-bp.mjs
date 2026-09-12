@@ -160,7 +160,20 @@ const fuelJs = `
    дыры не остаётся. В Тильде карточка просто удаляется в редакторе. */
 const hideSummer = `
 #rec1655343021 [data-group-id="1785352752557000001"],
-#rec1655343021 [data-elem-id="1785352752557000001"]{display:none!important}`;
+#rec1655343021 [data-elem-id="1785352752557000001"]{display:none!important}
+
+/* Всплывающее окно занимало слишком много экрана. Масштабируем весь его
+   артборд: фотография, текст и кнопка — отдельные элементы рядом с
+   карточкой, и сжатие одной карточки их не двигает.
+   Точка отсчёта — правый нижний угол экрана, там окно и висит; при
+   отсчёте от левого верхнего оно уезжает к середине. */
+#rec2461410871 .t396__artboard{
+  transform:scale(.8)!important;
+  transform-origin:100% 100%!important;
+}
+@media(max-width:639px){
+  #rec2461410871 .t396__artboard{transform:scale(.72)!important}
+}`;
 
 /* --- ваш осенний набор (7BP2BODY.html) ---
    Набор весь построен на картинках листьев: и падающие, и раскладки по
@@ -230,6 +243,82 @@ const packSetup = `window.BARSKIE = ${JSON.stringify(CFG)};`;
 const packBody = packJs.replace(/window\.BARSKIE\s*=\s*\{[\s\S]*?\n\};/, packSetup);
 if (packBody === packJs) throw new Error('не найден блок настроек window.BARSKIE');
 
+/* --- подбор дома вместо опросника --- */
+const kvizBlock = read('tilda', '9BLOK-KVIZ-BP.html')
+  .replace(/ФОТО_([a-z-]+.webp)/g, (_, n) =>
+    'data:image/webp;base64,' +
+    fs.readFileSync(path.join(ROOT, 'demo', 'assets', n)).toString('base64'));
+const kvizLiteral = JSON.stringify(kvizBlock).replace(/<\/script>/gi, CLOSE);
+
+const kvizJs = `
+(function () {
+  var HTML = ${kvizLiteral};
+  function mount() {
+    if (document.getElementById('kv')) return;
+    var target = document.getElementById('rec2463108211');
+    if (!target || !target.parentNode) return;
+    var host = document.createElement('div');
+    host.id = 'kv-host';
+    host.innerHTML = HTML;
+    target.parentNode.insertBefore(host, target);
+    host.querySelectorAll('script').forEach(function (old) {
+      var neo = document.createElement('script');
+      neo.text = old.textContent;
+      old.parentNode.replaceChild(neo, old);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
+  else mount();
+})();`;
+
+/* --- всплывающее окно с акциями --- */
+const popBlock = read('tilda', '9BLOK-POPUP-BP.html')
+  .replace(/ФОТО_([a-z-]+.webp)/g, (_, n) =>
+    'data:image/webp;base64,' +
+    fs.readFileSync(path.join(ROOT, 'demo', 'assets', n)).toString('base64'));
+const popLiteral = JSON.stringify(popBlock).replace(/<\/script>/gi, CLOSE);
+
+const popJs = `
+(function () {
+  var HTML = ${popLiteral};
+  function mount() {
+    if (document.getElementById('bpop')) return;
+    var host = document.createElement('div');
+    host.innerHTML = HTML;
+    document.body.appendChild(host);
+    host.querySelectorAll('script').forEach(function (old) {
+      var neo = document.createElement('script');
+      neo.text = old.textContent;
+      old.parentNode.replaceChild(neo, old);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
+  else mount();
+})();`;
+
+/* --- зажжённая гирлянда и осенние деревья --- */
+const girlBlock = read('tilda', '10BLOK-GIRLYANDA-BP.html');
+const girlLiteral = JSON.stringify(girlBlock).replace(/<\/script>/gi, CLOSE);
+
+const girlJs = `
+(function () {
+  var HTML = ${girlLiteral};
+  function mount() {
+    if (document.getElementById('bpl-host')) return;
+    var host = document.createElement('div');
+    host.id = 'bpl-host';
+    host.innerHTML = HTML;
+    document.body.appendChild(host);
+    host.querySelectorAll('script').forEach(function (old) {
+      var neo = document.createElement('script');
+      neo.text = old.textContent;
+      old.parentNode.replaceChild(neo, old);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
+  else mount();
+})();`;
+
 let page = read('demo', 'sites', 'bp.html');
 /* Стили набора — часть 1. Пока это замена: в загрузках была только
    часть 2, а без стилей холст листопада нулевого размера и раскладки
@@ -282,10 +371,56 @@ const safetyJs = `
   }).observe(document.body, { childList: true, subtree: true });
 })();`;
 
+/* --- порядок блоков ---
+   Модуль бронирования стоял глубоко на странице, гость доходил до него
+   не сразу. Поднимаем его в слот блока «Отдых сейчас — оплата потом!
+   / Подарочный сертификат», а сам этот блок уводим вниз, к разделу
+   «О базе отдыха»: там он читается как дополнение, а не как первое,
+   что видит гость после первого экрана.
+
+   В Тильде то же самое делается мышкой в редакторе — блоки просто
+   перетаскиваются; здесь двигаем разметкой, чтобы показать результат. */
+const orderJs = `
+(function () {
+  var БРОНЬ = ['rec2145007901', 'rec2224203281', 'rec2224203291',
+               'rec1635506171', 'rec2145055561'];
+  var СПЛИТ = ['rec1655343001', 'rec1655343021', 'rec1655343071'];
+  var НИЗ = 'rec1185039396';            /* заголовок «О БАЗЕ ОТДЫХА» */
+
+  function двинуть() {
+    var слот = document.getElementById('rec1655343021');
+    var низ = document.getElementById(НИЗ);
+    if (!слот || !низ || !слот.parentNode || !низ.parentNode) return false;
+
+    /* Метка держит освобождаемое место: сначала уводим сплит вниз,
+       потом ставим бронирование ровно туда, где сплит стоял. */
+    var метка = document.createComment('место бронирования');
+    слот.parentNode.insertBefore(метка, слот);
+
+    СПЛИТ.forEach(function (id) {
+      var б = document.getElementById(id);
+      if (б) низ.parentNode.insertBefore(б, низ);
+    });
+    БРОНЬ.forEach(function (id) {
+      var б = document.getElementById(id);
+      if (б) метка.parentNode.insertBefore(б, метка);
+    });
+    метка.parentNode.removeChild(метка);
+    return true;
+  }
+
+  /* Блок акций встаёт по DOMContentLoaded раньше нас — он привязан
+     к сплиту, и переносить его вслед за сплитом не нужно. */
+  function позже() { if (!двинуть()) setTimeout(позже, 300); }
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', позже);
+  else позже();
+})();`;
+
 /* Набор идёт последним: его раскладки ищут #bo-host, а к этому моменту
    блок уже вставлен. */
 page = page.replace(/<\/body>/i,
-  `<script>\n${blockJs}\n${popupJs}\n${fuelJs}\n</script>\n` +
+  `<script>\n${blockJs}\n${orderJs}\n${popupJs}\n${fuelJs}\n${kvizJs}\n${popJs}\n${girlJs}\n</script>\n` +
   `<script>\n${packBody}\n</script>\n<script>\n${safetyJs}\n</script>\n</body>`);
 
 fs.writeFileSync(path.join(ROOT, 'barskie.html'), page, 'utf8');

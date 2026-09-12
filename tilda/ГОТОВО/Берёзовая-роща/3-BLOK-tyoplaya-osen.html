@@ -17,8 +17,9 @@
      ПЕРЕД ВСТАВКОЙ: загрузите три фото из tilda/images в
      Настройки сайта → Файлы и подставьте ссылки вместо ФОТО_…
 
-     КНОПКИ ведут прямо в модуль бронирования с подставленными
-     датами и промокодом — проверено на живом модуле Bnovo.
+     КНОПКИ: по баням — к менеджеру (форма «Обратный звонок», #zayavka),
+     их онлайн не бронируют. По остальным акциям — прямо в модуль
+     бронирования с подставленными датами и промокодом.
      -->
 <div class="to-wrap">
   <div class="to-grid">
@@ -29,8 +30,11 @@
       <div class="to-pic" style="background-image:url('ФОТО_card-banya.webp')"></div>
       <div class="to-body">
         <h3 class="to-t">Банный отдых с самоваром</h3>
-        <p class="to-d">Две программы на выбор: с берёзовым паром или полная баня по-русски.</p>
-        <p class="to-big">от 8 000 ₽</p>
+        <p class="to-d">Две программы на выбор: в берёзовом пару или баня по-русски.</p>
+        <p class="to-hl">
+          <span class="to-hl__label">Стоимость</span>
+          <span class="to-hl__val">от 8 000 ₽</span>
+        </p>
 
         <button class="to-btn to-btn--toggle" type="button" aria-expanded="false" data-pick>
           Выбрать программу
@@ -49,8 +53,8 @@
               <li>Мёд, сушки или орехи — на выбор</li>
               <li>Вода 0,5 л на каждого гостя</li>
             </ul>
-            <a class="to-btn" href="https://ecobr.ru/booking?dfrom=fri&amp;dto=sun&amp;adults=2&amp;scroll_to_rooms=1">
-              Забронировать
+            <a class="to-btn" href="https://t.me/ecobazabr" target="_blank" rel="noopener">
+              Уточнить у менеджера
             </a>
           </div>
 
@@ -67,11 +71,13 @@
               <li>Вода 0,5 л на каждого гостя</li>
               <li>Холодный чан</li>
             </ul>
-            <a class="to-btn" href="https://ecobr.ru/booking?dfrom=fri&amp;dto=sun&amp;adults=4&amp;scroll_to_rooms=1">
-              Забронировать
+            <a class="to-btn" href="https://t.me/ecobazabr" target="_blank" rel="noopener">
+              Уточнить у менеджера
             </a>
           </div>
         </div>
+
+        <p class="to-terms">Акции не суммируются.</p>
       </div>
     </article>
 
@@ -87,9 +93,10 @@
         <div class="to-promo" data-code="ОСЕНЬ2026">
           <span>ОСЕНЬ2026</span><small>нажмите, чтобы скопировать</small>
         </div>
-        <a class="to-btn" href="https://ecobr.ru/booking?dfrom=fri&amp;dto=sun&amp;adults=2&amp;promoCode=%D0%9E%D0%A1%D0%95%D0%9D%D0%AC2026&amp;scroll_to_rooms=1">
+        <a class="to-btn" href="https://ecobr.ru/booking?adults=2&amp;promoCode=%D0%9E%D0%A1%D0%95%D0%9D%D0%AC2026&amp;scroll_to_rooms=1">
           Забронировать с промокодом
         </a>
+        <p class="to-terms">Акции не суммируются.</p>
       </div>
     </article>
 
@@ -98,29 +105,23 @@
       <div class="to-pic" style="background-image:url('ФОТО_card-kanikuly.webp')"></div>
       <div class="to-body">
         <h3 class="to-t">Осенние каникулы в Берёзовой Роще</h3>
-        <p class="to-d">Раннее бронирование пакета «Осенние каникулы».</p>
-        <p class="to-big">Скидка 10%</p>
+        <p class="to-d">Период каникул: с 26 октября по 3 ноября 2026.</p>
+        <p class="to-hl">
+          <span class="to-hl__label">Раннее бронирование</span>
+          <span class="to-hl__val">−10%</span>
+        </p>
         <ul class="to-list">
-          <li>При бронировании на официальном сайте до 15.09.2026</li>
+          <li>Скидка 10% на проживание при бронировании пакета
+              до 15 октября 2026</li>
         </ul>
-        <details class="to-more">
-          <summary>Подробные условия</summary>
-          <p class="to-fine">
-            При бронировании пакета «Осенние каникулы» дарим скидку 20% —
-            при заключении договора и внесении предоплаты до 15 сентября.
-            Предложение действует до 15 сентября.
-            Период каникул: с 23 октября по 4 ноября 2026 года.
-          </p>
-        </details>
-        <a class="to-btn" href="https://ecobr.ru/booking?dfrom=2026-10-23&amp;dto=2026-10-26&amp;adults=2&amp;children=2&amp;scroll_to_rooms=1">
+        <a class="to-btn" href="https://ecobr.ru/booking?dfrom=2026-10-26&amp;dto=2026-10-29&amp;adults=2&amp;scroll_to_rooms=1">
           Забронировать каникулы
         </a>
+        <p class="to-terms">Акции не суммируются.</p>
       </div>
     </article>
 
   </div>
-
-  <p class="to-terms">Акции не суммируются</p>
 </div>
 
 <style>
@@ -158,8 +159,10 @@
 
 /* Оговорка под всеми акциями блока — одна строка, чтобы не спорить
    с карточками, но относится к каждой из них. */
-.to-terms{margin:18px 0 0;font-size:13px;color:var(--to-muted);text-align:center}
+/* Оговорка внизу карточки, под кнопкой: относится к своей акции. */
+.to-terms{margin:14px 0 0;font-size:12.5px;color:var(--to-muted)}
 
+.to-grid.is-open{align-items:start}
 .to-card{
   background:#fff;border-radius:var(--to-radius);overflow:hidden;
   display:flex;flex-direction:column;
@@ -185,6 +188,18 @@
 }
 .to-price{margin-left:auto;font-weight:700;font-size:20px;white-space:nowrap}
 .to-note{margin:0 0 10px;font-size:13px;color:var(--to-muted)}
+
+/* Цена и скидка подаются одинаково, как на Барских: мелкая подпись
+   сверху, значение крупно, слева тонкая черта акцентом. */
+.to-hl{margin:6px 0 16px;padding-left:13px;border-left:2px solid var(--to-accent)}
+.to-hl__label{
+  display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--to-muted);margin-bottom:4px;
+}
+.to-hl__val{
+  display:block;font-family:'DespairDisplay',Arial,sans-serif;font-weight:700;
+  font-size:26px;line-height:1.1;color:var(--to-ink);
+}
 
 .to-big{
   font-family:'DespairDisplay',Arial,sans-serif;font-weight:700;
@@ -263,6 +278,8 @@
       var open = t.getAttribute('aria-expanded') === 'true';
       t.setAttribute('aria-expanded', String(!open));
       panel.hidden = open;
+      var сетка = t.closest('.to-grid');
+      if (сетка) сетка.classList.toggle('is-open', !open);
       t.textContent = open ? 'Выбрать программу' : 'Свернуть';
     });
   }

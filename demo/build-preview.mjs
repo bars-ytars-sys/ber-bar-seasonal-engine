@@ -172,11 +172,42 @@ const fadeJs = `
   [0, 400, 1200, 2500].forEach(function (ms) { setTimeout(пересчёт, ms); });
 })();`;
 
+/* --- новый подбор дома вместо нынешнего опросника ---
+   Старый блок rec2486811301 прячем, свой ставим на его место.
+   В Тильде то же самое: снять галочку показа у старого, вставить T123. */
+const kvizBlock = read('tilda', '8BLOK-KVIZ.html');
+const kvizLiteral = JSON.stringify(kvizBlock).replace(/<\/script>/gi, CLOSE);
+
+const kvizJs = `
+(function () {
+  var HTML = ${kvizLiteral};
+  function mount() {
+    if (document.getElementById('kv')) return;
+    var target = document.getElementById('rec2486811301');
+    if (!target || !target.parentNode) return;
+
+    var host = document.createElement('div');
+    host.id = 'kv-host';
+    host.style.cssText = 'padding:40px 0 50px';
+    host.innerHTML = HTML;
+    target.parentNode.insertBefore(host, target);
+    target.style.display = 'none';
+
+    host.querySelectorAll('script').forEach(function (old) {
+      var neo = document.createElement('script');
+      neo.text = old.textContent;
+      old.parentNode.replaceChild(neo, old);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
+  else mount();
+})();`;
+
 /* --- собираем страницу --- */
 let page = read('demo', 'sites', 'eco.html');
 page = page.replace(/<\/head>/i, `<style>\n${css1}\n${css2}\n</style>\n</head>`);
 page = page.replace(/<\/body>/i,
-  `<script>\n${js1}\n${js2}\n${blockJs}\n${fadeJs}\n</script>\n</body>`);
+  `<script>\n${js1}\n${js2}\n${blockJs}\n${kvizJs}\n${fadeJs}\n</script>\n</body>`);
 
 fs.writeFileSync(path.join(ROOT, 'bereza.html'), page, 'utf8');
 console.log(`  bereza.html  ${(page.length / 1024 / 1024).toFixed(1)} МБ`);

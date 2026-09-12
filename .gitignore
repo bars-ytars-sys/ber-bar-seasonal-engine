@@ -24,7 +24,7 @@ tools/.kie_key
 .kie_key
 
 # результаты инструментов проверки — временные
-CODEX/tools/out/
+tools/out/
 
 # исходники генерации картинок (4K, по 3–27 МБ) — в репозиторий не идут
 demo/assets/bp-zima-ng-*.png
@@ -32,3 +32,26 @@ demo/assets/bp-zima-ng-a.webp
 demo/assets/bp-zima-ng-b-4k.webp
 demo/assets/bp-hero-*.jpg
 demo/assets/bp-dom-*.jpg
+
+# телеграм-бот: токен, состояние, входящие файлы и логи — не в git
+telegram/.env
+telegram/.env.local
+telegram/state.json
+telegram/log/
+telegram/vhod/
+
+# исходник 4K для Берёзовой рощи — тяжёлый, в репозиторий не идёт
+demo/assets/eco-hero-*.jpg
+
+# фото владельца и мусор в корне
+aaa2.jpg
+ааа.jpg
+photo_*.jpg
+nul
+bp-kartinki-pereszhatye/
+
+# внутренние журналы — в публичный репозиторий не идут
+СТАТУС.md
+ДЕФЕКТЫ.md
+ТАСК-*.md
+proverka-rezultat.txt

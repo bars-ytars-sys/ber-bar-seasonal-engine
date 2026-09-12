@@ -1,0 +1,194 @@
+<!-- РАЗМЕТКА ДЛЯ ПОИСКОВИКОВ — код для barskie-polya.ru
+     Тильда → Настройки сайта → Вставка кода →
+     «HTML-код для вставки внутрь тега HEAD», следом за уже стоящим кодом.
+
+     ЧТО ЛЕЧИМ. На сайте нет ни одной разметки schema.org — проверено
+     по всем 40 страницам. Из-за этого поисковик видит обычный текст
+     и не понимает, что перед ним база отдыха: нет карточки организации,
+     нет цен в сниппете, нет хлебных крошек, вместо них голый адрес.
+
+     ЧТО ДЕЛАЕМ. Три вещи, все из данных, которые уже есть на сайте:
+
+       1) LodgingBusiness — карточка базы отдыха: название, адрес,
+          координаты, телефон, часы бронирования, цены, соцсети, карты.
+          Ставится статикой на каждой странице: организация одна и та же,
+          повторение на всех страницах поисковики считают нормой.
+
+       2) BreadcrumbList — хлебные крошки, собираются скриптом из адреса
+          страницы. В выдаче вместо «barskie-polya.ru/gardens» появится
+          «Барские поля → Дома Гарден».
+
+       3) FAQPage — если на странице есть блок вопросов-ответов Тильды,
+          скрипт соберёт из него разметку, и вопросы начнут раскрываться
+          прямо в выдаче. Блока нет — скрипт молчит.
+
+     ЧЕГО ЗДЕСЬ НЕТ И ПОЧЕМУ. Рейтинг (AggregateRating) не размечен
+     намеренно: на сайте показаны оценки Яндекс.Карт, то есть чужая
+     площадка. Размечать чужие отзывы как свои — прямое нарушение правил
+     Google, за это снимают расширенный сниппет целиком. Звёзды появятся,
+     когда отзывы будут собираться на своём домене.
+
+     Цены взяты те, что написаны на сайте: дома от 9 900 ₽, баня от 8 000 ₽.
+     Поменяются цены на сайте — поправить и здесь, иначе разметка разойдётся
+     с содержимым, а это поисковики считают обманом.
+
+     ПРОВЕРИТЬ ПОСЛЕ ПУБЛИКАЦИИ:
+       Яндекс  — webmaster.yandex.ru/tools/microtest/
+       Google  — search.google.com/test/rich-results
+     -->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LodgingBusiness",
+  "@id": "https://barskie-polya.ru/#organization",
+  "name": "База отдыха «Барские поля»",
+  "description": "База отдыха в Подмосковье в часе от Москвы: отдельные дома в лесу, у каждого свой банный чан, баня, летняя веранда и площадки для мероприятий.",
+  "url": "https://barskie-polya.ru/",
+  "image": "https://static.tildacdn.com/tild6536-3537-4166-b435-333832313630/IMG_9799-286.jpg",
+  "telephone": "+7 (495) 150-39-08",
+  "priceRange": "от 9 900 ₽ за ночь",
+  "currenciesAccepted": "RUB",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "RU",
+    "addressRegion": "Московская область",
+    "addressLocality": "деревня Степаньково",
+    "streetAddress": "Новорижское шоссе, деревня Степаньково"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 56.095332,
+    "longitude": 36.469182
+  },
+  "hasMap": "https://yandex.ru/maps/-/CHBeRBYP",
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "09:00",
+    "closes": "23:59",
+    "description": "Часы работы отдела бронирования"
+  },
+  "amenityFeature": [
+    { "@type": "LocationFeatureSpecification", "name": "Банный чан у каждого дома", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Баня", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Мангал и зона барбекю", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Размещение с питомцами", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Бесплатная парковка", "value": true }
+  ],
+  "sameAs": [
+    "https://t.me/bazabarskie_polya",
+    "https://www.instagram.com/barskie_polya",
+    "https://yandex.ru/maps/org/barskiye_polya/218830724182/"
+  ],
+  "potentialAction": {
+    "@type": "ReserveAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://barskie-polya.ru/booking",
+      "actionPlatform": [
+        "http://schema.org/DesktopWebPlatform",
+        "http://schema.org/MobileWebPlatform"
+      ]
+    },
+    "result": { "@type": "LodgingReservation", "name": "Бронирование дома" }
+  }
+}
+</script>
+
+<script>
+(function () {
+  /* Названия разделов для крошек. Ключ — кусок адреса страницы.
+     Нет в списке — берём заголовок страницы, он всегда осмысленный. */
+  var РАЗДЕЛЫ = {
+    'gardens':      'Дома Гарден',
+    'rivers':       'Дома Ривер',
+    'barnhauses':   'Барнхаусы',
+    'barski':       'Барский дом',
+    'chalet':       'Шале',
+    'banchan':      'Бани и банные чаны',
+    'dosug':        'Досуг',
+    'menu':         'Питание',
+    'events':       'Аренда веранды',
+    'special':      'Специальные предложения',
+    'maps':         'Карта базы отдыха',
+    'booking':      'Бронирование',
+    'svidanie':     'Свидание года',
+    'perezagruzka': 'Перезагрузка',
+    'programmy':    'Программы'
+  };
+
+  function добавить(данные) {
+    var s = document.createElement('script');
+    s.type = 'application/ld+json';
+    s.textContent = JSON.stringify(данные);
+    document.head.appendChild(s);
+  }
+
+  /* ── хлебные крошки ── */
+  function крошки() {
+    var части = location.pathname.split('/').filter(Boolean);
+    if (!части.length) return;               /* на главной крошки не нужны */
+
+    var список = [{
+      '@type': 'ListItem', position: 1,
+      name: 'Барские поля', item: 'https://barskie-polya.ru/'
+    }];
+    var путь = '';
+    for (var i = 0; i < части.length; i++) {
+      путь += '/' + части[i];
+      var последний = i === части.length - 1;
+      var имя = РАЗДЕЛЫ[части[i]];
+      if (!имя && последний) {
+        /* Заголовок страницы без хвоста с названием базы. Эмодзи в начале
+           убираем: в крошках выдачи домик смотрится мусором. */
+        имя = (document.title || '').split(/[|–—]/)[0]
+                .replace(/^[^\p{L}\p{N}]+/u, '').trim();
+      }
+      if (!имя) имя = части[i];
+      var пункт = { '@type': 'ListItem', position: i + 2, name: имя };
+      if (!последний) пункт.item = 'https://barskie-polya.ru' + путь;
+      список.push(пункт);
+    }
+    добавить({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: список });
+  }
+
+  /* ── вопросы и ответы ── */
+  var вопросыДобавлены = false;
+  function вопросы() {
+    if (вопросыДобавлены) return;
+    /* Аккордеоны Тильды: T585, T668 и родня. Берём пары «заголовок — текст». */
+    var пары = [];
+    var узлы = document.querySelectorAll(
+      '.t585__title, .t668__title, .t525__title, [class*="__accordion"] [class*="title"]');
+    for (var i = 0; i < узлы.length; i++) {
+      var з = узлы[i];
+      var тело = з.parentNode &&
+        з.parentNode.querySelector('[class*="text"], [class*="descr"], [class*="content"]');
+      var в = (з.textContent || '').replace(/\s+/g, ' ').trim();
+      var о = тело ? (тело.textContent || '').replace(/\s+/g, ' ').trim() : '';
+      if (в.length > 5 && о.length > 15) пары.push({ в: в, о: о });
+    }
+    if (пары.length < 2) return;             /* одна пара — не FAQ, не размечаем */
+
+    вопросыДобавлены = true;
+    добавить({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: пары.map(function (p) {
+        return {
+          '@type': 'Question', name: p.в,
+          acceptedAnswer: { '@type': 'Answer', text: p.о }
+        };
+      })
+    });
+  }
+
+  function пуск() { крошки(); вопросы(); }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', пуск);
+  else пуск();
+  /* Блоки Тильды доезжают позже — досматриваем вопросы ещё раз. */
+  setTimeout(вопросы, 4000);
+})();
+</script>

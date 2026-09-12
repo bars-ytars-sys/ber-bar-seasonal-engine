@@ -181,6 +181,12 @@
   .au2-stamp{ width:88px }
   .au2-garland{ opacity:.75 }
 }
+
+@media(max-width:639px){
+  #rec2851363001 .au-sprig,
+  #rec2851363001 .au2,
+  #rec2851363001 > svg{display:none!important}
+}
 </style>
 
 <script>
@@ -1107,4 +1113,35 @@ window.AUTUMN_PACK2 = {
   window.autumnPack2 = { place: place };
 })();
 
+
+(function () {
+  var КОНЕЦ = 1.5;              /* к скольким экранам прокрутки исчезнут */
+  var слои = [];
+  function собрать() {
+    слои = [document.getElementById('au-canvas')]
+      .concat([].slice.call(document.querySelectorAll('.au2-side')))
+      .filter(Boolean);
+  }
+  var ждём = false;
+  function пересчёт() {
+    ждём = false;
+    собрать();
+    if (!слои.length) return;
+    var предел = window.innerHeight * КОНЕЦ;
+    var доля = Math.min(1, (window.pageYOffset || document.documentElement.scrollTop || 0) / предел);
+    for (var i = 0; i < слои.length; i++) {
+      var слой = слои[i];
+      /* У боковых полос своя прозрачность в наборе — гасим от неё. */
+      if (!слой.dataset.auBase) слой.dataset.auBase = getComputedStyle(слой).opacity || '1';
+      var прозрачность = parseFloat(слой.dataset.auBase) * (1 - доля);
+      /* В наборе прозрачность задана через !important — пишем так же. */
+      слой.style.setProperty('opacity', прозрачность.toFixed(3), 'important');
+      слой.style.visibility = прозрачность < 0.01 ? 'hidden' : '';
+    }
+  }
+  function покадрово() { if (!ждём) { ждём = true; requestAnimationFrame(пересчёт); } }
+  window.addEventListener('scroll', покадрово, { passive: true });
+  window.addEventListener('resize', покадрово, { passive: true });
+  [0, 400, 1200, 2500, 6000].forEach(function (ms) { setTimeout(пересчёт, ms); });
+})();
 </script>

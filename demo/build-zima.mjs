@@ -434,7 +434,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
   .лого img{width:136px}
 }
 /* ── отсчёт до Нового года ── */
-.отсчёт-полоса{position:relative;z-index:4;margin-top:-44px;margin-bottom:8px}
+.отсчёт-полоса{position:relative;z-index:4;margin-top:26px;margin-bottom:8px}
 .отсчёт{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:30px;align-items:center;
         padding:24px 32px;border-radius:14px;position:relative;overflow:hidden;
         background:linear-gradient(120deg,#3d6154,#2d473e);box-shadow:0 26px 50px -30px rgba(0,0,0,.7)}
@@ -455,7 +455,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
   .отсчёт__числа{justify-content:center;gap:8px}
   .ячейка{min-width:0;flex:1}
   .ячейка b{font-size:30px}
-  .отсчёт-полоса{margin-top:-10px}
+  .отсчёт-полоса{margin-top:16px}
 }
 
 /* ── гирлянда-разделитель ── */

@@ -179,7 +179,7 @@ section[id]{scroll-margin-top:92px}
 section:target h2{animation:вспышка 1.6s ease-out}
 @keyframes вспышка{0%{color:#bff6e3;text-shadow:0 0 30px rgba(46,216,163,.7)}100%{color:inherit;text-shadow:none}}
 /* отсчёт */
-.отсчёт-полоса{position:relative;z-index:4;margin-top:-44px}
+.отсчёт-полоса{position:relative;z-index:4;margin-top:26px}
 .отсчёт{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:28px;align-items:center;padding:24px 30px;
         border-radius:16px;background:linear-gradient(120deg,#252c35,#1d232a);box-shadow:0 26px 50px -30px rgba(0,0,0,.8)}
 .отсчёт__заг{font-family:DespairDisplay,Manrope,sans-serif;font-size:20px;line-height:1.3}
@@ -308,7 +308,7 @@ a.действие:hover{background:rgba(10,12,14,.62);transform:translateY(-4px
   .заезд__кратко{padding:24px 18px}.заезд__подробно{padding:0 18px 24px}
   .подробно__сетка,.действия,.дома,.плиты{grid-template-columns:1fr}
   .кнопка{width:100%;text-align:center}
-  .отсчёт-полоса{margin-top:-10px}
+  .отсчёт-полоса{margin-top:16px}
   .описание{grid-template-columns:1fr}
   .описание__фото{min-height:0;height:300px}
   .описание__текст{padding:28px 20px 26px}

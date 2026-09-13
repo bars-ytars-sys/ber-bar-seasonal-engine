@@ -26,6 +26,55 @@ const БРОНЬ = 'https://ecobr.ru/booking?dfrom=2026-12-31&amp;dto=2027-01-03
 const Ф = (u, ш = 900) => u.replace('static.tildacdn.com', 'optim.tildacdn.com')
   .replace(/\/([^/]+)$/, '/-/resize/' + ш + 'x/-/format/webp/$1');
 
+/* Линейные иконки в цвет акцента — те же, что на странице Барских полей. */
+const ИКОНКИ = {
+  дом: '<path d="M4 11 12 4l8 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/>',
+  чан: '<ellipse cx="12" cy="13" rx="8" ry="2.5"/><path d="M4 13v4.5c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5V13"/><path d="M9 4.5c-1 1 1 2 0 3.2M12 3.5c-1 1 1 2 0 3.4M15 4.5c-1 1 1 2 0 3.2"/>',
+  огонь: '<path d="M12 21c-3.9 0-6.5-2.6-6.5-6 0-3.4 2.6-5.2 3.6-8.6.3 1.9 1.4 3 2.4 3.4C11.5 6.6 13 4.2 15.5 3c-.6 2.8.4 4.6 1.6 6.3 1 1.4 1.4 2.8 1.4 4.2 0 4.2-2.7 7.5-6.5 7.5Z"/><path d="M12 21c-1.6 0-2.7-1-2.7-2.6 0-1.6 1.2-2.3 1.7-3.9.8 1 2.2 1.7 2.9 2.9.8 1.4-.2 3.6-1.9 3.6Z"/>',
+  кролик: '<path d="M9 9.5C7.8 6.8 7.2 3.6 8.4 3c1.3-.6 2.7 2.6 3.1 5.8M15 9.5c1.2-2.7 1.8-5.9.6-6.5-1.3-.6-2.7 2.6-3.1 5.8"/><circle cx="12" cy="14.5" r="5.5"/><path d="M10 13.5h.01M14 13.5h.01M11 16.5c.6.5 1.4.5 2 0"/>',
+  мишка: '<circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="6.5" r="2.5"/><circle cx="12" cy="13" r="7.5"/><ellipse cx="12" cy="15.5" rx="3" ry="2.2"/><path d="M9.5 11h.01M14.5 11h.01"/>',
+  стол: '<circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="3.5"/><path d="M3 4v5c0 1 .8 1.8 1.5 1.8V20M4.5 4v4M21 4c-1.5 0-2.5 2-2.5 4.5 0 1.7.7 2.5 1.5 2.5V20"/>',
+  часы: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  карта: '<rect x="3" y="6" width="18" height="12.5" rx="2"/><path d="M3 10h18M7 15h4"/>',
+  снежинка: '<path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/><path d="m9.5 4.5 2.5 2 2.5-2M9.5 19.5l2.5-2 2.5 2"/>',
+  галка: '<path d="m6 9.5 6 6 6-6"/>'
+};
+const иконка = (имя, класс = 'иконка') =>
+  `<svg class="${класс}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ИКОНКИ[имя]}</svg>`;
+
+/* Гирлянда: провод дугой, лампочки мерцают. Цвета — мятный акцент БР и тёплые огни. */
+const ЦВЕТА = ['#ffd27a', '#2ed8a3', '#8cc8ff', '#ff8a6b', '#ffd27a', '#2ed8a3', '#8cc8ff', '#ff8a6b', '#ffd27a'];
+function гирлянда() {
+  const x0 = 40, x1 = 1060, y0 = 40, провис = 110;
+  const y = x => y0 + провис * Math.sin(Math.PI * (x - x0) / (x1 - x0));
+  const точки = ЦВЕТА.map((цвет, i) => {
+    const x = x0 + (x1 - x0) * (i + 0.5) / ЦВЕТА.length;
+    return { x, y: y(x), цвет, задержка: (i * 0.37 % 2.2).toFixed(2) };
+  });
+  return `<svg class="гирлянда" viewBox="0 0 1100 230" aria-hidden="true">
+    <defs><filter id="свечение" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="7" result="р"/><feMerge><feMergeNode in="р"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter></defs>
+    <path d="M${x0} ${y0} Q 550 ${y0 + провис * 2} ${x1} ${y0}" fill="none" stroke="#dfe6ee" stroke-width="1.6" opacity=".6"/>
+    ${точки.map(т => `
+    <g transform="translate(${т.x.toFixed(1)} ${т.y.toFixed(1)}) rotate(${((т.x - 550) / 40).toFixed(1)})">
+      <rect x="-6" y="0" width="12" height="11" rx="2" fill="#222831" stroke="#dfe6ee" stroke-width="1.2"/>
+      <path class="лампа" style="animation-delay:-${т.задержка}s" filter="url(#свечение)"
+            d="M-9 14 C-17 26,-15 44,0 48 C15 44,17 26,9 14 Z" fill="${т.цвет}"/>
+    </g>`).join('')}
+  </svg>`;
+}
+
+/* Вводный блок: суть — пояснение. Только то, что есть на страницах ecobr.ru. */
+const пункты = [
+  ['дом', '22 дизайнерских дома в лесу', 'От зеркальных баусов для двоих до больших домов на 10 гостей.'],
+  ['чан', 'Банный чан у дома', 'Прямо в снегу, под открытым небом — топим к вашему приезду.'],
+  ['огонь', 'SPA-комплекс в 300 метрах', 'Горячий бассейн под открытым небом, хамам и русская баня на дровах.'],
+  ['кролик', 'Своя ферма', 'Можно всей семьёй заглянуть в гости к животным.'],
+  ['мишка', 'Удобно с детьми', 'Детские кроватки и стульчики для кормления — бесплатно по запросу.'],
+  ['снежинка', 'Зимний лес вокруг', 'Прогулки, рыбалка и тишина вместо городского шума.']
+];
+
 /* Дома — по группам, данные и зимние фото со страниц домов ecobr.ru. */
 const дома = [
   ['A-фреймы', 'до 4 гостей · от 10 000 ₽',
@@ -50,10 +99,10 @@ const дома = [
 
 /* Что включено и вопросы — по страницам /spa, /banchan, /deti, /aktivnosti. */
 const включено = [
-  ['SPA-комплекс в 300 метрах', 'Горячий бассейн под открытым небом, турецкий хамам, русская баня на дровах и массаж.'],
-  ['Банные чаны', 'Классический чан — 5 500 ₽ без наполнения, в SPA House — 7 000 ₽. Последняя сдача чана — не позже 22:00.'],
-  ['Отдых с детьми', 'Детские кроватки и стульчики для кормления — бесплатно по запросу для гостей с детьми до 3 лет.'],
-  ['Зимние активности', 'Прогулки по лесу, рыбалка, баня и чаны, сезонные развлечения — расписание уточняйте у администратора.']
+  ['огонь', 'SPA-комплекс в 300 метрах', 'Горячий бассейн под открытым небом, турецкий хамам, русская баня на дровах и массаж.'],
+  ['чан', 'Банные чаны', 'Классический чан — 5 500 ₽ без наполнения, в SPA House — 7 000 ₽. Последняя сдача чана — не позже 22:00.'],
+  ['мишка', 'Отдых с детьми', 'Детские кроватки и стульчики для кормления — бесплатно по запросу для гостей с детьми до 3 лет.'],
+  ['снежинка', 'Зимние активности', 'Прогулки по лесу, рыбалка, баня и чаны, сезонные развлечения — расписание уточняйте у администратора.']
 ];
 
 const вопросы = [
@@ -63,6 +112,8 @@ const вопросы = [
   ['Что с питанием?', 'В домах есть всё для готовки, рядом ресторан с доставкой в дом. Новогодний стол — на ваше усмотрение.'],
   ['Где находится база?', 'Московская область, Солнечногорский район, деревня Васюково, КДЗ Новое Мишкино 1/5. Около часа от Москвы.']
 ];
+
+const ФОТО_ВВОДНОГО = Ф('https://static.tildacdn.com/tild3934-3763-4936-b334-306266623761/clipboard-image-1766.png', 1400);
 
 const карточкаДома = ([имя, свойства, текст, фото]) => `
       <article class="дом">
@@ -150,9 +201,13 @@ section:target h2{animation:вспышка 1.6s ease-out}
 .заезд__даты{display:inline-block;padding:8px 16px;border-radius:999px;color:#bff6e3;font-size:14px;
              background:rgba(46,216,163,.14);box-shadow:inset 0 0 0 1px rgba(46,216,163,.45)}
 .заезд__лид{margin-top:18px;font-size:19px;max-width:680px}
-.заезд__список{list-style:none;display:flex;flex-wrap:wrap;gap:12px 26px;margin:20px 0 24px;font-size:15px;opacity:.9}
-.заезд__список li::before{content:'—  ';color:var(--акцент)}
-.раскрыть{border:0;cursor:pointer;font:inherit}
+.заезд__список{list-style:none;display:flex;flex-wrap:wrap;gap:14px 28px;margin:22px 0 26px}
+.заезд__список li{display:flex;align-items:center;gap:10px;font-size:15px;opacity:.92}
+.заезд__список .иконка{width:36px;height:36px;padding:7px;border-radius:50%;flex:none;
+                       background:rgba(46,216,163,.1);box-shadow:inset 0 0 0 1px rgba(46,216,163,.35)}
+.раскрыть{display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;font:inherit}
+.раскрыть .галка{width:16px;height:16px;color:currentColor;transition:transform .3s}
+.раскрыть[aria-expanded="true"] .галка{transform:rotate(180deg)}
 .заезд__подробно{padding:0 36px 32px;border-top:1px solid rgba(244,246,251,.12)}
 .заезд__подробно[hidden]{display:none}
 .подробно__сетка{display:grid;grid-template-columns:1fr 1fr;gap:22px 40px;padding:24px 0 4px}
@@ -183,8 +238,12 @@ a.действие:hover{background:rgba(10,12,14,.62);transform:translateY(-4px
 .дом__текст{font-size:15px;opacity:.88}
 /* что включено, вопросы, заявка */
 .плиты{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-.плита{background:var(--панель);border-radius:16px;padding:26px 28px}
-.плита h3{font-size:19px;color:var(--акцент);margin-bottom:10px}
+.плита{display:grid;grid-template-columns:52px 1fr;gap:18px;align-items:start;background:var(--панель);border-radius:16px;
+       padding:26px 28px;box-shadow:inset 0 0 0 1px rgba(244,246,251,.05);transition:.35s}
+.плита:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 1px rgba(46,216,163,.3),0 22px 40px -26px rgba(0,0,0,.8)}
+.плита .иконка{width:52px;height:52px;padding:12px;border-radius:14px;
+               background:rgba(46,216,163,.1);box-shadow:inset 0 0 0 1px rgba(46,216,163,.35)}
+.плита h3{font-size:19px;color:var(--акцент);margin:4px 0 8px}
 .плита p{font-size:15px;opacity:.88}
 .вопрос{background:var(--панель);border-radius:14px;padding:18px 24px;margin-bottom:12px}
 .вопрос summary{cursor:pointer;font-size:17px;list-style:none;position:relative;padding-right:32px}
@@ -192,18 +251,56 @@ a.действие:hover{background:rgba(10,12,14,.62);transform:translateY(-4px
 .вопрос summary::after{content:'+';position:absolute;right:2px;top:-3px;font-size:24px;color:var(--акцент)}
 .вопрос[open] summary::after{content:'−'}
 .вопрос p{margin-top:10px;font-size:15px;opacity:.85}
-.заявка{margin-top:84px;padding:46px 40px;border-radius:20px;text-align:center;position:relative;overflow:hidden;
-        background:radial-gradient(ellipse 70% 90% at 50% 120%,rgba(46,216,163,.25),transparent 70%),var(--панель)}
-.заявка h2{margin-bottom:10px}
-.заявка p{opacity:.85;margin-bottom:22px}
+.заявка{margin-top:84px;padding:34px 40px 50px;border-radius:20px;text-align:center;position:relative;overflow:hidden;
+        background:radial-gradient(ellipse 70% 90% at 50% 120%,rgba(46,216,163,.28),transparent 70%),
+                   linear-gradient(160deg,#262e37,#1d232a);
+        box-shadow:inset 0 0 0 1px rgba(46,216,163,.18),0 30px 60px -34px rgba(0,0,0,.85)}
+.заявка .гирлянда{width:min(640px,100%);margin:-18px auto 4px}
+.заявка h2{font-size:clamp(28px,3.6vw,44px);line-height:1.12;text-transform:uppercase;margin-bottom:14px}
+.заявка p{max-width:560px;margin:0 auto 26px;opacity:.85}
 .низ{margin-top:84px;padding:40px 0 56px;border-top:1px solid rgba(244,246,251,.12);text-align:center;font-size:15px;opacity:.75}
+/* вводный блок: фото и что вас ждёт */
+.описание{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);border-radius:18px;overflow:hidden;
+          background:linear-gradient(160deg,#262e37,#1c2127);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.описание__фото{position:relative;min-height:100%}
+.описание__фото img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%}
+.описание__фото::after{content:'';position:absolute;inset:auto 0 0 0;height:45%;background:linear-gradient(transparent,rgba(12,14,17,.8))}
+.значок{position:absolute;left:28px;bottom:28px;z-index:2;padding:12px 18px;border-radius:10px;line-height:1.25;
+        background:rgba(244,246,251,.95);color:#1a1b19}
+.значок b{display:block;font-family:DespairDisplay,Manrope,sans-serif;font-size:19px}
+.значок span{font-size:13px;opacity:.75}
+.описание__текст{padding:50px 50px 44px}
+.метка{display:flex;align-items:center;gap:10px;font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--акцент)}
+.иконка{width:24px;height:24px;color:var(--акцент)}
+.метка .иконка{width:18px;height:18px}
+.описание h2{font-size:clamp(28px,3vw,38px);line-height:1.15;margin:14px 0 18px;text-align:left}
+.вводный{font-size:17px;opacity:.9;max-width:560px}
+.пункты{display:grid;grid-template-columns:1fr 1fr;gap:22px 30px;margin:32px 0 28px;list-style:none}
+.пункт{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+.пункт .иконка{width:44px;height:44px;padding:10px;border-radius:50%;
+               background:rgba(46,216,163,.1);box-shadow:inset 0 0 0 1px rgba(46,216,163,.35)}
+.пункт b{display:block;font-weight:600;font-size:16px;line-height:1.35}
+.пункт span{display:block;margin-top:4px;font-size:14px;line-height:1.5;opacity:.75}
+.условия{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+.условие{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:14px 16px;border-radius:12px;background:rgba(10,12,14,.4);
+         box-shadow:inset 0 0 0 1px rgba(244,246,251,.08);font-size:14px;line-height:1.35}
+.условие .иконка{flex:none;width:26px;height:26px}
+.условие span{display:block;font-size:12.5px;opacity:.65}
+.описание .кнопки{justify-content:flex-start;margin-top:0}
+/* гирлянды */
+.гирлянда{display:block;width:min(1100px,100%);height:auto;margin:0 auto}
+.лампа{animation:мерцать 2.2s ease-in-out infinite}
+@keyframes мерцать{0%,100%{opacity:1}50%{opacity:.5}}
+.разделитель{padding-top:46px;margin-bottom:-52px;pointer-events:none}
+.разделитель .гирлянда{width:min(760px,96%)}
 /* снег и появление */
 .снег{position:fixed;inset:0;pointer-events:none;z-index:5}
 .снежинка{position:absolute;top:-12px;border-radius:50%;background:#fff;opacity:.45;animation:падать linear infinite}
 @keyframes падать{0%{transform:translate3d(0,-12px,0)}100%{transform:translate3d(24px,105vh,0)}}
 .ждёт{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
 .ждёт.видно{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.снежинка{display:none}.ждёт{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+@media(prefers-reduced-motion:reduce){.лампа{animation:none}.снежинка{display:none}.ждёт{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+@media(max-width:1100px){.пункты{grid-template-columns:1fr}.условия{grid-template-columns:1fr}.условие{flex-direction:row;align-items:center;gap:12px}}
 @media(max-width:1000px){.дома{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:900px){
   .отсчёт{grid-template-columns:1fr;text-align:center;gap:16px;padding:22px 16px}
@@ -212,6 +309,14 @@ a.действие:hover{background:rgba(10,12,14,.62);transform:translateY(-4px
   .подробно__сетка,.действия,.дома,.плиты{grid-template-columns:1fr}
   .кнопка{width:100%;text-align:center}
   .отсчёт-полоса{margin-top:-10px}
+  .описание{grid-template-columns:1fr}
+  .описание__фото{min-height:0;height:300px}
+  .описание__текст{padding:28px 20px 26px}
+  .значок{left:18px;bottom:18px}
+  .плита{grid-template-columns:44px 1fr;gap:14px;padding:22px 20px}
+  .плита .иконка{width:44px;height:44px;padding:10px}
+  .заявка{padding:26px 18px 34px}
+  .разделитель{padding-top:30px;margin-bottom:-40px}
 }
 @media(max-width:700px){
   .герой{min-height:0;display:block}
@@ -261,6 +366,7 @@ const html = `<!doctype html>
 
 <nav class="навигация" aria-label="Разделы страницы">
   <div class="навигация__полоса">
+    <a href="#описание">Праздник</a>
     <a href="#заезд">Заезд</a>
     <a href="#дома">Дома</a>
     <a href="#включено">Что включено</a>
@@ -282,6 +388,33 @@ const html = `<!doctype html>
   </div>
 </section>
 
+<section class="раздел полоса" id="описание">
+  <div class="описание">
+    <div class="описание__фото">
+      <img src="${ФОТО_ВВОДНОГО}" alt="Дом-сфера в Берёзовой роще зимним вечером" loading="lazy">
+      <div class="значок"><b>31 декабря — 10 января</b><span>новогодние праздники</span></div>
+    </div>
+    <div class="описание__текст">
+      <div class="метка">${иконка('снежинка')}Новый год в лесу</div>
+      <h2>Под окнами берёзы в снегу, а не пробка</h2>
+      <p class="вводный">Около часа от Москвы — и вы в берёзовом лесу: в доме тепло, у крыльца парит банный чан,
+        а до SPA с бассейном под открытым небом — три сотни метров. Никакой суеты, только праздник в своём темпе.</p>
+      <ul class="пункты">${пункты.map(([и, суть, текст]) => `
+        <li class="пункт">${иконка(и)}<div><b>${суть}</b><span>${текст}</span></div></li>`).join('')}
+      </ul>
+      <div class="условия">
+        <div class="условие">${иконка('часы')}<div><b>Заезд с 16:00</b><span>выезд до 13:00</span></div></div>
+        <div class="условие">${иконка('дом')}<div><b>От 10 000 ₽</b><span>цена зависит от дома</span></div></div>
+        <div class="условие">${иконка('карта')}<div><b>Можно частями</b><span>«Яндекс Сплит»</span></div></div>
+      </div>
+      <div class="кнопки">
+        <a class="кнопка" href="${БРОНЬ}">Забронировать новогодний отдых</a>
+        <a class="кнопка кнопка--контур" href="${ТГ}">Написать менеджеру</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="раздел полоса" id="заезд">
   <h2>Новогодний заезд</h2>
   <div class="заезд">
@@ -290,11 +423,11 @@ const html = `<!doctype html>
       <p class="заезд__лид">Дом в зимнем лесу, банный чан прямо у дома и SPA-комплекс в трёх сотнях метров:
         бассейн под открытым небом, хамам и русская баня на дровах.</p>
       <ul class="заезд__список">
-        <li>22 дома: от зеркальных для двоих до больших на 10 гостей</li>
-        <li>Банный чан у дома — топим к приезду</li>
-        <li>Заезд с 16:00, выезд до 13:00</li>
+        <li>${иконка('дом')}22 дома: от зеркальных для двоих до больших на 10 гостей</li>
+        <li>${иконка('чан')}Банный чан у дома — топим к приезду</li>
+        <li>${иконка('часы')}Заезд с 16:00, выезд до 13:00</li>
       </ul>
-      <button class="кнопка кнопка--контур раскрыть" type="button" aria-expanded="false" aria-controls="заезд-подробно">Подробнее</button>
+      <button class="кнопка кнопка--контур раскрыть" type="button" aria-expanded="false" aria-controls="заезд-подробно"><span>Подробнее</span>${иконка('галка', 'иконка галка')}</button>
     </div>
     <div class="заезд__подробно" id="заезд-подробно" hidden>
       <div class="подробно__сетка">
@@ -333,6 +466,7 @@ const html = `<!doctype html>
   </div>
 </section>
 
+<div class="разделитель" aria-hidden="true">${гирлянда()}</div>
 <section class="раздел полоса" id="дома">
   <h2>Дома</h2>
   <p class="вступление">22 дома в лесу: от зеркальных для двоих до больших на 10 гостей. У каждого своя территория и банный чан.</p>
@@ -343,10 +477,11 @@ const html = `<!doctype html>
 <section class="раздел полоса" id="включено">
   <h2>Что включено и что рядом</h2>
   <div class="плиты">
-    ${включено.map(([что, текст]) => `<div class="плита"><h3>${что}</h3><p>${текст}</p></div>`).join('')}
+    ${включено.map(([и, что, текст]) => `<div class="плита">${иконка(и)}<div><h3>${что}</h3><p>${текст}</p></div></div>`).join('')}
   </div>
 </section>
 
+<div class="разделитель" aria-hidden="true">${гирлянда()}</div>
 <section class="раздел полоса" id="вопросы">
   <h2>Частые вопросы</h2>
   ${вопросы.map(([что, ответ]) => `
@@ -355,10 +490,11 @@ const html = `<!doctype html>
 
 <section class="полоса" id="заявка">
   <div class="заявка">
-    <h2>Подберём дом за 5 минут</h2>
+    ${гирлянда()}
+    <h2>Подберём дом<br>за 5 минут</h2>
     <p>Расскажите, сколько вас и что важно, — посчитаем стоимость и предложим свободные дома на праздники.</p>
     <div class="кнопки">
-      <a class="кнопка" href="${БРОНЬ}">Забронировать дом</a>
+      <a class="кнопка" href="${БРОНЬ}">Забронировать новогодний отдых</a>
       <a class="кнопка кнопка--контур" href="${ТГ}">Написать менеджеру</a>
     </div>
   </div>
@@ -408,7 +544,7 @@ const html = `<!doctype html>
     var открыт = кнопка.getAttribute('aria-expanded') === 'true';
     кнопка.setAttribute('aria-expanded', открыт ? 'false' : 'true');
     блок.hidden = открыт;
-    кнопка.textContent = открыт ? 'Подробнее' : 'Свернуть';
+    кнопка.querySelector('span').textContent = открыт ? 'Подробнее' : 'Свернуть';
   });
 })();
 
@@ -443,7 +579,7 @@ const html = `<!doctype html>
   var н2 = new IntersectionObserver(function (зап) {
     зап.forEach(function (з) { if (з.isIntersecting) { з.target.classList.add('видно'); н2.unobserve(з.target); } });
   }, { rootMargin: '0px 0px -8% 0px' });
-  document.querySelectorAll('.заезд, .дом, .плита, .вопрос, .заявка, .раздел h2').forEach(function (е) {
+  document.querySelectorAll('.описание, .заезд, .дом, .плита, .вопрос, .заявка, .раздел h2').forEach(function (е) {
     е.classList.add('ждёт'); н2.observe(е);
   });
 })();

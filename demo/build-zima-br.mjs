@@ -186,10 +186,10 @@ section:target h2{animation:вспышка 1.6s ease-out}
 .отсчёт__заг span{display:block;margin-bottom:6px;font-family:Manrope,sans-serif;font-size:12px;letter-spacing:.18em;
                   text-transform:uppercase;color:var(--акцент)}
 .отсчёт__числа{display:flex;gap:12px}
-.ячейка{min-width:80px;padding:12px 8px 10px;border-radius:12px;text-align:center;background:rgba(10,12,14,.5);
+.ячейка{min-width:80px;padding:16px 10px 12px;border-radius:12px;text-align:center;background:rgba(10,12,14,.5);
         box-shadow:inset 0 0 0 1px rgba(244,246,251,.1)}
-.ячейка b{display:block;font-family:DespairDisplay,Manrope,sans-serif;font-size:36px;line-height:1;font-variant-numeric:tabular-nums}
-.ячейка span{display:block;margin-top:6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.65}
+.ячейка b{display:block;font-family:DespairDisplay,Manrope,sans-serif;font-size:34px;line-height:1.2;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ячейка span{display:block;margin-top:4px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.65}
 /* разделы */
 .раздел{padding-top:84px}
 .раздел h2{font-size:clamp(28px,3.4vw,40px);text-transform:uppercase;text-align:center;margin-bottom:16px}
@@ -304,7 +304,7 @@ a.действие:hover{background:rgba(10,12,14,.62);transform:translateY(-4px
 @media(max-width:1000px){.дома{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:900px){
   .отсчёт{grid-template-columns:1fr;text-align:center;gap:16px;padding:22px 16px}
-  .отсчёт__числа{justify-content:center;gap:8px}.ячейка{min-width:0;flex:1}.ячейка b{font-size:28px}
+  .отсчёт__числа{justify-content:center;gap:8px}.ячейка{min-width:0;flex:1;padding:14px 4px 10px}.ячейка:first-child{flex:1.3}.ячейка b{font-size:clamp(22px,7vw,28px)}.ячейка span{font-size:clamp(9px,2.8vw,11px);letter-spacing:.04em}
   .заезд__кратко{padding:24px 18px}.заезд__подробно{padding:0 18px 24px}
   .подробно__сетка,.действия,.дома,.плиты{grid-template-columns:1fr}
   .кнопка{width:100%;text-align:center}

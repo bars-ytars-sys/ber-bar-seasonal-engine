@@ -58,7 +58,7 @@ function гирлянда() {
     <path d="M${x0} ${y0} Q 550 ${y0 + провис * 2} ${x1} ${y0}" fill="none" stroke="#dfe6ee" stroke-width="1.6" opacity=".6"/>
     ${точки.map(т => `
     <g transform="translate(${т.x.toFixed(1)} ${т.y.toFixed(1)}) rotate(${((т.x - 550) / 40).toFixed(1)})">
-      <rect x="-6" y="0" width="12" height="11" rx="2" fill="#222831" stroke="#dfe6ee" stroke-width="1.2"/>
+      <rect x="-6" y="0" width="12" height="11" rx="2" fill="#15293a" stroke="#dfe6ee" stroke-width="1.2"/>
       <path class="лампа" style="animation-delay:-${т.задержка}s" filter="url(#свечение)"
             d="M-9 14 C-17 26,-15 44,0 48 C15 44,17 26,9 14 Z" fill="${т.цвет}"/>
     </g>`).join('')}
@@ -130,9 +130,9 @@ const СТИЛИ = `
 @font-face{font-family:Manrope;src:url(https://static.tildacdn.com/tild3039-3861-4239-a464-373839643830/manrope-medium.woff) format('woff');font-weight:500;font-display:swap}
 @font-face{font-family:Manrope;src:url(https://static.tildacdn.com/tild3766-3765-4962-a361-366264663735/manrope-semibold.woff) format('woff');font-weight:600;font-display:swap}
 @font-face{font-family:DespairDisplay;src:url(https://static.tildacdn.com/tild3139-3132-4331-b632-343362316164/DespairDisplay-Bold.woff) format('woff');font-weight:700;font-display:swap}
-:root{--фон:#1a1b19;--панель:#222831;--панель2:#2b323b;--текст:#f4f6fb;--акцент:#2ed8a3;--тёплый:#ffd27a}
+:root{--фон:#0c1a24;--панель:#15293a;--панель2:#1c3447;--текст:#f4f6fb;--акцент:#2ed8a3;--тёплый:#ffd27a}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--фон);color:var(--текст);font-family:Manrope,Arial,sans-serif;font-size:16px;line-height:1.6;
+body{background:radial-gradient(1100px 700px at 12% 18%,rgba(46,216,163,.09),transparent 62%),radial-gradient(900px 620px at 88% 46%,rgba(120,170,255,.08),transparent 62%),radial-gradient(1000px 700px at 30% 82%,rgba(255,210,122,.06),transparent 62%),linear-gradient(180deg,#0c1a24 0%,#10263a 45%,#0e2130 75%,#0c1a24 100%);color:var(--текст);font-family:Manrope,Arial,sans-serif;font-size:16px;line-height:1.6;
      -webkit-font-smoothing:antialiased}
 h1,h2,h3{font-family:DespairDisplay,Manrope,Arial,sans-serif;font-weight:700;letter-spacing:.01em}
 a{color:inherit}
@@ -144,12 +144,12 @@ section[id]{scroll-margin-top:92px}
 .лого img{display:block;width:184px;height:auto;filter:brightness(0) invert(1);opacity:.92}
 .телефон{font-size:15px;text-align:right}
 .телефон span{display:block;font-size:12px;opacity:.6}
-.герой{position:relative;min-height:min(100svh,920px);display:flex;flex-direction:column;overflow:hidden;background:#0e1013}
+.герой{position:relative;min-height:min(100svh,920px);display:flex;flex-direction:column;overflow:hidden;background:#08131b}
 .герой__фон{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%}
 .герой__тень{position:absolute;inset:0;background:
-  radial-gradient(ellipse 60% 45% at 50% 72%,rgba(10,12,14,.6),transparent 100%),
+  radial-gradient(ellipse 60% 45% at 50% 72%,rgba(6,16,24,.6),transparent 100%),
   linear-gradient(180deg,rgba(10,12,14,.7) 0%,rgba(10,12,14,.15) 24%,rgba(10,12,14,.05) 44%,
-                  rgba(16,20,22,.55) 66%,rgba(26,27,25,.95) 88%,var(--фон) 100%)}
+                  rgba(10,24,34,.55) 66%,rgba(12,26,36,.95) 88%,var(--фон) 100%)}
 .герой > .полоса{position:relative;z-index:3;width:100%}
 .герой__текст{margin-top:auto;padding-block:0 60px;text-align:center}
 .над{font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;opacity:.85;color:var(--акцент)}
@@ -164,7 +164,7 @@ section[id]{scroll-margin-top:92px}
 .кнопка--контур{background:transparent;color:var(--текст);box-shadow:inset 0 0 0 1px rgba(244,246,251,.35)}
 .кнопка--контур:hover{background:rgba(244,246,251,.08)}
 /* навигация */
-.навигация{position:sticky;top:0;z-index:30;background:rgba(16,17,20,.9);backdrop-filter:blur(12px);
+.навигация{position:sticky;top:0;z-index:30;background:rgba(9,22,31,.88);backdrop-filter:blur(12px);
            border-bottom:1px solid rgba(244,246,251,.12)}
 .навигация__полоса{display:flex;gap:10px;align-items:center;max-width:1200px;margin:0 auto;padding:12px 24px;
                    overflow-x:auto;scrollbar-width:none}
@@ -181,12 +181,12 @@ section:target h2{animation:вспышка 1.6s ease-out}
 /* отсчёт */
 .отсчёт-полоса{position:relative;z-index:4;margin-top:26px}
 .отсчёт{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:28px;align-items:center;padding:24px 30px;
-        border-radius:16px;background:linear-gradient(120deg,#252c35,#1d232a);box-shadow:0 26px 50px -30px rgba(0,0,0,.8)}
+        border-radius:16px;background:linear-gradient(120deg,#1b3447,#132636);box-shadow:0 26px 50px -30px rgba(0,0,0,.8)}
 .отсчёт__заг{font-family:DespairDisplay,Manrope,sans-serif;font-size:20px;line-height:1.3}
 .отсчёт__заг span{display:block;margin-bottom:6px;font-family:Manrope,sans-serif;font-size:12px;letter-spacing:.18em;
                   text-transform:uppercase;color:var(--акцент)}
 .отсчёт__числа{display:flex;gap:12px}
-.ячейка{min-width:80px;padding:16px 10px 12px;border-radius:12px;text-align:center;background:rgba(10,12,14,.5);
+.ячейка{min-width:80px;padding:16px 10px 12px;border-radius:12px;text-align:center;background:rgba(6,16,24,.5);
         box-shadow:inset 0 0 0 1px rgba(244,246,251,.1)}
 .ячейка b{display:block;font-family:DespairDisplay,Manrope,sans-serif;font-size:34px;line-height:1.2;white-space:nowrap;font-variant-numeric:tabular-nums}
 .ячейка span{display:block;margin-top:4px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.65}
@@ -195,7 +195,7 @@ section:target h2{animation:вспышка 1.6s ease-out}
 .раздел h2{font-size:clamp(28px,3.4vw,40px);text-transform:uppercase;text-align:center;margin-bottom:16px}
 .вступление{max-width:760px;margin:0 auto 34px;text-align:center;opacity:.85}
 /* заезд: уровни */
-.заезд{border-radius:18px;overflow:hidden;background:linear-gradient(150deg,#252c35,#1c2127);
+.заезд{border-radius:18px;overflow:hidden;background:linear-gradient(150deg,#1b3447,#122433);
        box-shadow:0 30px 60px -34px rgba(0,0,0,.85)}
 .заезд__кратко{padding:32px 36px}
 .заезд__даты{display:inline-block;padding:8px 16px;border-radius:999px;color:#bff6e3;font-size:14px;
@@ -216,19 +216,19 @@ section:target h2{animation:вспышка 1.6s ease-out}
 .подробно__сетка li{margin-bottom:8px;font-size:15px;opacity:.88;padding-left:18px;text-indent:-18px}
 .подробно__сетка li::before{content:'— '}
 .действия{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
-.действие{display:block;padding:20px;border-radius:14px;text-decoration:none;background:rgba(10,12,14,.42);
+.действие{display:block;padding:20px;border-radius:14px;text-decoration:none;background:rgba(6,16,24,.42);
           box-shadow:inset 0 0 0 1px rgba(244,246,251,.12);transition:.3s}
-a.действие:hover{background:rgba(10,12,14,.62);transform:translateY(-4px)}
+a.действие:hover{background:rgba(6,16,24,.62);transform:translateY(-4px)}
 .действие b{display:block;font-size:17px;margin-bottom:4px}
 .действие span{display:block;font-size:13.5px;opacity:.7}
 .модуль{display:grid;gap:10px;margin-top:12px}
 .модуль label{display:grid;gap:4px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.65}
-.модуль input,.модуль select{font:inherit;color:var(--текст);background:rgba(10,12,14,.6);border:0;border-radius:10px;
+.модуль input,.модуль select{font:inherit;color:var(--текст);background:rgba(6,16,24,.6);border:0;border-radius:10px;
                              padding:10px 12px;box-shadow:inset 0 0 0 1px rgba(244,246,251,.16)}
 .модуль .кнопка{margin-top:6px;text-align:center}
 /* дома */
 .дома{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.дом{background:var(--панель);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:.35s}
+.дом{background:var(--панель);border-radius:16px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(170,215,255,.07);display:flex;flex-direction:column;transition:.35s}
 .дом:hover{transform:translateY(-6px);box-shadow:0 26px 46px -26px rgba(0,0,0,.8)}
 .дом__фото{height:210px;background:#12151a center/cover no-repeat;transition:transform .7s}
 .дом:hover .дом__фото{transform:scale(1.06)}
@@ -245,7 +245,7 @@ a.действие:hover{background:rgba(10,12,14,.62);transform:translateY(-4px
                background:rgba(46,216,163,.1);box-shadow:inset 0 0 0 1px rgba(46,216,163,.35)}
 .плита h3{font-size:19px;color:var(--акцент);margin:4px 0 8px}
 .плита p{font-size:15px;opacity:.88}
-.вопрос{background:var(--панель);border-radius:14px;padding:18px 24px;margin-bottom:12px}
+.вопрос{background:var(--панель);box-shadow:inset 0 0 0 1px rgba(170,215,255,.07);border-radius:14px;padding:18px 24px;margin-bottom:12px}
 .вопрос summary{cursor:pointer;font-size:17px;list-style:none;position:relative;padding-right:32px}
 .вопрос summary::-webkit-details-marker{display:none}
 .вопрос summary::after{content:'+';position:absolute;right:2px;top:-3px;font-size:24px;color:var(--акцент)}
@@ -253,7 +253,7 @@ a.действие:hover{background:rgba(10,12,14,.62);transform:translateY(-4px
 .вопрос p{margin-top:10px;font-size:15px;opacity:.85}
 .заявка{margin-top:84px;padding:34px 40px 50px;border-radius:20px;text-align:center;position:relative;overflow:hidden;
         background:radial-gradient(ellipse 70% 90% at 50% 120%,rgba(46,216,163,.28),transparent 70%),
-                   linear-gradient(160deg,#262e37,#1d232a);
+                   linear-gradient(160deg,#1b3447,#122433);
         box-shadow:inset 0 0 0 1px rgba(46,216,163,.18),0 30px 60px -34px rgba(0,0,0,.85)}
 .заявка .гирлянда{width:min(640px,100%);margin:-18px auto 4px}
 .заявка h2{font-size:clamp(28px,3.6vw,44px);line-height:1.12;text-transform:uppercase;margin-bottom:14px}
@@ -261,10 +261,10 @@ a.действие:hover{background:rgba(10,12,14,.62);transform:translateY(-4px
 .низ{margin-top:84px;padding:40px 0 56px;border-top:1px solid rgba(244,246,251,.12);text-align:center;font-size:15px;opacity:.75}
 /* вводный блок: фото и что вас ждёт */
 .описание{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);border-radius:18px;overflow:hidden;
-          background:linear-gradient(160deg,#262e37,#1c2127);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+          background:linear-gradient(160deg,#1b3447,#122433);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
 .описание__фото{position:relative;min-height:100%}
 .описание__фото img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%}
-.описание__фото::after{content:'';position:absolute;inset:auto 0 0 0;height:45%;background:linear-gradient(transparent,rgba(12,14,17,.8))}
+.описание__фото::after{content:'';position:absolute;inset:auto 0 0 0;height:45%;background:linear-gradient(transparent,rgba(8,20,30,.8))}
 .значок{position:absolute;left:28px;bottom:28px;z-index:2;padding:12px 18px;border-radius:10px;line-height:1.25;
         background:rgba(244,246,251,.95);color:#1a1b19}
 .значок b{display:block;font-family:DespairDisplay,Manrope,sans-serif;font-size:19px}
@@ -282,7 +282,7 @@ a.действие:hover{background:rgba(10,12,14,.62);transform:translateY(-4px
 .пункт b{display:block;font-weight:600;font-size:16px;line-height:1.35}
 .пункт span{display:block;margin-top:4px;font-size:14px;line-height:1.5;opacity:.75}
 .условия{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
-.условие{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:14px 16px;border-radius:12px;background:rgba(10,12,14,.4);
+.условие{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:14px 16px;border-radius:12px;background:rgba(6,16,24,.4);
          box-shadow:inset 0 0 0 1px rgba(244,246,251,.08);font-size:14px;line-height:1.35}
 .условие .иконка{flex:none;width:26px;height:26px}
 .условие span{display:block;font-size:12.5px;opacity:.65}

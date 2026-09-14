@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ОБЛОЖКА = 'demo/assets/eco-zima-hero.webp';
 const ОБЛОЖКА_ТЕЛ = 'demo/assets/eco-zima-hero-tel.webp';
-for (const ф of [ОБЛОЖКА, ОБЛОЖКА_ТЕЛ])
+for (const ф of [ОБЛОЖКА, ОБЛОЖКА_ТЕЛ, ...['aframe', 'house', 'barn', 'baus', 'sfera', 'panorama', 'interer'].map(и => 'demo/assets/eco-ng-' + и + '.webp')])
   if (!fs.existsSync(path.join(ROOT, ф))) throw new Error('нет фото ' + ф);
 
 const ЛОГОТИП = 'https://static.tildacdn.com/tild6330-6562-4465-a232-323932353661/LOGO.svg';
@@ -79,22 +79,22 @@ const пункты = [
 const дома = [
   ['A-фреймы', 'до 4 гостей',
    'Треугольные дома с панорамным остеклением: белый, чёрный, люкс и нео. У каждого банный чан, у чёрного — своя баня.',
-   Ф('https://static.tildacdn.com/tild6134-3934-4635-b065-643162663465/image.png')],
+   'demo/assets/eco-ng-aframe.webp'],
   ['Хаусы', 'до 5 гостей',
    'Двухэтажные дома с изолированной спальней и банным чаном — для семьи или компании друзей.',
-   Ф('https://static.tildacdn.com/tild6636-3439-4538-a132-646132623831/fa11355d-0634-40e2-9.png')],
+   'demo/assets/eco-ng-house.webp'],
   ['Барнхаусы', 'до 6 гостей',
    'Просторные дома с отдельными комнатами, подходят для мероприятий. У барнхауса-4 своя баня.',
-   Ф('https://static.tildacdn.com/tild3361-3565-4563-b230-346632303232/e14219a5-4f95-47b2-9.png')],
+   'demo/assets/eco-ng-barn.webp'],
   ['Баусы', 'до 2 гостей',
    'Зеркальные дома для двоих: тишина, панорамные окна и чан под звёздами.',
-   Ф('https://static.tildacdn.com/tild6130-3034-4036-b330-386139363837/image_2.png')],
+   'demo/assets/eco-ng-baus.webp'],
   ['Сфера', 'до 4 гостей',
    'Купольный дом необычной формы: своя баня, банный чан и гирлянды на террасе.',
-   Ф('https://static.tildacdn.com/tild3934-3763-4936-b334-306266623761/clipboard-image-1766.png')],
+   'demo/assets/eco-ng-sfera.webp'],
   ['Большие дома', 'до 10 гостей',
    'Панорама, Сканди, Шале и Барилоче — для больших компаний и важных событий: баня, чан, отдельные спальни.',
-   Ф('https://static.tildacdn.com/tild3535-6235-4833-a438-653639356438/_5.jpg', 1200)]
+   'demo/assets/eco-ng-panorama.webp']
 ];
 
 /* Что есть на базе и вопросы — по страницам /spa, /banchan, /deti, /aktivnosti. */
@@ -113,7 +113,7 @@ const вопросы = [
   ['Где находится база?', 'Московская область, Солнечногорский район, деревня Васюково, КДЗ Новое Мишкино 1/5. 40 минут от Москвы.']
 ];
 
-const ФОТО_ВВОДНОГО = Ф('https://static.tildacdn.com/tild3934-3763-4936-b334-306266623761/clipboard-image-1766.png', 1400);
+const ФОТО_ВВОДНОГО = 'demo/assets/eco-ng-interer.webp';
 
 const карточкаДома = ([имя, свойства, текст, фото]) => `
       <article class="дом">
@@ -263,7 +263,7 @@ a.действие:hover{background:rgba(6,16,24,.62);transform:translateY(-4px)
 .описание{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);border-radius:18px;overflow:hidden;
           background:linear-gradient(160deg,#1b3447,#122433);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
 .описание__фото{position:relative;min-height:100%}
-.описание__фото img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%}
+.описание__фото img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:16% 72%}
 .описание__фото::after{content:'';position:absolute;inset:auto 0 0 0;height:45%;background:linear-gradient(transparent,rgba(8,20,30,.8))}
 .значок{position:absolute;left:28px;bottom:28px;z-index:2;padding:12px 18px;border-radius:10px;line-height:1.25;
         background:rgba(244,246,251,.95);color:#1a1b19}
@@ -391,7 +391,7 @@ const html = `<!doctype html>
 <section class="раздел полоса" id="описание">
   <div class="описание">
     <div class="описание__фото">
-      <img src="${ФОТО_ВВОДНОГО}" alt="Дом-сфера в Берёзовой роще зимним вечером" loading="lazy">
+      <img src="${ФОТО_ВВОДНОГО}" alt="Новогодний интерьер A-фрейма в Берёзовой роще" loading="lazy">
       <div class="значок"><b>31 декабря — 10 января</b><span>новогодние праздники</span></div>
     </div>
     <div class="описание__текст">

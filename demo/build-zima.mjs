@@ -349,6 +349,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
 .раздел{padding:76px 0 0}
 .раздел h2{font-size:34px;text-transform:uppercase;text-align:center;margin-bottom:18px}
 .вступление{max-width:760px;margin:0 auto 34px;text-align:center;opacity:.9}
+.сноска-фото{margin:14px auto 0;max-width:760px;text-align:center;font-size:13px;line-height:1.5;opacity:.7}
 .вступление b{display:block;margin-top:14px;color:var(--акцент);font-weight:500}
 .праздники{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .праздник{background:var(--панель);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;
@@ -634,6 +635,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
       </div>
     </div>
   </div>
+  <p class="сноска-фото">Комплектация и новогоднее украшение домов могут отличаться от фотографий на сайте.</p>
 </section>
 
 <section class="раздел полоса" id="заезд">
@@ -710,6 +712,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
   <div class="дома">${дома.map(карточкаДома).join('')}
   </div>
   <p class="дома-приписка">При бронировании от 3 домов цена за дополнительного гостя не взимается.</p>
+  <p class="сноска-фото">Комплектация и новогоднее украшение домов могут отличаться от фотографий на сайте.</p>
 </section>
 
 <section class="раздел полоса" id="включено">

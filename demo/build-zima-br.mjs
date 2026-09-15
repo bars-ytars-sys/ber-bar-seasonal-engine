@@ -194,6 +194,7 @@ section:target h2{animation:вспышка 1.6s ease-out}
 .раздел{padding-top:84px}
 .раздел h2{font-size:clamp(28px,3.4vw,40px);text-transform:uppercase;text-align:center;margin-bottom:16px}
 .вступление{max-width:760px;margin:0 auto 34px;text-align:center;opacity:.85}
+.сноска-фото{margin:14px auto 0;max-width:760px;text-align:center;font-size:13px;line-height:1.5;opacity:.7}
 /* заезд: уровни */
 .заезд{border-radius:18px;overflow:hidden;background:linear-gradient(150deg,#1b3447,#122433);
        box-shadow:0 30px 60px -34px rgba(0,0,0,.85)}
@@ -413,6 +414,7 @@ const html = `<!doctype html>
       </div>
     </div>
   </div>
+  <p class="сноска-фото">Комплектация и новогоднее украшение домов могут отличаться от фотографий на сайте.</p>
 </section>
 
 <section class="раздел полоса" id="заезд">
@@ -472,6 +474,7 @@ const html = `<!doctype html>
   <p class="вступление">22 дизайнерских домика: от зеркальных для двоих до больших на 10 гостей. У каждого своя территория и банный чан.</p>
   <div class="дома">${дома.map(карточкаДома).join('')}
   </div>
+  <p class="сноска-фото">Комплектация и новогоднее украшение домов могут отличаться от фотографий на сайте.</p>
 </section>
 
 <section class="раздел полоса" id="на-базе">

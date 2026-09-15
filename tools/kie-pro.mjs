@@ -2,26 +2,35 @@
  * Генерация через kie.ai nano-banana-pro по фото и заданию.
  *   node tools/kie-pro.mjs <фото> <имя> <задание.txt> [соотношение=16:9] [разрешение=4K]
  * Результат — demo/assets/<имя>.jpg (сервис отдаёт JPEG). Ключ — tools/.kie_key.
+ * Номер задачи пишется в tools/out/kie-zadachi.log; если ожидание оборвалось —
+ *   node tools/kie-pro.mjs <фото> <имя> <задание.txt> --zadacha=<id>  (без новой оплаты).
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const КОРЕНЬ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const КЛЮЧ = fs.readFileSync(path.join(КОРЕНЬ, 'tools/.kie_key'), 'utf8').trim();
-const [исходник, имя, файлЗадания, соотношение = '16:9', разрешение = '4K'] = process.argv.slice(2);
+const арг = process.argv.slice(2);
+const готоваяЗадача = (арг.find(a => a.startsWith('--zadacha=')) || '').slice(10);
+const [исходник, имя, файлЗадания, соотношение = '16:9', разрешение = '4K'] = арг.filter(a => !a.startsWith('--'));
 const м = '[' + имя + '] ';
 const пауза = мс => new Promise(r => setTimeout(r, мс));
 async function запрос(u, н) { const о = await fetch(u, н); const т = await о.text(); let j; try { j = JSON.parse(т); } catch { j = т; } if (!о.ok) throw new Error(u + ' → ' + о.status + ' ' + т.slice(0, 300)); return j; }
-const д = fs.readFileSync(исходник);
-const mime = д[0] === 0xFF ? 'image/jpeg' : 'image/png';
-const з = await запрос('https://kieai.redpandaai.co/api/file-base64-upload', { method: 'POST', headers: { Authorization: 'Bearer ' + КЛЮЧ, 'Content-Type': 'application/json' },
-  body: JSON.stringify({ base64Data: 'data:' + mime + ';base64,' + д.toString('base64'), uploadPath: 'images/ber-bar', fileName: 'pro-' + Date.now() + (mime === 'image/jpeg' ? '.jpg' : '.png') }) });
-const адрес = з?.data?.downloadUrl || з?.data?.url || з?.data?.fileUrl;
-const т = await запрос('https://api.kie.ai/api/v1/jobs/createTask', { method: 'POST', headers: { Authorization: 'Bearer ' + КЛЮЧ, 'Content-Type': 'application/json' },
-  body: JSON.stringify({ model: 'nano-banana-pro', input: { prompt: fs.readFileSync(файлЗадания, 'utf8').replace(/\s+/g, ' ').trim(), image_input: [адрес], aspect_ratio: соотношение, resolution: разрешение, output_format: 'jpg' } }) });
-const id = т?.data?.taskId || т?.data?.task_id;
-if (!id) { console.log(м + 'задача не создана: ' + JSON.stringify(т).slice(0, 300)); process.exit(1); }
-console.log(м + 'задача поставлена');
+let id = готоваяЗадача;
+if (!id) {
+  const д = fs.readFileSync(исходник);
+  const mime = д[0] === 0xFF ? 'image/jpeg' : 'image/png';
+  const з = await запрос('https://kieai.redpandaai.co/api/file-base64-upload', { method: 'POST', headers: { Authorization: 'Bearer ' + КЛЮЧ, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ base64Data: 'data:' + mime + ';base64,' + д.toString('base64'), uploadPath: 'images/ber-bar', fileName: 'pro-' + Date.now() + (mime === 'image/jpeg' ? '.jpg' : '.png') }) });
+  const адрес = з?.data?.downloadUrl || з?.data?.url || з?.data?.fileUrl;
+  const т = await запрос('https://api.kie.ai/api/v1/jobs/createTask', { method: 'POST', headers: { Authorization: 'Bearer ' + КЛЮЧ, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model: 'nano-banana-pro', input: { prompt: fs.readFileSync(файлЗадания, 'utf8').replace(/\s+/g, ' ').trim(), image_input: [адрес], aspect_ratio: соотношение, resolution: разрешение, output_format: 'jpg' } }) });
+  id = т?.data?.taskId || т?.data?.task_id;
+  if (!id) { console.log(м + 'задача не создана: ' + JSON.stringify(т).slice(0, 300)); process.exit(1); }
+
+}
+console.log(м + 'задача ' + id + (готоваяЗадача ? ' — дозабираю' : ' поставлена'));
+fs.appendFileSync(path.join(КОРЕНЬ, 'tools/out/kie-zadachi.log'), new Date().toISOString() + ' ' + имя + ' ' + id + '\n');
 for (let n = 1; n <= 96; n++) {
   await пауза(5000);
   const о = await запрос('https://api.kie.ai/api/v1/jobs/recordInfo?taskId=' + encodeURIComponent(id), { headers: { Authorization: 'Bearer ' + КЛЮЧ } });

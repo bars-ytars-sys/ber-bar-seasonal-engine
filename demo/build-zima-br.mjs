@@ -125,12 +125,12 @@ section[id]{scroll-margin-top:84px}
 .телефон span{display:block;font-size:12px;opacity:.6}
 .герой{position:relative;min-height:min(78svh,720px);display:flex;flex-direction:column;overflow:hidden;background:#08131b}
 .герой__фон{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%}
-.герой__тень{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,19,27,.9) 0%,rgba(8,19,27,.55) 45%,rgba(8,19,27,.05) 75%),
+.герой__тень{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,19,27,.94) 0%,rgba(8,19,27,.8) 38%,rgba(8,19,27,.25) 70%,rgba(8,19,27,.05) 100%),
   linear-gradient(180deg,rgba(8,19,27,.6) 0%,transparent 25%,transparent 70%,var(--фон) 100%)}
 .герой > .полоса{position:relative;z-index:3;width:100%}
 .герой__текст{margin-block:auto;padding-block:20px 56px;max-width:1200px}
-.над{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--акцент)}
-.герой h1{margin:14px 0 0;font-size:clamp(40px,6.2vw,84px);line-height:1.02;text-transform:uppercase;max-width:760px;
+.над{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--акцент);text-shadow:0 1px 8px rgba(0,0,0,.8)}
+.герой h1{margin:12px 0 0;font-size:clamp(32px,4.2vw,56px);line-height:1.08;text-transform:uppercase;max-width:760px;
           text-shadow:0 4px 30px rgba(0,0,0,.5)}
 .герой .даты{margin-top:16px;font-size:clamp(17px,1.8vw,21px);color:var(--тёплый)}
 .герой .кнопки{margin-top:26px}
@@ -267,7 +267,9 @@ section[id]{scroll-margin-top:84px}
   .герой__тень{background:linear-gradient(180deg,rgba(8,19,27,.65) 0%,transparent 30%,transparent 55%,var(--фон) 100%);height:46svh;min-height:300px;max-height:440px}
   .герой .шапка{position:absolute;top:0;left:0;right:0;z-index:4}
   .лого img{width:140px}
-  .герой__текст{margin-top:-60px;padding-bottom:28px}
+  .герой__текст{margin-top:0;padding-top:22px;padding-bottom:28px}
+  .герой h1{font-size:30px}
+  .над{font-size:11px;letter-spacing:.14em}
   .кнопка{flex:1 1 100%;text-align:center}
   .мини-отсчёт{display:flex;justify-content:center;gap:10px;font-size:12px;padding:10px 12px}
   .мини-отсчёт>span{display:none}

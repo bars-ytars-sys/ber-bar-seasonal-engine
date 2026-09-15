@@ -38,6 +38,16 @@ if (!сообщения.length) { console.log('новых сообщений н�
 
 for (const u of сообщения) {
   const м = u.message;
+  if (м.photo) {
+    try {
+      const ф = м.photo[м.photo.length - 1];
+      const инфо = await (await fetch('https://api.telegram.org/bot' + ТОКЕН + '/getFile?file_id=' + ф.file_id)).json();
+      const данные = Buffer.from(await (await fetch('https://api.telegram.org/file/bot' + ТОКЕН + '/' + инфо.result.file_path)).arrayBuffer());
+      const имя = path.join(ПАПКА, 'vhod', new Date(м.date * 1000).toISOString().replace(/[:.]/g, '-').slice(0, 19) + '_foto.jpg');
+      fs.mkdirSync(path.dirname(имя), { recursive: true }); fs.writeFileSync(имя, данные);
+      console.log('фото сохранено:', имя);
+    } catch (e) { console.log('фото не скачалось:', e.message); }
+  }
   const когда = new Date(м.date * 1000).toLocaleString('ru-RU');
   const кто = [м.from?.first_name, м.from?.last_name].filter(Boolean).join(' ');
   const что = м.text || м.caption || (м.photo ? '[фото]' : м.document ? `[файл ${м.document.file_name}]` : м.voice ? '[голосовое]' : '[без текста]');

@@ -57,16 +57,16 @@ const факты = [
 
 /* Дома: вместимость и одна строка о главном. */
 const дома = [
-  ['A-фреймы', 'до 4 гостей', 'Панорамное остекление, банный чан, у чёрного A-фрейма своя баня', 'demo/assets/eco-ng-aframe.webp'],
-  ['Хаусы', 'до 5 гостей', 'Два этажа, отдельная спальня и банный чан', 'demo/assets/eco-ng-house.webp'],
-  ['Барнхаусы', 'до 6 гостей', 'Отдельные комнаты, у барнхауса 4 своя баня', 'demo/assets/eco-ng-barn.webp'],
-  ['Баусы', 'до 2 гостей', 'Зеркальный дом для двоих с чаном под звёздами', 'demo/assets/eco-ng-baus.webp'],
-  ['Сфера', 'до 4 гостей', 'Купольный дом со своей баней и банным чаном', 'demo/assets/eco-ng-sfera.webp'],
-  ['Панорама', 'до 8 гостей', 'Флагманский дом для особых поездок и максимального комфорта', 'demo/assets/eco-ng-panorama.webp'],
-  ['Сканди', 'до 8 гостей', 'Лаконичный дом в скандинавском стиле с банным чаном', 'demo/assets/berezovaya-roshcha-novyj-god-skandi.webp'],
-  ['Барилоче', 'до 7 гостей', 'Современный светлый дом с тремя спальнями', 'demo/assets/berezovaya-roshcha-novyj-god-bariloche.webp'],
-  ['Шале', 'до 6 гостей', 'Тёплый дом с банным чаном для семейного уюта', 'demo/assets/berezovaya-roshcha-novyj-god-shale.webp'],
-  ['Холидей Хаус', 'до 4 гостей', 'Уютный дом с сауной, банным чаном и флоатингом', 'demo/assets/berezovaya-roshcha-novyj-god-holidej-haus.webp']
+  ['A-фрейм', 'до 4 гостей', 'Классика загородного отдыха для уюта, света и перезагрузки вдвоём.', 'demo/assets/eco-ng-aframe.webp'],
+  ['Барилоче', 'до 7 гостей', 'Современный светлый дом для семейного отдыха или большой компании.', 'demo/assets/berezovaya-roshcha-novyj-god-bariloche.webp'],
+  ['Сканди', 'до 8 гостей', 'Лаконичный дом в скандинавском стиле для спокойствия, простоты и баланса с природой.', 'demo/assets/berezovaya-roshcha-novyj-god-skandi.webp'],
+  ['Панорама', 'до 8 гостей', 'Флагманский дом для особых поездок, больших впечатлений и максимального комфорта.', 'demo/assets/eco-ng-panorama.webp'],
+  ['Баус', 'до 2 гостей', 'Современный формат отдыха для тех, кто ценит архитектуру, тишину и ощущение пространства.', 'demo/assets/eco-ng-baus.webp'],
+  ['Шале', 'до 6 гостей', 'Тёплый загородный дом для неспешных вечеров и семейного уюта.', 'demo/assets/berezovaya-roshcha-novyj-god-shale.webp'],
+  ['Хаус', 'до 5 гостей', 'Универсальный дом для комфортного отдыха с близкими: просто, удобно и по-домашнему.', 'demo/assets/eco-ng-house.webp'],
+  ['Барнхаус', 'до 6 гостей', 'Просторный дом с характером для компании, свободы и отдыха без суеты.', 'demo/assets/eco-ng-barn.webp'],
+  ['Сфера', 'до 4 гостей', 'Необычный формат проживания для новых ощущений и уединения.', 'demo/assets/eco-ng-sfera.webp'],
+  ['Холидей Хаус', 'до 4 гостей', 'Уютный и просторный дом для семейного отдыха или поездки с друзьями.', 'demo/assets/berezovaya-roshcha-novyj-god-holidej-haus.webp']
 ];
 
 const входит = [
@@ -350,6 +350,51 @@ body{background:linear-gradient(180deg,#f3f8f6 0%,#e9f2ef 45%,#eef4f2 100%);colo
   .герой .телефон span{display:none}
   .герой .шапка .телефон{color:#17252f}
 }
+
+/* дома: вкладки как на главной ecobr.ru */
+.выбор{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:48px;align-items:start;padding:34px 40px;border-radius:22px;
+  background:radial-gradient(600px 400px at 95% 40%,rgba(46,216,163,.2),transparent 70%),#fff;box-shadow:0 20px 44px -30px rgba(23,37,47,.4)}
+.выбор__заг{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.выбор__имя{font-size:clamp(32px,3.6vw,48px);text-transform:uppercase;line-height:1.05}
+.выбор__гости{padding:3px 10px;border-radius:6px;background:#9be7b4;color:#13402c;font-size:14px;font-weight:600}
+.выбор__текст{margin:12px 0 18px;font-size:16px;max-width:470px;min-height:52px}
+.выбор__фото{aspect-ratio:3/2;border-radius:14px;overflow:hidden;background:#dfe9e6}
+.выбор__фото img{display:block;width:100%;height:100%;object-fit:cover;animation:появиться .45s ease}
+.выбор__фото img[hidden]{display:none}
+@keyframes появиться{from{opacity:0}to{opacity:1}}
+.выбор__справа{display:flex;flex-direction:column;gap:18px;padding-top:6px}
+.выбор__над{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--акцент)}
+.выбор__вкладки{display:grid;grid-template-columns:1fr 1fr;gap:6px 24px}
+.вкладка{display:flex;align-items:center;gap:10px;padding:8px 0;border:0;background:none;cursor:pointer;text-align:left;
+  font:700 17px/1.2 DespairDisplay,Manrope,sans-serif;text-transform:uppercase;letter-spacing:.02em;color:#a3adb3;transition:color .2s}
+.вкладка::before{content:'';width:16px;height:16px;border-radius:4px;flex:none;background:#b9c2c7;box-shadow:inset 0 0 0 4px #b9c2c7,inset 0 0 0 6px #fff;transition:.2s}
+.вкладка:hover{color:#5c6a72}
+.вкладка[aria-selected="true"]{color:var(--текст)}
+.вкладка[aria-selected="true"]::before{background:#9be7b4;box-shadow:inset 0 0 0 4px #9be7b4,inset 0 0 0 6px #fff}
+.вкладка:focus-visible{outline:2px solid var(--акцент);outline-offset:3px;border-radius:4px}
+.выбор__подпись{font-size:15px;opacity:.8;max-width:360px}
+.выбор__справа .кнопка{align-self:flex-start}
+.выбор .сноска-фото{margin:0}
+@media(max-width:900px){
+  .выбор{grid-template-columns:1fr;gap:22px;padding:22px 18px}
+  .выбор__справа{order:-1;gap:14px}
+  .выбор__вкладки{gap:2px 16px}
+  .вкладка{font-size:14px;white-space:nowrap}
+  .выбор__справа .кнопка{align-self:stretch}
+  .выбор__подпись{display:none}
+}
+
+/* шапка: логотип по центру; даты и «40 минут» отдельными строками без переносов */
+.герой .шапка{display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.герой .шапка .лого{justify-self:center}
+.герой .шапка .телефон{justify-self:end}
+.герой .даты span{display:block;white-space:nowrap}
+@media(max-width:700px){
+  .герой .шапка{grid-template-columns:auto 1fr;gap:8px}
+  .шапка__место{display:none}
+  .герой .шапка .лого{justify-self:start}
+  .герой .даты{font-size:16px}
+}
 `;
 
 const html = `<!doctype html>
@@ -372,13 +417,14 @@ const html = `<!doctype html>
   </picture>
   <div class="герой__тень"></div>
   <header class="шапка полоса">
+    <span class="шапка__место" aria-hidden="true"></span>
     <a class="лого" href="https://ecobr.ru/"><img src="${ЛОГОТИП}" alt="Берёзовая роща"></a>
     <a class="телефон" href="${ТЕЛ_ССЫЛКА}">${ТЕЛЕФОН}<span>с 9:00 до 24:00</span></a>
   </header>
   <div class="герой__текст полоса">
     <div class="над">База отдыха «Берёзовая роща» · Подмосковье</div>
     <h1>Новый год в Берёзовой роще</h1>
-    <p class="даты">С 31 декабря по 10 января · 40 минут от Москвы</p>
+    <p class="даты"><span>С 31 декабря по 10 января</span><span>40 минут от Москвы</span></p>
     <div class="кнопки">
       <a class="кнопка" href="${БРОНЬ}">Выбрать даты и дом</a>
       <a class="кнопка кнопка--контур" href="#условия">Что входит</a>
@@ -411,18 +457,22 @@ const html = `<!doctype html>
 </section>
 
 <section class="раздел полоса" id="дома">
-  <div class="раздел__верх"><h2>Дома на Новый год</h2><p class="раздел__подпись">Выберите формат под вашу компанию. Свободные даты видно сразу в модуле бронирования.</p></div>
-  <div class="дома">${дома.map(([имя, гости, текст, фото]) => `
-    <a class="дом" href="${БРОНЬ}">
-      <div class="дом__фото"><img src="${фото}" alt="${имя} на базе отдыха «Берёзовая роща» зимой" width="900" height="600" loading="lazy" decoding="async"></div>
-      <div class="дом__низ">
-        <div class="дом__строка"><h3 class="дом__имя">${имя}</h3><span class="дом__гости">${гости}</span></div>
-        <p class="дом__текст">${текст}</p>
-        <span class="дом__ссылка">Свободные даты →</span>
+  <div class="выбор">
+    <div class="выбор__карточка" aria-live="polite">
+      <div class="выбор__заг"><h2 class="выбор__имя" id="дом-имя">${дома[0][0]}</h2><span class="выбор__гости" id="дом-гости">${дома[0][1]}</span></div>
+      <p class="выбор__текст" id="дом-текст">${дома[0][2]}</p>
+      <div class="выбор__фото">${дома.map(([имя, , , фото], i) => `<img src="${фото}" alt="${имя} на базе отдыха «Берёзовая роща» зимой" width="900" height="600" ${i ? 'loading="lazy" ' : ''}decoding="async" data-i="${i}"${i ? ' hidden' : ''}>`).join('')}</div>
+    </div>
+    <div class="выбор__справа">
+      <h3 class="выбор__над">Дома на Новый год</h3>
+      <div class="выбор__вкладки" role="tablist" aria-label="Дома">${дома.map(([имя], i) => `
+        <button type="button" role="tab" class="вкладка" aria-selected="${i === 0}" data-i="${i}">${имя}</button>`).join('')}
       </div>
-    </a>`).join('')}
+      <p class="выбор__подпись">Каждый домик создан с заботой о гостях: уникальный дизайн и атмосфера, в которую хочется возвращаться.</p>
+      <a class="кнопка" href="${БРОНЬ}">Свободные даты на Новый год</a>
+      <p class="сноска-фото">Комплектация и новогоднее украшение домов могут отличаться от фотографий на сайте.</p>
+    </div>
   </div>
-  <p class="сноска-фото">Комплектация и новогоднее украшение домов могут отличаться от фотографий на сайте.</p>
 </section>
 
 <section class="раздел полоса" id="условия">
@@ -544,6 +594,22 @@ const html = `<!doctype html>
   тик(); setInterval(тик, 1000);
 })();
 
+
+/* Вкладки домов: имя, вместимость, описание и фото. */
+(function () {
+  var вкладки = [].slice.call(document.querySelectorAll('.вкладка'));
+  if (!вкладки.length) return;
+  var данные = ${JSON.stringify(дома.map(([и, г, т]) => [и, г, т]))}, фото = [].slice.call(document.querySelectorAll('.выбор__фото img'));
+  function выбрать(i) {
+    вкладки.forEach(function (в, k) { в.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
+    фото.forEach(function (ф, k) { ф.hidden = k !== i; });
+    document.getElementById('дом-имя').textContent = данные[i][0];
+    document.getElementById('дом-гости').textContent = данные[i][1];
+    document.getElementById('дом-текст').textContent = данные[i][2];
+  }
+  вкладки.forEach(function (в, i) { в.addEventListener('click', function () { выбрать(i); }); });
+})();
+
 /* Подсветка раздела в навигации и мягкое появление карточек. */
 (function () {
   if (!('IntersectionObserver' in window)) return;
@@ -559,7 +625,7 @@ const html = `<!doctype html>
   var н2 = new IntersectionObserver(function (зап) {
     зап.forEach(function (з) { if (з.isIntersecting) { з.target.classList.add('видно'); н2.unobserve(з.target); } });
   }, { rootMargin: '0px 0px -8% 0px' });
-  document.querySelectorAll('.колонка, .цена-дома, .спа__текст, .спа__цены, .занятие, .вопрос').forEach(function (е) { е.classList.add('ждёт'); н2.observe(е); });
+  document.querySelectorAll('.выбор, .колонка, .цена-дома, .спа__текст, .спа__цены, .занятие, .вопрос').forEach(function (е) { е.classList.add('ждёт'); н2.observe(е); });
 })();
 </script>
 

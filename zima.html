@@ -295,7 +295,7 @@ section:target h2,section:target .заезд__даты{animation:вспышка 
 .заезд{background:linear-gradient(150deg,#3a5c50,#2f4a41);border-radius:14px;overflow:hidden;
        box-shadow:0 28px 56px -32px rgba(0,0,0,.6)}
 .заезд__кратко{padding:34px 38px}
-.заезд__даты{display:inline-block;padding:8px 16px;border-radius:999px;color:#ffd9b8;font-size:14px;
+.заезд__даты{display:inline-block;margin:0 8px 8px 0;padding:8px 16px;border-radius:999px;color:#ffd9b8;font-size:14px;
              letter-spacing:.06em;background:rgba(238,153,93,.16);box-shadow:inset 0 0 0 1px rgba(238,153,93,.5)}
 .заезд__лид{margin:18px 0 0;font-size:19px;max-width:660px}
 .заезд__список{list-style:none;display:flex;flex-wrap:wrap;gap:14px 28px;margin:20px 0 24px}
@@ -462,7 +462,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
   <div class="описание">
     <div class="описание__фото">
       <img src="demo/assets/bp-zima-garden4.webp" alt="Дом в Барских полях в новогодних огнях" loading="lazy">
-      <div class="значок"><b>31 декабря — 10 января</b><span>праздничная программа</span></div>
+      <div class="значок"><b>с 31 декабря по 10 января</b><span>праздничная программа</span></div>
     </div>
     <div class="описание__текст">
       <div class="над"><svg class="иконка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/><path d="m9.5 4.5 2.5 2 2.5-2M9.5 19.5l2.5-2 2.5 2"/></svg>Новый год за городом</div>
@@ -497,11 +497,12 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
   <h2>Новогодний заезд</h2>
   <div class="заезд">
     <div class="заезд__кратко">
-      <div class="заезд__даты">31 декабря — 10 января</div>
-      <p class="заезд__лид">Дом уже наряжен, чан топится к вашему приезду, а вокруг идёт праздничная программа:
-        лотерея при заезде, ёлка с хороводом, Дед Мороз 31 декабря и снежные забавы.</p>
+      <div class="заезд__даты">с 30 декабря по 2 января</div>
+      <div class="заезд__даты">с 31 декабря по 10 января</div>
+      <p class="заезд__лид">Дом уже украшен, чан топится к вашему приезду, а вокруг идёт праздничная программа:
+        лотерея при заезде, 31 декабря Дед Мороз и снежные забавы.</p>
       <ul class="заезд__список">
-        <li><svg class="иконка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 6.5 9h3L5 15h4l-4 5.5h14L15 15h4l-4.5-6h3L12 2.5Z"/><path d="M12 20.5V22"/></svg>Наряженный дом с порога</li>
+        <li><svg class="иконка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 6.5 9h3L5 15h4l-4 5.5h14L15 15h4l-4.5-6h3L12 2.5Z"/><path d="M12 20.5V22"/></svg>Украшенный дом</li>
         <li><svg class="иконка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="13" rx="8" ry="2.5"/><path d="M4 13v4.5c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5V13"/><path d="M9 4.5c-1 1 1 2 0 3.2M12 3.5c-1 1 1 2 0 3.4M15 4.5c-1 1 1 2 0 3.2"/></svg>Банный чан у каждого дома</li>
         <li><svg class="иконка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>Заезд с 16:00, выезд до 13:00</li>
       </ul>
@@ -523,7 +524,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
           <h3>Праздничная программа</h3>
           <ul>
             <li>беспроигрышная лотерея при заезде</li>
-            <li>большая ёлка, хоровод и фотозоны с костюмами</li>
+            <li>фотозоны с костюмами</li>
             <li>праздничные сувениры в каждом домике</li>
             <li>каток, лесная горка, лыжные прогулки, снежные забавы</li>
             <li>31 декабря поздравление Деда Мороза и Снегурочки</li>
@@ -565,14 +566,6 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
         </div>
       </article>
       <article class="праздник">
-        <div class="праздник__фото" style="background-image:url('https://optim.tildacdn.com/tild3866-3538-4737-b964-363961616335/-/resize/600x/-/format/webp/portret-zensiny-v-ro.jpg')"></div>
-        <div class="праздник__низ">
-          <h3 class="праздник__имя">Большая новогодняя ёлка</h3>
-          <div class="праздник__текст"><p>Выходите на хоровод, танцуйте и делайте яркие фото у сверкающей красавицы!</p></div>
-          <a class="подробнее" href="zima-programma.html#elka">Подробнее<span aria-hidden="true">→</span></a>
-        </div>
-      </article>
-      <article class="праздник">
         <div class="праздник__фото" style="background-image:url('https://optim.tildacdn.com/tild3636-3566-4263-a665-393639366466/-/resize/600x/-/format/webp/4H3A0913.jpg')"></div>
         <div class="праздник__низ">
           <h3 class="праздник__имя">Фотозоны и костюмы</h3>
@@ -584,7 +577,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
         <div class="праздник__фото" style="background-image:url('https://optim.tildacdn.com/tild3736-3363-4133-b537-363264303466/-/resize/600x/-/format/webp/noroot.png')"></div>
         <div class="праздник__низ">
           <h3 class="праздник__имя">Подарки для всех</h3>
-          <div class="праздник__текст"><p>В каждом домике вас ждут праздничные сувениры для взрослых и детей!</p></div>
+          <div class="праздник__текст"><p>В каждом домике вас ждут праздничные сувениры для взрослых и детей.</p></div>
           <a class="подробнее" href="zima-programma.html#podarki">Подробнее<span aria-hidden="true">→</span></a>
         </div>
       </article>
@@ -599,8 +592,8 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
       <article class="праздник">
         <div class="праздник__фото" style="background-image:url('https://optim.tildacdn.com/tild3464-3537-4638-b134-336139313930/-/resize/600x/-/format/webp/konnaa-ezda-na-.jpg')"></div>
         <div class="праздник__низ">
-          <h3 class="праздник__имя">31 декабря: Дед Мороз и Снегурочка</h3>
-          <div class="праздник__текст"><p>Поздравления от главных волшебников праздника: встречайте, фотографируйтесь и вручайте подарки своим детям!</p></div>
+          <h3 class="праздник__имя">31 декабря. Дед Мороз и Снегурочка</h3>
+          <div class="праздник__текст"><p>Поздравления от главных волшебников праздника. Встречайте, фотографируйтесь и вручайте подарки своим детям!</p></div>
           <a class="подробнее" href="zima-programma.html#ded-moroz">Подробнее<span aria-hidden="true">→</span></a>
         </div>
       </article>

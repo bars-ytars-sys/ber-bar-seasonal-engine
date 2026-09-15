@@ -297,7 +297,7 @@ section:target h2,section:target .заезд__даты{animation:вспышка 
 .заезд{background:linear-gradient(150deg,#3a5c50,#2f4a41);border-radius:14px;overflow:hidden;
        box-shadow:0 28px 56px -32px rgba(0,0,0,.6)}
 .заезд__кратко{padding:34px 38px}
-.заезд__даты{display:inline-block;padding:8px 16px;border-radius:999px;color:#ffd9b8;font-size:14px;
+.заезд__даты{display:inline-block;margin:0 8px 8px 0;padding:8px 16px;border-radius:999px;color:#ffd9b8;font-size:14px;
              letter-spacing:.06em;background:rgba(238,153,93,.16);box-shadow:inset 0 0 0 1px rgba(238,153,93,.5)}
 .заезд__лид{margin:18px 0 0;font-size:19px;max-width:660px}
 .заезд__список{list-style:none;display:flex;flex-wrap:wrap;gap:14px 28px;margin:20px 0 24px}
@@ -380,7 +380,6 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
 <nav class="навигация" aria-label="Разделы программы">
   <div class="навигация__полоса">
     <a href="#loterea">Лотерея</a>
-    <a href="#elka">Ёлка</a>
     <a href="#fotozony">Фотозоны</a>
     <a href="#podarki">Подарки</a>
     <a href="#razvlecheniya">Развлечения</a>
@@ -410,19 +409,8 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
     </div>
   </div>
 </section>
-<section class="раздел полоса" id="elka">
-  <div class="описание фото-справа">
-    <div class="описание__фото">
-      <img src="https://optim.tildacdn.com/tild3866-3538-4737-b964-363961616335/-/resize/900x/-/format/webp/portret-zensiny-v-ro.jpg" alt="Большая новогодняя ёлка" loading="lazy">
-    </div>
-    <div class="описание__текст">
-      <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">Большая новогодняя ёлка</h2>
-      <p class="вводный" style="margin-bottom:14px">На территории наряжена большая ёлка — та самая, вокруг которой водят хоровод.</p><p class="вводный" style="margin-bottom:14px">Приходите танцевать с детьми и фотографироваться у сверкающей красавицы: вечером она горит огнями и получается лучший кадр праздника.</p>
-    </div>
-  </div>
-</section>
 <section class="раздел полоса" id="fotozony">
-  <div class="описание">
+  <div class="описание фото-справа">
     <div class="описание__фото">
       <img src="https://optim.tildacdn.com/tild3636-3566-4263-a665-393639366466/-/resize/900x/-/format/webp/4H3A0913.jpg" alt="Фотозоны и костюмы" loading="lazy">
     </div>
@@ -433,7 +421,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
   </div>
 </section>
 <section class="раздел полоса" id="podarki">
-  <div class="описание фото-справа">
+  <div class="описание">
     <div class="описание__фото">
       <img src="https://optim.tildacdn.com/tild3736-3363-4133-b537-363264303466/-/resize/900x/-/format/webp/noroot.png" alt="Подарки для всех" loading="lazy">
     </div>
@@ -444,7 +432,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
   </div>
 </section>
 <section class="раздел полоса" id="razvlecheniya">
-  <div class="описание">
+  <div class="описание фото-справа">
     <div class="описание__фото">
       <img src="https://optim.tildacdn.com/tild3531-6663-4639-b236-303638323533/-/resize/900x/-/format/webp/deti-v-zimnei-odezde.jpg" alt="Развлечения для всей семьи" loading="lazy">
     </div>
@@ -455,12 +443,12 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
   </div>
 </section>
 <section class="раздел полоса" id="ded-moroz">
-  <div class="описание фото-справа">
+  <div class="описание">
     <div class="описание__фото">
-      <img src="https://optim.tildacdn.com/tild3464-3537-4638-b134-336139313930/-/resize/900x/-/format/webp/konnaa-ezda-na-.jpg" alt="31 декабря: Дед Мороз и Снегурочка" loading="lazy">
+      <img src="https://optim.tildacdn.com/tild3464-3537-4638-b134-336139313930/-/resize/900x/-/format/webp/konnaa-ezda-na-.jpg" alt="31 декабря. Дед Мороз и Снегурочка" loading="lazy">
     </div>
     <div class="описание__текст">
-      <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">31 декабря: Дед Мороз и Снегурочка</h2>
+      <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">31 декабря. Дед Мороз и Снегурочка</h2>
       <p class="вводный" style="margin-bottom:14px">Главные волшебники праздника приезжают 31 декабря и поздравляют гостей.</p><p class="вводный" style="margin-bottom:14px">Встречайте их, фотографируйтесь и вручайте подготовленные подарки своим детям. Подробности у администратора.</p>
     </div>
   </div>
@@ -533,7 +521,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
     <div class="действия" style="text-align:left;margin-top:6px">
       <a class="действие" href="tel:+74951503908"><b>Позвонить</b><span>+7 (495) 150-39-08 · с 9:00 до 24:00</span></a>
       <a class="действие" href="https://t.me/bazabarskie_polya"><b>Оставить заявку</b><span>менеджер ответит в Телеграме</span></a>
-      <a class="действие" href="https://barskie-polya.ru/booking?dfrom=2026-12-31&amp;dto=2027-01-03&amp;adults=2&amp;scroll_to_rooms=1"><b>Выбрать даты</b><span>свободные дома на 31.12 — 10.01</span></a>
+      <a class="действие" href="https://barskie-polya.ru/booking?dfrom=2026-12-31&amp;dto=2027-01-03&amp;adults=2&amp;scroll_to_rooms=1"><b>Выбрать даты</b><span>свободные дома с 30.12 по 10.01</span></a>
     </div>
   </div>
 </section>

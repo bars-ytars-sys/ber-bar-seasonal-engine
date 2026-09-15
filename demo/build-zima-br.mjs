@@ -291,6 +291,44 @@ section[id]{scroll-margin-top:84px}
   .прайс li span{text-align:left}
   .цена-дома{padding:18px}
 }
+/* ── светлая тема: светлый фон страницы, белые карточки, тёмный текст ── */
+:root{--фон:#eef4f2;--панель:#ffffff;--панель2:#f5f9f8;--текст:#17252f;--акцент:#12a17a;--тёплый:#b86e00;--линия:rgba(23,37,47,.12)}
+body{background:linear-gradient(180deg,#f3f8f6 0%,#e9f2ef 45%,#eef4f2 100%);color:var(--текст)}
+.снежинка{background:#9db9c9}
+.кнопка{color:#fff;box-shadow:0 12px 26px -16px rgba(18,161,122,.8)}
+.кнопка:hover{background:#0f8d6a}
+.кнопка--контур{background:transparent;color:var(--текст);box-shadow:inset 0 0 0 1px rgba(23,37,47,.3)}
+.кнопка--контур:hover{background:rgba(23,37,47,.05)}
+.герой{color:#fff;background:#dfe9e6}
+.герой .кнопка--контур{color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7)}
+.герой .кнопка--контур:hover{background:rgba(255,255,255,.14)}
+.навигация{background:rgba(255,255,255,.94);border-bottom:1px solid var(--линия)}
+.навигация a{background:rgba(23,37,47,.04);box-shadow:inset 0 0 0 1px rgba(23,37,47,.12);color:var(--текст)}
+.навигация a:hover{background:rgba(23,37,47,.08)}
+.навигация a.активна{color:#0b6e52;background:rgba(18,161,122,.12);box-shadow:inset 0 0 0 1px rgba(18,161,122,.45)}
+.навигация .бронь{color:#fff}
+.факт,.дом,.колонка,.спа__текст,.спа__цены,.занятие,.вопрос{box-shadow:inset 0 0 0 1px var(--линия),0 14px 30px -22px rgba(23,37,47,.35)}
+.дом:hover{box-shadow:inset 0 0 0 1px rgba(18,161,122,.4),0 20px 36px -22px rgba(23,37,47,.4)}
+.дом__фото{background:#dfe9e6}
+.спа__цена{background:#eef4f2}
+.цена-дома{background:linear-gradient(120deg,rgba(18,161,122,.14),rgba(18,161,122,.04))}
+.подвал{background:#e2ece9;border-top:1px solid var(--линия)}
+.подвал__форма{box-shadow:0 14px 30px -22px rgba(23,37,47,.35)}
+.подвал__форма input,.подвал__форма select{color:var(--текст);background:#fff;box-shadow:inset 0 0 0 1px rgba(23,37,47,.2)}
+.подвал__карта iframe{background:#d6e2de}
+.подвал__итог{background:rgba(23,37,47,.06)}
+.подвал__мессенджеры a{color:var(--текст)!important;background:#fff;box-shadow:inset 0 0 0 1px rgba(23,37,47,.15)}
+.подвал__мессенджеры a:hover{background:#f3f8f6}
+.подвал__низ{border-top:1px solid var(--линия)}
+@media(max-width:700px){
+  .герой{color:var(--текст);background:var(--фон)}
+  .герой .над{color:var(--акцент);text-shadow:none}
+  .герой h1{text-shadow:none}
+  .герой .даты{color:var(--текст);text-shadow:none;opacity:.8}
+  .герой .кнопка--контур{color:var(--текст);box-shadow:inset 0 0 0 1px rgba(23,37,47,.3)}
+  .мини-отсчёт{background:#fff;box-shadow:inset 0 0 0 1px var(--линия);color:var(--текст)}
+  .герой .шапка .телефон{color:#fff}
+}
 `;
 
 const html = `<!doctype html>

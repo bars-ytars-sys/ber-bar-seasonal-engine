@@ -329,6 +329,13 @@ body{background:linear-gradient(180deg,#f3f8f6 0%,#e9f2ef 45%,#eef4f2 100%);colo
   .мини-отсчёт{background:#fff;box-shadow:inset 0 0 0 1px var(--линия);color:var(--текст)}
   .герой .шапка .телефон{color:#fff}
 }
+
+/* навигация по центру, заметная, «Забронировать» рядом с разделами */
+.навигация__полоса{justify-content:center;gap:10px;padding:14px 24px}
+.навигация a{font-size:15px;font-weight:600;padding:11px 20px}
+.навигация .бронь{margin-left:6px;padding:11px 24px;box-shadow:0 10px 22px -12px rgba(18,161,122,.9)}
+.навигация .бронь::before{content:'🎄 '}
+@media(max-width:700px){.навигация__полоса{justify-content:flex-start;padding:10px 16px}.навигация a{font-size:14px;padding:9px 16px}.навигация .бронь{order:-1;margin-left:0}}
 `;
 
 const html = `<!doctype html>
@@ -379,7 +386,7 @@ const html = `<!doctype html>
     <a href="#спа">SPA</a>
     <a href="#зимой">Зимой</a>
     <a href="#вопросы">Вопросы</a>
-    <a class="бронь" href="${БРОНЬ}">Забронировать</a>
+    <a class="бронь" href="${БРОНЬ}">Забронировать Новый год</a>
   </div>
 </nav>
 

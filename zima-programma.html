@@ -45,7 +45,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
                  width:min(1280px,108%);pointer-events:none}
 .герой__текст{position:relative;z-index:3;margin-top:auto;padding-block:0 64px;text-align:center}
 .герой__над{font-size:13px;letter-spacing:.24em;text-transform:uppercase;opacity:.85}
-.герой h1{font-size:clamp(58px,9vw,132px);line-height:.95;margin:14px 0 0;letter-spacing:.01em;
+.герой h1{font-size:clamp(44px,6vw,88px);line-height:1;margin:14px 0 0;letter-spacing:.01em;
           text-shadow:0 0 40px rgba(255,200,120,.35),0 4px 30px rgba(0,0,0,.45)}
 .герой .подзаголовок{margin-top:18px;font-size:clamp(17px,1.8vw,22px);color:#ffc58f;
                      text-shadow:0 2px 12px rgba(0,0,0,.5)}
@@ -134,7 +134,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
 .приписка{margin-top:26px;text-align:center;font-size:15px;opacity:.85}
 
 /* ── дома ── */
-.дома{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.дома{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
 .дом{background:var(--панель);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;
      transition:transform .35s ease,box-shadow .35s ease}
 .дом:hover{transform:translateY(-6px);box-shadow:0 24px 44px -24px rgba(0,0,0,.65)}
@@ -220,6 +220,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
 }
 @media(prefers-reduced-motion:reduce){.снежинка{display:none}.лампа{animation:none}}
 
+@media(max-width:1200px){.дома{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:1000px){.дома{grid-template-columns:repeat(2,1fr)}.праздники{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:1100px){.пункты{grid-template-columns:1fr}}
 @media(max-width:900px){
@@ -511,7 +512,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
 <section class="раздел полоса" id="usloviya">
   <h2>Условия</h2>
   <div class="двое" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
-    <div class="плита"><h3>Даты программы</h3><p>Праздничная программа идёт с 31 декабря по 10 января.</p></div><div class="плита"><h3>Заезд и выезд</h3><p>Заезд с 16:00, выезд до 13:00. Ранний заезд и поздний выезд возможны по согласованию, при наличии мест, оплачиваются отдельно.</p></div><div class="плита"><h3>Стоимость</h3><p>Зависит от дома и дат: дома разного размера и вместимости. Менеджер посчитает под вашу компанию.</p></div><div class="плита"><h3>Оплата</h3><p>Можно оплатить сразу целиком, а по желанию частями через «Яндекс Сплит».</p></div><div class="плита"><h3>С питомцем</h3><p>Можно: за весь период до 5 кг 1000 ₽, более 5 кг 2000 ₽. Дадим миску, а для крупных питомцев лежанку.</p></div><div class="плита"><h3>Сертификат</h3><p>Есть подарочные сертификаты на 10 000, 20 000 и 30 000 ₽ на проживание и дополнительные услуги.</p></div>
+    <div class="плита"><h3>Даты программы</h3><p>Праздничная программа идёт с 31 декабря по 10 января.</p></div><div class="плита"><h3>Заезд и выезд</h3><p>Заезд с 16:00, выезд до 13:00. Ранний заезд и поздний выезд возможны по согласованию, при наличии мест, оплачиваются отдельно.</p></div><div class="плита"><h3>Стоимость</h3><p>Зависит от дома и дат: дома разного размера и вместимости. Менеджер посчитает под вашу компанию.</p></div><div class="плита"><h3>Оплата</h3><p>Можно оплатить сразу целиком, а по желанию частями через «Яндекс Сплит».</p></div><div class="плита"><h3>С питомцем</h3><p>Можно, комфортнее всего в домах Гарден и в Барском доме. За весь период до 5 кг 1000 ₽, более 5 кг 2000 ₽. Дадим миску, а для крупных питомцев лежанку.</p></div><div class="плита"><h3>Сертификат</h3><p>Есть подарочные сертификаты на 10 000, 20 000 и 30 000 ₽ на проживание и дополнительные услуги.</p></div>
   </div>
 </section>
 

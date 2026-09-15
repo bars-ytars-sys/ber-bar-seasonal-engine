@@ -43,7 +43,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
                  width:min(1280px,108%);pointer-events:none}
 .герой__текст{position:relative;z-index:3;margin-top:auto;padding-block:0 64px;text-align:center}
 .герой__над{font-size:13px;letter-spacing:.24em;text-transform:uppercase;opacity:.85}
-.герой h1{font-size:clamp(58px,9vw,132px);line-height:.95;margin:14px 0 0;letter-spacing:.01em;
+.герой h1{font-size:clamp(44px,6vw,88px);line-height:1;margin:14px 0 0;letter-spacing:.01em;
           text-shadow:0 0 40px rgba(255,200,120,.35),0 4px 30px rgba(0,0,0,.45)}
 .герой .подзаголовок{margin-top:18px;font-size:clamp(17px,1.8vw,22px);color:#ffc58f;
                      text-shadow:0 2px 12px rgba(0,0,0,.5)}
@@ -132,7 +132,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
 .приписка{margin-top:26px;text-align:center;font-size:15px;opacity:.85}
 
 /* ── дома ── */
-.дома{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.дома{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
 .дом{background:var(--панель);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;
      transition:transform .35s ease,box-shadow .35s ease}
 .дом:hover{transform:translateY(-6px);box-shadow:0 24px 44px -24px rgba(0,0,0,.65)}
@@ -218,6 +218,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
 }
 @media(prefers-reduced-motion:reduce){.снежинка{display:none}.лампа{animation:none}}
 
+@media(max-width:1200px){.дома{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:1000px){.дома{grid-template-columns:repeat(2,1fr)}.праздники{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:1100px){.пункты{grid-template-columns:1fr}}
 @media(max-width:900px){
@@ -360,8 +361,8 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
 
 <section class="герой">
   <picture>
-    <source media="(max-width:700px)" srcset="demo/assets/bp-zima-hero-tel.webp">
-    <img class="герой__фон" src="demo/assets/bp-zima-hero.webp" alt="Дом в Барских полях в новогодних огнях" fetchpriority="high">
+    <source media="(max-width:700px)" srcset="demo/assets/barskie-polya-novyj-god-oblozhka-tel.webp">
+    <img class="герой__фон" src="demo/assets/barskie-polya-novyj-god-oblozhka.webp" alt="Дом в Барских полях в новогодних огнях" fetchpriority="high">
   </picture>
   <div class="герой__тень"></div>
   <header class="шапка полоса">
@@ -661,11 +662,19 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
   <h2>Дома</h2>
   <div class="дома">
       <article class="дом">
-        <div class="дом__фото"><img src="demo/assets/barskie-polya-novyj-god-river-garden-zakat.webp" alt="Ривер и Гарден на базе отдыха «Барские поля» зимой" width="900" height="604" loading="lazy" decoding="async"></div>
+        <div class="дом__фото"><img src="demo/assets/barskie-polya-novyj-god-river-den.webp" alt="Ривер на базе отдыха «Барские поля» зимой" width="900" height="604" loading="lazy" decoding="async"></div>
         <div class="дом__низ">
-          <h3 class="дом__имя">Ривер и Гарден</h3>
+          <h3 class="дом__имя">Ривер</h3>
           <p class="дом__свойства">4 спальных места · 55 м² · два этажа</p>
-          <p class="дом__текст">Своя территория и банный чан у дома. Дома Ривер частично огорожены живой изгородью. Гарден в лесу и огорожен полностью, у некоторых домов своя баня.</p>
+          <p class="дом__текст">Банный чан у дома. Территория огорожена частично, живой изгородью.</p>
+        </div>
+      </article>
+      <article class="дом">
+        <div class="дом__фото"><img src="demo/assets/barskie-polya-novyj-god-river-garden-zakat.webp" alt="Гарден на базе отдыха «Барские поля» зимой" width="900" height="604" loading="lazy" decoding="async"></div>
+        <div class="дом__низ">
+          <h3 class="дом__имя">Гарден</h3>
+          <p class="дом__свойства">4 спальных места · 55 м² · два этажа</p>
+          <p class="дом__текст">Полностью закрытая территория и банный чан у дома, у некоторых домов своя баня. Комфортно с питомцами.</p>
         </div>
       </article>
       <article class="дом">
@@ -681,7 +690,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
         <div class="дом__низ">
           <h3 class="дом__имя">Барский дом</h3>
           <p class="дом__свойства">6 спальных мест · 95 м² · один этаж</p>
-          <p class="дом__текст">Самый большой: банный чан у дома и сауна прямо внутри.</p>
+          <p class="дом__текст">Самый большой: банный чан у дома и сауна прямо внутри. Комфортно с питомцами.</p>
         </div>
       </article>
       <article class="дом">
@@ -784,7 +793,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
       </details>
       <details class="вопрос">
         <summary>Можно ли приехать с питомцем?</summary>
-        <p>Да. За весь период пребывания: до 5 кг 1000 ₽, более 5 кг 2000 ₽. Дадим миску, а для крупных питомцев лежанку.</p>
+        <p>Да. Комфортнее всего с питомцами в домах Гарден и в Барском доме. За весь период пребывания: до 5 кг 1000 ₽, более 5 кг 2000 ₽. Дадим миску, а для крупных питомцев лежанку.</p>
       </details>
       <details class="вопрос">
         <summary>Можно ли оплатить частями?</summary>

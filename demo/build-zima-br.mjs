@@ -12,9 +12,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const ОБЛОЖКА = 'demo/assets/eco-zima-hero.webp';
-const ОБЛОЖКА_ТЕЛ = 'demo/assets/eco-zima-hero-tel.webp';
-for (const ф of [ОБЛОЖКА, ОБЛОЖКА_ТЕЛ, ...['aframe', 'house', 'barn', 'baus', 'sfera', 'panorama', 'interer'].map(и => 'demo/assets/eco-ng-' + и + '.webp')])
+const ОБЛОЖКА = 'demo/assets/berezovaya-roshcha-novyj-god-oblozhka.webp';
+const ОБЛОЖКА_ТЕЛ = 'demo/assets/berezovaya-roshcha-novyj-god-oblozhka-tel.webp';
+for (const ф of [ОБЛОЖКА, ОБЛОЖКА_ТЕЛ, ...['aframe', 'house', 'barn', 'baus', 'sfera', 'panorama'].map(и => 'demo/assets/eco-ng-' + и + '.webp'), ...['skandi', 'shale', 'bariloche', 'holidej-haus'].map(и => 'demo/assets/berezovaya-roshcha-novyj-god-' + и + '.webp')])
   if (!fs.existsSync(path.join(ROOT, ф))) throw new Error('нет фото ' + ф);
 
 const ЛОГОТИП = 'https://static.tildacdn.com/tild6330-6562-4465-a232-323932353661/LOGO.svg';
@@ -50,7 +50,7 @@ const иконка = (имя, класс = 'иконка') =>
 /* Коротко о празднике: четыре главных факта. */
 const факты = [
   ['календарь', 'С 31 декабря по 10 января', 'Заезд с 16:00, выезд до 13:00'],
-  ['дом', '22 дизайнерских домика', 'От 2 до 10 гостей, у большинства своя территория'],
+  ['дом', '22 дизайнерских домика', 'От 2 до 8 гостей, у большинства своя территория'],
   ['чан', 'Банный чан у дома', 'Под открытым небом, топим к вашему приезду'],
   ['огонь', 'SPA-комплекс в 300 метрах', 'Бассейн под открытым небом, зимой вода от 28 до 30 °C']
 ];
@@ -62,7 +62,11 @@ const дома = [
   ['Барнхаусы', 'до 6 гостей', 'Отдельные комнаты, у барнхауса 4 своя баня', 'demo/assets/eco-ng-barn.webp'],
   ['Баусы', 'до 2 гостей', 'Зеркальный дом для двоих с чаном под звёздами', 'demo/assets/eco-ng-baus.webp'],
   ['Сфера', 'до 4 гостей', 'Купольный дом со своей баней и банным чаном', 'demo/assets/eco-ng-sfera.webp'],
-  ['Большие дома', 'до 10 гостей', 'Панорама, Сканди, Шале и Барилоче: баня, чан, отдельные спальни', 'demo/assets/eco-ng-panorama.webp']
+  ['Панорама', 'до 8 гостей', 'Флагманский дом для особых поездок и максимального комфорта', 'demo/assets/eco-ng-panorama.webp'],
+  ['Сканди', 'до 8 гостей', 'Лаконичный дом в скандинавском стиле с банным чаном', 'demo/assets/berezovaya-roshcha-novyj-god-skandi.webp'],
+  ['Барилоче', 'до 7 гостей', 'Современный светлый дом с тремя спальнями', 'demo/assets/berezovaya-roshcha-novyj-god-bariloche.webp'],
+  ['Шале', 'до 6 гостей', 'Тёплый дом с банным чаном для семейного уюта', 'demo/assets/berezovaya-roshcha-novyj-god-shale.webp'],
+  ['Холидей Хаус', 'до 4 гостей', 'Уютный дом с сауной, банным чаном и флоатингом', 'demo/assets/berezovaya-roshcha-novyj-god-holidej-haus.webp']
 ];
 
 const входит = [
@@ -160,7 +164,7 @@ section[id]{scroll-margin-top:84px}
 .факт b{display:block;font-size:16px;font-weight:600;line-height:1.3}
 .факт span{display:block;margin-top:4px;font-size:13.5px;opacity:.72;line-height:1.45}
 /* дома */
-.дома{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.дома{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
 .дом{display:flex;flex-direction:column;background:var(--панель);border-radius:14px;overflow:hidden;text-decoration:none;
      box-shadow:inset 0 0 0 1px var(--линия);transition:.3s}
 .дом:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 1px rgba(46,216,163,.35),0 22px 40px -26px rgba(0,0,0,.8)}
@@ -169,7 +173,7 @@ section[id]{scroll-margin-top:84px}
 .дом:hover .дом__фото img{transform:scale(1.05)}
 .дом__низ{padding:14px 16px 16px;display:grid;gap:4px}
 .дом__строка{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.дом__имя{font-size:18px;color:var(--текст);text-transform:uppercase}
+.дом__имя{font-size:16px;color:var(--текст);text-transform:uppercase}
 .дом__гости{font-size:13px;color:var(--акцент);white-space:nowrap}
 .дом__текст{font-size:14px;opacity:.75;line-height:1.45}
 .дом__ссылка{margin-top:6px;font-size:14px;font-weight:600;color:var(--акцент)}
@@ -251,7 +255,7 @@ section[id]{scroll-margin-top:84px}
 .ждёт{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
 .ждёт.видно{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.снежинка{display:none}.ждёт{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
-@media(max-width:1100px){.факты{grid-template-columns:repeat(2,1fr)}.зимой{grid-template-columns:repeat(3,1fr)}.спа{grid-template-columns:1fr}}
+@media(max-width:1100px){.дома{grid-template-columns:repeat(3,1fr)}.факты{grid-template-columns:repeat(2,1fr)}.зимой{grid-template-columns:repeat(3,1fr)}.спа{grid-template-columns:1fr}}
 @media(max-width:800px){
   .дома{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:-24px;padding-inline:24px;scrollbar-width:none}
   .дома::-webkit-scrollbar{display:none}

@@ -26,14 +26,15 @@ if (!fs.existsSync(path.join(ROOT, постер))) throw new Error('нет по�
 /* Обложка — фото дома в новогодних огнях на весь экран (вариант A, 4K,
    nano-banana-pro «один в один»): широкая нарезка и вертикальная для телефона.
    В блоке описания — вариант B (ёлка слева, шары-фонари), чтобы не повторяться. */
-const ОБЛОЖКА = 'demo/assets/bp-zima-hero.webp';
-const ОБЛОЖКА_ТЕЛ = 'demo/assets/bp-zima-hero-tel.webp';
+const ОБЛОЖКА = 'demo/assets/barskie-polya-novyj-god-oblozhka.webp';
+const ОБЛОЖКА_ТЕЛ = 'demo/assets/barskie-polya-novyj-god-oblozhka-tel.webp';
 /* Все картинки — по настоящим фото домов БП (правило владельца 11.09):
    обложка — Ривер 4, описание — Гарден 4, карточки домов — Гарден 1,
    Барнхаус 1, Барский дом, Шале. Ни одна не повторяется. */
 const ФОТО_ДОМА = 'demo/assets/barskie-polya-novyj-god-a-frejm-utro.webp';
 const ФОТО_ДОМОВ = {
-  риверГарден: 'demo/assets/barskie-polya-novyj-god-river-garden-zakat.webp',
+  ривер: 'demo/assets/barskie-polya-novyj-god-river-den.webp',
+  гарден: 'demo/assets/barskie-polya-novyj-god-river-garden-zakat.webp',
   барнхаус: 'demo/assets/barskie-polya-novyj-god-barnhaus-snegopad.webp',
   барский: 'demo/assets/barskie-polya-novyj-god-barskij-dom-noch.webp',
   шале: 'demo/assets/barskie-polya-novyj-god-shale-rassvet.webp'
@@ -178,7 +179,7 @@ const вопросы = [
   ['Входит ли новогодний стол?',
    'Нет, как вам удобнее: в каждом доме полноценная кухня, можно готовить самим, привезти своё или заказать кейтеринг.'],
   ['Можно ли приехать с питомцем?',
-   'Да. За весь период пребывания: до 5 кг 1000 ₽, более 5 кг 2000 ₽. Дадим миску, а для крупных питомцев лежанку.'],
+   'Да. Комфортнее всего с питомцами в домах Гарден и в Барском доме. За весь период пребывания: до 5 кг 1000 ₽, более 5 кг 2000 ₽. Дадим миску, а для крупных питомцев лежанку.'],
   ['Можно ли оплатить частями?',
    'Да, по желанию через «Яндекс Сплит». Можно оплатить и сразу целиком, как обычно.'],
   ['Где находится база?',
@@ -187,14 +188,17 @@ const вопросы = [
 
 /* Дома — данные со страниц домов. Чан стоит у дома, не на террасе. */
 const дома = [
-  ['Ривер и Гарден', '4 спальных места · 55 м² · два этажа',
-   'Своя территория и банный чан у дома. Дома Ривер частично огорожены живой изгородью. Гарден в лесу и огорожен полностью, у некоторых домов своя баня.',
-   ФОТО_ДОМОВ.риверГарден],
+  ['Ривер', '4 спальных места · 55 м² · два этажа',
+   'Банный чан у дома. Территория огорожена частично, живой изгородью.',
+   ФОТО_ДОМОВ.ривер],
+  ['Гарден', '4 спальных места · 55 м² · два этажа',
+   'Полностью закрытая территория и банный чан у дома, у некоторых домов своя баня. Комфортно с питомцами.',
+   ФОТО_ДОМОВ.гарден],
   ['Барнхаус', '6 спальных мест · 65 м² · один этаж',
    'Просторный дом с отдельными спальнями, своей территорией и банным чаном у дома. Подойдёт для компании.',
    ФОТО_ДОМОВ.барнхаус],
   ['Барский дом', '6 спальных мест · 95 м² · один этаж',
-   'Самый большой: банный чан у дома и сауна прямо внутри.',
+   'Самый большой: банный чан у дома и сауна прямо внутри. Комфортно с питомцами.',
    ФОТО_ДОМОВ.барский],
   ['Шале', '5 спальных мест · 95 м² · один этаж',
    'Новый дом с дизайнерским интерьером, территория полностью огорожена: современная баня, купель и банный чан.',
@@ -276,7 +280,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
                  width:min(1280px,108%);pointer-events:none}
 .герой__текст{position:relative;z-index:3;margin-top:auto;padding-block:0 64px;text-align:center}
 .герой__над{font-size:13px;letter-spacing:.24em;text-transform:uppercase;opacity:.85}
-.герой h1{font-size:clamp(58px,9vw,132px);line-height:.95;margin:14px 0 0;letter-spacing:.01em;
+.герой h1{font-size:clamp(44px,6vw,88px);line-height:1;margin:14px 0 0;letter-spacing:.01em;
           text-shadow:0 0 40px rgba(255,200,120,.35),0 4px 30px rgba(0,0,0,.45)}
 .герой .подзаголовок{margin-top:18px;font-size:clamp(17px,1.8vw,22px);color:#ffc58f;
                      text-shadow:0 2px 12px rgba(0,0,0,.5)}
@@ -365,7 +369,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
 .приписка{margin-top:26px;text-align:center;font-size:15px;opacity:.85}
 
 /* ── дома ── */
-.дома{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.дома{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
 .дом{background:var(--панель);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;
      transition:transform .35s ease,box-shadow .35s ease}
 .дом:hover{transform:translateY(-6px);box-shadow:0 24px 44px -24px rgba(0,0,0,.65)}
@@ -451,6 +455,7 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
 }
 @media(prefers-reduced-motion:reduce){.снежинка{display:none}.лампа{animation:none}}
 
+@media(max-width:1200px){.дома{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:1000px){.дома{grid-template-columns:repeat(2,1fr)}.праздники{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:1100px){.пункты{grid-template-columns:1fr}}
 @media(max-width:900px){

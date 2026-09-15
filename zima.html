@@ -136,8 +136,9 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
 .дом{background:var(--панель);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;
      transition:transform .35s ease,box-shadow .35s ease}
 .дом:hover{transform:translateY(-6px);box-shadow:0 24px 44px -24px rgba(0,0,0,.65)}
-.дом__фото{height:190px;background:#26382f center/cover no-repeat;transition:transform .7s ease}
-.дом:hover .дом__фото{transform:scale(1.06)}
+.дом__фото{height:190px;overflow:hidden;background:#26382f}
+.дом__фото img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+.дом:hover .дом__фото img{transform:scale(1.06)}
 .дом__низ{position:relative;padding:22px 24px 26px;background:var(--панель)}
 .дом__имя{font-size:22px;text-transform:uppercase;color:var(--акцент)}
 .дом__свойства{margin:8px 0 12px;font-size:13px;letter-spacing:.02em;opacity:.7}
@@ -461,7 +462,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
 <section class="полоса" id="описание">
   <div class="описание">
     <div class="описание__фото">
-      <img src="demo/assets/bp-zima-garden4.webp" alt="Дом в Барских полях в новогодних огнях" loading="lazy">
+      <img src="demo/assets/barskie-polya-novyj-god-a-frejm-utro.webp" alt="A-фрейм на базе отдыха «Барские поля» солнечным зимним утром" width="1600" height="893" loading="lazy" decoding="async">
       <div class="значок"><b>с 31 декабря по 10 января</b><span>праздничная программа</span></div>
     </div>
     <div class="описание__текст">
@@ -660,7 +661,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
   <h2>Дома</h2>
   <div class="дома">
       <article class="дом">
-        <div class="дом__фото" style="background-image:url('demo/assets/bp-zima-dom-garden1.webp')"></div>
+        <div class="дом__фото"><img src="demo/assets/barskie-polya-novyj-god-river-garden-zakat.webp" alt="Ривер и Гарден на базе отдыха «Барские поля» зимой" width="900" height="604" loading="lazy" decoding="async"></div>
         <div class="дом__низ">
           <h3 class="дом__имя">Ривер и Гарден</h3>
           <p class="дом__свойства">4 спальных места · 55 м² · два этажа</p>
@@ -668,7 +669,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
         </div>
       </article>
       <article class="дом">
-        <div class="дом__фото" style="background-image:url('demo/assets/bp-zima-dom-barnhaus.webp')"></div>
+        <div class="дом__фото"><img src="demo/assets/barskie-polya-novyj-god-barnhaus-snegopad.webp" alt="Барнхаус на базе отдыха «Барские поля» зимой" width="900" height="604" loading="lazy" decoding="async"></div>
         <div class="дом__низ">
           <h3 class="дом__имя">Барнхаус</h3>
           <p class="дом__свойства">6 спальных мест · 65 м² · один этаж</p>
@@ -676,7 +677,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
         </div>
       </article>
       <article class="дом">
-        <div class="дом__фото" style="background-image:url('demo/assets/bp-zima-dom-barski.webp')"></div>
+        <div class="дом__фото"><img src="demo/assets/barskie-polya-novyj-god-barskij-dom-noch.webp" alt="Барский дом на базе отдыха «Барские поля» зимой" width="900" height="604" loading="lazy" decoding="async"></div>
         <div class="дом__низ">
           <h3 class="дом__имя">Барский дом</h3>
           <p class="дом__свойства">6 спальных мест · 95 м² · один этаж</p>
@@ -684,7 +685,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
         </div>
       </article>
       <article class="дом">
-        <div class="дом__фото" style="background-image:url('demo/assets/bp-zima-dom-chalet.webp')"></div>
+        <div class="дом__фото"><img src="demo/assets/barskie-polya-novyj-god-shale-rassvet.webp" alt="Шале на базе отдыха «Барские поля» зимой" width="900" height="604" loading="lazy" decoding="async"></div>
         <div class="дом__низ">
           <h3 class="дом__имя">Шале</h3>
           <p class="дом__свойства">5 спальных мест · 95 м² · один этаж</p>

@@ -31,12 +31,12 @@ const ОБЛОЖКА_ТЕЛ = 'demo/assets/bp-zima-hero-tel.webp';
 /* Все картинки — по настоящим фото домов БП (правило владельца 11.09):
    обложка — Ривер 4, описание — Гарден 4, карточки домов — Гарден 1,
    Барнхаус 1, Барский дом, Шале. Ни одна не повторяется. */
-const ФОТО_ДОМА = 'demo/assets/bp-zima-garden4.webp';
+const ФОТО_ДОМА = 'demo/assets/barskie-polya-novyj-god-a-frejm-utro.webp';
 const ФОТО_ДОМОВ = {
-  риверГарден: 'demo/assets/bp-zima-dom-garden1.webp',
-  барнхаус: 'demo/assets/bp-zima-dom-barnhaus.webp',
-  барский: 'demo/assets/bp-zima-dom-barski.webp',
-  шале: 'demo/assets/bp-zima-dom-chalet.webp'
+  риверГарден: 'demo/assets/barskie-polya-novyj-god-river-garden-zakat.webp',
+  барнхаус: 'demo/assets/barskie-polya-novyj-god-barnhaus-snegopad.webp',
+  барский: 'demo/assets/barskie-polya-novyj-god-barskij-dom-noch.webp',
+  шале: 'demo/assets/barskie-polya-novyj-god-shale-rassvet.webp'
 };
 for (const ф of [ОБЛОЖКА, ОБЛОЖКА_ТЕЛ, ФОТО_ДОМА, ...Object.values(ФОТО_ДОМОВ)])
   if (!fs.existsSync(path.join(ROOT, ф))) throw new Error('нет фото ' + ф);
@@ -219,7 +219,7 @@ const вопрос = ([что, ответ]) => `
 
 const карточкаДома = ([имя, свойства, текст, фото]) => `
       <article class="дом">
-        <div class="дом__фото" style="background-image:url('${фото}')"></div>
+        <div class="дом__фото"><img src="${фото}" alt="${имя} на базе отдыха «Барские поля» зимой" width="900" height="604" loading="lazy" decoding="async"></div>
         <div class="дом__низ">
           <h3 class="дом__имя">${имя}</h3>
           <p class="дом__свойства">${свойства}</p>
@@ -369,8 +369,9 @@ h1,h2,h3{font-family:'Lora','NotoSerif',Georgia,serif;font-weight:400}
 .дом{background:var(--панель);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;
      transition:transform .35s ease,box-shadow .35s ease}
 .дом:hover{transform:translateY(-6px);box-shadow:0 24px 44px -24px rgba(0,0,0,.65)}
-.дом__фото{height:190px;background:#26382f center/cover no-repeat;transition:transform .7s ease}
-.дом:hover .дом__фото{transform:scale(1.06)}
+.дом__фото{height:190px;overflow:hidden;background:#26382f}
+.дом__фото img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+.дом:hover .дом__фото img{transform:scale(1.06)}
 .дом__низ{position:relative;padding:22px 24px 26px;background:var(--панель)}
 .дом__имя{font-size:22px;text-transform:uppercase;color:var(--акцент)}
 .дом__свойства{margin:8px 0 12px;font-size:13px;letter-spacing:.02em;opacity:.7}
@@ -641,7 +642,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
 <section class="полоса" id="описание">
   <div class="описание">
     <div class="описание__фото">
-      <img src="${ФОТО_ДОМА}" alt="Дом в Барских полях в новогодних огнях" loading="lazy">
+      <img src="${ФОТО_ДОМА}" alt="A-фрейм на базе отдыха «Барские поля» солнечным зимним утром" width="1600" height="893" loading="lazy" decoding="async">
       <div class="значок"><b>с 31 декабря по 10 января</b><span>праздничная программа</span></div>
     </div>
     <div class="описание__текст">

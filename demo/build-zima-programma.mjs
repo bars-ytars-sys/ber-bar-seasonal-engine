@@ -41,16 +41,16 @@ const разделы = [
 
 /* Что на территории помимо программы. Фото — наши новогодние виды домов. */
 const территория = [
-  ['ferma', 'Свои животные', 'demo/assets/bp-zima-dom-garden1.webp',
+  ['ferma', 'Свои животные', 'demo/assets/barskie-polya-novyj-god-river-garden-zakat.webp',
    ['Кролики, шиншиллы, козочки и павлины живут на базе круглый год.',
     'Посещение бесплатное и без ограничений, дети готовы проводить там полдня даже зимой.']],
-  ['detskiy', 'Детская игровая «Детский мир»', 'demo/assets/bp-zima-dom-barnhaus.webp',
+  ['detskiy', 'Детская игровая «Детский мир»', 'demo/assets/barskie-polya-novyj-god-barnhaus-snegopad.webp',
    ['Отдельная игровая комната для самых маленьких гостей.',
     'Дети заняты и в тепле, родители в это время отдыхают в чане, в бане или просто в тишине.']],
-  ['banya', 'Баня, сауна и банный чан', 'demo/assets/bp-zima-dom-barski.webp',
+  ['banya', 'Баня, сауна и банный чан', 'demo/assets/barskie-polya-novyj-god-barskij-dom-noch.webp',
    ['Банный чан стоит у каждого дома под открытым небом. Топим к приезду, наполнение оплачивается отдельно.',
     'Сауна есть в Барском доме. На территории нескольких домов есть своя баня.']],
-  ['pitanie', 'Новогодний стол и питание', 'demo/assets/bp-zima-dom-chalet.webp',
+  ['pitanie', 'Новогодний стол и питание', 'demo/assets/barskie-polya-novyj-god-shale-rassvet.webp',
    ['Стол как вам удобнее: в каждом доме полноценная кухня, можно готовить самим, привезти своё или заказать кейтеринг.']]
 ];
 
@@ -68,7 +68,7 @@ const блок = ([якорь, имя, фото, абзацы], i) => `
 <section class="раздел полоса" id="${якорь}">
   <div class="описание${i % 2 ? ' фото-справа' : ''}">
     <div class="описание__фото">
-      <img src="${фото}" alt="${имя}" loading="lazy">
+      <img src="${фото}" alt="${имя}. Новый год на базе отдыха «Барские поля»" loading="lazy" decoding="async">
     </div>
     <div class="описание__текст">
       <h2 style="text-align:left;text-transform:none;font-size:30px;margin-bottom:16px">${имя}</h2>

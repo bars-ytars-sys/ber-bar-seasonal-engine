@@ -353,6 +353,22 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
   .герой__текст{margin-top:-34px;padding-bottom:36px}
   .вниз{display:none}
 }
+
+/* больше о базе: ссылки на основной сайт */
+.назад{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.назад__ссылка{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 22px;border-radius:14px;background:var(--панель);box-shadow:inset 0 0 0 1px var(--линия,rgba(0,0,0,.08));color:var(--текст);text-decoration:none;transition:transform .2s,box-shadow .2s}
+.назад__ссылка:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px var(--акцент)}
+.назад__ссылка b{display:block;font-size:16px;font-weight:500}
+.назад__ссылка small{display:block;margin-top:3px;font-size:13px;opacity:.7}
+.назад__ссылка--главная{background:var(--акцент);color:#2b2118;box-shadow:none}
+.назад__ссылка--главная small{opacity:.85}
+.назад__стрелка{width:20px;height:20px;flex:none}
+#о-базе{padding-left:24px;padding-right:24px}
+#о-базе .раздел__подпись{text-align:center;margin:-6px auto 24px;max-width:560px;opacity:.8}
+@media(max-width:520px){#о-базе{padding-left:16px;padding-right:16px}}
+@media(max-width:900px){.назад{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.назад{grid-template-columns:1fr}.назад__ссылка{padding:16px 18px}}
+
 </style>
 </head>
 <body>
@@ -424,9 +440,9 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
     </g>
   </svg>
   <div class="герой__текст полоса">
-    <div class="герой__над">База отдыха «Барские поля» · Подмосковье</div>
+    <div class="герой__над">База отдыха «Барские поля» · Подмосковье</div>
     <h1>Зимняя сказка</h1>
-    <p class="подзаголовок">Новогодние праздники с 31 декабря по 10 января</p>
+    <p class="подзаголовок">Новогодние заезды с 30 декабря по 2 января и с 31 декабря по 3 января</p>
     <p class="ночи">Зимний лес в часе от Москвы, наряженный дом, банный чан и праздник в своём темпе</p>
     <div class="кнопки">
       <a class="кнопка" href="https://barskie-polya.ru/booking?dfrom=2026-12-31&amp;dto=2027-01-03&amp;adults=2&amp;scroll_to_rooms=1">Забронировать новогодний отдых</a>
@@ -464,12 +480,12 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
   <div class="описание">
     <div class="описание__фото">
       <img src="demo/assets/barskie-polya-novyj-god-a-frejm-utro.webp" alt="A-фрейм на базе отдыха «Барские поля» солнечным зимним утром" width="1600" height="893" loading="lazy" decoding="async">
-      <div class="значок"><b>с 31 декабря по 10 января</b><span>праздничная программа</span></div>
+      <div class="значок"><b>с 30 декабря по 3 января</b><span>праздничная программа</span></div>
     </div>
     <div class="описание__текст">
       <div class="над"><svg class="иконка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/><path d="m9.5 4.5 2.5 2 2.5-2M9.5 19.5l2.5-2 2.5 2"/></svg>Новый год за городом</div>
       <h2>Праздник в зимнем лесу</h2>
-      <p class="вводный">Час езды от Москвы по Новорижскому шоссе — и вы уже не в городе, а в зимнем лесу,
+      <p class="вводный">Час езды от Москвы по Новорижскому шоссе, и вы уже не в городе, а в зимнем лесу,
         где в доме тепло, на улице парит банный чан и никакой суеты. Только праздник в своём темпе.</p>
       <ul class="пункты">
         <li class="пункт"><svg class="иконка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5 6.5 9h3L5 15h4l-4 5.5h14L15 15h4l-4.5-6h3L12 2.5Z"/><path d="M12 20.5V22"/></svg><div><b>Заезжаете в зимнюю сказку</b><span>Дом уже наряжен: ёлка, гирлянды, атмосфера с порога.</span></div></li>
@@ -500,7 +516,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
   <div class="заезд">
     <div class="заезд__кратко">
       <div class="заезд__даты">с 30 декабря по 2 января</div>
-      <div class="заезд__даты">с 31 декабря по 10 января</div>
+      <div class="заезд__даты">с 31 декабря по 3 января</div>
       <p class="заезд__лид">Дом уже украшен, чан топится к вашему приезду, а вокруг идёт праздничная программа:
         лотерея при заезде, 31 декабря Дед Мороз и снежные забавы.</p>
       <ul class="заезд__список">
@@ -716,7 +732,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
     <div class="плита">
       <h3>Сертификат в подарок</h3>
       <p>Если дарите отдых, а даты пусть выберут сами, есть подарочные сертификаты
-        номиналом 10 000, 20 000 и 30 000 ₽.</p>
+        номиналом 10 000, 20 000 и 30 000 ₽.</p>
       <p>Сертификат действует на проживание и дополнительные услуги.</p>
     </div>
   </div>
@@ -793,7 +809,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
       </details>
       <details class="вопрос">
         <summary>Можно ли приехать с питомцем?</summary>
-        <p>Да. Комфортнее всего с питомцами в домах Гарден и в Барском доме. За весь период пребывания: до 5 кг 1000 ₽, более 5 кг 2000 ₽. Дадим миску, а для крупных питомцев лежанку.</p>
+        <p>Да. Комфортнее всего с питомцами в домах Гарден и в Барском доме. За весь период пребывания: до 5 кг 1 000 ₽, более 5 кг 2 000 ₽. Дадим миску, а для крупных питомцев лежанку.</p>
       </details>
       <details class="вопрос">
         <summary>Можно ли оплатить частями?</summary>
@@ -868,12 +884,27 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
   </div>
 </section>
 
+<section class="раздел полоса" id="о-базе">
+  <div class="раздел__верх"><h2>Больше о базе отдыха</h2><p class="раздел__подпись">Всё остальное о базе, домах и отдыхе круглый год на основном сайте.</p></div>
+  <nav class="назад" aria-label="Разделы сайта">
+    <a class="назад__ссылка назад__ссылка--главная" href="https://barskie-polya.ru/"><span><b>Главная страница</b><small>Всё о базе отдыха</small></span><svg class="назад__стрелка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a class="назад__ссылка" href="https://barskie-polya.ru/dosug"><span><b>Досуг</b><small>Чем заняться на базе</small></span><svg class="назад__стрелка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a class="назад__ссылка" href="https://barskie-polya.ru/banchan"><span><b>Банные чаны и баня</b><small>Отдых с паром</small></span><svg class="назад__стрелка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a class="назад__ссылка" href="https://barskie-polya.ru/special"><span><b>Специальные предложения</b><small>Акции и программы</small></span><svg class="назад__стрелка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </nav>
+</section>
+<script>
+document.querySelectorAll('.назад__ссылка').forEach(function (a) {
+  a.addEventListener('click', function () { try { window.ym && window.ym(109033653, 'reachGoal', 'ng_nazad'); } catch (e) {} });
+});
+</script>
+
 <footer class="подвал" id="контакты">
   <div class="полоса подвал__сетка">
     <div class="подвал__карта">
       <h3>Как добраться</h3>
       <iframe src="https://yandex.ru/map-widget/v1/org/barskiye_polya/218830724182/?ll=36.595236%2C56.333142&z=14" loading="lazy" title="Барские поля на Яндекс Картах" allowfullscreen></iframe>
-      <p class="подвал__адрес">Московская область, Новорижское шоссе, деревня Степаньково · около часа от Москвы</p>
+      <p class="подвал__адрес">Московская область, Новорижское шоссе, деревня Степаньково · около часа от Москвы</p>
       <div class="подвал__ссылки"><a href="https://yandex.ru/maps/org/barskiye_polya/218830724182/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a><a href="https://go.2gis.com/5Y9FT" target="_blank" rel="noopener">2ГИС</a></div>
     </div>
     <form class="подвал__форма" id="форма-заявки" novalidate data-база="Барские поля" data-чат="https://t.me/bazabarskie_polya" data-тел="+7 (495) 150-39-08" data-tel-link="tel:+74951503908">
@@ -898,7 +929,7 @@ a.действие:hover{background:rgba(20,32,28,.52);transform:translateY(-4px
       <a class="кнопка кнопка--контур" href="https://barskie-polya.ru/booking?dfrom=2026-12-31&amp;dto=2027-01-03&amp;adults=2&amp;scroll_to_rooms=1">Забронировать онлайн</a>
     </div>
   </div>
-  <div class="полоса подвал__низ">База отдыха «Барские поля» · Московская область, Новорижское шоссе, деревня Степаньково · около часа от Москвы</div>
+  <div class="полоса подвал__низ">База отдыха «Барские поля» · Московская область, Новорижское шоссе, деревня Степаньково · около часа от Москвы</div>
 </footer>
 
 <script>

@@ -10,6 +10,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { назад } from '../tools/tilda-ng-perehod.mjs';
+const НАЗАД = назад('br');
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ОБЛОЖКА = 'demo/assets/berezovaya-roshcha-novyj-god-oblozhka.webp';
@@ -49,7 +51,7 @@ const иконка = (имя, класс = 'иконка') =>
 
 /* Коротко о празднике: четыре главных факта. */
 const факты = [
-  ['календарь', 'С 31 декабря по 10 января', 'Заезд с 16:00, выезд до 13:00'],
+  ['календарь', 'Два новогодних заезда', 'С 30 декабря по 2 января или с 31 декабря по 3 января. Заезд с 16:00, выезд до 13:00'],
   ['дом', '22 дизайнерских домика', 'От 2 до 8 гостей, у большинства своя территория'],
   ['чан', 'Банный чан у дома', 'Под открытым небом, топим к вашему приезду'],
   ['огонь', 'SPA-комплекс в 300 метрах', 'Бассейн под открытым небом, зимой вода от 28 до 30 °C']
@@ -77,10 +79,10 @@ const входит = [
   ['отметка', 'Можно приезжать с питомцами']
 ];
 const доплата = [
-  ['Банный чан', '5 500 ₽, в SPA House 7 000 ₽'],
-  ['SPA-комплекс', 'от 1 000 ₽ в час'],
+  ['Банный чан', '5 500 ₽, в SPA House 7 000 ₽'],
+  ['SPA-комплекс', 'от 1 000 ₽ в час'],
   ['Новогодний банкет в ресторане', 'по меню ресторана'],
-  ['Флоатинг', 'от 4 000 ₽'],
+  ['Флоатинг', 'от 4 000 ₽'],
   ['Рыбалка, конные прогулки, багги', 'уточняйте у администратора']
 ];
 
@@ -203,6 +205,19 @@ section[id]{scroll-margin-top:84px}
 .спа__цена b{display:block;font-family:DespairDisplay,Manrope,sans-serif;font-size:24px}
 .спа__цена span{font-size:13px;opacity:.72}
 .спа__цены p{grid-column:1/-1;font-size:13px;opacity:.72;text-align:center}
+.спа__фото{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:200px 200px;gap:12px;margin-bottom:16px}
+.спа__кадр{position:relative;margin:0;border-radius:14px;overflow:hidden;background:#dfe9e6}
+.спа__кадр img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.спа__кадр:hover img{transform:scale(1.04)}
+.спа__кадр--большой{grid-row:1/3}
+.спа__кадр--широкий{grid-column:2/4}
+.спа__кадр figcaption{position:absolute;left:12px;bottom:12px;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.88);color:#17252f;font-size:13px;font-weight:600}
+@media(max-width:700px){
+  .спа__фото{grid-template-columns:1fr 1fr;grid-template-rows:220px 130px 130px;gap:8px}
+  .спа__кадр--большой{grid-row:auto;grid-column:1/-1}
+  .спа__кадр--широкий{grid-column:1/-1}
+  .спа__кадр figcaption{left:8px;bottom:8px;font-size:12px}
+}
 /* зимой */
 .зимой{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
 .занятие{padding:18px;border-radius:14px;background:var(--панель);box-shadow:inset 0 0 0 1px var(--линия)}
@@ -395,6 +410,7 @@ body{background:linear-gradient(180deg,#f3f8f6 0%,#e9f2ef 45%,#eef4f2 100%);colo
   .герой .шапка .лого{justify-self:start}
   .герой .даты{font-size:16px}
 }
+${НАЗАД.стили}
 `;
 
 const html = `<!doctype html>
@@ -403,7 +419,7 @@ const html = `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Новый год 2027 в «Берёзовой роще»: дома с банным чаном и SPA в Подмосковье</title>
-<meta name="description" content="Новогодние праздники с 31 декабря по 10 января в 40 минутах от Москвы. 22 дизайнерских домика с банным чаном, SPA-комплекс с бассейном под открытым небом, ферма и зимние развлечения.">
+<meta name="description" content="Новогодние заезды с 30 декабря по 2 января и с 31 декабря по 3 января в 40 минутах от Москвы. 22 дизайнерских домика с банным чаном, SPA-комплекс с бассейном под открытым небом, ферма и зимние развлечения.">
 <style>${СТИЛИ}</style>
 </head>
 <body>
@@ -422,9 +438,9 @@ const html = `<!doctype html>
     <a class="телефон" href="${ТЕЛ_ССЫЛКА}">${ТЕЛЕФОН}<span>с 9:00 до 24:00</span></a>
   </header>
   <div class="герой__текст полоса">
-    <div class="над">База отдыха «Берёзовая роща» · Подмосковье</div>
-    <h1>Новый год в Берёзовой роще</h1>
-    <p class="даты"><span>С 31 декабря по 10 января</span><span>40 минут от Москвы</span></p>
+    <div class="над">База отдыха «Берёзовая роща» · Подмосковье</div>
+    <h1>Новый год в Берёзовой роще</h1>
+    <p class="даты"><span>Заезды с 30 декабря по 2 января</span><span>и с 31 декабря по 3 января</span><span>40 минут от Москвы</span></p>
     <div class="кнопки">
       <a class="кнопка" href="${БРОНЬ}">Выбрать даты и дом</a>
       <a class="кнопка кнопка--контур" href="#условия">Что входит</a>
@@ -495,6 +511,12 @@ const html = `<!doctype html>
 
 <section class="раздел полоса" id="спа">
   <div class="раздел__верх"><h2>SPA-комплекс</h2><p class="раздел__подпись">В 300 метрах от домов. Работает с воскресенья по четверг с 10:00 до 22:00, в пятницу и субботу до 23:00.</p></div>
+  <div class="спа__фото">
+    <figure class="спа__кадр спа__кадр--большой"><img src="https://optim.tildacdn.com/tild6139-3539-4562-b536-376233306636/-/resize/1200x/XXXL_2.webp" alt="Бассейн под открытым небом, SPA-комплекс базы отдыха «Берёзовая роща»" loading="lazy" decoding="async"><figcaption>Бассейн под открытым небом</figcaption></figure>
+    <figure class="спа__кадр спа__кадр--широкий"><img src="https://optim.tildacdn.com/tild3830-3564-4534-a431-383331653136/-/resize/800x/_2026-01-07_23581842.png" alt="Вечером над водой пар, SPA-комплекс базы отдыха «Берёзовая роща»" loading="lazy" decoding="async"><figcaption>Вечером над водой пар</figcaption></figure>
+    <figure class="спа__кадр"><img src="https://optim.tildacdn.com/tild3439-6230-4463-a331-306233326638/-/resize/600x/image_5.webp" alt="Парение с банщиком, SPA-комплекс базы отдыха «Берёзовая роща»" loading="lazy" decoding="async"><figcaption>Парение с банщиком</figcaption></figure>
+    <figure class="спа__кадр"><img src="https://optim.tildacdn.com/tild3464-6564-4464-b363-666133393037/-/resize/600x/2148000315_1jpg.webp" alt="Бани, SPA-комплекс базы отдыха «Берёзовая роща»" loading="lazy" decoding="async"><figcaption>Бани</figcaption></figure>
+  </div>
   <div class="спа">
     <div class="спа__текст">
       <b>Что внутри</b>
@@ -508,9 +530,9 @@ const html = `<!doctype html>
       <p>В стоимость входят бассейн, лежаки и бани. Банщик, массаж, полотенца, закуски и напитки оплачиваются отдельно.</p>
     </div>
     <div class="спа__цены">
-      <div class="спа__цена"><b>1 000 ₽</b><span>1 час</span></div>
-      <div class="спа__цена"><b>1 500 ₽</b><span>2 часа</span></div>
-      <div class="спа__цена"><b>4 000 ₽</b><span>весь день</span></div>
+      <div class="спа__цена"><b>1 000 ₽</b><span>1 час</span></div>
+      <div class="спа__цена"><b>1 500 ₽</b><span>2 часа</span></div>
+      <div class="спа__цена"><b>4 000 ₽</b><span>весь день</span></div>
       <p>Детям до 14 лет скидка 50 %</p>
     </div>
   </div>
@@ -530,12 +552,14 @@ const html = `<!doctype html>
   </div>
 </section>
 
+${НАЗАД.разметка}
+
 <footer class="подвал" id="контакты">
   <div class="полоса подвал__сетка">
     <div class="подвал__карта">
       <h3>Как добраться</h3>
       <iframe src="https://yandex.ru/map-widget/v1/org/beryozovaya_roshcha/91160063546/?ll=36.984035%2C56.110515&z=14" loading="lazy" title="Берёзовая роща на Яндекс Картах" allowfullscreen></iframe>
-      <p class="подвал__адрес">Московская область, Солнечногорский район, деревня Васюково, КДЗ Новое Мишкино 1/5 · 40 минут от Москвы</p>
+      <p class="подвал__адрес">Московская область, Солнечногорский район, деревня Васюково, КДЗ Новое Мишкино 1/5 · 40 минут от Москвы</p>
       <div class="подвал__ссылки"><a href="https://yandex.ru/maps/org/beryozovaya_roshcha/91160063546/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a><a href="https://go.2gis.com/39yoe" target="_blank" rel="noopener">2ГИС</a></div>
     </div>
     <form class="подвал__форма" id="форма-заявки" novalidate data-база="Берёзовая роща" data-чат="${ТГ}" data-тел="${ТЕЛЕФОН}" data-tel-link="${ТЕЛ_ССЫЛКА}">
@@ -560,7 +584,7 @@ const html = `<!doctype html>
       <a class="кнопка кнопка--контур" href="${БРОНЬ}">Забронировать онлайн</a>
     </div>
   </div>
-  <div class="полоса подвал__низ">База отдыха «Берёзовая роща» · Московская область, Солнечногорский район, деревня Васюково, КДЗ Новое Мишкино 1/5 · 40 минут от Москвы</div>
+  <div class="полоса подвал__низ">База отдыха «Берёзовая роща» · Московская область, Солнечногорский район, деревня Васюково, КДЗ Новое Мишкино 1/5 · 40 минут от Москвы</div>
 </footer>
 
 <script>

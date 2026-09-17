@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Новый год 2027 в «Берёзовой роще»: дома с банным чаном и SPA в Подмосковье</title>
-<meta name="description" content="Новогодние праздники с 31 декабря по 10 января в 40 минутах от Москвы. 22 дизайнерских домика с банным чаном, SPA-комплекс с бассейном под открытым небом, ферма и зимние развлечения.">
+<meta name="description" content="Новогодние заезды с 30 декабря по 2 января и с 31 декабря по 3 января в 40 минутах от Москвы. 22 дизайнерских домика с банным чаном, SPA-комплекс с бассейном под открытым небом, ферма и зимние развлечения.">
 <style>
 @font-face{font-family:Manrope;src:url(https://static.tildacdn.com/tild3736-6431-4634-b864-383266383235/manrope-regular.woff) format('woff');font-weight:400;font-display:swap}
 @font-face{font-family:Manrope;src:url(https://static.tildacdn.com/tild3039-3861-4239-a464-373839643830/manrope-medium.woff) format('woff');font-weight:500;font-display:swap}
@@ -108,6 +108,19 @@ section[id]{scroll-margin-top:84px}
 .спа__цена b{display:block;font-family:DespairDisplay,Manrope,sans-serif;font-size:24px}
 .спа__цена span{font-size:13px;opacity:.72}
 .спа__цены p{grid-column:1/-1;font-size:13px;opacity:.72;text-align:center}
+.спа__фото{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:200px 200px;gap:12px;margin-bottom:16px}
+.спа__кадр{position:relative;margin:0;border-radius:14px;overflow:hidden;background:#dfe9e6}
+.спа__кадр img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.спа__кадр:hover img{transform:scale(1.04)}
+.спа__кадр--большой{grid-row:1/3}
+.спа__кадр--широкий{grid-column:2/4}
+.спа__кадр figcaption{position:absolute;left:12px;bottom:12px;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.88);color:#17252f;font-size:13px;font-weight:600}
+@media(max-width:700px){
+  .спа__фото{grid-template-columns:1fr 1fr;grid-template-rows:220px 130px 130px;gap:8px}
+  .спа__кадр--большой{grid-row:auto;grid-column:1/-1}
+  .спа__кадр--широкий{grid-column:1/-1}
+  .спа__кадр figcaption{left:8px;bottom:8px;font-size:12px}
+}
 /* зимой */
 .зимой{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
 .занятие{padding:18px;border-radius:14px;background:var(--панель);box-shadow:inset 0 0 0 1px var(--линия)}
@@ -300,6 +313,19 @@ body{background:linear-gradient(180deg,#f3f8f6 0%,#e9f2ef 45%,#eef4f2 100%);colo
   .герой .шапка .лого{justify-self:start}
   .герой .даты{font-size:16px}
 }
+
+/* больше о базе: ссылки на основной сайт */
+.назад{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.назад__ссылка{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 22px;border-radius:14px;background:var(--панель);box-shadow:inset 0 0 0 1px var(--линия,rgba(0,0,0,.08));color:var(--текст);text-decoration:none;transition:transform .2s,box-shadow .2s}
+.назад__ссылка:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px var(--акцент)}
+.назад__ссылка b{display:block;font-size:16px;font-weight:500}
+.назад__ссылка small{display:block;margin-top:3px;font-size:13px;opacity:.7}
+.назад__ссылка--главная{background:var(--акцент);color:#ffffff;box-shadow:none}
+.назад__ссылка--главная small{opacity:.85}
+.назад__стрелка{width:20px;height:20px;flex:none}
+@media(max-width:900px){.назад{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.назад{grid-template-columns:1fr}.назад__ссылка{padding:16px 18px}}
+
 </style>
 </head>
 <body>
@@ -318,9 +344,9 @@ body{background:linear-gradient(180deg,#f3f8f6 0%,#e9f2ef 45%,#eef4f2 100%);colo
     <a class="телефон" href="tel:+74951202008">+7 (495) 120-20-08<span>с 9:00 до 24:00</span></a>
   </header>
   <div class="герой__текст полоса">
-    <div class="над">База отдыха «Берёзовая роща» · Подмосковье</div>
-    <h1>Новый год в Берёзовой роще</h1>
-    <p class="даты"><span>С 31 декабря по 10 января</span><span>40 минут от Москвы</span></p>
+    <div class="над">База отдыха «Берёзовая роща» · Подмосковье</div>
+    <h1>Новый год в Берёзовой роще</h1>
+    <p class="даты"><span>Заезды с 30 декабря по 2 января</span><span>и с 31 декабря по 3 января</span><span>40 минут от Москвы</span></p>
     <div class="кнопки">
       <a class="кнопка" href="https://ecobr.ru/booking?dfrom=2026-12-31&amp;dto=2027-01-03&amp;adults=2&amp;scroll_to_rooms=1">Выбрать даты и дом</a>
       <a class="кнопка кнопка--контур" href="#условия">Что входит</a>
@@ -348,7 +374,7 @@ body{background:linear-gradient(180deg,#f3f8f6 0%,#e9f2ef 45%,#eef4f2 100%);colo
 
 <section class="полоса" id="коротко" aria-label="Коротко о празднике">
   <div class="факты">
-    <div class="факт"><svg class="иконка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3.5v3M16 3.5v3"/></svg><div><b>С 31 декабря по 10 января</b><span>Заезд с 16:00, выезд до 13:00</span></div></div>
+    <div class="факт"><svg class="иконка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3.5v3M16 3.5v3"/></svg><div><b>Два новогодних заезда</b><span>С 30 декабря по 2 января или с 31 декабря по 3 января. Заезд с 16:00, выезд до 13:00</span></div></div>
     <div class="факт"><svg class="иконка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11 12 4l8 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg><div><b>22 дизайнерских домика</b><span>От 2 до 8 гостей, у большинства своя территория</span></div></div>
     <div class="факт"><svg class="иконка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="13" rx="8" ry="2.5"/><path d="M4 13v4.5c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5V13"/><path d="M9 4.5c-1 1 1 2 0 3.2M12 3.5c-1 1 1 2 0 3.4M15 4.5c-1 1 1 2 0 3.2"/></svg><div><b>Банный чан у дома</b><span>Под открытым небом, топим к вашему приезду</span></div></div>
     <div class="факт"><svg class="иконка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6 0-3.4 2.6-5.2 3.6-8.6.3 1.9 1.4 3 2.4 3.4C11.5 6.6 13 4.2 15.5 3c-.6 2.8.4 4.6 1.6 6.3 1 1.4 1.4 2.8 1.4 4.2 0 4.2-2.7 7.5-6.5 7.5Z"/><path d="M12 21c-1.6 0-2.7-1-2.7-2.6 0-1.6 1.2-2.3 1.7-3.9.8 1 2.2 1.7 2.9 2.9.8 1.4-.2 3.6-1.9 3.6Z"/></svg><div><b>SPA-комплекс в 300 метрах</b><span>Бассейн под открытым небом, зимой вода от 28 до 30 °C</span></div></div>
@@ -392,7 +418,7 @@ body{background:linear-gradient(180deg,#f3f8f6 0%,#e9f2ef 45%,#eef4f2 100%);colo
     </div>
     <div class="колонка прайс">
       <h3>За дополнительную плату</h3>
-      <ul><li><b>Банный чан</b><span>5 500 ₽, в SPA House 7 000 ₽</span></li><li><b>SPA-комплекс</b><span>от 1 000 ₽ в час</span></li><li><b>Новогодний банкет в ресторане</b><span>по меню ресторана</span></li><li><b>Флоатинг</b><span>от 4 000 ₽</span></li><li><b>Рыбалка, конные прогулки, багги</b><span>уточняйте у администратора</span></li></ul>
+      <ul><li><b>Банный чан</b><span>5 500 ₽, в SPA House 7 000 ₽</span></li><li><b>SPA-комплекс</b><span>от 1 000 ₽ в час</span></li><li><b>Новогодний банкет в ресторане</b><span>по меню ресторана</span></li><li><b>Флоатинг</b><span>от 4 000 ₽</span></li><li><b>Рыбалка, конные прогулки, багги</b><span>уточняйте у администратора</span></li></ul>
     </div>
     <div class="цена-дома">
       <p>Стоимость проживания зависит от выбранного дома и количества гостей.</p>
@@ -403,6 +429,12 @@ body{background:linear-gradient(180deg,#f3f8f6 0%,#e9f2ef 45%,#eef4f2 100%);colo
 
 <section class="раздел полоса" id="спа">
   <div class="раздел__верх"><h2>SPA-комплекс</h2><p class="раздел__подпись">В 300 метрах от домов. Работает с воскресенья по четверг с 10:00 до 22:00, в пятницу и субботу до 23:00.</p></div>
+  <div class="спа__фото">
+    <figure class="спа__кадр спа__кадр--большой"><img src="https://optim.tildacdn.com/tild6139-3539-4562-b536-376233306636/-/resize/1200x/XXXL_2.webp" alt="Бассейн под открытым небом, SPA-комплекс базы отдыха «Берёзовая роща»" loading="lazy" decoding="async"><figcaption>Бассейн под открытым небом</figcaption></figure>
+    <figure class="спа__кадр спа__кадр--широкий"><img src="https://optim.tildacdn.com/tild3830-3564-4534-a431-383331653136/-/resize/800x/_2026-01-07_23581842.png" alt="Вечером над водой пар, SPA-комплекс базы отдыха «Берёзовая роща»" loading="lazy" decoding="async"><figcaption>Вечером над водой пар</figcaption></figure>
+    <figure class="спа__кадр"><img src="https://optim.tildacdn.com/tild3439-6230-4463-a331-306233326638/-/resize/600x/image_5.webp" alt="Парение с банщиком, SPA-комплекс базы отдыха «Берёзовая роща»" loading="lazy" decoding="async"><figcaption>Парение с банщиком</figcaption></figure>
+    <figure class="спа__кадр"><img src="https://optim.tildacdn.com/tild3464-6564-4464-b363-666133393037/-/resize/600x/2148000315_1jpg.webp" alt="Бани, SPA-комплекс базы отдыха «Берёзовая роща»" loading="lazy" decoding="async"><figcaption>Бани</figcaption></figure>
+  </div>
   <div class="спа">
     <div class="спа__текст">
       <b>Что внутри</b>
@@ -416,9 +448,9 @@ body{background:linear-gradient(180deg,#f3f8f6 0%,#e9f2ef 45%,#eef4f2 100%);colo
       <p>В стоимость входят бассейн, лежаки и бани. Банщик, массаж, полотенца, закуски и напитки оплачиваются отдельно.</p>
     </div>
     <div class="спа__цены">
-      <div class="спа__цена"><b>1 000 ₽</b><span>1 час</span></div>
-      <div class="спа__цена"><b>1 500 ₽</b><span>2 часа</span></div>
-      <div class="спа__цена"><b>4 000 ₽</b><span>весь день</span></div>
+      <div class="спа__цена"><b>1 000 ₽</b><span>1 час</span></div>
+      <div class="спа__цена"><b>1 500 ₽</b><span>2 часа</span></div>
+      <div class="спа__цена"><b>4 000 ₽</b><span>весь день</span></div>
       <p>Детям до 14 лет скидка 50 %</p>
     </div>
   </div>
@@ -446,12 +478,27 @@ body{background:linear-gradient(180deg,#f3f8f6 0%,#e9f2ef 45%,#eef4f2 100%);colo
   </div>
 </section>
 
+<section class="раздел полоса" id="о-базе">
+  <div class="раздел__верх"><h2>Больше о базе отдыха</h2><p class="раздел__подпись">Всё остальное о базе, домах и отдыхе круглый год на основном сайте.</p></div>
+  <nav class="назад" aria-label="Разделы сайта">
+    <a class="назад__ссылка назад__ссылка--главная" href="https://ecobr.ru/"><span><b>Главная страница</b><small>Всё о базе отдыха</small></span><svg class="назад__стрелка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a class="назад__ссылка" href="https://ecobr.ru/doma"><span><b>Дома</b><small>22 дизайнерских домика</small></span><svg class="назад__стрелка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a class="назад__ссылка" href="https://ecobr.ru/spa"><span><b>SPA-комплекс</b><small>Бассейн, хамам и бани</small></span><svg class="назад__стрелка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a class="назад__ссылка" href="https://ecobr.ru/banchan"><span><b>Бани и чаны</b><small>Парение и банный отдых</small></span><svg class="назад__стрелка" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </nav>
+</section>
+<script>
+document.querySelectorAll('.назад__ссылка').forEach(function (a) {
+  a.addEventListener('click', function () { try { window.ym && window.ym(108978291, 'reachGoal', 'ng_nazad'); } catch (e) {} });
+});
+</script>
+
 <footer class="подвал" id="контакты">
   <div class="полоса подвал__сетка">
     <div class="подвал__карта">
       <h3>Как добраться</h3>
       <iframe src="https://yandex.ru/map-widget/v1/org/beryozovaya_roshcha/91160063546/?ll=36.984035%2C56.110515&z=14" loading="lazy" title="Берёзовая роща на Яндекс Картах" allowfullscreen></iframe>
-      <p class="подвал__адрес">Московская область, Солнечногорский район, деревня Васюково, КДЗ Новое Мишкино 1/5 · 40 минут от Москвы</p>
+      <p class="подвал__адрес">Московская область, Солнечногорский район, деревня Васюково, КДЗ Новое Мишкино 1/5 · 40 минут от Москвы</p>
       <div class="подвал__ссылки"><a href="https://yandex.ru/maps/org/beryozovaya_roshcha/91160063546/" target="_blank" rel="noopener">Открыть в Яндекс Картах</a><a href="https://go.2gis.com/39yoe" target="_blank" rel="noopener">2ГИС</a></div>
     </div>
     <form class="подвал__форма" id="форма-заявки" novalidate data-база="Берёзовая роща" data-чат="https://t.me/ecobazabr" data-тел="+7 (495) 120-20-08" data-tel-link="tel:+74951202008">
@@ -476,7 +523,7 @@ body{background:linear-gradient(180deg,#f3f8f6 0%,#e9f2ef 45%,#eef4f2 100%);colo
       <a class="кнопка кнопка--контур" href="https://ecobr.ru/booking?dfrom=2026-12-31&amp;dto=2027-01-03&amp;adults=2&amp;scroll_to_rooms=1">Забронировать онлайн</a>
     </div>
   </div>
-  <div class="полоса подвал__низ">База отдыха «Берёзовая роща» · Московская область, Солнечногорский район, деревня Васюково, КДЗ Новое Мишкино 1/5 · 40 минут от Москвы</div>
+  <div class="полоса подвал__низ">База отдыха «Берёзовая роща» · Московская область, Солнечногорский район, деревня Васюково, КДЗ Новое Мишкино 1/5 · 40 минут от Москвы</div>
 </footer>
 
 <script>

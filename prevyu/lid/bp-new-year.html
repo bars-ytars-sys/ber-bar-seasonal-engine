@@ -904,7 +904,7 @@ if (домБР || домБП) {
 var и = имяДома();
 return 'Здравствуйте! Интересует ' + (домБП && !/-\d/.test(и) && и !== 'Барский дом' && и !== 'Шале' ? 'дом категории' : 'дом') + (и ? ' «' + и + '»' : '') + (д ? '. Хотим ' + д + '. Свободно?' : '. Подскажите, пожалуйста, свободные даты.');
 }
-return 'Здравствуйте! Хотим дом ' + (д || 'с … по …, нас … человек') + '. Что свободно и сколько стоит?';
+return д ? 'Здравствуйте! Хотим дом ' + д + '. Что свободно и сколько стоит?' : 'Здравствуйте! Подскажите, пожалуйста, свободные даты и цену.';
 }
 document.addEventListener('click', function (e) {
 var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
@@ -1739,15 +1739,18 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
 .bbп-экран_бп{font:400 12.5px/1.45 'Rubik',Arial,sans-serif;color:rgba(238,229,213,.86)}
 @media (min-width:640px){.bbп-экран_бп{font-size:13px}}
 .bbп-экран_бп i{display:none}.bbп-экран_бп span{display:block;width:-webkit-fit-content;width:fit-content;margin:0 auto}.bbп-экран_бп span+i+span::first-letter{text-transform:uppercase}
+/* галочка согласия НАД кнопкой «Подобрать дом», кнопка последней. Телефон: столбиком. ПК: телефон и имя в ряд, ниже галочка, ниже кнопка */
+.bbп__ряд.bbп__ряд_согл .bbп__согл{margin:2px 0 0}
+@media (min-width:960px){.bbп__ряд.bbп__ряд_согл{grid-template-columns:1fr 1fr}.bbп__ряд_согл .bbп__согл,.bbп__ряд_согл .bbп__кн{grid-column:1 / -1}.bbп__ряд_согл .bbп__кн{justify-self:start;min-width:260px}}
 .bbп_нг{padding-top:4px}
 .bbп_нг .bbп-правила{color:#ee995d;font-weight:500}
 </style>
 <section class="bbп bbп_бп bbп_нг" id="bb-podbor" aria-labelledby="bbп-заг">
-  <p class="bbп-правила">Новогодний заезд один: с 31 декабря по 3 января, 3&nbsp;ночи</p>
+  <p class="bbп-правила">Новогодний заезд один: с&nbsp;31&nbsp;декабря по&nbsp;3&nbsp;января, 3&nbsp;ночи</p>
   <form class="bbп__карта" novalidate>
     <div class="bbп__лево">
       <h2 class="bbп__заг" id="bbп-заг">Другие даты или вас 7 и больше?</h2>
-      <p class="bbп__под">Хотите приехать на праздники в другие дни или большой компанией? Оставьте даты и состав: подберём дом или соседние дома и пришлём цену.</p>
+      <p class="bbп__под">Хотите приехать на&nbsp;праздники в&nbsp;другие дни или&nbsp;большой компанией? Оставьте даты и&nbsp;состав: подберём дом или&nbsp;соседние дома и&nbsp;пришлём цену.</p>
       <p class="bbп__запрос" hidden></p>
     </div>
     <div class="bbп__право">
@@ -1759,16 +1762,15 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
       <div class="bbп__гр" role="group" aria-label="Сколько вас">
         <p class="bbп__метка">Сколько вас</p>
         <div class="bbп__чипы" data-bbп="гости"><button type="button" class="bbп__чип" data-г="2" aria-pressed="false">2</button><button type="button" class="bbп__чип" data-г="3–4" aria-pressed="false">3–4</button><button type="button" class="bbп__чип" data-г="5–6" aria-pressed="false">5–6</button><button type="button" class="bbп__чип" data-г="7+" aria-pressed="false">7 и больше</button></div>
-        <p class="bbп__7" hidden>В один дом не поместитесь? Подберём соседние дома рядом и пришлём цену за все дома.</p>
+        <p class="bbп__7" hidden>В&nbsp;один дом не&nbsp;поместитесь? Подберём соседние дома рядом и&nbsp;пришлём цену за&nbsp;все дома.</p>
       </div>
-      <div class="bbп__ряд">
+      <div class="bbп__ряд bbп__ряд_согл">
         <label class="bbп__п">Телефон<input type="tel" name="тел" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__"></label>
         <label class="bbп__п">Имя<input type="text" name="имя" autocomplete="given-name" placeholder="необязательно"></label>
-        <button class="bbп__кн" type="submit">Подобрать дом</button>
+        <label class="bbп__согл"><input type="checkbox" name="согласие"><span>Я согласен(на) с <a href="/privacy" target="_blank" rel="noopener">политикой конфиденциальности</a></span></label><button class="bbп__кн" type="submit">Подобрать дом</button>
       </div>
-      <label class="bbп__согл"><input type="checkbox" name="согласие"><span>Я согласен(на) с <a href="/privacy" target="_blank" rel="noopener">политикой конфиденциальности</a></span></label>
       <p class="bbп__итог" role="status" hidden></p>
-      <p class="bbп__мелко">Отвечаем с 9:00 до 24:00. Заявка уходит в отдел бронирования, как «Обратный звонок».</p>
+      <p class="bbп__мелко">Отвечаем с 9:00 до 24:00.</p>
     </div>
   </form>
 </section>
@@ -1839,7 +1841,7 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
   function обновить() {
     var т = текстКогда();
     запрос.hidden = !(т || гости);
-    запрос.textContent = 'Ваш запрос: ' + [т ? т.кратко : 'когда?', гости ? нас(гости) : 'сколько вас?'].join(', ');
+    запрос.textContent = ('Ваш запрос: ' + [т ? т.кратко : 'когда?', гости ? нас(гости) : 'сколько вас?'].join(', ')).replace(/(^|\s)(и|в|с|по|на|до) /g, '$1$2\u00a0').replace(/(\d) /g, '$1\u00a0');
     // для кнопки «Написать» в нижней панели (HEAD): готовый текст с датами и составом
     try { if (т && гости) localStorage.setItem('bb_podbor', JSON.stringify({ к: т.чат, г: нас(гости), в: Date.now() })); } catch (e) {}
   }
@@ -1891,16 +1893,56 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
   function задать(п, v) { if (!п) return; п.value = v; ['input', 'change', 'blur'].forEach(function (т) { п.dispatchEvent(new Event(т, { bubbles: true })); }); }
   function скрытое(форма, имя, v) { var п = форма.querySelector('input[data-bbп][name="' + имя + '"]'); if (!п) { п = document.createElement('input'); п.type = 'hidden'; п.name = имя; п.setAttribute('data-bbп', '1'); форма.appendChild(п); } п.value = v; }
   function открытьОкно() { var a = document.createElement('a'); a.href = '#zayavka'; a.style.display = 'none'; a.setAttribute('data-bbп-окно', '1'); document.body.appendChild(a); a.click(); a.remove(); }
+  // резервное окно заявки закрыть (первая отправка всё-таки дошла): крестик окна Тильды
+  function закрытьОкно() { var о = document.querySelector('[data-tooltip-hook="#zayavka"]'), x = о && о.querySelector('.t-popup__close'); if (x && /t-popup_show/.test(о.className)) { try { x.click(); } catch (e) {} } }
   function чатСсылка() { var т = текстКогда(); return К.чат + (т && гости ? '?text=' + encodeURIComponent('Здравствуйте! Хотим дом ' + т.чат + ', ' + нас(гости) + '. Что свободно и сколько стоит?') : ''); }
+
+  /* Отправка и ответ Тильды. Ждём ответа до 30 с; нет ответа: открываем окно заявки с данными гостя (пока первая
+     отправка в пути, Тильда повторную из окна не пускает), в заявку из окна уходит пометка «Повтор». Пришёл запоздалый
+     успех первой отправки: окно закрываем, показываем «Спасибо», повторно отправить уже нечего (форма свёрнута). */
+  var ЖДАТЬ = 30000, ждём = false, резерв = '', таймер = 0, слушаем = null, посл = null;
+  var кн = ф.querySelector('.bbп__кн'), надпись = кн.textContent;
+  function слушать(форма) {
+    if (слушаем === форма) return; слушаем = форма;
+    форма.addEventListener('tildaform:aftersuccess', function () {
+      if (ушло || (!ждём && !резерв) || !посл) return;   // не наша отправка
+      var поздно = посл.таймаут; ждём = false; резерв = ''; clearTimeout(таймер);
+      ушло = true; кн.disabled = false; кн.textContent = надпись;
+      [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
+      закрытьОкно();
+      ф.classList.add('bbп_ушло');
+      сообщить('<b>Спасибо! Заявка у менеджера.</b> Подберём дом ' + посл.т.кратко + ' и пришлём цену на ' + посл.тел + '. Отвечаем с 9:00 до 24:00. Можно сразу <a href="' + чатСсылка() + '" target="_blank" rel="noopener">написать в Telegram</a>.');
+      цель('podbor_uspeh', { kogda: посл.к, gostej: посл.г, gde: откуда, pozdno: поздно ? 'da' : 'net' });
+    });
+    форма.addEventListener('tildaform:aftererror', function () {
+      if (ушло || !ждём) return;
+      ждём = false; clearTimeout(таймер);
+      setTimeout(function () { if (!ушло && !ждём) резервноеОкно('ошибка'); }, 300);
+    });
+  }
+  function резервноеОкно(причина) {
+    кн.disabled = false; кн.textContent = надпись;
+    var форма = формаТильды();
+    if (причина === 'таймаут') {
+      if (посл) посл.таймаут = true;
+      if (форма) скрытое(форма, 'Повтор', 'Возможен дубль: первая отправка с сайта не ответила за 30 секунд. Сверьте с заявкой с этим телефоном.');
+      сообщить('Связь медленная, заявка ещё отправляется. Мы открыли форму с&nbsp;вашими данными: если «Спасибо» так и&nbsp;не появится, нажмите в&nbsp;ней «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
+    } else сообщить('Не получилось отправить автоматически. Мы открыли форму заявки с вашими данными: проверьте и нажмите «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
+    резерв = причина;
+    открытьОкно();
+    цель('podbor_sboj', { gde: откуда, prichina: причина === 'таймаут' ? 'tajmaut' : 'oshibka' });
+  }
 
   // окно «Обратный звонок» открыли другой кнопкой: наши скрытые поля не нужны
   document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[href="#zayavka"]'); if (!a || a.hasAttribute('data-bbп-окно') || ушло) return;
+    var a = e.target.closest && e.target.closest('a[href="#zayavka"]'); if (!a || a.hasAttribute('data-bbп-окно') || ушло || ждём) return;
+    резерв = '';
     var форма = формаТильды(); if (форма) [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
   }, true);
 
   ф.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (ждём) { сообщить('Заявка ещё отправляется, дождитесь ответа. Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true); return; }
     var т = текстКогда(), ц = цифры(), согл = ф.elements['согласие'];
     var нет = [];
     if (!т) нет.push(когда && когда.к === 'svoi' ? 'даты заезда и выезда' : 'когда');
@@ -1931,30 +1973,15 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
     скрытое(форма, 'Даты', т.crm);
     скрытое(форма, 'Гостей', гости);
     скрытое(форма, 'Откуда', (К.страница || 'главная') + ', ' + откуда);
-    var кн = ф.querySelector('.bbп__кн'), готово = false;
-    кн.disabled = true; кн.textContent = 'Отправляем…';
-    function конец(хорошо) {
-      if (готово) return; готово = true; кн.disabled = false; кн.textContent = 'Подобрать дом';
-      форма.removeEventListener('tildaform:aftersuccess', успех); форма.removeEventListener('tildaform:aftererror', сбой);
-      if (хорошо) {
-        ушло = true;
-        [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
-        ф.classList.add('bbп_ушло');
-        сообщить('<b>Спасибо! Заявка у менеджера.</b> Подберём дом ' + т.кратко + ' и пришлём цену на ' + тел.value + '. Отвечаем с 9:00 до 24:00. Можно сразу <a href="' + чатСсылка() + '" target="_blank" rel="noopener">написать в Telegram</a>.');
-        цель('podbor_uspeh', { kogda: когда.к, gostej: гости, gde: откуда });
-      } else {
-        сообщить('Не получилось отправить автоматически. Мы открыли форму заявки с вашими данными: проверьте и нажмите «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
-        открытьОкно();
-        цель('podbor_sboj', { gde: откуда });
-      }
-    }
-    function успех() { конец(true); }
-    function сбой() { setTimeout(function () { конец(false); }, 300); }
-    форма.addEventListener('tildaform:aftersuccess', успех); форма.addEventListener('tildaform:aftererror', сбой);
-    setTimeout(function () { конец(false); }, 15000);
+    посл = { т: т, тел: тел.value, к: когда.к, г: гости, таймаут: false };
+    слушать(форма);
+    ждём = true; кн.disabled = true; кн.textContent = 'Отправляем…';
+    clearTimeout(таймер); таймер = setTimeout(function () { if (ждём && !ушло) резервноеОкно('таймаут'); }, ЖДАТЬ);
     цель('podbor_otpravka', { kogda: когда.к, gostej: гости, gde: откуда });
     var отпр = форма.querySelector('.t-submit, button[type="submit"]');
-    if (отпр) отпр.click(); else конец(false);
+    if (отпр) отпр.click();
+    // Тильда не начала отправку (не прошла её проверка полей): окно с данными сразу, без ожидания и без пометки «Повтор»
+    if (!отпр || (!/t-btn_sending/.test(отпр.className) && !(отпр.tildaSendingStatus >= 1))) { ждём = false; clearTimeout(таймер); резервноеОкно('ошибка'); }
   });
 
   /* Строка правил на первом экране: под кнопками «Проверить даты» и второй кнопкой, внутри зеро-блока.
@@ -2836,7 +2863,7 @@ window.tildastatcookie='no';window.tildastatscroll='yes';setTimeout(function(){(
 <p class="под">Красные рамки и номера — наши правки. Нажмите пункт, чтобы перейти к месту. Заявки отсюда не отправляются.</p>
 <div id="bbk-пункты"></div>
 <div class="низ"><a href="https://barskie-polya.ru/new-year" target="_blank" rel="noopener">Как сейчас на сайте</a><a href="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/index.html">Все страницы демо</a><button type="button" id="bbk-рамки">Скрыть рамки</button><button type="button" id="bbk-закрыть">Закрыть</button></div></div>
-<script>(function(){var П=[{"s":["#rec9990000104 #bb-podbor","#rec9990000104"],"t":"Другие даты или вас 7 и больше","d":"476 поисков НГ не на 31.12–03.01 и 532 поиска на 7+ за месяц. Им теперь есть ответ и форма. Цену НГ не ставил. Выкладка после 05.10."}];
+<script>(function(){var П=[{"s":["#rec9990000104 #bb-podbor","#rec9990000104"],"t":"Другие даты или вас 7 и больше","d":"476 поисков НГ не на заезд с 31.12 по 03.01 и 532 поиска на 7+ за месяц. Им теперь есть ответ и форма. Цену НГ не ставил. Выкладка после 05.10."}];
 var слой=document.getElementById('bbk-слой'),лист=document.getElementById('bbk-лист'),пункты=document.getElementById('bbk-пункты');
 function эл(i){var с=[].concat(П[i].s),запас=null;for(var k=0;k<с.length;k++){var все=document.querySelectorAll(с[k]);for(var j=0;j<все.length;j++){var r=все[j].getBoundingClientRect();if(r.height>20&&r.width>20)return все[j];if(!запас)запас=все[j];}}return запас;}
 function расставить(){слой.innerHTML='';var занято=[];document.querySelectorAll('.bbk-рамка').forEach(function(x){x.classList.remove('bbk-рамка');});П.forEach(function(p,i){var e=эл(i);if(!e)return;e.classList.add('bbk-рамка');var r=e.getBoundingClientRect();if(!r.height)return;var x=r.left+window.scrollX+8,y=r.top+window.scrollY+8;занято.forEach(function(z){if(Math.abs(z[1]-y)<34&&Math.abs(z[0]-x)<34)x=z[0]+38;});занято.push([x,y]);var n=document.createElement('button');n.className='bbk-номер';n.type='button';n.textContent=i+1;n.style.left=x+'px';n.style.top=y+'px';n.onclick=function(){открыть();};слой.appendChild(n);});}

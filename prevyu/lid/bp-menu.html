@@ -904,7 +904,7 @@ if (домБР || домБП) {
 var и = имяДома();
 return 'Здравствуйте! Интересует ' + (домБП && !/-\d/.test(и) && и !== 'Барский дом' && и !== 'Шале' ? 'дом категории' : 'дом') + (и ? ' «' + и + '»' : '') + (д ? '. Хотим ' + д + '. Свободно?' : '. Подскажите, пожалуйста, свободные даты.');
 }
-return 'Здравствуйте! Хотим дом ' + (д || 'с … по …, нас … человек') + '. Что свободно и сколько стоит?';
+return д ? 'Здравствуйте! Хотим дом ' + д + '. Что свободно и сколько стоит?' : 'Здравствуйте! Подскажите, пожалуйста, свободные даты и цену.';
 }
 document.addEventListener('click', function (e) {
 var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
@@ -1277,10 +1277,10 @@ alt='' imgfield='tn_img_1764659302891000001'
   <div class="bbм__карта">
     <p class="bbм__заг">Питание коротко</p>
     <ul class="bbм__список">
-      <li>В стоимость дома питание не входит. В каждом доме <b>своя кухня</b> с посудой и мангальная зона: можно готовить самим.</li>
-      <li><b>Завтрак в домик: 1 000 ₽ с человека</b>, в будни с 10:00 до 11:00, в выходные по договорённости. В выходные при 10 гостях и больше завтрак «шведский стол».</li>
-      <li><b>Обед и ужин</b> с нашей кухни: закажите по QR-коду в доме или у администратора, привезём к двери.</li>
-      <li>Меню ниже: завтраки и супы <b>от 350 ₽</b>, горячее от 440 ₽, пицца от 700 ₽, кофе от 160 ₽.</li>
+      <li>Все наши дома оснащены для&nbsp;самостоятельного приготовления пищи: в&nbsp;каждом доме <b>полноценная кухня</b> с&nbsp;техникой и&nbsp;посудой, у&nbsp;каждого дома мангальная зона.</li>
+      <li><b>Завтрак в&nbsp;домик: 1&nbsp;000&nbsp;₽ с&nbsp;человека</b>, в&nbsp;будни с&nbsp;10:00 до&nbsp;11:00, по&nbsp;желанию и&nbsp;в&nbsp;выходные.</li>
+      <li><b>Обед и&nbsp;ужин</b> с&nbsp;нашей кухни: закажите по&nbsp;QR-коду в&nbsp;доме или&nbsp;у&nbsp;администратора по&nbsp;телефону, доставим прямо к&nbsp;двери.</li>
+      <li>Меню ниже: завтраки и&nbsp;супы <b>от&nbsp;350&nbsp;₽</b>, горячее от&nbsp;440&nbsp;₽, пицца от&nbsp;700&nbsp;₽, кофе от&nbsp;160&nbsp;₽.</li>
     </ul>
     <div class="bbм__кнопки">
       <a class="bbм__кн bbм__кн_1" href="/booking" data-bbм="menu_daty">Проверить даты</a>
@@ -2018,7 +2018,7 @@ window.tildastatcookie='no';window.tildastatscroll='yes';setTimeout(function(){(
 <p class="под">Красные рамки и номера — наши правки. Нажмите пункт, чтобы перейти к месту. Заявки отсюда не отправляются.</p>
 <div id="bbk-пункты"></div>
 <div class="низ"><a href="https://barskie-polya.ru/menu" target="_blank" rel="noopener">Как сейчас на сайте</a><a href="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/index.html">Все страницы демо</a><button type="button" id="bbk-рамки">Скрыть рамки</button><button type="button" id="bbk-закрыть">Закрыть</button></div></div>
-<script>(function(){var П=[{"s":"#rec9990000106","t":"Питание коротко","d":"«Питание» самый нажимаемый пункт меню БП. Вверху коротко: что входит в цену, завтрак в домик, как заказать обед и ужин, цены меню. Тексты сверяет проверяющий и Валерия (до скольких принимают заказ, шведский стол)."}];
+<script>(function(){var П=[{"s":"#rec9990000106","t":"Питание коротко","d":"«Питание» самый нажимаемый пункт меню БП. Вверху коротко: чем оснащены дома, завтрак в домик, как заказать обед и ужин, цены меню. Каждая фраза взята с сайта (главная, FAQ, /menu). Ждём от Валерии: до скольких принимают заказ обеда и ужина, действует ли «шведский стол»."}];
 var слой=document.getElementById('bbk-слой'),лист=document.getElementById('bbk-лист'),пункты=document.getElementById('bbk-пункты');
 function эл(i){var с=[].concat(П[i].s),запас=null;for(var k=0;k<с.length;k++){var все=document.querySelectorAll(с[k]);for(var j=0;j<все.length;j++){var r=все[j].getBoundingClientRect();if(r.height>20&&r.width>20)return все[j];if(!запас)запас=все[j];}}return запас;}
 function расставить(){слой.innerHTML='';var занято=[];document.querySelectorAll('.bbk-рамка').forEach(function(x){x.classList.remove('bbk-рамка');});П.forEach(function(p,i){var e=эл(i);if(!e)return;e.classList.add('bbk-рамка');var r=e.getBoundingClientRect();if(!r.height)return;var x=r.left+window.scrollX+8,y=r.top+window.scrollY+8;занято.forEach(function(z){if(Math.abs(z[1]-y)<34&&Math.abs(z[0]-x)<34)x=z[0]+38;});занято.push([x,y]);var n=document.createElement('button');n.className='bbk-номер';n.type='button';n.textContent=i+1;n.style.left=x+'px';n.style.top=y+'px';n.onclick=function(){открыть();};слой.appendChild(n);});}

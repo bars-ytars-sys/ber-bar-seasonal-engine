@@ -1009,7 +1009,7 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><scrip
       var и = имяДома();
       return 'Здравствуйте! Интересует ' + (домБП && !/-\d/.test(и) && и !== 'Барский дом' && и !== 'Шале' ? 'дом категории' : 'дом') + (и ? ' «' + и + '»' : '') + (д ? '. Хотим ' + д + '. Свободно?' : '. Подскажите, пожалуйста, свободные даты.');
     }
-    return 'Здравствуйте! Хотим дом ' + (д || 'с … по …, нас … человек') + '. Что свободно и сколько стоит?';
+    return д ? 'Здравствуйте! Хотим дом ' + д + '. Что свободно и сколько стоит?' : 'Здравствуйте! Подскажите, пожалуйста, свободные даты и цену.';
   }
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
@@ -1379,6 +1379,16 @@ d="M50 100C77.6142 100 100 77.6142 100 50C100 22.3858 77.6142 0 50 0C22.3858 0 0
 fill="#000" /> </svg></div></a> <a href="https://www.instagram.com/ecobaza_br?igsh=Ynh0OXJhNXhhNDFv" class="t898__icon t898__icon-website_wrapper t898__icon_link" target="_blank" rel="nofollow noopener noreferrer"><span class="t898__btn-text t-name t-name_xs">Instagram</span><div class="t898__svg__wrapper"><div class="t898__svg__bg"></div><img src=https://static.tildacdn.com/tild3736-3665-4363-b733-343961643839/Group_39642.svg alt="website icon" class="t-sociallinks__customimg" style="width:50px; height:50px; vertical-align: baseline; object-fit: contain; object-position: center;"></div></a> <a href="https://vk.ru/bazabr" class="t898__icon t898__icon-website_wrapper t898__icon_link" target="_blank" rel="nofollow noopener noreferrer"><span class="t898__btn-text t-name t-name_xs">VK</span><div class="t898__svg__wrapper"><div class="t898__svg__bg"></div><img src=https://static.tildacdn.com/tild3634-6434-4965-b435-316630356335/Group_39643.svg alt="website icon" class="t-sociallinks__customimg" style="width:50px; height:50px; vertical-align: baseline; object-fit: contain; object-position: center;"></div></a> <a href="https://t.me/ecobazabr" class="t898__icon t898__icon-website_wrapper t898__icon_link" target="_blank" rel="nofollow noopener noreferrer"><span class="t898__btn-text t-name t-name_xs">Telegram</span><div class="t898__svg__wrapper"><div class="t898__svg__bg"></div><img src=https://static.tildacdn.com/tild6238-3737-4663-b731-306663646330/Group_39644.svg alt="website icon" class="t-sociallinks__customimg" style="width:50px; height:50px; vertical-align: baseline; object-fit: contain; object-position: center;"></div></a> <a href="https://wa.me/74951202008" class="t898__icon t898__icon-website_wrapper t898__icon_link" target="_blank" rel="nofollow noopener noreferrer"><span class="t898__btn-text t-name t-name_xs">WhatsApp</span><div class="t898__svg__wrapper"><div class="t898__svg__bg"></div><img src=https://static.tildacdn.com/tild6665-6465-4139-a137-663630653263/Group_39641.svg alt="website icon" class="t-sociallinks__customimg" style="width:50px; height:50px; vertical-align: baseline; object-fit: contain; object-position: center;"></div></a> <!-- /new soclinks --> </div> </div> <style>@media screen and (max-width:960px){#rec1841867761 .t898 .t898__btn{bottom:100px !important;}#rec1841867761 .t898__btn-text::after{}}</style> <script type="text/javascript">t_onReady(function() {t_onFuncLoad('t898_init',function() {t898_init('1841867761');});});</script> </div> </header> <!--/header--> <div id="rec9990000101" class="r t-rec" data-record-type="131"><div class="t123"><div class="t-container_100"><div class="t-width t-width_100"><style>
 /* Шапка поверх мини-формы Bnovo: у обёртки модуля z-index 1011, у шапки 10, при прокрутке кнопка «Показать наличие» ложилась поверх логотипа и телефона. Модуль не трогаем, поднимаем шапку. */
 @media (max-width:639px){#allrecords:not([data-tilda-page-alias="booking"]) #rec1730117851 .t396__artboard{z-index:1012!important}}
+/* Нижняя панель «Даты и цены · Позвонить · Написать» (HEAD, была 980) и круглая кнопка чата (1000) тоже поверх мини-формы Bnovo (1011):
+   на /doma и главной белая карточка модуля закрывала их, когда проезжала низ экрана. Модуль не трогаем. Окна Тильды выше: 9998 и 10000001.
+   Пока открыт календарь формы Bnovo (он раскрывается вниз внутри окна модуля), панель и чат уходят под форму, как было до правки:
+   иначе нижний ряд дат прятался под панелью. До 959 px (панель есть только там). На /booking панели нет, чат там не трогаем. */
+@media (max-width:959px){
+  .панель-моб{z-index:1012!important}
+  #allrecords:not([data-tilda-page-alias="booking"]) .t898__btn{z-index:1013!important}
+  .bb-bnovo-kalendar .панель-моб{z-index:980!important}
+  .bb-bnovo-kalendar #allrecords:not([data-tilda-page-alias="booking"]) .t898__btn{z-index:1000!important}
+}
 /* Шапка на телефоне: часы работы и телефон 12–14 px вместо 9,8 px (сетка 320). Только стили, на /booking не действует. */
 @media (max-width:479px){
   #allrecords:not([data-tilda-page-alias="booking"]) #rec1730117851 .t396__elem[data-elem-id="1766505096906000002"]{left:90px!important;top:6px!important;width:136px!important;height:auto!important}
@@ -1396,7 +1406,24 @@ fill="#000" /> </svg></div></a> <a href="https://www.instagram.com/ecobaza_br?ig
   #allrecords:not([data-tilda-page-alias="booking"]) #rec1730117851 .t396__elem[data-elem-id="1766505096906000003"]{left:176px!important;top:27px!important;width:190px!important}
   #allrecords:not([data-tilda-page-alias="booking"]) #rec1730117851 .t396__elem[data-elem-id="1766505096906000003"] .tn-atom{font-size:13px!important;line-height:1.15!important;font-weight:600!important;text-align:right!important;white-space:nowrap}
 }
-</style></div></div></div></div><div id="rec4153754501" class="r t-rec" style=" " data-animationappear="off" data-record-type="131"> <!-- T123 --> <div class="t123"> <div class="t-container_100 "> <div class="t-width t-width_100 "> <!-- nominify begin --> <style>
+</style>
+<script>
+(function () {
+  /* Календарь мини-формы Bnovo открыт (окно модуля выросло вниз): класс bb-bnovo-kalendar, панель и чат под формой (стили выше).
+     Без циклов: ResizeObserver только на блоке формы Bnovo, модуль не трогаем. На /booking и без формы ничего не делает. */
+  if (/^\/booking/.test(location.pathname) || !window.ResizeObserver) return;
+  function старт() {
+    var ф = document.getElementById('_bn_widget_'); if (!ф) return;
+    var html = document.documentElement, обычная = 0;
+    new ResizeObserver(function () {
+      var в = ф.getBoundingClientRect().height; if (в > 60 && (!обычная || в < обычная)) обычная = в;
+      html.classList.toggle('bb-bnovo-kalendar', обычная > 0 && в > обычная + 60);
+    }).observe(ф);
+    var ш = innerWidth; addEventListener('resize', function () { if (innerWidth !== ш) { ш = innerWidth; обычная = 0; } });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', старт); else старт();
+})();
+</script></div></div></div></div><div id="rec4153754501" class="r t-rec" style=" " data-animationappear="off" data-record-type="131"> <!-- T123 --> <div class="t123"> <div class="t-container_100 "> <div class="t-width t-width_100 "> <!-- nominify begin --> <style>
 #rec2411016811 [data-elem-id="1782286097115000001"] .tn-atom__button-icon{display:none!important}
 /* акции (25.09): заголовок раздела, как был у блока «Тёплая осень», и отступ от первого экрана; точки только на телефоне */
 #rec3546311701 .акции-шапка{text-align:center;padding:56px 0 30px}
@@ -1819,9 +1846,6 @@ fill="#000" /> </svg></div></a> <a href="https://www.instagram.com/ecobaza_br?ig
   })();
 })();
 </script> <!-- nominify end --> </div> </div> </div> </div> <div id="rec9990000102" class="r t-rec" data-record-type="131"><div class="t123"><div class="t-container_100"><div class="t-width t-width_100"><style>
-/* вторая кнопка первого экрана (опрос с подарком): остаётся, но прозрачная с белой рамкой, чтобы главной была бронь */
-#rec2411016811 .t396__elem[data-elem-id="1782286097115000001"] .tn-atom{background-color:rgba(12,26,36,.34)!important;border-color:rgba(255,255,255,.85)!important;color:#fff!important;box-shadow:none!important;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
-#rec2411016811 .t396__elem[data-elem-id="1782286097115000001"] .tn-atom *{color:#fff!important}
 /* рейтинг Яндекса на фото первого экрана, рядом с регалиями */
 .bbг-рейтинг{position:absolute;z-index:4;display:flex;flex-direction:column;align-items:flex-end;gap:2px;padding:9px 12px 10px;border-radius:14px;background:rgba(12,26,36,.52);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:#fff!important;text-decoration:none!important;font-family:'TildaSans',Arial,sans-serif;text-align:right;box-shadow:0 10px 24px -16px rgba(0,0,0,.8)}
 .bbг-рейтинг b{font-size:21px;line-height:1.05;font-weight:700;color:#f3c669;white-space:nowrap}
@@ -1833,29 +1857,38 @@ fill="#000" /> </svg></div></a> <a href="https://www.instagram.com/ecobaza_br?ig
   .bb-lid-chipy #rec2411016811 .плашка-ссылка,.bb-lid-chipy #rec2411016811 .плашка-копия,.bb-lid-chipy #rec2411016811 .плашка-подложка,
   .bb-lid-chipy #rec2411016811 :is([data-elem-id="1782285823582000012"],[data-elem-id="1782285823582000013"],[data-elem-id="1782285823582000014"],[data-elem-id="1782285823582000017"],[data-elem-id="1782285823582000018"],[data-elem-id="1782285823582000019"],[data-elem-id="1782285823583000022"],[data-elem-id="1782285823583000023"],[data-elem-id="1782285823583000024"],[data-elem-id="1782285823584000027"],[data-elem-id="1782285823584000028"],[data-elem-id="1782285823584000029"],[data-elem-id="1782285823584000032"],[data-elem-id="1782285823584000033"],[data-elem-id="1782285823589000034"]){visibility:hidden!important;pointer-events:none!important}
 }
-.bbг-чипы{position:absolute;z-index:4;left:12px;right:12px;display:flex;flex-wrap:wrap;justify-content:center;gap:7px 6px;font-family:'TildaSans',Arial,sans-serif;margin:0;padding:0;list-style:none}
-.bbг-чипы a{display:inline-flex;align-items:center;gap:7px;height:31px;padding:0 12px 0 10px;border-radius:999px;background:#fff;color:#17252f!important;text-decoration:none!important;font-size:12.5px;line-height:1;font-weight:600;white-space:nowrap;box-shadow:0 6px 14px -10px rgba(0,0,0,.6);-webkit-tap-highlight-color:transparent}
+/* плашки рядами: ряды считает код (левее кнопки чата, ниже кнопок и строки правил, выше низа первого экрана) */
+.bbг-чипы{position:absolute;z-index:4;left:12px;right:12px;display:flex;flex-direction:column;align-items:center;gap:7px;font-family:'TildaSans',Arial,sans-serif;margin:0;padding:0}
+.bbг-чипы_лево{align-items:flex-start}
+.bbг-ряд{display:flex;flex-wrap:nowrap;gap:6px}
+.bbг-чипы a{flex:none;display:inline-flex;align-items:center;gap:7px;height:31px;padding:0 12px 0 10px;border-radius:999px;background:#fff;color:#17252f!important;text-decoration:none!important;font-size:12.5px;line-height:1;font-weight:600;white-space:nowrap;box-shadow:0 6px 14px -10px rgba(0,0,0,.6);-webkit-tap-highlight-color:transparent}
 .bbг-чипы a::before{content:'';flex:none;width:8px;height:8px;border-radius:50%;background:#2ed8a3}
-@media (max-width:379px){.bbг-чипы{gap:6px 5px}.bbг-чипы a{font-size:12px;padding:0 10px 0 9px;gap:6px}}
-.bbг-чипы_лево{justify-content:flex-start}
-.bbг-чипы_узко{gap:6px 5px}.bbг-чипы_узко a{font-size:12px;padding:0 9px 0 8px;gap:5px}.bbг-чипы_узко a::before{width:7px;height:7px}
+@media (max-width:379px){.bbг-чипы{gap:6px}.bbг-ряд{gap:5px}.bbг-чипы a{font-size:12px;padding:0 10px 0 9px;gap:6px}}
+/* ступени ужатия, если ряды не помещаются левее кнопки чата (узкие телефоны) */
+.bbг-чипы_узко{gap:6px}.bbг-чипы_узко .bbг-ряд{gap:5px}.bbг-чипы_узко a{font-size:12px;padding:0 9px 0 8px;gap:5px}.bbг-чипы_узко a::before{width:7px;height:7px}
+.bbг-чипы_тесно .bbг-ряд{gap:4px}.bbг-чипы_тесно a{padding:0 8px 0 7px;gap:4px}.bbг-чипы_тесно a::before{width:6px;height:6px}
+.bbг-чипы_без-точек a{padding:0 8px}.bbг-чипы_без-точек a::before{display:none}
+.bbг-чипы_кратко .bbг-д{display:none}
 </style>
 <script>
 (function () {
   // Первый экран главной для целевого гостя: рейтинг 5,0 виден сразу (на телефоне строку под первым экраном
-  // закрывала нижняя панель), плашки на телефоне крупнее (12,5 px вместо 9,5–10), опрос остаётся, но вторым по весу.
+  // закрывала нижняя панель), плашки на телефоне крупнее (12,5 px вместо 9,5–10). Кнопки первого экрана не трогаем.
   var REC = 'rec2411016811', СЧ = 108978291, П = {"оценка":"5,0","оценок":"1 435","ссылка":"https://yandex.ru/maps/org/beryozovaya_roshcha/91160063546/reviews/"};
   var html = document.documentElement, тел = function () { return innerWidth < 640; };
   var ПЛАШКИ = [
-    ['SPA', '/spa', 'spa'], ['22 дизайнерских домика', '/doma', 'doma'], ['Баня', '/banchan', 'banya'],
+    ['SPA', '/spa', 'spa'], ['22 <span class="bbг-д">дизайнерских </span>домика', '/doma', 'doma'], ['Баня', '/banchan', 'banya'],
     ['40 мин от Москвы', 'https://yandex.ru/maps/-/CDawuJy~', 'marshrut'], ['Ресторан', '#popup:restoran', 'restoran'], ['Ферма', '#popup:ferma', 'ferma']
   ];
+  // если ряды не помещаются левее кнопки чата: мельче отступы, без точек, «22 домика» (по порядку, пока не поместятся)
+  var ШАГИ = ['', 'bbг-чипы_узко', 'bbг-чипы_узко bbг-чипы_тесно', 'bbг-чипы_узко bbг-чипы_тесно bbг-чипы_без-точек', 'bbг-чипы_узко bbг-чипы_тесно bbг-чипы_без-точек bbг-чипы_кратко'];
   var РЕГАЛИИ = ['1785332972759000005', '1782286315875000001', '1782286315875000002'];
   var ПЕРВАЯ = '1782285823582000012'; // подложка «СПА»: верх ряда плашек
   if (тел()) html.classList.add('bb-lid-chipy');
   function цель(и) { try { window.ym && window.ym(СЧ, 'reachGoal', и); } catch (e) {} }
   function доска() { var р = document.getElementById(REC); return р && р.querySelector('.t396__artboard.rendered'); }
   function элемент(д, id) { return д.querySelector('.t396__elem[data-elem-id="' + id + '"]'); }
+  function видно(e) { var s = getComputedStyle(e); return s.display !== 'none' && s.visibility !== 'hidden' && +s.opacity > 0.05; }
 
   function рейтинг(д) {
     var а = д.querySelector('.bbг-рейтинг');
@@ -1874,6 +1907,8 @@ fill="#000" /> </svg></div></a> <a href="https://www.instagram.com/ecobaza_br?ig
     html.classList.add('bb-lid-reiting');
   }
 
+  // Плашки рядами на месте родных. Ряд, который на первом экране стоит на одной высоте с круглой кнопкой чата
+  // (закреплена внизу справа), кончается левее неё; ряды не выше кнопок и строки правил и не ниже низа первого экрана.
   function чипы(д) {
     var с = д.querySelector('.bbг-чипы');
     if (!тел()) { if (с) с.remove(); html.classList.remove('bb-lid-chipy'); return; }
@@ -1881,7 +1916,7 @@ fill="#000" /> </svg></div></a> <a href="https://www.instagram.com/ecobaza_br?ig
     html.classList.add('bb-lid-chipy');
     if (!с) {
       с = document.createElement('nav'); с.className = 'bbг-чипы'; с.setAttribute('aria-label', 'О базе коротко');
-      с.innerHTML = ПЛАШКИ.map(function (п) { return '<a href="' + п[1] + '" data-цель="' + п[2] + '"' + (/^https/.test(п[1]) ? ' target="_blank" rel="noopener"' : '') + '>' + п[0] + '</a>'; }).join('');
+      с.innerHTML = ПЛАШКИ.map(function (п) { return '<a href="' + п[1] + '" data-цель="' + п[2] + '"' + (/^https/.test(п[1]) ? ' target="_blank" rel="noopener"' : '') + '><span>' + п[0] + '</span></a>'; }).join('');
       с.addEventListener('click', function (e) {
         var a = e.target.closest('a'); if (!a) return;
         цель('plashka_' + a.getAttribute('data-цель'));
@@ -1890,23 +1925,64 @@ fill="#000" /> </svg></div></a> <a href="https://www.instagram.com/ecobaza_br?ig
       });
       д.appendChild(с);
     }
-    var дк = д.getBoundingClientRect(), верх = опора.getBoundingClientRect().top - дк.top;
-    с.style.top = верх + 'px'; с.style.right = ''; с.classList.remove('bbг-чипы_узко', 'bbг-чипы_лево');
-    // круглая кнопка чата (закреплена внизу справа) на первом экране закрывает правый край плашек: ставим их левее неё
+    var ссылки = [].slice.call(с.querySelectorAll('a'));
+    var дк = д.getBoundingClientRect(), ш = дк.width, высота = дк.height;
+    var верх0 = опора.getBoundingClientRect().top - дк.top;
+    // верхняя граница: низ кнопок и строки правил (элементы доски выше родных плашек, в т.ч. ещё не проявившиеся, opacity 0)
+    var Т = 0;
+    [].forEach.call(д.querySelectorAll('.t396__elem, .bbп-экран span'), function (e) {
+      var r = e.getBoundingClientRect(), s = getComputedStyle(e); if (!r.width || !r.height || r.height > высота / 2 || s.display === 'none' || s.visibility === 'hidden') return;
+      var низ = r.bottom - дк.top; if (низ <= верх0 + 2 || e.tagName === 'SPAN') Т = Math.max(Т, низ);
+    });
+    Т += 6;
+    var Н = высота - 6, Л = 12, Пр = ш - 12;
+    // кнопка чата закреплена на экране: где она относительно доски, когда страница вверху
     var чат = document.querySelector('.t898__btn'), чр = чат && чат.getBoundingClientRect();
-    if (чр && чр.width && чр.top < дк.top + верх + 80 && чр.bottom > дк.top + верх && чр.left > дк.left + 200) {
-      с.style.right = (дк.right - чр.left + 6) + 'px'; с.classList.add('bbг-чипы_лево');
-      if (с.offsetHeight > 76) с.classList.add('bbг-чипы_узко');
-      if (с.offsetHeight > 76) { с.style.right = ''; с.classList.remove('bbг-чипы_лево'); }
+    var чатЕсть = !!(чр && чр.width > 20 && видно(чат) && чр.left > дк.left + ш / 2);
+    var чВ = чатЕсть ? чр.top - (дк.top + scrollY) : 0, чН = чатЕсть ? чр.bottom - (дк.top + scrollY) : 0, чЛ = чатЕсть ? чр.left - дк.left - 6 : Пр;
+    function уложить(ширины, y0, h, пг, вг, любойПорядок) {
+      var ряды = [], занято = [], лево = false, y = y0, i;
+      function предел(y) { return (чатЕсть && y < чН + 2 && y + h > чВ - 2 ? Math.min(Пр, чЛ) : Пр) - Л; }
+      for (i = 0; i < ширины.length; i++) {
+        var к = -1;
+        if (любойПорядок) { for (var j = 0; j < ряды.length; j++) if (занято[j] + пг + ширины[i] <= предел(y0 + j * (h + вг))) { к = j; break; } }
+        else if (ряды.length && занято[ряды.length - 1] + пг + ширины[i] <= предел(y0 + (ряды.length - 1) * (h + вг))) к = ряды.length - 1;
+        if (к < 0) { к = ряды.length; if (ширины[i] > предел(y0 + к * (h + вг))) return null; ряды.push([]); занято.push(-пг); }
+        ряды[к].push(i); занято[к] += пг + ширины[i];
+      }
+      for (i = 0; i < ряды.length; i++) { y = y0 + i * (h + вг); if (чатЕсть && y < чН + 2 && y + h > чВ - 2) лево = true; }
+      if (y + h > Н) return null;
+      return { ряды: ряды, лево: лево, y0: y0 };
     }
-    // не влезли в два ряда до низа первого экрана: поднимаем ровно на недостающее
-    var лишнее = верх + с.offsetHeight - (дк.height - 8);
-    if (лишнее > 0) с.style.top = (верх - лишнее) + 'px';
+    // размеры плашек на каждой ступени ужатия (все в один ряд)
+    var мерки = ШАГИ.map(function (классы) {
+      с.className = 'bbг-чипы' + (классы ? ' ' + классы : '');
+      var мерка = document.createElement('div'); мерка.className = 'bbг-ряд';
+      ссылки.forEach(function (a) { мерка.appendChild(a); }); с.innerHTML = ''; с.appendChild(мерка);
+      return { ширины: ссылки.map(function (a) { return a.getBoundingClientRect().width; }), h: ссылки[0].getBoundingClientRect().height,
+        пг: parseFloat(getComputedStyle(мерка).columnGap) || 0, вг: parseFloat(getComputedStyle(с).rowGap) || 0 };
+    });
+    // не больше двух рядов (как у родных плашек) важнее крупного шрифта; затем чем меньше ужатие и подъём, тем лучше
+    var итог = null, рядов, к, y0, р;
+    for (рядов = 2; рядов <= 4 && !итог; рядов++) {
+      for (к = 0; к < ШАГИ.length * 2 && !итог; к++) {
+        var шаг = к % ШАГИ.length, любой = к >= ШАГИ.length, м = мерки[шаг];   // второй круг: плашки можно переставить между рядами
+        for (y0 = Math.max(верх0, Т); y0 >= Т && !итог; y0 -= 2) { р = уложить(м.ширины, y0, м.h, м.пг, м.вг, любой); if (р && р.ряды.length <= рядов) { итог = р; итог.шаг = шаг; } }
+      }
+    }
+    if (!итог) { // не помещаются никак (очень низкий экран): как у родных плашек, ряды во всю ширину
+      с.className = 'bbг-чипы';
+      итог = { ряды: [], лево: false, y0: верх0, шаг: 0 }; var ряд = []; ссылки.forEach(function (a, i) { ряд.push(i); if (ряд.length === 3) { итог.ряды.push(ряд); ряд = []; } }); if (ряд.length) итог.ряды.push(ряд);
+    }
+    с.className = 'bbг-чипы' + (ШАГИ[итог.шаг] ? ' ' + ШАГИ[итог.шаг] : '') + (итог.лево ? ' bbг-чипы_лево' : '');
+    с.innerHTML = '';
+    итог.ряды.forEach(function (ряд) { var div = document.createElement('div'); div.className = 'bbг-ряд'; ряд.forEach(function (i) { div.appendChild(ссылки[i]); }); с.appendChild(div); });
+    с.style.top = итог.y0 + 'px';
   }
 
   function разложить() { var д = доска(); if (!д) return false; try { рейтинг(д); } catch (e) {} try { чипы(д); } catch (e) {} return true; }
-  [0, 400, 1200, 2500, 5000].forEach(function (мс) { setTimeout(разложить, мс); });
-  setTimeout(function () { if (!document.querySelector('.bbг-чипы')) html.classList.remove('bb-lid-chipy'); }, 6500);
+  [0, 400, 1200, 2500, 5000, 6500].forEach(function (мс) { setTimeout(разложить, мс); });
+  setTimeout(function () { if (!document.querySelector('.bbг-чипы')) html.classList.remove('bb-lid-chipy'); }, 7000);
   var т; addEventListener('resize', function () { clearTimeout(т); т = setTimeout(разложить, 300); });
   addEventListener('load', function () { setTimeout(разложить, 800); });
 })();
@@ -2051,10 +2127,10 @@ style="border-color:var(--uc-color-color-qp7xN,#2ed8a3)"></div> <span>Ноябр
 class="t-checkbox__control t-text t-text_xs"
 style=""> <input
 type="checkbox"
-value="Новый год (31.12–03.01)"
+value="Новый год, с 31.12 по 03.01"
 class="t-checkbox" data-tilda-req="1" aria-required="true"> <div
 class="t-checkbox__indicator"
-style="border-color:var(--uc-color-color-qp7xN,#2ed8a3)"></div> <span>Новый год (31.12–03.01)</span> </label> </li> <li class="t-checkboxes__item"> <label
+style="border-color:var(--uc-color-color-qp7xN,#2ed8a3)"></div> <span>Новый год, с 31.12 по 03.01</span> </label> </li> <li class="t-checkboxes__item"> <label
 class="t-checkbox__control t-text t-text_xs"
 style=""> <input
 type="checkbox"
@@ -2318,18 +2394,22 @@ type="button"><span class="t-btnflex__icon"style=""><svg role="presentation" vie
 class="t-submit t-btnflex t-btnflex_type_submit t-btnflex_md t-quiz__btn_submit t-quiz-hidden"
 type="submit"><span class="t-btnflex__text">Отправить</span> <style>#rec2474601871 .t-btnflex.t-btnflex_type_submit{color:var(--uc-button-color-kjuPzmq,#ffffff);background-color:var(--uc-button-bgcolor-kjuPzmq,#2ed8a3);border-style:solid !important;--border-width:var(--uc-button-bordersize-kjuPzmq,2px);border-radius:var(--uc-button-radius-kjuPzmq,5px);box-shadow:var(--uc-button-shadow-kjuPzmq,0px 2px 10px rgba(16,149,108,0.6)) !important;font-family:var(--uc-button-fontfamily-kjuPzmq,var(--t-headline-font,Arial));font-weight:var(--uc-button-fontweight-kjuPzmq,700);text-transform:var(--uc-button-uppercase-kjuPzmq,uppercase);flex-direction:row-reverse;transition-duration:0.2s;transition-property:background-color,color,border-color,box-shadow,opacity,transform,gap;transition-timing-function:ease-in-out;}#rec2474601871 .t-btnflex.t-btnflex_type_submit .t-btnflex__icon{width:18px;height:18px;}@media (hover:hover){#rec2474601871 .t-btnflex.t-btnflex_type_submit:not(.t-animate_no-hover):hover{color:var(--uc-button-colorhover-kjuPzmq,#2ed8a3) !important;border-color:var(--uc-button-bordercolorhover-kjuPzmq,#2ed8a3) !important;box-shadow:var(--uc-button-shadowhover-kjuPzmq,0px 4px 10px rgba(46,216,163,0.6)) !important;background-color:var(--uc-button-bgcolorhover-kjuPzmq,#f4f6fb) !important;}#rec2474601871 .t-btnflex.t-btnflex_type_submit:not(.t-animate_no-hover):focus-visible{color:var(--uc-button-colorhover-kjuPzmq,#2ed8a3) !important;border-color:var(--uc-button-bordercolorhover-kjuPzmq,#2ed8a3) !important;box-shadow:var(--uc-button-shadowhover-kjuPzmq,0px 4px 10px rgba(46,216,163,0.6)) !important;background-color:var(--uc-button-bgcolorhover-kjuPzmq,#f4f6fb) !important;}}</style></button> </div> </div> </div> </div> </div> </div> </div> </form> <style>#rec2474601871 input::-webkit-input-placeholder{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);opacity:0.5;}#rec2474601871 input::-moz-placeholder{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);opacity:0.5;}#rec2474601871 input:-moz-placeholder{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);opacity:0.5;}#rec2474601871 input:-ms-input-placeholder{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);opacity:0.5;}#rec2474601871 textarea::-webkit-input-placeholder{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);opacity:0.5;}#rec2474601871 textarea::-moz-placeholder{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);opacity:0.5;}#rec2474601871 textarea:-moz-placeholder{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);opacity:0.5;}#rec2474601871 textarea:-ms-input-placeholder{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);opacity:0.5;}</style> </div> </div> </div> </div> <style>.t-form__screen-hiderecord{opacity:0 !important;}</style> <script>t_onReady(function() {var rec=document.querySelector('#rec2474601871');rec&&rec.classList.add('t-form__screen-hiderecord');function showRecord() {rec&&rec.classList.remove('t-form__screen-hiderecord');}
 var opacityTimeout=setTimeout(showRecord,1500);t_onFuncLoad('t_quiz__step_manager',function() {t_onFuncLoad('t_quiz__init',function() {t_quiz__init('2474601871');showRecord();clearTimeout(opacityTimeout);});})});</script> <style>#rec2474601871 .t-quiz__quiz-description-text{font-size:20px;color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);font-family:var(--t-headline-font,Arial);text-transform:uppercase;}</style> <style>#rec2474601871 .t-quiz__cover__title{font-size:15px;text-transform:uppercase;color:var(--uc-color-color-qp7xN,#2ed8a3);}#rec2474601871 .t-quiz__contact-form__header__title{font-size:15px;text-transform:uppercase;color:var(--uc-color-color-qp7xN,#2ed8a3);}#rec2474601871 .t-quiz__result-title{font-size:15px;text-transform:uppercase;color:var(--uc-color-color-qp7xN,#2ed8a3);}</style> <style>#rec2474601871 .t-quiz__contact-form__header__descr{color:var(--uc-color-color-qp7xN,#2ed8a3);}#rec2474601871 .t-quiz__contact-form__footer__text{color:var(--uc-color-color-qp7xN,#2ed8a3);}#rec2474601871 .t-rate__text{color:var(--uc-color-color-qp7xN,#2ed8a3);}#rec2474601871 .t-range__interval-txt{color:var(--uc-color-color-qp7xN,#2ed8a3);}#rec2474601871 .t-contact-method__type-label{color:var(--uc-color-color-qp7xN,#2ed8a3);}</style> <style>#rec2474601871 .t-step-form__step:not(.t-quiz__contact-form) .t-input-title{font-size:15px;text-transform:uppercase;color:var(--uc-color-color-qp7xN,#2ed8a3);}#rec2474601871 .t-step-form__step:not(.t-quiz__contact-form) .t-input-subtitle{color:var(--uc-color-color-qp7xN,#2ed8a3);font-family:var(--t-text-font,Arial);}</style> <style>#rec2474601871 .t-step-form__step.t-quiz__contact-form .t-input-title{color:var(--uc-color-color-qp7xN,#2ed8a3);}#rec2474601871 .t-step-form__step.t-quiz__contact-form .t-input-subtitle{color:var(--uc-color-color-qp7xN,#2ed8a3);font-family:var(--t-text-font,Arial);}</style> <style>#rec2474601871 .t-step-form__step.t-quiz__contact-form .t-input-group__title-container{font-size:15px;}</style> <style>#rec2474601871 .t-img-select__control .t-img-select__text{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);font-family:var(--t-text-font,Arial);}#rec2474601871 .t-radio__control{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);font-family:var(--t-text-font,Arial);}#rec2474601871 .t-checkbox__control{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);font-family:var(--t-text-font,Arial);}#rec2474601871 .t-input-ownanswer{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);font-family:var(--t-text-font,Arial);}</style> <style>#rec2474601871 .t1040 .t-quiz__quiz{box-shadow:0px 30px 40px -10px rgba(0,0,0,0.1);}</style> <style>#rec2474601871 .t-quiz{--quiz-background-color:var(--uc-color-color-n3E0FkCwyE,#f4f6fb);--consultant-msg-bubble-bg:rgba(0,0,0,0.05);--panel-background-color:var(--uc-color-color-n3E0FkCwyE,#f4f6fb);--btn-wrapper-background-color:rgba(244,246,251,0.95);--content-padding:0px;--border-size:1px;--border-radius:20px;--outer-border-radius:20px;--inner-border-radius:max(0px,var(--border-radius) - var(--border-size));--content-padding-radius:calc(var(--border-radius) - var(--content-padding));--btn-close-popup-icon-color:#ffffff;--btn-close-popup-icon-color-mob:#000000;--btn-close-popup-bg-color:rgba(255,255,255,0.7);--btn-close-popup-bg-color-mob:var(--btn-close-popup-bg-color);--secondary-text-font-size-mob:clamp(14px,var(--page-font-size) - 4px,16px);}#rec2474601871 .t-quiz:has(.t-quiz__cover.t-step-form__step_active,.t-quiz__result.t-step-form__step_active){--content-padding:0px;}#rec2474601871 .t-quiz.fullscreen{--outer-border-radius:0 !important;--inner-border-radius:0 !important;}#rec2474601871 .t-quiz:not(.popup.fullscreen) .t-quiz__quiz,#rec2474601871 .t-quiz.popup.fullscreen .t-quiz__quiz-wrapper{border-style:solid;border-width:1px;border-color:var(--uc-color-color-qp7xN,#2ed8a3);}#rec2474601871 .t-quiz__quiz-wrapper{height:550px;}#rec2474601871 .t-quiz__counter-container{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);}#rec2474601871 .t-quiz__text-extra{color:var(--uc-color-color-cPYWVKrTiQfG,#313a39);}#rec2474601871 .t-step-form__step.t-quiz__contact-form .t-input-title{font-size:clamp(14px,1em * 0.55,24px);}.t-quiz__btn-wrapper_mobile{display:none;}@media screen and (max-width:640px){#rec2474601871 .t-quiz{--inner-border-radius:0 !important;--outer-border-radius:0 !important;--content-padding-radius:0 !important;--content-padding:0px;--prev-btn-border-radius:var(--uc-button-radius-kjuPzmq,5px);}}@media screen and (max-width:480px){.t_datepicker__inner[data-input-id*="2474601871"]{position:fixed;}}</style> </div> <div id="rec9990000201" class="r t-rec" data-record-type="131"><div class="t123"><div class="t-container_100"><div class="t-width t-width_100"><!-- Опрос, шаг 2 «Когда планируете отдых?» + «Сколько вас?» (30.09.2026). Работает с вопросом опроса,
-     у которого переменная «Даты» или заголовок начинается с «Когда». Добавляет кнопки числа гостей (поле «Гостей»),
+     у которого переменная «Даты» или заголовок начинается с «Когда». Добавляет кнопки числа гостей (поле «Гостей»; ответ один,
+     отметки круглые, как у одиночного выбора),
      подставляет ближайшие два месяца и даты «этих выходных», переводит на следующий шаг, когда выбраны оба ответа.
      Без этого блока опрос работает как обычно (уйдёт только «Даты»). Откат: выключить этот блок. -->
 <style>
 .bb-kogda ul.t-checkboxes__wrapper_button{display:flex!important;flex-wrap:wrap!important;gap:8px!important;margin:0!important;padding:0!important}
 .bb-kogda ul.t-checkboxes__wrapper_button>li.t-checkboxes__item{width:auto!important;max-width:100%;flex:0 0 auto!important;margin:0!important;padding:0!important;min-height:0!important;height:auto!important}
-.bb-kogda ul.t-checkboxes__wrapper_button .t-checkbox__control{display:flex!important;align-items:center!important;gap:10px;width:auto!important;padding:8px 13px!important;margin:0!important;min-height:0!important;line-height:1.25!important;white-space:nowrap}
+.bb-kogda ul.t-checkboxes__wrapper_button .t-checkbox__control{display:flex!important;align-items:center!important;gap:10px;width:auto!important;padding:8px 13px!important;margin:0!important;min-height:0!important;line-height:1.25!important;white-space:normal}
 .bb-kogda ul.t-checkboxes__wrapper_button .t-checkbox__indicator{flex:0 0 auto;margin:0!important}
 .bb-kogda .t-quiz__variants-hint{display:none!important}
 .bb-kogda .bb-gosti{margin-top:24px}
 .t1040 .bb-kogda.t-quiz__screen-wrapper .bb-gosti .t-input-title.bb-podpis{margin:0 0 12px!important}
 .bb-kogda ul.t-checkboxes__wrapper_button>li.t-checkboxes__item:has(input:checked){border-color:var(--bb-akcent,currentColor)!important;box-shadow:inset 0 0 0 1px var(--bb-akcent,currentColor)}
+/* «Сколько вас?»: ответ один, поэтому отметка круглая с точкой, как у одиночного выбора (цвет точки берётся у опроса) */
+.bb-kogda .bb-gosti .t-checkbox__indicator{border-radius:50%!important}
+.bb-kogda .bb-gosti .t-checkbox__indicator:after{box-sizing:content-box!important;width:0!important;height:0!important;border-style:solid!important;border-width:calc(var(--size,20px)/4)!important;border-radius:50%!important;left:50%!important;top:50%!important;-webkit-transform:translate(-50%,-50%)!important;transform:translate(-50%,-50%)!important}
 </style>
 <script>
 (function () {
@@ -2365,6 +2445,10 @@ var opacityTimeout=setTimeout(showRecord,1500);t_onFuncLoad('t_quiz__step_manage
     var одинВыбор = группа.getAttribute('data-field-radcb') === 'rb';
     шаг.classList.add('bb-kogda');
     месяцы(группа);
+    // «Новый год, с 31.12 по 03.01»: на узком экране перенос только целыми «с 31.12» и «по 03.01» (в заявку уходит как вписано)
+    [].forEach.call(группа.querySelectorAll('.t-checkbox__control span, .t-radio__control span'), function (s) {
+      if (/ (с|по) \d/.test(s.textContent)) s.textContent = s.textContent.replace(/ (с|по) (\d)/g, ' $1 $2');
+    });
 
     // цвет выделения берём у самой Тильды, чтобы на обеих базах было в тон опросу
     var инд = группа.querySelector('.t-checkbox__indicator, .t-radio__indicator'), стиль = инд ? инд.getAttribute('style') || '' : '';
@@ -2956,7 +3040,6 @@ href="#popup:zimnajarybalka" data-lid="1817479404119"><span class="t-btnflex__te
         <label class="bbп__п">Имя<input type="text" name="имя" autocomplete="given-name" placeholder="необязательно"></label>
         <button class="bbп__кн" type="submit">Подобрать дом</button>
       </div>
-      
       <p class="bbп__итог" role="status" hidden></p>
       <p class="bbп__мелко">Отвечаем с 9:00 до 24:00. Нажимая кнопку, вы соглашаетесь с <a href="/privacy" target="_blank" rel="noopener">политикой конфиденциальности</a>.</p>
     </div>
@@ -3073,16 +3156,56 @@ href="#popup:zimnajarybalka" data-lid="1817479404119"><span class="t-btnflex__te
   function задать(п, v) { if (!п) return; п.value = v; ['input', 'change', 'blur'].forEach(function (т) { п.dispatchEvent(new Event(т, { bubbles: true })); }); }
   function скрытое(форма, имя, v) { var п = форма.querySelector('input[data-bbп][name="' + имя + '"]'); if (!п) { п = document.createElement('input'); п.type = 'hidden'; п.name = имя; п.setAttribute('data-bbп', '1'); форма.appendChild(п); } п.value = v; }
   function открытьОкно() { var a = document.createElement('a'); a.href = '#zayavka'; a.style.display = 'none'; a.setAttribute('data-bbп-окно', '1'); document.body.appendChild(a); a.click(); a.remove(); }
+  // резервное окно заявки закрыть (первая отправка всё-таки дошла): крестик окна Тильды
+  function закрытьОкно() { var о = document.querySelector('[data-tooltip-hook="#zayavka"]'), x = о && о.querySelector('.t-popup__close'); if (x && /t-popup_show/.test(о.className)) { try { x.click(); } catch (e) {} } }
   function чатСсылка() { var т = текстКогда(); return К.чат + (т && гости ? '?text=' + encodeURIComponent('Здравствуйте! Хотим дом ' + т.чат + ', ' + нас(гости) + '. Что свободно и сколько стоит?') : ''); }
+
+  /* Отправка и ответ Тильды. Ждём ответа до 30 с; нет ответа: открываем окно заявки с данными гостя (пока первая
+     отправка в пути, Тильда повторную из окна не пускает), в заявку из окна уходит пометка «Повтор». Пришёл запоздалый
+     успех первой отправки: окно закрываем, показываем «Спасибо», повторно отправить уже нечего (форма свёрнута). */
+  var ЖДАТЬ = 30000, ждём = false, резерв = '', таймер = 0, слушаем = null, посл = null;
+  var кн = ф.querySelector('.bbп__кн'), надпись = кн.textContent;
+  function слушать(форма) {
+    if (слушаем === форма) return; слушаем = форма;
+    форма.addEventListener('tildaform:aftersuccess', function () {
+      if (ушло || (!ждём && !резерв) || !посл) return;   // не наша отправка
+      var поздно = посл.таймаут; ждём = false; резерв = ''; clearTimeout(таймер);
+      ушло = true; кн.disabled = false; кн.textContent = надпись;
+      [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
+      закрытьОкно();
+      ф.classList.add('bbп_ушло');
+      сообщить('<b>Спасибо! Заявка у менеджера.</b> Подберём дом ' + посл.т.кратко + ' и пришлём цену на ' + посл.тел + '. Отвечаем с 9:00 до 24:00. Можно сразу <a href="' + чатСсылка() + '" target="_blank" rel="noopener">написать в Telegram</a>.');
+      цель('podbor_uspeh', { kogda: посл.к, gostej: посл.г, gde: откуда, pozdno: поздно ? 'da' : 'net' });
+    });
+    форма.addEventListener('tildaform:aftererror', function () {
+      if (ушло || !ждём) return;
+      ждём = false; clearTimeout(таймер);
+      setTimeout(function () { if (!ушло && !ждём) резервноеОкно('ошибка'); }, 300);
+    });
+  }
+  function резервноеОкно(причина) {
+    кн.disabled = false; кн.textContent = надпись;
+    var форма = формаТильды();
+    if (причина === 'таймаут') {
+      if (посл) посл.таймаут = true;
+      if (форма) скрытое(форма, 'Повтор', 'Возможен дубль: первая отправка с сайта не ответила за 30 секунд. Сверьте с заявкой с этим телефоном.');
+      сообщить('Связь медленная, заявка ещё отправляется. Мы открыли форму с&nbsp;вашими данными: если «Спасибо» так и&nbsp;не появится, нажмите в&nbsp;ней «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
+    } else сообщить('Не получилось отправить автоматически. Мы открыли форму заявки с вашими данными: проверьте и нажмите «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
+    резерв = причина;
+    открытьОкно();
+    цель('podbor_sboj', { gde: откуда, prichina: причина === 'таймаут' ? 'tajmaut' : 'oshibka' });
+  }
 
   // окно «Обратный звонок» открыли другой кнопкой: наши скрытые поля не нужны
   document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[href="#zayavka"]'); if (!a || a.hasAttribute('data-bbп-окно') || ушло) return;
+    var a = e.target.closest && e.target.closest('a[href="#zayavka"]'); if (!a || a.hasAttribute('data-bbп-окно') || ушло || ждём) return;
+    резерв = '';
     var форма = формаТильды(); if (форма) [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
   }, true);
 
   ф.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (ждём) { сообщить('Заявка ещё отправляется, дождитесь ответа. Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true); return; }
     var т = текстКогда(), ц = цифры(), согл = ф.elements['согласие'];
     var нет = [];
     if (!т) нет.push(когда && когда.к === 'svoi' ? 'даты заезда и выезда' : 'когда');
@@ -3113,30 +3236,15 @@ href="#popup:zimnajarybalka" data-lid="1817479404119"><span class="t-btnflex__te
     скрытое(форма, 'Даты', т.crm);
     скрытое(форма, 'Гостей', гости);
     скрытое(форма, 'Откуда', 'главная, ' + откуда);
-    var кн = ф.querySelector('.bbп__кн'), готово = false;
-    кн.disabled = true; кн.textContent = 'Отправляем…';
-    function конец(хорошо) {
-      if (готово) return; готово = true; кн.disabled = false; кн.textContent = 'Подобрать дом';
-      форма.removeEventListener('tildaform:aftersuccess', успех); форма.removeEventListener('tildaform:aftererror', сбой);
-      if (хорошо) {
-        ушло = true;
-        [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
-        ф.classList.add('bbп_ушло');
-        сообщить('<b>Спасибо! Заявка у менеджера.</b> Подберём дом ' + т.кратко + ' и пришлём цену на ' + тел.value + '. Отвечаем с 9:00 до 24:00. Можно сразу <a href="' + чатСсылка() + '" target="_blank" rel="noopener">написать в Telegram</a>.');
-        цель('podbor_uspeh', { kogda: когда.к, gostej: гости, gde: откуда });
-      } else {
-        сообщить('Не получилось отправить автоматически. Мы открыли форму заявки с вашими данными: проверьте и нажмите «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
-        открытьОкно();
-        цель('podbor_sboj', { gde: откуда });
-      }
-    }
-    function успех() { конец(true); }
-    function сбой() { setTimeout(function () { конец(false); }, 300); }
-    форма.addEventListener('tildaform:aftersuccess', успех); форма.addEventListener('tildaform:aftererror', сбой);
-    setTimeout(function () { конец(false); }, 15000);
+    посл = { т: т, тел: тел.value, к: когда.к, г: гости, таймаут: false };
+    слушать(форма);
+    ждём = true; кн.disabled = true; кн.textContent = 'Отправляем…';
+    clearTimeout(таймер); таймер = setTimeout(function () { if (ждём && !ушло) резервноеОкно('таймаут'); }, ЖДАТЬ);
     цель('podbor_otpravka', { kogda: когда.к, gostej: гости, gde: откуда });
     var отпр = форма.querySelector('.t-submit, button[type="submit"]');
-    if (отпр) отпр.click(); else конец(false);
+    if (отпр) отпр.click();
+    // Тильда не начала отправку (не прошла её проверка полей): окно с данными сразу, без ожидания и без пометки «Повтор»
+    if (!отпр || (!/t-btn_sending/.test(отпр.className) && !(отпр.tildaSendingStatus >= 1))) { ждём = false; clearTimeout(таймер); резервноеОкно('ошибка'); }
   });
 
   /* Строка правил на первом экране: под кнопками «Проверить даты» и второй кнопкой, внутри зеро-блока.
@@ -5677,7 +5785,7 @@ window.tildastatscroll='yes';setTimeout(function(){(function(d,w,k,o,g) {var n=d
 <p class="под">Красные рамки и номера — наши правки. Нажмите пункт, чтобы перейти к месту. Заявки отсюда не отправляются.</p>
 <div id="bbk-пункты"></div>
 <div class="низ"><a href="https://ecobr.ru/" target="_blank" rel="noopener">Как сейчас на сайте</a><a href="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/index.html">Все страницы демо</a><button type="button" id="bbk-рамки">Скрыть рамки</button><button type="button" id="bbk-закрыть">Закрыть</button></div></div>
-<script>(function(){var П=[{"s":["#rec1730117851 .t396__artboard","#rec1730117851 .tn-elem[data-elem-id=\"1766505096906000003\"]","#rec1730117851"],"t":"Шапка на телефоне","d":"Часы работы и телефон 13–14 px вместо 9,8 px: раньше их было не прочитать."},{"s":"#rec2411016811","t":"Первый экран","d":"Рейтинг 5,0 · 1 435 оценок перенесён на фото: раньше его целиком закрывала нижняя панель. Плашки 12 px вместо 9,5. Под кнопками строка «Заезд в пт и сб от 2 ночей · предоплата 50% · отмена за 10 дней». Кнопка опроса стала прозрачной: в выкладку 06.10 её НЕ беру, опрос главный поток заявок."},{"s":"#rec9990000001","t":"Не нашли свои даты? Подберём","d":"Для тех, кто не нашёл даты в модуле (95% искавших уходят молча). Когда, сколько вас, телефон: заявка уходит в amo сразу с датами и числом гостей, через существующую форму «Оставить заявку»."},{"s":["#rec2411016811 a[href=\"#popup:quiz\"]","a[href=\"#popup:quiz\"]","#rec2474601871"],"t":"Опрос: «Когда и сколько вас»","d":"Нажмите «Пройди опрос». Второй вопрос «Что важно» (ответ стоял по умолчанию и приходил в каждой заявке) заменён на «Когда планируете отдых?» и «Сколько вас?». Два нажатия, дальше листает сам. Подарок остаётся."}];
+<script>(function(){var П=[{"s":["#rec1730117851 .t396__artboard","#rec1730117851 .tn-elem[data-elem-id=\"1766505096906000003\"]","#rec1730117851"],"t":"Шапка на телефоне","d":"Часы работы и телефон 13–14 px вместо 9,8 px: раньше их было не прочитать. Нижняя панель и кнопка чата теперь поверх формы бронирования (раньше форма их закрывала, когда доходила до низа экрана)."},{"s":"#rec2411016811","t":"Первый экран","d":"Рейтинг 5,0 · 1 435 оценок перенесён на фото: раньше его целиком закрывала нижняя панель. Плашки 12 px вместо 9,5, и круглая кнопка чата их не закрывает. Под кнопками строка «Заезд в пт и сб от 2 ночей · предоплата 50% · отмена за 10 дней». Выкладка первого экрана 13.10."},{"s":"#rec9990000001","t":"Не нашли свои даты? Подберём","d":"Для тех, кто не нашёл даты в модуле (95% искавших уходят молча). Когда, сколько вас, телефон: заявка уходит в amo сразу с датами и числом гостей, через существующую форму «Оставить заявку»."},{"s":["#rec2411016811 a[href=\"#popup:quiz\"]","a[href=\"#popup:quiz\"]","#rec2474601871"],"t":"Опрос: «Когда и сколько вас»","d":"Нажмите «Пройди опрос». Второй вопрос «Что важно» (ответ стоял по умолчанию и приходил в каждой заявке) заменён на «Когда планируете отдых?» и «Сколько вас?». Два нажатия, дальше листает сам. Подарок остаётся."}];
 var слой=document.getElementById('bbk-слой'),лист=document.getElementById('bbk-лист'),пункты=document.getElementById('bbk-пункты');
 function эл(i){var с=[].concat(П[i].s),запас=null;for(var k=0;k<с.length;k++){var все=document.querySelectorAll(с[k]);for(var j=0;j<все.length;j++){var r=все[j].getBoundingClientRect();if(r.height>20&&r.width>20)return все[j];if(!запас)запас=все[j];}}return запас;}
 function расставить(){слой.innerHTML='';var занято=[];document.querySelectorAll('.bbk-рамка').forEach(function(x){x.classList.remove('bbk-рамка');});П.forEach(function(p,i){var e=эл(i);if(!e)return;e.classList.add('bbk-рамка');var r=e.getBoundingClientRect();if(!r.height)return;var x=r.left+window.scrollX+8,y=r.top+window.scrollY+8;занято.forEach(function(z){if(Math.abs(z[1]-y)<34&&Math.abs(z[0]-x)<34)x=z[0]+38;});занято.push([x,y]);var n=document.createElement('button');n.className='bbk-номер';n.type='button';n.textContent=i+1;n.style.left=x+'px';n.style.top=y+'px';n.onclick=function(){открыть();};слой.appendChild(n);});}

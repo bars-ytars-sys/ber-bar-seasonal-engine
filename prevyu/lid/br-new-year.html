@@ -1009,7 +1009,7 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><scrip
       var и = имяДома();
       return 'Здравствуйте! Интересует ' + (домБП && !/-\d/.test(и) && и !== 'Барский дом' && и !== 'Шале' ? 'дом категории' : 'дом') + (и ? ' «' + и + '»' : '') + (д ? '. Хотим ' + д + '. Свободно?' : '. Подскажите, пожалуйста, свободные даты.');
     }
-    return 'Здравствуйте! Хотим дом ' + (д || 'с … по …, нас … человек') + '. Что свободно и сколько стоит?';
+    return д ? 'Здравствуйте! Хотим дом ' + д + '. Что свободно и сколько стоит?' : 'Здравствуйте! Подскажите, пожалуйста, свободные даты и цену.';
   }
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
@@ -1402,6 +1402,16 @@ d="M50 100C77.6142 100 100 77.6142 100 50C100 22.3858 77.6142 0 50 0C22.3858 0 0
 fill="#000" /> </svg></div></a> <a href="https://www.instagram.com/ecobaza_br?igsh=Ynh0OXJhNXhhNDFv" class="t898__icon t898__icon-website_wrapper t898__icon_link" target="_blank" rel="nofollow noopener noreferrer"><span class="t898__btn-text t-name t-name_xs">Instagram</span><div class="t898__svg__wrapper"><div class="t898__svg__bg"></div><img src=https://static.tildacdn.com/tild3736-3665-4363-b733-343961643839/Group_39642.svg alt="website icon" class="t-sociallinks__customimg" style="width:50px; height:50px; vertical-align: baseline; object-fit: contain; object-position: center;"></div></a> <a href="https://vk.ru/bazabr" class="t898__icon t898__icon-website_wrapper t898__icon_link" target="_blank" rel="nofollow noopener noreferrer"><span class="t898__btn-text t-name t-name_xs">VK</span><div class="t898__svg__wrapper"><div class="t898__svg__bg"></div><img src=https://static.tildacdn.com/tild3634-6434-4965-b435-316630356335/Group_39643.svg alt="website icon" class="t-sociallinks__customimg" style="width:50px; height:50px; vertical-align: baseline; object-fit: contain; object-position: center;"></div></a> <a href="https://t.me/ecobazabr" class="t898__icon t898__icon-website_wrapper t898__icon_link" target="_blank" rel="nofollow noopener noreferrer"><span class="t898__btn-text t-name t-name_xs">Telegram</span><div class="t898__svg__wrapper"><div class="t898__svg__bg"></div><img src=https://static.tildacdn.com/tild6238-3737-4663-b731-306663646330/Group_39644.svg alt="website icon" class="t-sociallinks__customimg" style="width:50px; height:50px; vertical-align: baseline; object-fit: contain; object-position: center;"></div></a> <a href="https://wa.me/74951202008" class="t898__icon t898__icon-website_wrapper t898__icon_link" target="_blank" rel="nofollow noopener noreferrer"><span class="t898__btn-text t-name t-name_xs">WhatsApp</span><div class="t898__svg__wrapper"><div class="t898__svg__bg"></div><img src=https://static.tildacdn.com/tild6665-6465-4139-a137-663630653263/Group_39641.svg alt="website icon" class="t-sociallinks__customimg" style="width:50px; height:50px; vertical-align: baseline; object-fit: contain; object-position: center;"></div></a> <!-- /new soclinks --> </div> </div> <style>@media screen and (max-width:960px){#rec1841867761 .t898 .t898__btn{bottom:100px !important;}#rec1841867761 .t898__btn-text::after{}}</style> <script type="text/javascript">t_onReady(function() {t_onFuncLoad('t898_init',function() {t898_init('1841867761');});});</script> </div> </header> <!--/header--> <div id="rec9990000101" class="r t-rec" data-record-type="131"><div class="t123"><div class="t-container_100"><div class="t-width t-width_100"><style>
 /* Шапка поверх мини-формы Bnovo: у обёртки модуля z-index 1011, у шапки 10, при прокрутке кнопка «Показать наличие» ложилась поверх логотипа и телефона. Модуль не трогаем, поднимаем шапку. */
 @media (max-width:639px){#allrecords:not([data-tilda-page-alias="booking"]) #rec1730117851 .t396__artboard{z-index:1012!important}}
+/* Нижняя панель «Даты и цены · Позвонить · Написать» (HEAD, была 980) и круглая кнопка чата (1000) тоже поверх мини-формы Bnovo (1011):
+   на /doma и главной белая карточка модуля закрывала их, когда проезжала низ экрана. Модуль не трогаем. Окна Тильды выше: 9998 и 10000001.
+   Пока открыт календарь формы Bnovo (он раскрывается вниз внутри окна модуля), панель и чат уходят под форму, как было до правки:
+   иначе нижний ряд дат прятался под панелью. До 959 px (панель есть только там). На /booking панели нет, чат там не трогаем. */
+@media (max-width:959px){
+  .панель-моб{z-index:1012!important}
+  #allrecords:not([data-tilda-page-alias="booking"]) .t898__btn{z-index:1013!important}
+  .bb-bnovo-kalendar .панель-моб{z-index:980!important}
+  .bb-bnovo-kalendar #allrecords:not([data-tilda-page-alias="booking"]) .t898__btn{z-index:1000!important}
+}
 /* Шапка на телефоне: часы работы и телефон 12–14 px вместо 9,8 px (сетка 320). Только стили, на /booking не действует. */
 @media (max-width:479px){
   #allrecords:not([data-tilda-page-alias="booking"]) #rec1730117851 .t396__elem[data-elem-id="1766505096906000002"]{left:90px!important;top:6px!important;width:136px!important;height:auto!important}
@@ -1419,7 +1429,24 @@ fill="#000" /> </svg></div></a> <a href="https://www.instagram.com/ecobaza_br?ig
   #allrecords:not([data-tilda-page-alias="booking"]) #rec1730117851 .t396__elem[data-elem-id="1766505096906000003"]{left:176px!important;top:27px!important;width:190px!important}
   #allrecords:not([data-tilda-page-alias="booking"]) #rec1730117851 .t396__elem[data-elem-id="1766505096906000003"] .tn-atom{font-size:13px!important;line-height:1.15!important;font-weight:600!important;text-align:right!important;white-space:nowrap}
 }
-</style></div></div></div></div><div id="rec3924743801" class="r t-rec" style=" " data-animationappear="off" data-record-type="131"> <!-- T123 --> <div class="t123"> <div class="t-container_100 "> <div class="t-width t-width_100 "> <!-- nominify begin --> <!-- Новый год на базе отдыха «Берёзовая роща». Собрано tools/tilda-ng-br.mjs --> <style>@font-face{font-family:Manrope;src:url(https://static.tildacdn.com/tild3736-6431-4634-b864-383266383235/manrope-regular.woff) format('woff');font-weight:400;font-display:swap}
+</style>
+<script>
+(function () {
+  /* Календарь мини-формы Bnovo открыт (окно модуля выросло вниз): класс bb-bnovo-kalendar, панель и чат под формой (стили выше).
+     Без циклов: ResizeObserver только на блоке формы Bnovo, модуль не трогаем. На /booking и без формы ничего не делает. */
+  if (/^\/booking/.test(location.pathname) || !window.ResizeObserver) return;
+  function старт() {
+    var ф = document.getElementById('_bn_widget_'); if (!ф) return;
+    var html = document.documentElement, обычная = 0;
+    new ResizeObserver(function () {
+      var в = ф.getBoundingClientRect().height; if (в > 60 && (!обычная || в < обычная)) обычная = в;
+      html.classList.toggle('bb-bnovo-kalendar', обычная > 0 && в > обычная + 60);
+    }).observe(ф);
+    var ш = innerWidth; addEventListener('resize', function () { if (innerWidth !== ш) { ш = innerWidth; обычная = 0; } });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', старт); else старт();
+})();
+</script></div></div></div></div><div id="rec3924743801" class="r t-rec" style=" " data-animationappear="off" data-record-type="131"> <!-- T123 --> <div class="t123"> <div class="t-container_100 "> <div class="t-width t-width_100 "> <!-- nominify begin --> <!-- Новый год на базе отдыха «Берёзовая роща». Собрано tools/tilda-ng-br.mjs --> <style>@font-face{font-family:Manrope;src:url(https://static.tildacdn.com/tild3736-6431-4634-b864-383266383235/manrope-regular.woff) format('woff');font-weight:400;font-display:swap}
 @font-face{font-family:Manrope;src:url(https://static.tildacdn.com/tild3039-3861-4239-a464-373839643830/manrope-medium.woff) format('woff');font-weight:500;font-display:swap}
 @font-face{font-family:Manrope;src:url(https://static.tildacdn.com/tild3766-3765-4962-a361-366264663735/manrope-semibold.woff) format('woff');font-weight:600;font-display:swap}
 @font-face{font-family:DespairDisplay;src:url(https://static.tildacdn.com/tild3139-3132-4331-b632-343362316164/DespairDisplay-Bold.woff) format('woff');font-weight:700;font-display:swap}
@@ -1940,8 +1967,8 @@ document.querySelectorAll('.назад__ссылка').forEach(function (a) {
   <h2 class="bbнг__заг" id="bbнг-заг">Не нашли свои даты на Новый год?</h2>
   <p class="bbнг__под">Модуль бронирования пишет «нет мест», если даты не совпадают с новогодним заездом или компания не помещается в один дом. Подберём вручную и пришлём цену.</p>
   <div class="bbнг__плитки">
-    <div class="bbнг__плитка"><b>Нужны другие даты?</b><p>Новый год встречаем в одном заезде: с 31 декабря по 3 января, 3 ночи. Дни до 31 декабря и после 3 января подберём по заявке и пришлём цену.</p><a href="#bb-podbor" data-bbп-к="svoi" data-bbп-откуда="плитка «Другие даты»">Подобрать другие даты</a></div>
-    <div class="bbнг__плитка"><b>Вас 7 и больше?</b><p>В один дом помещается до 8 человек. Для большой компании подберём соседние дома рядом и посчитаем цену на всех.</p><a href="#bb-podbor" data-bbп-г="7+" data-bbп-откуда="плитка «Нас 7 и больше»">Подобрать дома для компании</a></div>
+    <div class="bbнг__плитка"><b>Нужны другие даты?</b><p>Новый год встречаем в&nbsp;одном заезде: с&nbsp;31&nbsp;декабря по&nbsp;3&nbsp;января, 3&nbsp;ночи. Дни до&nbsp;31&nbsp;декабря и&nbsp;после 3&nbsp;января подберём по&nbsp;заявке и&nbsp;пришлём цену.</p><a href="#bb-podbor" data-bbп-к="svoi" data-bbп-откуда="плитка «Другие даты»">Подобрать другие даты</a></div>
+    <div class="bbнг__плитка"><b>Вас 7 и больше?</b><p>В один дом помещается до 8&nbsp;человек. Для большой компании подберём соседние дома рядом и посчитаем цену на всех.</p><a href="#bb-podbor" data-bbп-г="7+" data-bbп-откуда="плитка «Нас 7 и больше»">Подобрать дома для компании</a></div>
   </div>
   <section class="bbп bbп_нг bbп_свёрнута" id="bb-podbor" aria-labelledby="bbп-заг">
   
@@ -1993,15 +2020,52 @@ document.querySelectorAll('.назад__ссылка').forEach(function (a) {
       с.innerHTML = ['1', '2', '3', '4', '5', '6', '7', '8', '9 и больше'].map(function (г) { return '<option' + (г === '2' ? ' selected' : '') + '>' + г + '</option>'; }).join('');
     }
     var пара = ф.querySelector('.подвал__пара');
-    if (пара && !ф.querySelector('.bbнг-подсказка')) { var п = document.createElement('p'); п.className = 'bbнг-подсказка'; п.textContent = 'Новогодний заезд с 31 декабря по 3 января. Другие даты и дома для большой компании тоже подберём.'; пара.parentNode.insertBefore(п, пара.nextSibling); }
+    if (пара && !ф.querySelector('.bbнг-подсказка')) { var п = document.createElement('p'); п.className = 'bbнг-подсказка'; п.textContent = 'Новогодний заезд с 31 декабря по 3 января. Другие даты и дома для большой компании тоже подберём.'; пара.parentNode.insertBefore(п, пара.nextSibling); }
     var итог = ф.querySelector('.подвал__итог');
     function дата(s) { if (!s) return ''; var p = s.split('-'); return p[2] + '.' + p[1]; }
     function задать(поле, v) { if (!поле) return; поле.value = v; ['input', 'change', 'blur'].forEach(function (т) { поле.dispatchEvent(new Event(т, { bubbles: true })); }); }
     function скрытое(форма, имя, v) { var x = форма.querySelector('input[data-bbнг][name="' + имя + '"]'); if (!x) { x = document.createElement('input'); x.type = 'hidden'; x.name = имя; x.setAttribute('data-bbнг', '1'); форма.appendChild(x); } x.value = v; }
+    /* Ответ Тильды (правка 30.09, как в движке «Подберём»): ждём до 30 с, потом окно заявки с данными и пометкой «Повтор»;
+       запоздалый успех первой отправки закрывает окно и показывает «Спасибо», повторной заявки не будет. */
+    var кн = ф.querySelector('button[type="submit"]'), ЖДАТЬ = 30000, ждём = false, резерв = '', таймер = 0, слушаем = null, посл = null, ушло = false;
+    function окно(открыть) {
+      var о = document.querySelector('[data-tooltip-hook="#zayavka"]');
+      if (открыть) { var a = document.createElement('a'); a.href = '#zayavka'; a.style.display = 'none'; a.setAttribute('data-bbнг-окно', '1'); document.body.appendChild(a); a.click(); a.remove(); return; }
+      var x = о && о.querySelector('.t-popup__close'); if (x && /t-popup_show/.test(о.className)) { try { x.click(); } catch (er) {} }
+    }
+    function резервноеОкно(причина) {
+      кн.disabled = false;
+      var крюк = document.querySelector('[data-tooltip-hook="#zayavka"]'), форма = крюк && крюк.querySelector('form.t-form');
+      if (причина === 'таймаут') { if (посл) посл.таймаут = true; if (форма) скрытое(форма, 'Повтор', 'Возможен дубль: первая отправка с сайта не ответила за 30 секунд. Сверьте с заявкой с этим телефоном.'); }
+      резерв = причина;
+      окно(true);
+      итог.hidden = false; итог.classList.remove('bbнг-итог-ок');
+      итог.textContent = причина === 'таймаут' ? 'Связь медленная, заявка ещё отправляется. Если в открывшейся форме не появится «Спасибо», нажмите «Отправить», менеджер перезвонит.' : 'Проверьте данные в открывшейся форме и нажмите «Отправить», менеджер перезвонит.';
+    }
+    function слушать(форма) {
+      if (слушаем === форма) return; слушаем = форма;
+      форма.addEventListener('tildaform:aftersuccess', function () {
+        if (ушло || (!ждём && !резерв) || !посл) return;   // не наша отправка
+        var поздно = посл.таймаут; ждём = false; резерв = ''; clearTimeout(таймер); ушло = true; кн.disabled = false;
+        [].forEach.call(форма.querySelectorAll('input[data-bbнг]'), function (x) { x.remove(); });
+        окно(false);
+        итог.hidden = false; итог.classList.add('bbнг-итог-ок'); итог.textContent = 'Спасибо! Заявка у менеджера: подберём дом и пришлём цену на ваш телефон. Отвечаем с 9:00 до 24:00.';
+        цель('ng_zayavka_uspeh', { svoi: посл.свои ? 'da' : 'net', gostej: посл.г, pozdno: поздно ? 'da' : 'net' });
+      });
+      форма.addEventListener('tildaform:aftererror', function () {
+        if (ушло || !ждём) return;
+        ждём = false; clearTimeout(таймер);
+        setTimeout(function () { if (!ушло && !ждём) резервноеОкно('ошибка'); }, 300);
+      });
+    }
+    // окно заявки открыли другой кнопкой: это уже не наша отправка
+    document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[href="#zayavka"]'); if (a && !a.hasAttribute('data-bbнг-окно') && !ждём) резерв = ''; }, true);
     // перехват отправки раньше прежнего обработчика блока НГ (фаза перехвата на document)
     document.addEventListener('submit', function (e) {
       if (e.target !== ф) return;
       e.preventDefault(); e.stopImmediatePropagation();
+      if (ждём) { итог.hidden = false; итог.classList.remove('bbнг-итог-ок'); итог.textContent = 'Заявка ещё отправляется, дождитесь ответа.'; return; }
+      if (ушло) { итог.hidden = false; итог.classList.add('bbнг-итог-ок'); итог.textContent = 'Заявка уже у менеджера, подберём дом и пришлём цену. Отвечаем с 9:00 до 24:00.'; return; }
       var имя = ф.elements['имя'], тел = ф.elements['телефон'], ок = true;
       [имя, тел].forEach(function (x) { x.removeAttribute('aria-invalid'); });
       if (!имя.value.trim()) { имя.setAttribute('aria-invalid', 'true'); ок = false; }
@@ -2020,26 +2084,14 @@ document.querySelectorAll('.назад__ссылка').forEach(function (a) {
       скрытое(форма, 'Новый год', 'Даты ' + дата(з) + '–' + дата(в) + ', гостей ' + г);
       скрытое(форма, 'Подбор дома', 'Новый год' + (свои ? ': другие даты, подобрать, что свободно' : ', заезд 31.12–03.01') + (/9|7|8/.test(г) ? '; компания ' + г + ', возможно соседние дома' : '') + '. Ответить на телефон.');
       скрытое(форма, 'Откуда', '/new-year, форма внизу страницы');
-      var кн = ф.querySelector('button[type="submit"]'), готово = false; кн.disabled = true;
-      function конец(хорошо) {
-        if (готово) return; готово = true; кн.disabled = false;
-        форма.removeEventListener('tildaform:aftersuccess', у); форма.removeEventListener('tildaform:aftererror', сб);
-        итог.hidden = false;
-        if (хорошо) {
-          [].forEach.call(форма.querySelectorAll('input[data-bbнг]'), function (x) { x.remove(); });
-          итог.classList.add('bbнг-итог-ок'); итог.textContent = 'Спасибо! Заявка у менеджера: подберём дом и пришлём цену на ваш телефон. Отвечаем с 9:00 до 24:00.';
-          цель('ng_zayavka_uspeh', { svoi: свои ? 'da' : 'net', gostej: г });
-        } else {
-          // как было: открыть окно заявки с уже заполненными данными
-          var a = document.createElement('a'); a.href = '#zayavka'; a.style.display = 'none'; document.body.appendChild(a); a.click(); a.remove();
-          итог.textContent = 'Проверьте данные в открывшейся форме и нажмите «Отправить», менеджер перезвонит.';
-        }
-      }
-      function у() { конец(true); } function сб() { setTimeout(function () { конец(false); }, 300); }
-      форма.addEventListener('tildaform:aftersuccess', у); форма.addEventListener('tildaform:aftererror', сб);
-      setTimeout(function () { конец(false); }, 15000);
+      посл = { свои: свои, г: г, таймаут: false };
+      слушать(форма);
+      ждём = true; кн.disabled = true;
+      clearTimeout(таймер); таймер = setTimeout(function () { if (ждём && !ушло) резервноеОкно('таймаут'); }, ЖДАТЬ);
       цель('ng_zayavka_otpravka', { svoi: свои ? 'da' : 'net', gostej: г });
-      var отпр = форма.querySelector('.t-submit, button[type="submit"]'); if (отпр) отпр.click(); else конец(false);
+      var отпр = форма.querySelector('.t-submit, button[type="submit"]'); if (отпр) отпр.click();
+      // Тильда не начала отправку (не прошла её проверка полей): окно с данными сразу, как было
+      if (!отпр || (!/t-btn_sending/.test(отпр.className) && !(отпр.tildaSendingStatus >= 1))) { ждём = false; clearTimeout(таймер); резервноеОкно('ошибка'); }
     }, true);
   }
   try { document.addEventListener('DOMContentLoaded', function () { if (мой && window.AUTUMN && window.AUTUMN.cornersSkip) window.AUTUMN.cornersSkip.push(мой.id); }); } catch (e) {}
@@ -2051,7 +2103,7 @@ document.querySelectorAll('.назад__ссылка').forEach(function (a) {
      страниц домов и /new-year. Отличия: подпись страницы в поле «Откуда» (К.стр), дом из кнопки или страницы
      (data-bbп-дом → в заявке «Интересует дом …»), свёрнутая форма (К.свёрнута: открывается кнопкой),
      свои варианты «Когда» (К.варианты). Отправка та же: через скрытую форму «Оставить заявку» (#zayavka). */
-  var К = {"сч":108978291,"тел":"+7 (495) 120-20-08","телСсылка":"tel:+74951202008","чат":"https://t.me/ecobazabr","стр":"/new-year","откуда":"карточка «Не нашли свои даты на Новый год»","подбор":"Новый год: подобрать дом","свои":["2027-01-03","2027-01-05"],"варианты":[{"к":"ng","ярлык":"С 31 декабря по 3 января","с":"2026-12-31","по":"2027-01-03","crm":"Новый год"},{"к":"svoi","ярлык":"Другие даты","crm":"другие даты около праздника"}]};
+  var К = {"сч":108978291,"тел":"+7 (495) 120-20-08","телСсылка":"tel:+74951202008","чат":"https://t.me/ecobazabr","стр":"/new-year","откуда":"карточка «Не нашли свои даты на Новый год»","подбор":"Новый год: подобрать дом","свои":["2027-01-03","2027-01-05"],"варианты":[{"к":"ng","ярлык":"С 31 декабря по 3 января","с":"2026-12-31","по":"2027-01-03","crm":"Новый год"},{"к":"svoi","ярлык":"Другие даты","crm":"другие даты около праздника"}]};
   if (window.bbPodbor) return; window.bbPodbor = 1;
   document.documentElement.classList.add('bb-est-podbor');
   var мой = document.currentScript && document.currentScript.closest('.t-rec');
@@ -2180,16 +2232,56 @@ document.querySelectorAll('.назад__ссылка').forEach(function (a) {
   function задать(п, v) { if (!п) return; п.value = v; ['input', 'change', 'blur'].forEach(function (т) { п.dispatchEvent(new Event(т, { bubbles: true })); }); }
   function скрытое(форма, имя, v) { var п = форма.querySelector('input[data-bbп][name="' + имя + '"]'); if (!п) { п = document.createElement('input'); п.type = 'hidden'; п.name = имя; п.setAttribute('data-bbп', '1'); форма.appendChild(п); } п.value = v; }
   function открытьОкно() { var a = document.createElement('a'); a.href = '#zayavka'; a.style.display = 'none'; a.setAttribute('data-bbп-окно', '1'); document.body.appendChild(a); a.click(); a.remove(); }
+  // резервное окно заявки закрыть (первая отправка всё-таки дошла): крестик окна Тильды
+  function закрытьОкно() { var о = document.querySelector('[data-tooltip-hook="#zayavka"]'), x = о && о.querySelector('.t-popup__close'); if (x && /t-popup_show/.test(о.className)) { try { x.click(); } catch (e) {} } }
   function чатСсылка() { var т = текстКогда(); return К.чат + (т && гости ? '?text=' + encodeURIComponent('Здравствуйте! Хотим ' + (дом ? 'дом «' + дом + '» ' : 'дом ') + т.чат + ', ' + нас(гости) + '. Что свободно и сколько стоит?') : ''); }
+
+  /* Отправка и ответ Тильды (как в lovit-daty/chasti/dvizhok.js, правка 30.09). Ждём ответа до 30 с; нет ответа: окно заявки
+     с данными гостя (пока первая отправка в пути, Тильда повторную из окна не пускает), в заявку из окна уходит пометка «Повтор».
+     Запоздалый успех первой отправки: окно закрываем, показываем «Спасибо», форма свёрнута, повторно отправить нечего. */
+  var ЖДАТЬ = 30000, ждём = false, резерв = '', таймер = 0, слушаем = null, посл = null;
+  var кн = ф.querySelector('.bbп__кн'), надпись = кн.textContent;
+  function слушать(форма) {
+    if (слушаем === форма) return; слушаем = форма;
+    форма.addEventListener('tildaform:aftersuccess', function () {
+      if (ушло || (!ждём && !резерв) || !посл) return;   // не наша отправка
+      var поздно = посл.таймаут; ждём = false; резерв = ''; clearTimeout(таймер);
+      ушло = true; кн.disabled = false; кн.textContent = надпись;
+      [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
+      закрытьОкно();
+      ф.classList.add('bbп_ушло');
+      сообщить('<b>Спасибо! Заявка у менеджера.</b> Подберём ' + (посл.дом ? 'дом «' + посл.дом + '» или похожий' : 'дом') + ' ' + посл.т.кратко + ' и пришлём цену на ' + посл.тел + '. Отвечаем с 9:00 до 24:00. Можно сразу <a href="' + чатСсылка() + '" target="_blank" rel="noopener">написать в Telegram</a>.');
+      цель('podbor_uspeh', { kogda: посл.к, gostej: посл.г, gde: откуда, dom: посл.дом || '-', pozdno: поздно ? 'da' : 'net' });
+    });
+    форма.addEventListener('tildaform:aftererror', function () {
+      if (ушло || !ждём) return;
+      ждём = false; clearTimeout(таймер);
+      setTimeout(function () { if (!ушло && !ждём) резервноеОкно('ошибка'); }, 300);
+    });
+  }
+  function резервноеОкно(причина) {
+    кн.disabled = false; кн.textContent = надпись;
+    var форма = формаТильды();
+    if (причина === 'таймаут') {
+      if (посл) посл.таймаут = true;
+      if (форма) скрытое(форма, 'Повтор', 'Возможен дубль: первая отправка с сайта не ответила за 30 секунд. Сверьте с заявкой с этим телефоном.');
+      сообщить('Связь медленная, заявка ещё отправляется. Мы открыли форму с&nbsp;вашими данными: если «Спасибо» так и&nbsp;не появится, нажмите в&nbsp;ней «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
+    } else сообщить('Не получилось отправить автоматически. Мы открыли форму заявки с вашими данными: проверьте и нажмите «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
+    резерв = причина;
+    открытьОкно();
+    цель('podbor_sboj', { gde: откуда, prichina: причина === 'таймаут' ? 'tajmaut' : 'oshibka' });
+  }
 
   // окно «Оставить заявку» открыли другой кнопкой: наши скрытые поля не нужны
   document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[href="#zayavka"]'); if (!a || a.hasAttribute('data-bbп-окно') || ушло) return;
+    var a = e.target.closest && e.target.closest('a[href="#zayavka"]'); if (!a || a.hasAttribute('data-bbп-окно') || ушло || ждём) return;
+    резерв = '';
     var форма = формаТильды(); if (форма) [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
   }, true);
 
   ф.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (ждём) { сообщить('Заявка ещё отправляется, дождитесь ответа. Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true); return; }
     var т = текстКогда(), ц = цифры(), согл = ф.elements['согласие'];
     var нет = [];
     if (!т) нет.push(когда && когда.к === 'svoi' ? 'даты заезда и выезда' : 'когда');
@@ -2210,30 +2302,15 @@ document.querySelectorAll('.назад__ссылка').forEach(function (a) {
     скрытое(форма, 'Даты', т.crm);
     скрытое(форма, 'Гостей', гости);
     скрытое(форма, 'Откуда', (К.стр || 'страница ' + location.pathname) + ', ' + откуда);
-    var кн = ф.querySelector('.bbп__кн'), готово = false, надпись = кн.textContent;
-    кн.disabled = true; кн.textContent = 'Отправляем…';
-    function конец(хорошо) {
-      if (готово) return; готово = true; кн.disabled = false; кн.textContent = надпись;
-      форма.removeEventListener('tildaform:aftersuccess', успех); форма.removeEventListener('tildaform:aftererror', сбой);
-      if (хорошо) {
-        ушло = true;
-        [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
-        ф.classList.add('bbп_ушло');
-        сообщить('<b>Спасибо! Заявка у менеджера.</b> Подберём ' + (дом ? 'дом «' + дом + '» или похожий' : 'дом') + ' ' + т.кратко + ' и пришлём цену на ' + тел.value + '. Отвечаем с 9:00 до 24:00. Можно сразу <a href="' + чатСсылка() + '" target="_blank" rel="noopener">написать в Telegram</a>.');
-        цель('podbor_uspeh', { kogda: когда.к, gostej: гости, gde: откуда, dom: дом || '-' });
-      } else {
-        сообщить('Не получилось отправить автоматически. Мы открыли форму заявки с вашими данными: проверьте и нажмите «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
-        открытьОкно();
-        цель('podbor_sboj', { gde: откуда });
-      }
-    }
-    function успех() { конец(true); }
-    function сбой() { setTimeout(function () { конец(false); }, 300); }
-    форма.addEventListener('tildaform:aftersuccess', успех); форма.addEventListener('tildaform:aftererror', сбой);
-    setTimeout(function () { конец(false); }, 15000);
+    посл = { т: т, тел: тел.value, к: когда.к, г: гости, дом: дом, таймаут: false };
+    слушать(форма);
+    ждём = true; кн.disabled = true; кн.textContent = 'Отправляем…';
+    clearTimeout(таймер); таймер = setTimeout(function () { if (ждём && !ушло) резервноеОкно('таймаут'); }, ЖДАТЬ);
     цель('podbor_otpravka', { kogda: когда.к, gostej: гости, gde: откуда, dom: дом || '-' });
     var отпр = форма.querySelector('.t-submit, button[type="submit"]');
-    if (отпр) отпр.click(); else конец(false);
+    if (отпр) отпр.click();
+    // Тильда не начала отправку (не прошла её проверка полей): окно с данными сразу, без ожидания и без пометки «Повтор»
+    if (!отпр || (!/t-btn_sending/.test(отпр.className) && !(отпр.tildaSendingStatus >= 1))) { ждём = false; clearTimeout(таймер); резервноеОкно('ошибка'); }
   });
 
   function запустить() {
@@ -3029,7 +3106,7 @@ window.tildastatscroll='yes';setTimeout(function(){(function(d,w,k,o,g) {var n=d
 <p class="под">Красные рамки и номера — наши правки. Нажмите пункт, чтобы перейти к месту. Заявки отсюда не отправляются.</p>
 <div id="bbk-пункты"></div>
 <div class="низ"><a href="https://ecobr.ru/new-year" target="_blank" rel="noopener">Как сейчас на сайте</a><a href="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/index.html">Все страницы демо</a><button type="button" id="bbk-рамки">Скрыть рамки</button><button type="button" id="bbk-закрыть">Закрыть</button></div></div>
-<script>(function(){var П=[{"s":["#rec1730117851 .t396__artboard","#rec1730117851 .tn-elem[data-elem-id=\"1766505096906000003\"]","#rec1730117851"],"t":"Шапка на телефоне","d":"Часы работы и телефон 13–14 px вместо 9,8 px: раньше их было не прочитать."},{"s":["#bb-ng-otvet","#rec9990000107"],"t":"Другие даты или вас 7 и больше","d":"707 из 2 410 поисков Нового года в модуле не на 31.12–03.01, компании 7+ ищут 1 435 раз в месяц. Им теперь есть ответ и форма. Заодно форма внизу страницы отправляет заявку с первого нажатия (раньше открывала второе окно с пустым именем). Цену НГ не ставил."}];
+<script>(function(){var П=[{"s":["#rec1730117851 .t396__artboard","#rec1730117851 .tn-elem[data-elem-id=\"1766505096906000003\"]","#rec1730117851"],"t":"Шапка на телефоне","d":"Часы работы и телефон 13–14 px вместо 9,8 px: раньше их было не прочитать. Нижняя панель и кнопка чата теперь поверх формы бронирования (раньше форма их закрывала, когда доходила до низа экрана)."},{"s":["#bb-ng-otvet","#rec9990000107"],"t":"Другие даты или вас 7 и больше","d":"707 из 2 410 поисков Нового года в модуле не на 31.12–03.01, компании 7+ ищут 1 435 раз в месяц. Им теперь есть ответ и форма. Заодно форма внизу страницы отправляет заявку с первого нажатия (раньше открывала второе окно с пустым именем). Цену НГ не ставил."}];
 var слой=document.getElementById('bbk-слой'),лист=document.getElementById('bbk-лист'),пункты=document.getElementById('bbk-пункты');
 function эл(i){var с=[].concat(П[i].s),запас=null;for(var k=0;k<с.length;k++){var все=document.querySelectorAll(с[k]);for(var j=0;j<все.length;j++){var r=все[j].getBoundingClientRect();if(r.height>20&&r.width>20)return все[j];if(!запас)запас=все[j];}}return запас;}
 function расставить(){слой.innerHTML='';var занято=[];document.querySelectorAll('.bbk-рамка').forEach(function(x){x.classList.remove('bbk-рамка');});П.forEach(function(p,i){var e=эл(i);if(!e)return;e.classList.add('bbk-рамка');var r=e.getBoundingClientRect();if(!r.height)return;var x=r.left+window.scrollX+8,y=r.top+window.scrollY+8;занято.forEach(function(z){if(Math.abs(z[1]-y)<34&&Math.abs(z[0]-x)<34)x=z[0]+38;});занято.push([x,y]);var n=document.createElement('button');n.className='bbk-номер';n.type='button';n.textContent=i+1;n.style.left=x+'px';n.style.top=y+'px';n.onclick=function(){открыть();};слой.appendChild(n);});}

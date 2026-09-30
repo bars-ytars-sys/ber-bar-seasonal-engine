@@ -904,7 +904,7 @@ if (домБР || домБП) {
 var и = имяДома();
 return 'Здравствуйте! Интересует ' + (домБП && !/-\d/.test(и) && и !== 'Барский дом' && и !== 'Шале' ? 'дом категории' : 'дом') + (и ? ' «' + и + '»' : '') + (д ? '. Хотим ' + д + '. Свободно?' : '. Подскажите, пожалуйста, свободные даты.');
 }
-return 'Здравствуйте! Хотим дом ' + (д || 'с … по …, нас … человек') + '. Что свободно и сколько стоит?';
+return д ? 'Здравствуйте! Хотим дом ' + д + '. Что свободно и сколько стоит?' : 'Здравствуйте! Подскажите, пожалуйста, свободные даты и цену.';
 }
 document.addEventListener('click', function (e) {
 var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
@@ -1571,10 +1571,11 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
   var ЦЕНА = '9 900';
   var вар = (location.search.match(/[?&]ab=([ab])\b/) || [])[1];
   if (!вар) { try { вар = localStorage.getItem('bb_ab_zag'); } catch (e) {} }
-  var ПЕРВАЯ = вар === 'b' ? 'Дома с банным чаном у террасы и своим двором, по Новой Риге' : 'Дома с банным чаном у террасы, в часе от Москвы по Новой Риге';
+  var ПЕРВАЯ = вар === 'b' ? 'Дома с банным чаном у террасы и мангальной зоной, по Новой Риге' : 'Дома с банным чаном у террасы, в часе от Москвы по Новой Риге';
+  // правила двумя строками на любой ширине: точка-разделитель не повисает в конце строки
   var ТЕКСТ = '<span class="bbл-о">' + ПЕРВАЯ.replace(/ (с|у|в|от|по|и) /g, ' $1&nbsp;') + '</span>' +
     '<b class="bbл-ц">Дом от ' + ЦЕНА.replace(' ', '&nbsp;') + '&nbsp;₽ за ночь в будни</b>' +
-    '<span class="bbл-п">Пт и сб от 2&nbsp;ночей · предоплата&nbsp;50% · отмена за&nbsp;7&nbsp;дней</span>';
+    '<span class="bbл-п"><span>Пт и&nbsp;сб от&nbsp;2&nbsp;ночей · предоплата&nbsp;50%</span><span>Бесплатная отмена за&nbsp;7&nbsp;дней</span></span>';
   function эл(id) { return document.querySelector('#' + REC + ' .tn-elem[data-elem-id="' + id + '"]'); }
   var было = null;
   function текст() {
@@ -1598,15 +1599,44 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
     if (рост <= 1) return;
     двигать.forEach(function (e) { var z = parseFloat(getComputedStyle(e).zoom) || 1; e.style.translate = '0 ' + (-рост / z).toFixed(1) + 'px'; });
   }
+  // Медали ТОП-30 / Хорошее место / Сплит под кнопками (правка 30.09 по приёмке). Родная круглая кнопка чата закреплена
+  // внизу справа (её не двигаем) и на части телефонов при открытии страницы ложится на медаль «Сплит» (на 360×780 и др.).
+  // Если на этом экране (страница вверху) чат ближе 8 px к медалям, ряд медалей сдвигается влево ровно насколько нужно,
+  // не ближе 12 px к краю тёмной карточки; не хватает места: медали чуть уменьшаются (не меньше 0,8). Иначе всё как
+  // в редакторе. Высота экрана на телефоне меняется при прокрутке (строка адреса): пересчёт только когда страница вверху.
+  var МЕДАЛИ = ['1774600646727000001', '1786039775754000001', '1785334752681000001'], КАРТОЧКА = '1752662611116', ЗАЗОР = 8, ширинаМед = 0;
+  function медали() {
+    if (innerWidth === ширинаМед && scrollY > 40) return;   // уже разложено для этой ширины, а гость листает: не двигать на ходу
+    var м = МЕДАЛИ.map(эл), к = эл(КАРТОЧКА); if (!к || м.some(function (e) { return !e; })) return;
+    м.forEach(function (e) { e.style.translate = ''; e.style.scale = ''; });
+    var чат = document.querySelector('.t898__btn'), ч = чат && чат.getBoundingClientRect();
+    if (!ч || ч.width < 20 || ч.left < innerWidth / 2 || getComputedStyle(чат).display === 'none' || getComputedStyle(чат).visibility === 'hidden') return;
+    var р = м.map(function (e) { return e.getBoundingClientRect(); }); if (р.some(function (r) { return !r.width; })) return;
+    ширинаМед = innerWidth;
+    var чц = { x: (ч.left + ч.right) / 2, y: (ч.top + ч.bottom) / 2, r: ч.width / 2 };   // чат закреплён: на экране там же, где при странице вверху
+    var мц = р.map(function (r) { return { x: (r.left + r.right) / 2, y: r.top + scrollY + r.height / 2, r: r.width / 2 }; });
+    var L0 = р[0].left, Lmin = к.getBoundingClientRect().left + 12, A = L0, s = 1, i;
+    function зазор(A, s) { return Math.min.apply(null, мц.map(function (m) { return Math.hypot(A + s * (m.x - L0) - чц.x, m.y - чц.y) - m.r * s - чц.r; })); }
+    if (зазор(L0, 1) >= ЗАЗОР) return;
+    if (L0 > Lmin && зазор(Lmin, 1) >= ЗАЗОР) { var lo = 0, hi = L0 - Lmin; for (i = 0; i < 24; i++) { var d = (lo + hi) / 2; if (зазор(L0 - d, 1) >= ЗАЗОР) hi = d; else lo = d; } A = L0 - hi; }
+    else {
+      A = Math.min(L0, Lmin); var slo = 0.8, shi = 1;
+      for (i = 0; i < 24; i++) { var sm = (slo + shi) / 2; if (зазор(A, sm) >= ЗАЗОР) slo = sm; else shi = sm; }
+      s = slo;
+    }
+    var z = parseFloat(getComputedStyle(м[0]).zoom) || 1;
+    м.forEach(function (e, n) { var m = мц[n]; e.style.translate = ((A + s * (m.x - L0) - m.x) / z).toFixed(1) + 'px 0'; if (s < 1) e.style.scale = s.toFixed(3); });
+  }
+  function всё() { раскладка(); try { медали(); } catch (e) {} }
   if (!текст() && window.MutationObserver) {
     var mo = new MutationObserver(function () { if (текст()) mo.disconnect(); });
     mo.observe(document.documentElement, { childList: true, subtree: true });
     document.addEventListener('DOMContentLoaded', function () { setTimeout(function () { mo.disconnect(); текст(); }, 3000); });
   }
   function запустить() {
-    [300, 1000, 2500, 5000].forEach(function (мс) { setTimeout(раскладка, мс); });
-    window.addEventListener('load', function () { setTimeout(раскладка, 600); });
-    var ж; window.addEventListener('resize', function () { clearTimeout(ж); ж = setTimeout(раскладка, 300); });
+    [300, 1000, 2500, 5000].forEach(function (мс) { setTimeout(всё, мс); });
+    window.addEventListener('load', function () { setTimeout(всё, 600); });
+    var ж; window.addEventListener('resize', function () { clearTimeout(ж); ж = setTimeout(всё, 300); });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', запустить); else запустить();
 })();
@@ -2380,13 +2410,16 @@ var opacityTimeout=setTimeout(showRecord,1500);t_onFuncLoad('t_quiz__step_manage
 .bbп-экран_бп{font:400 12.5px/1.45 'Rubik',Arial,sans-serif;color:rgba(238,229,213,.86)}
 @media (min-width:640px){.bbп-экран_бп{font-size:13px}}
 .bbп-экран_бп i{display:none}.bbп-экран_бп span{display:block;width:-webkit-fit-content;width:fit-content;margin:0 auto}.bbп-экран_бп span+i+span::first-letter{text-transform:uppercase}
+/* галочка согласия НАД кнопкой «Подобрать дом», кнопка последней. Телефон: столбиком. ПК: телефон и имя в ряд, ниже галочка, ниже кнопка */
+.bbп__ряд.bbп__ряд_согл .bbп__согл{margin:2px 0 0}
+@media (min-width:960px){.bbп__ряд.bbп__ряд_согл{grid-template-columns:1fr 1fr}.bbп__ряд_согл .bbп__согл,.bbп__ряд_согл .bbп__кн{grid-column:1 / -1}.bbп__ряд_согл .bbп__кн{justify-self:start;min-width:260px}}
 </style>
 <section class="bbп bbп_бп" id="bb-podbor" aria-labelledby="bbп-заг">
-  <p class="bbп-правила">Заезд в пт и сб от 2 ночей · предоплата 50% · бесплатная отмена за 7 дней до заезда</p>
+  <p class="bbп-правила">Заезд в&nbsp;пт и&nbsp;сб от 2 ночей · предоплата 50% · бесплатная отмена за 7 дней до&nbsp;заезда</p>
   <form class="bbп__карта" novalidate>
     <div class="bbп__лево">
       <h2 class="bbп__заг" id="bbп-заг">Не нашли свои даты?</h2>
-      <p class="bbп__под">Подберём свободный дом на ваши даты или самые близкие к ним и пришлём цену.</p>
+      <p class="bbп__под">Подберём свободный дом на&nbsp;ваши даты или&nbsp;самые близкие к&nbsp;ним и&nbsp;пришлём цену.</p>
       <p class="bbп__запрос" hidden></p>
     </div>
     <div class="bbп__право">
@@ -2398,22 +2431,21 @@ var opacityTimeout=setTimeout(showRecord,1500);t_onFuncLoad('t_quiz__step_manage
       <div class="bbп__гр" role="group" aria-label="Сколько вас">
         <p class="bbп__метка">Сколько вас</p>
         <div class="bbп__чипы" data-bbп="гости"><button type="button" class="bbп__чип" data-г="2" aria-pressed="false">2</button><button type="button" class="bbп__чип" data-г="3–4" aria-pressed="false">3–4</button><button type="button" class="bbп__чип" data-г="5–6" aria-pressed="false">5–6</button><button type="button" class="bbп__чип" data-г="7+" aria-pressed="false">7 и больше</button></div>
-        <p class="bbп__7" hidden>В один дом не поместитесь? Подберём соседние дома рядом и пришлём цену за все дома.</p>
+        <p class="bbп__7" hidden>В&nbsp;один дом не&nbsp;поместитесь? Подберём соседние дома рядом и&nbsp;пришлём цену за&nbsp;все дома.</p>
       </div>
-      <div class="bbп__ряд">
+      <div class="bbп__ряд bbп__ряд_согл">
         <label class="bbп__п">Телефон<input type="tel" name="тел" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__"></label>
         <label class="bbп__п">Имя<input type="text" name="имя" autocomplete="given-name" placeholder="необязательно"></label>
-        <button class="bbп__кн" type="submit">Подобрать дом</button>
+        <label class="bbп__согл"><input type="checkbox" name="согласие"><span>Я согласен(на) с <a href="/privacy" target="_blank" rel="noopener">политикой конфиденциальности</a></span></label><button class="bbп__кн" type="submit">Подобрать дом</button>
       </div>
-      <label class="bbп__согл"><input type="checkbox" name="согласие"><span>Я согласен(на) с <a href="/privacy" target="_blank" rel="noopener">политикой конфиденциальности</a></span></label>
       <p class="bbп__итог" role="status" hidden></p>
-      <p class="bbп__мелко">Отвечаем с 9:00 до 24:00. Заявка уходит в отдел бронирования, как «Обратный звонок».</p>
+      <p class="bbп__мелко">Отвечаем с 9:00 до 24:00.</p>
     </div>
   </form>
 </section>
 <script>
 (function () {
-  var К = {"сч":109033653,"тел":"+7 (495) 150-39-08","телСсылка":"tel:+74951503908","чат":"https://t.me/bazabarskie_polya","экран":{"rec":"rec1538220631","кнопки":["1752664467008","1753688417167"],"класс":"bbп-экран_бп","html":"<span>Заезд в пт и сб от 2 ночей</span><i> · </i><span>предоплата 50% · отмена за 7 дней</span>"},"дома":null};
+  var К = {"сч":109033653,"тел":"+7 (495) 150-39-08","телСсылка":"tel:+74951503908","чат":"https://t.me/bazabarskie_polya","экран":null,"дома":null};
   if (window.bbPodbor) return; window.bbPodbor = 1;
   document.documentElement.classList.add('bb-est-podbor');
   var мой = document.currentScript && document.currentScript.closest('.t-rec');
@@ -2470,7 +2502,7 @@ var opacityTimeout=setTimeout(showRecord,1500);t_onFuncLoad('t_quiz__step_manage
   function обновить() {
     var т = текстКогда();
     запрос.hidden = !(т || гости);
-    запрос.textContent = 'Ваш запрос: ' + [т ? т.кратко : 'когда?', гости ? нас(гости) : 'сколько вас?'].join(', ');
+    запрос.textContent = ('Ваш запрос: ' + [т ? т.кратко : 'когда?', гости ? нас(гости) : 'сколько вас?'].join(', ')).replace(/(^|\s)(и|в|с|по|на|до) /g, '$1$2\u00a0').replace(/(\d) /g, '$1\u00a0');
     // для кнопки «Написать» в нижней панели (HEAD): готовый текст с датами и составом
     try { if (т && гости) localStorage.setItem('bb_podbor', JSON.stringify({ к: т.чат, г: нас(гости), в: Date.now() })); } catch (e) {}
   }
@@ -2522,16 +2554,56 @@ var opacityTimeout=setTimeout(showRecord,1500);t_onFuncLoad('t_quiz__step_manage
   function задать(п, v) { if (!п) return; п.value = v; ['input', 'change', 'blur'].forEach(function (т) { п.dispatchEvent(new Event(т, { bubbles: true })); }); }
   function скрытое(форма, имя, v) { var п = форма.querySelector('input[data-bbп][name="' + имя + '"]'); if (!п) { п = document.createElement('input'); п.type = 'hidden'; п.name = имя; п.setAttribute('data-bbп', '1'); форма.appendChild(п); } п.value = v; }
   function открытьОкно() { var a = document.createElement('a'); a.href = '#zayavka'; a.style.display = 'none'; a.setAttribute('data-bbп-окно', '1'); document.body.appendChild(a); a.click(); a.remove(); }
+  // резервное окно заявки закрыть (первая отправка всё-таки дошла): крестик окна Тильды
+  function закрытьОкно() { var о = document.querySelector('[data-tooltip-hook="#zayavka"]'), x = о && о.querySelector('.t-popup__close'); if (x && /t-popup_show/.test(о.className)) { try { x.click(); } catch (e) {} } }
   function чатСсылка() { var т = текстКогда(); return К.чат + (т && гости ? '?text=' + encodeURIComponent('Здравствуйте! Хотим дом ' + т.чат + ', ' + нас(гости) + '. Что свободно и сколько стоит?') : ''); }
+
+  /* Отправка и ответ Тильды. Ждём ответа до 30 с; нет ответа: открываем окно заявки с данными гостя (пока первая
+     отправка в пути, Тильда повторную из окна не пускает), в заявку из окна уходит пометка «Повтор». Пришёл запоздалый
+     успех первой отправки: окно закрываем, показываем «Спасибо», повторно отправить уже нечего (форма свёрнута). */
+  var ЖДАТЬ = 30000, ждём = false, резерв = '', таймер = 0, слушаем = null, посл = null;
+  var кн = ф.querySelector('.bbп__кн'), надпись = кн.textContent;
+  function слушать(форма) {
+    if (слушаем === форма) return; слушаем = форма;
+    форма.addEventListener('tildaform:aftersuccess', function () {
+      if (ушло || (!ждём && !резерв) || !посл) return;   // не наша отправка
+      var поздно = посл.таймаут; ждём = false; резерв = ''; clearTimeout(таймер);
+      ушло = true; кн.disabled = false; кн.textContent = надпись;
+      [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
+      закрытьОкно();
+      ф.classList.add('bbп_ушло');
+      сообщить('<b>Спасибо! Заявка у менеджера.</b> Подберём дом ' + посл.т.кратко + ' и пришлём цену на ' + посл.тел + '. Отвечаем с 9:00 до 24:00. Можно сразу <a href="' + чатСсылка() + '" target="_blank" rel="noopener">написать в Telegram</a>.');
+      цель('podbor_uspeh', { kogda: посл.к, gostej: посл.г, gde: откуда, pozdno: поздно ? 'da' : 'net' });
+    });
+    форма.addEventListener('tildaform:aftererror', function () {
+      if (ушло || !ждём) return;
+      ждём = false; clearTimeout(таймер);
+      setTimeout(function () { if (!ушло && !ждём) резервноеОкно('ошибка'); }, 300);
+    });
+  }
+  function резервноеОкно(причина) {
+    кн.disabled = false; кн.textContent = надпись;
+    var форма = формаТильды();
+    if (причина === 'таймаут') {
+      if (посл) посл.таймаут = true;
+      if (форма) скрытое(форма, 'Повтор', 'Возможен дубль: первая отправка с сайта не ответила за 30 секунд. Сверьте с заявкой с этим телефоном.');
+      сообщить('Связь медленная, заявка ещё отправляется. Мы открыли форму с&nbsp;вашими данными: если «Спасибо» так и&nbsp;не появится, нажмите в&nbsp;ней «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
+    } else сообщить('Не получилось отправить автоматически. Мы открыли форму заявки с вашими данными: проверьте и нажмите «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
+    резерв = причина;
+    открытьОкно();
+    цель('podbor_sboj', { gde: откуда, prichina: причина === 'таймаут' ? 'tajmaut' : 'oshibka' });
+  }
 
   // окно «Обратный звонок» открыли другой кнопкой: наши скрытые поля не нужны
   document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[href="#zayavka"]'); if (!a || a.hasAttribute('data-bbп-окно') || ушло) return;
+    var a = e.target.closest && e.target.closest('a[href="#zayavka"]'); if (!a || a.hasAttribute('data-bbп-окно') || ушло || ждём) return;
+    резерв = '';
     var форма = формаТильды(); if (форма) [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
   }, true);
 
   ф.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (ждём) { сообщить('Заявка ещё отправляется, дождитесь ответа. Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true); return; }
     var т = текстКогда(), ц = цифры(), согл = ф.elements['согласие'];
     var нет = [];
     if (!т) нет.push(когда && когда.к === 'svoi' ? 'даты заезда и выезда' : 'когда');
@@ -2562,35 +2634,21 @@ var opacityTimeout=setTimeout(showRecord,1500);t_onFuncLoad('t_quiz__step_manage
     скрытое(форма, 'Даты', т.crm);
     скрытое(форма, 'Гостей', гости);
     скрытое(форма, 'Откуда', 'главная, ' + откуда);
-    var кн = ф.querySelector('.bbп__кн'), готово = false;
-    кн.disabled = true; кн.textContent = 'Отправляем…';
-    function конец(хорошо) {
-      if (готово) return; готово = true; кн.disabled = false; кн.textContent = 'Подобрать дом';
-      форма.removeEventListener('tildaform:aftersuccess', успех); форма.removeEventListener('tildaform:aftererror', сбой);
-      if (хорошо) {
-        ушло = true;
-        [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
-        ф.classList.add('bbп_ушло');
-        сообщить('<b>Спасибо! Заявка у менеджера.</b> Подберём дом ' + т.кратко + ' и пришлём цену на ' + тел.value + '. Отвечаем с 9:00 до 24:00. Можно сразу <a href="' + чатСсылка() + '" target="_blank" rel="noopener">написать в Telegram</a>.');
-        цель('podbor_uspeh', { kogda: когда.к, gostej: гости, gde: откуда });
-      } else {
-        сообщить('Не получилось отправить автоматически. Мы открыли форму заявки с вашими данными: проверьте и нажмите «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
-        открытьОкно();
-        цель('podbor_sboj', { gde: откуда });
-      }
-    }
-    function успех() { конец(true); }
-    function сбой() { setTimeout(function () { конец(false); }, 300); }
-    форма.addEventListener('tildaform:aftersuccess', успех); форма.addEventListener('tildaform:aftererror', сбой);
-    setTimeout(function () { конец(false); }, 15000);
+    посл = { т: т, тел: тел.value, к: когда.к, г: гости, таймаут: false };
+    слушать(форма);
+    ждём = true; кн.disabled = true; кн.textContent = 'Отправляем…';
+    clearTimeout(таймер); таймер = setTimeout(function () { if (ждём && !ушло) резервноеОкно('таймаут'); }, ЖДАТЬ);
     цель('podbor_otpravka', { kogda: когда.к, gostej: гости, gde: откуда });
     var отпр = форма.querySelector('.t-submit, button[type="submit"]');
-    if (отпр) отпр.click(); else конец(false);
+    if (отпр) отпр.click();
+    // Тильда не начала отправку (не прошла её проверка полей): окно с данными сразу, без ожидания и без пометки «Повтор»
+    if (!отпр || (!/t-btn_sending/.test(отпр.className) && !(отпр.tildaSendingStatus >= 1))) { ждём = false; clearTimeout(таймер); резервноеОкно('ошибка'); }
   });
 
   /* Строка правил на первом экране: под кнопками «Проверить даты» и второй кнопкой, внутри зеро-блока.
      Считается один раз после отрисовки блока (несколько попыток в первые секунды) и при смене ширины. Не влезает, закрывает соседние элементы: не показывается. */
   function подпись() {
+    if (!К.экран) return false;
     var р = document.getElementById(К.экран.rec), доска = р && р.querySelector('.t396__artboard.rendered'); if (!доска) return false;
     var кн = К.экран.кнопки.map(function (id) { return р.querySelector('.t396__elem[data-elem-id="' + id + '"]'); }).filter(function (e) { return e && e.getBoundingClientRect().width > 40; });
     if (!кн.length) return false;
@@ -2828,7 +2886,6 @@ alt='' imgfield='tn_img_1764659361760000001'
 .bd__pr small{grid-column:1/-1;margin-top:4px;font-size:12px;color:rgba(238,229,213,.6)}
 .bd__btn{flex:none;display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 22px;border-radius:10px;background:var(--br);color:#fff;font-size:15px;font-weight:500;transition:background .2s}
 .bd__c:hover .bd__btn{background:var(--br2)}
-.bd__pr small.bd__prav{margin-top:2px;color:rgba(238,229,213,.78)}
 .bd__podbor{display:none;max-width:1296px;margin:16px auto 0;padding:0 20px;gap:10px 26px;flex-wrap:wrap;align-items:center}
 .bb-est-podbor .bd__podbor{display:flex}
 .bd__podbor a{font-size:15px;font-weight:500;line-height:1.3;color:var(--bej)!important;text-decoration:underline!important;text-decoration-color:var(--or)!important;text-underline-offset:4px}
@@ -2854,7 +2911,7 @@ alt='' imgfield='tn_img_1764659361760000001'
       <div class="bd__b">
         <h3 class="bd__t">Шале</h3>
         <p class="bd__sp">2 изолированные комнаты с двуспальной кроватью и диван в гостиной</p><p class="bd__d">95 кв.м., одноэтажный, полностью огорожен, своя территория, банный чан, баня и купель на территории дома.</p>
-        <div class="bd__low"><div class="bd__pr"><span>вс-чт</span><b>от 16 000 ₽ / ночь</b><span>пт-сб</span><b>от 20 000 ₽ / ночь</b><span>чан</span><b>от 5 500 ₽</b><small>*стоимость при двухместном размещении</small><small class="bd__prav">Пт и сб от 2 ночей · предоплата 50% · бесплатная отмена за 7 дней</small></div><span class="bd__btn">Смотреть подробнее</span></div>
+        <div class="bd__low"><div class="bd__pr"><span>вс-чт</span><b>от 16 000 ₽ / ночь</b><span>пт-сб</span><b>от 20 000 ₽ / ночь</b><span>чан</span><b>от 5 500 ₽</b><small>*стоимость при двухместном размещении</small></div><span class="bd__btn">Смотреть подробнее</span></div>
       </div>
     </a>
     <a class="bd__c" href="/barski" data-dom="barski">
@@ -2862,7 +2919,7 @@ alt='' imgfield='tn_img_1764659361760000001'
       <div class="bd__b">
         <h3 class="bd__t">Барский дом</h3>
         <p class="bd__sp">2 изолированные комнаты с двуспальной кроватью и двуспальный диван в гостиной</p><p class="bd__d">95 кв.м., одноэтажный, частично огорожен, своя территория, банный чан у террасы дома и сауна в доме.</p>
-        <div class="bd__low"><div class="bd__pr"><span>вс-чт</span><b>от 14 300 ₽ / ночь</b><span>пт-сб</span><b>от 18 700 ₽ / ночь</b><span>чан</span><b>от 5 500 ₽</b><small>*стоимость при двухместном размещении</small><small class="bd__prav">Пт и сб от 2 ночей · предоплата 50% · бесплатная отмена за 7 дней</small></div><span class="bd__btn">Смотреть подробнее</span></div>
+        <div class="bd__low"><div class="bd__pr"><span>вс-чт</span><b>от 14 300 ₽ / ночь</b><span>пт-сб</span><b>от 18 700 ₽ / ночь</b><span>чан</span><b>от 5 500 ₽</b><small>*стоимость при двухместном размещении</small></div><span class="bd__btn">Смотреть подробнее</span></div>
       </div>
     </a>
     <a class="bd__c" href="/barnhauses" data-dom="barnhaus">
@@ -2870,7 +2927,7 @@ alt='' imgfield='tn_img_1764659361760000001'
       <div class="bd__b">
         <h3 class="bd__t">Дома Барнхаус</h3>
         <p class="bd__sp">2 изолированные комнаты с двуспальной кроватью и двуспальный диван в гостиной</p><p class="bd__d">65 кв.м., одноэтажные, частично огорожены, своя территория, банный чан у террасы каждого дома.</p>
-        <div class="bd__low"><div class="bd__pr"><span>вс-чт</span><b>от 14 300 ₽ / ночь</b><span>пт-сб</span><b>от 18 700 ₽ / ночь</b><span>чан</span><b>от 5 500 ₽</b><small>*стоимость при двухместном размещении</small><small class="bd__prav">Пт и сб от 2 ночей · предоплата 50% · бесплатная отмена за 7 дней</small></div><span class="bd__btn">Смотреть подробнее</span></div>
+        <div class="bd__low"><div class="bd__pr"><span>вс-чт</span><b>от 14 300 ₽ / ночь</b><span>пт-сб</span><b>от 18 700 ₽ / ночь</b><span>чан</span><b>от 5 500 ₽</b><small>*стоимость при двухместном размещении</small></div><span class="bd__btn">Смотреть подробнее</span></div>
       </div>
     </a>
     <a class="bd__c" href="/gardens" data-dom="garden">
@@ -2878,7 +2935,7 @@ alt='' imgfield='tn_img_1764659361760000001'
       <div class="bd__b">
         <h3 class="bd__t">Дома Гарден</h3>
         <p class="bd__sp">Двуспальная кровать и раскладной диван</p><p class="bd__d">55 кв.м., двухэтажные, полностью огорожены, своя территория, банный чан у террасы каждого дома. У части домов дополнительно стоит личная баня.</p>
-        <div class="bd__low"><div class="bd__pr"><span>вс-чт</span><b>от 9 900 ₽ / ночь</b><span>пт-сб</span><b>от 15 400 ₽ / ночь</b><span>чан</span><b>от 5 500 ₽</b><small>*стоимость при двухместном размещении</small><small class="bd__prav">Пт и сб от 2 ночей · предоплата 50% · бесплатная отмена за 7 дней</small></div><span class="bd__btn">Смотреть подробнее</span></div>
+        <div class="bd__low"><div class="bd__pr"><span>вс-чт</span><b>от 9 900 ₽ / ночь</b><span>пт-сб</span><b>от 15 400 ₽ / ночь</b><span>чан</span><b>от 5 500 ₽</b><small>*стоимость при двухместном размещении</small></div><span class="bd__btn">Смотреть подробнее</span></div>
       </div>
     </a>
     <a class="bd__c" href="/rivers" data-dom="river">
@@ -2886,7 +2943,7 @@ alt='' imgfield='tn_img_1764659361760000001'
       <div class="bd__b">
         <h3 class="bd__t">Дома Ривер</h3>
         <p class="bd__sp">Двуспальная кровать и раскладной диван</p><p class="bd__d">55 кв.м., двухэтажные, живая изгородь, своя территория и банный чан у террасы каждого дома.</p>
-        <div class="bd__low"><div class="bd__pr"><span>вс-чт</span><b>от 9 900 ₽ / ночь</b><span>пт-сб</span><b>от 15 400 ₽ / ночь</b><span>чан</span><b>от 5 500 ₽</b><small>*стоимость при двухместном размещении</small><small class="bd__prav">Пт и сб от 2 ночей · предоплата 50% · бесплатная отмена за 7 дней</small></div><span class="bd__btn">Смотреть подробнее</span></div>
+        <div class="bd__low"><div class="bd__pr"><span>вс-чт</span><b>от 9 900 ₽ / ночь</b><span>пт-сб</span><b>от 15 400 ₽ / ночь</b><span>чан</span><b>от 5 500 ₽</b><small>*стоимость при двухместном размещении</small></div><span class="bd__btn">Смотреть подробнее</span></div>
       </div>
     </a>
     <a class="bd__c" href="/events" data-dom="veranda">
@@ -2898,7 +2955,7 @@ alt='' imgfield='tn_img_1764659361760000001'
       </div>
     </a>
   </div>
-  <p class="bd__usl"><b>Условия:</b> заезд в пт и сб от 2 ночей · предоплата 50% · бесплатная отмена за 7 дней до заезда · за каждого дополнительного гостя 2 000 ₽ · с питомцем 1 000 ₽ до 5 кг и 2 000 ₽ больше 5 кг за весь отдых (в Шале без животных) · чан без наполнения 5 500 ₽, с наполнением от 6 500 ₽</p>
+  <p class="bd__usl"><b>Условия:</b> заезд в&nbsp;пт и&nbsp;сб от 2 ночей · предоплата 50% · бесплатная отмена за&nbsp;7&nbsp;дней до&nbsp;заезда · за&nbsp;каждого дополнительного гостя 2&nbsp;000&nbsp;₽ · с&nbsp;питомцем 1&nbsp;000&nbsp;₽ до&nbsp;5&nbsp;кг и&nbsp;2&nbsp;000&nbsp;₽ больше 5&nbsp;кг за&nbsp;весь отдых (в&nbsp;Шале без&nbsp;животных) · чан без&nbsp;наполнения 5&nbsp;500&nbsp;₽, с&nbsp;наполнением от&nbsp;6&nbsp;500&nbsp;₽</p>
   <div class="bd__podbor"><a href="#bb-podbor" data-bbп-откуда="кнопка у домов">Не нашли свои даты? Подберём дом</a><a href="#bb-podbor" data-bbп-г="7+" data-bbп-откуда="кнопка «Нас 7 и больше»">Нас 7 и больше: подберём соседние дома</a></div>
 </div>
 <script>
@@ -5075,7 +5132,7 @@ window.tildastatcookie='no';window.tildastatscroll='yes';setTimeout(function(){(
 <p class="под">Красные рамки и номера — наши правки. Нажмите пункт, чтобы перейти к месту. Заявки отсюда не отправляются.</p>
 <div id="bbk-пункты"></div>
 <div class="низ"><a href="https://barskie-polya.ru/" target="_blank" rel="noopener">Как сейчас на сайте</a><a href="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/index.html">Все страницы демо</a><button type="button" id="bbk-рамки">Скрыть рамки</button><button type="button" id="bbk-закрыть">Закрыть</button></div></div>
-<script>(function(){var П=[{"s":"#rec1538220631","t":"Первый экран","d":"Чем отличаемся теперь читается: «Дома с банным чаном у террасы, в часе от Москвы по Новой Риге» (было 10 px), «Дом от 9 900 ₽ за ночь в будни», правила. Внизу медали ТОП-30 / Хорошее место 2026 / Сплит (вариант 2)."},{"s":"#rec4154334901","t":"Карточки домов","d":"В карточках строка правил и кнопки «Подберём дом» и «Нас 7 и больше: подберём соседние дома»."},{"s":"#rec9990000001","t":"Не нашли свои даты? Подберём","d":"Когда, сколько вас, телефон: заявка уходит в amo сразу с датами и числом гостей через существующую форму «Обратный звонок». Выкладка после 05.10."},{"s":"#rec1649328981","t":"Карта территории и скорость","d":"Карта и фото под ней грузятся при подходе. На телефоне с медленным 4G первый экран появляется за 13–15 с вместо 25–26, до загрузки 2,9 МБ вместо 5,3."},{"s":"#rec2010819681","t":"Ролики «Чайковский»","d":"Кадр и запуск по нажатию. Раньше 3 ролика запускались сами и тянули у гостя с телефона около 50 МБ."}];
+<script>(function(){var П=[{"s":"#rec1538220631","t":"Первый экран","d":"Чем отличаемся теперь читается: «Дома с банным чаном у террасы, в часе от Москвы по Новой Риге» (было 10 px), «Дом от 9 900 ₽ за ночь в будни», правила. Внизу медали ТОП-30 / Хорошее место 2026 / Сплит (вариант 2). Круглая кнопка чата медали не закрывает: если на экране телефона она на их высоте, ряд медалей сдвигается левее."},{"s":"#rec4154334901","t":"Карточки домов","d":"Правила «заезд в пт и сб от 2 ночей» один раз, в «Условиях» под карточками (в каждой карточке не повторяются). Под ними кнопки «Подберём дом» и «Нас 7 и больше: подберём соседние дома»."},{"s":"#rec9990000001","t":"Не нашли свои даты? Подберём","d":"Когда, сколько вас, телефон: заявка уходит в amo сразу с датами и числом гостей через существующую форму «Обратный звонок». Галочка согласия над кнопкой «Подобрать дом», на телефоне видны вместе. Выкладка после 05.10."},{"s":"#rec1649328981","t":"Карта территории и скорость","d":"Карта и фото под ней грузятся при подходе. На телефоне с медленным 4G первый экран появляется за 13–15 с вместо 25–26, до загрузки 2,9 МБ вместо 5,3."},{"s":"#rec2010819681","t":"Ролики «Чайковский»","d":"Кадр и запуск по нажатию. Раньше 3 ролика запускались сами и тянули у гостя с телефона около 50 МБ."}];
 var слой=document.getElementById('bbk-слой'),лист=document.getElementById('bbk-лист'),пункты=document.getElementById('bbk-пункты');
 function эл(i){var с=[].concat(П[i].s),запас=null;for(var k=0;k<с.length;k++){var все=document.querySelectorAll(с[k]);for(var j=0;j<все.length;j++){var r=все[j].getBoundingClientRect();if(r.height>20&&r.width>20)return все[j];if(!запас)запас=все[j];}}return запас;}
 function расставить(){слой.innerHTML='';var занято=[];document.querySelectorAll('.bbk-рамка').forEach(function(x){x.classList.remove('bbk-рамка');});П.forEach(function(p,i){var e=эл(i);if(!e)return;e.classList.add('bbk-рамка');var r=e.getBoundingClientRect();if(!r.height)return;var x=r.left+window.scrollX+8,y=r.top+window.scrollY+8;занято.forEach(function(z){if(Math.abs(z[1]-y)<34&&Math.abs(z[0]-x)<34)x=z[0]+38;});занято.push([x,y]);var n=document.createElement('button');n.className='bbk-номер';n.type='button';n.textContent=i+1;n.style.left=x+'px';n.style.top=y+'px';n.onclick=function(){открыть();};слой.appendChild(n);});}

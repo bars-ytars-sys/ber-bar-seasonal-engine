@@ -1009,7 +1009,7 @@ document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><scrip
       var и = имяДома();
       return 'Здравствуйте! Интересует ' + (домБП && !/-\d/.test(и) && и !== 'Барский дом' && и !== 'Шале' ? 'дом категории' : 'дом') + (и ? ' «' + и + '»' : '') + (д ? '. Хотим ' + д + '. Свободно?' : '. Подскажите, пожалуйста, свободные даты.');
     }
-    return 'Здравствуйте! Хотим дом ' + (д || 'с … по …, нас … человек') + '. Что свободно и сколько стоит?';
+    return д ? 'Здравствуйте! Хотим дом ' + д + '. Что свободно и сколько стоит?' : 'Здравствуйте! Подскажите, пожалуйста, свободные даты и цену.';
   }
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
@@ -1402,6 +1402,16 @@ d="M50 100C77.6142 100 100 77.6142 100 50C100 22.3858 77.6142 0 50 0C22.3858 0 0
 fill="#000" /> </svg></div></a> <a href="https://www.instagram.com/ecobaza_br?igsh=Ynh0OXJhNXhhNDFv" class="t898__icon t898__icon-website_wrapper t898__icon_link" target="_blank" rel="nofollow noopener noreferrer"><span class="t898__btn-text t-name t-name_xs">Instagram</span><div class="t898__svg__wrapper"><div class="t898__svg__bg"></div><img src=https://static.tildacdn.com/tild3736-3665-4363-b733-343961643839/Group_39642.svg alt="website icon" class="t-sociallinks__customimg" style="width:50px; height:50px; vertical-align: baseline; object-fit: contain; object-position: center;"></div></a> <a href="https://vk.ru/bazabr" class="t898__icon t898__icon-website_wrapper t898__icon_link" target="_blank" rel="nofollow noopener noreferrer"><span class="t898__btn-text t-name t-name_xs">VK</span><div class="t898__svg__wrapper"><div class="t898__svg__bg"></div><img src=https://static.tildacdn.com/tild3634-6434-4965-b435-316630356335/Group_39643.svg alt="website icon" class="t-sociallinks__customimg" style="width:50px; height:50px; vertical-align: baseline; object-fit: contain; object-position: center;"></div></a> <a href="https://t.me/ecobazabr" class="t898__icon t898__icon-website_wrapper t898__icon_link" target="_blank" rel="nofollow noopener noreferrer"><span class="t898__btn-text t-name t-name_xs">Telegram</span><div class="t898__svg__wrapper"><div class="t898__svg__bg"></div><img src=https://static.tildacdn.com/tild6238-3737-4663-b731-306663646330/Group_39644.svg alt="website icon" class="t-sociallinks__customimg" style="width:50px; height:50px; vertical-align: baseline; object-fit: contain; object-position: center;"></div></a> <a href="https://wa.me/74951202008" class="t898__icon t898__icon-website_wrapper t898__icon_link" target="_blank" rel="nofollow noopener noreferrer"><span class="t898__btn-text t-name t-name_xs">WhatsApp</span><div class="t898__svg__wrapper"><div class="t898__svg__bg"></div><img src=https://static.tildacdn.com/tild6665-6465-4139-a137-663630653263/Group_39641.svg alt="website icon" class="t-sociallinks__customimg" style="width:50px; height:50px; vertical-align: baseline; object-fit: contain; object-position: center;"></div></a> <!-- /new soclinks --> </div> </div> <style>@media screen and (max-width:960px){#rec1841867761 .t898 .t898__btn{bottom:100px !important;}#rec1841867761 .t898__btn-text::after{}}</style> <script type="text/javascript">t_onReady(function() {t_onFuncLoad('t898_init',function() {t898_init('1841867761');});});</script> </div> </header> <!--/header--> <div id="rec9990000101" class="r t-rec" data-record-type="131"><div class="t123"><div class="t-container_100"><div class="t-width t-width_100"><style>
 /* Шапка поверх мини-формы Bnovo: у обёртки модуля z-index 1011, у шапки 10, при прокрутке кнопка «Показать наличие» ложилась поверх логотипа и телефона. Модуль не трогаем, поднимаем шапку. */
 @media (max-width:639px){#allrecords:not([data-tilda-page-alias="booking"]) #rec1730117851 .t396__artboard{z-index:1012!important}}
+/* Нижняя панель «Даты и цены · Позвонить · Написать» (HEAD, была 980) и круглая кнопка чата (1000) тоже поверх мини-формы Bnovo (1011):
+   на /doma и главной белая карточка модуля закрывала их, когда проезжала низ экрана. Модуль не трогаем. Окна Тильды выше: 9998 и 10000001.
+   Пока открыт календарь формы Bnovo (он раскрывается вниз внутри окна модуля), панель и чат уходят под форму, как было до правки:
+   иначе нижний ряд дат прятался под панелью. До 959 px (панель есть только там). На /booking панели нет, чат там не трогаем. */
+@media (max-width:959px){
+  .панель-моб{z-index:1012!important}
+  #allrecords:not([data-tilda-page-alias="booking"]) .t898__btn{z-index:1013!important}
+  .bb-bnovo-kalendar .панель-моб{z-index:980!important}
+  .bb-bnovo-kalendar #allrecords:not([data-tilda-page-alias="booking"]) .t898__btn{z-index:1000!important}
+}
 /* Шапка на телефоне: часы работы и телефон 12–14 px вместо 9,8 px (сетка 320). Только стили, на /booking не действует. */
 @media (max-width:479px){
   #allrecords:not([data-tilda-page-alias="booking"]) #rec1730117851 .t396__elem[data-elem-id="1766505096906000002"]{left:90px!important;top:6px!important;width:136px!important;height:auto!important}
@@ -1419,7 +1429,24 @@ fill="#000" /> </svg></div></a> <a href="https://www.instagram.com/ecobaza_br?ig
   #allrecords:not([data-tilda-page-alias="booking"]) #rec1730117851 .t396__elem[data-elem-id="1766505096906000003"]{left:176px!important;top:27px!important;width:190px!important}
   #allrecords:not([data-tilda-page-alias="booking"]) #rec1730117851 .t396__elem[data-elem-id="1766505096906000003"] .tn-atom{font-size:13px!important;line-height:1.15!important;font-weight:600!important;text-align:right!important;white-space:nowrap}
 }
-</style></div></div></div></div><div id="rec2121980921" class="r t-rec t-rec_pt_105 t-rec_pt-res-480_75 t-rec_pb_0 t-record_scaled" style="padding-top:105px;padding-bottom:0px;background-color:var(--uc-color-color-n3E0FkCwyE,#f4f6fb); " data-animationappear="off" data-record-type="758" data-bg-color="var(--uc-color-color-n3E0FkCwyE,#f4f6fb)"> <!-- t758 --> <div class="t758"> <div class="t-container"> <div class="t758__col t-col t-col_12 "> <div class="t758__wrapper t-align_left"> <ul class="t758__list"> <li class="t758__list_item"> <div class="t758__link-item__wrapper" style="padding: 0px 5px;"> <a class="t-menu__link-item " href="/">
+</style>
+<script>
+(function () {
+  /* Календарь мини-формы Bnovo открыт (окно модуля выросло вниз): класс bb-bnovo-kalendar, панель и чат под формой (стили выше).
+     Без циклов: ResizeObserver только на блоке формы Bnovo, модуль не трогаем. На /booking и без формы ничего не делает. */
+  if (/^\/booking/.test(location.pathname) || !window.ResizeObserver) return;
+  function старт() {
+    var ф = document.getElementById('_bn_widget_'); if (!ф) return;
+    var html = document.documentElement, обычная = 0;
+    new ResizeObserver(function () {
+      var в = ф.getBoundingClientRect().height; if (в > 60 && (!обычная || в < обычная)) обычная = в;
+      html.classList.toggle('bb-bnovo-kalendar', обычная > 0 && в > обычная + 60);
+    }).observe(ф);
+    var ш = innerWidth; addEventListener('resize', function () { if (innerWidth !== ш) { ш = innerWidth; обычная = 0; } });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', старт); else старт();
+})();
+</script></div></div></div></div><div id="rec2121980921" class="r t-rec t-rec_pt_105 t-rec_pt-res-480_75 t-rec_pb_0 t-record_scaled" style="padding-top:105px;padding-bottom:0px;background-color:var(--uc-color-color-n3E0FkCwyE,#f4f6fb); " data-animationappear="off" data-record-type="758" data-bg-color="var(--uc-color-color-n3E0FkCwyE,#f4f6fb)"> <!-- t758 --> <div class="t758"> <div class="t-container"> <div class="t758__col t-col t-col_12 "> <div class="t758__wrapper t-align_left"> <ul class="t758__list"> <li class="t758__list_item"> <div class="t758__link-item__wrapper" style="padding: 0px 5px;"> <a class="t-menu__link-item " href="/">
 Главная
 </a> </div> <span class="t758__breadcrumb-divider">»</span> </li> <li class="t758__list_item"> <div class="t758__link-item__wrapper" style="padding: 0px 5px;"> <a
 class="t-menu__link-item "
@@ -1494,6 +1521,7 @@ href="/doma/aframe-white">А-фрейм белый</a></div> </li> </ul> </div> 
 .bbд__имя span,.bbд__заг span{display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.92);color:#17252f;font-size:13px;line-height:1.2;font-weight:600}
 .bbд__инфо{padding:14px 16px 16px}
 .bbд__заг{display:none;margin:0 0 10px}
+.bbд__доп{margin:0 0 10px;font-size:14px;line-height:1.35;font-weight:500;color:#17252f;text-wrap:balance}
 .bbд__цены{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .bbд__цены p{margin:0;padding:9px 12px;border-radius:12px;background:#f4f6fb}
 .bbд__цены span{display:block;font-size:13px;line-height:1.25;color:#5d6670}
@@ -1565,7 +1593,7 @@ href="/doma/aframe-white">А-фрейм белый</a></div> </li> </ul> </div> 
 (function () {
   // Карточка решения на первом экране страницы дома: фото этого дома, цена будни и пт–сб, «до N человек», рейтинг,
   // правила, «Забронировать онлайн» (/booking без параметров) и «Не нашли даты? Подберём этот дом».
-  var Д = {"aframe-white":["А-фрейм белый",12100,17600,4,"stor3262-3635-4238-b131-663265393537/77fde0c1eacb9308fa4458188fc7c0ff.webp"],"aframe-black":["А-фрейм чёрный",12100,17600,4,"stor3063-3664-4434-b037-613632366439/ef6cea4a3c9771da65706c6c869dd6ae.webp"],"aframe-luxe-white":["А-фрейм люкс белый",14300,17600,4,"stor6462-3765-4361-a131-643665656661/e9a0e1728bc7b1cb3bba1e9fcfa501f5.webp"],"aframe-luxe-black":["А-фрейм люкс чёрный",14300,17600,4,"stor3937-3831-4263-a562-313165326334/2eb10952b33b1a5596a2c12b8f31b261.webp"],"aframe-neo":["А-фрейм НЕО",11000,17600,4,"stor6530-6339-4563-b762-663135313138/e9819b45abc51fa406ef7c498d760705.webp"],"house-1":["Хаус 1",11000,18700,5,"stor3733-6462-4533-a166-353664353265/9c7ca308052a7aed4cabaef48d585928.webp"],"house-2":["Хаус 2",11000,18700,5,"stor3232-3630-4562-b463-663363306236/0694b053251b5d6367875c139f14ab2b.webp"],"house-3":["Хаус 3",11000,18700,5,"stor3732-3363-4236-a439-303464373361/25a421a2b40aecad7bc8a2a179c25c79.webp"],"house-4":["Хаус 4",11000,18700,4,"stor6633-6265-4562-b038-373632396162/0f3d6f23dd82c7357b6906728eb1a6c8.webp"],"barn-1":["Барнхаус 1",14300,18700,6,"stor6637-3136-4433-b163-393761323863/146e57776d946480398c8232411878ab.webp"],"barn-2":["Барнхаус 2",14300,18700,6,"stor6634-6164-4763-b663-386536383461/dbc3217212b83d68d3bc8425b342417a.webp"],"barn-3":["Барнхаус 3",14300,18700,6,"stor3230-3634-4634-b861-366638616236/545dbd29154eef274ef7c8bd09c84e92.webp"],"barn-4":["Барнхаус 4",14300,18700,6,"stor6533-6531-4436-a435-343763343030/1f6c27e254ffbd170059f5aafe6abafa.webp"],"sfera":["Сфера",12100,17600,4,"stor3832-3434-4535-a238-323736383631/046dcb9d9629670b11d8d8d48103a37f.webp"],"baus-1":["Баус 1",13200,16500,2,"stor3635-3936-4265-a234-613234323038/83bbfb0e36f04a90c743157f74ae85f6.webp"],"baus-2":["Баус 2",13200,16500,2,"stor3238-6134-4261-b763-356661366362/f5fbc497019e97993e6a532dc1e2241b.webp"],"baus-3":["Баус 3",13200,16500,2,"stor3665-3633-4161-a633-306362336639/d87661edd9ee65bcd326af741b3d5cc0.webp"],"holidayhouse":["Холидей Хаус",13200,18700,4,"stor6638-3162-4136-a138-343966376433/91a2f8d50aeea9f54f314e408ebd4ff2.webp"],"scandi":["Сканди",16500,20900,8,"stor3131-3534-4633-b162-373466346638/d7f09bfe32d59f9697c7664245c34e0a.webp"],"chalet":["Шале",16500,20900,6,"stor6366-3635-4533-a635-323066373835/d72da7c858c1d8258ca8b4d91af3c5e7.webp"],"panorama":["Панорама",18000,25000,8,"stor3365-6331-4634-b138-373236376535/788c4b94949111ddfda0c82e74af3609.webp"],"bariloche":["Барилоче",22000,30000,7,"stor6161-6434-4538-b230-343434646536/057c73c3c8a94d1c4814617b1018395d.webp"]}, П = {"правила":"Заезд в пт и сб от 2 ночей · предоплата 50% · бесплатная отмена за 10 дней до заезда","рейтинг":{"оценка":"5,0","оценок":"1 435","ссылка":"https://yandex.ru/maps/org/beryozovaya_roshcha/91160063546/reviews/"},"сч":108978291};
+  var Д = {"aframe-white":["А-фрейм белый",12100,17600,4,"stor3262-3635-4238-b131-663265393537/77fde0c1eacb9308fa4458188fc7c0ff.webp"],"aframe-black":["А-фрейм чёрный",12100,17600,4,"stor3063-3664-4434-b037-613632366439/ef6cea4a3c9771da65706c6c869dd6ae.webp"],"aframe-luxe-white":["А-фрейм люкс белый",14300,17600,4,"stor6462-3765-4361-a131-643665656661/e9a0e1728bc7b1cb3bba1e9fcfa501f5.webp"],"aframe-luxe-black":["А-фрейм люкс чёрный",14300,17600,4,"stor3937-3831-4263-a562-313165326334/2eb10952b33b1a5596a2c12b8f31b261.webp"],"aframe-neo":["А-фрейм НЕО",11000,17600,4,"stor6530-6339-4563-b762-663135313138/e9819b45abc51fa406ef7c498d760705.webp"],"house-1":["Хаус 1",11000,18700,5,"stor3733-6462-4533-a166-353664353265/9c7ca308052a7aed4cabaef48d585928.webp"],"house-2":["Хаус 2",11000,18700,5,"stor3232-3630-4562-b463-663363306236/0694b053251b5d6367875c139f14ab2b.webp"],"house-3":["Хаус 3",11000,18700,5,"stor3732-3363-4236-a439-303464373361/25a421a2b40aecad7bc8a2a179c25c79.webp"],"house-4":["Хаус 4",11000,18700,4,"stor6633-6265-4562-b038-373632396162/0f3d6f23dd82c7357b6906728eb1a6c8.webp"],"barn-1":["Барнхаус 1",14300,18700,6,"stor6637-3136-4433-b163-393761323863/146e57776d946480398c8232411878ab.webp"],"barn-2":["Барнхаус 2",14300,18700,6,"stor6634-6164-4763-b663-386536383461/dbc3217212b83d68d3bc8425b342417a.webp"],"barn-3":["Барнхаус 3",14300,18700,6,"stor3230-3634-4634-b861-366638616236/545dbd29154eef274ef7c8bd09c84e92.webp"],"barn-4":["Барнхаус 4",14300,18700,6,"stor6533-6531-4436-a435-343763343030/1f6c27e254ffbd170059f5aafe6abafa.webp"],"sfera":["Сфера",12100,17600,4,"stor3832-3434-4535-a238-323736383631/046dcb9d9629670b11d8d8d48103a37f.webp"],"baus-1":["Баус 1",13200,16500,2,"stor3635-3936-4265-a234-613234323038/83bbfb0e36f04a90c743157f74ae85f6.webp"],"baus-2":["Баус 2",13200,16500,2,"stor3238-6134-4261-b763-356661366362/f5fbc497019e97993e6a532dc1e2241b.webp"],"baus-3":["Баус 3",13200,16500,2,"stor3665-3633-4161-a633-306362336639/d87661edd9ee65bcd326af741b3d5cc0.webp"],"holidayhouse":["Холидей Хаус",13200,18700,4,"stor6638-3162-4136-a138-343966376433/91a2f8d50aeea9f54f314e408ebd4ff2.webp"],"scandi":["Сканди",16500,20900,8,"stor3131-3534-4633-b162-373466346638/d7f09bfe32d59f9697c7664245c34e0a.webp"],"chalet":["Шале",16500,20900,6,"stor6366-3635-4533-a635-323066373835/d72da7c858c1d8258ca8b4d91af3c5e7.webp"],"panorama":["Панорама",18000,25000,8,"stor3365-6331-4634-b138-373236376535/788c4b94949111ddfda0c82e74af3609.webp","ещё 2 гостя могут разместиться в комнате отдыха бани","ещё 2 гостя в комнате отдыха бани"],"bariloche":["Барилоче",22000,30000,7,"stor6161-6434-4538-b230-343434646536/057c73c3c8a94d1c4814617b1018395d.webp"]}, П = {"правила":"Заезд в пт и сб от 2 ночей · предоплата 50% · бесплатная отмена за 10 дней до заезда","рейтинг":{"оценка":"5,0","оценок":"1 435","ссылка":"https://yandex.ru/maps/org/beryozovaya_roshcha/91160063546/reviews/"},"сч":108978291};
   var корень = document.getElementById('bb-dom'); if (!корень) return;
   var slug = (location.pathname.match(/^\/doma\/([^/]+)\/?$/) || [])[1];
   var пр = /[?&]prevyu-dom=([\w-]+)/.exec(location.search); if (пр) slug = пр[1];
@@ -1576,10 +1604,12 @@ href="/doma/aframe-white">А-фрейм белый</a></div> </li> </ul> </div> 
   var ш = innerWidth >= 960 ? 600 : innerWidth > 400 ? 960 : 780;
   var фото = 'https://thb.tildacdn.com/' + д[4].replace(/\/([^/]+)$/, '/-/resize/' + ш + 'x/$1');
   var до = 'до ' + д[3] + ' человек';
+  // Панорама (Валерия 29.09): до 8 человек в доме, ещё 2 гостя могут разместиться в комнате отдыха бани
+  var доп = д[5] ? '<p class="bbд__доп">' + д[5].charAt(0).toUpperCase() + д[5].slice(1) + '</p>' : '';
   корень.innerHTML = '<div class="bbд__в">' +
-    '<div class="bbд__фото"><img src="' + фото + '" alt="Дом «' + д[0] + '» в Берёзовой роще" width="780" height="488" fetchpriority="high" decoding="async"">' +
+    '<div class="bbд__фото"><img src="' + фото + '" alt="Дом «' + д[0] + '» в Берёзовой роще" width="780" height="488" fetchpriority="high" decoding="async">' +
     '<p class="bbд__имя"><b>' + д[0] + '</b><span>' + до + '</span></p></div>' +
-    '<div class="bbд__инфо"><p class="bbд__заг"><b>' + д[0] + '</b><span>' + до + '</span></p>' +
+    '<div class="bbд__инфо"><p class="bbд__заг"><b>' + д[0] + '</b><span>' + до + '</span></p>' + доп +
     '<div class="bbд__цены"><p><span>Будни, вс–чт</span><b>от ' + деньги(д[1]) + '</b></p><p><span>Пятница и суббота</span><b>от ' + деньги(д[2]) + '</b></p></div>' +
     '<p class="bbд__мелко">Цена за ночь, при двухместном размещении</p>' +
     '<a class="bbд__рейтинг" href="' + П.рейтинг.ссылка + '" target="_blank" rel="noopener"><b>★ ' + П.рейтинг.оценка + '</b>' + П.рейтинг.оценок + ' оценок на Яндекс Картах</a>' +
@@ -1729,16 +1759,56 @@ href="/doma/aframe-white">А-фрейм белый</a></div> </li> </ul> </div> 
   function задать(п, v) { if (!п) return; п.value = v; ['input', 'change', 'blur'].forEach(function (т) { п.dispatchEvent(new Event(т, { bubbles: true })); }); }
   function скрытое(форма, имя, v) { var п = форма.querySelector('input[data-bbп][name="' + имя + '"]'); if (!п) { п = document.createElement('input'); п.type = 'hidden'; п.name = имя; п.setAttribute('data-bbп', '1'); форма.appendChild(п); } п.value = v; }
   function открытьОкно() { var a = document.createElement('a'); a.href = '#zayavka'; a.style.display = 'none'; a.setAttribute('data-bbп-окно', '1'); document.body.appendChild(a); a.click(); a.remove(); }
+  // резервное окно заявки закрыть (первая отправка всё-таки дошла): крестик окна Тильды
+  function закрытьОкно() { var о = document.querySelector('[data-tooltip-hook="#zayavka"]'), x = о && о.querySelector('.t-popup__close'); if (x && /t-popup_show/.test(о.className)) { try { x.click(); } catch (e) {} } }
   function чатСсылка() { var т = текстКогда(); return К.чат + (т && гости ? '?text=' + encodeURIComponent('Здравствуйте! Хотим ' + (дом ? 'дом «' + дом + '» ' : 'дом ') + т.чат + ', ' + нас(гости) + '. Что свободно и сколько стоит?') : ''); }
+
+  /* Отправка и ответ Тильды (как в lovit-daty/chasti/dvizhok.js, правка 30.09). Ждём ответа до 30 с; нет ответа: окно заявки
+     с данными гостя (пока первая отправка в пути, Тильда повторную из окна не пускает), в заявку из окна уходит пометка «Повтор».
+     Запоздалый успех первой отправки: окно закрываем, показываем «Спасибо», форма свёрнута, повторно отправить нечего. */
+  var ЖДАТЬ = 30000, ждём = false, резерв = '', таймер = 0, слушаем = null, посл = null;
+  var кн = ф.querySelector('.bbп__кн'), надпись = кн.textContent;
+  function слушать(форма) {
+    if (слушаем === форма) return; слушаем = форма;
+    форма.addEventListener('tildaform:aftersuccess', function () {
+      if (ушло || (!ждём && !резерв) || !посл) return;   // не наша отправка
+      var поздно = посл.таймаут; ждём = false; резерв = ''; clearTimeout(таймер);
+      ушло = true; кн.disabled = false; кн.textContent = надпись;
+      [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
+      закрытьОкно();
+      ф.classList.add('bbп_ушло');
+      сообщить('<b>Спасибо! Заявка у менеджера.</b> Подберём ' + (посл.дом ? 'дом «' + посл.дом + '» или похожий' : 'дом') + ' ' + посл.т.кратко + ' и пришлём цену на ' + посл.тел + '. Отвечаем с 9:00 до 24:00. Можно сразу <a href="' + чатСсылка() + '" target="_blank" rel="noopener">написать в Telegram</a>.');
+      цель('podbor_uspeh', { kogda: посл.к, gostej: посл.г, gde: откуда, dom: посл.дом || '-', pozdno: поздно ? 'da' : 'net' });
+    });
+    форма.addEventListener('tildaform:aftererror', function () {
+      if (ушло || !ждём) return;
+      ждём = false; clearTimeout(таймер);
+      setTimeout(function () { if (!ушло && !ждём) резервноеОкно('ошибка'); }, 300);
+    });
+  }
+  function резервноеОкно(причина) {
+    кн.disabled = false; кн.textContent = надпись;
+    var форма = формаТильды();
+    if (причина === 'таймаут') {
+      if (посл) посл.таймаут = true;
+      if (форма) скрытое(форма, 'Повтор', 'Возможен дубль: первая отправка с сайта не ответила за 30 секунд. Сверьте с заявкой с этим телефоном.');
+      сообщить('Связь медленная, заявка ещё отправляется. Мы открыли форму с&nbsp;вашими данными: если «Спасибо» так и&nbsp;не появится, нажмите в&nbsp;ней «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
+    } else сообщить('Не получилось отправить автоматически. Мы открыли форму заявки с вашими данными: проверьте и нажмите «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
+    резерв = причина;
+    открытьОкно();
+    цель('podbor_sboj', { gde: откуда, prichina: причина === 'таймаут' ? 'tajmaut' : 'oshibka' });
+  }
 
   // окно «Оставить заявку» открыли другой кнопкой: наши скрытые поля не нужны
   document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[href="#zayavka"]'); if (!a || a.hasAttribute('data-bbп-окно') || ушло) return;
+    var a = e.target.closest && e.target.closest('a[href="#zayavka"]'); if (!a || a.hasAttribute('data-bbп-окно') || ушло || ждём) return;
+    резерв = '';
     var форма = формаТильды(); if (форма) [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
   }, true);
 
   ф.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (ждём) { сообщить('Заявка ещё отправляется, дождитесь ответа. Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true); return; }
     var т = текстКогда(), ц = цифры(), согл = ф.elements['согласие'];
     var нет = [];
     if (!т) нет.push(когда && когда.к === 'svoi' ? 'даты заезда и выезда' : 'когда');
@@ -1759,30 +1829,15 @@ href="/doma/aframe-white">А-фрейм белый</a></div> </li> </ul> </div> 
     скрытое(форма, 'Даты', т.crm);
     скрытое(форма, 'Гостей', гости);
     скрытое(форма, 'Откуда', (К.стр || 'страница ' + location.pathname) + ', ' + откуда);
-    var кн = ф.querySelector('.bbп__кн'), готово = false, надпись = кн.textContent;
-    кн.disabled = true; кн.textContent = 'Отправляем…';
-    function конец(хорошо) {
-      if (готово) return; готово = true; кн.disabled = false; кн.textContent = надпись;
-      форма.removeEventListener('tildaform:aftersuccess', успех); форма.removeEventListener('tildaform:aftererror', сбой);
-      if (хорошо) {
-        ушло = true;
-        [].forEach.call(форма.querySelectorAll('input[data-bbп]'), function (п) { п.remove(); });
-        ф.classList.add('bbп_ушло');
-        сообщить('<b>Спасибо! Заявка у менеджера.</b> Подберём ' + (дом ? 'дом «' + дом + '» или похожий' : 'дом') + ' ' + т.кратко + ' и пришлём цену на ' + тел.value + '. Отвечаем с 9:00 до 24:00. Можно сразу <a href="' + чатСсылка() + '" target="_blank" rel="noopener">написать в Telegram</a>.');
-        цель('podbor_uspeh', { kogda: когда.к, gostej: гости, gde: откуда, dom: дом || '-' });
-      } else {
-        сообщить('Не получилось отправить автоматически. Мы открыли форму заявки с вашими данными: проверьте и нажмите «Отправить». Или позвоните <a href="' + К.телСсылка + '">' + К.тел + '</a>.', true);
-        открытьОкно();
-        цель('podbor_sboj', { gde: откуда });
-      }
-    }
-    function успех() { конец(true); }
-    function сбой() { setTimeout(function () { конец(false); }, 300); }
-    форма.addEventListener('tildaform:aftersuccess', успех); форма.addEventListener('tildaform:aftererror', сбой);
-    setTimeout(function () { конец(false); }, 15000);
+    посл = { т: т, тел: тел.value, к: когда.к, г: гости, дом: дом, таймаут: false };
+    слушать(форма);
+    ждём = true; кн.disabled = true; кн.textContent = 'Отправляем…';
+    clearTimeout(таймер); таймер = setTimeout(function () { if (ждём && !ушло) резервноеОкно('таймаут'); }, ЖДАТЬ);
     цель('podbor_otpravka', { kogda: когда.к, gostej: гости, gde: откуда, dom: дом || '-' });
     var отпр = форма.querySelector('.t-submit, button[type="submit"]');
-    if (отпр) отпр.click(); else конец(false);
+    if (отпр) отпр.click();
+    // Тильда не начала отправку (не прошла её проверка полей): окно с данными сразу, без ожидания и без пометки «Повтор»
+    if (!отпр || (!/t-btn_sending/.test(отпр.className) && !(отпр.tildaSendingStatus >= 1))) { ждём = false; clearTimeout(таймер); резервноеОкно('ошибка'); }
   });
 
   function запустить() {
@@ -2961,7 +3016,7 @@ window.tildastatscroll='yes';setTimeout(function(){(function(d,w,k,o,g) {var n=d
 <p class="под">Красные рамки и номера — наши правки. Нажмите пункт, чтобы перейти к месту. Заявки отсюда не отправляются.</p>
 <div id="bbk-пункты"></div>
 <div class="низ"><a href="https://ecobr.ru/doma/aframe-white" target="_blank" rel="noopener">Как сейчас на сайте</a><a href="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/index.html">Все страницы демо</a><button type="button" id="bbk-рамки">Скрыть рамки</button><button type="button" id="bbk-закрыть">Закрыть</button></div></div>
-<script>(function(){var П=[{"s":["#rec1730117851 .t396__artboard","#rec1730117851 .tn-elem[data-elem-id=\"1766505096906000003\"]","#rec1730117851"],"t":"Шапка на телефоне","d":"Часы работы и телефон 13–14 px вместо 9,8 px: раньше их было не прочитать."},{"s":["#bb-dom","#rec9990000106"],"t":"Первый экран страницы дома","d":"Фото, цены, «до 4 человек», рейтинг, правила, бронь и подбор. Если в форме выбрать больше гостей, чем берёт дом, форма предложит дом побольше."},{"s":"#rec1730154341","t":"Цена будней","d":"12 100 как в модуле (было «от 10 000»). Эту правку делаю в редакторе, отдельно от выкладки."}];
+<script>(function(){var П=[{"s":["#rec1730117851 .t396__artboard","#rec1730117851 .tn-elem[data-elem-id=\"1766505096906000003\"]","#rec1730117851"],"t":"Шапка на телефоне","d":"Часы работы и телефон 13–14 px вместо 9,8 px: раньше их было не прочитать. Нижняя панель и кнопка чата теперь поверх формы бронирования (раньше форма их закрывала, когда доходила до низа экрана)."},{"s":["#bb-dom","#rec9990000106"],"t":"Первый экран страницы дома","d":"Фото, цены, «до 4 человек», рейтинг, правила, бронь и подбор. Если в форме выбрать больше гостей, чем берёт дом, форма предложит дом побольше."},{"s":"#rec1730154341","t":"Цена будней","d":"12 100 как в модуле (было «от 10 000»). Эту правку делаю в редакторе, отдельно от выкладки."}];
 var слой=document.getElementById('bbk-слой'),лист=document.getElementById('bbk-лист'),пункты=document.getElementById('bbk-пункты');
 function эл(i){var с=[].concat(П[i].s),запас=null;for(var k=0;k<с.length;k++){var все=document.querySelectorAll(с[k]);for(var j=0;j<все.length;j++){var r=все[j].getBoundingClientRect();if(r.height>20&&r.width>20)return все[j];if(!запас)запас=все[j];}}return запас;}
 function расставить(){слой.innerHTML='';var занято=[];document.querySelectorAll('.bbk-рамка').forEach(function(x){x.classList.remove('bbk-рамка');});П.forEach(function(p,i){var e=эл(i);if(!e)return;e.classList.add('bbk-рамка');var r=e.getBoundingClientRect();if(!r.height)return;var x=r.left+window.scrollX+8,y=r.top+window.scrollY+8;занято.forEach(function(z){if(Math.abs(z[1]-y)<34&&Math.abs(z[0]-x)<34)x=z[0]+38;});занято.push([x,y]);var n=document.createElement('button');n.className='bbk-номер';n.type='button';n.textContent=i+1;n.style.left=x+'px';n.style.top=y+'px';n.onclick=function(){открыть();};слой.appendChild(n);});}

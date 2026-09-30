@@ -1,32 +1,115 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex, nofollow">
-<title>Демо: сайт для целевого гостя</title><style>
-:root{--фон:#f6f4ee;--текст:#1d2420;--серый:#5d665f;--бр:#1f9a72;--бп:#a4652f}
-body{margin:0;background:var(--фон);color:var(--текст);font:15px/1.5 Arial,sans-serif}
-main{max-width:760px;margin:0 auto;padding:22px 16px 40px}
-h1{font:600 26px/1.2 Georgia,serif;margin:0 0 6px}h2{font:600 19px/1.3 Georgia,serif;margin:26px 0 8px}
-p{margin:6px 0;color:var(--серый)}
-.стр{display:block;background:#fff;border-radius:12px;padding:12px 14px;margin:8px 0;text-decoration:none;color:var(--текст);box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.стр b{display:block;font-size:16px;margin-bottom:2px}.стр span{font-size:13px;color:var(--серый)}
-.бр h2{color:var(--бр)}.бп h2{color:var(--бп)}
+<title>Сайт для целевого гостя: демо</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=Playfair+Display:wght@500;600&display=swap"><style>
+:root{--текст:#1f2622;--серый:#6b726c;--фон:#f7f4ec;--карта:#fffdf8;--линия:rgba(31,38,34,.08);--бр:#1f9a72;--бп:#a4652f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--фон);color:var(--текст);font:15px/1.55 'Manrope',system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+main{max-width:1080px;margin:0 auto;padding:28px 16px 48px}
+.шапка{padding:6px 0 14px}
+.шапка small{display:block;color:var(--серый);font:600 13px/1.3 'Manrope',sans-serif;margin-bottom:10px}
+h1{font:600 clamp(28px,6vw,44px)/1.1 'Playfair Display',Georgia,serif;margin:0 0 12px;letter-spacing:-.01em}
+.шапка p{margin:0;max-width:640px;color:#3d4540;font-size:16px}
+.метки{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.метки span{padding:7px 12px;border-radius:999px;background:var(--карта);border:1px solid var(--линия);font:600 12.5px/1 'Manrope',sans-serif;color:#3d4540}
+h2{display:flex;align-items:center;gap:12px;font:600 26px/1.2 'Playfair Display',Georgia,serif;margin:36px 0 14px}
+h2 span{width:28px;height:3px;border-radius:2px;background:var(--а)}
+.сетка{display:grid;grid-template-columns:1fr;gap:14px}
+@media (min-width:700px){.сетка{grid-template-columns:1fr 1fr}}
+@media (min-width:1000px){.сетка{grid-template-columns:1fr 1fr 1fr}}
+.кар{display:flex;flex-direction:column;background:var(--карта);border-radius:18px;overflow:hidden;text-decoration:none;color:var(--текст);border:1px solid var(--линия);box-shadow:0 10px 30px -18px rgba(20,30,25,.45);transition:transform .15s,box-shadow .15s}
+.кар:hover{transform:translateY(-2px);box-shadow:0 16px 36px -18px rgba(20,30,25,.55)}
+.фото{display:block;aspect-ratio:16/9;background:#e8e3d6 center/cover no-repeat}
+.тело{display:flex;flex-direction:column;gap:10px;padding:14px 16px 16px}
+.имя{font:600 20px/1.25 'Playfair Display',Georgia,serif}
+.правки{display:flex;flex-direction:column;gap:6px}
+.пр{display:flex;gap:8px;align-items:flex-start;font:500 13px/1.35 'Manrope',sans-serif;color:#3d4540}
+.пр i{flex:0 0 20px;height:20px;border-radius:50%;background:var(--а);color:#fff;font:700 11px/20px 'Manrope',sans-serif;font-style:normal;text-align:center}
+.пр.ещё{color:var(--серый);padding-left:28px}
+.смотр{margin-top:2px;color:var(--а);font:700 13.5px/1 'Manrope',sans-serif}
+footer{margin-top:40px;color:var(--серый);font-size:13px}
 </style></head><body><main>
-<h1>Сайт для целевого гостя: демо правок</h1>
-<p>Живые страницы Берёзовой рощи и Барских полей с нашими правками. Красные рамки и номера показывают, что изменено; кнопка «Что изменено» внизу объясняет зачем. Открывать лучше с телефона: так приходит 75–80% гостей.</p>
-<p>Это демо: заявки не отправляются, Метрика отключена. На сайтах ничего не менялось. Выкладка пачкой во вторник 06.10 после проверки, формы Барских полей после 05.10.</p>
-<section class="бр"><h2>Берёзовая роща</h2><a class="стр" href="br-glavnaya.html"><b>Главная</b><span>Шапка на телефоне · Первый экран · Не нашли свои даты? Подберём · Опрос: «Когда и сколько вас»</span></a>
-<a class="стр" href="br-doma.html"><b>Каталог домов</b><span>Шапка на телефоне · Сразу под заголовком · Карточки домов · Форма подбора</span></a>
-<a class="стр" href="br-dom-panorama.html"><b>Дом Панорама</b><span>Шапка на телефоне · Первый экран страницы дома · До 8 гостей</span></a>
-<a class="стр" href="br-dom-aframe-white.html"><b>А-фрейм белый</b><span>Шапка на телефоне · Первый экран страницы дома · Цена будней</span></a>
-<a class="стр" href="br-new-year.html"><b>Новый год</b><span>Шапка на телефоне · Другие даты или вас 7 и больше</span></a>
-<a class="стр" href="br-vip-programmy.html"><b>VIP-программы</b><span>Цены программ на первом экране · Забронировать на даты · «Написать» про программы</span></a>
-<a class="стр" href="br-vip-svidanie.html"><b>Свидание года</b><span>Цена сразу под первым экраном · Забронировать программу на даты · Написать с готовым текстом · Пункты «Что входит» не уводят на главную · «Стоимость программы романтик»</span></a>
-<a class="стр" href="br-vip-perezagruzka.html"><b>Полная перезагрузка</b><span>Цена сразу под первым экраном · Забронировать программу на даты · Написать с готовым текстом · Пункты «Что входит» не уводят на главную</span></a>
-<a class="стр" href="br-spa.html"><b>SPA-комплекс</b><span>SPA коротко под заголовком · Подберём дом на ваши даты</span></a>
-<a class="стр" href="br-aktivnosti.html"><b>Активности</b><span>Окна занятий: Telegram с текстом и «Подберём дом» · Форма в конце страницы</span></a>
-<a class="стр" href="br-banchan.html"><b>Бани и чаны</b><span>Полоса между чанами и банями · Форма в конце страницы</span></a></section>
-<section class="бп"><h2>Барские поля</h2><a class="стр" href="bp-glavnaya.html"><b>Главная</b><span>Первый экран · Карточки домов · Не нашли свои даты? Подберём · Карта территории и скорость · Ролики «Чайковский»</span></a>
-<a class="стр" href="bp-gardens.html"><b>Категория Гарден</b><span>Первый экран категории (сюда ведёт реклама)</span></a>
-<a class="стр" href="bp-rivers.html"><b>Категория Ривер</b><span>Первый экран категории (сюда ведёт реклама)</span></a>
-<a class="стр" href="bp-menu.html"><b>Питание</b><span>Питание коротко</span></a>
-<a class="стр" href="bp-new-year.html"><b>Новый год</b><span>Другие даты или вас 7 и больше</span></a></section>
-<p style="margin-top:24px">Собрано 30.09.2026.</p>
+<div class="шапка"><small>Берёзовая роща · Барские поля · демо от 30.09.2026</small>
+<h1>Сайт для целевого гостя</h1>
+<p>Живые страницы с нашими правками. Изменённые блоки обведены цветной линией, кнопка «Что изменено» внизу страницы ведёт по правкам и объясняет, зачем каждая. Открывать лучше с телефона, с него приходит 75–80% гостей.</p>
+<div class="метки"><span>16 страниц</span><span>43 правок</span><span>Заявки не отправляются</span><span>Метрика отключена</span><span>На сайтах ничего не менялось</span></div></div>
+<section><h2 style="--а:var(--бр)"><span></span>Берёзовая роща</h2><div class="сетка"><a class="кар" href="br-glavnaya.html" style="--а:#1f9a72">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild6335-6362-4237-b234-346365613763/-/resize/720x/-/format/webp/7c64e09f-8309-46b2-a.png')"></span>
+  <span class="тело"><span class="имя">Главная</span>
+  <span class="правки"><span class="пр"><i>1</i>Шапка на телефоне</span><span class="пр"><i>2</i>Первый экран</span><span class="пр"><i>3</i>Не нашли свои даты? Подберём</span><span class="пр"><i>4</i>Опрос: «Когда и сколько вас»</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="br-doma.html" style="--а:#1f9a72">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild3532-3634-4135-b465-323831373634/-/resize/720x/-/format/webp/6e8351d1-838c-4b2e-9.jpg')"></span>
+  <span class="тело"><span class="имя">Каталог домов</span>
+  <span class="правки"><span class="пр"><i>1</i>Шапка на телефоне</span><span class="пр"><i>2</i>Сразу под заголовком</span><span class="пр"><i>3</i>Карточки домов</span><span class="пр"><i>4</i>Форма подбора</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="br-dom-panorama.html" style="--а:#1f9a72">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild3535-6235-4833-a438-653639356438/-/resize/720x/-/format/webp/_5.jpg')"></span>
+  <span class="тело"><span class="имя">Дом Панорама</span>
+  <span class="правки"><span class="пр"><i>1</i>Шапка на телефоне</span><span class="пр"><i>2</i>Первый экран страницы дома</span><span class="пр"><i>3</i>До 8 гостей</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="br-dom-aframe-white.html" style="--а:#1f9a72">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild3937-6136-4161-b439-666665643337/-/resize/720x/-/format/webp/Rectangle_13.png')"></span>
+  <span class="тело"><span class="имя">А-фрейм белый</span>
+  <span class="правки"><span class="пр"><i>1</i>Шапка на телефоне</span><span class="пр"><i>2</i>Первый экран страницы дома</span><span class="пр"><i>3</i>Цена будней</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="br-new-year.html" style="--а:#1f9a72">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild3439-6230-4463-a331-306233326638/-/resize/720x/-/format/webp/image_5.webp')"></span>
+  <span class="тело"><span class="имя">Новый год</span>
+  <span class="правки"><span class="пр"><i>1</i>Шапка на телефоне</span><span class="пр"><i>2</i>Другие даты или вас 7 и больше</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="br-vip-programmy.html" style="--а:#1f9a72">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild6431-6639-4536-b738-393033626566/-/resize/720x/-/format/webp/_2026-01-08_00025914.png')"></span>
+  <span class="тело"><span class="имя">VIP-программы</span>
+  <span class="правки"><span class="пр"><i>1</i>Цены программ на первом экране</span><span class="пр"><i>2</i>Забронировать на даты</span><span class="пр"><i>3</i>«Написать» про программы</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="br-vip-svidanie.html" style="--а:#1f9a72">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild6463-6565-4536-b437-616238343861/-/resize/720x/-/format/webp/__2025-12-30_063823.png')"></span>
+  <span class="тело"><span class="имя">Свидание года</span>
+  <span class="правки"><span class="пр"><i>1</i>Цена сразу под первым экраном</span><span class="пр"><i>2</i>Забронировать программу на даты</span><span class="пр"><i>3</i>Написать с готовым текстом</span><span class="пр"><i>4</i>Пункты «Что входит» не уводят на главную</span><span class="пр ещё">ещё 1</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="br-vip-perezagruzka.html" style="--а:#1f9a72">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild3362-6166-4563-a633-663662663139/-/resize/720x/-/format/webp/_2026-01-07_23571805.png')"></span>
+  <span class="тело"><span class="имя">Полная перезагрузка</span>
+  <span class="правки"><span class="пр"><i>1</i>Цена сразу под первым экраном</span><span class="пр"><i>2</i>Забронировать программу на даты</span><span class="пр"><i>3</i>Написать с готовым текстом</span><span class="пр"><i>4</i>Пункты «Что входит» не уводят на главную</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="br-spa.html" style="--а:#1f9a72">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild3830-3564-4534-a431-383331653136/-/resize/720x/-/format/webp/_2026-01-07_23581842.png')"></span>
+  <span class="тело"><span class="имя">SPA-комплекс</span>
+  <span class="правки"><span class="пр"><i>1</i>SPA коротко под заголовком</span><span class="пр"><i>2</i>Подберём дом на ваши даты</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="br-aktivnosti.html" style="--а:#1f9a72">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild3037-3864-4139-a366-363534616231/-/resize/720x/-/format/webp/clipboard-image-1767.png')"></span>
+  <span class="тело"><span class="имя">Активности</span>
+  <span class="правки"><span class="пр"><i>1</i>Окна занятий: Telegram с текстом и «Подберём дом»</span><span class="пр"><i>2</i>Форма в конце страницы</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="br-banchan.html" style="--а:#1f9a72">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild3830-3564-4534-a431-383331653136/-/resize/720x/-/format/webp/_2026-01-07_23581842.png')"></span>
+  <span class="тело"><span class="имя">Бани и чаны</span>
+  <span class="правки"><span class="пр"><i>1</i>Полоса между чанами и банями</span><span class="пр"><i>2</i>Форма в конце страницы</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a></div></section>
+<section><h2 style="--а:var(--бп)"><span></span>Барские поля</h2><div class="сетка"><a class="кар" href="bp-glavnaya.html" style="--а:#a4652f">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild6536-3537-4166-b435-333832313630/-/resize/720x/-/format/webp/IMG_9799-286.jpg')"></span>
+  <span class="тело"><span class="имя">Главная</span>
+  <span class="правки"><span class="пр"><i>1</i>Первый экран</span><span class="пр"><i>2</i>Карточки домов</span><span class="пр"><i>3</i>Не нашли свои даты? Подберём</span><span class="пр"><i>4</i>Карта территории и скорость</span><span class="пр ещё">ещё 1</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="bp-gardens.html" style="--а:#a4652f">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild3430-3036-4632-b161-356131393430/-/resize/720x/-/format/webp/IMG_4417_1.jpg')"></span>
+  <span class="тело"><span class="имя">Категория Гарден</span>
+  <span class="правки"><span class="пр"><i>1</i>Первый экран категории (сюда ведёт реклама)</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="bp-rivers.html" style="--а:#a4652f">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild3031-3362-4238-a337-653764366666/-/resize/720x/-/format/webp/IMG_4997_1.jpg')"></span>
+  <span class="тело"><span class="имя">Категория Ривер</span>
+  <span class="правки"><span class="пр"><i>1</i>Первый экран категории (сюда ведёт реклама)</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="bp-menu.html" style="--а:#a4652f">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild3232-3864-4661-b962-313966623965/-/resize/720x/-/format/webp/5048970.jpeg')"></span>
+  <span class="тело"><span class="имя">Питание</span>
+  <span class="правки"><span class="пр"><i>1</i>Питание коротко</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a>
+<a class="кар" href="bp-new-year.html" style="--а:#a4652f">
+  <span class="фото" style="background-image:url('https://optim.tildacdn.com/tild3464-3537-4638-b134-336139313930/-/resize/720x/-/format/webp/konnaa-ezda-na-.jpg')"></span>
+  <span class="тело"><span class="имя">Новый год</span>
+  <span class="правки"><span class="пр"><i>1</i>Другие даты или вас 7 и больше</span></span>
+  <span class="смотр">Смотреть правки →</span></span></a></div></section>
+<footer>Выкладка на сайты пачкой по вторникам после проверки, формы Барских полей после 05.10.</footer>
 </main></body></html>

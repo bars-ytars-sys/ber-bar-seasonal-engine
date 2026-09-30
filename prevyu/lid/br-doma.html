@@ -3148,37 +3148,57 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
   #rec2710223901{padding-bottom:110px!important}
 }
 </style> <!-- nominify end --> </div> </div> </div> </div> </footer> <!--/footer--> </div> <!--/allrecords--> <!-- Stat --> <!-- Yandex.Metrika counter 108978291 --> <script type="text/javascript" data-tilda-cookie-type="analytics">setTimeout(function(){(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","data:text/javascript,","ym");window.mainMetrikaId='';ym(window.mainMetrikaId,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true,params:{__ym:{"ymCms":{"cms":"tilda","cmsVersion":"1.0","cmsCatalog":"1"}}},ecommerce:"dataLayer"});},2000);</script>  <!-- /Yandex.Metrika counter --> <script type="text/javascript">if(!window.mainTracker) {window.mainTracker='tilda';}
-window.tildastatscroll='yes';setTimeout(function(){(function(d,w,k,o,g) {var n=d.getElementsByTagName(o)[0],s=d.createElement(o),f=function(){n.parentNode.insertBefore(s,n);};s.type="text/javascript";s.async=true;s.key=k;s.id="tildastatscript";s.src=g;if(w.opera=="[object Opera]") {d.addEventListener("DOMContentLoaded",f,false);} else {f();}})(document,window,'d85f2d370dff78768397b7a285604cc8','script','https://static.tildacdn.com/js/tilda-stat-1.0.min.js');},2000);</script> <style>
-.bbk-рамка{outline:2px dashed #e5484d!important;outline-offset:-2px}
-#bbk-слой{position:absolute;left:0;top:0;width:0;height:0;z-index:2147483000}
-.bbk-номер{position:absolute;width:30px;height:30px;border-radius:50%;background:#e5484d;color:#fff;font:700 15px/30px Arial,sans-serif;text-align:center;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer;padding:0}
-#bbk-кнопка{position:fixed;left:10px;bottom:84px;z-index:2147483001;background:#1d2420;color:#fff;border:0;border-radius:999px;padding:10px 16px;font:600 14px/1 Arial,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.35);cursor:pointer}
-#bbk-лист{position:fixed;left:0;right:0;bottom:0;max-height:72vh;overflow:auto;z-index:2147483002;background:#fff;color:#1d2420;border-radius:16px 16px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.3);padding:14px 16px 20px;font:14px/1.45 Arial,sans-serif;display:none}
-#bbk-лист.открыт{display:block}
-#bbk-лист h3{margin:0 0 4px;font:700 17px/1.3 Arial,sans-serif}
-#bbk-лист .под{color:#5d665f;font-size:12.5px;margin:0 0 10px}
-#bbk-лист .пункт{display:flex;gap:10px;padding:10px 0;border-top:1px solid #eee;cursor:pointer}
-#bbk-лист .пункт b{display:block;margin-bottom:2px}
-#bbk-лист .пункт .н{flex:0 0 26px;height:26px;border-radius:50%;background:#e5484d;color:#fff;font:700 13px/26px Arial;text-align:center}
-#bbk-лист .низ{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-#bbk-лист .низ a,#bbk-лист .низ button{font:600 13px/1 Arial;padding:9px 12px;border-radius:999px;border:1px solid #ccc;background:#f6f6f3;color:#1d2420;text-decoration:none;cursor:pointer}
-@media (min-width:900px){#bbk-лист{left:auto;right:16px;bottom:16px;width:420px;border-radius:16px}#bbk-кнопка{bottom:24px}}
+window.tildastatscroll='yes';setTimeout(function(){(function(d,w,k,o,g) {var n=d.getElementsByTagName(o)[0],s=d.createElement(o),f=function(){n.parentNode.insertBefore(s,n);};s.type="text/javascript";s.async=true;s.key=k;s.id="tildastatscript";s.src=g;if(w.opera=="[object Opera]") {d.addEventListener("DOMContentLoaded",f,false);} else {f();}})(document,window,'d85f2d370dff78768397b7a285604cc8','script','https://static.tildacdn.com/js/tilda-stat-1.0.min.js');},2000);</script> <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=Playfair+Display:wght@500;600&display=swap"><style>
+#bbk{--а:#1f9a72;--текст:#1f2622;--серый:#6b726c;--фон:#fbf9f4;--линия:rgba(31,38,34,.08);font-family:'Manrope',system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+.bbk-рамка{outline:2px solid rgba(31,154,114,.6)!important;outline-offset:-2px}
+.bbk-рамка.bbk-актив{outline:3px solid #1f9a72!important;outline-offset:-3px;box-shadow:0 0 0 6px rgba(31,154,114,.18)!important;transition:box-shadow .3s}
+.bbk-без .bbk-рамка{outline:none!important;box-shadow:none!important}
+@keyframes bbk-пульс{0%{box-shadow:0 12px 30px -10px rgba(20,30,25,.5),0 0 0 0 rgba(31,154,114,.6)}70%{box-shadow:0 12px 30px -10px rgba(20,30,25,.5),0 0 0 12px rgba(0,0,0,0)}100%{box-shadow:0 12px 30px -10px rgba(20,30,25,.5),0 0 0 0 rgba(0,0,0,0)}}
+#bbk .bbk-чип{animation:bbk-пульс 1.6s ease-out 1.2s 3}
+#bbk-метки{position:absolute;left:0;top:0;width:0;height:0;z-index:2147483000}
+#bbk .bbk-метка{position:absolute;display:inline-flex;align-items:center;gap:8px;max-width:min(250px,calc(100vw - 32px));padding:4px 13px 4px 4px;border-radius:999px;background:rgba(255,255,255,.97);color:var(--текст);border:1px solid var(--линия);box-shadow:0 8px 22px -8px rgba(20,30,25,.45),0 1px 2px rgba(20,30,25,.08);font:600 12.5px/1.2 'Manrope',system-ui,sans-serif;cursor:pointer;white-space:nowrap;letter-spacing:0;text-transform:none;margin:0}
+#bbk .bbk-метка.активна{box-shadow:0 0 0 2px var(--а),0 8px 22px -8px rgba(20,30,25,.45)}
+#bbk .bbk-н{flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:var(--а);color:#fff;font:700 11.5px/22px 'Manrope',sans-serif;text-align:center;display:inline-block}
+#bbk .bbk-т{overflow:hidden;text-overflow:ellipsis}
+#bbk .bbk-чип{position:fixed;left:12px;bottom:86px;z-index:2147483001;display:inline-flex;align-items:center;gap:9px;padding:6px 16px 6px 6px;border-radius:999px;background:var(--фон);color:var(--текст);border:1px solid var(--линия);box-shadow:0 12px 30px -10px rgba(20,30,25,.5),0 1px 3px rgba(20,30,25,.1);font:700 13.5px/1 'Manrope',sans-serif;cursor:pointer}
+#bbk .bbk-чип .bbk-н{flex-basis:26px;width:26px;height:26px;line-height:26px;font-size:12.5px}
+#bbk .bbk-карта{position:fixed;left:12px;right:12px;bottom:86px;z-index:2147483002;max-height:72vh;overflow:auto;background:var(--фон);color:var(--текст);border-radius:20px;border:1px solid var(--линия);box-shadow:0 24px 60px -14px rgba(20,30,25,.55),0 2px 6px rgba(20,30,25,.08);padding:16px 18px 14px;font:14.5px/1.55 'Manrope',system-ui,sans-serif;display:none;text-align:left}
+#bbk .bbk-карта.открыта{display:block}
+#bbk .bbk-верх{display:flex;align-items:center;gap:10px;color:var(--серый);font:600 12px/1.3 'Manrope',sans-serif}
+#bbk .bbk-верх .bbk-где{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#bbk .bbk-х{flex:0 0 32px;height:32px;border-radius:50%;border:0;background:rgba(31,38,34,.06);color:var(--текст);font:400 20px/32px Arial,sans-serif;cursor:pointer;padding:0}
+#bbk h4{font:600 20px/1.25 'Playfair Display',Georgia,serif;margin:10px 0 6px;color:var(--текст);letter-spacing:0;text-transform:none}
+#bbk p{margin:0;color:#39413c}
+#bbk .bbk-низ{display:flex;gap:8px;margin-top:14px;align-items:center}
+#bbk .bbk-низ .bbk-счёт{flex:1;color:var(--серый);font-size:12.5px}
+#bbk .bbk-кн{border-radius:999px;padding:10px 16px;font:700 13.5px/1 'Manrope',sans-serif;cursor:pointer;border:1px solid var(--линия);background:#fff;color:var(--текст);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+#bbk .bbk-кн.гл{background:var(--а);border-color:var(--а);color:#fff}
+#bbk .bbk-пункт{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--линия);cursor:pointer}
+#bbk .bbk-пункт:first-of-type{border-top:0}
+#bbk .bbk-пункт b{display:block;font:700 14.5px/1.3 'Manrope',sans-serif;margin:2px 0 3px}
+#bbk .bbk-пункт span.о{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--серый);font-size:13px;line-height:1.45}
+#bbk .bbk-ссылки{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+@media (min-width:900px){#bbk .bbk-карта{left:auto;right:24px;bottom:24px;width:400px}#bbk .bbk-чип{bottom:24px;left:24px}}
 </style>
-<div id="bbk-слой"></div><button id="bbk-кнопка" type="button">Что изменено · 4</button>
-<div id="bbk-лист"><h3>БР · Каталог домов: демо для целевого гостя</h3>
-<p class="под">Красные рамки и номера — наши правки. Нажмите пункт, чтобы перейти к месту. Заявки отсюда не отправляются.</p>
-<div id="bbk-пункты"></div>
-<div class="низ"><a href="https://ecobr.ru/doma" target="_blank" rel="noopener">Как сейчас на сайте</a><a href="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/index.html">Все страницы демо</a><button type="button" id="bbk-рамки">Скрыть рамки</button><button type="button" id="bbk-закрыть">Закрыть</button></div></div>
-<script>(function(){var П=[{"s":["#rec1730117851 .t396__artboard","#rec1730117851 .tn-elem[data-elem-id=\"1766505096906000003\"]","#rec1730117851"],"t":"Шапка на телефоне","d":"Часы работы и телефон 13–14 px вместо 9,8 px: раньше их было не прочитать. Нижняя панель и кнопка чата теперь поверх формы бронирования (раньше форма их закрывала, когда доходила до низа экрана)."},{"s":"#rec9990000104","t":"Сразу под заголовком","d":"«22 дома · будни от 11 000 ₽ · пт и сб от 16 500 ₽», правила и кнопка к домам. Раньше первая карточка была только на 2-м экране, под формой брони и опросом. Полоса компактная: на телефоне 390 кнопка «Показать наличие» формы брони видна целиком на первом экране, над нижней панелью."},{"s":"#rec1841670091","t":"Карточки домов","d":"У каждой из 22 карточек: цена будни и пт–сб по модулю, «до N человек», ссылка «Подберём этот дом». У Панорамы «до 8 человек» и «ещё 2 гостя в комнате отдыха бани»."},{"s":"#rec9990000105","t":"Форма подбора","d":"Дом из карточки подставляется в заявку сам."}];
-var слой=document.getElementById('bbk-слой'),лист=document.getElementById('bbk-лист'),пункты=document.getElementById('bbk-пункты');
+<div id="bbk">
+<button type="button" class="bbk-чип"><span class="bbk-н">4</span>Что изменено</button>
+<div class="bbk-карта" role="dialog" aria-label="Пояснение к правке"></div></div>
+<script>(function(){var П=[{"s":["#rec1730117851 .t396__artboard","#rec1730117851 .tn-elem[data-elem-id=\"1766505096906000003\"]","#rec1730117851"],"t":"Шапка на телефоне","d":"Часы работы и телефон 13–14 px вместо 9,8 px: раньше их было не прочитать. Нижняя панель и кнопка чата теперь поверх формы бронирования (раньше форма их закрывала, когда доходила до низа экрана)."},{"s":"#rec9990000104","t":"Сразу под заголовком","d":"«22 дома · будни от 11 000 ₽ · пт и сб от 16 500 ₽», правила и кнопка к домам. Раньше первая карточка была только на 2-м экране, под формой брони и опросом. Полоса компактная: на телефоне 390 кнопка «Показать наличие» формы брони видна целиком на первом экране, над нижней панелью."},{"s":"#rec1841670091","t":"Карточки домов","d":"У каждой из 22 карточек: цена будни и пт–сб по модулю, «до N человек», ссылка «Подберём этот дом». У Панорамы «до 8 человек» и «ещё 2 гостя в комнате отдыха бани»."},{"s":"#rec9990000105","t":"Форма подбора","d":"Дом из карточки подставляется в заявку сам."}],ЗАГ="Берёзовая роща · Каталог домов",ЖИВОЙ="https://ecobr.ru/doma",ВСЕ="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/index.html";
+var корень=document.getElementById('bbk'),карта=корень.querySelector('.bbk-карта'),чип=корень.querySelector('.bbk-чип'),тек=-1;
+function т(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 function эл(i){var с=[].concat(П[i].s),запас=null;for(var k=0;k<с.length;k++){var все=document.querySelectorAll(с[k]);for(var j=0;j<все.length;j++){var r=все[j].getBoundingClientRect();if(r.height>20&&r.width>20)return все[j];if(!запас)запас=все[j];}}return запас;}
-function расставить(){слой.innerHTML='';var занято=[];document.querySelectorAll('.bbk-рамка').forEach(function(x){x.classList.remove('bbk-рамка');});П.forEach(function(p,i){var e=эл(i);if(!e)return;e.classList.add('bbk-рамка');var r=e.getBoundingClientRect();if(!r.height)return;var x=r.left+window.scrollX+8,y=r.top+window.scrollY+8;занято.forEach(function(z){if(Math.abs(z[1]-y)<34&&Math.abs(z[0]-x)<34)x=z[0]+38;});занято.push([x,y]);var n=document.createElement('button');n.className='bbk-номер';n.type='button';n.textContent=i+1;n.style.left=x+'px';n.style.top=y+'px';n.onclick=function(){открыть();};слой.appendChild(n);});}
-function к(i){var e=эл(i);if(!e)return;лист.classList.remove('открыт');var y=e.getBoundingClientRect().top+window.scrollY-80;window.scrollTo({top:y,behavior:'smooth'});}
-function открыть(){лист.classList.add('открыт');}
-П.forEach(function(p,i){var d=document.createElement('div');d.className='пункт';d.innerHTML='<span class="н">'+(i+1)+'</span><span><b></b><span></span></span>';d.querySelector('b').textContent=p.t;d.querySelector('span span').textContent=p.d;d.onclick=function(){к(i);};пункты.appendChild(d);});
-document.getElementById('bbk-кнопка').onclick=function(){лист.classList.toggle('открыт');};
-document.getElementById('bbk-закрыть').onclick=function(){лист.classList.remove('открыт');};
-var видно=true;document.getElementById('bbk-рамки').onclick=function(){видно=!видно;document.documentElement.classList.toggle('bbk-без',!видно);слой.style.display=видно?'':'none';this.textContent=видно?'Скрыть рамки':'Показать рамки';};
-var ст=document.createElement('style');ст.textContent='.bbk-без .bbk-рамка{outline:none!important}';document.head.appendChild(ст);
-[800,2500,6000,12000].forEach(function(t){setTimeout(расставить,t);});window.addEventListener('resize',расставить);window.addEventListener('load',function(){setTimeout(расставить,500);});
-setTimeout(открыть,1800);})();</script></body> </html>
+function расставить(){document.querySelectorAll('.bbk-рамка').forEach(function(x){x.classList.remove('bbk-рамка','bbk-актив');});П.forEach(function(p,i){var e=эл(i);if(!e)return;e.classList.add('bbk-рамка');if(i===тек)e.classList.add('bbk-актив');});}
+function к(i){var e=эл(i);if(!e)return;var y=e.getBoundingClientRect().top+window.scrollY-90;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});}
+function показать(i,листать){тек=i;var p=П[i];карта.innerHTML='<div class="bbk-верх"><span class="bbk-н">'+(i+1)+'</span><span class="bbk-где">'+т(ЗАГ)+'</span><button type="button" class="bbk-х" aria-label="Закрыть">×</button></div><h4>'+т(p.t)+'</h4><p>'+т(p.d)+'</p><div class="bbk-низ"><span class="bbk-счёт">'+(i+1)+' из '+П.length+'</span>'+(i>0?'<button type="button" class="bbk-кн назад">Назад</button>':'')+(i<П.length-1?'<button type="button" class="bbk-кн гл далее">Дальше</button>':'<button type="button" class="bbk-кн гл все">Все правки</button>')+'</div>';
+ карта.classList.add('открыта');чип.style.display='none';
+ карта.querySelector('.bbk-х').onclick=закрыть;var н=карта.querySelector('.назад'),д=карта.querySelector('.далее'),в=карта.querySelector('.все');
+ if(н)н.onclick=function(){показать(i-1,true);};if(д)д.onclick=function(){показать(i+1,true);};if(в)в.onclick=список;
+ document.querySelectorAll('.bbk-актив').forEach(function(x){x.classList.remove('bbk-актив');});var e=эл(i);if(e)e.classList.add('bbk-актив');к(i);}
+function список(){тек=-1;карта.innerHTML='<div class="bbk-верх"><span class="bbk-где">'+т(ЗАГ)+'</span><button type="button" class="bbk-х" aria-label="Закрыть">×</button></div><h4>Что изменено на странице</h4><p style="color:#6b726c;font-size:13px">Изменённые блоки обведены цветной линией. Нажмите правку: страница прокрутится к ней. Заявки из демо не отправляются.</p><div class="bbk-пункты" style="margin-top:6px"></div><div class="bbk-ссылки"><a class="bbk-кн" href="'+ЖИВОЙ+'" target="_blank" rel="noopener">Как сейчас на сайте ↗</a><a class="bbk-кн" href="'+ВСЕ+'">Все страницы демо</a><button type="button" class="bbk-кн метки">'+(document.documentElement.classList.contains('bbk-без')?'Показать рамки':'Скрыть рамки')+'</button></div>';
+ var сп=карта.querySelector('.bbk-пункты');П.forEach(function(p,i){var d=document.createElement('div');d.className='bbk-пункт';d.innerHTML='<span class="bbk-н">'+(i+1)+'</span><span><b>'+т(p.t)+'</b><span class="о">'+т(p.d)+'</span></span>';d.onclick=function(){показать(i,true);};сп.appendChild(d);});
+ карта.querySelector('.bbk-х').onclick=закрыть;карта.querySelector('.метки').onclick=function(){document.documentElement.classList.toggle('bbk-без');this.textContent=document.documentElement.classList.contains('bbk-без')?'Показать рамки':'Скрыть рамки';};
+ карта.classList.add('открыта');чип.style.display='none';}
+function закрыть(){карта.classList.remove('открыта');чип.style.display='';тек=-1;document.querySelectorAll('.bbk-актив').forEach(function(x){x.classList.remove('bbk-актив');});}
+чип.onclick=список;
+[900,2500,6000,12000].forEach(function(t){setTimeout(расставить,t);});window.addEventListener('resize',расставить);window.addEventListener('load',function(){setTimeout(расставить,500);});
+})();</script></body> </html>

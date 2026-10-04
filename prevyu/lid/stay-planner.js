@@ -41,7 +41,7 @@
       section.querySelector('.bst-grid').before(section.querySelector('.bst-compare-bar'));render();
       // Keep the original anchors and surrounding content, without a second catalogue.
       const oldLead=document.getElementById('bb-podbor');
-      if(oldLead){const compact=document.createElement('div');compact.className='bst bst-section';compact.dataset.brand=brand;compact.style.paddingTop='8px';compact.style.paddingBottom='20px';compact.innerHTML=`<div class="bst-inner">${assist()}</div>`;oldLead.before(compact);oldLead.classList.add('bst-replaced');}
+      if(oldLead){if(mode!=='br-doma'){const compact=document.createElement('div');compact.className='bst bst-section';compact.dataset.brand=brand;compact.style.paddingTop='8px';compact.style.paddingBottom='20px';compact.innerHTML=`<div class="bst-inner">${assist()}</div>`;oldLead.before(compact);}oldLead.classList.add('bst-replaced');}
     }
     dialog=document.createElement('dialog');dialog.className='bst';dialog.dataset.brand=brand;dialog.setAttribute('aria-labelledby','bst-dialog-title');document.body.append(dialog);
     dialog.addEventListener('close',()=>{document.documentElement.style.overflow=previousOverflow;lastFocus?.focus();});
@@ -50,7 +50,7 @@
     // Capture before Tilda's old quiz/podbor listeners. Only our controls are handled.
     window.addEventListener('click',onClick,true);
     window.addEventListener('submit',e=>{if(e.target.id==='bst-lead-form'){e.preventDefault();e.stopImmediatePropagation();submitLead();}},true);
-    if(section && location.hash==='#bb-stay'){
+    if(section && (window.BBStayInitialHash||location.hash)==='#bb-stay'){
       let interacted=false;
       window.addEventListener('pointerdown',()=>{interacted=true;},{once:true});
       section.scrollIntoView();

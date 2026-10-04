@@ -1,0 +1,19 @@
+/* Small improvements to the existing Tilda design. No replacement brand/theme. */
+.bbп .bbп__даты{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.bbп .bbп__даты label{min-width:0}
+.bbп__даты input[type=date]{width:0!important;min-width:100%!important;max-width:100%;padding:0 10px}
+.bbп .bbп__чип{min-height:44px}
+.bbп__согл{padding-block:3px}
+.bbп__согл input{margin-top:1px}
+.bbп__чип:focus-visible,.bbп__кн:focus-visible,.bd__c:focus-visible{outline:3px solid currentColor;outline-offset:4px}
+.bd .bd__pr span{font-size:13px}
+.bd .bd__pr small{font-size:13px;color:rgba(238,229,213,.8)}
+.bd .bd__podbor a{padding-block:10px}
+#bbk .bbk-чип{animation:none}
+#bbk .bbk-кн{min-height:24px}
+@media(max-width:399px){.bbп .bbп__даты{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){
+  .bd__c,.bd__f img,.bbп__чип{transition:none!important}
+  .bd__c:hover,.bd__c:hover .bd__f img{transform:none}
+  .bbп_вспышка .bbп__карта{animation:none}
+}

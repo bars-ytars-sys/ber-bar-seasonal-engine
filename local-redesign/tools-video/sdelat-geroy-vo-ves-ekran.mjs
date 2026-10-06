@@ -62,7 +62,9 @@ for (const id of centreIds) {
 const contentShift = '/* Заголовок, разделитель и подпись — во всю ширину колонки, текст по центру */\n'
   + '#allrecords #rec1538220631 .tn-elem[data-elem-id="1752662111713"] .tn-atom,#allrecords #rec1538220631 .tn-elem[data-elem-id="1752661976580"] .tn-atom{text-align:center!important}\n'
   + '/* Кнопки первого экрана — по центру */\n'
-  + '#allrecords #rec1538220631 .tn-group[data-group-id="175368842804016170"]{left:50%!important;transform:translateX(-50%)!important;zoom:1!important}';
+  + '#allrecords #rec1538220631 .tn-group[data-group-id="175368842804016170"]{left:50%!important;transform:translateX(-50%)!important;zoom:1!important}\n'
+  + '/* Колонка Tilda на широких экранах прижата влево — сдвигаем её в центр окна */\n'
+  + '@media screen and (min-width:1200px){#rec1538220631 .t396__artboard_scale{margin-left:calc((100vw - 1200px) / 2)!important}}';
 
 if (!html.includes('Медиа первого экрана — во весь экран')) {
   // Вставляем в блок стилей первого экрана, иначе правила не попадут на страницу

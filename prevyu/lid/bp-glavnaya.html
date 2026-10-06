@@ -5257,6 +5257,8 @@ function закрыть(){карта.classList.remove('открыта');чип.s
 #allrecords #rec1538220631 .tn-elem[data-elem-id="1752662111713"] .tn-atom,#allrecords #rec1538220631 .tn-elem[data-elem-id="1752661976580"] .tn-atom{text-align:center!important}
 /* Кнопки первого экрана — по центру */
 #allrecords #rec1538220631 .tn-group[data-group-id="175368842804016170"]{left:50%!important;transform:translateX(-50%)!important;zoom:1!important}
+/* Колонка Tilda на широких экранах прижата влево — сдвигаем её в центр окна */
+@media screen and (min-width:1200px){#rec1538220631 .t396__artboard_scale{margin-left:calc((100vw - 1200px) / 2)!important}}
 /* Высота артборда: Tilda считает её сама и не оставляет места медалям — задаём явно */
 @media screen and (min-width:960px){
 #rec1538220631 .t396__artboard,#rec1538220631 .t396__filter{height:720px!important;min-height:720px!important}

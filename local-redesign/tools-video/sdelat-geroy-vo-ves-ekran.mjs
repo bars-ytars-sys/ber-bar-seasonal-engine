@@ -35,28 +35,51 @@ for (const id of media) {
   setField(id, 'axisy', 'top');
 }
 const mediaCss = '/* Медиа первого экрана — во весь экран, поверх сетки Tilda */\n'
-  + '#rec1538220631 .tn-elem[data-elem-id="176271657216679970"],#rec1538220631 .tn-elem[data-elem-id="1752672192686"],#rec1538220631 .tn-elem[data-elem-id="1752662611116"]{top:0!important;left:0!important;width:100%!important;height:100%!important;zoom:1!important;transform:none!important}\n'
+  + '#allrecords #rec1538220631 .tn-elem[data-elem-id="176271657216679970"],#allrecords #rec1538220631 .tn-elem[data-elem-id="1752672192686"],#allrecords #rec1538220631 .tn-elem[data-elem-id="1752662611116"]{top:0!important;left:0!important;width:100%!important;height:100%!important;zoom:1!important;transform:none!important}\n'
   + '/* на широких экранах колонка Tilda сдвинута вправо — возвращаем медиа к левому краю окна */\n'
-  + '@media screen and (min-width:1200px){#rec1538220631 .tn-elem[data-elem-id="176271657216679970"],#rec1538220631 .tn-elem[data-elem-id="1752672192686"],#rec1538220631 .tn-elem[data-elem-id="1752662611116"]{left:calc((100vw - 1200px) / -2)!important}}';if (!html.includes('Медиа первого экрана — во весь экран')) {
-  html = html.replace('/* Читаемость текста поверх', mediaCss + '\n/* Читаемость текста поверх');
-  done.push('видео растянуто на весь первый экран');
-}
+  + '@media screen and (min-width:1200px){#allrecords #rec1538220631 .tn-elem[data-elem-id="176271657216679970"],#allrecords #rec1538220631 .tn-elem[data-elem-id="1752672192686"],#allrecords #rec1538220631 .tn-elem[data-elem-id="1752662611116"]{left:calc((100vw - 1200px) / -2)!important}}';
 
-/* Шаг 2. Колонку контента сдвигаем в центр экрана: у Tilda она прижата к левому краю.
-   Только для широких экранов — на телефонах и планшетах колонка уже по центру. */
-if (!html.includes('Центрируем контент первого экрана')) {
-  const contentShift = '/* Центрируем контент первого экрана на экране, а не в колонке Tilda */\n'
-    + '@media screen and (min-width:1200px){#rec1538220631 .t396__artboard_scale{transform:translateX(calc((100vw - 1200px) / 2))}}';
-  html = html.replace('/* Читаемость текста поверх', contentShift + '\n/* Читаемость текста поверх');
-  done.push('колонка с текстом выведена в центр экрана');
+/* Шаг 2. «Барские» по центру экрана: элементы растягиваем на всю ширину колонки,
+   а текст внутри центрируем — так он встаёт по центру экрана при любой ширине окна. */
+const centreIds = ['1752662111713', '1752662522336', '1752661976580'];
+// ширина по брейкпоинтам: 320, 480, 640, 960, 1200 — чтобы текст не выходил за экран телефона
+const widths = {
+  '1752662111713': [300, 460, 620, 900, 1120],
+  '1752662522336': [300, 460, 620, 900, 1120],
+  '1752661976580': [300, 460, 620, 860, 860],
+};
+for (const id of centreIds) {
+  const [w320, w480, w640, w960, w1200] = widths[id];
+  setField(id, 'left', 0);
+  setField(id, 'axisx', 'left');
+  setField(id, 'width', w1200);
+  for (const [suffix, value] of [['-res-320', w320], ['-res-480', w480], ['-res-640', w640], ['-res-960', w960]]) {
+    setField(id, 'left' + suffix, 0);
+    setField(id, 'axisx' + suffix, 'left');
+    setField(id, 'width' + suffix, value);
+  }
+}
+const contentShift = '/* Заголовок, разделитель и подпись — во всю ширину колонки, текст по центру */\n'
+  + '#allrecords #rec1538220631 .tn-elem[data-elem-id="1752662111713"] .tn-atom,#allrecords #rec1538220631 .tn-elem[data-elem-id="1752661976580"] .tn-atom{text-align:center!important}\n'
+  + '/* Кнопки первого экрана — по центру */\n'
+  + '#allrecords #rec1538220631 .tn-group[data-group-id="175368842804016170"]{left:50%!important;transform:translateX(-50%)!important;zoom:1!important}';
+
+if (!html.includes('Медиа первого экрана — во весь экран')) {
+  // Вставляем в блок стилей первого экрана, иначе правила не попадут на страницу
+  const anchor = '/* Высота артборда';
+  if (!html.includes(anchor)) throw new Error('не нашёл блок стилей первого экрана');
+  const css = mediaCss + '\n' + contentShift;
+  html = html.replace(anchor, css + '\n' + anchor);
+  done.push('видео растянуто на весь первый экран');
+  done.push('заголовок, подпись и кнопки выведены по центру экрана');
 }
 
 /* Шаг 3. Медали: в ряд по центру, под кнопками.
    Значения в локальной сетке брейкпоинта (у телефонов это 320, поэтому 50 % там не центр экрана). */
 const medalLeft = {
-  '1774600646727000001': { '': 464, '-res-960': 371, '-res-640': 247, '-res-480': 92, '-res-320': 61 },
-  '1786039775754000001': { '': 556, '-res-960': 445, '-res-640': 296, '-res-480': 110, '-res-320': 73 },
-  '1785334752681000001': { '': 648, '-res-960': 519, '-res-640': 345, '-res-480': 128, '-res-320': 85 },
+  '1774600646727000001': { '': 464, '-res-960': 371, '-res-640': 106, '-res-480': 240, '-res-320': 180 },
+  '1786039775754000001': { '': 556, '-res-960': 445, '-res-640': 123, '-res-480': 257, '-res-320': 193 },
+  '1785334752681000001': { '': 648, '-res-960': 519, '-res-640': 140, '-res-480': 274, '-res-320': 206 },
 };
 for (const [id, lefts] of Object.entries(medalLeft)) {
   for (const [suffix, left] of Object.entries(lefts)) {

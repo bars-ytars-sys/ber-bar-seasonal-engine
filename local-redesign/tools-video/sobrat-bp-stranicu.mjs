@@ -1,7 +1,8 @@
-// Достройка демо-страницы БП: первый экран с панорамным видео дома и непрерывная полоска категорий.
-// Все вставки локальны и ограничены изменяемыми местами: блок видео в rec1538220631,
-// подпись кнопки первого экрана, стили+поведение видео и новая секция перед сезонными предложениями (rec3545323801).
-// Запуск: node local-redesign/tools-video/sobrat-bp-stranicu.mjs [--video <путь к mp4>]
+// Достройка демо-страницы БП: первый экран с фотографией дома и непрерывная полоска категорий.
+// Видео на демо не используется.
+// Все вставки локальны и ограничены изменяемыми местами: медиа первого экрана rec1538220631,
+// подпись кнопки первого экрана, стили и новая секция перед сезонными предложениями (rec3545323801).
+// Запуск: node local-redesign/tools-video/sobrat-bp-stranicu.mjs
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -14,8 +15,6 @@ const PUBLIC_ASSETS = PUBLIC + '/demo/assets/';
 // локальный относительный остаётся запасным (нужен при просмотре из папки проекта).
 const LOCAL_ASSETS = '../../demo/assets/';
 
-const argIndex = process.argv.indexOf('--video');
-const videoArg = argIndex > -1 ? process.argv[argIndex + 1] : null;
 
 let html = fs.readFileSync(file, 'utf8');
 
@@ -30,7 +29,7 @@ const done = [];
 
 /* ---------- 1. Первый экран: видео дома ---------- */
 const videoRx = /<video class="bp-hero-video"[\s\S]*?<\/video>/;
-if (!videoRx.test(html)) throw new Error('не нашёл видео первого экрана — разметка изменилась');
+if (!videoRx.test(html)) throw new Error('не нашёл медиа первого экрана — разметка изменилась');
 const videoBlock = `<div class="bb-hero-media">`
   + `<video class="bp-hero-video" muted loop playsinline webkit-playsinline preload="none" `
   + `poster="${PUBLIC_ASSETS}bp-barski-poster.webp" `
@@ -43,7 +42,7 @@ const videoBlock = `<div class="bb-hero-media">`
   + `<span class="bb-hero-scrim" aria-hidden="true"></span>`
   + `</div>`;
 html = html.replace(videoRx, videoBlock);
-done.push('первый экран: видео собрано из одного источника с кадром-подложкой, затемнение и поведение — отдельным слоем');
+done.push('первый экран: видео дома с кадром-подложкой, затемнение отдельным слоем');
 
 /* ---------- 2. Заметная кнопка «Проверить даты» ---------- */
 const oldButton = '<span class="tn-atom__button-text">Онлайн-подбор дома</span>';
@@ -60,7 +59,7 @@ const heroStyle = `<style id="bb-hero-style">
 #rec1538220631 .bb-hero-media{position:absolute;inset:0;overflow:hidden;background-color:#314c44}
 #rec1538220631 .bp-hero-video{width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block;background-color:#314c44}
 #rec1538220631 .bb-hero-scrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(20,34,29,.10) 0%,rgba(20,34,29,.24) 52%,rgba(20,34,29,.52) 100%)}
-/* Читаемость текста поверх видео: было 10 px без тени */
+/* Читаемость текста поверх фотографии: было 10 px без тени */
 #rec1538220631 .tn-elem[data-elem-id="1752661976580"] .tn-atom{font-size:13px!important;line-height:1.5!important;color:#f4eee0!important;text-shadow:0 1px 14px rgba(16,28,24,.65),0 1px 3px rgba(16,28,24,.5)}
 @media screen and (max-width:1199px){#rec1538220631 .tn-elem[data-elem-id="1752661976580"] .tn-atom{font-size:13px!important}}
 @media screen and (max-width:959px){#rec1538220631 .tn-elem[data-elem-id="1752661976580"] .tn-atom{font-size:13.5px!important}}
@@ -147,61 +146,37 @@ const artFixed = artTag[0]
   .replace('data-artboard-height-res-960="540"', 'data-artboard-height-res-960="660"');
 html = html.replace(artTag[0], artFixed);
 done.push('высота первого экрана увеличена: ' + heightFrom + ' -> ' + heightTo + ' px (и по всем брейкпоинтам)');
+
+// Запуск видео: беззвучно, петля, облегчённый файл на телефоне.
+// Уменьшение анимации или экономия трафика — видео не запускаем, остаётся кадр-подложка.
 const heroScript = `<script id="bb-hero-script">(function(){
- var root=document.getElementById('rec1538220631'); if(!root) return;
- var v=root.querySelector('[data-bb-video]'); if(!v) return;
- var media=v.closest('.bb-hero-media');
- function toLocal(){ // опубликованный адрес не отдался — берём файл рядом со страницей
-  if(v.dataset['bbLocal']) return;
-  v.dataset['bbLocal']='1';
-  [['data-poster-local','poster'],['data-src-local','src'],['data-mobile-local','data-mobile'],['data-webm-local','data-webm']].forEach(function(pair){
-   var val=v.getAttribute(pair[0]); if(!val) return;
-   if(pair[1]==='src'){ if(v.getAttribute('src')) v.setAttribute('src',val); }
-   else v.setAttribute(pair[1],val);
-  });
- }
- // Запасной кадр: если основной адрес постера не отдался, ставим локальный файл
- var poster=v.getAttribute('poster');
- if(poster){
-  var probe=new Image();
-  probe.onerror=toLocal;
-  probe.src=poster;
- }
- var less=false;
+ var v=document.querySelector('#rec1538220631 [data-bb-video]'); if(!v) return;
+ var quiet=false;
  try{
-  less=matchMedia('(prefers-reduced-motion: reduce)').matches
+  quiet=matchMedia('(prefers-reduced-motion: reduce)').matches
     || !!navigator.connection?.saveData
     || /^(2g|slow-2g|3g)$/.test(navigator.connection?.effectiveType||'');
  }catch(e){}
- if(less){ // экономия трафика или уменьшение анимации — остаётся фотография дома
-  v.setAttribute('preload','none');
-  if(media) media.setAttribute('data-bb-static','1');
-  return;
- }
- function start(){
-  var mobile=matchMedia('(max-width:640px)').matches;
-  var mp4=mobile?(v.getAttribute('data-mobile')||v.getAttribute('data-src')):v.getAttribute('data-src');
-  var webm=mobile?null:v.getAttribute('data-webm');
-  // Список источников: сначала webm (легче), затем mp4; на телефоне — облегчённый файл
-  if(webm){ var s1=document.createElement('source'); s1.src=webm; s1.type='video/webm'; v.appendChild(s1); }
-  if(mp4){ var s2=document.createElement('source'); s2.src=mp4; s2.type='video/mp4'; v.appendChild(s2); }
-  v.preload='auto';
-  var p=v.play();
-  if(p&&p.catch) p.catch(function(){});
-  v.addEventListener('playing',function(){ v.setAttribute('data-bb-playing','1'); },{once:true});
-  v.addEventListener('error',function(){ // видео не отдалось — показываем кадр
-   v.removeAttribute('src'); v.load();
-   if(media) media.setAttribute('data-bb-static','1');
-  });
- } if(document.readyState==='complete') setTimeout(start,400); else addEventListener('load',function(){ setTimeout(start,400); },{once:true});
+ if(quiet){ v.setAttribute('preload','none'); return; } // остаётся кадр-подложка
+ v.setAttribute('preload','auto');
+ var mobile=matchMedia('(max-width:640px)').matches;
+ var sources=mobile?[v.getAttribute('data-mobile'),v.getAttribute('data-src')]:[v.getAttribute('data-webm'),v.getAttribute('data-src')];
+ var i=0;
+ (function next(){
+  var src=sources[i++]; if(!src) return;
+  v.src=src;
+  v.addEventListener('error',function(){ if(v.getAttribute('src')===src) next(); },{once:true});
+ })();
+ var p=v.play(); if(p&&p.catch) p.catch(function(){});
 })();</script>`;
+
 if (!html.includes('id="bb-hero-style"')) {
-  // Стили и скрипт — в самый конец страницы, чтобы не трогать разметку Tilda
+  // Стили и скрипт запуска видео — в самый конец страницы, чтобы не трогать разметку Tilda
   const anchors = ['</body>', '</html>', '</BODY>'];
   const at = anchors.map((a) => html.lastIndexOf(a)).filter((i) => i > 0).sort((a, b) => b - a)[0];
   if (!at) throw new Error('не нашёл конец страницы');
   html = html.slice(0, at) + heroStyle + '\n' + heroScript + '\n' + html.slice(at);
-  done.push('первый экран: стили и скрипт поведения в конце страницы (разметка Tilda не тронута)');
+  done.push('первый экран: стили и скрипт запуска видео в конце страницы (разметка Tilda не тронута)');
 }
 
 /* ---------- 4. Полоска категорий ---------- */
@@ -214,7 +189,8 @@ const stripCards = [
 ];
 const card = (c, hidden) => `<li class="bb-poloska__punkt"${hidden ? ' aria-hidden="true"' : ''}>`
   + `<a class="bb-poloska__karta" href="${c.href}"${hidden ? ' tabindex="-1"' : ''}>`
-  + `<img class="bb-poloska__foto" src="${PUBLIC_ASSETS}${c.photo}" data-src-local="${LOCAL_ASSETS}${c.photo}" `
+  + `<img class="bb-poloska__foto" src="${PUBLIC_ASSETS}${c.photo}" `
+  + `onerror="this.onerror=null;this.src='${LOCAL_ASSETS}${c.photo}'" `
   + `width="44" height="44" loading="lazy" decoding="async" alt="">`
   + `<b class="bb-poloska__nazvanie">${c.name}</b>`
   + `<span class="bb-poloska__gosti">до ${c.guests} гостей</span>`
@@ -266,10 +242,6 @@ ${stripCards.map((c) => card(c, true)).join('\n')}
  var sekciya=document.getElementById('bb-poloska'); if(!sekciya) return;
  var lenta=sekciya.querySelector('.bb-poloska__lenta'), okno=sekciya.querySelector('.bb-poloska__okno');
  if(!lenta||!okno) return;
- // Локальный файл рядом со страницей — запасной, если опубликованный адрес не отдался
- [].forEach.call(sekciya.querySelectorAll('img[data-src-local]'),function(img){
-  img.addEventListener('error',function(){ var p=img.getAttribute('data-src-local'); if(p&&img.getAttribute('src')!==p) img.setAttribute('src',p); },{once:true});
- });
  // Скорость: 45 с на полный проход ленты
  function nastroit(){ var n=lenta.scrollWidth/2; if(n>0) lenta.style.animationDuration=Math.max(20,Math.round(n*45/1200))+'s'; }
  nastroit(); addEventListener('resize',nastroit,{passive:true});
@@ -291,12 +263,7 @@ if (!html.includes('BB-POLOSKA:START')) {
   done.push('полоска категорий вставлена перед сезонными предложениями (rec3545323801)');
 }
 
-/* ---------- 5. Видео из новой генерации ---------- */
-if (videoArg) {
-  const target = path.join(root, 'demo/assets/bp-hero-barski.mp4');
-  fs.copyFileSync(videoArg, target);
-  done.push('видео заменено файлом ' + videoArg + ' -> demo/assets/bp-hero-barski.mp4');
-}
+/* ---------- 5. Итог ---------- */
 fs.writeFileSync(file, html, 'utf8');
 console.log(done.map((d) => ' + ' + d).join('\n'));
 console.log(`файл: ${file} (${html.length} байт), копия до правки: ${path.basename(backup)}`);

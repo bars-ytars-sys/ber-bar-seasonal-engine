@@ -1707,14 +1707,11 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
   <div class="bp-hero">
     <!-- Фоновое панорамное видео дома -->
     <div class="bp-hero__bg">
-      <video class="bp-hero__video" autoplay muted loop playsinline webkit-playsinline preload="auto"
-        poster="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/bp-barski-poster.webp"
-        data-desktop-mp4="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/bp-hero-barski.mp4"
-        data-desktop-webm="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/bp-hero-barski.webm"
-        data-mobile-mp4="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/bp-hero-barski-mobile.mp4"
-        aria-label="Панорамное видео Барского дома">
-        <source src="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/bp-hero-barski.webm" type="video/webm">
-        <source src="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/bp-hero-barski.mp4" type="video/mp4">
+      <video class="bp-hero__video" muted loop playsinline webkit-playsinline preload="none"
+        data-desktop-mp4="../../demo/assets/bp-hero-chalet-cinematic-20261010.mp4"
+        data-desktop-webm="../../demo/assets/bp-hero-chalet-cinematic-20261010.webm"
+        data-mobile-mp4="../../demo/assets/bp-hero-chalet-cinematic-20261010-mobile.mp4"
+        aria-label="Презентационное видео Шале в Барских полях">
       </video>
       <div class="bp-hero__scrim"></div>
     </div>
@@ -1729,9 +1726,8 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
       </div>
 
       <!-- Главный заголовок -->
-      <h1 class="bp-hero__title">
-        УЮТНАЯ БАЗА ОТДЫХА<br>В ПОДМОСКОВЬЕ
-      </h1>
+      <p class="bp-hero__eyebrow">Уютная база отдыха в Подмосковье</p>
+<h1 class="bp-hero__title">Барские поля</h1>
 
       <!-- Деликатный разделитель -->
       <div class="bp-hero__divider" aria-hidden="true"></div>
@@ -1756,7 +1752,7 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
           <span>Проверить даты</span>
         </a>
         <a href="#popup:quiz" class="bp-hero__btn bp-hero__btn--quiz" data-tilda-event-name="/tilda/click/rec1538220631/button1753688417167">
-          <span>Пройди опрос — получи сертификат</span>
+          <span>Помогите выбрать дом</span>
         </a>
       </div>
 
@@ -2039,38 +2035,63 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
   }
 }
 </style>
+<style id="bp-hero-authentic-style">/* Первый экран БП: реальный дом, фирменная зелень, спокойная медь. */
+.bp-hero-record{background:#314c44!important}
+.bp-hero{min-height:760px;padding:116px 24px 58px;color:#eee5d5}
+.bp-hero__bg{background:#314c44 center 52%/cover no-repeat}
+.bp-hero__video{object-position:center 52%}
+.bp-hero__scrim{background:linear-gradient(180deg,rgba(20,37,31,.52) 0%,rgba(20,37,31,.38) 42%,rgba(20,37,31,.16) 72%,rgba(20,37,31,.65) 100%)}
+.bp-hero__content{max-width:780px}
+.bp-hero__logo-icon{display:none}
+.bp-hero__eyebrow{font:500 12px/1.5 'Rubik',Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#eee5d5;margin:0 0 14px;text-shadow:0 2px 16px #13231c}
+.bp-hero__title{font-family:'Forum','Georgia',serif;font-size:clamp(58px,6.3vw,90px);font-weight:400;line-height:1.03;letter-spacing:.01em;text-transform:none;color:#eee5d5;margin:0 0 20px;text-shadow:0 2px 24px rgba(10,24,18,.55)}
+.bp-hero__divider{width:68px;background:rgba(238,229,213,.55);margin-bottom:20px}
+.bp-hero__lead{font:400 17px/1.6 'Rubik',Arial,sans-serif;color:#eee5d5;max-width:550px;margin-bottom:24px;text-shadow:0 2px 12px #17271f}
+.bp-hero__price-box{margin-bottom:20px}
+.bp-hero__price-val{font:500 16px/1.5 'Rubik',Arial,sans-serif;color:#eee5d5;margin-bottom:6px}
+.bp-hero__price-sub{font:400 12px/1.6 'Rubik',Arial,sans-serif;color:#eee5d5;opacity:.88}
+.bp-hero__actions{flex-direction:row;max-width:510px;gap:12px;margin-bottom:30px}
+.bp-hero__btn{font-family:'Rubik',Arial,sans-serif;font-size:14px;min-height:50px;border-radius:4px;transition:background-color .2s,border-color .2s;transform:none!important}
+.bp-hero__btn--primary{background:#a85c32;box-shadow:none}
+.bp-hero__btn--primary:hover{background:#bc6b3c}
+.bp-hero__btn--quiz{background:rgba(49,76,68,.52);border:1px solid rgba(238,229,213,.65);color:#eee5d5!important;box-shadow:none}
+.bp-hero__btn--quiz:hover{background:#314c44}
+.bp-hero__btn:focus-visible{outline:3px solid #eee5d5;outline-offset:4px}
+.bp-hero__medals{gap:20px}
+.bp-hero__medal{width:64px;height:64px}
+.bp-hero__btn-icon{display:none}
+.bp-hero-record .bp{display:none!important}
+/* Листопад не закрывает фотографию и название; ниже страницы он остаётся. */
+body.bp-hero-in-view #bp-canvas{opacity:0}
+@media(max-width:640px){
+ .bp-hero{min-height:630px;padding:76px 22px 38px}
+ .bp-hero__bg,.bp-hero__video{background-position:center 54%;object-position:center 54%}
+ .bp-hero__eyebrow{font-size:10px;letter-spacing:.12em;margin-bottom:16px}
+ .bp-hero__title{font-size:clamp(44px,12vw,60px);line-height:1.08;letter-spacing:0;margin-bottom:20px}
+ .bp-hero__lead{font-size:15px;line-height:1.5;max-width:330px;margin-bottom:20px}
+ .bp-hero__price-val{font-size:15px}
+ .bp-hero__price-sub{font-size:11px;max-width:310px;margin:auto}
+ .bp-hero__actions{flex-direction:column;max-width:300px;gap:10px;margin-bottom:26px}
+ .bp-hero__medals{gap:18px}.bp-hero__medal{width:58px;height:58px}
+}
+@media(prefers-reduced-motion:reduce){.bp-hero__btn{transition:none}}
+</style>
 
 <script id="bp-hero-video-init">
-(function() {
-  var v = document.querySelector('.bp-hero__video');
-  if (!v) return;
+(function(){
+ var v=document.querySelector('.bp-hero__video'),hero=document.querySelector('.bp-hero-record');if(!v||!hero)return;
+ var assets=/^(127\.0\.0\.1|localhost)$/.test(location.hostname)?location.origin+'/ber-bar-seasonal-engine/demo/assets/':'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/';
+ v.poster=assets+(matchMedia('(max-width:640px)').matches?'bp-hero-chalet-cinematic-20261010-mobile-poster.webp':'bp-hero-chalet-cinematic-20261010-poster.webp');hero.querySelector('.bp-hero__bg').style.backgroundImage='url("'+v.poster+'")';
+ if('IntersectionObserver' in window)new IntersectionObserver(function(entries){document.body.classList.toggle('bp-hero-in-view',entries[0].isIntersecting);},{threshold:0}).observe(hero);
+ var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,connection=navigator.connection;
+ if(reduced||(connection&&(connection.saveData||/^(2g|slow-2g|3g)$/.test(connection.effectiveType||''))))return;
+ function play(){
 
-  var prefersReduced = false;
-  try {
-    prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches
-      || !!navigator.connection?.saveData
-      || /^(2g|slow-2g|3g)$/.test(navigator.connection?.effectiveType || '');
-  } catch(e) {}
-
-  if (prefersReduced) {
-    v.setAttribute('preload', 'none');
-    return;
-  }
-
-  var isMobile = matchMedia('(max-width: 640px)').matches;
-  if (isMobile) {
-    var mobSrc = v.getAttribute('data-mobile-mp4');
-    if (mobSrc) {
-      v.src = mobSrc;
-    }
-  }
-
-  var playPromise = v.play();
-  if (playPromise && playPromise.catch) {
-    playPromise.catch(function() {});
-  }
-})();
-</script>
+  var mobile=matchMedia('(max-width:640px)').matches,types=mobile?[['data-mobile-mp4','video/mp4']]:[['data-desktop-mp4','video/mp4'],['data-desktop-webm','video/webm']];
+  types.forEach(function(pair){var source=document.createElement('source');source.src=assets+v.getAttribute(pair[0]).split('/').pop();source.type=pair[1];v.appendChild(source);});v.load();var p=v.play();if(p&&p.catch)p.catch(function(){});
+ }
+ if(document.readyState==='complete')play();else window.addEventListener('load',play,{once:true});
+})();</script>
 <div id="rec2806976901" class="r t-rec t-rec_pt_0 t-rec_pb_0 t-record_scaled" style="padding-top:0px;padding-bottom:0px; " data-record-type="1040"> <!-- t1040 --> <div class="t1040 t-quiz t-quiz-test popup fixed-height topside-panel "> <div
 class="t-popup" data-tooltip-hook="#popup:quiz"
 role="dialog"

@@ -1,0 +1,40 @@
+/* Первый экран БП: реальный дом, фирменная зелень, спокойная медь. */
+.bp-hero-record{background:#314c44!important}
+.bp-hero{min-height:760px;padding:116px 24px 58px;color:#eee5d5}
+.bp-hero__bg{background:#314c44 center 52%/cover no-repeat}
+.bp-hero__video{object-position:center 52%}
+.bp-hero__scrim{background:linear-gradient(180deg,rgba(20,37,31,.52) 0%,rgba(20,37,31,.38) 42%,rgba(20,37,31,.16) 72%,rgba(20,37,31,.65) 100%)}
+.bp-hero__content{max-width:780px}
+.bp-hero__logo-icon{display:none}
+.bp-hero__eyebrow{font:500 12px/1.5 'Rubik',Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#eee5d5;margin:0 0 14px;text-shadow:0 2px 16px #13231c}
+.bp-hero__title{font-family:'Forum','Georgia',serif;font-size:clamp(58px,6.3vw,90px);font-weight:400;line-height:1.03;letter-spacing:.01em;text-transform:none;color:#eee5d5;margin:0 0 20px;text-shadow:0 2px 24px rgba(10,24,18,.55)}
+.bp-hero__divider{width:68px;background:rgba(238,229,213,.55);margin-bottom:20px}
+.bp-hero__lead{font:400 17px/1.6 'Rubik',Arial,sans-serif;color:#eee5d5;max-width:550px;margin-bottom:24px;text-shadow:0 2px 12px #17271f}
+.bp-hero__price-box{margin-bottom:20px}
+.bp-hero__price-val{font:500 16px/1.5 'Rubik',Arial,sans-serif;color:#eee5d5;margin-bottom:6px}
+.bp-hero__price-sub{font:400 12px/1.6 'Rubik',Arial,sans-serif;color:#eee5d5;opacity:.88}
+.bp-hero__actions{flex-direction:row;max-width:510px;gap:12px;margin-bottom:30px}
+.bp-hero__btn{font-family:'Rubik',Arial,sans-serif;font-size:14px;min-height:50px;border-radius:4px;transition:background-color .2s,border-color .2s;transform:none!important}
+.bp-hero__btn--primary{background:#a85c32;box-shadow:none}
+.bp-hero__btn--primary:hover{background:#bc6b3c}
+.bp-hero__btn--quiz{background:rgba(49,76,68,.52);border:1px solid rgba(238,229,213,.65);color:#eee5d5!important;box-shadow:none}
+.bp-hero__btn--quiz:hover{background:#314c44}
+.bp-hero__btn:focus-visible{outline:3px solid #eee5d5;outline-offset:4px}
+.bp-hero__medals{gap:20px}
+.bp-hero__medal{width:64px;height:64px}
+.bp-hero__btn-icon{display:none}
+.bp-hero-record .bp{display:none!important}
+/* Листопад не закрывает фотографию и название; ниже страницы он остаётся. */
+body.bp-hero-in-view #bp-canvas{opacity:0}
+@media(max-width:640px){
+ .bp-hero{min-height:630px;padding:76px 22px 38px}
+ .bp-hero__bg,.bp-hero__video{background-position:center 54%;object-position:center 54%}
+ .bp-hero__eyebrow{font-size:10px;letter-spacing:.12em;margin-bottom:16px}
+ .bp-hero__title{font-size:clamp(44px,12vw,60px);line-height:1.08;letter-spacing:0;margin-bottom:20px}
+ .bp-hero__lead{font-size:15px;line-height:1.5;max-width:330px;margin-bottom:20px}
+ .bp-hero__price-val{font-size:15px}
+ .bp-hero__price-sub{font-size:11px;max-width:310px;margin:auto}
+ .bp-hero__actions{flex-direction:column;max-width:300px;gap:10px;margin-bottom:26px}
+ .bp-hero__medals{gap:18px}.bp-hero__medal{width:58px;height:58px}
+}
+@media(prefers-reduced-motion:reduce){.bp-hero__btn{transition:none}}

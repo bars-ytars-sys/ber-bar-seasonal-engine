@@ -1708,10 +1708,10 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
     <!-- Фоновое панорамное видео дома -->
     <div class="bp-hero__bg">
       <video class="bp-hero__video" muted loop playsinline webkit-playsinline preload="none"
-        data-desktop-mp4="../../demo/assets/bp-hero-chalet-cinematic-20261010.mp4"
-        data-desktop-webm="../../demo/assets/bp-hero-chalet-cinematic-20261010.webm"
-        data-mobile-mp4="../../demo/assets/bp-hero-chalet-cinematic-20261010-mobile.mp4"
-        aria-label="Презентационное видео Шале в Барских полях">
+        data-desktop-mp4="../../demo/assets/bp-hero-chalet-cinematic-20261010-loop-v2.mp4"
+        data-desktop-webm="../../demo/assets/bp-hero-chalet-cinematic-20261010-loop-v2.webm"
+        data-mobile-mp4="../../demo/assets/bp-hero-chalet-cinematic-20261010-loop-v2-mobile.mp4"
+        aria-label="Зацикленное видео Шале в Барских полях">
       </video>
       <div class="bp-hero__scrim"></div>
     </div>
@@ -2081,7 +2081,7 @@ body.bp-hero-in-view #bp-canvas{opacity:0}
 (function(){
  var v=document.querySelector('.bp-hero__video'),hero=document.querySelector('.bp-hero-record');if(!v||!hero)return;
  var assets=/^(127\.0\.0\.1|localhost)$/.test(location.hostname)?location.origin+'/ber-bar-seasonal-engine/demo/assets/':'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/';
- v.poster=assets+(matchMedia('(max-width:640px)').matches?'bp-hero-chalet-cinematic-20261010-mobile-poster.webp':'bp-hero-chalet-cinematic-20261010-poster.webp');hero.querySelector('.bp-hero__bg').style.backgroundImage='url("'+v.poster+'")';
+ v.poster=assets+(matchMedia('(max-width:640px)').matches?'bp-hero-chalet-cinematic-20261010-loop-v2-mobile-poster.webp':'bp-hero-chalet-cinematic-20261010-loop-v2-poster.webp');hero.querySelector('.bp-hero__bg').style.backgroundImage='url("'+v.poster+'")';
  if('IntersectionObserver' in window)new IntersectionObserver(function(entries){document.body.classList.toggle('bp-hero-in-view',entries[0].isIntersecting);},{threshold:0}).observe(hero);
  var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,connection=navigator.connection;
  if(reduced||(connection&&(connection.saveData||/^(2g|slow-2g|3g)$/.test(connection.effectiveType||''))))return;

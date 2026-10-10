@@ -939,16 +939,16 @@ else window.ym && window.ym(СЧ, 'reachGoal', 'napisat_shablon', { kanal: ка�
 document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><link id="bb-demo-polish" rel="stylesheet" href="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/demo-polish.css?v=20261004b"><!-- BB-STAY:START -->
 <script id="bb-stay-loader">(function(){
  var base=/^(127\.0\.0\.1|localhost)$/.test(location.hostname)?location.origin+'/ber-bar-seasonal-engine/prevyu/lid/':'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/';
- var css=document.createElement('link');css.rel='stylesheet';css.href=base+'stay-planner.css?v=20261010-calendar';document.head.appendChild(css);
- var calendarCss=document.createElement('link');calendarCss.rel='stylesheet';calendarCss.href=base+'bp-calendar.css?v=20261010-calendar';document.head.appendChild(calendarCss);
- ['stay-data.js','stay-core.js','bp-calendar.js','bp-stay.js'].forEach(function(name){var s=document.createElement('script');s.src=base+name+'?v=20261010-calendar';s.async=false;document.head.appendChild(s);});
+ var css=document.createElement('link');css.rel='stylesheet';css.href=base+'stay-planner.css?v=20261010-calendar-polish';document.head.appendChild(css);
+ var calendarCss=document.createElement('link');calendarCss.rel='stylesheet';calendarCss.href=base+'bp-calendar.css?v=20261010-calendar-polish';document.head.appendChild(calendarCss);
+ ['stay-data.js','stay-core.js','bp-calendar.js','bp-stay.js'].forEach(function(name){var s=document.createElement('script');s.src=base+name+'?v=20261010-calendar-polish';s.async=false;document.head.appendChild(s);});
 })();</script>
 <!-- BB-STAY:END -->
 </head> <body class="t-body" style="margin:0;"><header class="bp-site-header" id="bp-site-header">
   <a class="bp-site-logo" href="https://barskie-polya.ru/" aria-label="Барские поля — главная">
     <img src="https://static.tildacdn.com/tild3262-6436-4764-a235-366133623239/photo.svg" width="234" height="44" alt="Барские поля">
   </a>
-  <div class="bp-site-phone"><a href="tel:+74951503908">+7 (495) 150-39-08</a><small>Принимаем звонки с 9:00 до 24:00</small></div>
+  <div class="bp-site-phone"><a href="tel:+74951503908">+7 (495) 150-39-08</a><small>Принимаем звонки с&nbsp;9:00 до&nbsp;24:00</small></div>
   <a class="bp-site-book" href="#bb-stay" data-bb-planner>Проверить даты и забронировать</a>
   <button class="bp-site-menu-button" type="button" aria-controls="bp-site-menu" aria-expanded="false">Меню <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
 </header>
@@ -2146,6 +2146,35 @@ body.t-body{padding-top:0!important}
  .bp-site-menu-button{width:18.75vw;height:10.625vw;min-height:0;padding:0;font-size:3.125vw;gap:1.25vw}.bp-site-menu-button svg{width:5.625vw;height:5.625vw}
  .bp-hero__title{font-family:'BPProductionSerif',Georgia,serif;font-weight:300;letter-spacing:normal}
 }
+/* Production header geometry; sizing uses the visible area, including browser bars. */
+.bp-site-header *{box-sizing:border-box}
+.bp-site-phone small{opacity:.5}
+@media(max-width:640px){
+ .bp-site-phone small{width:29.0625vw;margin-left:auto}
+ .bp-hero{height:calc(var(--bp-screen) - var(--bp-header-height) - var(--bp-bottom-height));min-height:0;padding:20px 18px 28px;box-sizing:border-box}
+ .bp-hero__content{flex:none}
+ .bp-hero__title{font-size:44px;line-height:1.08;margin:0 0 16px}
+ .bp-hero__lead{font-size:15px;line-height:1.45;margin-bottom:16px}
+ .bp-hero__price-box{margin-bottom:18px}.bp-hero__price-val{font-size:16px;margin-bottom:6px}.bp-hero__price-sub{font-size:12px;line-height:1.4}
+ .bp-hero__actions{margin-bottom:20px;gap:8px}.bp-hero__actions .bp-hero__btn{min-height:46px;padding:11px 12px;font-size:14px}
+ .bp-hero__medals{gap:18px}.bp-hero__medal{width:72px;height:72px;flex:none;padding:6px}.bp-hero__medal svg{width:20px;height:20px}
+ :root[data-bp-density=compact] .bp-hero{padding:16px 18px 24px}
+ :root[data-bp-density=compact] .bp-hero__title{font-size:40px;margin-bottom:14px}
+ :root[data-bp-density=compact] .bp-hero__lead{font-size:14px;line-height:1.4;margin-bottom:14px}
+ :root[data-bp-density=compact] .bp-hero__price-box{margin-bottom:14px}
+ :root[data-bp-density=compact] .bp-hero__actions{margin-bottom:18px}
+ :root[data-bp-density=compact] .bp-hero__medal{width:64px;height:64px}
+ :root[data-bp-density=short] .bp-hero{padding:10px 16px 18px}
+ :root[data-bp-density=short] .bp-hero__title{font-size:34px;margin-bottom:10px}
+ :root[data-bp-density=short] .bp-hero__lead{font-size:13px;line-height:1.35;margin-bottom:10px}
+ :root[data-bp-density=short] .bp-hero__price-box{margin-bottom:10px}
+ :root[data-bp-density=short] .bp-hero__price-val{font-size:14px;margin-bottom:4px}
+ :root[data-bp-density=short] .bp-hero__price-sub{font-size:11px;line-height:1.35}
+ :root[data-bp-density=short] .bp-hero__actions{margin-bottom:12px;gap:7px}
+ :root[data-bp-density=short] .bp-hero__actions .bp-hero__btn{min-height:42px;padding:9px 10px;font-size:13px}
+ :root[data-bp-density=short] .bp-hero__medal{width:58px;height:58px;padding:4px;gap:1px}
+ :root[data-bp-density=short] .bp-hero__medals{gap:16px}
+}
 </style>
 
 <script id="bp-hero-video-init">
@@ -2184,10 +2213,17 @@ body.t-body{padding-top:0!important}
    document.documentElement.style.setProperty('--bp-header-height',Math.round(header.getBoundingClientRect().height)+'px');
    var nav=document.querySelector('.t975'),h=nav&&getComputedStyle(nav).display!=='none'?nav.getBoundingClientRect().height:0;
    document.documentElement.style.setProperty('--bp-bottom-height',Math.round(h)+'px');
+   var usable=screen-header.getBoundingClientRect().height-h;
+   document.documentElement.dataset.bpDensity=usable<465?'short':usable<610?'compact':'spacious';
+   var hero=document.querySelector('.bp-hero'),content=hero&&hero.querySelector('.bp-hero__content');
+   if(screen<900&&innerWidth<=640&&content&&content.getBoundingClientRect().height>usable-40)document.documentElement.dataset.bpDensity='short';
  }
  window.addEventListener('resize',sync);window.addEventListener('load',sync);window.addEventListener('pageshow',sync);
  if(window.visualViewport)window.visualViewport.addEventListener('resize',sync);
  if('ResizeObserver' in window)new ResizeObserver(sync).observe(header);
+ if('ResizeObserver' in window){var bottom=document.querySelector('.t975');if(bottom)new ResizeObserver(sync).observe(bottom);}
+ if(document.fonts)document.fonts.ready.then(sync);
+ document.addEventListener('focusout',sync);
  sync();
 })();</script>
 

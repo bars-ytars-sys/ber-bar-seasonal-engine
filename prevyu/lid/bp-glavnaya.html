@@ -1766,7 +1766,7 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
       <!-- Кнопки действия -->
       <div class="bp-hero__actions">
         <a href="#bb-stay" data-bb-planner class="bp-hero__btn bp-hero__btn--primary"><span>Выбрать дом</span></a>
-        <a href="#popup:quiz" class="bp-hero__help"><span>Помощь с выбором →</span></a>
+        <a href="#popup:quiz" class="bp-hero__btn bp-hero__btn--quiz"><span>Пройти опрос</span></a>
       </div>
 
       <!-- Медали доверия в ряд -->
@@ -2152,10 +2152,10 @@ body.t-body{padding-top:0!important}
  var v=document.querySelector('.bp-hero__video'),hero=document.querySelector('.bp-hero-record');if(!v||!hero)return;
  var mobile=matchMedia('(max-width:640px)').matches;
  var assets=/^(127\.0\.0\.1|localhost)$/.test(location.hostname)?location.origin+'/ber-bar-seasonal-engine/demo/assets/':'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/';
- v.poster=assets+'bp-hero-new-houses-20261010'+(mobile&&true?'-mobile':'')+'-poster.webp';
+ v.poster=assets+'bp-hero-new-houses-20261010'+(mobile&&true?'-mobile':'')+'-poster.webp?v=30fps';
  hero.querySelector('.bp-hero__bg').style.backgroundImage='url("'+v.poster+'")';
  if('IntersectionObserver' in window)new IntersectionObserver(function(entries){document.body.classList.toggle('bp-hero-in-view',entries[0].isIntersecting);},{threshold:0}).observe(hero);
- function load(){v.src=assets+'bp-hero-new-houses-20261010'+(mobile&&true?'-mobile':'')+'.mp4';v.load();}
+ function load(){v.src=assets+'bp-hero-new-houses-20261010'+(mobile&&true?'-mobile':'')+'.mp4?v=30fps';v.load();}
  var reduced=matchMedia('(prefers-reduced-motion:reduce)').matches,c=navigator.connection;
  if(reduced||(c&&c.saveData))return;
  load();v.play().catch(function(){});

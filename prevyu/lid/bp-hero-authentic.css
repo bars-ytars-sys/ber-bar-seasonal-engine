@@ -1,52 +1,53 @@
-/* Первый экран БП: реальный дом, фирменная зелень, спокойная медь. */
+/* Первый экран БП: фирменная зелень и открытый кадр настоящего Шале. */
 .bp-hero-record{background:#314c44!important}
-.bp-hero{min-height:760px;padding:116px 24px 58px;color:#eee5d5}
-.bp-hero__bg{background:#314c44 center 52%/cover no-repeat}
-.bp-hero__video{object-position:center 52%}
-.bp-hero__scrim{background:radial-gradient(ellipse 68% 62% at 50% 43%,rgba(8,22,16,.78) 0%,rgba(8,22,16,.68) 42%,rgba(8,22,16,.22) 75%,rgba(8,22,16,0) 100%),linear-gradient(180deg,rgba(14,29,22,.32) 0%,rgba(14,29,22,.18) 65%,rgba(14,29,22,.52) 100%)}
-.bp-hero__content{max-width:780px}
-.bp-hero__logo-icon{display:none}
-.bp-hero__eyebrow{font:500 12px/1.5 'Rubik',Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#fff7e6;margin:0 0 14px;text-shadow:0 1px 2px #07150e,0 2px 8px #07150e}
-.bp-hero__title{font-family:'Forum','Georgia',serif;font-size:clamp(58px,6.3vw,90px);font-weight:400;line-height:1.03;letter-spacing:.01em;text-transform:none;color:#fff7e6;margin:0 0 20px;-webkit-text-stroke:.3px rgba(5,16,10,.55);text-shadow:0 2px 3px rgba(5,16,10,.95),0 5px 20px rgba(5,16,10,.8)}
-.bp-hero__divider{width:68px;background:rgba(238,229,213,.55);margin-bottom:20px}
-.bp-hero__lead{font:500 17px/1.6 'Rubik',Arial,sans-serif;color:#fff7e6;max-width:550px;margin-bottom:24px;text-shadow:0 1px 2px #07150e,0 2px 8px #07150e}
-.bp-hero__price-box{margin-bottom:20px}
-.bp-hero__price-val{font:500 16px/1.5 'Rubik',Arial,sans-serif;color:#fff7e6;margin-bottom:6px;text-shadow:0 1px 2px #07150e,0 2px 8px #07150e}
-.bp-hero__price-sub{font:500 13px/1.6 'Rubik',Arial,sans-serif;color:#fff7e6;opacity:1;text-shadow:0 1px 2px #07150e,0 2px 8px #07150e}
-.bp-hero__actions{flex-direction:row;max-width:680px;gap:12px;margin-bottom:30px}
-.bp-hero__btn{font-family:'Rubik',Arial,sans-serif;font-size:14px;min-height:50px;border-radius:4px;transition:background-color .2s,border-color .2s;transform:none!important}
-.bp-hero__btn--primary{background:#a85c32;box-shadow:none}
+.bp-hero{display:grid;grid-template-columns:minmax(420px,40%) minmax(0,1fr);align-items:stretch;min-height:700px;padding:0;color:#eee5d5;background:#314c44}
+.bp-hero__bg{position:relative;inset:auto;grid-column:2;grid-row:1;min-height:100%;background:#314c44 64% center/cover no-repeat}
+.bp-hero__video{position:absolute;inset:0;object-position:64% center}
+.bp-hero__scrim{background:linear-gradient(90deg,rgba(49,76,68,.12),transparent 20%)}
+.bp-hero__content{grid-column:1;grid-row:1;align-self:center;box-sizing:border-box;max-width:600px;width:100%;margin:0 auto;align-items:flex-start;text-align:left;padding:54px clamp(30px,4.3vw,76px)}
+.bp-hero__logo-icon,.bp-hero__divider{display:none}
+.bp-hero__eyebrow{font:400 10px/1.6 'Rubik',Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#eee5d5;margin:0 0 20px;text-shadow:none;opacity:.75}
+.bp-hero__title{font-family:'Forum','Georgia',serif;font-size:clamp(64px,5.4vw,86px);font-weight:400;line-height:.98;letter-spacing:-.015em;text-transform:none;color:#eee5d5;margin:0 0 22px;-webkit-text-stroke:0;text-shadow:none;text-wrap:balance}
+.bp-hero__lead{font:400 16px/1.65 'Rubik',Arial,sans-serif;color:#eee5d5;max-width:380px;margin:0 0 28px;text-shadow:none;text-wrap:pretty}
+.bp-hero__price-box{align-self:stretch;padding-top:22px;border-top:1px solid rgba(238,229,213,.2);margin:0 0 24px;text-shadow:none}
+.bp-hero__price-val{font:500 16px/1.5 'Rubik',Arial,sans-serif;color:#eee5d5;margin-bottom:8px;text-shadow:none}
+.bp-hero__price-sub{font:400 11px/1.65 'Rubik',Arial,sans-serif;color:#eee5d5;opacity:.72;text-shadow:none;max-width:360px}
+.bp-hero__actions{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;width:100%;max-width:400px;gap:10px;margin-bottom:28px}
+.bp-hero__btn{font:400 13px/1.3 'Rubik',Arial,sans-serif;min-height:44px;padding:12px 10px;border-radius:3px;box-shadow:none;transition:background-color .2s,border-color .2s;transform:none!important}
+.bp-hero__btn--primary{grid-column:1/-1;min-height:48px;background:#a85c32;box-shadow:none}
 .bp-hero__btn--primary:hover{background:#bc6b3c}
-.bp-hero__btn--quiz{background:rgba(28,49,40,.86);border:1px solid rgba(238,229,213,.65);color:#fff7e6!important;box-shadow:none}
-.bp-hero__btn--quiz:hover{background:#314c44}
-.bp-hero__btn:focus-visible{outline:3px solid #eee5d5;outline-offset:4px}
-.bp-hero__medals{gap:20px}
-.bp-hero__medal{width:78px;height:78px;box-sizing:border-box;padding:8px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#314c44;border:0;outline:0;box-shadow:none;color:#eee5d5!important;text-decoration:none!important;text-align:center}
+.bp-hero__btn--quiz{background:transparent;border:1px solid rgba(238,229,213,.32);color:#eee5d5!important;box-shadow:none}
+.bp-hero__btn--quiz:hover{background:rgba(238,229,213,.07);border-color:rgba(238,229,213,.6)}
+.bp-hero__btn:focus-visible{outline:2px solid #eee5d5;outline-offset:4px}
+.bp-hero__medals{justify-content:flex-start;gap:12px}
+.bp-hero__medal{width:72px;height:72px;box-sizing:border-box;padding:8px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#263e35;border:0;outline:0;box-shadow:none;color:#eee5d5!important;text-decoration:none!important;text-align:center}
 .bp-hero__medal svg{width:19px;height:19px;display:block;flex:none}
 .bp-hero__medal strong{max-width:100%;letter-spacing:0;font:500 10px/1.15 'Rubik',Arial,sans-serif;color:#eee5d5}
 .bp-hero__medal small{max-width:100%;letter-spacing:0;font:400 8px/1.2 'Rubik',Arial,sans-serif;color:#eee5d5}
 .bp-hero__medal .bp-hero__top30{font:500 13px/1.2 'Rubik',Arial,sans-serif;white-space:nowrap;margin-bottom:2px}
 .bp-hero__medal:focus-visible{outline:2px solid #eee5d5;outline-offset:4px}
-.bp-hero__trust{display:flex;align-items:center;gap:7px;min-height:52px;color:#eee5d5!important;text-decoration:none!important;background:none;border:0;box-shadow:none;text-shadow:0 1px 8px #17271f}
-.bp-hero__trust svg{display:block;flex-shrink:0;width:26px;height:26px}
-.bp-hero__trust strong{display:block;font:500 12px/1.3 'Rubik',Arial,sans-serif}
-.bp-hero__trust small{display:block;font:400 10px/1.4 'Rubik',Arial,sans-serif;opacity:.9}
-.bp-hero__trust--split{flex-direction:column;justify-content:center;gap:5px}
-.bp-hero__trust--split svg{width:84px;height:23px}
-.bp-hero__trust:focus-visible{outline:2px solid #eee5d5;outline-offset:5px;border-radius:3px}
 .bp-hero__btn-icon{display:none}
 .bp-hero-record .bp{display:none!important}
-/* Листопад не закрывает фотографию и название; ниже страницы он остаётся. */
+/* Листопад остаётся ниже первого экрана. */
 body.bp-hero-in-view #bp-canvas{opacity:0}
+body.bp-hero-in-view .bbk-чип{visibility:hidden;pointer-events:none}
+@media(min-width:1600px){.bp-hero{grid-template-columns:40% minmax(0,1fr);min-height:740px}.bp-hero__content{max-width:620px}}
+@media(min-width:641px) and (max-width:1000px){.bp-hero{grid-template-columns:46% minmax(0,1fr);min-height:660px}.bp-hero__content{padding:38px 28px}.bp-hero__title{font-size:60px}.bp-hero__lead{font-size:15px}.bp-hero__eyebrow{letter-spacing:.08em;font-size:9px}}
 @media(max-width:640px){
- .bp-hero{min-height:630px;padding:76px 22px 38px}
- .bp-hero__bg,.bp-hero__video{background-position:center 54%;object-position:center 54%}
- .bp-hero__eyebrow{font-size:10px;letter-spacing:.12em;margin-bottom:16px}
- .bp-hero__title{font-size:clamp(44px,12vw,60px);line-height:1.08;letter-spacing:0;margin-bottom:20px}
- .bp-hero__lead{font-size:15px;line-height:1.5;max-width:330px;margin-bottom:20px}
- .bp-hero__price-val{font-size:15px}
- .bp-hero__price-sub{font-size:12px;max-width:310px;margin:auto}
- .bp-hero__actions{flex-direction:column;max-width:300px;gap:10px;margin-bottom:26px}
- .bp-hero__medals{gap:16px}.bp-hero__medal{width:76px;height:76px}
+ .bp-hero{display:flex;flex-direction:column;align-items:stretch;min-height:0;padding:0}
+ .bp-hero__bg{order:0;flex:none;height:clamp(180px,26svh,230px);min-height:0;background-position:center 52%}
+ .bp-hero__video{object-position:center 52%}
+ .bp-hero__scrim{background:linear-gradient(180deg,transparent 72%,rgba(49,76,68,.24))}
+ .bp-hero__content{order:1;align-self:stretch;max-width:480px;align-items:flex-start;text-align:left;padding:24px 24px 26px}
+ .bp-hero__eyebrow{font-size:9px;letter-spacing:.1em;line-height:1.5;margin-bottom:12px}
+ .bp-hero__title{font-size:clamp(40px,11.8vw,58px);line-height:1.05;letter-spacing:-.015em;margin-bottom:14px}
+ .bp-hero__lead{font-size:14px;line-height:1.55;max-width:360px;margin-bottom:20px}
+ .bp-hero__price-box{padding-top:16px;margin-bottom:20px}
+ .bp-hero__price-val{font-size:14px;margin-bottom:5px}
+ .bp-hero__price-sub{font-size:11px;line-height:1.6;max-width:330px}
+ .bp-hero__actions{max-width:none;gap:8px;margin-bottom:22px}
+ .bp-hero__btn{font-size:12px;min-height:42px}
+ .bp-hero__btn--primary{min-height:46px}
+ .bp-hero__medals{gap:12px}.bp-hero__medal{width:68px;height:68px;padding:7px}
 }
 @media(prefers-reduced-motion:reduce){.bp-hero__btn{transition:none}}

@@ -1,4 +1,4 @@
-// Public house pages and Bnovo category IDs, checked 04.10.2026. No live availability.
+// Public house descriptions and Bnovo category IDs; no live availability.
 window.BBStayData = {
   "checked": "2026-10-04",
   "br": [
@@ -439,7 +439,8 @@ window.BBStayData = {
       "territory": "Полностью огорожена",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Своя баня",
-      "source": "https://barskie-polya.ru/chalet"
+      "source": "https://barskie-polya.ru/chalet",
+      "tub": true
     },
     {
       "id": "barski",
@@ -458,7 +459,8 @@ window.BBStayData = {
       "territory": "Частично огорожена",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Сауна в доме",
-      "source": "https://barskie-polya.ru/barski"
+      "source": "https://barskie-polya.ru/barski",
+      "tub": true
     },
     {
       "id": "barnhause1",
@@ -477,7 +479,8 @@ window.BBStayData = {
       "territory": "Частично огорожена",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Банный чан",
-      "source": "https://barskie-polya.ru/barnhauses/barnhause1"
+      "source": "https://barskie-polya.ru/barnhauses/barnhause1",
+      "tub": true
     },
     {
       "id": "garden1",
@@ -496,7 +499,8 @@ window.BBStayData = {
       "territory": "Полностью огорожена",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Своя баня",
-      "source": "https://barskie-polya.ru/gardens/garden1"
+      "source": "https://barskie-polya.ru/gardens/garden1",
+      "tub": true
     },
     {
       "id": "river1",
@@ -515,7 +519,8 @@ window.BBStayData = {
       "territory": "Живая изгородь",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Банный чан",
-      "source": "https://barskie-polya.ru/rivers/river1"
+      "source": "https://barskie-polya.ru/rivers/river1",
+      "tub": true
     },
     {
       "id": "river2",
@@ -534,7 +539,8 @@ window.BBStayData = {
       "territory": "Живая изгородь",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Банный чан",
-      "source": "https://barskie-polya.ru/rivers/river2"
+      "source": "https://barskie-polya.ru/rivers/river2",
+      "tub": true
     },
     {
       "id": "river3",
@@ -553,7 +559,8 @@ window.BBStayData = {
       "territory": "Живая изгородь",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Банный чан",
-      "source": "https://barskie-polya.ru/rivers/river3"
+      "source": "https://barskie-polya.ru/rivers/river3",
+      "tub": true
     },
     {
       "id": "river4",
@@ -572,7 +579,8 @@ window.BBStayData = {
       "territory": "Живая изгородь",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Банный чан",
-      "source": "https://barskie-polya.ru/rivers/river4"
+      "source": "https://barskie-polya.ru/rivers/river4",
+      "tub": true
     },
     {
       "id": "river5",
@@ -591,7 +599,8 @@ window.BBStayData = {
       "territory": "Живая изгородь",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Банный чан",
-      "source": "https://barskie-polya.ru/rivers/river5"
+      "source": "https://barskie-polya.ru/rivers/river5",
+      "tub": true
     },
     {
       "id": "river6",
@@ -610,7 +619,8 @@ window.BBStayData = {
       "territory": "Живая изгородь",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Банный чан",
-      "source": "https://barskie-polya.ru/rivers/river6"
+      "source": "https://barskie-polya.ru/rivers/river6",
+      "tub": true
     },
     {
       "id": "garden2",
@@ -629,7 +639,8 @@ window.BBStayData = {
       "territory": "Полностью огорожена",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Банный чан",
-      "source": "https://barskie-polya.ru/gardens/garden2"
+      "source": "https://barskie-polya.ru/gardens/garden2",
+      "tub": true
     },
     {
       "id": "garden3",
@@ -648,7 +659,8 @@ window.BBStayData = {
       "territory": "Полностью огорожена",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Банный чан",
-      "source": "https://barskie-polya.ru/gardens/garden3"
+      "source": "https://barskie-polya.ru/gardens/garden3",
+      "tub": true
     },
     {
       "id": "garden4",
@@ -667,7 +679,8 @@ window.BBStayData = {
       "territory": "Полностью огорожена",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Своя баня",
-      "source": "https://barskie-polya.ru/gardens/garden4"
+      "source": "https://barskie-polya.ru/gardens/garden4",
+      "tub": true
     },
     {
       "id": "garden5",
@@ -686,7 +699,8 @@ window.BBStayData = {
       "territory": "Полностью огорожена",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Банный чан",
-      "source": "https://barskie-polya.ru/gardens/garden5"
+      "source": "https://barskie-polya.ru/gardens/garden5",
+      "tub": true
     },
     {
       "id": "barnhause2",
@@ -705,7 +719,9 @@ window.BBStayData = {
       "territory": "Частично огорожена",
       "included": "Кухня, бельё, полотенца, мангал",
       "bathLabel": "Банный чан",
-      "source": "https://barskie-polya.ru/barnhauses/barnhause2"
+      "source": "https://barskie-polya.ru/barnhauses/barnhause2",
+      "tub": true
     }
-  ]
+  ],
+  "tubCheckedBP": "2026-10-10"
 };

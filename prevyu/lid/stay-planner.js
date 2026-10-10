@@ -11,7 +11,7 @@
   const origin=brand==='br'?'https://ecobr.ru':'https://barskie-polya.ru';
   const key='bb-stay-v1-'+brand;
   let saved={};try{saved=JSON.parse(sessionStorage.getItem(key)||'{}');}catch{}
-  const state={arrival:'',departure:'',guests:2,bath:false,pets:false,fenced:false,...saved};
+  const state={arrival:'',departure:'',guests:2,bath:false,tub:false,pets:false,fenced:false,...saved};
   state.guests=Math.min(10,Math.max(1,Number(state.guests)||2));
   if(core.dateError(state)){state.arrival='';state.departure='';}
   let selected=new Set(),limit=6,section,dialog,lastFocus,availabilityActive=false;
@@ -19,7 +19,7 @@
   // Local events are available for a later analytics integration; never include PII.
   const event=(name,detail={})=>document.dispatchEvent(new CustomEvent('bb:stay',{detail:{name,brand,...detail}}));
   const dateLabel=v=>v?new Date(v+'T12:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'long'}):'';
-  const summary=h=>[h?.name,state.arrival&&state.departure?`${dateLabel(state.arrival)} — ${dateLabel(state.departure)}`:'Даты подберём',`${state.guests} ${plural(state.guests,'гость','гостя','гостей')}`,state.bath?'Своя баня':'',state.fenced?'Огороженная территория':'',state.pets?'С питомцем':''].filter(Boolean).join(' · ');
+  const summary=h=>[h?.name,state.arrival&&state.departure?`${dateLabel(state.arrival)} — ${dateLabel(state.departure)}`:'Даты подберём',`${state.guests} ${plural(state.guests,'гость','гостя','гостей')}`,state.bath?'Своя баня':'',state.tub?'С банным чаном':'',state.fenced?'Огороженная территория':'',state.pets?'С питомцем':''].filter(Boolean).join(' · ');
   function siteLink(h){
     const route=window.__bbPreview?.urls?.[h.url];
     if(route)return location.origin+route;
@@ -30,7 +30,7 @@
   const dates=(prefix)=>`<div class="bst-fields"><label>Заезд<input id="${prefix}-arrival" data-state="arrival" type="date" min="${core.iso(new Date())}" value="${esc(state.arrival)}"></label><label>Выезд<input id="${prefix}-departure" data-state="departure" type="date" min="${core.iso(new Date())}" value="${esc(state.departure)}"></label><label>Всего гостей<select id="${prefix}-guests" data-state="guests">${options(state.guests)}</select></label></div>`;
   const actions=(h)=>`<button class="bst-btn" type="button" data-book="${h.id}">Даты и точная стоимость</button><div class="bst-card-row"><a class="bst-link" href="${esc(siteLink(h))}">Фото и описание</a><button type="button" class="bst-compare-toggle" data-compare="${h.id}" aria-pressed="${selected.has(h.id)}">${selected.has(h.id)?'✓ В сравнении':'+ Сравнить'}</button></div>`;
   function card(h){return `<article class="bst-card" data-house="${h.id}"><a class="bst-photo" href="${esc(siteLink(h))}" aria-label="${esc(h.name)} — фото и описание"><img loading="lazy" width="600" height="450" src="${esc(h.image.replace('/static.tildacdn.com/','/static.tildacdn.info/'))}" alt="${esc(h.name)}"></a><div class="bst-card-body"><h3>${esc(h.name)}</h3><p class="bst-card-tag">До ${h.capacity} гостей · ${esc(h.bathLabel)}</p><ul class="bst-facts"><li>${esc(h.rooms)}</li><li>${esc(h.territory)}</li><li>${h.pets?'Можно с питомцем · за доплату':'Без питомцев'}</li></ul><div class="bst-price"><strong>от ${money(h.price)}</strong> / ночь<small>Будни, за двоих · выходные от ${money(h.weekend)}</small><button class="bst-link" type="button" data-cost="${h.id}">Что входит в стоимость</button></div><div class="bst-card-actions">${actions(h)}</div></div></article>`;}
-  function filters(){return `<div class="bst-filters" aria-label="Пожелания к дому"><button type="button" class="bst-pill" data-filter="bath" aria-pressed="${state.bath}">Своя баня</button>${brand==='bp'?`<button type="button" class="bst-pill" data-filter="fenced" aria-pressed="${state.fenced}">Огороженная территория</button>`:''}<button type="button" class="bst-pill" data-filter="pets" aria-pressed="${state.pets}">С питомцем</button><button type="button" class="bst-link" data-reset>Сбросить</button></div>`;}
+  function filters(){return `<div class="bst-filters" aria-label="Пожелания к дому"><button type="button" class="bst-pill" data-filter="bath" aria-pressed="${state.bath}">Своя баня</button>${brand==='bp'?`<button type="button" class="bst-pill" data-filter="tub" aria-pressed="${state.tub}">С банным чаном</button><button type="button" class="bst-pill" data-filter="fenced" aria-pressed="${state.fenced}">Огороженная территория</button>`:''}<button type="button" class="bst-pill" data-filter="pets" aria-pressed="${state.pets}">С питомцем</button><button type="button" class="bst-link" data-reset>Сбросить</button></div>`;}
   const assist=()=>`<div class="bst-assist"><div><h3>Не нашли свой вариант?</h3><p>Подберём другой дом, соседние даты или несколько домов для вашей компании. Ваши пожелания уже будут в запросе.</p></div><button type="button" class="bst-btn" data-lead>Помогите с подбором</button></div>`;
   function mount(){
     const mode=script.dataset.page;
@@ -149,7 +149,7 @@
       const error=core.dateError(state)||(!state.arrival||!state.departure?'Выберите даты заезда и выезда.':'');
       const out=section.querySelector('[data-error]');out.textContent=error;out.hidden=!error;
       if(error){section.querySelector('[data-state="arrival"]').focus();return;}
-      availabilityActive=true;render();event('availability_check',{guests:state.guests,bath:state.bath,pets:state.pets,fenced:state.fenced});return;
+      availabilityActive=true;render();event('availability_check',{guests:state.guests,bath:state.bath,tub:state.tub,pets:state.pets,fenced:state.fenced});return;
     }
     if('close'in d){dialog.close();return;}
     if('cost'in d){cost(h);return;}
@@ -168,10 +168,10 @@
     if('clear'in d){selected.clear();render();return;}
     if('more'in d){limit+=6;render();return;}
     if('filter'in d)state[d.filter]=!state[d.filter];
-    if('reset'in d){state.bath=false;state.pets=false;state.fenced=false;state.guests=2;}
+    if('reset'in d){state.bath=false;state.tub=false;state.pets=false;state.fenced=false;state.guests=2;}
     if('undated'in d){state.arrival='';state.departure='';}
     if('weekend'in d){const dt=new Date();dt.setDate(dt.getDate()+((5-dt.getDay()+7)%7));state.arrival=core.iso(dt);dt.setDate(dt.getDate()+2);state.departure=core.iso(dt);}
-    limit=6;save();syncFields();render();event('filter_change',{guests:state.guests,bath:state.bath,pets:state.pets,fenced:state.fenced});
+    limit=6;save();syncFields();render();event('filter_change',{guests:state.guests,bath:state.bath,tub:state.tub,pets:state.pets,fenced:state.fenced});
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })();

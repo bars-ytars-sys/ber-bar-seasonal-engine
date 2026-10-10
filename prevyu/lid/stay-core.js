@@ -16,7 +16,7 @@
   }
   function matches(house, state) {
     return house.capacity >= Number(state.guests || 2)
-      && (!state.bath || house.bath) && (!state.pets || house.pets)
+      && (!state.bath || house.bath) && (!state.tub || house.tub) && (!state.pets || house.pets)
       && (!state.fenced || house.fenced);
   }
   function bookingUrl(brand, state, house) {

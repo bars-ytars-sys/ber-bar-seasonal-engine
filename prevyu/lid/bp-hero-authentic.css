@@ -1,53 +1,52 @@
-/* Первый экран БП: фирменная зелень и открытый кадр настоящего Шале. */
-.bp-hero-record{background:#314c44!important}
-.bp-hero{display:grid;grid-template-columns:minmax(420px,40%) minmax(0,1fr);align-items:stretch;min-height:700px;padding:0;color:#eee5d5;background:#314c44}
-.bp-hero__bg{position:relative;inset:auto;grid-column:2;grid-row:1;min-height:100%;background:#314c44 64% center/cover no-repeat}
-.bp-hero__video{position:absolute;inset:0;object-position:64% center}
-.bp-hero__scrim{background:linear-gradient(90deg,rgba(49,76,68,.12),transparent 20%)}
-.bp-hero__content{grid-column:1;grid-row:1;align-self:center;box-sizing:border-box;max-width:600px;width:100%;margin:0 auto;align-items:flex-start;text-align:left;padding:54px clamp(30px,4.3vw,76px)}
-.bp-hero__logo-icon,.bp-hero__divider{display:none}
-.bp-hero__eyebrow{font:400 10px/1.6 'Rubik',Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#eee5d5;margin:0 0 20px;text-shadow:none;opacity:.75}
-.bp-hero__title{font-family:'Forum','Georgia',serif;font-size:clamp(64px,5.4vw,86px);font-weight:400;line-height:.98;letter-spacing:-.015em;text-transform:none;color:#eee5d5;margin:0 0 22px;-webkit-text-stroke:0;text-shadow:none;text-wrap:balance}
-.bp-hero__lead{font:400 16px/1.65 'Rubik',Arial,sans-serif;color:#eee5d5;max-width:380px;margin:0 0 28px;text-shadow:none;text-wrap:pretty}
-.bp-hero__price-box{align-self:stretch;padding-top:22px;border-top:1px solid rgba(238,229,213,.2);margin:0 0 24px;text-shadow:none}
-.bp-hero__price-val{font:500 16px/1.5 'Rubik',Arial,sans-serif;color:#eee5d5;margin-bottom:8px;text-shadow:none}
-.bp-hero__price-sub{font:400 11px/1.65 'Rubik',Arial,sans-serif;color:#eee5d5;opacity:.72;text-shadow:none;max-width:360px}
-.bp-hero__actions{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;width:100%;max-width:400px;gap:10px;margin-bottom:28px}
-.bp-hero__btn{font:400 13px/1.3 'Rubik',Arial,sans-serif;min-height:44px;padding:12px 10px;border-radius:3px;box-shadow:none;transition:background-color .2s,border-color .2s;transform:none!important}
-.bp-hero__btn--primary{grid-column:1/-1;min-height:48px;background:#a85c32;box-shadow:none}
-.bp-hero__btn--primary:hover{background:#bc6b3c}
-.bp-hero__btn--quiz{background:transparent;border:1px solid rgba(238,229,213,.32);color:#eee5d5!important;box-shadow:none}
-.bp-hero__btn--quiz:hover{background:rgba(238,229,213,.07);border-color:rgba(238,229,213,.6)}
-.bp-hero__btn:focus-visible{outline:2px solid #eee5d5;outline-offset:4px}
-.bp-hero__medals{justify-content:flex-start;gap:12px}
-.bp-hero__medal{width:72px;height:72px;box-sizing:border-box;padding:8px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#263e35;border:0;outline:0;box-shadow:none;color:#eee5d5!important;text-decoration:none!important;text-align:center}
-.bp-hero__medal svg{width:19px;height:19px;display:block;flex:none}
-.bp-hero__medal strong{max-width:100%;letter-spacing:0;font:500 10px/1.15 'Rubik',Arial,sans-serif;color:#eee5d5}
-.bp-hero__medal small{max-width:100%;letter-spacing:0;font:400 8px/1.2 'Rubik',Arial,sans-serif;color:#eee5d5}
-.bp-hero__medal .bp-hero__top30{font:500 13px/1.2 'Rubik',Arial,sans-serif;white-space:nowrap;margin-bottom:2px}
-.bp-hero__medal:focus-visible{outline:2px solid #eee5d5;outline-offset:4px}
+/* Доработка выбранного владельцем полноэкранного варианта. */
+.bp-hero-record{background:#233b32!important}
+.bp-hero{display:flex;align-items:center;justify-content:center;min-height:max(740px,calc(100svh - 96px));padding:76px 32px 54px;color:#fff8eb;background:#233b32}
+.bp-hero__bg{position:absolute;inset:0;z-index:1;background:#233b32 center center/cover no-repeat}
+.bp-hero__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center}
+.bp-hero__scrim{background:linear-gradient(180deg,rgba(13,31,25,.16) 0%,rgba(13,31,25,.36) 28%,rgba(13,31,25,.52) 56%,rgba(13,31,25,.68) 100%)}
+.bp-hero__content{position:relative;z-index:2;max-width:1080px;width:100%;margin:0 auto;display:flex;flex-direction:column;align-items:center;text-align:center;box-sizing:border-box}
+.bp-hero__logo-icon{display:none}
+.bp-hero__eyebrow{font:500 12px/1.5 'Rubik',Arial,sans-serif;letter-spacing:.19em;text-transform:uppercase;color:#fff8eb;margin:0 0 19px;text-shadow:0 2px 12px rgba(0,0,0,.3)}
+.bp-hero__title{font-family:'Forum','Georgia',serif;font-size:clamp(72px,7.5vw,118px);font-weight:400;line-height:1;letter-spacing:-.025em;text-transform:none;color:#fff8eb;margin:0;-webkit-text-stroke:0;text-shadow:0 3px 24px rgba(0,0,0,.24)}
+.bp-hero__divider{display:block;width:58px;height:1px;background:rgba(255,248,235,.6);margin:26px 0 22px}
+.bp-hero__lead{font:400 19px/1.65 'Rubik',Arial,sans-serif;color:#fff8eb;max-width:740px;margin:0 0 29px;text-shadow:0 2px 12px rgba(0,0,0,.36);text-wrap:balance}
+.bp-hero__price-box{padding:0;border:0;margin:0 0 28px;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+.bp-hero__price-val{font:500 20px/1.5 'Rubik',Arial,sans-serif;color:#fff8eb;margin-bottom:7px}
+.bp-hero__price-sub{font:400 13px/1.65 'Rubik',Arial,sans-serif;color:#fff8eb;opacity:1;max-width:640px}
+.bp-hero__actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;width:100%;max-width:810px;gap:14px;margin:0 0 31px}
+.bp-hero__btn{font:500 15px/1.3 'Rubik',Arial,sans-serif;min-height:56px;padding:17px 22px;border-radius:5px;border:1px solid transparent;box-shadow:none;transition:background-color .2s,border-color .2s;transform:none!important;color:#fff8eb!important;text-decoration:none!important;box-sizing:border-box;display:flex;align-items:center;justify-content:center}
+.bp-hero__btn--primary{background:#ac5d30;border-color:#ac5d30}
+.bp-hero__btn--primary:hover{background:#c47443;border-color:#c47443}
+.bp-hero__btn--quiz{background:rgba(32,58,47,.88);border-color:rgba(255,248,235,.52);backdrop-filter:blur(8px)}
+.bp-hero__btn--quiz:hover{background:#314c44;border-color:#fff8eb}
+.bp-hero__btn:focus-visible,.bp-hero__medal:focus-visible{outline:2px solid #fff8eb;outline-offset:5px}
+.bp-hero__medals{display:flex;justify-content:center;gap:20px}
+.bp-hero__medal{width:86px;height:86px;box-sizing:border-box;padding:8px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:#314c44;border:0;outline:0;box-shadow:none;color:#fff8eb!important;text-decoration:none!important;text-align:center}
+.bp-hero__medal svg{width:21px;height:21px;display:block;flex:none}
+.bp-hero__medal strong{max-width:100%;letter-spacing:0;font:500 11px/1.2 'Rubik',Arial,sans-serif;color:#fff8eb}
+.bp-hero__medal small{max-width:100%;letter-spacing:0;font:400 9px/1.25 'Rubik',Arial,sans-serif;color:#fff8eb}
+.bp-hero__medal .bp-hero__top30{font:500 14px/1.2 'Rubik',Arial,sans-serif;white-space:nowrap;margin-bottom:2px}
 .bp-hero__btn-icon{display:none}
 .bp-hero-record .bp{display:none!important}
-/* Листопад остаётся ниже первого экрана. */
 body.bp-hero-in-view #bp-canvas{opacity:0}
 body.bp-hero-in-view .bbk-чип{visibility:hidden;pointer-events:none}
-@media(min-width:1600px){.bp-hero{grid-template-columns:40% minmax(0,1fr);min-height:740px}.bp-hero__content{max-width:620px}}
-@media(min-width:641px) and (max-width:1000px){.bp-hero{grid-template-columns:46% minmax(0,1fr);min-height:660px}.bp-hero__content{padding:38px 28px}.bp-hero__title{font-size:60px}.bp-hero__lead{font-size:15px}.bp-hero__eyebrow{letter-spacing:.08em;font-size:9px}}
+@media(min-width:641px) and (max-width:1000px){.bp-hero{padding:62px 32px 54px;min-height:760px}.bp-hero__title{font-size:82px}.bp-hero__lead{max-width:620px;font-size:18px}}
 @media(max-width:640px){
- .bp-hero{display:flex;flex-direction:column;align-items:stretch;min-height:0;padding:0}
- .bp-hero__bg{order:0;flex:none;height:clamp(180px,26svh,230px);min-height:0;background-position:center 52%}
- .bp-hero__video{object-position:center 52%}
- .bp-hero__scrim{background:linear-gradient(180deg,transparent 72%,rgba(49,76,68,.24))}
- .bp-hero__content{order:1;align-self:stretch;max-width:480px;align-items:flex-start;text-align:left;padding:24px 24px 26px}
- .bp-hero__eyebrow{font-size:9px;letter-spacing:.1em;line-height:1.5;margin-bottom:12px}
- .bp-hero__title{font-size:clamp(40px,11.8vw,58px);line-height:1.05;letter-spacing:-.015em;margin-bottom:14px}
- .bp-hero__lead{font-size:14px;line-height:1.55;max-width:360px;margin-bottom:20px}
- .bp-hero__price-box{padding-top:16px;margin-bottom:20px}
- .bp-hero__price-val{font-size:14px;margin-bottom:5px}
- .bp-hero__price-sub{font-size:11px;line-height:1.6;max-width:330px}
- .bp-hero__actions{max-width:none;gap:8px;margin-bottom:22px}
- .bp-hero__btn{font-size:12px;min-height:42px}
- .bp-hero__btn--primary{min-height:46px}
- .bp-hero__medals{gap:12px}.bp-hero__medal{width:68px;height:68px;padding:7px}
+ .bp-hero{min-height:max(720px,calc(100svh - 120px));padding:52px 22px 48px;display:flex;align-items:center;justify-content:center}
+ .bp-hero__bg{position:absolute;inset:0;height:100%;min-height:0;background-position:center center}
+ .bp-hero__video{object-position:center center}
+ .bp-hero__scrim{background:linear-gradient(180deg,rgba(13,31,25,.22),rgba(13,31,25,.49) 28%,rgba(13,31,25,.69) 100%)}
+ .bp-hero__content{max-width:480px;width:100%;padding:0;align-items:center;text-align:center}
+ .bp-hero__eyebrow{font-size:10px;letter-spacing:.13em;line-height:1.6;margin-bottom:17px;max-width:280px}
+ .bp-hero__title{font-size:clamp(50px,14.6vw,76px);line-height:1.04;letter-spacing:-.035em;margin:0;white-space:nowrap}
+ .bp-hero__divider{margin:22px 0 19px;width:42px}
+ .bp-hero__lead{font-size:16px;line-height:1.6;max-width:340px;margin-bottom:25px}
+ .bp-hero__price-box{margin-bottom:24px}
+ .bp-hero__price-val{font-size:17px;margin-bottom:7px}
+ .bp-hero__price-sub{font-size:12px;line-height:1.7;max-width:330px;margin:auto}
+ .bp-hero__actions{grid-template-columns:1fr 1fr;max-width:400px;gap:10px;margin-bottom:26px}
+ .bp-hero__btn{font-size:13px;min-height:48px;padding:14px 8px}
+ .bp-hero__btn--primary{grid-column:1/-1;min-height:52px;font-size:15px}
+ .bp-hero__medals{gap:14px}.bp-hero__medal{width:80px;height:80px;padding:7px}
 }
 @media(prefers-reduced-motion:reduce){.bp-hero__btn{transition:none}}

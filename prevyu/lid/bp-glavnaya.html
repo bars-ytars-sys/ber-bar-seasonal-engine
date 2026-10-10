@@ -939,8 +939,8 @@ else window.ym && window.ym(СЧ, 'reachGoal', 'napisat_shablon', { kanal: ка�
 document.addEventListener('DOMContentLoaded',t_setvisRecs);}})();</script><link id="bb-demo-polish" rel="stylesheet" href="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/demo-polish.css?v=20261004b"><!-- BB-STAY:START -->
 <script id="bb-stay-loader">(function(){
  var base=/^(127\.0\.0\.1|localhost)$/.test(location.hostname)?location.origin+'/ber-bar-seasonal-engine/prevyu/lid/':'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/';
- var css=document.createElement('link');css.rel='stylesheet';css.href=base+'stay-planner.css?v=20261010-tub';document.head.appendChild(css);
- ['stay-data.js','stay-core.js','stay-planner.js'].forEach(function(name){var s=document.createElement('script');s.src=base+name+'?v=20261010-tub';s.async=false;if(name==='stay-planner.js'){s.dataset.brand='bp';s.dataset.page='bp-glavnaya';}document.head.appendChild(s);});
+ var css=document.createElement('link');css.rel='stylesheet';css.href=base+'stay-planner.css?v=20261010-unified';document.head.appendChild(css);
+ ['stay-data.js','stay-core.js','bp-stay.js'].forEach(function(name){var s=document.createElement('script');s.src=base+name+'?v=20261010-unified';s.async=false;document.head.appendChild(s);});
 })();</script>
 <!-- BB-STAY:END -->
 </head> <body class="t-body" style="margin:0;"> <!--allrecords--> <div id="allrecords" class="t-records" data-hook="blocks-collection-content-node" data-tilda-project-id="8177746" data-tilda-page-id="41434555" data-tilda-formskey="5008fd5a09fc49233c29263288177746" data-tilda-cookie="no" data-tilda-stat-scroll="yes" data-tilda-lazy="yes" data-tilda-root-zone="com" data-tilda-project-headcode="yes" data-tilda-ts="y" data-tilda-project-country="RU"> <!--header--> <header id="t-header" class="t-records" data-hook="blocks-collection-content-node" data-tilda-project-id="8177746" data-tilda-page-id="41448522" data-tilda-page-alias="head" data-tilda-formskey="5008fd5a09fc49233c29263288177746" data-tilda-cookie="no" data-tilda-stat-scroll="yes" data-tilda-lazy="yes" data-tilda-root-zone="com" data-tilda-project-headcode="yes" data-tilda-ts="y" data-tilda-project-country="RU"> <div id="rec1185058671" class="r t-rec" style=" " data-animationappear="off" data-record-type="360"> <!-- T360 --> <style>.t-records{opacity:0;}.t-records_animated{-webkit-transition:opacity ease-in-out 0.2s;-moz-transition:opacity ease-in-out 0.2s;-o-transition:opacity ease-in-out 0.2s;transition:opacity ease-in-out 0.2s;}.t-records.t-records_visible,.t-records .t-records{opacity:1;}</style> <script>t_onReady(function() {var allRecords=document.querySelector('.t-records');window.addEventListener('pageshow',function(event) {if(event.persisted) {allRecords.classList.add('t-records_visible');}});var rec=document.querySelector('#rec1185058671');if(!rec) return;rec.setAttribute('data-animationappear','off');rec.style.opacity='1';allRecords.classList.add('t-records_animated');setTimeout(function() {allRecords.classList.add('t-records_visible');},200);document.addEventListener('visibilitychange',function() {if(!document.hidden) {allRecords.classList.add('t-records_visible');}});});</script> <script>t_onReady(function() {var selects='button:not(.t-submit):not(.t835__btn_next):not(.t835__btn_prev):not(.t835__btn_result):not(.t862__btn_next):not(.t862__btn_prev):not(.t862__btn_result):not(.t854__news-btn):not(.t862__btn_next),' +
@@ -1386,10 +1386,10 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
       после.parentNode.insertBefore(р, после.nextSibling);
     }
     if (р) после = р;
+    if (после && дома && после.nextElementSibling !== дома) после.parentNode.insertBefore(дома, после.nextSibling);
+    if (дома) после = дома;
     var ак = $('rec3545323801');
     if (ак && после && после.nextElementSibling !== ак) после.parentNode.insertBefore(ак, после.nextSibling);
-    if (ак) после = ак;
-    if (после && дома && после.nextElementSibling !== дома) после.parentNode.insertBefore(дома, после.nextSibling);
   }
 
   // П7: карта на телефоне — превью с затуханием, по нажатию на весь экран
@@ -1582,7 +1582,7 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
   var ЦЕНА = '9 900';
   var вар = (location.search.match(/[?&]ab=([ab])\b/) || [])[1];
   if (!вар) { try { вар = localStorage.getItem('bb_ab_zag'); } catch (e) {} }
-  var ПЕРВАЯ = вар === 'b' ? 'Дома с банным чаном у террасы и мангальной зоной, по Новой Риге' : 'Дома с банным чаном у террасы, в часе от Москвы по Новой Риге';
+  var ПЕРВАЯ = вар === 'b' ? 'Дома с банным чаном у террасы и мангальной зоной, по Новой Риге' : 'Насладитесь природой и расслабляющим отдыхом в наших дизайнерских домиках с согревающими банными чанами.<br>Находимся всего в часе от Москвы по Новорижскому шоссе';
   // правила двумя строками на любой ширине: точка-разделитель не повисает в конце строки
   var ТЕКСТ = '<span class="bbл-о">' + ПЕРВАЯ.replace(/ (с|у|в|от|по|и) /g, ' $1&nbsp;') + '</span>' +
     '<b class="bbл-ц">Дом от ' + ЦЕНА.replace(' ', '&nbsp;') + '&nbsp;₽ за ночь в будни</b>' +
@@ -1734,7 +1734,8 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
 
       <!-- Описание базы -->
       <p class="bp-hero__lead">
-        Дома с банным чаном у террасы, в часе от Москвы по Новой Риге
+        Насладитесь природой и расслабляющим отдыхом в наших дизайнерских домиках с согревающими банными чанами.<br>
+        Находимся всего в часе от Москвы по Новорижскому шоссе
       </p>
 
       <!-- Стоимость и условия -->
@@ -1745,9 +1746,8 @@ class="t-form__errorbox-text t-text t-text_md"> <li class="t-form__errorbox-item
 
       <!-- Кнопки действия -->
       <div class="bp-hero__actions">
-        <a href="https://barskie-polya.ru/booking" class="bp-hero__btn bp-hero__btn--primary"><span>Проверить даты</span></a>
-        <a href="#popup:quiz" class="bp-hero__btn bp-hero__btn--quiz"><span>Пройти опрос</span></a>
-        <a href="#bb-stay" data-bb-planner class="bp-hero__btn bp-hero__btn--quiz"><span>Подобрать дом</span></a>
+        <a href="#bb-stay" data-bb-planner class="bp-hero__btn bp-hero__btn--primary"><span>Выбрать дом</span></a>
+        <a href="#popup:quiz" class="bp-hero__help"><span>Помощь с выбором →</span></a>
       </div>
 
       <!-- Медали доверия в ряд -->
@@ -2075,6 +2075,9 @@ body.bp-hero-in-view .bbk-чип{visibility:hidden;pointer-events:none}
  .bp-hero__medals{gap:14px}.bp-hero__medal{width:80px;height:80px;padding:7px}
 }
 @media(prefers-reduced-motion:reduce){.bp-hero__btn{transition:none}}
+
+/* One booking entry point. */
+.bp-hero__actions{display:flex;flex-direction:column;align-items:center;gap:15px;max-width:390px;margin-left:auto;margin-right:auto}.bp-hero__actions .bp-hero__btn{width:100%;min-height:56px}.bp-hero__help{color:#fff8eb!important;text-decoration:none!important;font:400 14px/1.5 Rubik,Arial,sans-serif;border-bottom:1px solid #fff8eb66;padding:5px 0}.bp-hero__help:focus-visible{outline:2px solid #fff8eb;outline-offset:5px}
 </style>
 
 <script id="bp-hero-video-init">
@@ -5384,7 +5387,7 @@ class="t1118__trigger-button t_faq__trigger-button"
 aria-controls="accordion3_2709562601"
 aria-expanded="false"
 style="padding-top:20px;padding-bottom:20px;"> <span class="t1118__title t-name t-name_xl" field="li_title__6828037808702">Какие дома есть на базе?</span> <svg class="t1118__icon" role="presentation" focusable="false" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"> <circle cx="20" cy="20" r="20" stroke-width="0" /> <g class="t1118__lines" stroke-width="1px" fill="none"> <path d="M9 20H31" /> <path d="M20 9V31" /> </g> </svg> </button> </div> <div id="accordion3_2709562601" class="t1118__content"
-hidden > <div class="t1118__textwrapper"> <div class="t1118__descr t-descr t-descr_sm" field="li_descr__6828037808702">У&nbsp;нас дизайнерские домики разных категорий: Ривер, Гарден, Барнхаус, Шале и&nbsp;другие. В&nbsp;каждом доме&nbsp;— полноценная кухня, современная мебель и&nbsp;техника, терраса, мангальная зона и&nbsp;банный чан. В&nbsp;части домов есть собственная баня или сауна. Подробности и&nbsp;актуальные цены&nbsp;— в&nbsp;разделе «Категория домов».</div> </div> </div> </div> </div> <div class="t1118__accordion t_faq__accordion"
+hidden > <div class="t1118__textwrapper"> <div class="t1118__descr t-descr t-descr_sm" field="li_descr__6828037808702">У&nbsp;нас дизайнерские домики разных категорий: Ривер, Гарден, Барнхаус, Шале и&nbsp;другие. В&nbsp;каждом доме&nbsp;— полноценная кухня, современная мебель и&nbsp;техника, терраса, мангальная зона и&nbsp;банный чан. В&nbsp;части домов есть собственная баня или сауна. Подробности и&nbsp;актуальные цены&nbsp;— в&nbsp;разделе «Выбрать дом».</div> </div> </div> </div> </div> <div class="t1118__accordion t_faq__accordion"
 style="border-top: 1px solid #eee5d5; border-bottom: 1px solid #eee5d5;" data-accordion="true"> <div class="t1118__wrapper"> <div class="t1118__header t_faq__header"> <button type="button"
 class="t1118__trigger-button t_faq__trigger-button"
 aria-controls="accordion4_2709562601"

@@ -50,3 +50,6 @@ body.bp-hero-in-view .bbk-чип{visibility:hidden;pointer-events:none}
  .bp-hero__medals{gap:14px}.bp-hero__medal{width:80px;height:80px;padding:7px}
 }
 @media(prefers-reduced-motion:reduce){.bp-hero__btn{transition:none}}
+
+/* One booking entry point. */
+.bp-hero__actions{display:flex;flex-direction:column;align-items:center;gap:15px;max-width:390px;margin-left:auto;margin-right:auto}.bp-hero__actions .bp-hero__btn{width:100%;min-height:56px}.bp-hero__help{color:#fff8eb!important;text-decoration:none!important;font:400 14px/1.5 Rubik,Arial,sans-serif;border-bottom:1px solid #fff8eb66;padding:5px 0}.bp-hero__help:focus-visible{outline:2px solid #fff8eb;outline-offset:5px}

@@ -13,7 +13,7 @@
 .bp-hero__price-box{margin-bottom:20px}
 .bp-hero__price-val{font:500 16px/1.5 'Rubik',Arial,sans-serif;color:#eee5d5;margin-bottom:6px}
 .bp-hero__price-sub{font:400 12px/1.6 'Rubik',Arial,sans-serif;color:#eee5d5;opacity:.88}
-.bp-hero__actions{flex-direction:row;max-width:300px;gap:12px;margin-bottom:30px}
+.bp-hero__actions{flex-direction:row;max-width:680px;gap:12px;margin-bottom:30px}
 .bp-hero__btn{font-family:'Rubik',Arial,sans-serif;font-size:14px;min-height:50px;border-radius:4px;transition:background-color .2s,border-color .2s;transform:none!important}
 .bp-hero__btn--primary{background:#a85c32;box-shadow:none}
 .bp-hero__btn--primary:hover{background:#bc6b3c}
@@ -21,7 +21,12 @@
 .bp-hero__btn--quiz:hover{background:#314c44}
 .bp-hero__btn:focus-visible{outline:3px solid #eee5d5;outline-offset:4px}
 .bp-hero__medals{gap:20px}
-.bp-hero__medal{width:64px;height:64px}
+.bp-hero__medal{width:78px;height:78px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:#314c44;border:0;outline:0;box-shadow:none;color:#eee5d5!important;text-decoration:none!important;text-align:center}
+.bp-hero__medal svg{width:19px;height:19px;display:block;flex:none}
+.bp-hero__medal strong{font:500 10px/1.15 'Rubik',Arial,sans-serif;color:#eee5d5}
+.bp-hero__medal small{font:400 8px/1.2 'Rubik',Arial,sans-serif;color:#eee5d5}
+.bp-hero__medal .bp-hero__top30{font:400 18px/1.05 'Forum',Georgia,serif;margin-bottom:2px}
+.bp-hero__medal:focus-visible{outline:2px solid #eee5d5;outline-offset:4px}
 .bp-hero__trust{display:flex;align-items:center;gap:7px;min-height:52px;color:#eee5d5!important;text-decoration:none!important;background:none;border:0;box-shadow:none;text-shadow:0 1px 8px #17271f}
 .bp-hero__trust svg{display:block;flex-shrink:0;width:26px;height:26px}
 .bp-hero__trust strong{display:block;font:500 12px/1.3 'Rubik',Arial,sans-serif}
@@ -42,6 +47,6 @@ body.bp-hero-in-view #bp-canvas{opacity:0}
  .bp-hero__price-val{font-size:15px}
  .bp-hero__price-sub{font-size:11px;max-width:310px;margin:auto}
  .bp-hero__actions{flex-direction:column;max-width:300px;gap:10px;margin-bottom:26px}
- .bp-hero__medals{gap:16px}.bp-hero__medal{width:58px;height:58px}
+ .bp-hero__medals{gap:16px}.bp-hero__medal{width:76px;height:76px}
 }
 @media(prefers-reduced-motion:reduce){.bp-hero__btn{transition:none}}

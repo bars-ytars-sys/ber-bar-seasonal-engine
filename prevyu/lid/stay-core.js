@@ -31,5 +31,18 @@
     u.searchParams.set('scroll_to_rooms','1');
     return u.href;
   }
-  root.BBStayCore = {iso,validDate,dateError,matches,bookingUrl};
+  function availabilityUrl(brand, state, houses) {
+    if (dateError(state) || !state.arrival || !state.departure) throw new Error('Сначала выберите корректные даты.');
+    const ids=[...new Set(houses.map(h=>Number(h.roomId)))];
+    if (!ids.length || ids.some(id=>!Number.isSafeInteger(id)||id<=0)) throw new Error('Нет подходящих домов для проверки.');
+    const uid=brand==='br'?'9b88bc59-76a6-4230-8e86-85790f3854d4':brand==='bp'?'17f7bf8e-d176-4c55-83a8-a1c0cd6187ae':null;
+    if(!uid)throw new Error('Неизвестная база.');
+    const u=new URL('https://reservationsteps.ru/rooms/index/'+uid);
+    const date=v=>v.split('-').reverse().join('-');
+    u.searchParams.set('lang','ru');u.searchParams.set('adults',String(Math.min(10,Math.max(1,Number(state.guests)||2))));
+    u.searchParams.set('dfrom',date(state.arrival));u.searchParams.set('dto',date(state.departure));
+    u.searchParams.set('onlyrooms',ids.join(','));u.searchParams.set('scroll_to_rooms','1');
+    return u.href;
+  }
+  root.BBStayCore = {iso,validDate,dateError,matches,bookingUrl,availabilityUrl};
 })(typeof window==='undefined'?globalThis:window);

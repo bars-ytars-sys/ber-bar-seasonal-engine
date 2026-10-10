@@ -1,7 +1,8 @@
-/* Demo enhancement; no requests, CRM submissions or live-inventory simulation. */
+/* House selection; live availability is rendered by the public Bnovo booking module. Lead forms remain local demo only. */
 (() => {
   'use strict';
   const script=document.currentScript, brand=script?.dataset.brand;
+  const production=script?.dataset.production==='true';
   const houses=window.BBStayData?.[brand], core=window.BBStayCore;
   if (!houses || !core) return;
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -13,7 +14,7 @@
   const state={arrival:'',departure:'',guests:2,bath:false,pets:false,fenced:false,...saved};
   state.guests=Math.min(10,Math.max(1,Number(state.guests)||2));
   if(core.dateError(state)){state.arrival='';state.departure='';}
-  let selected=new Set(),limit=6,section,dialog,lastFocus;
+  let selected=new Set(),limit=6,section,dialog,lastFocus,availabilityActive=false;
   const save=()=>{try{sessionStorage.setItem(key,JSON.stringify(state));}catch{}};
   // Local events are available for a later analytics integration; never include PII.
   const event=(name,detail={})=>document.dispatchEvent(new CustomEvent('bb:stay',{detail:{name,brand,...detail}}));
@@ -38,10 +39,14 @@
       section=document.createElement('section');section.id='bb-stay';section.className='bst bst-section';section.dataset.brand=brand;
       section.innerHTML=`<div class="bst-inner"><p class="bst-eyebrow">${brand==='br'?'Берёзовая роща · 22 дома':'Барские поля · 15 домов'}</p><h2>Какой дом подойдёт вам?</h2><p class="bst-intro">${brand==='br'?'Вдвоём, с детьми или большой компанией. Выберите важное для себя и сравните дома перед поездкой.':'Тихие выходные на своей территории. Выберите дом с баней, огороженным двором или местом для всей компании.'}</p><div class="bst-controls">${dates('bst')}<div class="bst-presets"><button type="button" class="bst-link" data-weekend>Ближайшие выходные</button><button type="button" class="bst-link" data-undated>Пока без дат</button><small>В числе гостей учитывайте детей.</small></div>${filters()}<p class="bst-error" role="alert" data-error hidden></p></div><div class="bst-results-bar"><p data-count role="status"></p><button class="bst-link" type="button" data-lead>Помочь с выбором</button></div><div class="bst-grid"></div><div class="bst-more"><button type="button" class="bst-secondary" data-more>Показать ещё дома</button></div><div class="bst-compare-bar" hidden><span data-selection></span><button type="button" class="bst-link" data-clear>Очистить</button><button type="button" class="bst-btn" data-show-compare>Сравнить дома</button></div>${assist()}<div class="bst-benefits"><div><h3>${brand==='br'?'Ресторан и SPA рядом':'Еда с доставкой к дому'}</h3><p>${brand==='br'?'Дополните поездку завтраком, бассейном или парением. Питание и SPA выбираются отдельно.':'В домах есть кухня. Если готовить не хочется, блюда доставят к вашей двери.'}</p><a class="bst-link" href="${origin+(brand==='br'?'/spa':'/menu')}">${brand==='br'?'Посмотреть SPA':'Посмотреть меню'}</a></div><div><h3>Чан — только для вас</h3><p>Банный чан у дома оплачивается отдельно: от 5 500 ₽ без наполнения. Наполнение и время подготовим по вашему запросу.</p><button type="button" class="bst-link" data-lead>Добавить к отдыху</button></div><div><h3>Условия до бронирования</h3><p>Стоимость на ваши даты, предоплата и правила отмены видны в выбранном тарифе. Проверьте их перед оплатой.</p><button type="button" class="bst-link" data-book-all>Проверить даты</button></div></div><p class="bst-notice">В карточках — стартовые цены со страниц домов за двух гостей. Дополнительные гости, питание, баня и чан оплачиваются отдельно. Доступность и итоговая сумма — в онлайн-бронировании.</p></div>`;
       target.before(section);target.classList.add('bst-replaced');
+      if(brand==='bp'){
+        const check=document.createElement('button');check.type='button';check.className='bst-btn';check.dataset.checkAvailability='';check.textContent='Показать свободные дома';section.querySelector('.bst-controls').append(check);
+        const live=document.createElement('div');live.className='bst-availability';live.hidden=true;section.querySelector('.bst-results-bar').before(live);
+      }
       section.querySelector('.bst-grid').before(section.querySelector('.bst-compare-bar'));render();
       // Keep the original anchors and surrounding content, without a second catalogue.
       const oldLead=document.getElementById('bb-podbor');
-      if(oldLead){if(mode!=='br-doma'){const compact=document.createElement('div');compact.className='bst bst-section';compact.dataset.brand=brand;compact.style.paddingTop='8px';compact.style.paddingBottom='20px';compact.innerHTML=`<div class="bst-inner">${assist()}</div>`;oldLead.before(compact);}oldLead.classList.add('bst-replaced');}
+      if(oldLead&&!production){if(mode!=='br-doma'){const compact=document.createElement('div');compact.className='bst bst-section';compact.dataset.brand=brand;compact.style.paddingTop='8px';compact.style.paddingBottom='20px';compact.innerHTML=`<div class="bst-inner">${assist()}</div>`;oldLead.before(compact);}oldLead.classList.add('bst-replaced');}
     }
     dialog=document.createElement('dialog');dialog.className='bst';dialog.dataset.brand=brand;dialog.setAttribute('aria-labelledby','bst-dialog-title');document.body.append(dialog);
     dialog.addEventListener('close',()=>{document.documentElement.style.overflow=previousOverflow;lastFocus?.focus();});
@@ -69,6 +74,23 @@
     section.querySelector('[data-show-compare]').disabled=selected.size<2;
     section.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(!!state[b.dataset.filter])));
     const err=section.querySelector('[data-error]');err.textContent=core.dateError(state);err.hidden=!err.textContent;
+    if(brand==='bp')renderAvailability(found);
+  }
+  function renderAvailability(found){
+    const live=section.querySelector('.bst-availability');if(!live)return;
+    const valid=!!state.arrival&&!!state.departure&&!core.dateError(state);
+    const show=availabilityActive&&valid&&found.length>0;
+    live.hidden=!show;
+    section.querySelector('.bst-grid').hidden=show;
+    section.querySelector('.bst-results-bar').hidden=show;
+    section.querySelector('.bst-more').hidden=show;
+    section.querySelector('.bst-compare-bar').hidden=show||!selected.size;
+    if(!show){if(live.childNodes.length)live.replaceChildren();return;}
+    const url=core.availabilityUrl(brand,state,found);
+    if(live.dataset.url===url&&live.childNodes.length)return;
+    live.dataset.url=url;
+    live.innerHTML=`<div class="bst-live-heading"><div><h3>Дома на выбранные даты</h3><p>Здесь — актуальная доступность и тарифы подходящих домов. Если мест нет, попробуйте соседние даты. Состав гостей и возраст детей уточните в бронировании.</p></div><a class="bst-link" href="${esc(url)}" target="_blank" rel="noopener">Открыть отдельно ↗</a></div>`;
+    const frame=document.createElement('iframe');frame.title='Доступность подходящих домов и онлайн-бронирование';frame.src=url;frame.className='bst-live-frame';live.append(frame);
   }
   function syncFields(){document.querySelectorAll('.bst [data-state]').forEach(i=>{i.value=state[i.dataset.state]||'';});}
   function onChange(e){
@@ -100,6 +122,7 @@
     open(h?`${esc(h.name)}: даты отдыха`:'Подберите даты отдыха',`<p class="bst-summary" data-summary="${h?.id||''}">${esc(summary(h))}</p>${dates('bst-book')}<p class="bst-error" data-book-error role="alert" hidden></p><div class="bst-lead-grid"><label>Из них взрослых<select id="bst-adults">${options(Math.min(state.guests,state.adults||state.guests))}</select></label><div><small>Если едете с детьми, на следующем шаге добавьте их и укажите возраст — так стоимость будет рассчитана правильно.</small></div></div><div class="bst-actions"><a class="bst-btn" data-go-book="${h?.id||''}" href="${esc(core.bookingUrl(brand,{...state,adults:Math.min(state.guests,state.adults||state.guests)},h))}" target="_blank" rel="noopener">Проверить свободные даты</a><button type="button" class="bst-secondary" data-lead="${h?.id||''}">Нет подходящих дат? Помогите найти</button></div><small>Откроется онлайн-бронирование ${brand==='br'?'«Берёзовой рощи»':'«Барских полей»'} с выбранным домом и датами. Дополнительные услуги выбираются отдельно.</small>`);
   }
   function lead(h){
+    if(production){document.getElementById('bb-podbor')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});return;}
     event('lead_open',{house:h?.id||'any'});
     open('Подберём дом под ваш отдых',`<form id="bst-lead-form"><p class="bst-summary" data-summary="${h?.id||''}">${esc(summary(h))}</p>${dates('bst-lead')}<div class="bst-lead-grid"><label>Ваше имя <small>Необязательно</small><input name="guest_name" autocomplete="given-name" maxlength="60" placeholder="Как к вам обращаться"></label><label>Телефон для связи<input name="phone" type="tel" inputmode="tel" autocomplete="tel" required pattern="[+0-9() \-]{10,22}" placeholder="+7 (___) ___-__-__"></label></div><label>Что ещё учесть? <small>Возраст детей, бюджет, питомец, чан или баня</small><textarea name="wishes" maxlength="1000" placeholder="Например: двое взрослых и ребёнок 5 лет, хотим чан вечером"></textarea></label><label class="bst-consent"><input type="checkbox" name="consent" required><span>Согласен на обработку персональных данных согласно <a href="${origin}/privacy" target="_blank" rel="noopener">политике конфиденциальности</a>.</span></label><p class="bst-error" data-lead-error role="alert" hidden></p><button type="button" class="bst-btn" data-submit-lead>Получить варианты и стоимость</button><small>Демоверсия: заявки не отправляются. В рабочей версии менеджер получит выбранный дом, даты, состав гостей и пожелания.</small><input type="hidden" name="house" value="${esc(h?.id||'')}"></form>`);
   }
@@ -115,11 +138,19 @@
     open('Запрос собран',`<div class="bst-success"><h3>Вот что увидит менеджер</h3><p>${esc(summary(h))}</p>${wishes?`<p style="margin-top:12px">${esc(wishes)}</p>`:''}<p style="margin-top:18px">Это демо: заявка не отправлена. В рабочей версии мы предложим подходящие дома, стоимость и ближайшие даты, если нужные заняты.</p></div><div class="bst-actions" style="margin-top:22px"><button type="button" class="bst-btn" data-close>Вернуться к домам</button></div>`);
   }
   function onClick(e){
-    const legacy=e.target.closest?.('a[href="#popup:quiz"],a[href="#bb-podbor"]');
+    const picker=e.target.closest?.('a[data-bb-planner]');
+    if(picker&&section){e.preventDefault();e.stopImmediatePropagation();section.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});section.querySelector('input').focus({preventScroll:true});return;}
+    const legacy=e.target.closest?.(brand==='bp'?'a[href="#bb-podbor"]':'a[href="#popup:quiz"],a[href="#bb-podbor"]');
     if(legacy&&section){e.preventDefault();e.stopImmediatePropagation();if(legacy.getAttribute('href')==='#popup:quiz'){section.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});section.querySelector('input').focus({preventScroll:true});}else{if(legacy.getAttribute('data-bbп-г')==='7+'){state.guests=7;save();syncFields();render();}lead();}return;}
     const b=e.target.closest?.('.bst button,.bst [data-go-book]');if(!b)return;
     if(!('goBook' in b.dataset)){e.preventDefault();e.stopImmediatePropagation();}
     const d=b.dataset,h=houses.find(h=>h.id===(d.cost||d.book||d.lead||d.goBook));
+    if('checkAvailability'in d){
+      const error=core.dateError(state)||(!state.arrival||!state.departure?'Выберите даты заезда и выезда.':'');
+      const out=section.querySelector('[data-error]');out.textContent=error;out.hidden=!error;
+      if(error){section.querySelector('[data-state="arrival"]').focus();return;}
+      availabilityActive=true;render();event('availability_check',{guests:state.guests,bath:state.bath,pets:state.pets,fenced:state.fenced});return;
+    }
     if('close'in d){dialog.close();return;}
     if('cost'in d){cost(h);return;}
     if('book'in d||'bookAll'in d){book(h);return;}

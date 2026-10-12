@@ -21,3 +21,13 @@
 /* Six fixed week rows keep every month and loading state the same size. */
 .bpc-calendar{border:1px solid #eee5d526;padding:11px}.bpc-days{grid-template-rows:repeat(6,var(--bpc-day-size))}.bpc-day{height:var(--bpc-day-size);min-height:var(--bpc-day-size)}.bpc-week{line-height:14px}.bpc-status{height:calc(var(--bpc-day-size)*6 + 30px);min-height:0}.bpc-hint{height:32px;min-height:32px}.bpc-card h3{min-height:35px;line-height:1.2!important}
 @media(max-width:640px){.bpc-calendar-host{--bpc-day-size:44px}.bpc-calendar{padding:9px}}
+
+/* Review from the owner's October sheet. */
+.bpc-section-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}.bpc-section-heading>.bst-link{white-space:nowrap;font-size:14px!important}
+.bpc-window{color:var(--muted);font-size:13px;margin:-12px 0 20px!important}
+.bpc-toolbar{max-width:900px;grid-template-columns:minmax(0,2fr) minmax(110px,1fr) 160px;align-items:end}.bpc-apply{min-height:46px;border-radius:9px;font-weight:400!important}
+.bpc-apply-note{min-height:20px;color:#e1c5a0;font-size:12px;margin:8px 0!important}.bpc-count{scroll-margin-top:90px}
+.bpc-day--adjacent>span{display:flex;flex-direction:column;align-items:center;gap:1px}.bpc-day--adjacent small{font-size:8px!important;line-height:1!important;margin:0!important;color:inherit!important}.bpc-day--adjacent:disabled{opacity:.35}.bpc-book{margin-top:4px;margin-bottom:9px}.bpc-error .bst-link{display:block;width:max-content}
+.bpc-section .bp-sheet-decor{position:absolute;inset:0;overflow:hidden;z-index:1}.bpc-section .bp-sheet-garland{top:2px;right:0}.bpc-section .bp-sheet-trees{bottom:12px;right:24px}.bpc-section .bp-sheet-corner{top:20px;right:12px}
+.bpc-rate-note{display:block;font-size:10px!important;line-height:1.4!important;color:#b3bfb3!important;margin:0 0 10px!important}
+@media(max-width:640px){.bpc-toolbar{grid-template-columns:minmax(0,1.7fr) minmax(90px,1fr);gap:12px}.bpc-apply{grid-column:1/-1;width:100%;min-height:48px}.bpc-section-heading{gap:12px}.bpc-section-heading>.bst-link{font-size:13px!important}.bpc-window{font-size:12px;margin:0 0 12px!important}.bpc-count{scroll-margin-top:80px}}

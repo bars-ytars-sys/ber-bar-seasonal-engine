@@ -1,7 +1,17 @@
 /* Public Bnovo calendar data. No credentials, bookings or guest information. */
 (function(root){
  'use strict';
- const api='https://public-api.reservationsteps.ru/v1/api/',uid='17f7bf8e-d176-4c55-83a8-a1c0cd6187ae',cache=new Map();
+ const api='https://public-api.reservationsteps.ru/v1/api/',uid='17f7bf8e-d176-4c55-83a8-a1c0cd6187ae',cache=new Map(),bookingEnd='2027-02-01';
+ const queue=[];let running=0;
+ function queued(job){return new Promise((resolve,reject)=>{queue.push({job,resolve,reject});drain();});}
+ function drain(){while(running<4&&queue.length){const task=queue.shift();running++;Promise.resolve().then(task.job).then(task.resolve,task.reject).finally(()=>{running--;drain();});}}
+ async function request(url){
+  const controller=typeof AbortController==='function'?new AbortController():null;let timer;
+  try{return await Promise.race([
+   (async()=>{const r=await fetch(url,{credentials:'omit',...(controller?{signal:controller.signal}:{})});if(!r.ok)throw Error('Не удалось загрузить календарь.');return r.json();})(),
+   new Promise((resolve,reject)=>{timer=setTimeout(()=>{controller?.abort();reject(Error('Календарь не ответил вовремя.'));},10000);})
+  ]);}finally{clearTimeout(timer);}
+ }
  const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
  const date=s=>new Date(s+'T12:00:00');
  const add=(s,n)=>{const d=date(s);d.setDate(d.getDate()+n);return iso(d);};
@@ -19,13 +29,12 @@
   if(!Number.isSafeInteger(Number(roomId))||Number(roomId)<=0||!/^\d{4}-\d{2}$/.test(month))throw Error('Некорректный календарь.');
   const key=roomId+':'+month,old=cache.get(key);if(!fresh&&old&&Date.now()-old.at<300000)return old.promise;
   const [y,m]=month.split('-').map(Number),from=new Date(y,m-1,1,12),to=new Date(y,m+1,1,12),format=d=>iso(d).split('-').reverse().join('-');
-  const promise=Promise.all(['closed_dates_with_reasons','min_prices'].map(async endpoint=>{
+  const promise=Promise.all(['closed_dates_with_reasons','min_prices'].map(endpoint=>queued(async()=>{
    const params=new URLSearchParams({uid,dfrom:format(from),dto:format(to)});
    if(endpoint==='min_prices'){params.set('room_type_id',String(roomId));params.set('currency','RUB');}
    else{params.set('roomtype_id',String(roomId));params.set('onlyrooms',String(roomId));}
-   const r=await fetch(api+endpoint+'?'+params,{credentials:'omit',signal:AbortSignal.timeout(15000)});
-   if(!r.ok)throw Error('Не удалось загрузить календарь.');return r.json();
-  })).then(([closed,prices])=>{
+   return request(api+endpoint+'?'+params);
+  }))).then(([closed,prices])=>{
    if(!closed.closed_dates_with_reasons||!prices.min_prices||typeof prices.min_prices!=='object')throw Error('Календарь временно недоступен.');
    return{closed:closed.closed_dates_with_reasons.closed_dates||{},prices:prices.min_prices,from:iso(from),to:iso(to),loaded:Date.now()};
   }).catch(e=>{cache.delete(key);throw e;});cache.set(key,{at:Date.now(),promise});return promise;
@@ -38,6 +47,7 @@
  }
  function validate(data,arrival,departure,today=iso(new Date())){
   if(!arrival||!departure||departure<=arrival)return 'Выберите дату заезда, затем дату выезда.';
+  if(departure>bookingEnd||arrival>=bookingEnd)return 'Сейчас можно выбрать отдых до 1 февраля 2027 включительно.';
   if(arrival<today)return 'Эта дата уже прошла.';
   const start=rule(data,arrival),end=rule(data,departure),count=nights(arrival,departure);
   if(!start.available)return 'В этот день заезд недоступен. Выберите другую дату.';
@@ -52,5 +62,5 @@
   }
   return '';
  }
- root.BPCalendar={iso,add,nights,rule,load,loadStay,validate};
+ root.BPCalendar={iso,add,nights,rule,load,loadStay,validate,bookingEnd};
 })(typeof window==='undefined'?globalThis:window);

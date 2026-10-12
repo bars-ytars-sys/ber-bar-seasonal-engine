@@ -17,6 +17,8 @@
   ]){
    const record=document.getElementById(id);if(!record||record.querySelector('.bp-section-heading'))continue;
    record.classList.add('bp-section-heading-record');
+   const original=record.querySelector(':scope > .t396');
+   if(original){original.setAttribute('aria-hidden','true');original.setAttribute('inert','');}
    record.insertAdjacentHTML('beforeend',`<div class="bp-section-heading">${artwork()}<h2>${title}</h2><span class="bp-heading-rule" aria-hidden="true"></span></div>`);
   }
   const picker=document.querySelector('.bpc-section');

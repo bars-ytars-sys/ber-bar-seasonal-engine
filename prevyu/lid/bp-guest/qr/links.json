@@ -1,0 +1,82 @@
+[
+  {
+    "id": "all",
+    "name": "Вся территория",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/#home"
+  },
+  {
+    "id": "chalet",
+    "name": "Шале",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=chalet#home"
+  },
+  {
+    "id": "barski",
+    "name": "Барский дом",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=barski#home"
+  },
+  {
+    "id": "barnhause1",
+    "name": "Барнхаус 1",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=barnhause1#home"
+  },
+  {
+    "id": "garden1",
+    "name": "Гарден 1",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=garden1#home"
+  },
+  {
+    "id": "river1",
+    "name": "Ривер 1",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=river1#home"
+  },
+  {
+    "id": "river2",
+    "name": "Ривер 2",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=river2#home"
+  },
+  {
+    "id": "river3",
+    "name": "Ривер 3",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=river3#home"
+  },
+  {
+    "id": "river4",
+    "name": "Ривер 4",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=river4#home"
+  },
+  {
+    "id": "river5",
+    "name": "Ривер 5",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=river5#home"
+  },
+  {
+    "id": "river6",
+    "name": "Ривер 6",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=river6#home"
+  },
+  {
+    "id": "garden2",
+    "name": "Гарден 2",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=garden2#home"
+  },
+  {
+    "id": "garden3",
+    "name": "Гарден 3",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=garden3#home"
+  },
+  {
+    "id": "garden4",
+    "name": "Гарден 4",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=garden4#home"
+  },
+  {
+    "id": "garden5",
+    "name": "Гарден 5",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=garden5#home"
+  },
+  {
+    "id": "barnhause2",
+    "name": "Барнхаус 2",
+    "url": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/bp-guest/?house=barnhause2#home"
+  }
+]

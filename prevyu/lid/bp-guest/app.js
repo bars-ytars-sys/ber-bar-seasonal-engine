@@ -1,4 +1,5 @@
 import D from './data.js';
+import { motion, initExperience } from './experience.js?v=20261013-motion';
 const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=n=>Number(n).toLocaleString('ru-RU')+' ₽';
 const positions=n=>n%10===1&&n%100!==11?'позиция':n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?'позиции':'позиций';
@@ -13,12 +14,13 @@ if(!D.houses.some(h=>h.id===house))house='';
 let tab=location.hash==='#pre'?'pre':'home',serviceCategory='Популярное',serviceExpanded=false,foodCategory='Все',foodSearch='';
 let cart=read('bp-guest-cart',{});for(const id of Object.keys(cart)){if(!D.food.products.some(p=>p.id===id)||!Number.isInteger(cart[id])||cart[id]<1||cart[id]>20)delete cart[id]}
 const H=()=>D.houses.find(h=>h.id===house),products=()=>D.food.products||[];
-const popup=$('sheet');let returnFocus=null,chatHistory=[];
+const popup=$('sheet');let returnFocus=null,chatHistory=[],sheetToken=0;
 function show(title,body,eyebrow='Ваш отдых'){
- returnFocus=document.activeElement;$('sheet-title').textContent=title;$('sheet-eyebrow').textContent=eyebrow;popup.classList.remove('map-sheet');$('sheet-body').innerHTML=body;
- if(!popup.open)popup.showModal();document.body.classList.add('modal-open');popup.scrollTop=0;
+ const wasOpen=popup.open;++sheetToken;motion.stop(popup);if(!wasOpen)returnFocus=document.activeElement;$('sheet-title').textContent=title;$('sheet-eyebrow').textContent=eyebrow;popup.classList.remove('map-sheet');$('sheet-body').innerHTML=body;
+ if(!wasOpen)popup.showModal();document.body.classList.add('modal-open');popup.scrollTop=0;motion.sheetOpen(popup,wasOpen);
 }
-function close(){popup.close();if(returnFocus?.isConnected)returnFocus.focus()}
+function close(){if(!popup.open)return;const token=++sheetToken;motion.sheetClose(popup).then(()=>{if(token!==sheetToken)return;popup.close();if(returnFocus?.isConnected)returnFocus.focus()})}
+popup.addEventListener('cancel',e=>{e.preventDefault();close()});
 popup.addEventListener('close',()=>document.body.classList.remove('modal-open'));
 $('close-sheet').onclick=close;popup.addEventListener('click',e=>{if(e.target===popup){const b=popup.getBoundingClientRect();if(e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom)close()}});
 let toastTimer;function toast(t){$('toast').textContent=t;$('toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),3800)}
@@ -31,7 +33,9 @@ function syncMobileScreen(scroll=false){
  const section=location.hash.slice(1),screen=['food','services','guide','map','reviews'].includes(section)?section:'home';
  document.body.dataset.mobileScreen=screen;
  document.querySelectorAll('.mobile-nav a').forEach(a=>{if(a.hash==='#'+(screen==='map'||screen==='reviews'?'home':screen))a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+ document.querySelector('.mobile-nav').style.setProperty('--nav-index',Math.max(0,['home','food','services','guide'].indexOf(screen)));
  if(scroll&&phoneViewport.matches)requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'instant'}));
+ motion.screen(screen,phoneViewport.matches);
 }
 phoneViewport.addEventListener('change',()=>syncMobileScreen(true));
 function selectHouse(id){house=D.houses.some(h=>h.id===id)?id:'';save('bp-guest-house',house);updateURL();renderContext();renderServices();renderGuide($('guide-search').value);close()}
@@ -41,15 +45,18 @@ function renderContext(){
  $('house-button').innerHTML=icon('home')+`<span class="house-title"><small>${h?'Ваш дом':'Для точной информации'}</small>${h?esc(h.name):'Выберите свой дом'}</span><span aria-hidden="true">⌄</span>`;
  $('mobile-house-name').textContent=h?h.name:'Выберите свой дом';
  document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===tab));
+ document.querySelector('.stay-tabs').style.setProperty('--tab-index',tab==='pre'?1:0);document.body.dataset.stayPhase=tab;
  $('welcome-copy').textContent=tab==='pre'?'Как добраться, что важно знать до заселения и чем дополнить отдых. Подготовьте всё к вашему приезду.':'Меню, баня и чан, прогулки и ответы на вопросы — под рукой, пока вы в «Барских полях».';
  $('quick').innerHTML=`${tab==='home'?`<article class="quick-card wifi"><div class="quick-label">${icon('wifi')}Интернет и Wi-Fi</div><strong>${h?esc(h.name):'Ваш дом на территории'}</strong><p>${esc(D.stay.wifi_note)}</p><button class="text-button" data-wifi>Уточнить сеть и пароль →</button></article>`:''}<article class="quick-card"><div class="quick-label">${icon('clock')}Заезд</div><strong>${h?'с '+ci:'15:00 / 16:00'}</strong><p>${h?esc(h.name):'Ривер / остальные дома'}</p></article><article class="quick-card"><div class="quick-label">${icon('clock')}Выезд</div><strong>${h?'до '+co:'12:00 / 13:00'}</strong><p>${h?esc(h.name):'Ривер / остальные дома'}</p></article><article class="quick-card contact"><div class="quick-label">${icon('chat')}Поможем с отдыхом</div><strong>На связи 9:00–24:00</strong><p>Telegram, MAX и WhatsApp</p><button class="text-button" data-contact>Написать или позвонить →</button></article>`;
  $('services-title').textContent=tab==='pre'?'Закажите к приезду':'Можно заказать';$('guide-title').textContent=tab==='pre'?'Перед поездкой':'О доме и территории';$('reviews').hidden=tab==='pre';
  $('quick').classList.toggle('before-arrival',tab==='pre');
+ document.dispatchEvent(new CustomEvent('bp:context'));
 }
 const popular=['breakfast','tub','chalet-sauna','sauna','massage','buggy','bike'];
 const serviceIcon=s=>s.category==='Еда'?'food':s.category==='Баня и чан'?'bath':s.category==='Досуг'?'leaf':'gift';
 const priceLabel=s=>s.price===0?'Бесплатно':s.price==null?'Уточним стоимость':(['tub-filling','buggy','veranda'].includes(s.id)?'от ':'')+money(s.price);
 function renderServices(){
+ requestAnimationFrame(()=>motion.reveal($('service-grid').children));$('service-grid').scrollLeft=0;
  const cats=['Популярное',...new Set(D.services.map(s=>s.category)),'Все'];$('service-categories').innerHTML=cats.map(c=>`<button data-service-category="${esc(c)}" aria-pressed="${serviceCategory===c}">${esc(c)}</button>`).join('');
  let list=D.services.filter(s=>serviceCategory==='Все'||serviceCategory==='Популярное'?serviceCategory==='Все'||popular.includes(s.id):s.category===serviceCategory);
  const h=H();if(serviceCategory==='Популярное'&&h)list=list.filter(s=>!s.house_ids||s.house_ids.includes(h.id));
@@ -61,7 +68,7 @@ function productInfo(id){
  const p=products().find(x=>x.id===id);if(!p)return;
  show(p.title,(p.image?'<img class="product-photo" src="'+esc(p.image)+'" alt="'+esc(p.title)+'">':'')+'<strong>'+money(p.price)+'</strong>'+(p.portion?'<p class="small">'+esc(p.portion+' '+(p.portion_unit||''))+'</p>':'')+(p.description?'<p class="product-description">'+esc(p.description)+'</p>':'')+'<div class="form-actions"><button class="primary-button" data-product-add="'+p.id+'">Добавить к заказу →</button></div>','Меню кухни');
 }
-function foodQty(id,delta){const n=Math.max(0,Math.min(20,(cart[id]||0)+delta));if(n)cart[id]=n;else delete cart[id];save('bp-guest-cart',cart);renderFood()}
+function foodQty(id,delta){const n=Math.max(0,Math.min(20,(cart[id]||0)+delta));if(n)cart[id]=n;else delete cart[id];save('bp-guest-cart',cart);renderFood();motion.cart()}
 function renderFood(){
  const cats=['Все',...new Set(products().map(p=>p.category).filter(Boolean))];$('food-categories').innerHTML=cats.map(c=>`<button data-food-category="${esc(c)}" aria-pressed="${foodCategory===c}">${esc(c)}</button>`).join('');
  const list=products().filter(p=>(foodCategory==='Все'||p.category===foodCategory)&&(!foodSearch||normalize(p.title+' '+p.description).includes(normalize(foodSearch))));
@@ -123,4 +130,5 @@ $('food-note').textContent=`Завтраки в будни — ${D.food.breakfas
 window.addEventListener('hashchange',()=>{if(['#home','#pre','#reviews'].includes(location.hash)){tab=location.hash==='#pre'?'pre':'home';renderContext();renderGuide($('guide-search').value);if(location.hash==='#home'&&!phoneViewport.matches)$('main').scrollIntoView({block:'start'})}syncMobileScreen(true)});
 updateURL();renderContext();renderServices();renderFood();renderGuide();
 syncMobileScreen(true);
+initExperience({data:D,sections,house:H,icon,close,wifi});
 if(!phoneViewport.matches&&['#food','#services','#map','#guide','#reviews'].includes(location.hash))requestAnimationFrame(()=>document.querySelector(location.hash)?.scrollIntoView({block:'start',behavior:'instant'}));

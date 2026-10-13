@@ -27,7 +27,7 @@
   document.querySelectorAll('a[href="#bp-doma"],a[href="https://barskie-polya.ru/#houses"]').forEach(a=>{a.href=catalogueHref;delete a.dataset.bbPlanner;});
   document.querySelectorAll('a[href="bp-houses.html"],a[href="houses.html"]').forEach(a=>{a.href=catalogueHref;});
   section.addEventListener('click',onClick);section.addEventListener('change',onChange);
-  window.addEventListener('click',e=>{const a=e.target.closest?.('a[data-bb-planner],a[href="#bb-stay"]');if(!a)return;e.preventDefault();e.stopImmediatePropagation();section.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});},{capture:true});
+  window.addEventListener('click',e=>{const a=e.target.closest?.('a[data-bb-planner],a[href="#bb-stay"]');if(!a)return;e.preventDefault();e.stopImmediatePropagation();const menu=a.closest('#rec1185050696'),close=menu?.querySelector('.closemenu,.nolim_popup_close');if(close)close.click();const go=()=>section.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});if(close)setTimeout(go,420);else go();},{capture:true});
   render();if((window.BBStayInitialHash||location.hash)==='#bb-stay')section.scrollIntoView();
  }
  function render(){

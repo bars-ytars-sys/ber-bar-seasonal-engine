@@ -29,7 +29,7 @@ def asset(url):
 replacements=dict(ThreadPoolExecutor(max_workers=6).map(asset,urls))
 guard=re.search(r'<script>\(function\(\)\{var ЗАПРЕТ=.*?</script>',source,re.S)
 assert guard, 'The existing demo transport guard is required.'
-head='<meta name="robots" content="noindex,nofollow">'+guard[0]+'''<script>
+head='<meta name="robots" content="noindex,nofollow"><script>window.BPPreviewRoutes='+json.dumps({'home':HOME,'catalog':CATALOG,'winter':'bp-new-year.html'})+';</script>'+guard[0]+'''<script>
 document.addEventListener('submit',function(event){
  event.preventDefault();event.stopImmediatePropagation();
  alert('Это предпросмотр: заявки отсюда не отправляются.');
@@ -50,7 +50,8 @@ for original,target in [('index.html',HOME),('houses.html',CATALOG)]:
     for url,local in replacements.items():html=html.replace(url,local)
     html=html.replace('https://static3.tildacdn.com/tild3262-6436-4764-a235-366133623239/photo.svg','bp-production-assets/logo.svg')
     html=html.replace('<head>','<head>'+head,1)
-    html=re.sub(r'href=([\"\'])(.*?)\1',href,html)
+    # Rewrite actual HTML attributes, never selectors or HTML embedded in scripts.
+    html=re.sub(r'<script\b[^>]*>.*?</script>|<[^>]+>',lambda m:m[0] if m[0].startswith('<script') else re.sub(r'href=([\"\'])(.*?)\1',href,m[0]),html,flags=re.S)
     html=html.replace("const catalogueHref='/houses';","const catalogueHref='"+CATALOG+"';")
     html=html.replace("a.href='/#bb-stay'","a.href='"+HOME+"#bb-stay'")
     html=html.replace("a.href='/houses'","a.href='"+CATALOG+"'")

@@ -1,12 +1,12 @@
 {
-  "01-ГЛАВНАЯ-T123.html": "b1b94001359190d69d2687541d9aff9bf1b3942c1435a3eba3d19cff4b837f5c",
-  "02-КАТАЛОГ-T123.html": "571f37f3d766fbe4bba28489948faadfb935405838acb065dc8a3ac67865660c",
+  "01-ГЛАВНАЯ-T123.html": "53e8b7ab55d0229d287dc2732479c67c68249af91b10a2c2b01f354e4509c8e8",
+  "02-КАТАЛОГ-T123.html": "67d332945f7c1cda9377c758427cc302ac906a9f5c6f2ca918864d7dd9eb3730",
   "03-SEO-КАТАЛОГ.json": "624c22682ce406b1c05292dc73090cc3369db4afe277d6e0472b1825bce58b94",
   "04-ПРОГРАММЫ-T123.html": "36eac443bf0f03162af53c5b1a3450f5a522eaf6e8fa56f0d91e285ab5b44370",
   "05-ROBOTS-ИЗМЕНЕНИЯ.json": "63987b786317640c134f83d6499c42eaa27b1b5bf7abfcb1a8260a3b73e79439",
   "05-ROBOTS-ОЖИДАЕМЫЙ.txt": "67301ce0a30118767ff7c97d542c6120573445595122af51b5fef2bf14561890",
   "06-SEO-ГЛАВНАЯ.json": "bd3c2214d51aa3e7234768cbc5863ed15a01bf1d4613f9f13920387fb79c5c37",
-  "08-ПРОВЕРКИ.json": "cc4747f99c8fe157f6194973f7a919ea40bfc29201ee565c3837359637b3bdad",
+  "08-ПРОВЕРКИ.json": "6a43fc7b1666e69cd851a7f92cb1ea256c9cd32e5c6adc639f7c0916d49ff034",
   "assets/bp-calendar.css": "6af02ca477deae9186b94048fcb64809ed9a9d66a100829c7a936f36ed2901fb",
   "assets/bp-calendar.js": "d9dcfed9eada04aed27983ddd193da4b89aad6c0bc626cea167c184248a69e1b",
   "assets/bp-layout.js": "62c6d371e833352842be7d9c5a77487554273f3840f05cf07e48a45545647718",
@@ -14,7 +14,7 @@
   "assets/hero.css": "4fe88d0288049e1b3592eac0557ce874623e3262e4bb20f631feeb839a4bc09a",
   "assets/hero.js": "ca1d4dce074f15bbe8d44e100832d6540726ff38a7ce4be44ac95fa12d161e4f",
   "assets/native-form-validation.js": "5185d9d1c35714ecef0fa3d6b2711fab1db17f1233dc72ad1153751f31c54882",
-  "assets/native-header.css": "46d17a5b0348ea2729ad12023371eaca46105c097049838cb1d5d14a305e07af",
+  "assets/native-header.css": "6de0291aa66890edb568e08bd822cb1f9c4460ff6653a87429addcc1b32c0b13",
   "assets/native-navigation.js": "b954d852fa9e4125eeb90059a97f5be2fc25465d32c7b99c12411b72b3cead69",
   "assets/stay-core.js": "4872520597d729b16b6fd06c7824811ccf7476377910be418254b7fde3ef8ad8",
   "assets/stay-data.js": "4350d504663e46a6d7fa8004fe8ebb97fe38f10fc0110d73a4620321e9884e6e",
@@ -22,5 +22,5 @@
   "checks/check-seo.py": "0715270b45e19eafc031f2ae6d87cadcc8fd917bf36eb0fa2d2305ced3edfcc8",
   "checks/seo.py": "ca5469d17b5e928cbc7915a8b03e47c0ef745c8972f835718ff5021489eb01b3",
   "manifest.json": "7ab7a6c4c13b7a6675de78f5115eb0798ada2d2d66f3be6b0be85e7772b3209f",
-  "ПЕРЕНОС-В-ТИЛЬДУ.txt": "1ec3d3bc97f401fa62f4d46f91804a73830d394c81c07078adf6809c59289f33"
+  "ПЕРЕНОС-В-ТИЛЬДУ.txt": "4e7f349d76bcf8ebe29a2bd693233d32c9d2125ea18d0027ae4478c3390baae4"
 }

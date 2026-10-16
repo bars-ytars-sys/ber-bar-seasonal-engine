@@ -27,4 +27,8 @@ for(const mode of ['home','catalog','production']){
 const local={module:{exports:{}},URL,location:new URL('http://127.0.0.1:4198/bp-production-preview.html'),window:{BPPreviewRoutes:{home:'bp-production-preview.html',catalog:'bp-production-houses.html',winter:'bp-new-year.html'}}};
 vm.runInNewContext(source,local);
 assert.equal(local.module.exports.route('/privacy'),'https://barskie-polya.ru/privacy');passed++;
+for(const file of ['bp-production-preview.html','bp-production-houses.html']){
+ const html=fs.readFileSync(new URL('../../prevyu/lid/'+file,import.meta.url),'utf8');
+ assert.match(html,/data-tooltip-hook="#pravila"/,file+': footer rules must have a native popup');passed++;
+}
 console.log(`${passed} navigation cases passed.`);

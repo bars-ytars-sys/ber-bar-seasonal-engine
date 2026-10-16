@@ -206,6 +206,7 @@ preview=preview.replace('<html','<html lang="ru"',1)
 PRE=ROOT/'tools/out/bp-production-20261015';(PRE/'index.html').write_text(preview)
 # Catalogue preview uses the SAME real header/menu/footer and popups, without the landing body.
 keep={'rec1185058671','rec1185050691','rec1188566526','rec1185050696','rec1190836936','rec1185050701','rec1798395461','rec2238427471','rec2345357451','rec684880488','rec1916160711','rec2806976901','rec924514671','rec1655233561','rec1932662561','rec1185068801','rec2431201361','rec1187647461','rec1241543791','rec1241543786'}
+keep.add('rec924517561')  # Native rules popup linked from the shared footer.
 catpreview=live
 for rid,(a,b) in sorted(records.items(),key=lambda v:v[1][0],reverse=True):
  if rid not in keep:catpreview=catpreview[:a]+(catblock if rid=='rec1538220631' else '')+catpreview[b:]

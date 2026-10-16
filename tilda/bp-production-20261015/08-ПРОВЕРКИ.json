@@ -15,8 +15,9 @@
   "catalog_live_check_requires_publication": true,
   "catalog_gate": "python3 checks/check-seo.py --stage catalog",
   "post_publish_check": "python3 checks/check-seo.py --stage live",
-  "navigation_cases_passed": 34,
+  "navigation_cases_passed": 36,
   "native_menu_design": "preserved",
   "native_menu_height_fixed": true,
-  "menu_anchor_routes_fixed": true
+  "menu_anchor_routes_fixed": true,
+  "catalog_native_rules_popup": true
 }

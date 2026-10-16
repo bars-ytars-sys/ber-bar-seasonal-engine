@@ -17,9 +17,12 @@ CATALOG='bp-production-houses.html'
 native=''.join((PRE/name).read_text() for name in ['index.html','houses.html'])
 urls=sorted(set(re.findall(r'https://(?:static|static3|neo)\.tildacdn\.com/(?:js|css|ws)/[^\s\"\'<>]+',native)))
 urls.append('https://static.tildacdn.com/tild3262-6436-4764-a235-366133623239/photo.svg')
-# Keep section decorations local. Header icons retain their original production
-# URLs and native rendering, as explicitly requested by the owner.
+# Cache the exact production SVG bytes. Keep Tilda's native icon rendering;
+# only their transport changes, so CSS backgrounds load on the review domain.
 inline_art=[
+ 'https://static.tildacdn.com/tild3534-3964-4934-b366-373533633666/__.svg',
+ 'https://static.tildacdn.com/tild3465-6235-4235-a330-633831396535/____ight_1.svg',
+ 'https://static.tildacdn.com/tild3765-6136-4365-b030-396362323066/____ight.svg',
  'https://static.tildacdn.com/tild3638-6438-4366-b766-613130643330/_.svg',
  'https://static.tildacdn.com/tild3533-3034-4864-a235-613732613230/___.svg',
 ]

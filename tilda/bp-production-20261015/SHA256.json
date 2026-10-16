@@ -6,7 +6,7 @@
   "05-ROBOTS-ИЗМЕНЕНИЯ.json": "63987b786317640c134f83d6499c42eaa27b1b5bf7abfcb1a8260a3b73e79439",
   "05-ROBOTS-ОЖИДАЕМЫЙ.txt": "67301ce0a30118767ff7c97d542c6120573445595122af51b5fef2bf14561890",
   "06-SEO-ГЛАВНАЯ.json": "bd3c2214d51aa3e7234768cbc5863ed15a01bf1d4613f9f13920387fb79c5c37",
-  "08-ПРОВЕРКИ.json": "6a43fc7b1666e69cd851a7f92cb1ea256c9cd32e5c6adc639f7c0916d49ff034",
+  "08-ПРОВЕРКИ.json": "a01011b2c0dca245253c56e5bda602d79998022c498d81b51141900d86b7b70a",
   "assets/bp-calendar.css": "6af02ca477deae9186b94048fcb64809ed9a9d66a100829c7a936f36ed2901fb",
   "assets/bp-calendar.js": "d9dcfed9eada04aed27983ddd193da4b89aad6c0bc626cea167c184248a69e1b",
   "assets/bp-layout.js": "62c6d371e833352842be7d9c5a77487554273f3840f05cf07e48a45545647718",
@@ -22,5 +22,5 @@
   "checks/check-seo.py": "0715270b45e19eafc031f2ae6d87cadcc8fd917bf36eb0fa2d2305ced3edfcc8",
   "checks/seo.py": "ca5469d17b5e928cbc7915a8b03e47c0ef745c8972f835718ff5021489eb01b3",
   "manifest.json": "7ab7a6c4c13b7a6675de78f5115eb0798ada2d2d66f3be6b0be85e7772b3209f",
-  "ПЕРЕНОС-В-ТИЛЬДУ.txt": "4e7f349d76bcf8ebe29a2bd693233d32c9d2125ea18d0027ae4478c3390baae4"
+  "ПЕРЕНОС-В-ТИЛЬДУ.txt": "cea71a4e0b98a9e25d235fdcac2dc03499e865907c5fb19e828583840a6fb83d"
 }

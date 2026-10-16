@@ -5,8 +5,10 @@
   "production_changed": false,
   "search_indexing": false,
   "lead_submissions": false,
+  "native_form_validation": true,
+  "news_snapshot": "2026-10-16",
   "files": {
-    "bp-production-preview.html": "2ed109d17f4b5e20c78aed23c6300b6467d6c46b9337844513c89f0f27b3a5c1",
-    "bp-production-houses.html": "2aa9e6c13f5a679dea0fe5b8176e9afa649abe4c975c02a8fe6246e9af7e5dcc"
+    "bp-production-preview.html": "c7804289d164b9877e0e8ba29154b25091263c76cb26e8ca2bc564eaadcafedc",
+    "bp-production-houses.html": "4cc8c768eae4b1be585019fabdf8688cbd03ec06295eea4beb88e8b3c82e4368"
   }
 }

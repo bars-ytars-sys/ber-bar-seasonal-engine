@@ -29,6 +29,7 @@ for name in ['stay-core.js','bp-calendar.js','bp-stay.js','stay-planner.css','bp
  shutil.copyfile(SRC/name,AS/name)
 shutil.copyfile(ROOT/'tools/bp-release/native-navigation.js',AS/'native-navigation.js')
 shutil.copyfile(ROOT/'tools/bp-release/native-header.css',AS/'native-header.css')
+shutil.copyfile(ROOT/'tools/bp-release/native-form-validation.js',AS/'native-form-validation.js')
 data=json.loads((SRC/'stay-data.js').read_text().split('=',1)[1].strip().rstrip(';'))
 # No static rates in the release: the public calendar provides current base rates.
 for h in data['bp']:
@@ -155,6 +156,12 @@ override='''
 .bpc-section .bpc-toolbar{grid-template-columns:minmax(180px,2fr) minmax(90px,1fr) minmax(110px,1fr) 150px;max-width:960px;align-items:end}
 .bp-heading-art>span{background-position:center;background-size:contain;background-repeat:no-repeat}\n.bpc-child-ages{max-width:960px;margin:0 auto 18px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px}.bpc-child-ages:empty{display:none}.bpc-child-ages label{flex:0 1 180px;text-align:left}
 .bpc-section .bpc-apply-note{min-height:20px;max-width:960px;margin:12px auto!important;color:#efd0ac}
+#bb-stay{padding-top:24px}.bp-home-intro{padding-top:24px;padding-bottom:18px}
+#bb-stay .bp-heading-art{display:none}
+.bp-section-heading{padding-top:24px;padding-bottom:26px}
+.bp-heading-art{height:56px;margin-bottom:14px;max-width:560px}
+.bp-heading-art>span{height:56px}.bp-heading-art>.bp-heading-forest{height:40px}
+@media(max-width:640px){#bb-stay{padding-top:20px}.bp-section-heading{padding-top:20px;padding-bottom:22px}.bp-heading-art,.bp-heading-art>span{height:36px}.bp-heading-art{margin-bottom:12px}.bp-heading-art>.bp-heading-forest{height:28px}}
 #bb-stay,#houses{scroll-margin-top:100px}.bst-card .bst-house-details{min-height:58px}
 @media(max-width:640px){.bpc-section .bpc-toolbar{grid-template-columns:1fr 1fr;gap:12px}.bpc-toolbar>label:first-child,.bpc-toolbar>.bpc-apply{grid-column:1/-1}.bpc-child-ages label{flex:1 1 130px}.bpc-section{padding-left:16px;padding-right:16px}.bpc-section .bst-card-body{padding:16px}.bst-card .bst-house-details{min-height:0}}
 '''
@@ -185,14 +192,14 @@ intro_text=[h['text'] for h in intro_page.headings if h['tag']=='h2'][:2]
 assert len(intro_text)==2 and intro_text[0].startswith('В каждом доме'), 'Live house introduction changed.'
 categories=[('/chalet','Шале'),('/barski','Барский дом'),('/barnhauses','Барнхаус'),('/gardens','Гарден'),('/rivers','Ривер'),('/maps','Карта территории')]
 intro='<section class="bp-home-intro" aria-label="Дома для отдыха в лесу">'+''.join('<p>'+escape(t)+'</p>' for t in intro_text)+'<nav aria-label="Категории домов">'+''.join('<a href="'+u+'">'+t+'</a>' for u,t in categories)+'</nav></section>'
-block='<!-- Барские поля: производственная версия. Без перехвата форм и noindex. -->\n'+css('hero.css')+css('native-header.css')+css('stay-planner.css')+css('bp-calendar.css')+hero+strip+intro+calendar+js('hero.js')+js('stay-data.js')+js('stay-core.js')+js('bp-calendar.js')+js('bp-stay.js')+js('bp-layout.js')+js('native-navigation.js')
+block='<!-- Барские поля: производственная версия. Без перехвата форм и noindex. -->\n'+css('hero.css')+css('native-header.css')+css('stay-planner.css')+css('bp-calendar.css')+hero+strip+intro+calendar+js('hero.js')+js('stay-data.js')+js('stay-core.js')+js('bp-calendar.js')+js('bp-stay.js')+js('bp-layout.js')+js('native-navigation.js')+js('native-form-validation.js')
 block=block.replace('<section id="bb-stay"','<style>#bb-stay .bph-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px;margin-top:24px}#bb-stay .bph-card{border:1px solid #54685b;border-radius:12px;overflow:hidden}#bb-stay .bph-card img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}#bb-stay .bph-body{padding:18px}#bb-stay .bph-body a{display:block;margin-top:12px;color:#ee995d}</style><section id="bb-stay"',1)
 (OUT/'01-ГЛАВНАЯ-T123.html').write_text(block)
 catcss=re.search(r'<style>(.*?)</style>',catalog,re.S)[1]
 # Scope generic rules so they do not alter native header, menu, footer or popups.
 catcss=catcss.replace('*{','.bph-catalog *{').replace('body{','.bph-catalog{').replace('main{','.bph-catalog{').replace('h1,h2{','.bph-catalog h1,.bph-catalog h2{').replace('main>p{','.bph-catalog>p{').replace('h2{font-size','.bph-catalog h2{font-size').replace('h1{font-size','.bph-catalog h1{font-size')
 catmain='<main class="bph-catalog">'+main+'</main>'
-catblock=css('hero.css')+css('native-header.css')+'<style>'+catcss+'</style>'+catmain+js('native-navigation.js')
+catblock=css('hero.css')+css('native-header.css')+'<style>'+catcss+'</style>'+catmain+js('native-navigation.js')+js('native-form-validation.js')
 (OUT/'02-КАТАЛОГ-T123.html').write_text(catblock)
 programs=(ROOT/'tilda/57-BP-PROGRAMMY-PLASHKI.html').read_text()
 (OUT/'04-ПРОГРАММЫ-T123.html').write_text(programs)
@@ -228,6 +235,7 @@ catpreview=catpreview.replace('<html','<html lang="ru"',1)
 manifest={'built':'2026-10-16','home':'https://barskie-polya.ru/','catalog':'https://barskie-polya.ru/houses','disabled_records':removed,'replacement_program_record':'rec4154336601','native_forms_preserved':re.findall(r'<form[^>]+id="([^"]+)"',live),'source_demo':'77bf906 + задачи Леры 16.10.2026','booking_until_inclusive':'2027-02-01','noindex_in_production':False,'publishing':'manual-tilda-owner'}
 manifest.update({'preserved_h1':live_h1,'baseline':str(BASELINE.relative_to(ROOT)),'baseline_sha256':hashlib.sha256(live.encode()).hexdigest(),'catalog_first_required':True,'home_head_preserved':True,'house_intro_preserved':intro_text})
 manifest['native_navigation_preserved']=True
+manifest['quiz_consent_required']=True
 (OUT/'06-SEO-ГЛАВНАЯ.json').write_text(json.dumps(live_page.head_signature()|{'h1':live_h1},ensure_ascii=False,indent=2))
 robots=(ROOT/'tools/out/bp-seo-review-20261016/robots.txt').read_text()
 lines=robots.splitlines(keepends=True)

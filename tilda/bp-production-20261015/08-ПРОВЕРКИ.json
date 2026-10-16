@@ -22,5 +22,30 @@
   "catalog_native_rules_popup": true,
   "native_header_geometry": "matches_live_at_1280",
   "native_header_icons": "production_svgs",
-  "preview_header_dependencies": "cached_locally"
+  "preview_header_dependencies": "cached_locally",
+  "preview_cases_passed": 14,
+  "news_preview": "3 real posts, links HTTP 200; native production feed preserved",
+  "calendar_intro_gap_desktop_px": 42,
+  "calendar_intro_gap_mobile_px": 38,
+  "reachable_forms_checked": [
+    "callback",
+    "quiz_5_steps",
+    "footer_help"
+  ],
+  "form_cases": [
+    "required_fields",
+    "invalid_phone",
+    "consent",
+    "valid_review_result"
+  ],
+  "quiz_consent_required": true,
+  "native_sdk_loopback": [
+    "503_error",
+    "retry",
+    "successful_response"
+  ],
+  "form_success_redirect": "not_confirmed_in_IAB; public destination pages HTTP 200",
+  "real_crm_delivery_tested": false,
+  "payment_created": false,
+  "bnovo_browser_check": "Chalet 640822, 2026-11-02..04, 2 adults, children [3,8]"
 }

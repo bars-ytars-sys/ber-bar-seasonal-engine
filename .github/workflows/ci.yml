@@ -16,6 +16,8 @@ jobs:
         run: node test/engine.test.mjs
       - name: Переходы родного меню БП
         run: node tools/bp-release/test-navigation.mjs
+      - name: Формы и новости демки БП
+        run: node tools/bp-release/test-preview.mjs
       - name: Стенд собирается и не разошёлся с исходниками
         run: |
           node demo/build.mjs

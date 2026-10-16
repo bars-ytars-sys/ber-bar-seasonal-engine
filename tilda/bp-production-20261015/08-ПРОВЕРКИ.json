@@ -52,5 +52,6 @@
   "native_header_same_width_checks": [
     826,
     1189
-  ]
+  ],
+  "preferences_summary_emphasized": true
 }

@@ -156,6 +156,15 @@ override='''
 .bpc-section .bpc-toolbar{grid-template-columns:minmax(180px,2fr) minmax(90px,1fr) minmax(110px,1fr) 150px;max-width:960px;align-items:end}
 .bp-heading-art>span{background-position:center;background-size:contain;background-repeat:no-repeat}\n.bpc-child-ages{max-width:960px;margin:0 auto 18px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px}.bpc-child-ages:empty{display:none}.bpc-child-ages label{flex:0 1 180px;text-align:left}
 .bpc-section .bpc-apply-note{min-height:20px;max-width:960px;margin:12px auto!important;color:#efd0ac}
+.bpc-section .bst-preferences summary{display:flex;align-items:center;gap:10px;width:fit-content;box-sizing:border-box;min-height:44px;padding:10px 16px;border:1px solid rgba(238,153,93,.6);border-radius:10px;background:rgba(196,119,60,.16);color:#f1bb8e;font-size:14px;font-weight:500;line-height:1.4;list-style:none;transition:background-color .18s,border-color .18s}
+.bpc-section .bst-preferences summary::-webkit-details-marker{display:none}
+.bpc-section .bst-preferences summary::before{content:"";width:18px;height:18px;flex:0 0 18px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23f1bb8e' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M4 7h16M7 12h10M10 17h4'/%3E%3C/svg%3E") center/contain no-repeat}
+.bpc-section .bst-preferences summary::after{content:"";width:6px;height:6px;flex:0 0 6px;margin-left:8px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(-45deg);transition:transform .18s}
+.bpc-section .bst-preferences[open] summary::after{transform:rotate(45deg) translateY(-2px)}
+.bpc-section .bst-preferences summary:hover{background:rgba(196,119,60,.25);border-color:#ee995d}
+.bpc-section .bst-preferences summary:focus-visible{outline:2px solid #f1bb8e;outline-offset:4px}
+.bpc-section .bst-preferences .bst-filters{margin-top:14px}
+@media(max-width:640px){.bpc-section .bst-preferences summary{width:100%;min-height:46px}.bpc-section .bst-preferences summary::after{margin-left:auto}}
 #bb-stay{padding-top:24px}.bp-home-intro{padding-top:24px;padding-bottom:18px}
 #bb-stay .bp-heading-art{display:none}
 .bp-section-heading{padding-top:24px;padding-bottom:26px}

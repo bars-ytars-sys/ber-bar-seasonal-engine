@@ -19,5 +19,8 @@
   "native_menu_design": "preserved",
   "native_menu_height_fixed": true,
   "menu_anchor_routes_fixed": true,
-  "catalog_native_rules_popup": true
+  "catalog_native_rules_popup": true,
+  "native_header_geometry": "matches_live_at_1280",
+  "native_header_icons": "production_svgs",
+  "preview_header_dependencies": "cached_locally"
 }

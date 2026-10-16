@@ -28,6 +28,7 @@ records=Records(live).spans
 for name in ['stay-core.js','bp-calendar.js','bp-stay.js','stay-planner.css','bp-calendar.css','bp-layout.js']:
  shutil.copyfile(SRC/name,AS/name)
 shutil.copyfile(ROOT/'tools/bp-release/native-navigation.js',AS/'native-navigation.js')
+shutil.copyfile(ROOT/'tools/bp-release/native-header.css',AS/'native-header.css')
 data=json.loads((SRC/'stay-data.js').read_text().split('=',1)[1].strip().rstrip(';'))
 # No static rates in the release: the public calendar provides current base rates.
 for h in data['bp']:
@@ -184,14 +185,14 @@ intro_text=[h['text'] for h in intro_page.headings if h['tag']=='h2'][:2]
 assert len(intro_text)==2 and intro_text[0].startswith('В каждом доме'), 'Live house introduction changed.'
 categories=[('/chalet','Шале'),('/barski','Барский дом'),('/barnhauses','Барнхаус'),('/gardens','Гарден'),('/rivers','Ривер'),('/maps','Карта территории')]
 intro='<section class="bp-home-intro" aria-label="Дома для отдыха в лесу">'+''.join('<p>'+escape(t)+'</p>' for t in intro_text)+'<nav aria-label="Категории домов">'+''.join('<a href="'+u+'">'+t+'</a>' for u,t in categories)+'</nav></section>'
-block='<!-- Барские поля: производственная версия. Без перехвата форм и noindex. -->\n'+css('hero.css')+css('stay-planner.css')+css('bp-calendar.css')+hero+strip+intro+calendar+js('hero.js')+js('stay-data.js')+js('stay-core.js')+js('bp-calendar.js')+js('bp-stay.js')+js('bp-layout.js')+js('native-navigation.js')
+block='<!-- Барские поля: производственная версия. Без перехвата форм и noindex. -->\n'+css('hero.css')+css('native-header.css')+css('stay-planner.css')+css('bp-calendar.css')+hero+strip+intro+calendar+js('hero.js')+js('stay-data.js')+js('stay-core.js')+js('bp-calendar.js')+js('bp-stay.js')+js('bp-layout.js')+js('native-navigation.js')
 block=block.replace('<section id="bb-stay"','<style>#bb-stay .bph-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px;margin-top:24px}#bb-stay .bph-card{border:1px solid #54685b;border-radius:12px;overflow:hidden}#bb-stay .bph-card img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}#bb-stay .bph-body{padding:18px}#bb-stay .bph-body a{display:block;margin-top:12px;color:#ee995d}</style><section id="bb-stay"',1)
 (OUT/'01-ГЛАВНАЯ-T123.html').write_text(block)
 catcss=re.search(r'<style>(.*?)</style>',catalog,re.S)[1]
 # Scope generic rules so they do not alter native header, menu, footer or popups.
 catcss=catcss.replace('*{','.bph-catalog *{').replace('body{','.bph-catalog{').replace('main{','.bph-catalog{').replace('h1,h2{','.bph-catalog h1,.bph-catalog h2{').replace('main>p{','.bph-catalog>p{').replace('h2{font-size','.bph-catalog h2{font-size').replace('h1{font-size','.bph-catalog h1{font-size')
 catmain='<main class="bph-catalog">'+main+'</main>'
-catblock=css('hero.css')+'<style>'+catcss+'</style>'+catmain+js('native-navigation.js')
+catblock=css('hero.css')+css('native-header.css')+'<style>'+catcss+'</style>'+catmain+js('native-navigation.js')
 (OUT/'02-КАТАЛОГ-T123.html').write_text(catblock)
 programs=(ROOT/'tilda/57-BP-PROGRAMMY-PLASHKI.html').read_text()
 (OUT/'04-ПРОГРАММЫ-T123.html').write_text(programs)

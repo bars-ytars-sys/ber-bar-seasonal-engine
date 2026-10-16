@@ -347,6 +347,15 @@ body.bp-hero-in-view .bbk-чип{visibility:hidden;pointer-events:none}
 @media(max-width:360px){.bp-hero{min-height:560px}.bp-hero__lead{font-size:13px}.bp-hero__price-sub{font-size:11px}}
 
 </style><style>
+/* Keep the live Tilda header geometry and typography. Render its native tree
+   directly in the existing icon slot instead of the fragile pseudo-element. */
+#rec1185050691 [data-elem-id="1752779495403"] .tn-atom__button-icon{
+ background:var(--icon) center/contain no-repeat;
+}
+#rec1185050691 [data-elem-id="1752779495403"] .tn-atom__button-icon::before,
+#rec1185050691 [data-elem-id="1752779495403"] .tn-atom__button-icon::after{display:none}
+
+</style><style>
 /* Existing brand palettes: mint/TildaSans for BR, forest/Lora/Rubik for BP. */
 .bst{--ink:#172f29;--muted:#5e7168;--accent:#167e5c;--button:#2ed8a3;--paper:#fff;--soft:#f0f7f2;--line:#dce8e0;--heading:'TildaSans',Arial,sans-serif;font:16px/1.5 'TildaSans',Arial,sans-serif;color:var(--ink);box-sizing:border-box}
 .bst[data-brand=bp]{--ink:#eee5d5;--muted:#d3ccbe;--accent:#ee995d;--button:#a36434;--paper:#28413a;--soft:#314c44;--line:#54685b;--heading:'Lora',Georgia,serif;font-family:'Rubik',Arial,sans-serif}

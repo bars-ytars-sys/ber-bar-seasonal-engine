@@ -17,6 +17,13 @@ source=(OUT/'bp-glavnaya.html').read_text()
 native=''.join((PRE/name).read_text() for name in ['index.html','houses.html'])
 urls=sorted(set(re.findall(r'https://(?:static|static3|neo)\.tildacdn\.com/(?:js|css|ws)/[^\s\"\'<>]+',native)))
 urls.append('https://static.tildacdn.com/tild3262-6436-4764-a235-366133623239/photo.svg')
+# Native header icons are CSS backgrounds, so Tilda's image fallback does not
+# cover them. Keep the exact production SVGs beside the review page as well.
+urls.extend([
+ 'https://static.tildacdn.com/tild3534-3964-4934-b366-373533633666/__.svg',
+ 'https://static.tildacdn.com/tild3465-6235-4235-a330-633831396535/____ight_1.svg',
+ 'https://static.tildacdn.com/tild3765-6136-4365-b030-396362323066/____ight.svg',
+])
 def asset(url):
     parsed=urlsplit(url);tail=parsed.path.lstrip('/')
     if tail.startswith('tild3262-'):tail='logo.svg'
@@ -27,6 +34,20 @@ def asset(url):
         dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(payload)
     return url,'bp-production-assets/'+tail
 replacements=dict(ThreadPoolExecutor(max_workers=6).map(asset,urls))
+# Cache the same Rubik faces requested by the production header. A review
+# domain must not silently fall back to Arial when Google Fonts is delayed.
+font_css_url='https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&subset=latin,cyrillic&display=swap'
+font_css_path=OUT/'bp-production-assets/fonts/rubik.css'
+if not font_css_path.exists():
+    with urlopen(font_css_url,timeout=30) as r:font_css=r.read().decode()
+    font_urls=sorted(set(re.findall(r'https://fonts\.gstatic\.com/[^\s\"\')]+',font_css)))
+    font_replacements=dict(ThreadPoolExecutor(max_workers=6).map(asset,font_urls))
+    for remote,local in font_replacements.items():
+        # CSS is in fonts/, while gstatic paths retain their s/rubik/... layout.
+        font_css=font_css.replace(remote,'../'+local.removeprefix('bp-production-assets/'))
+    font_css_path.parent.mkdir(parents=True,exist_ok=True);font_css_path.write_text(font_css)
+for remote in re.findall(r'https://fonts\.googleapis\.com/css2\?family=Rubik[^\s\"\'<>]+',native):
+    replacements[remote]='bp-production-assets/fonts/rubik.css'
 guard=re.search(r'<script>\(function\(\)\{var ЗАПРЕТ=.*?</script>',source,re.S)
 assert guard, 'The existing demo transport guard is required.'
 head='<meta name="robots" content="noindex,nofollow"><script>window.BPPreviewRoutes='+json.dumps({'home':HOME,'catalog':CATALOG,'winter':'bp-new-year.html'})+';</script>'+guard[0]+'''<script>

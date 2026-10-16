@@ -4,7 +4,7 @@ from html import escape, unescape
 from urllib.parse import urlsplit
 from urllib.request import urlopen
 from concurrent.futures import ThreadPoolExecutor
-import json, re, hashlib, gzip
+import json, re, hashlib, gzip, base64
 
 ROOT=Path(__file__).resolve().parents[2]
 PRE=ROOT/'tools/out/bp-production-20261015'
@@ -19,11 +19,12 @@ urls=sorted(set(re.findall(r'https://(?:static|static3|neo)\.tildacdn\.com/(?:js
 urls.append('https://static.tildacdn.com/tild3262-6436-4764-a235-366133623239/photo.svg')
 # Native header icons are CSS backgrounds, so Tilda's image fallback does not
 # cover them. Keep the exact production SVGs beside the review page as well.
-urls.extend([
+header_icons=[
  'https://static.tildacdn.com/tild3534-3964-4934-b366-373533633666/__.svg',
  'https://static.tildacdn.com/tild3465-6235-4235-a330-633831396535/____ight_1.svg',
  'https://static.tildacdn.com/tild3765-6136-4365-b030-396362323066/____ight.svg',
-])
+]
+urls.extend(header_icons)
 def asset(url):
     parsed=urlsplit(url);tail=parsed.path.lstrip('/')
     if tail.startswith('tild3262-'):tail='logo.svg'
@@ -34,6 +35,12 @@ def asset(url):
         dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(payload)
     return url,'bp-production-assets/'+tail
 replacements=dict(ThreadPoolExecutor(max_workers=6).map(asset,urls))
+# CSS custom properties can be consumed in an external Tilda stylesheet. A
+# relative --icon URL would then resolve inside ws/project8177746/. Embed the
+# original small SVGs to keep both inline and external consumers independent
+# of the stylesheet URL, in public review and localhost alike.
+for remote in header_icons:
+    replacements[remote]='data:image/svg+xml;base64,'+base64.b64encode((OUT/replacements[remote]).read_bytes()).decode()
 # Cache the same Rubik faces requested by the production header. A review
 # domain must not silently fall back to Arial when Google Fonts is delayed.
 font_css_url='https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&subset=latin,cyrillic&display=swap'

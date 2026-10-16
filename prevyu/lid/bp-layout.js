@@ -3,7 +3,7 @@
  'use strict';
  const garland='https://static.tildacdn.com/tild3638-6438-4366-b766-613130643330/_.svg';
  const forest='https://static.tildacdn.com/tild3533-3034-4864-a235-613732613230/___.svg';
- const artwork=()=>`<div class="bp-heading-art" aria-hidden="true"><span class="bp-heading-garland"><img src="${garland}" alt="" width="383" height="163" loading="lazy"></span><span class="bp-heading-forest"><img src="${forest}" alt="" width="417" height="129" loading="lazy"></span><span class="bp-heading-garland bp-heading-garland--right"><img src="${garland}" alt="" width="383" height="163" loading="lazy"></span></div>`;
+ const artwork=()=>`<div class="bp-heading-art" aria-hidden="true"><span class="bp-heading-garland" style="background-image:url(${garland})"></span><span class="bp-heading-forest" style="background-image:url(${forest})"></span><span class="bp-heading-garland bp-heading-garland--right" style="background-image:url(${garland})"></span></div>`;
  function mount(){
   for(const [id,title] of [
    ['rec1534422731','Здесь отдых становится особенным'],

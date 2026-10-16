@@ -1,0 +1,18 @@
+{
+  "status": "ready_for_transfer_catalog_first",
+  "date": "2026-10-16",
+  "local_seo_passed": true,
+  "local_seo_checks": 23,
+  "booking_checks_passed": true,
+  "booking_checks": 10,
+  "live_rooms": "15/15",
+  "mobile_widths": [
+    320,
+    390
+  ],
+  "preserved_h1": "уютная база отдыха в подмосковье",
+  "production_published": false,
+  "catalog_live_check_requires_publication": true,
+  "catalog_gate": "python3 checks/check-seo.py --stage catalog",
+  "post_publish_check": "python3 checks/check-seo.py --stage live"
+}

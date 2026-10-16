@@ -1,0 +1,205 @@
+{
+  "title": "База отдыха в лесу в Подмосковье - Барские поля",
+  "meta": [
+    {
+      "charset": "utf-8"
+    },
+    {
+      "http-equiv": "Content-Type",
+      "content": "text/html; charset=utf-8"
+    },
+    {
+      "name": "viewport",
+      "content": "width=device-width, initial-scale=1.0"
+    },
+    {
+      "name": "google-site-verification",
+      "content": "ALFj124FL0Ezv7UOIeJxOohiQ-tb-fhdlRmOsVHVqu0"
+    },
+    {
+      "name": "yandex-verification",
+      "content": "dcabba7594249735"
+    },
+    {
+      "name": "description",
+      "content": "Домики в лесу на базе отдыха Барские поля в 1 часе от Москвы. Уютная база отдыха в Подмосковье. База отдыха \"Барские поля\"."
+    },
+    {
+      "name": "keywords",
+      "content": "База отдыха в Подмосковье, база отдыха в лесу, база отдыха, дом с чаном подмосковье, база отдыха цены, домики для отдыха в подмосковье в лесу "
+    },
+    {
+      "property": "og:url",
+      "content": "https://barskie-polya.ru"
+    },
+    {
+      "property": "og:title",
+      "content": "Отдельные домики с банным чаном и баней в лесу|База отдыха в Подмосковье"
+    },
+    {
+      "property": "og:description",
+      "content": "Домики в лесу на базе отдыха Барские поля в 1 часе от Москвы. Уютная база отдыха в Подмосковье. База отдыха \"Барские поля\"."
+    },
+    {
+      "property": "og:type",
+      "content": "website"
+    },
+    {
+      "property": "og:image",
+      "content": "https://static.tildacdn.com/tild6536-3537-4166-b435-333832313630/IMG_9799-286.jpg"
+    },
+    {
+      "name": "format-detection",
+      "content": "telephone=no"
+    },
+    {
+      "http-equiv": "x-dns-prefetch-control",
+      "content": "on"
+    },
+    {
+      "itemprop": "image",
+      "content": "https://static.tildacdn.com/tild6337-6464-4665-b134-336532313264/photo_2026-05-25_21-.jpg"
+    },
+    {
+      "itemprop": "image",
+      "content": "https://static.tildacdn.com/tild3663-3536-4438-a632-323239333937/ChatGPT_Image_9__202.png"
+    },
+    {
+      "itemprop": "caption",
+      "content": "Уютная база отдыха"
+    },
+    {
+      "itemprop": "image",
+      "content": "https://static.tildacdn.com/tild3365-3831-4439-b235-663732656363/5384275035423446467.jpg"
+    },
+    {
+      "itemprop": "image",
+      "content": "https://static.tildacdn.com/tild6164-6639-4238-b664-653761373764/photo_2026-05-06_18-.png"
+    },
+    {
+      "itemprop": "image",
+      "content": "https://static.tildacdn.com/tild3664-3532-4762-b865-366434643462/IMG_3728_1_2_1_1_1.png"
+    },
+    {
+      "itemprop": "caption",
+      "content": "Закрытая база отдыха в Подмосковье"
+    },
+    {
+      "itemprop": "image",
+      "content": "https://static.tildacdn.com/tild3231-3238-4966-a334-323963666132/IMG_4334_1.jpg"
+    },
+    {
+      "itemprop": "caption",
+      "content": "Закрытая база отдыха в Подмосковье"
+    },
+    {
+      "itemprop": "image",
+      "content": "https://static.tildacdn.com/tild6434-6634-4430-b164-383034343665/woman-sitting-chair-.png"
+    },
+    {
+      "itemprop": "caption",
+      "content": "Баня с чаном в Подмосковье"
+    },
+    {
+      "itemprop": "image",
+      "content": "https://static.tildacdn.com/tild3165-3031-4439-b839-336366366138/11_1.jpg"
+    },
+    {
+      "itemprop": "caption",
+      "content": "Коттедж у леса новый год"
+    }
+  ],
+  "canonical": [
+    "https://barskie-polya.ru"
+  ],
+  "schema": [
+    {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      "@id": "https://barskie-polya.ru/#organization",
+      "name": "База отдыха «Барские поля»",
+      "description": "База отдыха в Подмосковье в часе от Москвы: отдельные дома в лесу, у каждого свой банный чан, баня, летняя веранда и площадки для мероприятий.",
+      "url": "https://barskie-polya.ru/",
+      "image": "https://static.tildacdn.com/tild6536-3537-4166-b435-333832313630/IMG_9799-286.jpg",
+      "telephone": "+7 (495) 150-39-08",
+      "priceRange": "от 9 900 ₽ за ночь",
+      "currenciesAccepted": "RUB",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "RU",
+        "addressRegion": "Московская область",
+        "addressLocality": "деревня Степаньково",
+        "streetAddress": "Новорижское шоссе, деревня Степаньково"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 56.095332,
+        "longitude": 36.469182
+      },
+      "hasMap": "https://yandex.ru/maps/-/CHBeRBYP",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "09:00",
+        "closes": "23:59",
+        "description": "Часы работы отдела бронирования"
+      },
+      "amenityFeature": [
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Банный чан у каждого дома",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Баня",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Мангал и зона барбекю",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Размещение с питомцами",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Бесплатная парковка",
+          "value": true
+        }
+      ],
+      "sameAs": [
+        "https://t.me/bazabarskie_polya",
+        "https://www.instagram.com/barskie_polya",
+        "https://yandex.ru/maps/org/barskiye_polya/218830724182/"
+      ],
+      "potentialAction": {
+        "@type": "ReserveAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://barskie-polya.ru/booking",
+          "actionPlatform": [
+            "http://schema.org/DesktopWebPlatform",
+            "http://schema.org/MobileWebPlatform"
+          ]
+        },
+        "result": {
+          "@type": "LodgingReservation",
+          "name": "Бронирование дома"
+        }
+      }
+    }
+  ],
+  "h1": "уютная база отдыха в подмосковье"
+}

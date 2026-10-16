@@ -1,0 +1,8 @@
+{
+  "remove_only": {
+    "User-Agent: *": "Disallow: /houses",
+    "User-Agent: Yandex": "Disallow: /houses"
+  },
+  "all_other_rules": "preserve",
+  "source_sha256": "6e09bfbf68802beca392d6342f02e68640beb1b32a29e0ed2a6a74ae6e298ef4"
+}

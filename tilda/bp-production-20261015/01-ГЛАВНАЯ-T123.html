@@ -1,0 +1,880 @@
+<!-- Барские поля: производственная версия. Без перехвата форм и noindex. -->
+<style>
+.bp-hero-record{
+  padding: 0 !important;
+  background-color: #14221d !important;
+  overflow: hidden !important;
+}
+.bp-hero{
+  position: relative;
+  min-height: 82svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  padding: 100px 20px 60px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+@media (min-width: 960px){.bp-hero{
+    min-height: 740px;
+    padding: 110px 32px 70px;
+  }}
+.bp-hero__bg{
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.bp-hero__video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 48%;
+  display: block;
+}
+.bp-hero__scrim{
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(16, 28, 22, 0.70) 0%, rgba(16, 28, 22, 0.50) 50%, rgba(16, 28, 22, 0.28) 100%),
+              linear-gradient(180deg, rgba(16, 28, 22, 0.45) 0%, rgba(16, 28, 22, 0.12) 30%, rgba(16, 28, 22, 0.70) 100%);
+}
+.bp-hero__content{
+  position: relative;
+  z-index: 2;
+  max-width: 840px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.bp-hero__logo-icon{
+  margin-bottom: 12px;
+  opacity: 0.92;
+}
+.bp-hero__title{
+  font-family: 'Forum', 'Playfair Display', 'Cormorant Garamond', 'Georgia', serif;
+  font-size: 42px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #eed5d5;
+  margin: 0 0 16px;
+  text-shadow: 0 2px 22px rgba(0,0,0,0.7);
+}
+@media (max-width: 640px){.bp-hero__title{
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+  }}
+.bp-hero__divider{
+  width: 220px;
+  height: 1px;
+  background: rgba(238, 213, 213, 0.38);
+  margin: 0 auto 16px;
+}
+.bp-hero__lead{
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #f4eee0;
+  margin: 0 0 16px;
+  max-width: 640px;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.7);
+}
+@media (max-width: 640px){.bp-hero__lead{
+    font-size: 14px;
+    line-height: 1.45;
+    margin-bottom: 14px;
+  }}
+.bp-hero__price-box{
+  margin-bottom: 22px;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.7);
+}
+.bp-hero__price-val{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #e58e58;
+  margin-bottom: 4px;
+}
+@media (max-width: 640px){.bp-hero__price-val{
+    font-size: 17px;
+  }}
+.bp-hero__price-sub{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  color: rgba(244, 238, 224, 0.88);
+}
+@media (max-width: 640px){.bp-hero__price-sub{
+    font-size: 12px;
+  }}
+.bp-hero__actions{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 28px;
+}
+.bp-hero__btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 6px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.bp-hero__btn--primary{
+  background: #a85c32;
+  color: #fff !important;
+  box-shadow: 0 4px 18px rgba(168, 92, 50, 0.35);
+}
+.bp-hero__btn--primary:hover{
+  background: #bc6b3c;
+  transform: translateY(-1px);
+}
+.bp-hero__btn--quiz{
+  background: #f3ede2;
+  color: #7b4a24 !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+}
+.bp-hero__btn--quiz:hover{
+  background: #fff8ee;
+  transform: translateY(-1px);
+}
+.bp-hero__medals{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.bp-hero__medal{
+  display: inline-block;
+  width: 84px;
+  height: 84px;
+  transition: transform 0.2s ease;
+}
+.bp-hero__medal:hover{
+  transform: scale(1.06);
+}
+.bp-hero__medal img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+@media (max-width: 640px){.bp-hero__medal{
+    width: 72px;
+    height: 72px;
+    gap: 10px;
+  }}
+.bp-hero-record{background:#233b32!important}
+.bp-hero{display:flex;align-items:center;justify-content:center;min-height:max(740px,calc(100svh - 96px));padding:76px 32px 54px;color:#fff8eb;background:#233b32}
+.bp-hero__bg{position:absolute;inset:0;z-index:1;background:#233b32 center center/cover no-repeat}
+.bp-hero__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center}
+.bp-hero__scrim{background:linear-gradient(180deg,rgba(13,31,25,.16) 0%,rgba(13,31,25,.36) 28%,rgba(13,31,25,.52) 56%,rgba(13,31,25,.68) 100%)}
+.bp-hero__content{position:relative;z-index:2;max-width:1080px;width:100%;margin:0 auto;display:flex;flex-direction:column;align-items:center;text-align:center;box-sizing:border-box}
+.bp-hero__logo-icon{display:none}
+.bp-hero__eyebrow{font:500 12px/1.5 'Rubik',Arial,sans-serif;letter-spacing:.19em;text-transform:uppercase;color:#fff8eb;margin:0 0 19px;text-shadow:0 2px 12px rgba(0,0,0,.3)}
+.bp-hero__title{font-family:'Forum','Georgia',serif;font-size:clamp(72px,7.5vw,118px);font-weight:400;line-height:1;letter-spacing:-.025em;text-transform:none;color:#fff8eb;margin:0;-webkit-text-stroke:0;text-shadow:0 3px 24px rgba(0,0,0,.24)}
+.bp-hero__divider{display:block;width:58px;height:1px;background:rgba(255,248,235,.6);margin:26px 0 22px}
+.bp-hero__lead{font:400 19px/1.65 'Rubik',Arial,sans-serif;color:#fff8eb;max-width:740px;margin:0 0 29px;text-shadow:0 2px 12px rgba(0,0,0,.36);text-wrap:balance}
+.bp-hero__price-box{padding:0;border:0;margin:0 0 28px;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+.bp-hero__price-val{font:500 20px/1.5 'Rubik',Arial,sans-serif;color:#fff8eb;margin-bottom:7px}
+.bp-hero__price-sub{font:400 13px/1.65 'Rubik',Arial,sans-serif;color:#fff8eb;opacity:1;max-width:640px}
+.bp-hero__actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;width:100%;max-width:810px;gap:14px;margin:0 0 31px}
+.bp-hero__btn{font:500 15px/1.3 'Rubik',Arial,sans-serif;min-height:56px;padding:17px 22px;border-radius:5px;border:1px solid transparent;box-shadow:none;transition:background-color .2s,border-color .2s;transform:none!important;color:#fff8eb!important;text-decoration:none!important;box-sizing:border-box;display:flex;align-items:center;justify-content:center}
+.bp-hero__btn--primary{background:#ac5d30;border-color:#ac5d30}
+.bp-hero__btn--primary:hover{background:#c47443;border-color:#c47443}
+.bp-hero__btn--quiz{background:rgba(32,58,47,.88);border-color:rgba(255,248,235,.52);backdrop-filter:blur(8px)}
+.bp-hero__btn--quiz:hover{background:#314c44;border-color:#fff8eb}
+.bp-hero__btn:focus-visible,.bp-hero__medal:focus-visible{outline:2px solid #fff8eb;outline-offset:5px}
+.bp-hero__medals{display:flex;justify-content:center;gap:20px}
+.bp-hero__medal{width:86px;height:86px;box-sizing:border-box;padding:8px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:#314c44;border:0;outline:0;box-shadow:none;color:#fff8eb!important;text-decoration:none!important;text-align:center}
+.bp-hero__medal svg{width:21px;height:21px;display:block;flex:none}
+.bp-hero__medal strong{max-width:100%;letter-spacing:0;font:500 11px/1.2 'Rubik',Arial,sans-serif;color:#fff8eb}
+.bp-hero__medal small{max-width:100%;letter-spacing:0;font:400 9px/1.25 'Rubik',Arial,sans-serif;color:#fff8eb}
+.bp-hero__medal .bp-hero__top30{font:500 14px/1.2 'Rubik',Arial,sans-serif;white-space:nowrap;margin-bottom:2px}
+.bp-hero__btn-icon{display:none}
+.bp-hero-record .bp{display:none!important}
+body.bp-hero-in-view #bp-canvas{opacity:0}
+body.bp-hero-in-view .bbk-чип{visibility:hidden;pointer-events:none}
+@media(min-width:641px) and (max-width:1000px){.bp-hero{padding:62px 32px 54px;min-height:760px}
+.bp-hero__title{font-size:82px}
+.bp-hero__lead{max-width:620px;font-size:18px}}
+@media(max-width:640px){.bp-hero{min-height:max(720px,calc(100svh - 120px));padding:52px 22px 48px;display:flex;align-items:center;justify-content:center}
+.bp-hero__bg{position:absolute;inset:0;height:100%;min-height:0;background-position:center center}
+.bp-hero__video{object-position:center center}
+.bp-hero__scrim{background:linear-gradient(180deg,rgba(13,31,25,.22),rgba(13,31,25,.49) 28%,rgba(13,31,25,.69) 100%)}
+.bp-hero__content{max-width:480px;width:100%;padding:0;align-items:center;text-align:center}
+.bp-hero__eyebrow{font-size:10px;letter-spacing:.13em;line-height:1.6;margin-bottom:17px;max-width:280px}
+.bp-hero__title{font-size:clamp(50px,14.6vw,76px);line-height:1.04;letter-spacing:-.035em;margin:0;white-space:nowrap}
+.bp-hero__divider{margin:22px 0 19px;width:42px}
+.bp-hero__lead{font-size:16px;line-height:1.6;max-width:340px;margin-bottom:25px}
+.bp-hero__price-box{margin-bottom:24px}
+.bp-hero__price-val{font-size:17px;margin-bottom:7px}
+.bp-hero__price-sub{font-size:12px;line-height:1.7;max-width:330px;margin:auto}
+.bp-hero__actions{grid-template-columns:1fr 1fr;max-width:400px;gap:10px;margin-bottom:26px}
+.bp-hero__btn{font-size:13px;min-height:48px;padding:14px 8px}
+.bp-hero__btn--primary{grid-column:1/-1;min-height:52px;font-size:15px}
+.bp-hero__medals{gap:14px}
+.bp-hero__medal{width:80px;height:80px;padding:7px}}
+@media(prefers-reduced-motion:reduce){.bp-hero__btn{transition:none}}
+.bp-hero__actions{display:flex;flex-direction:column;align-items:center;gap:15px;max-width:390px;margin-left:auto;margin-right:auto}
+.bp-hero__actions .bp-hero__btn{width:100%;min-height:56px}
+.bp-hero__help{color:#fff8eb!important;text-decoration:none!important;font:400 14px/1.5 Rubik,Arial,sans-serif;border-bottom:1px solid #fff8eb66;padding:5px 0}
+.bp-hero__help:focus-visible{outline:2px solid #fff8eb;outline-offset:5px}
+:root{--bp-screen:100svh;--bp-header-height:76px;--bp-bottom-height:0px}
+.bp-hero{font-family:'Rubik',Arial,sans-serif;min-height:calc(var(--bp-screen) - var(--bp-header-height));padding:40px 32px}
+.bp-hero__title{font-family:'Rubik',Arial,sans-serif;font-weight:400;font-size:clamp(56px,6.5vw,96px);letter-spacing:-.035em}
+@media(max-width:640px){:root{--bp-header-height:56px;--bp-bottom-height:62px}
+.bp-hero{min-height:calc(var(--bp-screen) - var(--bp-header-height) - var(--bp-bottom-height));padding:18px 20px 20px;align-items:center}
+.bp-hero__eyebrow,.bp-hero__divider{display:none}
+.bp-hero__title{font:400 clamp(35px,10.8vw,46px)/1.1 'Rubik',Arial,sans-serif;letter-spacing:-.035em;margin:0 0 18px}
+.bp-hero__lead{font:400 14px/1.5 'Rubik',Arial,sans-serif;max-width:360px;margin:0 0 18px;text-wrap:pretty}
+.bp-hero__price-box{margin-bottom:18px}
+.bp-hero__price-val{font-size:16px;line-height:1.35;margin-bottom:7px}
+.bp-hero__price-sub{font-size:12px;line-height:1.45;max-width:350px}
+.bp-hero__actions{gap:8px;margin-bottom:18px}
+.bp-hero__actions .bp-hero__btn{min-height:46px;font-size:14px;padding:11px 14px}
+.bp-hero__help{font-size:12px;padding:5px 0}
+.bp-hero__medals{gap:14px}
+.bp-hero__medal{width:66px;height:66px;padding:5px;gap:2px}
+.bp-hero__medal svg{width:18px;height:18px}
+.bp-hero__medal strong{font-size:10px}
+.bp-hero__medal small{font-size:8px}
+.bp-hero__medal .bp-hero__top30{font-size:12px;margin-bottom:1px}}
+@media(max-width:640px) and (max-height:680px){.bp-hero{padding:12px 18px 14px}
+.bp-hero__title{font-size:36px;margin-bottom:14px}
+.bp-hero__lead{font-size:14px;line-height:1.4;margin-bottom:14px}
+.bp-hero__price-box{margin-bottom:14px}
+.bp-hero__price-val{font-size:15px;margin-bottom:5px}
+.bp-hero__price-sub{font-size:12px;line-height:1.4}
+.bp-hero__actions{margin-bottom:14px}
+.bp-hero__medal{width:60px;height:60px}
+.bp-hero__medals{gap:14px}}
+@font-face{font-family:'BPProductionSerif';src:url('https://static.tildacdn.com/tild6135-3038-4437-b231-373337383332/NotoSerifDisplay-Reg.woff') format('woff');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'BPProductionRubik';src:url('https://fonts.gstatic.com/s/rubik/v31/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4iFU0U1Z4Y.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'BPProductionRubik';src:url('https://fonts.gstatic.com/s/rubik/v31/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4iFWUU1Z4Y.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'BPProductionRubik';src:url('https://fonts.gstatic.com/s/rubik/v31/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4iFV0U1.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+.bp-hero,.bp-hero__eyebrow,.bp-hero__lead,.bp-hero__price-val,.bp-hero__price-sub,.bp-hero__btn,.bp-hero__help,.bp-hero__medal strong,.bp-hero__medal small{font-family:'BPProductionRubik',Arial,sans-serif;font-weight:400;font-synthesis:none}
+.bp-hero__title{font-family:'BPProductionSerif',Georgia,serif;font-weight:300;letter-spacing:normal;font-synthesis:none}
+.bp-hero__eyebrow{font-family:'BPProductionSerif',Georgia,serif;font-weight:300;letter-spacing:normal}
+@media(max-width:640px){.bp-hero__title{font-family:'BPProductionSerif',Georgia,serif;font-weight:300;letter-spacing:normal}}
+@media(max-width:640px){.bp-hero{height:calc(var(--bp-screen) - var(--bp-header-height) - var(--bp-bottom-height));min-height:0;padding:20px 18px 28px;box-sizing:border-box}
+.bp-hero__content{flex:none}
+.bp-hero__title{font-size:44px;line-height:1.08;margin:0 0 16px}
+.bp-hero__lead{font-size:15px;line-height:1.45;margin-bottom:16px}
+.bp-hero__price-box{margin-bottom:18px}
+.bp-hero__price-val{font-size:16px;margin-bottom:6px}
+.bp-hero__price-sub{font-size:12px;line-height:1.4}
+.bp-hero__actions{margin-bottom:20px;gap:8px}
+.bp-hero__actions .bp-hero__btn{min-height:46px;padding:11px 12px;font-size:14px}
+.bp-hero__medals{gap:18px}
+.bp-hero__medal{width:72px;height:72px;flex:none;padding:6px}
+.bp-hero__medal svg{width:20px;height:20px}
+:root[data-bp-density=compact] .bp-hero{padding:16px 18px 24px}
+:root[data-bp-density=compact] .bp-hero__title{font-size:40px;margin-bottom:14px}
+:root[data-bp-density=compact] .bp-hero__lead{font-size:14px;line-height:1.4;margin-bottom:14px}
+:root[data-bp-density=compact] .bp-hero__price-box{margin-bottom:14px}
+:root[data-bp-density=compact] .bp-hero__actions{margin-bottom:18px}
+:root[data-bp-density=compact] .bp-hero__medal{width:64px;height:64px}
+:root[data-bp-density=short] .bp-hero{padding:10px 16px 18px}
+:root[data-bp-density=short] .bp-hero__title{font-size:34px;margin-bottom:10px}
+:root[data-bp-density=short] .bp-hero__lead{font-size:13px;line-height:1.35;margin-bottom:10px}
+:root[data-bp-density=short] .bp-hero__price-box{margin-bottom:10px}
+:root[data-bp-density=short] .bp-hero__price-val{font-size:14px;margin-bottom:4px}
+:root[data-bp-density=short] .bp-hero__price-sub{font-size:11px;line-height:1.35}
+:root[data-bp-density=short] .bp-hero__actions{margin-bottom:12px;gap:7px}
+:root[data-bp-density=short] .bp-hero__actions .bp-hero__btn{min-height:42px;padding:9px 10px;font-size:13px}
+:root[data-bp-density=short] .bp-hero__medal{width:58px;height:58px;padding:4px;gap:1px}
+:root[data-bp-density=short] .bp-hero__medals{gap:16px}}
+.bp-hero__eyebrow{display:none}
+.bp-hero__logo-icon{display:block;margin:0 0 15px}
+.bp-hero__logo-icon img,.bp-hero__logo-icon svg{display:block;width:42px;height:51px}
+.bp-hero__title{font-size:clamp(50px,5.6vw,82px);line-height:1.08;max-width:1080px;white-space:normal;letter-spacing:normal}
+.bp-hero__divider{margin:18px 0}
+.bp-hero__lead{font-size:18px;line-height:1.5;margin-bottom:22px}
+.bp-hero__price-val{color:#f5d6b4}
+.bp-hero__actions{max-width:430px;gap:10px;margin-bottom:23px}
+.bp-hero__catalogue{font:400 14px/1.4 'BPProductionRubik',Arial,sans-serif;color:#eee5d5!important;text-decoration:none!important;border-bottom:1px solid #eee5d577;padding:4px 0}
+@media(min-width:641px) and (max-height:800px){.bp-hero{padding:16px 32px}
+.bp-hero__logo-icon{margin-bottom:9px}
+.bp-hero__logo-icon svg{width:32px;height:39px}
+.bp-hero__title{font-size:58px;line-height:1.05}
+.bp-hero__divider{margin:10px 0}
+.bp-hero__lead{font-size:16px;line-height:1.4;margin-bottom:14px}
+.bp-hero__price-box{margin-bottom:14px}
+.bp-hero__price-val{font-size:18px}
+.bp-hero__price-sub{font-size:12px;line-height:1.4}
+.bp-hero__actions{margin-bottom:14px;gap:8px}
+.bp-hero__medal{width:72px;height:72px}}
+@media(max-width:640px){.bp-hero__logo-icon{margin-bottom:9px}
+.bp-hero__logo-icon img,.bp-hero__logo-icon svg{width:25px;height:30px}
+.bp-hero__title{font-size:clamp(28px,7.7vw,42px);line-height:1.12;margin-bottom:13px;white-space:normal}
+.bp-hero__lead{font-size:14px;line-height:1.4;margin-bottom:13px}
+.bp-hero__actions{gap:7px;margin-bottom:17px}
+.bp-hero__actions .bp-hero__btn{font-size:13px;line-height:1.4;padding:10px 12px}
+.bp-hero__catalogue{font-size:12px;padding:3px 0}}
+@media(max-width:640px){:root[data-bp-density=compact] .bp-hero__title{font-size:30px}
+:root[data-bp-density=short] .bp-hero__title{font-size:27px;margin-bottom:8px}
+:root[data-bp-density=short] .bp-hero__logo-icon{margin-bottom:5px}
+:root[data-bp-density=short] .bp-hero__logo-icon img,:root[data-bp-density=short] .bp-hero__logo-icon svg{width:20px;height:24px}
+:root[data-bp-density=short] .bp-hero__lead{font-size:12px;line-height:1.35;margin-bottom:9px}
+:root[data-bp-density=short] .bp-hero__actions{gap:5px;margin-bottom:10px}
+:root[data-bp-density=short] .bp-hero__actions .bp-hero__btn{min-height:40px;font-size:12px;padding:7px 10px}}
+.bp-hero__eyebrow{display:block!important;font:400 12px/1.5 'BPProductionRubik',Arial,sans-serif;letter-spacing:.1em;margin:0 0 14px;color:#eee5d5;max-width:100%}
+.bp-hero__logo-icon{display:none!important}
+.bp-home-intro{box-sizing:border-box;background:#28413a;color:#eee5d5;padding:30px max(20px,calc((100% - 1100px)/2));font:400 16px/1.65 'BPProductionRubik',Arial,sans-serif;text-align:center}
+.bp-home-intro p{max-width:940px;margin:0 auto 12px}.bp-home-intro p:last-of-type{color:#d3ccbe;font-size:14px}.bp-home-intro nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;margin-top:18px}.bp-home-intro a{color:#f1bb8e!important;text-decoration:underline;text-underline-offset:4px;font-size:14px}
+.bp-hero{min-height:650px;height:calc(var(--bp-screen,100svh) - var(--bp-header-height,76px) - var(--bp-bottom-height,0px))}
+@media(max-width:640px){.bp-hero{min-height:550px;height:auto;padding:24px 18px 30px}body:has(#bp-production-hero) #rec1916160711{display:none!important}.bp-hero__eyebrow{font-size:9px;margin-bottom:12px}.bp-hero__medals{flex-wrap:nowrap;gap:16px}.bp-hero__medal{flex:0 0 64px;width:64px;height:64px}.bp-hero__content{max-width:100%}.bp-hero__actions{grid-template-columns:1fr;width:100%;max-width:360px}.bp-hero__title{font-size:clamp(28px,7.7vw,42px)}.bp-hero__lead{font-size:14px}.bp-hero__catalogue{justify-self:center}}
+@media(max-width:360px){.bp-hero{min-height:560px}.bp-hero__lead{font-size:13px}.bp-hero__price-sub{font-size:11px}}
+
+</style><style>
+/* Existing brand palettes: mint/TildaSans for BR, forest/Lora/Rubik for BP. */
+.bst{--ink:#172f29;--muted:#5e7168;--accent:#167e5c;--button:#2ed8a3;--paper:#fff;--soft:#f0f7f2;--line:#dce8e0;--heading:'TildaSans',Arial,sans-serif;font:16px/1.5 'TildaSans',Arial,sans-serif;color:var(--ink);box-sizing:border-box}
+.bst[data-brand=bp]{--ink:#eee5d5;--muted:#d3ccbe;--accent:#ee995d;--button:#a36434;--paper:#28413a;--soft:#314c44;--line:#54685b;--heading:'Lora',Georgia,serif;font-family:'Rubik',Arial,sans-serif}
+.bst *, .bst *::before,.bst *::after{box-sizing:border-box}.bst [hidden]{display:none!important}
+.bst-section{background:var(--paper);padding:50px 24px 60px;scroll-margin-top:110px}
+.bst-inner{max-width:1200px;margin:auto}.bst-eyebrow{color:var(--accent);font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin:0 0 10px}
+.bst h2,.bst h3,.bst p{margin:0}.bst h2{font:500 clamp(29px,3.5vw,43px)/1.15 var(--heading);color:var(--ink)}.bst-intro{max-width:680px;margin:14px 0 25px!important;color:var(--muted);font-size:17px}
+.bst button,.bst input,.bst select,.bst textarea{font:inherit}.bst button,.bst a{touch-action:manipulation}.bst button{cursor:pointer}
+.bst button:focus-visible,.bst a:focus-visible,.bst input:focus-visible,.bst select:focus-visible,.bst textarea:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.bst-controls{background:var(--soft);border:1px solid var(--line);padding:20px;border-radius:16px;margin:24px 0}
+.bst-fields{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.bst label{display:block;font-size:13px;font-weight:500;color:var(--ink)}
+.bst input,.bst select,.bst textarea{display:block;width:100%;min-width:0;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);padding:11px 12px;min-height:46px;margin:6px 0 0}.bst input[type=date]{appearance:none;min-height:48px}.bst textarea{resize:vertical;min-height:80px}
+.bst-presets,.bst-filters,.bst-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.bst-presets{margin-top:14px}.bst-filters{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+.bst-pill,.bst-secondary{background:transparent;border:1px solid var(--line);border-radius:30px;color:var(--ink);padding:9px 15px;min-height:44px;font-size:14px!important;text-decoration:none!important;display:inline-flex;align-items:center;justify-content:center;text-align:center}
+.bst-pill[aria-pressed=true]{border-color:var(--accent);background:var(--paper);box-shadow:inset 0 0 0 1px var(--accent);color:var(--accent)}
+.bst-btn{display:inline-flex;justify-content:center;align-items:center;min-height:46px;padding:12px 18px;border:0;border-radius:10px;background:var(--button);color:var(--ink)!important;text-decoration:none!important;font-weight:600;line-height:1.25;text-align:center}
+.bst[data-brand=bp] .bst-btn{color:#fff!important}.bst-btn:disabled{opacity:.5;cursor:default}
+.bst-link{padding:9px 0;border:0;border-bottom:1px solid currentColor;background:transparent;color:var(--accent)!important;text-decoration:none!important;font-size:14px!important;min-height:40px}
+.bst-results-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:22px 0 18px}.bst-results-bar p{font-size:14px;color:var(--muted)}
+.bst-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.bst-card{min-width:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--paper);display:flex;flex-direction:column}
+.bst-photo{display:block;aspect-ratio:4/3;background:var(--soft);overflow:hidden}.bst-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}.bst-photo:hover img{transform:scale(1.025)}
+.bst-card-body{padding:21px;flex:1;display:flex;flex-direction:column}.bst-card h3{font:500 25px/1.15 var(--heading);color:var(--ink)}.bst[data-brand=bp] .bst-card h3{color:var(--accent)}
+.bst-card-tag{font-size:13px;color:var(--accent);margin:8px 0 16px!important}.bst-facts{display:grid;gap:8px;font-size:14px;margin:0 0 18px;padding:0;list-style:none;color:var(--muted)}.bst-facts li{display:flex;gap:8px}.bst-facts li::before{content:'·';color:var(--accent);font-weight:700}
+.bst-price{margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}.bst-price strong{font-size:21px;font-weight:600}.bst small{display:block;font-size:12px;color:var(--muted);line-height:1.5;margin-top:5px}
+.bst-card-actions{display:grid;gap:9px;margin-top:17px}.bst-card-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}.bst-compare-toggle{font-size:13px!important;border:0;background:transparent;color:var(--muted);padding:10px 0;min-height:44px}.bst-compare-toggle[aria-pressed=true]{color:var(--accent);font-weight:600}
+.bst-more{display:flex;justify-content:center;margin-top:24px}.bst-assist{margin-top:28px;border-radius:16px;background:var(--soft);padding:24px;display:flex;align-items:center;justify-content:space-between;gap:24px}.bst-assist p{color:var(--muted);margin-top:5px;max-width:650px;font-size:15px}.bst-assist .bst-btn{flex-shrink:0}
+.bst-benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-top:1px solid var(--line);margin-top:36px;padding-top:26px}.bst-benefits h3{font-size:17px}.bst-benefits p{font-size:14px;color:var(--muted);margin-top:8px}.bst-notice{margin-top:18px!important;font-size:12px;color:var(--muted)}
+.bst-error{color:#b63d2f!important;font-size:14px;margin-top:12px!important}.bst[data-brand=bp] .bst-error{color:#ffb6a6!important}
+.bst-compare-bar{position:sticky;bottom:86px;z-index:450;display:flex;align-items:center;justify-content:space-between;gap:15px;background:var(--paper);padding:14px 18px;border:1px solid var(--accent);border-radius:14px;box-shadow:0 8px 30px #0002;margin-top:22px}.bst-compare-bar span{font-size:14px}
+dialog.bst{width:min(920px,calc(100vw - 32px));max-height:88dvh;padding:0;border:1px solid var(--line);border-radius:20px;background:var(--paper);color:var(--ink);box-shadow:0 30px 100px #0005;overflow:auto;overscroll-behavior:contain}dialog.bst::backdrop{background:#142720a8;backdrop-filter:blur(3px)}
+.bst-dialog-head{position:sticky;top:0;z-index:2;background:var(--paper);display:flex;gap:16px;justify-content:space-between;align-items:center;padding:22px 28px;border-bottom:1px solid var(--line)}.bst-dialog-head h2{font-size:27px}.bst-close{border:1px solid var(--line);background:transparent;color:var(--ink);font-size:26px!important;width:44px;height:44px;border-radius:50%;flex-shrink:0}.bst-dialog-body{padding:26px 28px 30px}
+.bst-table-wrap{overflow:auto}.bst table{width:100%;border-collapse:collapse;text-align:left;font-size:14px}.bst th,.bst td{padding:16px 12px;vertical-align:top;border-bottom:1px solid var(--line);min-width:170px}.bst th:first-child,.bst td:first-child{min-width:135px;color:var(--muted)}.bst th{font-weight:500}.bst th img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;margin-bottom:9px}.bst table .bst-btn{font-size:13px;margin-top:12px}.bst table .bst-link{font-size:12px!important}
+.bst-cost{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}.bst-cost>div{padding:20px;border:1px solid var(--line);border-radius:12px}.bst-cost h3{font-size:18px;margin-bottom:10px}.bst-cost p{font-size:14px;color:var(--muted);margin-top:8px}.bst-summary{background:var(--soft);padding:15px 18px;border-radius:10px;font-size:14px;line-height:1.6;margin-bottom:22px!important}.bst-lead-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0}.bst-consent{display:flex!important;gap:10px;align-items:flex-start;font-size:12px!important;line-height:1.5;margin:18px 0}.bst-consent input{width:18px;min-height:18px;height:18px;flex:none;margin:1px 0 0;accent-color:var(--accent)}.bst-consent a{color:var(--accent)!important}.bst-success{padding:24px;background:var(--soft);border:1px solid var(--line);border-radius:12px}.bst-success h3{font-size:22px;margin-bottom:10px}.bst-success p{color:var(--muted)}
+.bst-replaced{display:none!important}
+.bst [hidden]{display:none!important}
+.bst-controls>[data-check-availability]{margin-top:18px}
+.bst-availability{margin:24px 0}
+.bst-live-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:18px}
+.bst-live-heading h3{font-size:24px;margin-bottom:8px}
+.bst-live-heading p{font-size:14px;line-height:1.6;max-width:660px}
+.bst-live-heading>a{flex-shrink:0}
+.bst-live-frame{display:block;width:100%;height:900px;max-height:85vh;min-height:540px;border:0;background:#fff;border-radius:12px}
+@media(max-width:600px){.bst-live-heading{flex-direction:column;gap:8px}.bst-live-frame{height:760px;min-height:460px;max-height:80vh}}
+.bst .bst-compare-bar{top:82px;bottom:auto;margin:0 0 22px}
+@media(max-width:1000px){.bst-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.bst-assist{align-items:flex-start;flex-direction:column}.bst-benefits{gap:18px}}
+@media(max-width:600px){.bst-section{padding:32px 16px 40px}.bst-controls{padding:15px}.bst-fields{grid-template-columns:1fr 1fr}.bst-fields label:last-child{grid-column:1/-1}.bst-grid{grid-template-columns:1fr;gap:18px}.bst-card-body{padding:20px}.bst-intro{font-size:16px}.bst-benefits{grid-template-columns:1fr;gap:22px}.bst-results-bar{align-items:flex-start}.bst-results-bar .bst-link{max-width:120px;text-align:right;padding-top:0}.bst-compare-bar{bottom:80px;padding:12px;gap:9px}.bst-compare-bar .bst-btn{font-size:13px;padding:10px}.bst-compare-bar span{font-size:12px}.bst-dialog-head{padding:16px}.bst-dialog-head h2{font-size:22px}.bst-dialog-body{padding:20px 16px}.bst-cost,.bst-lead-grid{grid-template-columns:1fr}.bst-assist{padding:20px}.bst-filters{gap:7px}.bst-pill{padding:8px 12px;font-size:13px!important}.bst-actions{align-items:stretch;flex-direction:column}.bst-presets .bst-link{font-size:13px!important}.bst-compare-bar .bst-link{font-size:12px!important}}
+@media(prefers-reduced-motion:reduce){.bst *{scroll-behavior:auto!important;transition:none!important}}
+@media(max-width:600px){.bst .bst-compare-bar{top:65px}}
+.bst table th:first-child{position:sticky;left:0;background:var(--paper);z-index:1}
+@media(max-width:600px){.bst th,.bst td{min-width:140px;padding:12px 8px}.bst th:first-child,.bst td:first-child{min-width:100px}.bst th img{max-height:120px}}
+
+/* BP unified booking flow; shared BR catalogue keeps its original layout. */
+.bst-unified{padding-top:54px;padding-bottom:40px}.bst-unified .bst-inner{max-width:1160px}.bst-mode{display:flex;gap:4px;width:fit-content;padding:5px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}.bst-mode button{border:0;border-radius:8px;padding:12px 20px;min-height:46px;background:transparent;color:var(--muted);font-size:14px}.bst-mode button[aria-selected=true]{background:#eee5d5;color:#28413a;font-weight:600}.bst-unified .bst-controls{margin-bottom:22px}.bst-unified .bst-intro{max-width:none}.bst-unified .bst-preferences{margin-top:16px;padding-top:15px;border-top:1px solid var(--line)}.bst-preferences summary{cursor:pointer;font-size:14px;min-height:30px}.bst-preferences .bst-filters{border:0;margin-top:8px;padding-top:0}.bst-unified .bst-search{margin-top:18px;min-width:260px}.bst-date-prompt{border:1px dashed var(--line);border-radius:14px;padding:26px 28px;color:var(--muted)}.bst-date-prompt span{display:block;font-size:12px;letter-spacing:.15em;color:var(--accent);margin-bottom:12px}.bst-date-prompt h3{font:500 23px/1.3 var(--heading);color:var(--ink);margin-bottom:10px}.bst-date-prompt p{max-width:660px;font-size:14px}.bst-browse-note{margin:22px 0!important;color:var(--muted);font-size:14px}.bst-house-details{font-size:14px;color:var(--muted);margin-bottom:20px!important}.bst-simple-help{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-top:30px;padding-top:20px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}.bst-simple-help p{margin-right:auto}.bst-unified .bst-live-heading{margin-top:30px}.bst-unified .bst-live-heading p{color:var(--muted)}.bst-unified .bst-live-heading h3{font:500 27px/1.2 var(--heading)}.bst-unified .bst-live-frame{height:1100px;max-height:none;min-height:650px;border-radius:14px}.bst-loading{padding:18px;color:var(--muted)}
+@media(max-width:600px){.bst-unified{padding:30px 16px}.bst-mode{width:100%}.bst-mode button{flex:1;padding:12px 8px;font-size:13px}.bst-unified .bst-search{width:100%;min-width:0}.bst-date-prompt{padding:22px 18px}.bst-date-prompt h3{font-size:21px}.bst-simple-help{gap:8px 18px}.bst-simple-help p{width:100%}.bst-unified .bst-live-frame{height:1000px}.bst-unified .bst-live-heading h3{font-size:24px}}
+
+</style><style>
+/* Monthly calendars in the existing house catalogue. */
+.bpc-section{font-family:'BPProductionRubik',Rubik,Arial,sans-serif!important;--heading:'BPProductionSerif',Georgia,serif}
+.bpc-section h2,.bpc-section h3{font-weight:300}
+.bpc-toolbar{display:grid;grid-template-columns:minmax(0,2fr) minmax(100px,1fr);gap:14px;max-width:630px;margin:22px 0}.bpc-toolbar label{font-weight:400}.bpc-toolbar select{font-family:inherit;text-transform:capitalize}
+.bpc-section .bst-preferences{max-width:800px}.bpc-section>.bst-inner>.bpc-legend{display:none}
+.bpc-count{font-size:13px;color:var(--muted);margin:20px 0 18px!important}
+.bpc-card{border-color:#eee5d52b!important;border-radius:15px!important;overflow:hidden}.bpc-card .bst-card-body{padding:20px}.bpc-card h3{font-size:29px!important;color:#eee5d5!important}.bpc-card .bst-card-tag{margin:6px 0 10px!important;font-size:13px;color:#e1c5a0}.bpc-card .bst-house-details{font-size:12px;line-height:1.6;color:var(--muted);margin-bottom:20px!important}
+.bpc-calendar-host{margin-top:0;--bpc-day-size:42px}.bpc-calendar{padding:12px;background:#344f46;border-radius:12px;color:#eee5d5}
+.bpc-month{display:grid;grid-template-columns:36px minmax(0,1fr) 36px;gap:4px;align-items:center;margin-bottom:10px}.bpc-month button{width:36px;height:36px;min-height:0;padding:0;background:transparent;color:#eee5d5;border:0;border-radius:50%;font-size:26px;line-height:1}.bpc-month button:hover{background:#405e52}.bpc-month button:disabled{opacity:.25;cursor:default}.bpc-month select{margin:0;padding:6px 4px;border:0;background:transparent;color:#eee5d5;text-align:center;font-size:15px;text-transform:capitalize;min-height:36px;box-shadow:none}.bpc-month option{background:#344f46}
+.bpc-selection{display:grid;grid-template-columns:minmax(0,1fr) 14px minmax(0,1fr);align-items:center;gap:4px}.bpc-selection button{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-height:57px;padding:9px 10px;border:1px solid #8d9d88;border-radius:8px;background:transparent;color:#eee5d5;font-size:13px;line-height:1.3;text-align:left}.bpc-selection button.is-active{border-color:#eee5d5;background:#405e52;box-shadow:inset 0 0 0 1px #eee5d5}.bpc-selection button:disabled{cursor:default}.bpc-selection small{font-size:10px!important;line-height:1.3!important;color:#b8c4b9!important;margin:0!important}.bpc-selection span{white-space:nowrap}.bpc-selection-arrow{text-align:center;font-size:14px;color:#a0b39f}
+.bpc-selection button{min-width:0}.bpc-selection button>span{max-width:100%;font-size:13px;line-height:1.3}
+.bpc-days .bpc-day--chosen:not(:disabled):hover{background:#c79461;border-color:#c79461;color:#233b32}
+.bpc-hint{font-size:11px;line-height:1.4;min-height:30px;margin:10px 2px 6px!important;color:#b8c4b9}
+.bpc-week,.bpc-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}.bpc-week{margin-bottom:6px;color:#abbcaa;font-size:10px;text-align:center}
+.bpc-day{position:relative;display:flex;justify-content:center;align-items:center;min-width:0;min-height:42px;padding:0;border:1px solid transparent;border-radius:7px;font-family:inherit;font-size:14px;background:transparent;color:#eee5d5;line-height:1.2}.bpc-day--free:not(:disabled):hover{background:#405e52;border-color:#99b292}.bpc-day--closed{color:#ed9f8c}.bpc-day--closed>span{text-decoration:line-through;text-decoration-color:#df917f;text-decoration-thickness:1.5px}.bpc-day--past,.bpc-day--unknown{color:#91a28f}.bpc-day:disabled{cursor:default}.bpc-day--free:disabled:not(.bpc-day--chosen){color:#91a28f}.bpc-day--chosen{background:#c79461;color:#233b32;border-color:#c79461}.bpc-day--range{background:#536c58;color:#eee5d5;border-radius:3px}.bpc-day--chosen>span{text-decoration:none}.bpc-calendar button:focus-visible,.bpc-calendar select:focus-visible{outline:2px solid #a36434;outline-offset:2px}
+.bpc-card-legend{display:flex;justify-content:center;gap:18px;font-size:10px;color:#b8c4b9;margin-top:12px;padding-top:10px;border-top:1px solid #eee5d51a}.bpc-card-legend span{display:flex;align-items:center;gap:5px}.bpc-card-legend i{display:block;width:10px;height:10px;border-radius:50%;box-sizing:border-box}.bpc-key-free{border:1px solid #c9d6bd;background:#6f8773}.bpc-key-closed{background:linear-gradient(135deg,transparent 40%,#df917f 41%,#df917f 54%,transparent 55%)}
+.bpc-status{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:235px;color:#b8c4b9;font-size:13px;text-align:center}.bpc-status .bst-link{color:#eee5d5!important}
+.bpc-price-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:16px 0 9px;font-size:12px;color:var(--muted)}.bpc-price-row strong{font-weight:400;font-size:19px;color:var(--ink)}.bpc-error{font-size:12px;line-height:1.5;color:#ffd1bd;margin:8px 0!important}.bpc-book{width:100%;font:400 14px/1.4 'BPProductionRubik',Rubik,Arial,sans-serif!important;border-radius:7px;min-height:46px}.bpc-clear{font-size:11px!important;min-height:32px;padding:3px 0;white-space:nowrap}.bpc-note{font-size:10px!important;line-height:1.5!important;margin:0!important;color:#b3bfb3!important}.bpc-photo-link{font-size:12px!important;align-self:flex-start;margin-top:15px;padding-top:12px!important;border-top:1px solid #eee5d52b;width:100%}.bpc-empty{grid-column:1/-1;padding:24px;border:1px solid var(--line);border-radius:10px;color:var(--muted)}
+@media(max-width:640px){.bpc-section{padding:32px 16px 40px}.bpc-section h2{font-size:29px}.bpc-section .bst-intro{font-size:14px;max-width:340px}.bpc-toolbar{gap:10px;margin:20px 0}.bpc-toolbar label{font-size:12px}.bpc-toolbar select{font-size:14px;padding:10px 8px}.bpc-card .bst-photo{aspect-ratio:16/10}.bpc-card .bst-card-body{padding:16px}.bpc-card h3{font-size:30px!important}.bpc-calendar{padding:10px}.bpc-day{min-height:44px;font-size:15px}.bpc-month select{font-size:15px;padding:6px 4px}.bpc-section .bst-simple-help{margin-top:25px}}
+
+/* Six fixed week rows keep every month and loading state the same size. */
+.bpc-calendar{border:1px solid #eee5d526;padding:11px}.bpc-days{grid-template-rows:repeat(6,var(--bpc-day-size))}.bpc-day{height:var(--bpc-day-size);min-height:var(--bpc-day-size)}.bpc-week{line-height:14px}.bpc-status{height:calc(var(--bpc-day-size)*6 + 30px);min-height:0}.bpc-hint{height:32px;min-height:32px}.bpc-card h3{min-height:35px;line-height:1.2!important}
+@media(max-width:640px){.bpc-calendar-host{--bpc-day-size:44px}.bpc-calendar{padding:9px}}
+
+/* Review from the owner's October sheet. */
+.bpc-section-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}.bpc-section-heading>.bst-link{white-space:nowrap;font-size:14px!important}
+.bpc-window{color:var(--muted);font-size:13px;margin:-12px 0 20px!important}
+.bpc-toolbar{max-width:900px;grid-template-columns:minmax(0,2fr) minmax(110px,1fr) 160px;align-items:end}.bpc-apply{min-height:46px;border-radius:9px;font-weight:400!important}
+.bpc-apply-note{min-height:20px;color:#e1c5a0;font-size:12px;margin:8px 0!important}.bpc-count{scroll-margin-top:90px}
+.bpc-day--adjacent>span{display:flex;flex-direction:column;align-items:center;gap:1px}.bpc-day--adjacent small{font-size:8px!important;line-height:1!important;margin:0!important;color:inherit!important}.bpc-day--adjacent:disabled{opacity:.35}.bpc-book{margin-top:4px;margin-bottom:9px}.bpc-error .bst-link{display:block;width:max-content}
+.bpc-rate-note{display:block;font-size:10px!important;line-height:1.4!important;color:#b3bfb3!important;margin:0 0 10px!important}
+@media(max-width:640px){.bpc-toolbar{grid-template-columns:minmax(0,1.7fr) minmax(90px,1fr);gap:12px}.bpc-apply{grid-column:1/-1;width:100%;min-height:48px}.bpc-section-heading{gap:12px}.bpc-section-heading>.bst-link{font-size:13px!important}.bpc-window{font-size:12px;margin:0 0 12px!important}.bpc-count{scroll-margin-top:80px}}
+
+/* Shared section layout: artwork and copy occupy separate rows at every width. */
+.bp-section-heading-record{position:relative;background:#243d34;padding:0!important}
+/* Keep the original artboard measurable for Tilda's resize/init handlers. */
+.bp-section-heading-record>.t396{position:absolute!important;left:0!important;right:0!important;top:0!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+.bp-section-heading{max-width:1200px;padding:34px 24px 36px;margin:auto;text-align:center;box-sizing:border-box}
+.bp-section-heading h2{font:300 clamp(28px,3.2vw,43px)/1.2 'BPProductionSerif',Georgia,serif;color:#eee5d5;max-width:900px;margin:0 auto;text-transform:uppercase;letter-spacing:.015em}
+.bp-heading-art{display:grid;grid-template-columns:minmax(0,1fr) 136px minmax(0,1fr);gap:24px;align-items:end;width:100%;max-width:640px;height:88px;margin:0 auto 24px;pointer-events:none}
+.bp-heading-art>span{display:block;min-width:0;height:88px}
+.bp-heading-art>.bp-heading-forest{height:48px}
+.bp-heading-art .bp-heading-garland--right{transform:scaleX(-1)}
+.bp-heading-art img,.bp-heading-art svg{position:static!important;display:block!important;width:100%!important;height:100%!important;max-width:100%;object-fit:contain;opacity:.65;pointer-events:none}
+.bp-heading-rule{display:block;width:92px;border-top:1px solid #eee5d566;margin:22px auto 0}
+.bpc-section>.bst-inner{position:relative;z-index:2}
+.bpc-section .bst-eyebrow,.bpc-section-heading{text-align:center}
+.bpc-section-heading{display:block}
+.bpc-section .bst-intro{max-width:660px;margin:16px auto 12px!important;text-align:center;line-height:1.55}
+.bpc-section .bpc-window{margin:0 auto 12px!important;text-align:center}
+.bpc-section .bpc-catalogue-link{display:table;margin:0 auto 24px;padding:8px 0;min-height:0;font-size:13px!important}
+.bpc-toolbar{margin:0 auto 16px;max-width:900px}
+.bpc-section .bst-preferences{max-width:900px;margin:0 auto 24px}
+.bpc-apply-note:empty{display:none}
+.bpc-apply-note{max-width:900px;margin:10px auto 20px!important}
+.bpc-count{margin:24px 0 18px!important}
+@media(max-width:640px){
+ .bp-section-heading{padding:28px 16px 30px}
+ .bp-section-heading h2{font-size:29px;line-height:1.2}
+ .bp-heading-art{max-width:360px;height:54px;grid-template-columns:minmax(0,1fr) 88px minmax(0,1fr);gap:12px;margin-bottom:20px}
+ .bp-heading-art>span{height:54px}.bp-heading-art>.bp-heading-forest{height:30px}
+ .bp-heading-rule{margin-top:18px}
+ .bpc-section .bst-intro{max-width:100%;font-size:14px;margin:14px auto 10px!important}
+ .bpc-section .bpc-catalogue-link{margin-bottom:20px}
+ .bpc-toolbar{margin-bottom:16px}
+ .bpc-section .bst-preferences{margin-bottom:20px}
+}
+
+/* Decoration keeps its layout even while the SVG is loading. */
+.bp-heading-art>span{background-position:center;background-size:contain;background-repeat:no-repeat}
+
+.bpc-section .bpc-toolbar{grid-template-columns:minmax(180px,2fr) minmax(90px,1fr) minmax(110px,1fr) 150px;max-width:960px;align-items:end}
+.bp-heading-art>span{background-position:center;background-size:contain;background-repeat:no-repeat}
+.bpc-child-ages{max-width:960px;margin:0 auto 18px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px}.bpc-child-ages:empty{display:none}.bpc-child-ages label{flex:0 1 180px;text-align:left}
+.bpc-section .bpc-apply-note{min-height:20px;max-width:960px;margin:12px auto!important;color:#efd0ac}
+#bb-stay,#houses{scroll-margin-top:100px}.bst-card .bst-house-details{min-height:58px}
+@media(max-width:640px){.bpc-section .bpc-toolbar{grid-template-columns:1fr 1fr;gap:12px}.bpc-toolbar>label:first-child,.bpc-toolbar>.bpc-apply{grid-column:1/-1}.bpc-child-ages label{flex:1 1 130px}.bpc-section{padding-left:16px;padding-right:16px}.bpc-section .bst-card-body{padding:16px}.bst-card .bst-house-details{min-height:0}}
+
+</style>
+<div id="bp-production-hero" class="r t-rec bp-hero-record" >
+  <div class="bp-hero">
+    <!-- Фоновое панорамное видео дома -->
+    <div class="bp-hero__bg" style="background-image:url(https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/bp-hero-new-houses-20261010-poster.webp)">
+      <video class="bp-hero__video" muted loop playsinline webkit-playsinline preload="none" poster="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/bp-hero-new-houses-20261010-poster.webp"
+        aria-label="Новый презентационный фильм Шале и Барского дома">
+      </video>
+      <div class="bp-hero__scrim"></div>
+    </div>
+
+    <!-- Контент строго по центру -->
+    <div class="bp-hero__content">
+      <!-- Елочка БП -->
+      <div class="bp-hero__logo-icon" aria-hidden="true"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" viewBox="0 0 24 29" fill="none"><path d="M29.4219 23.4263V23.2613H29.6444C29.9524 23.2613 30.2091 23.2173 30.4145 23.1293C30.6312 23.0413 30.791 22.9093 30.8937 22.7333C30.9964 22.5573 31.0477 22.3373 31.0477 22.0732V12.9316C31.0477 12.6786 30.9964 12.4696 30.8937 12.3046C30.791 12.1396 30.6312 12.0185 30.4145 11.9416C30.2091 11.8535 29.9524 11.8095 29.6444 11.8095H29.4219V11.6445H37.6537L37.7564 14.5322H37.5852L37.551 13.9877C37.5168 13.4376 37.4198 13.0031 37.2601 12.6841C37.1003 12.3651 36.8493 12.1396 36.5071 12.0076C36.1648 11.8755 35.7027 11.8095 35.1208 11.8095H32.7762V16.9084H33.8544C34.9611 16.9084 35.8453 17.0459 36.5071 17.3209C37.1802 17.5959 37.6708 17.981 37.9789 18.476C38.2869 18.9601 38.4409 19.5211 38.4409 20.1591C38.4409 20.7971 38.2869 21.3637 37.9789 21.8587C37.6822 22.3538 37.2201 22.7388 36.5926 23.0138C35.9765 23.2888 35.1893 23.4263 34.2309 23.4263H29.4219ZM33.94 23.2613C34.5903 23.2613 35.1094 23.1678 35.4973 22.9808C35.8852 22.7828 36.1648 22.4637 36.3359 22.0237C36.5071 21.5837 36.5926 20.9897 36.5926 20.2416C36.5926 19.4166 36.4899 18.7785 36.2846 18.3275C36.0906 17.8654 35.7825 17.541 35.3604 17.3539C34.9383 17.1669 34.3792 17.0734 33.6833 17.0734H32.7762V23.2613H33.94Z" fill="#EEE5D5"></path><path d="M39.0039 23.4263V23.2613H39.4908C39.7372 23.2613 39.9442 23.2228 40.1121 23.1458C40.28 23.0688 40.4256 22.9368 40.5487 22.7498C40.6718 22.5627 40.7894 22.3042 40.9013 21.9742L44.5617 11.6445H45.418L49.6325 22.3868C49.7221 22.6068 49.8116 22.7828 49.9011 22.9148C49.9907 23.0358 50.0915 23.1238 50.2034 23.1788C50.3265 23.2338 50.4665 23.2613 50.6231 23.2613H50.8414V23.4263H46.224V23.2613H46.6101C47.0355 23.2613 47.3434 23.2118 47.5336 23.1128C47.724 23.0138 47.8191 22.8378 47.8191 22.5848C47.8191 22.5188 47.8135 22.4528 47.8023 22.3868C47.7911 22.3098 47.7743 22.2273 47.7519 22.1392C47.7408 22.0512 47.7128 21.9577 47.668 21.8587L46.6437 19.1525H42.0934L41.1699 21.7432C41.1363 21.8312 41.1084 21.9192 41.086 22.0072C41.0636 22.0953 41.0468 22.1778 41.0356 22.2547C41.0244 22.3207 41.0188 22.3868 41.0188 22.4528C41.0188 22.7498 41.1531 22.9588 41.4218 23.0798C41.6904 23.2008 42.1215 23.2613 42.7147 23.2613H43.1009V23.4263H39.0039ZM42.1438 18.9875H46.5766L45.3508 15.7698C45.2053 15.3958 45.071 15.0382 44.9479 14.6972C44.8248 14.3562 44.7072 14.0317 44.5952 13.7237C44.4945 13.4046 44.3994 13.0966 44.3098 12.7996C44.2315 13.0416 44.1587 13.2672 44.0915 13.4762C44.0244 13.6742 43.9572 13.8722 43.89 14.0702C43.8229 14.2682 43.7445 14.4827 43.655 14.7137C43.5766 14.9338 43.4871 15.1923 43.3863 15.4893L42.1438 18.9875Z" fill="#EEE5D5"></path><path d="M51.4062 23.4263V23.2613H51.6287C51.9368 23.2613 52.1935 23.2173 52.3989 23.1293C52.6156 23.0413 52.7754 22.9093 52.8781 22.7333C52.9807 22.5573 53.0321 22.3373 53.0321 22.0732V12.9316C53.0321 12.6786 52.9807 12.4696 52.8781 12.3046C52.7754 12.1396 52.6156 12.0185 52.3989 11.9416C52.1935 11.8535 51.9368 11.8095 51.6287 11.8095H51.4062V11.6445H56.2153C57.6528 11.6445 58.7139 11.9525 59.3985 12.5686C60.083 13.1736 60.4253 14.0152 60.4253 15.0933C60.4253 15.5883 60.3455 16.0613 60.1857 16.5124C60.026 16.9524 59.7636 17.3484 59.3985 17.7004C59.0448 18.0525 58.5713 18.333 57.978 18.542C57.3961 18.74 56.6831 18.839 55.8388 18.839H54.7606V22.0732C54.7606 22.3373 54.8119 22.5573 54.9146 22.7333C55.0173 22.9093 55.1713 23.0413 55.3767 23.1293C55.5934 23.2173 55.8559 23.2613 56.1639 23.2613H56.3864V23.4263H51.4062ZM55.6676 18.674C56.1924 18.674 56.6374 18.608 57.0025 18.476C57.3676 18.344 57.6642 18.1404 57.8924 17.8654C58.132 17.5794 58.3032 17.2164 58.4059 16.7764C58.5199 16.3253 58.577 15.7863 58.577 15.1593C58.577 14.3562 58.4857 13.7127 58.3032 13.2286C58.132 12.7336 57.8525 12.3761 57.4646 12.1561C57.0767 11.9251 56.5633 11.8095 55.9243 11.8095H54.7606V18.674H55.6676Z" fill="#EEE5D5"></path><path d="M66.5665 23.4263C65.4564 23.4263 64.5294 23.1802 63.7857 22.688C63.0421 22.1957 62.4816 21.5108 62.1044 20.6334C61.7379 19.7559 61.5547 18.7339 61.5547 17.5675C61.5547 16.3904 61.7434 15.3578 62.1205 14.4696C62.4978 13.5814 63.0691 12.8912 63.8342 12.399C64.6103 11.896 65.5857 11.6445 66.7605 11.6445C67.4611 11.6445 68.0485 11.7301 68.5227 11.9014C69.0077 12.0725 69.3742 12.2973 69.622 12.5755C69.8807 12.8538 70.0101 13.1587 70.0101 13.4905C70.0101 13.8543 69.8754 14.1271 69.6059 14.3091C69.3365 14.4803 69.0024 14.5659 68.6035 14.5659C68.6035 13.9024 68.5335 13.3727 68.3933 12.9768C68.2533 12.5701 68.0323 12.2759 67.7305 12.094C67.4287 11.9121 67.0353 11.8211 66.5503 11.8211C65.7959 11.8211 65.1815 12.0351 64.7073 12.4632C64.2331 12.8912 63.8882 13.5279 63.6726 14.3733C63.4571 15.208 63.3492 16.2459 63.3492 17.4873C63.3492 18.7714 63.4624 19.8415 63.6887 20.6976C63.9259 21.5537 64.2923 22.1957 64.7881 22.6237C65.2947 23.0518 65.9521 23.2658 66.7605 23.2658C67.2455 23.2658 67.6658 23.1856 68.0215 23.025C68.388 22.8645 68.6952 22.6131 68.943 22.2706C69.191 21.9175 69.3904 21.468 69.5412 20.9223C69.6814 20.9758 69.7837 21.0561 69.8484 21.1631C69.9131 21.2594 69.9454 21.3824 69.9454 21.5322C69.9454 21.7355 69.8754 21.9496 69.7352 22.1743C69.5951 22.3884 69.385 22.5916 69.1047 22.7843C68.8245 22.9769 68.4742 23.132 68.0538 23.2498C67.6335 23.3675 67.1377 23.4263 66.5665 23.4263Z" fill="#EEE5D5"></path><path d="M71.1328 23.4263V23.2627H71.3593C71.673 23.2627 71.9344 23.2191 72.1435 23.1318C72.3641 23.0445 72.5268 22.9136 72.6313 22.7391C72.7359 22.5645 72.7882 22.3463 72.7882 22.0845V13.0191C72.7882 12.7681 72.7359 12.5609 72.6313 12.3973C72.5268 12.2336 72.3641 12.1136 72.1435 12.0373C71.9344 11.95 71.673 11.9063 71.3593 11.9063H71.1328V11.7427H76.2034V11.9063H75.9769C75.6633 11.9063 75.396 11.95 75.1754 12.0373C74.9663 12.1246 74.8094 12.2555 74.7049 12.43C74.6003 12.6045 74.5481 12.8227 74.5481 13.0845V17.47C74.8036 17.47 75.0243 17.4536 75.2102 17.4209C75.4076 17.3882 75.5819 17.3391 75.7329 17.2736C75.8955 17.1973 76.0408 17.0991 76.1686 16.9791C76.4357 16.75 76.6855 16.4227 76.9178 15.9972C77.1501 15.5609 77.4522 14.9991 77.8239 14.3118C78.1259 13.7663 78.3989 13.2973 78.6429 12.9045C78.8868 12.5009 79.1598 12.19 79.4619 11.9718C79.7755 11.7536 80.1704 11.6445 80.6467 11.6445C80.9604 11.6445 81.2159 11.6936 81.4134 11.7918C81.6108 11.89 81.7561 12.0209 81.849 12.1845C81.9419 12.3373 81.9884 12.5173 81.9884 12.7245C81.9884 13.03 81.9013 13.27 81.7271 13.4445C81.5644 13.619 81.3727 13.7282 81.1521 13.7718C81.1055 13.5209 81.001 13.3081 80.8384 13.1336C80.6873 12.9481 80.4085 12.8554 80.002 12.8554C79.7348 12.8554 79.4793 12.9154 79.2353 13.0354C79.003 13.1445 78.7649 13.3409 78.5209 13.6245C78.2886 13.9082 78.0388 14.2954 77.7717 14.7863C77.5277 15.2336 77.2953 15.6536 77.0747 16.0463C76.8656 16.4282 76.639 16.75 76.3951 17.0118C76.1511 17.2736 75.8607 17.4427 75.5239 17.5191C76.1743 17.5191 76.7087 17.5627 77.1269 17.65C77.5567 17.7373 77.911 17.8845 78.1898 18.0918C78.4686 18.299 78.7126 18.5827 78.9217 18.9427L80.4028 21.43C80.6583 21.8554 80.8848 22.2045 81.0824 22.4772C81.2798 22.7499 81.4773 22.9518 81.6748 23.0827C81.8722 23.2027 82.0987 23.2627 82.3544 23.2627H82.4066V23.4263H82.1627C81.4192 23.4263 80.8326 23.3881 80.4028 23.3118C79.9846 23.2245 79.6477 23.0718 79.3922 22.8536C79.1482 22.6354 78.91 22.3136 78.6777 21.8881L77.0921 19.0409C76.9527 18.7899 76.8133 18.5772 76.6739 18.4027C76.5461 18.2282 76.3951 18.0863 76.2208 17.9772C76.0466 17.8572 75.8258 17.77 75.5587 17.7154C75.2915 17.6609 74.9546 17.6336 74.5481 17.6336V22.0845C74.5481 22.3463 74.6003 22.5645 74.7049 22.7391C74.8094 22.9136 74.9663 23.0445 75.1754 23.1318C75.396 23.2191 75.6633 23.2627 75.9769 23.2627H76.2034V23.4263H71.1328Z" fill="#EEE5D5"></path><path d="M82.9727 23.4263V23.2613H83.1846C83.4781 23.2613 83.7227 23.2173 83.9183 23.1293C84.1248 23.0413 84.2772 22.9093 84.375 22.7333C84.4729 22.5573 84.5218 22.3373 84.5218 22.0732V12.9316C84.5218 12.6786 84.4729 12.4696 84.375 12.3046C84.2772 12.1396 84.1248 12.0185 83.9183 11.9416C83.7227 11.8535 83.4781 11.8095 83.1846 11.8095H82.9727V11.6445H87.7175V11.8095H87.5056C87.2121 11.8095 86.9618 11.8535 86.7556 11.9416C86.5599 12.0296 86.4131 12.1616 86.3153 12.3376C86.2175 12.5136 86.1686 12.7336 86.1686 12.9976V20.8852L91.6144 13.8887V12.9976C91.6144 12.7336 91.5655 12.5136 91.4677 12.3376C91.3698 12.1616 91.2231 12.0296 91.0274 11.9416C90.8318 11.8535 90.5815 11.8095 90.2774 11.8095H90.0654V11.6445H94.8102V11.8095H94.5982C94.3047 11.8095 94.0601 11.8535 93.8645 11.9416C93.6688 12.0185 93.5164 12.1396 93.408 12.3046C93.3101 12.4696 93.2612 12.6786 93.2612 12.9316V22.0732C93.2612 22.3373 93.3101 22.5573 93.408 22.7333C93.5164 22.9093 93.6688 23.0413 93.8645 23.1293C94.0601 23.2173 94.3047 23.2613 94.5982 23.2613H94.8102V23.4263H90.0654V23.2613H90.2774C90.5815 23.2613 90.8318 23.2173 91.0274 23.1293C91.2231 23.0413 91.3698 22.9093 91.4677 22.7333C91.5655 22.5573 91.6144 22.3373 91.6144 22.0732V14.1527L86.1686 21.1492V22.0732C86.1686 22.3373 86.2175 22.5573 86.3153 22.7333C86.4131 22.9093 86.5599 23.0413 86.7556 23.1293C86.9618 23.2173 87.2121 23.2613 87.5056 23.2613H87.7175V23.4263H82.9727Z" fill="#EEE5D5"></path><path d="M96.5039 23.4263V23.2613H96.7198C97.0188 23.2613 97.2679 23.2173 97.4673 23.1293C97.6782 23.0413 97.8327 22.9093 97.9323 22.7333C98.032 22.5573 98.0818 22.3373 98.0818 22.0732V12.9316C98.0818 12.6786 98.032 12.4696 97.9323 12.3046C97.8327 12.1396 97.6782 12.0185 97.4673 11.9416C97.2679 11.8535 97.0188 11.8095 96.7198 11.8095H96.5039V11.6445H104.859L104.958 14.5322H104.792L104.759 13.9877C104.726 13.4376 104.632 13.0031 104.477 12.6841C104.322 12.3651 104.078 12.1396 103.746 12.0076C103.425 11.8755 102.982 11.8095 102.417 11.8095H99.7594V17.1724H103.928V17.3374H99.7594V23.2613H102.832C103.43 23.2613 103.907 23.1953 104.261 23.0633C104.615 22.9313 104.87 22.7058 105.025 22.3868C105.191 22.0677 105.29 21.6332 105.324 21.0832L105.357 20.5386H105.523L105.407 23.4263H96.5039Z" fill="#EEE5D5"></path><path d="M110.031 23.4263V23.2613H110.249C110.551 23.2613 110.803 23.2173 111.004 23.1293C111.216 23.0413 111.373 22.9093 111.473 22.7333C111.574 22.5573 111.624 22.3373 111.624 22.0732V12.9316C111.624 12.6786 111.574 12.4696 111.473 12.3046C111.373 12.1396 111.216 12.0185 111.004 11.9416C110.803 11.8535 110.551 11.8095 110.249 11.8095H110.031V11.6445H121.869V11.8095H121.651C121.349 11.8095 121.097 11.8535 120.896 11.9416C120.695 12.0185 120.538 12.1396 120.427 12.3046C120.326 12.4696 120.276 12.6786 120.276 12.9316V22.0732C120.276 22.3373 120.326 22.5573 120.427 22.7333C120.538 22.9093 120.695 23.0413 120.896 23.1293C121.097 23.2173 121.349 23.2613 121.651 23.2613H121.869V23.4263H116.99V23.2613H117.208C117.52 23.2613 117.778 23.2173 117.979 23.1293C118.18 23.0413 118.331 22.9093 118.432 22.7333C118.532 22.5573 118.582 22.3373 118.582 22.0732V11.8095H113.318V22.0732C113.318 22.3373 113.368 22.5573 113.468 22.7333C113.569 22.9093 113.72 23.0413 113.921 23.1293C114.133 23.2173 114.391 23.2613 114.692 23.2613H114.91V23.4263H110.031Z" fill="#EEE5D5"></path><path d="M128.36 23.4263C127.156 23.4263 126.157 23.1805 125.362 22.689C124.568 22.1974 123.972 21.5081 123.575 20.6211C123.188 19.7341 122.996 18.6976 122.996 17.5114C122.996 16.3252 123.188 15.2939 123.575 14.4177C123.972 13.5414 124.568 12.8628 125.362 12.3819C126.168 11.8903 127.173 11.6445 128.377 11.6445C129.523 11.6445 130.488 11.8903 131.271 12.3819C132.066 12.8628 132.667 13.5467 133.075 14.4337C133.496 15.31 133.706 16.3412 133.706 17.5274C133.706 18.7136 133.496 19.7502 133.075 20.6372C132.667 21.5134 132.066 22.1974 131.271 22.689C130.476 23.1805 129.506 23.4263 128.36 23.4263ZM128.36 23.266C128.961 23.266 129.478 23.1592 129.909 22.9454C130.352 22.721 130.709 22.379 130.981 21.9195C131.265 21.4493 131.476 20.8509 131.612 20.1242C131.748 19.3975 131.816 18.5319 131.816 17.5274C131.816 16.5229 131.748 15.6626 131.612 14.9466C131.476 14.2199 131.265 13.6268 130.981 13.1673C130.709 12.6971 130.357 12.3552 129.925 12.1415C129.495 11.917 128.978 11.8048 128.377 11.8048C127.764 11.8048 127.235 11.917 126.792 12.1415C126.362 12.3552 126.004 12.6971 125.72 13.1673C125.436 13.6268 125.226 14.2199 125.09 14.9466C124.953 15.6626 124.886 16.5229 124.886 17.5274C124.886 18.5319 124.953 19.3975 125.09 20.1242C125.226 20.8509 125.431 21.4493 125.703 21.9195C125.987 22.379 126.345 22.721 126.776 22.9454C127.219 23.1592 127.747 23.266 128.36 23.266Z" fill="#EEE5D5"></path><path d="M135.129 23.4263C134.65 23.4263 134.292 23.3228 134.058 23.1158C133.824 22.8979 133.707 22.6148 133.707 22.2661C133.707 21.9828 133.774 21.7596 133.908 21.5961C134.042 21.4327 134.22 21.3292 134.443 21.2857C134.487 21.4273 134.594 21.5907 134.761 21.7759C134.928 21.9611 135.185 22.0537 135.53 22.0537C135.653 22.0537 135.804 22.0265 135.982 21.972C136.172 21.9175 136.367 21.8086 136.567 21.6452C136.779 21.4818 136.985 21.2312 137.186 20.8935C137.387 20.5449 137.565 20.0873 137.721 19.5208C137.822 19.1505 137.916 18.7256 138.006 18.2463C138.095 17.756 138.173 17.2549 138.24 16.7429C138.307 16.2309 138.363 15.7298 138.407 15.2395C138.463 14.7493 138.502 14.3136 138.524 13.9323C138.547 13.5401 138.558 13.2296 138.558 13.0008C138.558 12.6195 138.497 12.3472 138.374 12.1838C138.251 12.0204 138.089 11.9169 137.889 11.8733C137.688 11.8297 137.465 11.8079 137.22 11.8079H136.25V11.6445H144.981V11.8079H144.596C144.295 11.8079 144.038 11.8515 143.827 11.9387C143.626 12.0258 143.475 12.1566 143.375 12.3308C143.275 12.5051 143.225 12.723 143.225 12.9845V21.972C143.225 22.2334 143.275 22.4513 143.375 22.6256C143.475 22.7999 143.626 22.9306 143.827 23.0178C144.038 23.105 144.295 23.1485 144.596 23.1485H144.814V23.3119H139.946V23.1485H140.164C140.465 23.1485 140.716 23.105 140.916 23.0178C141.128 22.9306 141.284 22.7999 141.385 22.6256C141.485 22.4513 141.535 22.2334 141.535 21.972V11.8079H138.809C138.775 12.6468 138.725 13.4856 138.658 14.3244C138.591 15.1633 138.508 15.9749 138.407 16.7592C138.307 17.5327 138.19 18.2626 138.056 18.9489C137.922 19.6244 137.772 20.2344 137.604 20.7791C137.404 21.4436 137.186 21.972 136.952 22.3642C136.718 22.7455 136.45 23.0178 136.149 23.1812C135.859 23.3446 135.519 23.4263 135.129 23.4263Z" fill="#EEE5D5"></path><path d="M144.98 23.4263V23.2613H145.032C145.169 23.2613 145.301 23.2338 145.427 23.1788C145.564 23.1128 145.701 23.0083 145.839 22.8653C145.987 22.7223 146.148 22.5353 146.319 22.3042C146.502 22.0623 146.708 21.7597 146.937 21.3967L149.151 17.915C148.785 17.7939 148.407 17.6179 148.018 17.3869C147.641 17.1449 147.321 16.8149 147.057 16.3969C146.794 15.9678 146.663 15.4123 146.663 14.7302C146.663 14.0702 146.823 13.5092 147.143 13.0471C147.463 12.5851 147.95 12.2386 148.602 12.0076C149.265 11.7655 150.089 11.6445 151.074 11.6445H155.691V11.8095H155.467C155.159 11.8095 154.901 11.8535 154.695 11.9416C154.489 12.0185 154.329 12.1396 154.215 12.3046C154.112 12.4696 154.06 12.6786 154.06 12.9316V22.0732C154.06 22.3373 154.112 22.5573 154.215 22.7333C154.329 22.9093 154.489 23.0413 154.695 23.1293C154.901 23.2173 155.159 23.2613 155.467 23.2613H155.691V23.4263H150.696V23.2613H150.919C151.239 23.2613 151.503 23.2173 151.709 23.1293C151.915 23.0413 152.069 22.9093 152.172 22.7333C152.275 22.5573 152.327 22.3373 152.327 22.0732V18.047H151.005L148.585 21.9412C148.39 22.2603 148.201 22.5188 148.018 22.7168C147.847 22.9038 147.647 23.0523 147.418 23.1623C147.189 23.2613 146.897 23.3328 146.542 23.3768C146.199 23.4098 145.759 23.4263 145.221 23.4263H144.98ZM150.885 17.882H152.327V11.8095H151.159C150.541 11.8095 150.033 11.9141 149.632 12.1231C149.243 12.332 148.956 12.6621 148.774 13.1131C148.591 13.5531 148.499 14.1307 148.499 14.8457C148.499 15.9128 148.688 16.6883 149.065 17.1724C149.443 17.6454 150.05 17.882 150.885 17.882Z" fill="#EEE5D5"></path><path d="M8.9375 11.1378C13.5624 9.76167 15.4916 7.5815 16.504 5.59375C16.6869 7.1398 14.4181 9.36324 13.2609 10.2817C16.1869 10.2017 18.9682 12.0218 19.9931 12.9419C17.7263 11.1178 11.6782 10.9791 8.9375 11.1378Z" fill="#EEE5D5"></path><path d="M6.11551 16.6708C10.0589 15.7629 13.1762 13.1347 14.2646 11.9023C14.4736 12.5423 11.9804 14.5293 10.7077 15.4427C17.5243 14.8827 21.7471 18.6896 23.0065 20.6631C18.1828 15.6601 9.94964 15.8846 6.11551 16.6708C6.00566 16.6961 5.89516 16.7201 5.78405 16.7426C5.89048 16.7183 6.00103 16.6943 6.11551 16.6708Z" fill="#EEE5D5"></path><path d="M2.34766 23.4233C7.08165 22.0704 11.6321 18.2762 12.9584 16.7426C12.5245 18.1301 9.2186 20.759 7.61986 21.9C17.4277 20.8993 22.7236 25.6277 24.1456 28.117C18.2073 21.5438 7.13936 22.2491 2.34766 23.4233Z" fill="#EEE5D5"></path></svg> </div>
+
+      <!-- Главный заголовок -->
+      <h1 class="bp-hero__eyebrow">уютная база отдыха в подмосковье</h1>
+<p class="bp-hero__title">Отдых по-барски<br>в часе от Москвы</p>
+
+      <!-- Деликатный разделитель -->
+      <div class="bp-hero__divider" aria-hidden="true"></div>
+
+      <!-- Описание базы -->
+      <p class="bp-hero__lead">Насладитесь природой и расслаблением.<br>В дизайнерских домиках с тёплыми банными чанами.<br>Всего час от Москвы по Новорижскому шоссе.</p>
+
+      <!-- Стоимость и условия -->
+      <div class="bp-hero__price-box">
+        <div class="bp-hero__price-val">Дом от 9 900 ₽ за ночь в будни</div>
+        <div class="bp-hero__price-sub">Пт и сб от 2 ночей · предоплата 50% · Бесплатная отмена за 7 дней</div>
+      </div>
+
+      <!-- Кнопки действия -->
+      <div class="bp-hero__actions"><a class="bp-hero__btn bp-hero__btn--primary" href="#bb-stay" data-bb-planner>Выбрать дом</a><a href="#popup:quiz" class="bp-hero__btn bp-hero__btn--quiz"><span>Пройти опрос — получить сертификат</span></a><a class="bp-hero__catalogue" href="/houses">Каталог всех домов →</a></div>
+
+      <!-- Медали доверия в ряд -->
+      <div class="bp-hero__medals" aria-label="Преимущества и признание">
+        <div class="bp-hero__medal" title="ТОП-30 отелей по версии Siva Travel"><strong class="bp-hero__top30">ТОП-30</strong><small>отелей<br>по версии<br>Siva Travel</small></div>
+        <a href="https://yandex.ru/maps/1/moscow-and-moscow-oblast/?ll=36.479899%2C56.097167&mode=poi&poi%5Bpoint%5D=36.469182%2C56.095332&poi%5Buri%5D=ymapsbm1%3A%2F%2Forg%3Foid%3D218830724182&source=serp_navig&tab=reviews&utm_source=share&z=15" target="_blank" rel="noopener" class="bp-hero__medal" aria-label="Хорошее место Яндекса, 2026"><svg aria-hidden="true" class="znak" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="16" fill="#FC3F1D"/><path d="M18.2549 25.616H21.5976V6.41602H16.7355C11.8457 6.41602 9.27649 8.92997 9.27649 12.6318C9.27649 15.5878 10.6854 17.3282 13.1994 19.1239L8.83447 25.616H12.4535L17.3156 18.3504L15.6304 17.2177C13.5861 15.8364 12.5916 14.759 12.5916 12.4385C12.5916 10.3941 14.0281 9.01285 16.7631 9.01285H18.2549V25.616Z" fill="#fff"/></svg><strong>Хорошее<br>место</strong><small>2026</small></a>
+        <a href="https://barskie-polya.ru/split" class="bp-hero__medal" aria-label="Оплата частями через Яндекс Сплит"><svg xmlns="http://www.w3.org/2000/svg" class="lockup" aria-hidden="true" fill="none" viewBox="0 0 28.091 28"><path fill="#313A39" d="M39.229 24.803q-3.896 0-6.147-2.82-2.252-2.852-2.252-8.009 0-5.035 2.221-7.947 2.252-2.912 6.452-2.912 1.46 0 2.617.425 1.156.393 1.887.91v2.942a12.5 12.5 0 0 0-1.948-.97 6.3 6.3 0 0 0-2.374-.456q-2.678 0-3.895 1.972t-1.217 6.036q0 3.944 1.217 5.976 1.218 2.002 3.713 2.002 1.461 0 2.526-.425a10 10 0 0 0 1.978-1.122v2.942q-.7.485-1.887.971t-2.891.485m7.069-15.561h11.929V24.5h-3.621V12.094h-4.687V24.5h-3.621zm13.761 12.134.213.151q.213.122.608.122.882 0 1.157-.91.273-.911.365-3.337l.304-8.16h10.377V24.5h-3.621V12.094H65.78l-.213 5.46q-.122 3.791-.944 5.52-.82 1.73-3.134 1.73-.639 0-1.035-.152l-.395-.152zM76.135 9.242h3.53v9.434l5.6-9.434h3.134V24.5h-3.53v-9.434l-5.6 9.434h-3.134zm26.535 2.852h-4.26V24.5h-3.622V12.094h-4.26V9.242h12.142z"></path><g clip-path="url(#SplitLogo_svg__a)"><path fill="#01B94F" d="m14.09 14.067 9.867 10.072-.201.182-.085.08a14.15 14.15 0 0 1-10.082 3.556 14.14 14.14 0 0 1-9.69-4.508 14.05 14.05 0 0 1-3.742-9.985 14.05 14.05 0 0 1 4.352-9.736A14.2 14.2 0 0 1 14.616.033a14.2 14.2 0 0 1 9.797 4.449z"></path><path fill="url(#SplitLogo_svg__b)" d="M4.518 3.724A14.2 14.2 0 0 1 14.62.033a14.2 14.2 0 0 1 9.792 4.449s-8.208 7.66-8.373 7.793c0 0-1.839 1.725-1.825 1.752.013.027 9.724 10.072 9.724 10.072l-.197.187-.085.08c-5.797 5.083-14.68 4.85-19.927-.802A14.08 14.08 0 0 1 .027 13.482a14.08 14.08 0 0 1 4.49-9.758"></path><path fill="url(#SplitLogo_svg__c)" d="M4.522 3.715A14.2 14.2 0 0 1 14.628.032a14.2 14.2 0 0 1 9.79 4.45s-7.99 7.49-8.316 7.753c0 0-1.789 1.703-1.758 1.757.068.16 9.581 10.062 9.581 10.062l-.197.187-.084.08c-5.784 5.074-14.671 4.824-19.9-.81a14.04 14.04 0 0 1-3.7-10.058 14.05 14.05 0 0 1 4.478-9.738"></path><path fill="url(#SplitLogo_svg__d)" d="M4.531 3.71A14.2 14.2 0 0 1 14.633.034a14.2 14.2 0 0 1 9.785 4.448s-7.76 7.316-8.262 7.713c0 0-1.726 1.676-1.695 1.756.103.241 9.447 10.063 9.447 10.063l-.202.187-.085.076c-5.765 5.06-14.648 4.802-19.868-.82A14 14 0 0 1 .059 13.424 14 14 0 0 1 4.531 3.71"></path><path fill="url(#SplitLogo_svg__e)" d="M4.536 3.706a14.2 14.2 0 0 1 10.1-3.672 14.2 14.2 0 0 1 9.782 4.448s-7.537 7.133-8.204 7.673c0 0-1.672 1.654-1.628 1.76.134.322 9.304 10.059 9.304 10.059l-.197.183s-.085.075-.085.08c-5.752 5.042-14.635 4.766-19.842-.834a13.96 13.96 0 0 1-3.69-10.007 13.96 13.96 0 0 1 4.46-9.69"></path><path fill="url(#SplitLogo_svg__f)" d="M4.544 3.697A14.2 14.2 0 0 1 14.642.034a14.2 14.2 0 0 1 9.775 4.448s-7.308 6.973-8.145 7.632c0 0-1.619 1.628-1.565 1.761.17.402 9.17 10.054 9.165 10.059l-.197.182-.085.08c-5.739 5.02-14.617 4.74-19.81-.846a13.92 13.92 0 0 1-3.685-9.984 13.93 13.93 0 0 1 4.45-9.669"></path><path fill="url(#SplitLogo_svg__g)" d="M4.55 3.693A14.2 14.2 0 0 1 14.644.033a14.2 14.2 0 0 1 9.773 4.449s-7.085 6.803-8.087 7.579c0 0-1.566 1.6-1.499 1.761.201.482 9.026 10.05 9.026 10.05l-.196.227-.085.075c-5.73 4.985-14.604 4.695-19.788-.878a13.88 13.88 0 0 1-3.68-9.958 13.9 13.9 0 0 1 4.44-9.645"></path><path fill="url(#SplitLogo_svg__h)" d="M4.558 3.688A14.2 14.2 0 0 1 14.653.034a14.2 14.2 0 0 1 9.769 4.448s-6.861 6.634-8.029 7.579c0 0-1.516 1.574-1.44 1.761.255.54 8.892 10.027 8.887 10.027l-.196.183-.085.08c-5.712 4.989-14.586 4.686-19.757-.87A13.84 13.84 0 0 1 .127 13.31a13.84 13.84 0 0 1 4.43-9.622"></path><path fill="url(#SplitLogo_svg__i)" d="M4.562 3.68A14.2 14.2 0 0 1 14.657.03a14.2 14.2 0 0 1 9.765 4.45s-6.638 6.46-7.97 7.518c0 0-1.464 1.551-1.374 1.783.268.642 8.749 10.045 8.744 10.045-.004 0-.183.173-.197.182l-.084.076c-5.699 4.958-14.573 4.646-19.73-.878a13.8 13.8 0 0 1-3.68-9.919 13.8 13.8 0 0 1 4.431-9.609"></path><path fill="url(#SplitLogo_svg__j)" d="M4.571 3.675A14.2 14.2 0 0 1 14.662.034a14.2 14.2 0 0 1 9.76 4.448s-6.41 6.29-7.913 7.476c0 0-1.408 1.525-1.306 1.784.3.722 8.606 10.04 8.606 10.045l-.197.182-.085.076c-5.685 4.958-14.559 4.632-19.68-.892a13.76 13.76 0 0 1-3.684-9.888 13.77 13.77 0 0 1 4.408-9.59"></path><path fill="url(#SplitLogo_svg__k)" d="M4.576 3.67A14.2 14.2 0 0 1 14.666.033a14.2 14.2 0 0 1 9.756 4.449s-6.186 6.117-7.872 7.436c0 0-1.342 1.503-1.244 1.784.349.789 8.49 10.022 8.485 10.027l-.197.178-.085.08c-5.671 4.94-14.54 4.601-19.68-.891A13.7 13.7 0 0 1 1.417 8.013 13.8 13.8 0 0 1 4.576 3.67"></path><path fill="url(#SplitLogo_svg__l)" d="M4.585 3.661A14.2 14.2 0 0 1 14.672.033a14.2 14.2 0 0 1 9.75 4.449s-5.958 5.947-7.796 7.396c0 0-1.302 1.48-1.177 1.783.367.892 8.329 10.036 8.329 10.04l-.197.179-.085.076c-5.663 4.913-14.528 4.565-19.65-.923a13.68 13.68 0 0 1-3.654-9.838A13.7 13.7 0 0 1 4.585 3.66"></path><path fill="url(#SplitLogo_svg__m)" d="M4.59 3.657A14.2 14.2 0 0 1 14.676.033a14.2 14.2 0 0 1 9.75 4.449s-5.74 5.796-7.743 7.36c0 0-1.244 1.45-1.114 1.784.403.95 8.194 10.027 8.19 10.027l-.197.183-.085.075c-5.645 4.905-14.51 4.548-19.618-.923a13.63 13.63 0 0 1-2.414-15.01 13.7 13.7 0 0 1 3.145-4.32"></path><path fill="url(#SplitLogo_svg__n)" d="M4.598 3.652A14.2 14.2 0 0 1 14.682.035a14.2 14.2 0 0 1 9.744 4.447s-5.51 5.604-7.684 7.32c0 0-1.19 1.427-1.047 1.784.448 1.043 8.052 10.027 8.052 10.03l-.197.184s-.076.067-.08.075c-5.637 4.905-14.497 4.517-19.596-.936-5.1-5.452-4.845-14.253.724-19.287"></path><path fill="url(#SplitLogo_svg__o)" d="M4.603 3.643A14.2 14.2 0 0 1 14.686.033a14.2 14.2 0 0 1 9.74 4.449s-5.287 5.425-7.604 7.271c0 0-1.14 1.4-.984 1.784.47 1.123 7.908 10.022 7.908 10.027l-.197.178-.084.076c-5.64 4.873-14.52 4.494-19.583-.946s-4.835-14.208.72-19.229"></path><path fill="url(#SplitLogo_svg__p)" d="M4.612 3.639A14.2 14.2 0 0 1 14.692.034a14.2 14.2 0 0 1 9.734 4.448s-5.058 5.26-7.563 7.24c0 0-1.087 1.378-.922 1.783.506 1.2 7.765 10.014 7.765 10.018l-.197.179-.085.075c-5.6 4.856-14.478 4.463-19.533-.958-5.054-5.421-4.826-14.178.72-19.18"></path><path fill="url(#SplitLogo_svg__q)" d="M4.616 3.635a14.2 14.2 0 0 1 10.078-3.6 14.2 14.2 0 0 1 9.732 4.447s-4.835 5.091-7.505 7.2c0 0-1.033 1.338-.855 1.783.537 1.27 7.64 10.014 7.64 10.018l-.192.179-.085.075c-5.61 4.82-14.483 4.437-19.524-.976-5.041-5.412-4.826-14.137.71-19.126"></path><path fill="url(#SplitLogo_svg__r)" d="M4.625 3.626A14.22 14.22 0 0 1 14.703.036a14.2 14.2 0 0 1 9.728 4.446s-4.612 4.904-7.434 7.16c0 0-.98 1.337-.792 1.783.555 1.364 7.501 10.01 7.474 10.014l-.196.178a1 1 0 0 1-.085.076c-5.578 4.824-14.452 4.418-19.48-.981-5.027-5.4-4.812-14.11.707-19.086"></path><path fill="url(#SplitLogo_svg__s)" d="M4.63 3.621A14.2 14.2 0 0 1 14.713.047c3.7.167 7.188 1.77 9.718 4.466 0 0-4.388 4.717-7.394 7.102 0 0-.926 1.302-.724 1.784.604 1.448 7.353 10.013 7.349 10.017a5 5 0 0 1-.197.179l-.08.076c-5.57 4.788-14.44 4.36-19.458-1.012C-1.09 17.286-.894 8.579 4.63 3.62"></path><path fill="url(#SplitLogo_svg__t)" d="M4.638 3.617A14.2 14.2 0 0 1 14.717.045a14.2 14.2 0 0 1 9.714 4.463s-4.16 4.561-7.336 7.071c0 0-.872 1.275-.662 1.784.64 1.529 7.22 10.009 7.21 10.013l-.192.179-.085.075c-5.555 4.77-14.42 4.334-19.425-1.025S-.872 8.557 4.638 3.617"></path><path fill="url(#SplitLogo_svg__u)" d="M4.643 3.59A14.2 14.2 0 0 1 14.719.022a14.2 14.2 0 0 1 9.712 4.46s-3.936 4.391-7.273 7.03c0 0-.823 1.249-.6 1.784.671 1.61 7.076 10.009 7.072 10.013l-.197.179-.085.071c-5.537 4.784-14.402 4.334-19.399-1.003-4.996-5.337-4.803-14.022.694-18.966"></path><path fill="url(#SplitLogo_svg__v)" d="M4.652 3.59A14.2 14.2 0 0 1 14.723.025a14.2 14.2 0 0 1 9.708 4.457 66.4 66.4 0 0 1-7.215 7.004s-.77 1.226-.532 1.783c.702 1.69 6.933 10 6.928 10.01l-.192.173-.085.076c-5.529 4.757-14.39 4.298-19.372-1.026C-1.02 17.18-.841 8.494 4.652 3.59"></path><path fill="url(#SplitLogo_svg__w)" d="M4.656 3.59A14.2 14.2 0 0 1 14.728.027a14.2 14.2 0 0 1 9.707 4.455 61.5 61.5 0 0 1-7.156 6.95s-.712 1.2-.448 1.784c.738 1.783 6.8 10 6.79 10.004l-.192.178-.085.076c-5.538 4.749-14.398 4.28-19.372-1.025-4.974-5.306-4.795-13.955.684-18.86"></path><path fill="url(#SplitLogo_svg__x)" d="M4.665 3.59A14.22 14.22 0 0 1 14.732.033a14.2 14.2 0 0 1 9.703 4.449 56 56 0 0 1-7.103 6.91s-.657 1.177-.402 1.784c.77 1.868 6.655 10.03 6.65 10.03s-.156.148-.196.18l-.08.07c-5.502 4.709-14.358 4.21-19.319-1.06S-.81 8.493 4.665 3.59"></path><path fill="url(#SplitLogo_svg__y)" d="M4.67 3.59A14.22 14.22 0 0 1 14.734.035a14.2 14.2 0 0 1 9.701 4.447 51.7 51.7 0 0 1-7.044 6.883s-.604 1.15-.34 1.784c.81 1.93 6.521 9.995 6.512 10l-.192.174-.085.076c-5.489 4.712-14.34 4.217-19.287-1.057S-.791 8.45 4.669 3.59"></path><path fill="url(#SplitLogo_svg__z)" d="M4.674 3.59A14.22 14.22 0 0 1 14.736.037c3.69.167 7.17 1.761 9.7 4.445a47.4 47.4 0 0 1-6.992 6.848s-.55 1.123-.273 1.783c.841 2.01 6.379 9.987 6.374 9.996l-.197.174-.085.075c-5.465 4.69-14.317 4.187-19.237-1.07-4.92-5.256-4.8-13.86.648-18.698"></path><path fill="url(#SplitLogo_svg__A)" d="M4.683 3.59A14.22 14.22 0 0 1 14.741.041a14.2 14.2 0 0 1 9.694 4.44 43.8 43.8 0 0 1-6.924 6.809s-.5 1.1-.21 1.783c.895 2.091 6.262 9.987 6.23 9.996l-.192.174-.085.07c-5.461 4.678-14.308 4.16-19.228-1.078S-.76 8.405 4.683 3.59"></path><path fill="url(#SplitLogo_svg__B)" d="M4.688 3.59A14.22 14.22 0 0 1 14.743.045a14.2 14.2 0 0 1 9.692 4.437 40 40 0 0 1-6.866 6.768s-.447 1.074-.147 1.783c.894 2.171 6.1 9.982 6.092 9.987-.01.004-.148.138-.192.174l-.085.075c-5.444 4.664-14.291 4.138-19.211-1.087-4.92-5.226-4.768-13.8.662-18.592"></path><path fill="url(#SplitLogo_svg__C)" d="M4.696 3.563A14.22 14.22 0 0 1 14.755.033a14.2 14.2 0 0 1 9.685 4.449s-2.138 3.031-6.813 6.728c0 0-.393 1.052-.08 1.783.94 2.229 5.958 9.982 5.953 9.987l-.197.174-.08.075c-5.434 4.646-14.277 4.106-19.198-1.101-4.92-5.207-4.754-13.767.671-18.565"></path><path fill="url(#SplitLogo_svg__D)" d="M4.701 3.554A14.23 14.23 0 0 1 14.759.034a14.22 14.22 0 0 1 9.68 4.448s-1.91 2.844-6.753 6.687a3 3 0 0 0 0 1.784c.975 2.331 5.814 9.973 5.814 9.982l-.192.174-.085.071c-5.439 4.637-14.277 4.088-19.166-1.101C-.832 16.889-.711 8.343 4.7 3.554"></path><path fill="url(#SplitLogo_svg__E)" d="M4.71 3.55A14.22 14.22 0 0 1 14.764.032a14.2 14.2 0 0 1 9.676 4.45s-1.687 2.675-6.71 6.63a3.1 3.1 0 0 0 .05 1.783c1.006 2.443 5.694 10.004 5.685 10.013l-.193.174-.08.072c-5.408 4.605-14.246 4.066-19.126-1.128C-.814 16.83-.694 8.32 4.71 3.55"></path><path fill="url(#SplitLogo_svg__F)" d="M4.715 3.545A14.22 14.22 0 0 1 14.768.031a14.2 14.2 0 0 1 9.672 4.45s-1.458 2.52-6.638 6.612a3.36 3.36 0 0 0 .112 1.784c1.042 2.492 5.546 9.969 5.537 9.978l-.192.169-.085.076c-5.394 4.6-14.228 4.026-19.095-1.128C-.863 16.747-.68 8.298 4.715 3.545"></path><path fill="url(#SplitLogo_svg__G)" d="M4.723 3.537A14.22 14.22 0 0 1 14.773.033a14.2 14.2 0 0 1 9.667 4.449s-1.235 2.332-6.58 6.554c-.092.6-.03 1.213.179 1.783 1.073 2.572 5.403 9.969 5.394 9.973l-.192.174-.085.072c-5.367 4.57-14.201 4.012-19.068-1.15-4.866-5.164-4.75-13.612.635-18.351"></path><path fill="url(#SplitLogo_svg__H)" d="M4.728 3.532a14.23 14.23 0 0 1 10.05-3.5 14.22 14.22 0 0 1 9.666 4.45s-1.01 2.157-6.521 6.513c-.06.605.022 1.216.242 1.784 1.104 2.688 5.26 9.982 5.25 10.004l-.192.174-.08.072c-5.368 4.552-14.197 3.959-19.041-1.16-4.92-5.198-4.746-13.616.626-18.337"></path><path fill="url(#SplitLogo_svg__I)" d="M4.737 3.528A14.22 14.22 0 0 1 14.784.033a14.2 14.2 0 0 1 9.66 4.449s-.787 2.006-6.463 6.491a4.3 4.3 0 0 0 .304 1.784c1.14 2.75 5.126 9.977 5.117 10.004l-.192.17-.085.07c-5.354 4.522-14.18 3.92-19.014-1.19-4.907-5.18-4.742-13.58.626-18.283"></path><path fill="url(#SplitLogo_svg__J)" d="M4.741 3.519A14.23 14.23 0 0 1 14.788.032a14.22 14.22 0 0 1 9.656 4.45s-.559 1.832-6.405 6.45c.01.62.136 1.233.371 1.806 1.177 2.814 4.983 9.956 4.974 9.965l-.192.17-.08.07C17.77 27.466 8.946 26.85 4.124 21.759c-4.898-5.163-4.737-13.55.617-18.24"></path><path fill="url(#SplitLogo_svg__K)" d="M4.75 3.514A14.23 14.23 0 0 1 14.79.05a14.22 14.22 0 0 1 9.64 4.45s-.335 1.646-6.346 6.394c.052.622.203 1.231.447 1.805 1.212 2.898 4.849 9.956 4.84 9.965l-.193.17a1 1 0 0 0-.085.07c-5.327 4.504-14.147 3.87-18.956-1.199C-.75 16.555-.599 8.191 4.75 3.514"></path><path fill="url(#SplitLogo_svg__L)" d="M4.755 3.51A14.22 14.22 0 0 1 14.795.045a14.2 14.2 0 0 1 9.64 4.455s-.107 1.475-6.289 6.353c.088.622.256 1.23.501 1.81 1.253 2.965 4.715 9.947 4.706 9.955l-.193.17c-.026 0-.058.053-.085.071-5.313 4.49-14.13 3.852-18.929-1.208C-.729 16.519-.582 8.169 4.755 3.51"></path><path fill="url(#SplitLogo_svg__M)" d="M4.763 3.5A14.23 14.23 0 0 1 14.806.045 14.22 14.22 0 0 1 24.444 4.5s.116 1.32-6.23 6.318q.195.931.572 1.806c1.275 3.058 4.567 9.946 4.553 9.955-.013.01-.13.12-.192.17l-.08.071c-5.3 4.48-14.121 3.82-18.907-1.222-4.871-5.118-4.724-13.45.603-18.096"></path><path fill="url(#SplitLogo_svg__N)" d="M4.768 3.496A14.23 14.23 0 0 1 14.812.042a14.22 14.22 0 0 1 9.637 4.462s.34 1.128-6.173 6.273q.252.927.626 1.81c1.31 3.12 4.428 9.942 4.42 9.951l-.193.17-.085.07c-5.282 4.441-14.098 3.79-18.875-1.23-4.858-5.109-4.72-13.424.6-18.052"></path><path fill="url(#SplitLogo_svg__O)" d="M4.777 3.492A14.23 14.23 0 0 1 14.822.04a14.22 14.22 0 0 1 9.636 4.464s.554.954-6.12 6.22c0 0 .247.749.694 1.81 1.342 3.218 4.285 9.942 4.276 9.95l-.192.17-.08.067c-5.279 4.454-14.09 3.78-18.854-1.226-4.848-5.096-4.714-13.393.595-18.003"></path><path fill="url(#SplitLogo_svg__P)" d="M23.286 22.458C18.062 27.139 9.03 26.519 4.19 21.424-.65 16.328-.52 8.048 4.78 3.465A14.23 14.23 0 0 1 14.83.02a14.22 14.22 0 0 1 9.633 4.467s.792.785-6.056 6.193c-.013.018 4.898 11.766 4.88 11.779"></path><path fill="url(#SplitLogo_svg__Q)" d="M18.196 10.847a262 262 0 0 1-7.841 6.13 32.1 32.1 0 0 0 7.845 6.175c2.51 1.338 4.473 1.587 5.435.74s.845-2.8-.273-5.35a30.9 30.9 0 0 0-5.166-7.695"></path><path fill="#84EEB1" d="m18.388 10.673-1.074.892a29.4 29.4 0 0 1 4.849 7.218c1.096 2.515 1.07 3.776.716 4.093-.354.316-1.879.397-4.317-.892a29.6 29.6 0 0 1-7.237-5.751l-1.198.892.281.272c5.077 5.23 10.57 8.208 12.985 7.124q.109-.053.21-.111h.027q.141-.087.264-.197a2 2 0 0 0 .237-.258c1.579-2.064-.818-7.624-5.595-13.072z"></path></g><defs><radialGradient id="SplitLogo_svg__b" cx="0" cy="0" r="1" gradientTransform="matrix(64.34199 -2.56512 1.8921 47.4605 17.652 1.586)" gradientUnits="userSpaceOnUse"><stop stop-color="#03BA50"></stop><stop offset="0.8" stop-color="#01B64E"></stop></radialGradient><radialGradient id="SplitLogo_svg__c" cx="0" cy="0" r="1" gradientTransform="rotate(-2.283 48.495 -442)scale(64.2588 47.3992)" gradientUnits="userSpaceOnUse"><stop stop-color="#04BC50"></stop><stop offset="0.8" stop-color="#01B34D"></stop></radialGradient><radialGradient id="SplitLogo_svg__d" cx="0" cy="0" r="1" gradientTransform="matrix(64.0736 -2.55466 1.88439 47.26255 17.632 1.593)" gradientUnits="userSpaceOnUse"><stop stop-color="#06BD51"></stop><stop offset="0.72" stop-color="#02B24C"></stop><stop offset="0.8" stop-color="#01B04B"></stop></radialGradient><radialGradient id="SplitLogo_svg__e" cx="0" cy="0" r="1" gradientTransform="matrix(63.9395 -2.5493 1.88044 47.16363 17.608 1.613)" gradientUnits="userSpaceOnUse"><stop stop-color="#08BF52"></stop><stop offset="0.56" stop-color="#04B44D"></stop><stop offset="0.8" stop-color="#01AD4A"></stop></radialGradient><radialGradient id="SplitLogo_svg__f" cx="0" cy="0" r="1" gradientTransform="matrix(63.8053 -2.54395 1.87649 47.0646 17.584 1.633)" gradientUnits="userSpaceOnUse"><stop stop-color="#0AC053"></stop><stop offset="0.48" stop-color="#05B54E"></stop><stop offset="0.8" stop-color="#01AA49"></stop></radialGradient><radialGradient id="SplitLogo_svg__g" cx="0" cy="0" r="1" gradientTransform="matrix(63.66664 -1.90382 1.40472 46.9759 17.556 1.68)" gradientUnits="userSpaceOnUse"><stop stop-color="#0BC253"></stop><stop offset="0.42" stop-color="#07B74E"></stop><stop offset="0.8" stop-color="#01A848"></stop></radialGradient><radialGradient id="SplitLogo_svg__h" cx="0" cy="0" r="1" gradientTransform="matrix(63.5324 -1.8998 1.40175 46.87685 17.518 1.693)" gradientUnits="userSpaceOnUse"><stop stop-color="#0DC354"></stop><stop offset="0.37" stop-color="#08B84F"></stop><stop offset="0.8" stop-color="#01A546"></stop></radialGradient><radialGradient id="SplitLogo_svg__i" cx="0" cy="0" r="1" gradientTransform="rotate(-1.713 66.042 -600.919)scale(63.4265 46.7798)" gradientUnits="userSpaceOnUse"><stop stop-color="#0FC555"></stop><stop offset="0.33" stop-color="#0ABA50"></stop><stop offset="0.8" stop-color="#01A245"></stop></radialGradient><radialGradient id="SplitLogo_svg__j" cx="0" cy="0" r="1" gradientTransform="matrix(63.8967 -1.89194 1.38159 46.66045 17.945 1.728)" gradientUnits="userSpaceOnUse"><stop stop-color="#11C656"></stop><stop offset="0.3" stop-color="#0CBB51"></stop><stop offset="0.8" stop-color="#019F44"></stop></radialGradient><radialGradient id="SplitLogo_svg__k" cx="0" cy="0" r="1" gradientTransform="rotate(-1.696 68.117 -604.794)scale(63.7891 46.5819)" gradientUnits="userSpaceOnUse"><stop stop-color="#12C856"></stop><stop offset="0.28" stop-color="#0EBD51"></stop><stop offset="0.77" stop-color="#029E44"></stop><stop offset="0.8" stop-color="#019C43"></stop></radialGradient><radialGradient id="SplitLogo_svg__l" cx="0" cy="0" r="1" gradientTransform="rotate(-1.696 69.147 -604.251)scale(63.649 46.4796)" gradientUnits="userSpaceOnUse"><stop stop-color="#14C957"></stop><stop offset="0.26" stop-color="#0FBE52"></stop><stop offset="0.72" stop-color="#049F44"></stop><stop offset="0.8" stop-color="#019941"></stop></radialGradient><radialGradient id="SplitLogo_svg__m" cx="0" cy="0" r="1" gradientTransform="matrix(63.48558 -1.87977 1.3727 46.36028 17.885 1.82)" gradientUnits="userSpaceOnUse"><stop stop-color="#16CB58"></stop><stop offset="0.24" stop-color="#11C053"></stop><stop offset="0.66" stop-color="#06A145"></stop><stop offset="0.8" stop-color="#019640"></stop></radialGradient><radialGradient id="SplitLogo_svg__n" cx="0" cy="0" r="1" gradientTransform="matrix(63.35014 -1.8756 1.36965 46.26133 17.85 1.86)" gradientUnits="userSpaceOnUse"><stop stop-color="#18CC59"></stop><stop offset="0.23" stop-color="#13C154"></stop><stop offset="0.62" stop-color="#07A246"></stop><stop offset="0.8" stop-color="#01933F"></stop></radialGradient><radialGradient id="SplitLogo_svg__o" cx="0" cy="0" r="1" gradientTransform="matrix(63.21 -1.87145 1.36662 46.15897 17.816 1.91)" gradientUnits="userSpaceOnUse"><stop stop-color="#19CD59"></stop><stop offset="0.21" stop-color="#15C254"></stop><stop offset="0.59" stop-color="#09A347"></stop><stop offset="0.8" stop-color="#01903E"></stop></radialGradient><radialGradient id="SplitLogo_svg__p" cx="0" cy="0" r="1" gradientTransform="matrix(63.07446 -1.8676 1.36381 46.06001 17.775 1.963)" gradientUnits="userSpaceOnUse"><stop stop-color="#1BCF5A"></stop><stop offset="0.2" stop-color="#17C455"></stop><stop offset="0.56" stop-color="#0BA547"></stop><stop offset="0.8" stop-color="#018D3C"></stop></radialGradient><radialGradient id="SplitLogo_svg__q" cx="0" cy="0" r="1" gradientTransform="matrix(62.93894 -1.24228 .90737 45.97115 17.727 1.77)" gradientUnits="userSpaceOnUse"><stop stop-color="#1DD05B"></stop><stop offset="0.19" stop-color="#18C556"></stop><stop offset="0.54" stop-color="#0CA648"></stop><stop offset="0.8" stop-color="#018B3B"></stop></radialGradient><radialGradient id="SplitLogo_svg__r" cx="0" cy="0" r="1" gradientTransform="matrix(62.79887 -1.23952 .90535 45.86887 17.676 1.81)" gradientUnits="userSpaceOnUse"><stop stop-color="#1ED25B"></stop><stop offset="0.18" stop-color="#1AC756"></stop><stop offset="0.51" stop-color="#0EA848"></stop><stop offset="0.8" stop-color="#01883A"></stop></radialGradient><radialGradient id="SplitLogo_svg__s" cx="0" cy="0" r="1" gradientTransform="matrix(62.6634 -1.23684 .9034 45.76989 17.625 1.849)" gradientUnits="userSpaceOnUse"><stop stop-color="#20D35C"></stop><stop offset="0.18" stop-color="#1BC857"></stop><stop offset="0.49" stop-color="#0FA949"></stop><stop offset="0.8" stop-color="#018539"></stop></radialGradient><radialGradient id="SplitLogo_svg__t" cx="0" cy="0" r="1" gradientTransform="matrix(62.52782 -1.23417 .90145 45.6709 17.564 1.904)" gradientUnits="userSpaceOnUse"><stop stop-color="#22D55D"></stop><stop offset="0.17" stop-color="#1DCA58"></stop><stop offset="0.47" stop-color="#11AB4A"></stop><stop offset="0.8" stop-color="#018237"></stop></radialGradient><radialGradient id="SplitLogo_svg__u" cx="0" cy="0" r="1" gradientTransform="matrix(62.38774 -1.23167 .89963 45.56862 17.499 1.955)" gradientUnits="userSpaceOnUse"><stop stop-color="#24D65E"></stop><stop offset="0.16" stop-color="#1FCB59"></stop><stop offset="0.45" stop-color="#13AC4B"></stop><stop offset="0.8" stop-color="#017F36"></stop></radialGradient><radialGradient id="SplitLogo_svg__v" cx="0" cy="0" r="1" gradientTransform="matrix(62.25227 -1.22873 .89747 45.46964 17.421 2.016)" gradientUnits="userSpaceOnUse"><stop stop-color="#25D85E"></stop><stop offset="0.15" stop-color="#20CD59"></stop><stop offset="0.43" stop-color="#14AE4B"></stop><stop offset="0.79" stop-color="#017D36"></stop><stop offset="0.8" stop-color="#007C35"></stop></radialGradient><radialGradient id="SplitLogo_svg__w" cx="0" cy="0" r="1" gradientTransform="matrix(62.1168 -1.22605 .89528 45.35847 18.775 2.086)" gradientUnits="userSpaceOnUse"><stop stop-color="#27D95F"></stop><stop offset="0.15" stop-color="#22CE5A"></stop><stop offset="0.42" stop-color="#16AF4C"></stop><stop offset="0.77" stop-color="#027E36"></stop><stop offset="0.8" stop-color="#007934"></stop></radialGradient><radialGradient id="SplitLogo_svg__x" cx="0" cy="0" r="1" gradientTransform="matrix(62.59035 -1.2233 .88451 45.25646 18.313 2.158)" gradientUnits="userSpaceOnUse"><stop stop-color="#29DB60"></stop><stop offset="0.14" stop-color="#24D05B"></stop><stop offset="0.4" stop-color="#18B14D"></stop><stop offset="0.74" stop-color="#048037"></stop><stop offset="0.8" stop-color="#007632"></stop></radialGradient><radialGradient id="SplitLogo_svg__y" cx="0" cy="0" r="1" gradientTransform="matrix(62.45347 -1.22062 .88258 45.15748 18.258 2.238)" gradientUnits="userSpaceOnUse"><stop stop-color="#2BDC61"></stop><stop offset="0.14" stop-color="#26D15C"></stop><stop offset="0.39" stop-color="#1AB24E"></stop><stop offset="0.71" stop-color="#068138"></stop><stop offset="0.8" stop-color="#007331"></stop></radialGradient><radialGradient id="SplitLogo_svg__z" cx="0" cy="0" r="1" gradientTransform="matrix(62.3121 -1.21821 .88084 45.0552 18.209 2.327)" gradientUnits="userSpaceOnUse"><stop stop-color="#2CDE61"></stop><stop offset="0.13" stop-color="#27D35C"></stop><stop offset="0.37" stop-color="#1BB44E"></stop><stop offset="0.69" stop-color="#088339"></stop><stop offset="0.8" stop-color="#007030"></stop></radialGradient><radialGradient id="SplitLogo_svg__A" cx="0" cy="0" r="1" gradientTransform="matrix(62.17523 -.60771 .43948 44.96315 18.148 1.88)" gradientUnits="userSpaceOnUse"><stop stop-color="#2EDF62"></stop><stop offset="0.13" stop-color="#29D45D"></stop><stop offset="0.37" stop-color="#1DB54F"></stop><stop offset="0.67" stop-color="#098439"></stop><stop offset="0.8" stop-color="#006E2F"></stop></radialGradient><radialGradient id="SplitLogo_svg__B" cx="0" cy="0" r="1" gradientTransform="matrix(62.03834 -.60637 .4385 44.86416 18.08 1.95)" gradientUnits="userSpaceOnUse"><stop stop-color="#30E163"></stop><stop offset="0.13" stop-color="#2BD65E"></stop><stop offset="0.35" stop-color="#1FB750"></stop><stop offset="0.65" stop-color="#0B8639"></stop><stop offset="0.8" stop-color="#006B2D"></stop></radialGradient><radialGradient id="SplitLogo_svg__C" cx="0" cy="0" r="1" gradientTransform="rotate(-.56 216.464 -1841.706)scale(61.8998 44.764)" gradientUnits="userSpaceOnUse"><stop stop-color="#31E263"></stop><stop offset="0.12" stop-color="#2CD75E"></stop><stop offset="0.34" stop-color="#20B850"></stop><stop offset="0.63" stop-color="#0D873A"></stop><stop offset="0.8" stop-color="#00682C"></stop></radialGradient><radialGradient id="SplitLogo_svg__D" cx="0" cy="0" r="1" gradientTransform="matrix(61.76005 -.60353 .43646 44.66297 17.93 2.108)" gradientUnits="userSpaceOnUse"><stop stop-color="#33E364"></stop><stop offset="0.12" stop-color="#2ED85F"></stop><stop offset="0.34" stop-color="#22B951"></stop><stop offset="0.62" stop-color="#0E883B"></stop><stop offset="0.8" stop-color="#00652B"></stop></radialGradient><radialGradient id="SplitLogo_svg__E" cx="0" cy="0" r="1" gradientTransform="matrix(61.61856 -.60227 .43554 44.56067 17.851 2.196)" gradientUnits="userSpaceOnUse"><stop stop-color="#35E565"></stop><stop offset="0.12" stop-color="#30DA60"></stop><stop offset="0.33" stop-color="#24BB52"></stop><stop offset="0.6" stop-color="#108A3C"></stop><stop offset="0.8" stop-color="#00622A"></stop></radialGradient><radialGradient id="SplitLogo_svg__F" cx="0" cy="0" r="1" gradientTransform="matrix(61.48166 -.60081 .43449 44.46168 17.766 2.287)" gradientUnits="userSpaceOnUse"><stop stop-color="#37E666"></stop><stop offset="0.11" stop-color="#32DB61"></stop><stop offset="0.32" stop-color="#26BC53"></stop><stop offset="0.59" stop-color="#128B3C"></stop><stop offset="0.8" stop-color="#005F28"></stop></radialGradient><radialGradient id="SplitLogo_svg__G" cx="0" cy="0" r="1" gradientTransform="matrix(61.34027 -.59955 .43358 44.35938 17.678 2.386)" gradientUnits="userSpaceOnUse"><stop stop-color="#38E866"></stop><stop offset="0.11" stop-color="#33DD61"></stop><stop offset="0.31" stop-color="#27BE53"></stop><stop offset="0.57" stop-color="#148D3D"></stop><stop offset="0.8" stop-color="#005C27"></stop></radialGradient><radialGradient id="SplitLogo_svg__H" cx="0" cy="0" r="1" gradientTransform="matrix(61.20338 -.59821 .4326 44.26039 17.582 2.492)" gradientUnits="userSpaceOnUse"><stop stop-color="#3AE967"></stop><stop offset="0.11" stop-color="#35DE62"></stop><stop offset="0.3" stop-color="#29BF54"></stop><stop offset="0.56" stop-color="#158E3E"></stop><stop offset="0.8" stop-color="#005926"></stop></radialGradient><radialGradient id="SplitLogo_svg__I" cx="0" cy="0" r="1" gradientTransform="matrix(61.06658 -.59675 .43155 44.1614 17.483 2.6)" gradientUnits="userSpaceOnUse"><stop stop-color="#3CEB68"></stop><stop offset="0.11" stop-color="#37E063"></stop><stop offset="0.29" stop-color="#2BC155"></stop><stop offset="0.54" stop-color="#17903F"></stop><stop offset="0.8" stop-color="#005625"></stop></radialGradient><radialGradient id="SplitLogo_svg__J" cx="0" cy="0" r="1" gradientTransform="rotate(-.56 286.72 -1776.506)scale(60.928 44.0612)" gradientUnits="userSpaceOnUse"><stop stop-color="#3EEC69"></stop><stop offset="0.1" stop-color="#39E164"></stop><stop offset="0.29" stop-color="#2DC256"></stop><stop offset="0.53" stop-color="#19913F"></stop><stop offset="0.8" stop-color="#005323"></stop></radialGradient><radialGradient id="SplitLogo_svg__K" cx="0" cy="0" r="1" gradientTransform="matrix(60.7882 0 0 43.9585 17.264 2.023)" gradientUnits="userSpaceOnUse"><stop stop-color="#3FEE69"></stop><stop offset="0.1" stop-color="#3AE364"></stop><stop offset="0.28" stop-color="#2EC456"></stop><stop offset="0.52" stop-color="#1A9340"></stop><stop offset="0.8" stop-color="#005122"></stop></radialGradient><radialGradient id="SplitLogo_svg__L" cx="0" cy="0" r="1" gradientTransform="matrix(61.2414 0 0 43.8563 18.698 2.12)" gradientUnits="userSpaceOnUse"><stop stop-color="#41EF6A"></stop><stop offset="0.1" stop-color="#3CE465"></stop><stop offset="0.28" stop-color="#30C557"></stop><stop offset="0.51" stop-color="#1C9441"></stop><stop offset="0.79" stop-color="#015022"></stop><stop offset="0.8" stop-color="#004E21"></stop></radialGradient><radialGradient id="SplitLogo_svg__M" cx="0" cy="0" r="1" gradientTransform="matrix(61.1078 0 0 43.7606 18.61 2.226)" gradientUnits="userSpaceOnUse"><stop stop-color="#43F16B"></stop><stop offset="0.1" stop-color="#3EE666"></stop><stop offset="0.27" stop-color="#32C758"></stop><stop offset="0.5" stop-color="#1E9642"></stop><stop offset="0.77" stop-color="#035223"></stop><stop offset="0.8" stop-color="#004B20"></stop></radialGradient><radialGradient id="SplitLogo_svg__N" cx="0" cy="0" r="1" gradientTransform="matrix(60.9695 0 0 43.6616 18.526 2.338)" gradientUnits="userSpaceOnUse"><stop stop-color="#45F26C"></stop><stop offset="0.1" stop-color="#40E767"></stop><stop offset="0.27" stop-color="#34C859"></stop><stop offset="0.49" stop-color="#209742"></stop><stop offset="0.76" stop-color="#055323"></stop><stop offset="0.8" stop-color="#00481E"></stop></radialGradient><radialGradient id="SplitLogo_svg__O" cx="0" cy="0" r="1" gradientTransform="matrix(60.8268 0 0 43.5593 18.438 2.458)" gradientUnits="userSpaceOnUse"><stop stop-color="#46F46C"></stop><stop offset="0.09" stop-color="#41E967"></stop><stop offset="0.26" stop-color="#35CA59"></stop><stop offset="0.48" stop-color="#229943"></stop><stop offset="0.74" stop-color="#065524"></stop><stop offset="0.8" stop-color="#00451D"></stop></radialGradient><radialGradient id="SplitLogo_svg__P" cx="0" cy="0" r="1" gradientTransform="matrix(60.6839 0 0 43.4571 18.353 2.584)" gradientUnits="userSpaceOnUse"><stop stop-color="#48F56D"></stop><stop offset="0.09" stop-color="#43EA68"></stop><stop offset="0.25" stop-color="#37CB5A"></stop><stop offset="0.47" stop-color="#239A44"></stop><stop offset="0.73" stop-color="#085625"></stop><stop offset="0.8" stop-color="#00421C"></stop></radialGradient><linearGradient id="SplitLogo_svg__Q" x1="19.341" x2="14.14" y1="33.83" y2="-3.58" gradientUnits="userSpaceOnUse"><stop offset="0.1" stop-color="#FF8475"></stop><stop offset="0.37" stop-color="#E84E43"></stop><stop offset="0.6" stop-color="#D6261F"></stop><stop offset="0.79" stop-color="#CC0E08"></stop><stop offset="0.9" stop-color="#C80500"></stop></linearGradient><clipPath id="SplitLogo_svg__a"><path fill="#fff" d="M0 0h28.091v28H0z"></path></clipPath></defs></svg><strong>Сплит</strong><small>оплата<br>частями</small></a>
+      </div>
+    </div>
+  </div>
+</div>
+<section id="bb-poloska" class="bb-poloska" aria-labelledby="bb-poloska-titul">
+<h2 id="bb-poloska-titul" class="bb-poloska__titul">Категории домов «Барских полей»</h2>
+<div class="bb-poloska__okno">
+<ul class="bb-poloska__lenta">
+<li class="bb-poloska__punkt"><a class="bb-poloska__karta" href="https://barskie-polya.ru/chalet"><img class="bb-poloska__foto" src="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/znachki/kategoriya-shale.webp" width="44" height="44" loading="lazy" decoding="async" alt=""><b class="bb-poloska__nazvanie">Шале</b><span class="bb-poloska__gosti">до 5 гостей</span><span class="bb-poloska__strelka" aria-hidden="true">→</span></a></li>
+<li class="bb-poloska__punkt"><a class="bb-poloska__karta" href="https://barskie-polya.ru/barski"><img class="bb-poloska__foto" src="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/znachki/kategoriya-barskij-dom.webp" width="44" height="44" loading="lazy" decoding="async" alt=""><b class="bb-poloska__nazvanie">Барский дом</b><span class="bb-poloska__gosti">до 6 гостей</span><span class="bb-poloska__strelka" aria-hidden="true">→</span></a></li>
+<li class="bb-poloska__punkt"><a class="bb-poloska__karta" href="https://barskie-polya.ru/barnhauses"><img class="bb-poloska__foto" src="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/znachki/kategoriya-barnhaus.webp" width="44" height="44" loading="lazy" decoding="async" alt=""><b class="bb-poloska__nazvanie">Барнхаус</b><span class="bb-poloska__gosti">до 6 гостей</span><span class="bb-poloska__strelka" aria-hidden="true">→</span></a></li>
+<li class="bb-poloska__punkt"><a class="bb-poloska__karta" href="https://barskie-polya.ru/gardens"><img class="bb-poloska__foto" src="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/znachki/kategoriya-garden.webp" width="44" height="44" loading="lazy" decoding="async" alt=""><b class="bb-poloska__nazvanie">Гарден</b><span class="bb-poloska__gosti">до 4 гостей</span><span class="bb-poloska__strelka" aria-hidden="true">→</span></a></li>
+<li class="bb-poloska__punkt"><a class="bb-poloska__karta" href="https://barskie-polya.ru/rivers"><img class="bb-poloska__foto" src="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/znachki/kategoriya-river.webp" width="44" height="44" loading="lazy" decoding="async" alt=""><b class="bb-poloska__nazvanie">Ривер</b><span class="bb-poloska__gosti">до 4 гостей</span><span class="bb-poloska__strelka" aria-hidden="true">→</span></a></li>
+<li class="bb-poloska__punkt" aria-hidden="true"><a class="bb-poloska__karta" href="https://barskie-polya.ru/chalet" tabindex="-1"><img class="bb-poloska__foto" src="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/znachki/kategoriya-shale.webp" width="44" height="44" loading="lazy" decoding="async" alt=""><b class="bb-poloska__nazvanie">Шале</b><span class="bb-poloska__gosti">до 5 гостей</span><span class="bb-poloska__strelka" aria-hidden="true">→</span></a></li>
+<li class="bb-poloska__punkt" aria-hidden="true"><a class="bb-poloska__karta" href="https://barskie-polya.ru/barski" tabindex="-1"><img class="bb-poloska__foto" src="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/znachki/kategoriya-barskij-dom.webp" width="44" height="44" loading="lazy" decoding="async" alt=""><b class="bb-poloska__nazvanie">Барский дом</b><span class="bb-poloska__gosti">до 6 гостей</span><span class="bb-poloska__strelka" aria-hidden="true">→</span></a></li>
+<li class="bb-poloska__punkt" aria-hidden="true"><a class="bb-poloska__karta" href="https://barskie-polya.ru/barnhauses" tabindex="-1"><img class="bb-poloska__foto" src="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/znachki/kategoriya-barnhaus.webp" width="44" height="44" loading="lazy" decoding="async" alt=""><b class="bb-poloska__nazvanie">Барнхаус</b><span class="bb-poloska__gosti">до 6 гостей</span><span class="bb-poloska__strelka" aria-hidden="true">→</span></a></li>
+<li class="bb-poloska__punkt" aria-hidden="true"><a class="bb-poloska__karta" href="https://barskie-polya.ru/gardens" tabindex="-1"><img class="bb-poloska__foto" src="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/znachki/kategoriya-garden.webp" width="44" height="44" loading="lazy" decoding="async" alt=""><b class="bb-poloska__nazvanie">Гарден</b><span class="bb-poloska__gosti">до 4 гостей</span><span class="bb-poloska__strelka" aria-hidden="true">→</span></a></li>
+<li class="bb-poloska__punkt" aria-hidden="true"><a class="bb-poloska__karta" href="https://barskie-polya.ru/rivers" tabindex="-1"><img class="bb-poloska__foto" src="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/znachki/kategoriya-river.webp" width="44" height="44" loading="lazy" decoding="async" alt=""><b class="bb-poloska__nazvanie">Ривер</b><span class="bb-poloska__gosti">до 4 гостей</span><span class="bb-poloska__strelka" aria-hidden="true">→</span></a></li>
+</ul>
+</div>
+<p class="bb-poloska__podskazka">Лента движется сама. Наведите курсор, чтобы остановить и выбрать дом.</p>
+</section>
+<style>
+#bb-poloska{position:relative;overflow:hidden;background-color:#14221d;padding:22px 0 10px;font-family:'Rubik',Arial,sans-serif}
+#bb-poloska .bb-poloska__titul{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+#bb-poloska .bb-poloska__okno{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%)}
+#bb-poloska .bb-poloska__lenta{display:flex;align-items:center;gap:12px;width:max-content;margin:0;padding:0 24px;list-style:none;animation:bb-poloska-hod 45s linear infinite;will-change:transform}
+#bb-poloska .bb-poloska__punkt{flex:0 0 auto;margin:0;padding:0;list-style:none}
+#bb-poloska .bb-poloska__karta{display:flex;align-items:center;gap:11px;padding:6px 16px 6px 7px;border-radius:999px;background-color:rgba(238,229,213,.07);border:1px solid rgba(238,229,213,.16);box-shadow:0 2px 10px rgba(12,22,18,.18);color:#eee5d5;text-decoration:none;white-space:nowrap;transition:background-color .25s ease,border-color .25s ease}
+#bb-poloska .bb-poloska__karta:hover{background-color:rgba(238,229,213,.12);border-color:rgba(238,229,213,.28)}
+#bb-poloska .bb-poloska__foto{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:0 0 44px;display:block;background-color:#28413a}
+#bb-poloska .bb-poloska__nazvanie{font-size:15px;font-weight:500;line-height:1.2;color:#eee5d5}
+#bb-poloska .bb-poloska__gosti{font-size:12.5px;color:rgba(238,229,213,.72)}
+#bb-poloska .bb-poloska__strelka{font-size:14px;color:rgba(238,229,213,.5)}
+#bb-poloska .bb-poloska__podskazka{max-width:1200px;margin:10px auto 0;padding:0 24px;font-size:12px;line-height:1.5;color:rgba(238,229,213,.55)}
+@keyframes bb-poloska-hod{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-50% - 6px),0,0)}}
+@media (hover:hover) and (pointer:fine){
+ #bb-poloska .bb-poloska__okno:hover .bb-poloska__lenta,
+ #bb-poloska .bb-poloska__okno:focus-within .bb-poloska__lenta{animation-play-state:paused}
+}
+@media (max-width:639px){
+ #bb-poloska{padding-top:18px}
+ #bb-poloska .bb-poloska__okno{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:none}
+ #bb-poloska .bb-poloska__okno::-webkit-scrollbar{display:none}
+ #bb-poloska .bb-poloska__lenta{padding:0 16px}
+}
+@media (prefers-reduced-motion:reduce){
+ #bb-poloska .bb-poloska__lenta{animation:none;transform:none}
+ #bb-poloska .bb-poloska__okno{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;mask-image:none;-webkit-mask-image:none;scrollbar-width:none}
+ #bb-poloska .bb-poloska__karta{transition:none}
+}
+</style>
+<script>
+(function(){
+ var sekciya=document.getElementById('bb-poloska'); if(!sekciya) return;
+ var lenta=sekciya.querySelector('.bb-poloska__lenta'), okno=sekciya.querySelector('.bb-poloska__okno');
+ if(!lenta||!okno) return;
+ function nastroit(){ var n=lenta.scrollWidth/2; if(n>0) lenta.style.animationDuration=Math.max(20,Math.round(n*45/1200))+'s'; }
+ nastroit(); addEventListener('resize',nastroit,{passive:true});
+ var taymer=null;
+ function priostanovit(){ lenta.style.animationPlayState='paused'; if(taymer) clearTimeout(taymer); }
+ function prodolzhit(){ if(taymer) clearTimeout(taymer); taymer=setTimeout(function(){ lenta.style.animationPlayState=''; },2500); }
+ ['touchstart','pointerdown','scroll','wheel'].forEach(function(e){ okno.addEventListener(e,priostanovit,{passive:true}); });
+ ['touchend','pointerup','touchcancel','pointercancel','scrollend'].forEach(function(e){ okno.addEventListener(e,prodolzhit,{passive:true}); });
+})();
+</script>
+<section class="bp-home-intro" aria-label="Дома для отдыха в лесу"><p>В каждом доме — просторная планировка, полноценная кухня, современная мебель и техника, терраса и мангальная зона. У каждого дома есть банный чан, а в некоторых — собственная баня.</p><p>Уединённое расположение в лесу создаёт ощущение отдыха в собственном загородном доме!</p><nav aria-label="Категории домов"><a href="/chalet">Шале</a><a href="/barski">Барский дом</a><a href="/barnhauses">Барнхаус</a><a href="/gardens">Гарден</a><a href="/rivers">Ривер</a><a href="/maps">Карта территории</a></nav></section><div id="houses"></div><style>#bb-stay .bph-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px;margin-top:24px}#bb-stay .bph-card{border:1px solid #54685b;border-radius:12px;overflow:hidden}#bb-stay .bph-card img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}#bb-stay .bph-body{padding:18px}#bb-stay .bph-body a{display:block;margin-top:12px;color:#ee995d}</style><section id="bb-stay" class="bst bst-section bpc-section" data-brand="bp"><div class="bst-inner"><p class="bst-eyebrow">Барские поля</p><h2>Свободные даты и цены</h2><p>15 домов для отдыха в Подмосковье. Даты отдыха — до 1 февраля 2027 включительно.</p><p><a href="/booking">Проверить даты в модуле бронирования</a> · <a href="/houses">Все дома и фотографии</a></p><div class="bph-grid"><article class="bph-card" data-house="chalet"><a href="https://barskie-polya.ru/chalet" aria-label="Шале — фотографии"><img src="https://static.tildacdn.info/tild3931-6466-4330-b739-303235643534/IMG_6543.PNG" alt="Шале" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Шале</h3><p>До 5 гостей · Своя баня</p><p>2 отдельные спальни и диван<br>Территория: полностью огорожена</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=640822">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/chalet">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="barski"><a href="https://barskie-polya.ru/barski" aria-label="Барский дом — фотографии"><img src="https://static.tildacdn.info/tild3536-3139-4464-b561-393636653063/photo_2026-05-07_01-.jpg" alt="Барский дом" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Барский дом</h3><p>До 6 гостей · Сауна в доме</p><p>2 отдельные спальни и диван<br>Территория: частично огорожена</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=470445">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/barski">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="barnhause1"><a href="https://barskie-polya.ru/barnhauses/barnhause1" aria-label="Барнхаус 1 — фотографии"><img src="https://static.tildacdn.info/tild3038-3830-4637-b765-353136383838/photo_2026-05-06_23-.jpg" alt="Барнхаус 1" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Барнхаус 1</h3><p>До 6 гостей · Банный чан</p><p>2 отдельные спальни и диван<br>Территория: частично огорожена</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=461727">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/barnhauses/barnhause1">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="garden1"><a href="https://barskie-polya.ru/gardens/garden1" aria-label="Гарден 1 — фотографии"><img src="https://static.tildacdn.info/tild6462-3331-4663-a539-303537383266/photo_2026-05-06_18-.jpg" alt="Гарден 1" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Гарден 1</h3><p>До 4 гостей · Своя баня</p><p>Кровать и раскладной диван<br>Территория: полностью огорожена</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=406982">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/gardens/garden1">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="river1"><a href="https://barskie-polya.ru/rivers/river1" aria-label="Ривер 1 — фотографии"><img src="https://static.tildacdn.info/tild3231-3437-4466-b863-616633303462/photo.jpg" alt="Ривер 1" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Ривер 1</h3><p>До 4 гостей · Банный чан</p><p>Кровать и раскладной диван<br>Территория: живая изгородь</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=406981">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/rivers/river1">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="river2"><a href="https://barskie-polya.ru/rivers/river2" aria-label="Ривер 2 — фотографии"><img src="https://static.tildacdn.info/tild3737-3666-4931-a562-366665333131/IMG_9789-176.jpg" alt="Ривер 2" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Ривер 2</h3><p>До 4 гостей · Банный чан</p><p>Кровать и раскладной диван<br>Территория: живая изгородь</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=406980">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/rivers/river2">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="river3"><a href="https://barskie-polya.ru/rivers/river3" aria-label="Ривер 3 — фотографии"><img src="https://static.tildacdn.info/tild6463-3230-4166-b337-663732643630/IMG_9845-297.jpg" alt="Ривер 3" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Ривер 3</h3><p>До 4 гостей · Банный чан</p><p>Кровать и раскладной диван<br>Территория: живая изгородь</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=406978">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/rivers/river3">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="river4"><a href="https://barskie-polya.ru/rivers/river4" aria-label="Ривер 4 — фотографии"><img src="https://static.tildacdn.info/tild3833-6265-4131-b663-366363643166/photo_2026-05-06_16-.jpg" alt="Ривер 4" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Ривер 4</h3><p>До 4 гостей · Банный чан</p><p>Кровать и раскладной диван<br>Территория: живая изгородь</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=406979">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/rivers/river4">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="river5"><a href="https://barskie-polya.ru/rivers/river5" aria-label="Ривер 5 — фотографии"><img src="https://static.tildacdn.info/tild3065-6665-4364-b264-626362383131/photo_2026-05-06_17-.jpg" alt="Ривер 5" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Ривер 5</h3><p>До 4 гостей · Банный чан</p><p>Кровать и раскладной диван<br>Территория: живая изгородь</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=406976">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/rivers/river5">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="river6"><a href="https://barskie-polya.ru/rivers/river6" aria-label="Ривер 6 — фотографии"><img src="https://static.tildacdn.info/tild6331-6439-4138-b636-393535393863/IMG_9996-333.jpg" alt="Ривер 6" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Ривер 6</h3><p>До 4 гостей · Банный чан</p><p>Кровать и раскладной диван<br>Территория: живая изгородь</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=406977">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/rivers/river6">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="garden2"><a href="https://barskie-polya.ru/gardens/garden2" aria-label="Гарден 2 — фотографии"><img src="https://static.tildacdn.info/tild3730-3735-4038-b966-383262633239/IMG_0153-377.jpg" alt="Гарден 2" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Гарден 2</h3><p>До 4 гостей · Банный чан</p><p>Кровать и раскладной диван<br>Территория: полностью огорожена</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=406983">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/gardens/garden2">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="garden3"><a href="https://barskie-polya.ru/gardens/garden3" aria-label="Гарден 3 — фотографии"><img src="https://static.tildacdn.info/tild3639-3839-4030-b161-623461373933/IMG_0246-403.jpg" alt="Гарден 3" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Гарден 3</h3><p>До 4 гостей · Банный чан</p><p>Кровать и раскладной диван<br>Территория: полностью огорожена</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=409133">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/gardens/garden3">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="garden4"><a href="https://barskie-polya.ru/gardens/garden4" aria-label="Гарден 4 — фотографии"><img src="https://static.tildacdn.info/tild6539-3839-4162-b366-616665383666/photo_2026-05-06_19-.jpg" alt="Гарден 4" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Гарден 4</h3><p>До 4 гостей · Своя баня</p><p>Кровать и раскладной диван<br>Территория: полностью огорожена</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=409136">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/gardens/garden4">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="garden5"><a href="https://barskie-polya.ru/gardens/garden5" aria-label="Гарден 5 — фотографии"><img src="https://static.tildacdn.info/tild3039-3531-4561-a532-333932346437/IMG_0055-349.jpg" alt="Гарден 5" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Гарден 5</h3><p>До 4 гостей · Банный чан</p><p>Кровать и раскладной диван<br>Территория: полностью огорожена</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=409140">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/gardens/garden5">Фотографии и планировка →</a></div></article><article class="bph-card" data-house="barnhause2"><a href="https://barskie-polya.ru/barnhauses/barnhause2" aria-label="Барнхаус 2 — фотографии"><img src="https://static.tildacdn.info/tild3532-3334-4162-b963-323261326663/IMG_4864_1.jpg" alt="Барнхаус 2" width="600" height="450" loading="lazy"></a><div class="bph-body"><h3>Барнхаус 2</h3><p>До 6 гостей · Банный чан</p><p>2 отдельные спальни и диван<br>Территория: частично огорожена</p><a class="bph-book" href="https://reservationsteps.ru/rooms/index/17f7bf8e-d176-4c55-83a8-a1c0cd6187ae?lang=ru&amp;onlyrooms=461732">Свободные даты и цены</a><a class="bph-details" href="https://barskie-polya.ru/barnhauses/barnhause2">Фотографии и планировка →</a></div></article></div></div></section><script>
+(()=>{const v=document.querySelector('.bp-hero__video'),hero=document.querySelector('.bp-hero-record');if(!v||!hero)return;
+const mobile=matchMedia('(max-width:640px)').matches,assets='https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/';
+v.poster=assets+'bp-hero-new-houses-20261010'+(mobile?'-mobile':'')+'-poster.webp';hero.querySelector('.bp-hero__bg').style.backgroundImage='url("'+v.poster+'")';
+const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches,save=navigator.connection?.saveData;
+if(!reduced&&!save){v.src=assets+'bp-hero-new-houses-20261010'+(mobile?'-mobile':'')+'.mp4';v.play().catch(()=>{});}
+let inView=true;function playback(){if(!v.src)return;if(document.hidden||!inView)v.pause();else v.play().catch(()=>{});}
+if('IntersectionObserver'in window)new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;document.body.classList.toggle('bp-hero-in-view',inView);playback();}).observe(hero);
+document.addEventListener('visibilitychange',playback);
+function sync(){const header=document.querySelector('#rec1185050691 .t396__artboard'),nav=document.querySelector('.t975');const h=header?.getBoundingClientRect().height||76,b=nav&&getComputedStyle(nav).display!=='none'?nav.getBoundingClientRect().height:0;document.documentElement.style.setProperty('--bp-screen',innerHeight+'px');document.documentElement.style.setProperty('--bp-header-height',h+'px');document.documentElement.style.setProperty('--bp-bottom-height',b+'px');}
+window.addEventListener('resize',sync);window.addEventListener('load',sync);sync();})();
+</script><script>
+window.BBStayData = {"bp": [{"id": "chalet", "brand": "bp", "name": "Шале", "url": "https://barskie-polya.ru/chalet", "roomId": 640822, "image": "https://static.tildacdn.com/tild3931-6466-4330-b739-303235643534/IMG_6543.PNG", "capacity": 5, "rooms": "2 отдельные спальни и диван", "bath": true, "fenced": true, "pets": false, "territory": "Полностью огорожена", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Своя баня", "source": "https://barskie-polya.ru/chalet", "tub": true}, {"id": "barski", "brand": "bp", "name": "Барский дом", "url": "https://barskie-polya.ru/barski", "roomId": 470445, "image": "https://static.tildacdn.com/tild3536-3139-4464-b561-393636653063/photo_2026-05-07_01-.jpg", "capacity": 6, "rooms": "2 отдельные спальни и диван", "bath": true, "fenced": false, "pets": true, "territory": "Частично огорожена", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Сауна в доме", "source": "https://barskie-polya.ru/barski", "tub": true}, {"id": "barnhause1", "brand": "bp", "name": "Барнхаус 1", "url": "https://barskie-polya.ru/barnhauses/barnhause1", "roomId": 461727, "image": "https://static.tildacdn.com/tild3038-3830-4637-b765-353136383838/photo_2026-05-06_23-.jpg", "capacity": 6, "rooms": "2 отдельные спальни и диван", "bath": false, "fenced": false, "pets": true, "territory": "Частично огорожена", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Банный чан", "source": "https://barskie-polya.ru/barnhauses/barnhause1", "tub": true}, {"id": "garden1", "brand": "bp", "name": "Гарден 1", "url": "https://barskie-polya.ru/gardens/garden1", "roomId": 406982, "image": "https://static.tildacdn.com/tild6462-3331-4663-a539-303537383266/photo_2026-05-06_18-.jpg", "capacity": 4, "rooms": "Кровать и раскладной диван", "bath": true, "fenced": true, "pets": true, "territory": "Полностью огорожена", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Своя баня", "source": "https://barskie-polya.ru/gardens/garden1", "tub": true}, {"id": "river1", "brand": "bp", "name": "Ривер 1", "url": "https://barskie-polya.ru/rivers/river1", "roomId": 406981, "image": "https://static.tildacdn.com/tild3231-3437-4466-b863-616633303462/photo.jpg", "capacity": 4, "rooms": "Кровать и раскладной диван", "bath": false, "fenced": false, "pets": true, "territory": "Живая изгородь", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Банный чан", "source": "https://barskie-polya.ru/rivers/river1", "tub": true}, {"id": "river2", "brand": "bp", "name": "Ривер 2", "url": "https://barskie-polya.ru/rivers/river2", "roomId": 406980, "image": "https://static.tildacdn.com/tild3737-3666-4931-a562-366665333131/IMG_9789-176.jpg", "capacity": 4, "rooms": "Кровать и раскладной диван", "bath": false, "fenced": false, "pets": true, "territory": "Живая изгородь", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Банный чан", "source": "https://barskie-polya.ru/rivers/river2", "tub": true}, {"id": "river3", "brand": "bp", "name": "Ривер 3", "url": "https://barskie-polya.ru/rivers/river3", "roomId": 406978, "image": "https://static.tildacdn.com/tild6463-3230-4166-b337-663732643630/IMG_9845-297.jpg", "capacity": 4, "rooms": "Кровать и раскладной диван", "bath": false, "fenced": false, "pets": true, "territory": "Живая изгородь", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Банный чан", "source": "https://barskie-polya.ru/rivers/river3", "tub": true}, {"id": "river4", "brand": "bp", "name": "Ривер 4", "url": "https://barskie-polya.ru/rivers/river4", "roomId": 406979, "image": "https://static.tildacdn.com/tild3833-6265-4131-b663-366363643166/photo_2026-05-06_16-.jpg", "capacity": 4, "rooms": "Кровать и раскладной диван", "bath": false, "fenced": false, "pets": true, "territory": "Живая изгородь", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Банный чан", "source": "https://barskie-polya.ru/rivers/river4", "tub": true}, {"id": "river5", "brand": "bp", "name": "Ривер 5", "url": "https://barskie-polya.ru/rivers/river5", "roomId": 406976, "image": "https://static.tildacdn.com/tild3065-6665-4364-b264-626362383131/photo_2026-05-06_17-.jpg", "capacity": 4, "rooms": "Кровать и раскладной диван", "bath": false, "fenced": false, "pets": true, "territory": "Живая изгородь", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Банный чан", "source": "https://barskie-polya.ru/rivers/river5", "tub": true}, {"id": "river6", "brand": "bp", "name": "Ривер 6", "url": "https://barskie-polya.ru/rivers/river6", "roomId": 406977, "image": "https://static.tildacdn.com/tild6331-6439-4138-b636-393535393863/IMG_9996-333.jpg", "capacity": 4, "rooms": "Кровать и раскладной диван", "bath": false, "fenced": false, "pets": true, "territory": "Живая изгородь", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Банный чан", "source": "https://barskie-polya.ru/rivers/river6", "tub": true}, {"id": "garden2", "brand": "bp", "name": "Гарден 2", "url": "https://barskie-polya.ru/gardens/garden2", "roomId": 406983, "image": "https://static.tildacdn.com/tild3730-3735-4038-b966-383262633239/IMG_0153-377.jpg", "capacity": 4, "rooms": "Кровать и раскладной диван", "bath": false, "fenced": true, "pets": true, "territory": "Полностью огорожена", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Банный чан", "source": "https://barskie-polya.ru/gardens/garden2", "tub": true}, {"id": "garden3", "brand": "bp", "name": "Гарден 3", "url": "https://barskie-polya.ru/gardens/garden3", "roomId": 409133, "image": "https://static.tildacdn.com/tild3639-3839-4030-b161-623461373933/IMG_0246-403.jpg", "capacity": 4, "rooms": "Кровать и раскладной диван", "bath": false, "fenced": true, "pets": true, "territory": "Полностью огорожена", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Банный чан", "source": "https://barskie-polya.ru/gardens/garden3", "tub": true}, {"id": "garden4", "brand": "bp", "name": "Гарден 4", "url": "https://barskie-polya.ru/gardens/garden4", "roomId": 409136, "image": "https://static.tildacdn.com/tild6539-3839-4162-b366-616665383666/photo_2026-05-06_19-.jpg", "capacity": 4, "rooms": "Кровать и раскладной диван", "bath": true, "fenced": true, "pets": true, "territory": "Полностью огорожена", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Своя баня", "source": "https://barskie-polya.ru/gardens/garden4", "tub": true}, {"id": "garden5", "brand": "bp", "name": "Гарден 5", "url": "https://barskie-polya.ru/gardens/garden5", "roomId": 409140, "image": "https://static.tildacdn.com/tild3039-3531-4561-a532-333932346437/IMG_0055-349.jpg", "capacity": 4, "rooms": "Кровать и раскладной диван", "bath": false, "fenced": true, "pets": true, "territory": "Полностью огорожена", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Банный чан", "source": "https://barskie-polya.ru/gardens/garden5", "tub": true}, {"id": "barnhause2", "brand": "bp", "name": "Барнхаус 2", "url": "https://barskie-polya.ru/barnhauses/barnhause2", "roomId": 461732, "image": "https://static.tildacdn.com/tild3532-3334-4162-b963-323261326663/IMG_4864_1.jpg", "capacity": 6, "rooms": "2 отдельные спальни и диван", "bath": false, "fenced": false, "pets": true, "territory": "Частично огорожена", "included": "Кухня, бельё, полотенца, мангал", "bathLabel": "Банный чан", "source": "https://barskie-polya.ru/barnhauses/barnhause2", "tub": true}]};
+
+</script><script>
+/* Pure selection and booking helpers, shared by the demo and its checks. */
+(function (root) {
+  'use strict';
+  const iso = date => `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+  function validDate(value) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value || '')) return false;
+    const date = new Date(value + 'T12:00:00');
+    return !isNaN(date) && iso(date) === value;
+  }
+  function dateError(state, today=iso(new Date())) {
+    if (!state.arrival && !state.departure) return '';
+    if (!validDate(state.arrival) || !validDate(state.departure)) return 'Укажите даты заезда и выезда.';
+    if (state.arrival < today) return 'Выберите дату заезда не раньше сегодняшнего дня.';
+    if (state.departure <= state.arrival) return 'Выезд должен быть позже заезда.';
+    return '';
+  }
+  function matches(house, state) {
+    return house.capacity >= Number(state.guests || 2)
+      && (!state.bath || house.bath) && (!state.tub || house.tub) && (!state.pets || house.pets)
+      && (!state.fenced || house.fenced);
+  }
+  function bookingUrl(brand, state, house) {
+    const u = new URL(brand==='br'?'https://ecobr.ru/booking':'https://barskie-polya.ru/booking');
+    if (house) u.searchParams.set('onlyrooms',String(house.roomId));
+    // Guest filter includes children; the module asks for exact ages and party.
+    // Only adults are transferred when the guest explicitly supplies their count.
+    u.searchParams.set('adults', String(state.adults || 2));
+    if (state.arrival && state.departure && !dateError(state)) {
+      u.searchParams.set('dfrom',state.arrival); u.searchParams.set('dto',state.departure);
+    }
+    u.searchParams.set('scroll_to_rooms','1');
+    return u.href;
+  }
+  function validateParty(state,houses=[]) {
+    const adults=Number(state.adults??2),children=state.children??[];
+    if(!Number.isInteger(adults)||adults<1||adults>6||!Array.isArray(children)||children.some(a=>!Number.isInteger(a)||a<0||a>17)||adults+children.length>6)throw new Error('Укажите взрослых и возраст каждого ребёнка. В одном доме — до 6 гостей.');
+    if(houses.some(h=>h.capacity<adults+children.length))throw new Error('Выбранный дом не вмещает всех гостей.');
+    return {adults,children};
+  }
+  function availabilityUrl(brand, state, houses) {
+    if (dateError(state) || !state.arrival || !state.departure) throw new Error('Сначала выберите корректные даты.');
+    const ids=[...new Set(houses.map(h=>Number(h.roomId)))];
+    if (!ids.length || ids.some(id=>!Number.isSafeInteger(id)||id<=0)) throw new Error('Нет подходящих домов для проверки.');
+    const party=validateParty(state,houses);
+    const uid=brand==='br'?'9b88bc59-76a6-4230-8e86-85790f3854d4':brand==='bp'?'17f7bf8e-d176-4c55-83a8-a1c0cd6187ae':null;
+    if(!uid)throw new Error('Неизвестная база.');
+    const u=new URL('https://reservationsteps.ru/rooms/index/'+uid);
+    const date=v=>v.split('-').reverse().join('-');
+    u.searchParams.set('lang','ru');u.searchParams.set('adults',String(party.adults));
+    u.searchParams.set('children',JSON.stringify(party.children));
+    u.searchParams.set('dfrom',date(state.arrival));u.searchParams.set('dto',date(state.departure));
+    u.searchParams.set('onlyrooms',ids.join(','));u.searchParams.set('scroll_to_rooms','1');
+    return u.href;
+  }
+  root.BBStayCore = {iso,validDate,dateError,matches,bookingUrl,availabilityUrl,validateParty};
+})(typeof window==='undefined'?globalThis:window);
+
+</script><script>
+/* Public Bnovo calendar data. No credentials, bookings or guest information. */
+(function(root){
+ 'use strict';
+ const api='https://public-api.reservationsteps.ru/v1/api/',uid='17f7bf8e-d176-4c55-83a8-a1c0cd6187ae',cache=new Map(),bookingEnd='2027-02-01';
+ const queue=[];let running=0;
+ function queued(job){return new Promise((resolve,reject)=>{queue.push({job,resolve,reject});drain();});}
+ function drain(){while(running<4&&queue.length){const task=queue.shift();running++;Promise.resolve().then(task.job).then(task.resolve,task.reject).finally(()=>{running--;drain();});}}
+ async function request(url){
+  const controller=typeof AbortController==='function'?new AbortController():null;let timer;
+  try{return await Promise.race([
+   (async()=>{const r=await fetch(url,{credentials:'omit',...(controller?{signal:controller.signal}:{})});if(!r.ok)throw Error('Не удалось загрузить календарь.');return r.json();})(),
+   new Promise((resolve,reject)=>{timer=setTimeout(()=>{controller?.abort();reject(Error('Календарь не ответил вовремя.'));},10000);})
+  ]);}finally{clearTimeout(timer);}
+ }
+ const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+ const date=s=>new Date(s+'T12:00:00');
+ const add=(s,n)=>{const d=date(s);d.setDate(d.getDate()+n);return iso(d);};
+ const nights=(a,b)=>Math.round((Date.parse(b+'T00:00:00Z')-Date.parse(a+'T00:00:00Z'))/86400000);
+ function rule(data,day){
+  const entry=data.closed[day]||{},parts=(entry.r||'').split('_'),code=parts[0],price=data.prices[day];
+  const number=k=>{const i=parts.indexOf(k);return i<0?0:Number(parts[i+1])||0;};
+  const minimum=number('minsa')||number('mins')||1,maximum=number('maxs');
+  const known=Object.prototype.hasOwnProperty.call(data.prices,day)||Object.prototype.hasOwnProperty.call(data.closed,day);
+  const stop=code==='c',noArrival=stop||['ca','rpa','rpb'].includes(code),noDeparture=entry.cd===1;
+  const available=known&&!noArrival&&(Number(price?.p)>0||parts.includes('mins')||parts.includes('minsa')||parts.includes('maxs'));
+  return{known,available,noArrival,noDeparture,stop,minimum,maximum,price:Number(price?.p)||null,guests:Number(price?.g)||2,code};
+ }
+ async function load(roomId,month,fresh=false){
+  if(!Number.isSafeInteger(Number(roomId))||Number(roomId)<=0||!/^\d{4}-\d{2}$/.test(month))throw Error('Некорректный календарь.');
+  const key=roomId+':'+month,old=cache.get(key);if(!fresh&&old&&Date.now()-old.at<300000)return old.promise;
+  const [y,m]=month.split('-').map(Number),from=new Date(y,m-1,1,12),to=new Date(y,m+1,1,12),format=d=>iso(d).split('-').reverse().join('-');
+  const promise=Promise.all(['closed_dates_with_reasons','min_prices'].map(endpoint=>queued(async()=>{
+   const params=new URLSearchParams({uid,dfrom:format(from),dto:format(to)});
+   if(endpoint==='min_prices'){params.set('room_type_id',String(roomId));params.set('currency','RUB');}
+   else{params.set('roomtype_id',String(roomId));params.set('onlyrooms',String(roomId));}
+   return request(api+endpoint+'?'+params);
+  }))).then(([closed,prices])=>{
+   const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
+   if(!object(closed?.closed_dates_with_reasons)||!object(closed.closed_dates_with_reasons.closed_dates)||!object(prices?.min_prices))throw Error('Календарь временно недоступен.');
+   return{closed:closed.closed_dates_with_reasons.closed_dates,prices:prices.min_prices,from:iso(from),to:iso(to),loaded:Date.now()};
+  }).catch(e=>{cache.delete(key);throw e;});cache.set(key,{at:Date.now(),promise});return promise;
+ }
+ async function loadStay(roomId,arrival,departure){
+  const periods=[];let cursor=date(arrival.slice(0,7)+'-01');
+  while(iso(cursor).slice(0,7)<=departure.slice(0,7)){periods.push(iso(cursor).slice(0,7));cursor.setMonth(cursor.getMonth()+2);}
+  const chunks=await Promise.all(periods.map(month=>load(roomId,month,true))),data={closed:{},prices:{}};
+  for(const chunk of chunks){Object.assign(data.closed,chunk.closed);Object.assign(data.prices,chunk.prices);}return data;
+ }
+ function validate(data,arrival,departure,today=iso(new Date())){
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(arrival||'')||!/^\d{4}-\d{2}-\d{2}$/.test(departure||'')||iso(date(arrival))!==arrival||iso(date(departure))!==departure||departure<=arrival)return 'Выберите дату заезда, затем дату выезда.';
+  if(departure>bookingEnd||arrival>=bookingEnd)return 'Сейчас можно выбрать отдых до 1 февраля 2027 включительно.';
+  if(arrival<today)return 'Эта дата уже прошла.';
+  const start=rule(data,arrival),end=rule(data,departure),count=nights(arrival,departure);
+  if(!start.available)return 'В этот день заезд недоступен. Выберите другую дату.';
+  if(!end.known||end.noDeparture)return 'В этот день выезд недоступен. Выберите другую дату.';
+  if(count<start.minimum)return `Для этого заезда нужно не менее ${start.minimum} ночей. Выберите более поздний выезд.`;
+  if(start.maximum&&count>start.maximum)return `Для этого заезда доступно не больше ${start.maximum} ночей.`;
+  for(let d=arrival;d<departure;d=add(d,1)){
+   const r=rule(data,d);if(!r.known)return 'Нужно обновить календарь на выбранный период.';
+   if(r.stop)return 'Внутри выбранного периода есть недоступная ночь. Выберите другие даты.';
+   if(r.code==='mins'&&count<r.minimum)return `В этом периоде нужно не менее ${r.minimum} ночей.`;
+   if(!r.available&&!r.noArrival&&!r.noDeparture)return 'Доступность одной из ночей требует проверки. Выберите другой период.';
+  }
+  return '';
+ }
+ root.BPCalendar={iso,add,nights,rule,load,loadStay,validate,bookingEnd};
+})(typeof window==='undefined'?globalThis:window);
+
+</script><script>
+/* One flow: house -> its live monthly calendar -> confirmed booking. */
+(()=>{
+ 'use strict';
+ const houses=window.BBStayData?.bp,core=window.BBStayCore,calendar=window.BPCalendar;if(!houses||!core||!calendar)return;
+ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const monthLabel=m=>new Intl.DateTimeFormat('ru-RU',{month:'long',year:'numeric'}).format(new Date(m+'-01T12:00:00')).replace(' г.','');
+ const dayLabel=d=>new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long'}).format(new Date(d+'T12:00:00'));
+ const shortDay=d=>new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'short'}).format(new Date(d+'T12:00:00'));
+ const today=calendar.iso(new Date()),firstMonth=today.slice(0,7),bookingEnd=calendar.bookingEnd,lastMonth=calendar.add(bookingEnd,-1).slice(0,7),months=[];
+ for(let m=firstMonth;m<=lastMonth;){months.push(m);const d=new Date(m+'-01T12:00:00');d.setMonth(d.getMonth()+1);m=calendar.iso(d).slice(0,7);}
+ const options=m=>months.map(value=>`<option value="${value}" ${value===m?'selected':''}>${monthLabel(value)}</option>`).join('');
+ let section,limit=3,globalMonth=firstMonth,dirty=false;
+ const initialURL=new URL(window.BBStayInitialURL||location.href);
+ let activeHouse=initialURL.searchParams.get('house');if(!houses.some(h=>h.id===activeHouse))activeHouse='';
+ const state={adults:2,children:[],guests:2,bath:false,tub:false,pets:false,fenced:false},draft={...state,month:globalMonth},views=new Map();
+ const view=h=>{if(!views.has(h.id))views.set(h.id,{month:globalMonth,arrival:'',departure:'',picking:'arrival',data:null,inventory:{closed:{},prices:{}},error:'',loading:false,version:0,loadedMonth:''});return views.get(h.id);};
+ const selected=()=>houses.filter(h=>(!activeHouse||h.id===activeHouse)&&core.matches(h,state));
+ const catalogueHref='/houses';
+ function mount(){
+  section=document.querySelector('#bb-stay');if(!section)return;
+  section.innerHTML=`<div class="bst-inner"><p class="bst-eyebrow">Барские поля</p><div class="bpc-section-heading"><h2>Свободные даты и цены</h2></div><p class="bst-intro">Укажите месяц и гостей, нажмите «Подобрать». Затем выберите заезд и выезд в календаре дома.</p><p class="bpc-window">Даты отдыха — до 1 февраля 2027 включительно.</p><a class="bst-link bpc-catalogue-link" href="${catalogueHref}">Каталог всех 15 домов →</a><div class="bpc-toolbar"><label>Месяц отдыха<select data-month-all aria-label="Месяц отдыха">${options(globalMonth)}</select></label><label>Взрослые<select data-adults aria-label="Взрослые">${Array.from({length:6},(_,i)=>`<option value="${i+1}" ${i===1?'selected':''}>${i+1}</option>`).join('')}</select></label><label>Дети<select data-children aria-label="Количество детей">${Array.from({length:5},(_,i)=>`<option value="${i}">${i===0?'Без детей':i}</option>`).join('')}</select></label><button type="button" class="bst-btn bpc-apply" data-apply>Подобрать</button></div><div class="bpc-child-ages" aria-live="polite"></div><details class="bst-preferences" open><summary>Что важно для отдыха</summary><div class="bst-filters">${[['bath','Своя баня'],['tub','Банный чан'],['pets','С питомцем'],['fenced','Огороженная территория']].map(([k,t])=>`<button type="button" class="bst-pill" data-filter="${k}" aria-pressed="false">${t}</button>`).join('')}<button type="button" class="bst-link" data-reset>Сбросить</button></div></details><p class="bpc-apply-note" role="status"></p><p class="bpc-count" role="status"></p><div class="bst-grid"></div><div class="bst-more"><button type="button" class="bst-secondary" data-more>Посмотреть ещё дома</button></div><div class="bst-simple-help"><p>Нужна помощь с выбором?</p><a href="#popup:quiz" class="bst-link">Пройти опрос — получить сертификат</a><a href="tel:+74951503908" class="bst-link">+7 (495) 150-39-08</a></div></div>`;
+  document.querySelectorAll('a[href="#bb-podbor"],a[href="#rec2241691831"],a[href="#rec1185039476"],a[href="https://barskie-polya.ru/booking"],a[href="/booking"]').forEach(a=>{a.href='#bb-stay';a.dataset.bbPlanner='';});
+  document.querySelectorAll('a[href="#bp-doma"],a[href="https://barskie-polya.ru/#houses"],a[href="#houses"]').forEach(a=>{a.href=catalogueHref;delete a.dataset.bbPlanner;});
+  document.querySelectorAll('a[href="bp-houses.html"],a[href="houses.html"]').forEach(a=>{a.href=catalogueHref;});
+  section.addEventListener('click',onClick);section.addEventListener('change',onChange);
+  window.addEventListener('click',e=>{const a=e.target.closest?.('a[data-bb-planner],a[href="#bb-stay"],a[href="#houses"]');if(!a)return;e.preventDefault();e.stopImmediatePropagation();const menu=a.closest('#rec1185050696'),close=menu?.querySelector('[data-elem-id="1752787864116"]');if(close)close.click();const go=()=>section.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});if(close)setTimeout(go,420);else go();},{capture:true});
+  render();if(['#bb-stay','#houses'].includes(location.hash))section.scrollIntoView();
+ }
+ function render(){
+  const list=selected();section.querySelector('.bpc-count').innerHTML=`${activeHouse?'Выбран дом из каталога. <button type="button" class="bst-link" data-all-houses>Показать остальные</button>':`${list.length} домов по вашим пожеланиям · ${monthLabel(globalMonth)}`}`;
+  section.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',!!draft[b.dataset.filter]));
+  section.querySelector('.bst-grid').innerHTML=list.slice(0,limit).map(h=>`<article class="bst-card bpc-card" data-house="${h.id}"><a class="bst-photo" href="${esc(h.url)}" aria-label="${esc(h.name)} — фотографии"><img src="${esc(h.image.replace('/static.tildacdn.com/','/static.tildacdn.info/'))}" alt="${esc(h.name)}" loading="lazy" width="600" height="450"></a><div class="bst-card-body"><h3>${esc(h.name)}</h3><p class="bst-card-tag">До ${h.capacity} гостей · ${esc(h.bathLabel)}</p><p class="bst-house-details">${esc(h.rooms)}<br>Территория: ${esc(h.territory.toLowerCase())}</p><div class="bpc-calendar-host"></div><a class="bst-link bpc-photo-link" href="${esc(h.url)}">Фотографии и планировка →</a></div></article>`).join('');
+  if(!list.length)section.querySelector('.bst-grid').innerHTML='<p class="bpc-empty">По этим пожеланиям нет подходящих домов. Измените число гостей или удобства.</p>';
+  section.querySelector('.bst-more').hidden=limit>=list.length;
+  for(const h of list.slice(0,limit)){draw(h);load(h);}
+ }
+ function host(h){return section.querySelector(`[data-house="${h.id}"] .bpc-calendar-host`);}
+ async function load(h,fresh=false){
+  const s=view(h),month=s.month;if(s.loading||(!fresh&&s.loadedMonth===month&&s.data))return;const request=++s.version;s.loading=true;s.error='';draw(h);
+  try{const data=await calendar.load(h.roomId,month,fresh);if(s.version!==request)return;
+   for(const part of ['closed','prices']){for(const d of Object.keys(s.inventory[part]))if(d>=data.from&&d<data.to)delete s.inventory[part][d];Object.assign(s.inventory[part],data[part]);}s.data=s.inventory;s.loadedMonth=month;
+  }
+  catch{if(s.version!==request)return;s.data=null;s.error='Календарь временно не загрузился. Попробуйте ещё раз.';}
+  finally{if(s.version===request){s.loading=false;draw(h);}}
+ }
+ function draw(h){
+  const el=host(h);if(!el)return;const s=view(h),[y,m]=s.month.split('-').map(Number),days=new Date(y,m,0).getDate(),offset=(new Date(y,m-1,1).getDay()+6)%7;
+  const heading=`<div class="bpc-month"><button type="button" data-month-step="-1" aria-label="Предыдущий месяц" ${s.month===months[0]?'disabled':''}>‹</button><select data-month aria-label="Месяц для ${esc(h.name)}">${options(s.month)}</select><button type="button" data-month-step="1" aria-label="Следующий месяц" ${s.month===months.at(-1)?'disabled':''}>›</button></div>`;
+  const first=s.month+'-01';
+  let content=`<div class="bpc-week" aria-hidden="true">${['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(d=>`<span>${d}</span>`).join('')}</div><div class="bpc-days" aria-busy="${s.loading}">${'<span></span>'.repeat(offset)}${Array.from({length:42-offset},(_,i)=>day(h,calendar.add(first,i),i>=days)).join('')}</div>`;
+  let hint=s.loading?'Проверяем доступность…':s.data?'Выберите заезд, затем выезд':'Нажмите «Повторить», чтобы загрузить даты',button='Забронировать',enabled=false;
+  if(s.arrival&&!s.departure){hint='Теперь выберите день выезда.';const r=calendar.rule(s.data||{closed:{},prices:{}},s.arrival);if(r.minimum>1)hint+=` От ${r.minimum} ночей.`;}
+  if(s.arrival&&s.departure){const n=calendar.nights(s.arrival,s.departure),word=n%10===1&&n%100!==11?'ночь':n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?'ночи':'ночей';hint=`${dayLabel(s.arrival)} — ${dayLabel(s.departure)} · ${n} ${word}`;button='Забронировать эти даты';enabled=!dirty&&!!s.data&&!s.error&&!s.loading&&!calendar.validate(s.data,s.arrival,s.departure,today);}
+  if(s.arrival&&s.picking==='arrival')hint='Выберите новый день заезда';
+  if(s.departure&&s.picking==='departure')hint='Выберите новый день выезда';
+  const picks=`<div class="bpc-selection"><button type="button" data-pick="arrival" aria-label="Заезд: ${s.arrival?dayLabel(s.arrival):'выбрать дату'}" class="${s.picking==='arrival'?'is-active':''}"><small>Заезд</small><span>${s.arrival?shortDay(s.arrival):'Выбрать'}</span></button><span class="bpc-selection-arrow" aria-hidden="true">→</span><button type="button" data-pick="departure" aria-label="Выезд: ${s.departure?dayLabel(s.departure):'выбрать дату'}" class="${s.picking==='departure'?'is-active':''}" ${s.arrival?'':'disabled'}><small>Выезд</small><span>${s.departure?shortDay(s.departure):'Выбрать'}</span></button></div>`;
+  const prices=s.data?Object.entries(s.data.prices).filter(([d,v])=>d.startsWith(s.month)&&d>=today&&v?.p>0&&calendar.rule(s.data,d).available).map(([,v])=>v.p):[];
+  el.innerHTML=`<div class="bpc-calendar">${heading}${picks}<p class="bpc-hint" aria-live="polite">${hint}</p>${content}<div class="bpc-card-legend"><span><i class="bpc-key-free"></i>Свободно</span><span><i class="bpc-key-closed"></i>Нет заезда</span></div></div><div class="bpc-price-row"><span>${prices.length?'от <strong>'+Math.min(...prices).toLocaleString('ru-RU')+' ₽</strong> / ночь':'Цены уточняются'}</span>${s.arrival?'<button type="button" class="bst-link bpc-clear" data-clear>Сбросить даты</button>':''}</div>${prices.length?'<small class="bpc-rate-note">Цена за двоих. Итог — при бронировании.</small>':''}<p class="bpc-error" role="alert" ${s.error?'':'hidden'}>${esc(s.error)} ${s.error&&!s.loading?'<button type="button" class="bst-link" data-retry>Повторить</button>':''}</p><button type="button" class="bst-btn bpc-book" data-book ${enabled?'':'disabled'}>${button}</button><small class="bpc-note">${enabled?'Дом и даты уже выбраны. Останется оформить бронирование.':'Для бронирования выберите заезд и выезд в календаре.'}</small>`;
+ }
+ function day(h,d,adjacent=false){
+  const s=view(h),r=calendar.rule(s.data||{closed:{},prices:{}},d),pickingEnd=s.arrival&&s.picking==='departure',end=pickingEnd&&d>s.arrival&&s.data&&!calendar.validate(s.data,s.arrival,d,today);
+  const blocked=s.loading||!s.data||d<today||d>bookingEnd||(pickingEnd?(!end&&d!==s.arrival):(!r.available||adjacent||d>=bookingEnd)),chosen=d===s.arrival||d===s.departure,inRange=s.departure&&d>s.arrival&&d<s.departure;
+  const status=d<today?'past':r.noArrival?'closed':r.available?'free':'unknown';
+  const label=`${dayLabel(d)}. ${r.available?'Свободно':r.noArrival?'Заезд недоступен':'Нужно уточнить доступность'}${r.minimum>1?'. От '+r.minimum+' ночей':''}${r.price?'. От '+r.price+' рублей за ночь':''}${end?'. Можно выбрать для выезда':''}`;
+  const n=Number(d.slice(-2));return `<button type="button" class="bpc-day bpc-day--${status} ${adjacent?'bpc-day--adjacent':''} ${chosen?'bpc-day--chosen':''} ${inRange?'bpc-day--range':''}" data-day="${d}" aria-label="${esc(label)}" aria-pressed="${!!chosen}" ${blocked?'disabled':''}><span>${n}${adjacent?'<small>'+new Intl.DateTimeFormat('ru-RU',{month:'short'}).format(new Date(d+'T12:00:00'))+'</small>':''}</span></button>`;
+ }
+ async function choose(h,d){
+  const s=view(h);if(s.loading||!s.data)return;s.error='';
+  if(!s.arrival||s.picking!=='departure'||d===s.arrival){if(!calendar.rule(s.data,d).available)return;s.arrival=d;s.departure='';s.picking='departure';}
+  else{const error=calendar.validate(s.data,s.arrival,d,today);if(error)s.error=error;else{s.departure=d;s.picking='complete';}}
+  draw(h);
+ }
+ async function book(h){
+  const s=view(h);if(dirty||!s.arrival||!s.departure||s.loading)return;s.loading=true;s.error='';draw(h);
+  try{const data=await calendar.loadStay(h.roomId,s.arrival,s.departure);s.data=data;const error=calendar.validate(data,s.arrival,s.departure,today);if(error){s.error=error;return;}location.assign(core.availabilityUrl('bp',{...state,arrival:s.arrival,departure:s.departure},[h]));}
+  catch{s.error='Не удалось перепроверить даты. Попробуйте ещё раз.';}
+  finally{s.loading=false;draw(h);}
+ }
+ function onChange(e){
+  if(e.target.matches('[data-adults],[data-children]')){
+   draft.adults=Number(section.querySelector('[data-adults]').value);
+   const select=section.querySelector('[data-children]'),max=6-draft.adults;
+   [...select.options].forEach(o=>o.disabled=Number(o.value)>max);
+   const count=Math.min(Number(select.value),max);select.value=String(count);
+   draft.children=Array.from({length:count},(_,i)=>draft.children[i]??null);draft.guests=draft.adults+count;
+   childAges();pending();
+  }
+  if(e.target.matches('[data-child-age]')){draft.children[Number(e.target.dataset.childAge)]=e.target.value===''?null:Number(e.target.value);pending();}
+  if(e.target.matches('[data-month-all]')){draft.month=e.target.value;pending();}
+  if(e.target.matches('[data-month]')){const h=houses.find(h=>h.id===e.target.closest('[data-house]').dataset.house);const s=view(h);if(s.departure){s.arrival='';s.departure='';s.picking='arrival';}s.version++;s.loading=false;s.month=e.target.value;s.data=null;s.error='';load(h);}
+ }
+ function childAges(){section.querySelector('.bpc-child-ages').innerHTML=draft.children.map((age,i)=>`<label>Возраст ребёнка ${i+1}<select data-child-age="${i}" aria-label="Возраст ребёнка ${i+1}"><option value="">Укажите возраст</option>${Array.from({length:18},(_,a)=>`<option value="${a}" ${age===a?'selected':''}>${a===0?'До года':a}</option>`).join('')}</select></label>`).join('');}
+ function pending(){dirty=true;section.querySelectorAll('[data-book]').forEach(b=>b.disabled=true);section.querySelector('.bpc-apply-note').textContent='Условия изменены. Нажмите «Подобрать».';}
+ function apply(){try{core.validateParty(draft);}catch(e){section.querySelector('.bpc-apply-note').textContent=e.message;section.querySelector('[data-child-age]')?.focus();return;}dirty=false;Object.assign(state,{adults:draft.adults,children:[...draft.children],guests:draft.guests,bath:draft.bath,tub:draft.tub,pets:draft.pets,fenced:draft.fenced});globalMonth=draft.month;limit=3;for(const h of houses){const s=view(h);if(s.month!==globalMonth){s.version++;s.loading=false;s.month=globalMonth;s.data=null;s.arrival='';s.departure='';s.picking='arrival';s.error='';}}section.querySelector('.bpc-apply-note').textContent='';render();section.querySelector('.bpc-count').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'start'});}
+ function onClick(e){
+  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if('apply'in d){apply();return;}
+  if('allHouses'in d){activeHouse='';apply();return;}
+  if('filter'in d){draft[d.filter]=!draft[d.filter];b.setAttribute('aria-pressed',!!draft[d.filter]);pending();return;}
+  if('reset'in d){draft.bath=false;draft.tub=false;draft.pets=false;draft.fenced=false;section.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed','false'));pending();return;}
+  if('more'in d){limit+=3;render();return;}
+  const h=houses.find(h=>h.id===b.closest('[data-house]')?.dataset.house);if(!h)return;const s=view(h);
+  if('day'in d)choose(h,d.day);
+  if('clear'in d){s.arrival='';s.departure='';s.picking='arrival';s.error='';draw(h);}
+  if('pick'in d){s.picking=d.pick;s.error='';draw(h);}
+  if('retry'in d)load(h,true);
+  if('book'in d)book(h);
+  if('monthStep'in d){const index=months.indexOf(s.month)+Number(d.monthStep);if(months[index]){if(s.departure){s.arrival='';s.departure='';s.picking='arrival';}s.version++;s.loading=false;s.month=months[index];s.data=null;s.error='';load(h);}}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
+})();
+
+</script><script>
+/* Keep decorative artwork in its own row, including after img -> SVG conversion. */
+(()=>{
+ 'use strict';
+ const garland='https://static.tildacdn.com/tild3638-6438-4366-b766-613130643330/_.svg';
+ const forest='https://static.tildacdn.com/tild3533-3034-4864-a235-613732613230/___.svg';
+ const artwork=()=>`<div class="bp-heading-art" aria-hidden="true"><span class="bp-heading-garland" style="background-image:url(${garland})"></span><span class="bp-heading-forest" style="background-image:url(${forest})"></span><span class="bp-heading-garland bp-heading-garland--right" style="background-image:url(${garland})"></span></div>`;
+ function mount(){
+  for(const [id,title] of [
+   ['rec1534422731','Здесь отдых становится особенным'],
+   ['rec1185039526','Карта территории'],
+   ['rec1216602591','Категория эмоций'],
+   ['rec1185039396','О базе отдыха'],
+   ['rec1185039536','Отзывы гостей'],
+   ['rec2238137661','Наши новости'],
+   ['rec1187742556','Контакты'],
+   ['rec2709575101','FAQ']
+  ]){
+   const record=document.getElementById(id);if(!record||record.querySelector('.bp-section-heading'))continue;
+   record.classList.add('bp-section-heading-record');
+   const original=record.querySelector(':scope > .t396');
+   if(original){original.setAttribute('aria-hidden','true');original.setAttribute('inert','');}
+   record.insertAdjacentHTML('beforeend',`<div class="bp-section-heading">${artwork()}<h2>${title}</h2><span class="bp-heading-rule" aria-hidden="true"></span></div>`);
+  }
+  const picker=document.querySelector('.bpc-section');
+  if(picker&&!picker.querySelector('.bp-heading-art')){
+   picker.querySelector('.bp-sheet-decor')?.remove();
+   const inner=picker.querySelector('.bst-inner'),top=document.createElement('div');
+   top.className='bpc-section-top';
+   while(inner.firstElementChild&&!inner.firstElementChild.classList.contains('bpc-count'))top.append(inner.firstElementChild);
+   inner.prepend(top);top.insertAdjacentHTML('afterbegin',artwork());
+  }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
+})();
+
+</script>

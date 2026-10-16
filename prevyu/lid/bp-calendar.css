@@ -65,3 +65,6 @@
  .bpc-toolbar{margin-bottom:16px}
  .bpc-section .bst-preferences{margin-bottom:20px}
 }
+
+/* Decoration keeps its layout even while the SVG is loading. */
+.bp-heading-art>span{background-position:center;background-size:contain;background-repeat:no-repeat}

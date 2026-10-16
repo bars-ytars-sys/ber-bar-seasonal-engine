@@ -1,0 +1,13 @@
+{
+  "path": "/houses",
+  "title": "Каталог домов для отдыха — Барские поля",
+  "description": "Все 15 домов базы отдыха Барские поля в Подмосковье: фотографии, удобства, планировки и переход к свободным датам каждого дома.",
+  "canonical": "https://barskie-polya.ru/houses",
+  "lang": "ru",
+  "index": true,
+  "sitemap": true,
+  "h1": "Каталог домов",
+  "tilda_forbid_indexing": false,
+  "robots_remove_exact": "Disallow: /houses",
+  "publish_before_homepage": true
+}

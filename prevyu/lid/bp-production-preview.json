@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-16",
+  "homepage": "bp-production-preview.html",
+  "catalog": "bp-production-houses.html",
+  "production_changed": false,
+  "search_indexing": false,
+  "lead_submissions": false,
+  "files": {
+    "bp-production-preview.html": "6f51b99c226bf499fcb1a62b0516619464c1643057c371e3de258caa60660df8",
+    "bp-production-houses.html": "f2d886657cd551a59176102397e2c016e5ae95b9822657b44deccbdbbe296d96"
+  }
+}

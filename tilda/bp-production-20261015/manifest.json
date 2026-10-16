@@ -1,0 +1,34 @@
+{
+  "built": "2026-10-16",
+  "home": "https://barskie-polya.ru/",
+  "catalog": "https://barskie-polya.ru/houses",
+  "disabled_records": [
+    "rec1538220631",
+    "rec1635506171",
+    "rec1185039476",
+    "rec2463129641",
+    "rec4154334901",
+    "rec1241556951"
+  ],
+  "replacement_program_record": "rec4154336601",
+  "native_forms_preserved": [
+    "form2345357451",
+    "form2806976901",
+    "form924514671",
+    "form1655233561",
+    "form1932662561"
+  ],
+  "source_demo": "77bf906 + задачи Леры 16.10.2026",
+  "booking_until_inclusive": "2027-02-01",
+  "noindex_in_production": false,
+  "publishing": "manual-tilda-owner",
+  "preserved_h1": "уютная база отдыха в подмосковье",
+  "baseline": "tools/out/bp-seo-review-20261016/live.html",
+  "baseline_sha256": "c5568cf70b785376ebca1d42cdd3bd470bd7089a412609d221bdffc7db658caf",
+  "catalog_first_required": true,
+  "home_head_preserved": true,
+  "house_intro_preserved": [
+    "В каждом доме — просторная планировка, полноценная кухня, современная мебель и техника, терраса и мангальная зона. У каждого дома есть банный чан, а в некоторых — собственная баня.",
+    "Уединённое расположение в лесу создаёт ощущение отдыха в собственном загородном доме!"
+  ]
+}

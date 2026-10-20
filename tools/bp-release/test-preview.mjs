@@ -41,5 +41,5 @@ for(const file of ['bp-production-preview.html','bp-production-houses.html']){
  ok(()=>{assert.match(html,/noindex/);assert.match(html,/Поля заполнены верно/);assert.doesNotMatch(html,/alert\('Это проверочная демка/);});
 }
 const home=fs.readFileSync(new URL('../../prevyu/lid/bp-production-preview.html',import.meta.url),'utf8');
-ok(()=>{assert.equal((home.match(/<article class="bp-review-news-card">/g)||[]).length,3);assert.doesNotMatch(home,/t_feed_init\('2238104591'/);assert.match(home,/barskie-polya\.ru\/tpost\//);});
+ok(()=>{assert.equal((home.match(/<article class="bp-review-news-card">/g)||[]).length,0);assert.doesNotMatch(home,/t_feed_init\('2238104591'/);assert.doesNotMatch(home,/<div id="rec22381(?:37661|04591)"/);});
 console.log(`${passed} preview cases passed.`);

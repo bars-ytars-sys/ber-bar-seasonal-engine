@@ -4,7 +4,21 @@
  const garland='https://static.tildacdn.com/tild3638-6438-4366-b766-613130643330/_.svg';
  const forest='https://static.tildacdn.com/tild3533-3034-4864-a235-613732613230/___.svg';
  const artwork=()=>`<div class="bp-heading-art" aria-hidden="true"><span class="bp-heading-garland" style="background-image:url(${garland})"></span><span class="bp-heading-forest" style="background-image:url(${forest})"></span><span class="bp-heading-garland bp-heading-garland--right" style="background-image:url(${garland})"></span></div>`;
+ function compactLeisure(){
+  const record=document.getElementById('rec2010822961'),art=record?.querySelector('.t396__artboard');if(!art)return;
+  let frame;
+  const fit=()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{
+   if(!matchMedia('(max-width:479px)').matches){if(art.dataset.bpCompact){[art,...record.querySelectorAll('.t396__carrier,.t396__filter')].forEach(e=>e.style.removeProperty('height'));delete art.dataset.bpCompact;}return;}
+   const box=art.getBoundingClientRect(),scale=box.height/art.offsetHeight||1;
+   const bottoms=[...art.querySelectorAll('[data-elem-type]')].filter(e=>e.getBoundingClientRect().height>0).map(e=>(e.getBoundingClientRect().bottom-box.top)/scale);
+   if(!bottoms.length)return;const height=Math.ceil(Math.max(...bottoms)+24);
+   if(Math.abs(art.offsetHeight-height)>2){[art,...record.querySelectorAll('.t396__carrier,.t396__filter')].forEach(e=>e.style.setProperty('height',height+'px','important'));art.dataset.bpCompact='1';}
+  });};
+  if('ResizeObserver'in window){const observer=new ResizeObserver(fit);observer.observe(art);art.querySelectorAll('[data-elem-type]').forEach(e=>observer.observe(e));}
+  window.addEventListener('resize',fit);window.addEventListener('load',fit);document.fonts?.ready.then(fit);fit();
+ }
  function mount(){
+  compactLeisure();
   for(const [id,title] of [
    ['rec1534422731','Здесь отдых становится особенным'],
    ['rec1185039526','Карта территории'],

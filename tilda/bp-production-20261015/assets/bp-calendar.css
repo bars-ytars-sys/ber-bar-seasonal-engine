@@ -69,6 +69,8 @@
 /* Decoration keeps its layout even while the SVG is loading. */
 .bp-heading-art>span{background-position:center;background-size:contain;background-repeat:no-repeat}
 
+.bpc-weekend-note{font-size:12px;line-height:1.5;color:#efd0ac;margin:0 0 12px;padding:9px 11px;border-radius:8px;background:rgba(196,119,60,.12);text-align:left}
+
 .bpc-section .bpc-toolbar{grid-template-columns:minmax(180px,2fr) minmax(90px,1fr) minmax(110px,1fr) 150px;max-width:960px;align-items:end}
 .bp-heading-art>span{background-position:center;background-size:contain;background-repeat:no-repeat}
 .bpc-child-ages{max-width:960px;margin:0 auto 18px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px}.bpc-child-ages:empty{display:none}.bpc-child-ages label{flex:0 1 180px;text-align:left}

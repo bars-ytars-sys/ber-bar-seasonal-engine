@@ -1,14 +1,14 @@
 {
-  "date": "2026-10-16",
+  "date": "2026-10-20",
   "homepage": "bp-production-preview.html",
   "catalog": "bp-production-houses.html",
   "production_changed": false,
   "search_indexing": false,
   "lead_submissions": false,
   "native_form_validation": true,
-  "news_snapshot": "2026-10-16",
+  "news_hidden": true,
   "files": {
-    "bp-production-preview.html": "c66bd225c3074c2d33e3d80ea894d2260bb42772d9a063a8e13c1159131a678f",
+    "bp-production-preview.html": "5a6c2e70b421520b84f804a96ccddd136b4f608dc283ffacae93d7c95500b890",
     "bp-production-houses.html": "32fb4e0706a3a1e45808907b2fe60e74fa08bea61c2bc342f6ae586e90e40e3e"
   }
 }

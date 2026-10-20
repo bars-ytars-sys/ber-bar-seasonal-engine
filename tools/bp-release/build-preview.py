@@ -5,7 +5,7 @@ from urllib.parse import urlsplit
 from urllib.request import urlopen
 from concurrent.futures import ThreadPoolExecutor
 import json, re, hashlib, gzip, base64
-from preview_news import render_news
+from preview_news import Record
 
 ROOT=Path(__file__).resolve().parents[2]
 PRE=ROOT/'tools/out/bp-production-20261015'
@@ -73,7 +73,12 @@ def href(match):
 files={}
 for original,target in [('index.html',HOME),('houses.html',CATALOG)]:
     html=(PRE/original).read_text()
-    if original=='index.html':html=render_news(html,news['posts'])
+    if original=='index.html':
+        # News are temporarily hidden at the owner's request; no stale feed/domain error.
+        for rid in ['rec2238137661','rec2238104591']:
+            record=Record(html,rid)
+            assert record.start is not None and record.end
+            html=html[:record.start]+html[record.end:]
     for url,local in replacements.items():html=html.replace(url,local)
     html=html.replace('https://static3.tildacdn.com/tild3262-6436-4764-a235-366133623239/photo.svg','bp-production-assets/logo.svg')
     html=html.replace('<head>','<head>'+head,1)
@@ -87,5 +92,5 @@ for original,target in [('index.html',HOME),('houses.html',CATALOG)]:
     assert 'https://barskie-polya.ru/houses' in html if target==CATALOG else 'id="bp-production-hero"' in html
     (OUT/target).write_text(html)
     files[target]=hashlib.sha256(html.encode()).hexdigest()
-(OUT/'bp-production-preview.json').write_text(json.dumps({'date':'2026-10-16','homepage':HOME,'catalog':CATALOG,'production_changed':False,'search_indexing':False,'lead_submissions':False,'native_form_validation':True,'news_snapshot':news['fetched_at'],'files':files},ensure_ascii=False,indent=2))
+(OUT/'bp-production-preview.json').write_text(json.dumps({'date':'2026-10-20','homepage':HOME,'catalog':CATALOG,'production_changed':False,'search_indexing':False,'lead_submissions':False,'native_form_validation':True,'news_hidden':True,'files':files},ensure_ascii=False,indent=2))
 print('Built protected review pages:',HOME,CATALOG)

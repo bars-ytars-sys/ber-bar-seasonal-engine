@@ -19,7 +19,8 @@
  function rule(data,day){
   const entry=data.closed[day]||{},parts=(entry.r||'').split('_'),code=parts[0],price=data.prices[day];
   const number=k=>{const i=parts.indexOf(k);return i<0?0:Number(parts[i+1])||0;};
-  const minimum=number('minsa')||number('mins')||1,maximum=number('maxs');
+  const weekend=[5,6].includes(date(day).getDay());
+  const minimum=Math.max(number('minsa')||number('mins')||1,weekend?2:1),maximum=number('maxs');
   const known=Object.prototype.hasOwnProperty.call(data.prices,day)||Object.prototype.hasOwnProperty.call(data.closed,day);
   const stop=code==='c',noArrival=stop||['ca','rpa','rpb'].includes(code),noDeparture=entry.cd===1;
   const available=known&&!noArrival&&(Number(price?.p)>0||parts.includes('mins')||parts.includes('minsa')||parts.includes('maxs'));

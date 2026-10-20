@@ -219,7 +219,9 @@ for rid in sorted(removed,key=lambda rid:records[rid][0],reverse=True):
  a,b=records[rid];preview=preview[:a]+(block if rid=='rec1538220631' else '')+preview[b:]
 program_spans=Records(preview).spans
 about=(ROOT/'tilda/58-BP-O-BAZE.html').read_text()
-a,b=program_spans['rec2010819681'];preview=preview[:a]+'<div id="rec2010819681" class="r t-rec" data-record-type="131">'+about+'</div>'+preview[b:]
+a,b=program_spans['rec2010819681'];preview=preview[:a]+preview[b:]
+about_end=Records(preview).spans['rec1185039396'][1]
+preview=preview[:about_end]+'<div id="rec2010819681" class="r t-rec" data-record-type="131">'+about+'</div>'+preview[about_end:]
 program_spans=Records(preview).spans
 a,b=program_spans['rec4154336601'];preview=preview[:a]+'<div id="rec4154336601" class="r t-rec" data-record-type="131">'+programs+'</div>'+preview[b:]
 preview=preview.replace('<html','<html lang="ru"',1)

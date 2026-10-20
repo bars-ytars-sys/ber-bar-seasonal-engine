@@ -71,6 +71,14 @@
 
 .bpc-weekend-note{font-size:12px;line-height:1.5;color:#efd0ac;margin:0 0 12px;padding:9px 11px;border-radius:8px;background:rgba(196,119,60,.12);text-align:left}
 
+/* Give the stay rule and date fields their own space. */
+.bpc-calendar{padding:16px}.bpc-month{margin-bottom:16px}
+.bpc-calendar .bpc-weekend-note{display:flex;flex-direction:column;gap:4px;margin:4px 0 20px!important;padding:2px 0 2px 12px;border:0;border-left:2px solid #c99763;border-radius:0;background:none;font-size:12px;line-height:1.5;color:#d9c8ac;text-align:left}
+.bpc-weekend-note strong{font-weight:500;color:#efd0ac}.bpc-weekend-note span{font-size:11px;color:#bac7bb}
+.bpc-selection{grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr);gap:6px}.bpc-selection button{min-height:64px;padding:12px 10px;gap:5px}
+.bpc-calendar .bpc-hint{height:auto;min-height:54px;margin:14px 2px 16px!important;font-size:12px;line-height:1.5}
+@media(max-width:640px){.bpc-calendar{padding:14px}.bpc-selection{gap:5px}.bpc-selection button{padding:11px 9px}}
+
 .bpc-section .bpc-toolbar{grid-template-columns:minmax(180px,2fr) minmax(90px,1fr) minmax(110px,1fr) 150px;max-width:960px;align-items:end}
 .bp-heading-art>span{background-position:center;background-size:contain;background-repeat:no-repeat}
 .bpc-child-ages{max-width:960px;margin:0 auto 18px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px}.bpc-child-ages:empty{display:none}.bpc-child-ages label{flex:0 1 180px;text-align:left}

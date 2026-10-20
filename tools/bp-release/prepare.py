@@ -119,7 +119,7 @@ hero_css+='''
 .bp-hero__eyebrow{display:block!important;font:400 12px/1.5 'BPProductionRubik',Arial,sans-serif;letter-spacing:.1em;margin:0 0 14px;color:#eee5d5;max-width:100%}
 .bp-hero__logo-icon{display:none!important}
 .bp-home-intro{box-sizing:border-box;background:#28413a;color:#eee5d5;padding:30px max(20px,calc((100% - 1100px)/2));font:400 16px/1.65 'BPProductionRubik',Arial,sans-serif;text-align:center}
-.bp-home-intro p{max-width:940px;margin:0 auto 12px}.bp-home-intro p:last-of-type{color:#d3ccbe;font-size:14px}.bp-home-intro nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;margin-top:18px}.bp-home-intro a{color:#f1bb8e!important;text-decoration:underline;text-underline-offset:4px;font-size:14px}
+.bp-home-intro h2{font:400 30px/1.2 'BPProductionSerif',Georgia,serif;margin:0 0 18px;color:#eee5d5}.bp-home-intro p{max-width:780px;margin:0 auto 12px}.bp-home-intro p:last-of-type{color:#d3ccbe;font-size:14px}.bp-home-intro nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;margin-top:18px}.bp-home-intro a{color:#f1bb8e!important;text-decoration:underline;text-underline-offset:4px;font-size:14px}
 .bp-hero{min-height:650px;height:calc(var(--bp-screen,100svh) - var(--bp-header-height,76px) - var(--bp-bottom-height,0px))}
 @media(max-width:640px){.bp-hero{min-height:550px;height:auto;padding:24px 18px 30px}body:has(#bp-production-hero) #rec1916160711{display:none!important}.bp-hero__eyebrow{font-size:9px;margin-bottom:12px}.bp-hero__medals{flex-wrap:nowrap;gap:16px}.bp-hero__medal{flex:0 0 64px;width:64px;height:64px}.bp-hero__content{max-width:100%}.bp-hero__actions{grid-template-columns:1fr;width:100%;max-width:360px}.bp-hero__title{font-size:clamp(28px,7.7vw,42px)}.bp-hero__lead{font-size:14px}.bp-hero__catalogue{justify-self:center}}
 @media(max-width:360px){.bp-hero{min-height:560px}.bp-hero__lead{font-size:13px}.bp-hero__price-sub{font-size:11px}}
@@ -200,8 +200,8 @@ intro_page=Page(live[slice(*records['rec1185039476'])])
 intro_text=[h['text'] for h in intro_page.headings if h['tag']=='h2'][:2]
 assert len(intro_text)==2 and intro_text[0].startswith('В каждом доме'), 'Live house introduction changed.'
 categories=[('/chalet','Шале'),('/barski','Барский дом'),('/barnhauses','Барнхаус'),('/gardens','Гарден'),('/rivers','Ривер'),('/maps','Карта территории')]
-intro='<section class="bp-home-intro" aria-label="Дома для отдыха в лесу">'+''.join('<p>'+escape(t)+'</p>' for t in intro_text)+'<nav aria-label="Категории домов">'+''.join('<a href="'+u+'">'+t+'</a>' for u,t in categories)+'</nav></section>'
-block='<!-- Барские поля: производственная версия. Без перехвата форм и noindex. -->\n'+css('hero.css')+css('native-header.css')+css('stay-planner.css')+css('bp-calendar.css')+hero+strip+intro+calendar+js('hero.js')+js('stay-data.js')+js('stay-core.js')+js('bp-calendar.js')+js('bp-stay.js')+js('bp-layout.js')+js('native-navigation.js')+js('native-form-validation.js')
+intro='<section class="bp-home-intro" aria-label="Дома для отдыха в лесу"><h2>О домах</h2>'+''.join('<p>'+escape(t)+'</p>' for t in intro_text)+'<nav aria-label="Категории домов">'+''.join('<a href="'+u+'">'+t+'</a>' for u,t in categories)+'</nav></section>'
+block='<!-- Барские поля: производственная версия. Без перехвата форм и noindex. -->\n'+css('hero.css')+css('native-header.css')+css('stay-planner.css')+css('bp-calendar.css')+hero+strip+calendar+intro+js('hero.js')+js('stay-data.js')+js('stay-core.js')+js('bp-calendar.js')+js('bp-stay.js')+js('bp-layout.js')+js('native-navigation.js')+js('native-form-validation.js')
 block=block.replace('<section id="bb-stay"','<style>#bb-stay .bph-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px;margin-top:24px}#bb-stay .bph-card{border:1px solid #54685b;border-radius:12px;overflow:hidden}#bb-stay .bph-card img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}#bb-stay .bph-body{padding:18px}#bb-stay .bph-body a{display:block;margin-top:12px;color:#ee995d}</style><section id="bb-stay"',1)
 (OUT/'01-ГЛАВНАЯ-T123.html').write_text(block)
 catcss=re.search(r'<style>(.*?)</style>',catalog,re.S)[1]
@@ -217,6 +217,9 @@ removed=['rec1538220631','rec1635506171','rec1185039476','rec2463129641','rec415
 preview=live
 for rid in sorted(removed,key=lambda rid:records[rid][0],reverse=True):
  a,b=records[rid];preview=preview[:a]+(block if rid=='rec1538220631' else '')+preview[b:]
+program_spans=Records(preview).spans
+about=(ROOT/'tilda/58-BP-O-BAZE.html').read_text()
+a,b=program_spans['rec2010819681'];preview=preview[:a]+'<div id="rec2010819681" class="r t-rec" data-record-type="131">'+about+'</div>'+preview[b:]
 program_spans=Records(preview).spans
 a,b=program_spans['rec4154336601'];preview=preview[:a]+'<div id="rec4154336601" class="r t-rec" data-record-type="131">'+programs+'</div>'+preview[b:]
 preview=preview.replace('<html','<html lang="ru"',1)

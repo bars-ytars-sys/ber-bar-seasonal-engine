@@ -223,6 +223,10 @@ a,b=program_spans['rec2010819681'];preview=preview[:a]+preview[b:]
 about_end=Records(preview).spans['rec1185039396'][1]
 preview=preview[:about_end]+'<div id="rec2010819681" class="r t-rec" data-record-type="131">'+about+'</div>'+preview[about_end:]
 program_spans=Records(preview).spans
+leisure=(ROOT/'tilda/59-BP-PITANIE-DOSUG-VOSPOMINANIYA.html').read_text()
+a,b=program_spans['rec2010822961'];preview=preview[:a]+'<div id="rec2010822961" class="r t-rec" data-record-type="131">'+leisure+'</div>'+preview[b:]
+(OUT/'07-ПИТАНИЕ-ДОСУГ-ВОСПОМИНАНИЯ-T123.html').write_text(leisure)
+program_spans=Records(preview).spans
 a,b=program_spans['rec4154336601'];preview=preview[:a]+'<div id="rec4154336601" class="r t-rec" data-record-type="131">'+programs+'</div>'+preview[b:]
 preview=preview.replace('<html','<html lang="ru"',1)
 PRE=ROOT/'tools/out/bp-production-20261015';(PRE/'index.html').write_text(preview)

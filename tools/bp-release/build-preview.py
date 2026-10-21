@@ -87,10 +87,13 @@ for original,target in [('index.html',HOME),('houses.html',CATALOG)]:
     html=html.replace("const catalogueHref='/houses';","const catalogueHref='"+CATALOG+"';")
     html=html.replace("a.href='/#bb-stay'","a.href='"+HOME+"#bb-stay'")
     html=html.replace("a.href='/houses'","a.href='"+CATALOG+"'")
+    # The two updated bath galleries belong to the review copy, never to live links.
+    for number in ['1','4']:
+        html=html.replace('https://barskie-polya.ru/gardens/garden'+number,'bp-gardens.html#bp-garden'+number+'-bath')
     assert 'content="noindex,nofollow"' in html
     assert 'В демке заявка не отправляется.' in html
     assert 'https://barskie-polya.ru/houses' in html if target==CATALOG else 'id="bp-production-hero"' in html
     (OUT/target).write_text(html)
     files[target]=hashlib.sha256(html.encode()).hexdigest()
-(OUT/'bp-production-preview.json').write_text(json.dumps({'date':'2026-10-20','homepage':HOME,'catalog':CATALOG,'production_changed':False,'search_indexing':False,'lead_submissions':False,'native_form_validation':True,'news_hidden':True,'files':files},ensure_ascii=False,indent=2))
+(OUT/'bp-production-preview.json').write_text(json.dumps({'date':'2026-10-21','homepage':HOME,'catalog':CATALOG,'production_changed':False,'search_indexing':False,'lead_submissions':False,'native_form_validation':True,'news_hidden':True,'telegram_tasks_applied':True,'files':files},ensure_ascii=False,indent=2))
 print('Built protected review pages:',HOME,CATALOG)

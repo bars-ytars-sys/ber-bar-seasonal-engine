@@ -89,7 +89,7 @@ for original,target in [('index.html',HOME),('houses.html',CATALOG)]:
     html=html.replace("a.href='/houses'","a.href='"+CATALOG+"'")
     # The two updated bath galleries belong to the review copy, never to live links.
     for number in ['1','4']:
-        html=html.replace('https://barskie-polya.ru/gardens/garden'+number,'bp-gardens.html#bp-garden'+number+'-bath')
+        html=html.replace('https://barskie-polya.ru/gardens/garden'+number,'bp-gardens.html?v=20261021b#bp-garden'+number)
     assert 'content="noindex,nofollow"' in html
     assert 'В демке заявка не отправляется.' in html
     assert 'https://barskie-polya.ru/houses' in html if target==CATALOG else 'id="bp-production-hero"' in html

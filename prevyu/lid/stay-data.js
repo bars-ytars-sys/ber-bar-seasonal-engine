@@ -438,7 +438,7 @@ window.BBStayData = {
       "weekend": 20000,
       "territory": "Полностью огорожена",
       "included": "Кухня, бельё, полотенца, мангал",
-      "bathLabel": "Своя баня",
+      "bathLabel": "Баня с купелью",
       "source": "https://barskie-polya.ru/chalet",
       "tub": true
     },

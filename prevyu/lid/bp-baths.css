@@ -1,0 +1,25 @@
+/* Bath photographs continue the same two-column grid as their house card. */
+.bp-bath-gallery{padding:12px 0 30px;background:#314c44;scroll-margin-top:100px}
+.bp-bath-gallery__inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:stretch;max-width:1080px;margin:auto}
+.bp-bath-gallery .bp-media{min-width:0;border:1px solid #6c7a65;border-radius:10px;background:#263e35}
+.bp-bath-gallery__image{position:relative;overflow:hidden;border-radius:9px 9px 0 0}
+.bp-bath-gallery .bp-media__slide img{width:100%;height:290px;max-height:none;aspect-ratio:auto;object-fit:cover;object-position:center 52%}
+.bp-bath-gallery__zoom{position:absolute;top:12px;right:12px;padding:5px 10px;border-radius:20px;background:#263e35dc;color:#eee5d5;font:400 11px/1.4 Rubik,Arial,sans-serif;pointer-events:none}
+.bp-bath-gallery__thumbs{display:grid;grid-template-columns:repeat(var(--bp-thumbs,5),minmax(0,1fr));gap:8px;padding:10px 12px 0;max-width:100%}
+.bp-bath-gallery__thumbs button{display:block;min-width:0;height:52px;margin:0;padding:2px;border:2px solid transparent;border-radius:6px;background:transparent;cursor:pointer;overflow:hidden}
+.bp-bath-gallery__thumbs button[aria-pressed=true]{border-color:#dbad7a}
+.bp-bath-gallery__thumbs img{display:block;width:100%;height:100%;object-fit:cover;border-radius:2px}
+.bp-bath-gallery__caption{display:flex;align-items:center;gap:10px;min-height:36px;margin:0!important;padding:7px 14px 10px;color:#c7cbbb!important;font:400 12px/1.4 Rubik,Arial,sans-serif!important}
+.bp-bath-gallery__caption span:last-child{margin-left:auto;white-space:nowrap;font-size:11px;color:#b6c3b6}
+.bp-bath-gallery__copy{display:flex;flex-direction:column;align-items:flex-start;min-width:0;padding:26px 28px 24px;border:1px solid #6c7a65;border-radius:10px;background:#284139}
+.bp-bath-gallery__eyebrow{display:flex;align-items:center;gap:9px;color:#d4af82;font:400 11px/1.4 Rubik,Arial,sans-serif;letter-spacing:.09em;text-transform:uppercase}
+.bp-bath-gallery__eyebrow svg{display:block;flex:0 0 22px;width:22px;height:25px;fill:none;stroke:currentColor;stroke-width:1.35;stroke-linecap:round}
+.bp-bath-gallery__copy h2{font:400 32px/1.15 'NotoSerif',Georgia,serif;color:#eee5d5;margin:17px 0 16px}
+.bp-bath-gallery__copy p{max-width:36ch;margin:0 0 16px;color:#d4d8cb;font:400 15px/1.65 Rubik,Arial,sans-serif}
+.bp-bath-gallery__extra{display:inline-block;margin:0 0 22px;padding:6px 10px;border-radius:5px;background:#c9976317;color:#dfbf97;font:400 11px/1.4 Rubik,Arial,sans-serif}
+.bp-bath-gallery__copy a{display:inline-flex;align-items:center;gap:8px;min-height:40px;margin-top:auto;padding:8px 0 5px;border-bottom:1px solid #c99763;color:#f1bb8e!important;font:400 14px/1.4 Rubik,Arial,sans-serif;text-decoration:none!important}
+.bp-bath-gallery__copy a:focus-visible,.bp-bath-gallery__thumbs button:focus-visible{outline:2px solid #f1bb8e;outline-offset:3px}
+@media(min-width:960px) and (max-width:1199px){.bp-bath-gallery__inner{max-width:920px}.bp-bath-gallery__copy{padding:24px}.bp-bath-gallery .bp-media__slide img{height:275px}}
+@media(max-width:959px){.bp-bath-gallery__inner{max-width:540px;grid-template-columns:1fr;gap:0}.bp-bath-gallery .bp-media{border-radius:10px 10px 0 0}.bp-bath-gallery__copy{border-top:0;border-radius:0 0 10px 10px;padding:22px 24px}.bp-bath-gallery__copy h2{margin-top:12px}.bp-bath-gallery__copy a{margin-top:0}.bp-bath-gallery__extra{margin-bottom:12px}}
+@media(max-width:639px){.bp-bath-gallery__inner{max-width:460px}.bp-bath-gallery .bp-media__slide img{height:245px}.bp-bath-gallery__copy h2{font-size:29px}.bp-bath-gallery__copy p{font-size:14px;line-height:1.6}.bp-bath-gallery__thumbs button{height:49px}}
+@media(max-width:479px){.bp-bath-gallery{padding:12px 0 24px;scroll-margin-top:76px}.bp-bath-gallery .bp-media__slide img{height:226px}.bp-bath-gallery__copy{padding:21px}.bp-bath-gallery__copy h2{font-size:28px}.bp-bath-gallery__thumbs{gap:6px;padding:9px 10px 0}.bp-bath-gallery__thumbs button{height:47px}.bp-bath-gallery__caption{font-size:11px!important;padding-left:12px;padding-right:12px}.bp-bath-gallery__caption span:last-child{font-size:10px}}

@@ -66,7 +66,7 @@ export default {
       "id": "chalet",
       "name": "Шале",
       "capacity": 5,
-      "image": "assets/houses/chalet.webp",
+      "image": "assets/houses/chalet-house.webp",
       "url": "https://barskie-polya.ru/chalet",
       "rooms": "2 отдельные спальни и диван",
       "territory": "Полностью огорожена",

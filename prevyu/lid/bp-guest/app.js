@@ -1,4 +1,4 @@
-import D from './data.js?v=20261023-house-photo';
+import D from './data.js?v=20261023-house-photo-2';
 import {createHousePhoto} from './house-photo.js';
 import { motion, initExperience } from './experience.js?v=20261013-motion';
 const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

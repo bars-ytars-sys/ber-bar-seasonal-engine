@@ -1,6 +1,9 @@
 import D from './data.js?v=20261023-house-photo-2';
 import {createHousePhoto} from './house-photo.js';
+import {createInteractiveMap} from './interactive-map.js?v=20261023-map';
+import territoryMap from './map-data.js?v=20261023-map';
 import { motion, initExperience } from './experience.js?v=20261013-motion';
+let mapController=null;
 const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=n=>Number(n).toLocaleString('ru-RU')+' ₽';
 const positions=n=>n%10===1&&n%100!==11?'позиция':n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?'позиции':'позиций';
@@ -44,6 +47,7 @@ phoneViewport.addEventListener('change',()=>syncMobileScreen(true));
 function selectHouse(id){house=D.houses.some(h=>h.id===id)?id:'';save('bp-guest-house',house);updateURL();renderContext();renderServices();renderGuide($('guide-search').value);close()}
 function houses(){show('Какой у вас дом?',`<p class="note" style="margin-bottom:16px">Выберите дом — покажем его время заезда, выезда и доступные услуги.</p><div class="house-choices"><button class="house-choice" data-house-choice="" aria-pressed="${!house}"><b>Вся территория</b><small>Общая информация о базе</small></button>${D.houses.map(h=>`<button class="house-choice" data-house-choice="${h.id}" aria-pressed="${house===h.id}"><b>${esc(h.name)}</b><small>До ${h.capacity} гостей · ${esc(h.bath)}</small></button>`).join('')}</div>`,'Ваш дом')}
 function renderContext(){
+ mapController?.setSelected(house);
  updateHousePhoto(H());
  const h=H(),ci=h?.checkin||D.stay.default_checkin,co=h?.checkout||D.stay.default_checkout;
  $('house-button').innerHTML=icon('home')+`<span class="house-title"><small>${h?'Ваш дом':'Для точной информации'}</small>${h?esc(h.name):'Выберите свой дом'}</span><span aria-hidden="true">⌄</span>`;
@@ -126,7 +130,8 @@ document.addEventListener('click',e=>{
 $('more-services').onclick=()=>{serviceExpanded=true;renderServices()};$('open-cart').onclick=orderCart;
 $('guide-search').oninput=e=>renderGuide(e.target.value);$('clear-search').onclick=()=>{$('guide-search').value='';renderGuide();$('guide-search').focus()};
 $('food-search').oninput=e=>{foodSearch=e.target.value;renderFood()};
-$('open-map').onclick=()=>{show('Карта территории','<p class="note" style="margin-bottom:14px">На телефоне прокрутите карту по горизонтали, чтобы рассмотреть детали.</p><img src="assets/map.svg" alt="Официальная карта Барских полей">','Барские поля');popup.classList.add('map-sheet')};
+mapController=createInteractiveMap({host:$('territory-map'),data:territoryMap,houses:D.houses,selected:house,onSelect:selectHouse,onChooseHouse:houses,onAction:a=>{if(a.type==='contact')contact();else{if(a.category){serviceCategory=a.category;renderServices();}location.hash=a.href;}}});
+$('open-map').onclick=()=>mapController.openFullscreen();
 $('yandex-route').href=D.map.route_yandex;$('gis-route').href=D.map.route_2gis;$('address').textContent=D.address;$('footer-phone').textContent=D.contacts.phone;$('footer-phone').href=D.contacts.phone_url;$('footer-hours').textContent=D.contacts.phone_hours;
 $('social-links').innerHTML=D.contacts.socials.map(s=>`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>`).join('');
 $('review-links').innerHTML=D.reviews.map(r=>`<a class="outline-button" href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)} ↗</a>`).join('');

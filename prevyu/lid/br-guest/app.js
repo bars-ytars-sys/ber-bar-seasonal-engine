@@ -1,5 +1,8 @@
 import D from './data.js?v=20261023-house-photo';
 import {createHousePhoto} from './house-photo.js';
+import {createInteractiveMap} from './interactive-map.js?v=20261023-map';
+import territoryMap from './map-data.js?v=20261023-map';
+let mapController=null;
 
 const $ = id => document.getElementById(id);
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -73,10 +76,13 @@ function guideList(query='') {
   return matches.map(g=>`<details ${q?'open':''}><summary>${icon(g.icon)}<span>${esc(g.title)}</span></summary><div class="guide-answer">${g.body.split('\n').filter(Boolean).map(p=>`<p>${esc(p)}</p>`).join('')}${g.action?`<button class="text-button" data-action="${esc(g.action)}">${esc(g.action_label)} ↗</button>`:''}${g.url?`<a class="text-button" href="${esc(g.url)}" target="_blank" rel="noopener">Подробнее на сайте ↗</a>`:''}</div></details>`).join('') || `<p class="empty">Пока не нашли ответ.<br><button class="text-button" data-action="contact">Спросить у администратора ↗</button></p>`;
 }
 function guide() { return title('Маленькие ответы.<br>Спокойный отдых.','Всё важное о доме и территории. Если понадобится помощь — мы рядом.')+`<label class="search">${icon('search')}<input id="guide-search" type="search" aria-label="Поиск по памятке" placeholder="Wi-Fi, выезд, SPA…" autocomplete="off"></label><div class="guide-list" id="guide-list">${guideList()}</div>`; }
-function map() {return title('Здесь начинается<br>ваша прогулка.','Официальная карта территории. Откройте её крупнее, чтобы рассмотреть дорожки и дома.')+`<div class="map-box"><button class="full" data-action="map-large" aria-label="Увеличить карту территории"><img src="assets/map.webp" alt="Официальная карта Берёзовой рощи: дома, ресепшн, ресторан и территория" width="1000" height="800"></button><div class="map-caption"><span>Территория Берёзовой рощи</span><button data-action="map-large">Увеличить ↗</button></div></div><div class="route-card"><h3>Как добраться</h3><p>${esc(D.contacts.address)}</p><div class="route-links"><a class="primary" href="${esc(D.map.yandex_url)}" target="_blank" rel="noopener">Маршрут в Яндекс Картах ${icon('arrow')}</a><a class="secondary" href="${esc(D.map.two_gis_url)}" target="_blank" rel="noopener">Открыть 2ГИС ${icon('arrow')}</a></div></div><div class="map-shortcuts"><button data-action="houses">${icon('home')}Найти свой дом</button><button data-action="contact">${icon('chat')}Нужна помощь?</button></div>`;}
+function map() {return title('Здесь начинается<br>ваша прогулка.','Найдите свой дом на карте. Нажмите на дом, ресторан или другое место — покажем его подробнее.')+`<div id="territory-map"></div><div class="route-card"><h3>Как добраться</h3><p>${esc(D.contacts.address)}</p><div class="route-links"><a class="primary" href="${esc(D.map.yandex_url)}" target="_blank" rel="noopener">Маршрут в Яндекс Картах ${icon('arrow')}</a><a class="secondary" href="${esc(D.map.two_gis_url)}" target="_blank" rel="noopener">Открыть 2ГИС ${icon('arrow')}</a></div></div><div class="map-shortcuts"><button data-action="houses">${icon('home')}Найти свой дом</button><button data-action="contact">${icon('chat')}Нужна помощь?</button></div>`;}
+function mountMap(){mapController=createInteractiveMap({host:$('territory-map'),data:territoryMap,houses:D.houses,selected:house,onSelect:setHouse,onChooseHouse:houses,onAction:a=>{if(a.type==='contact')contact();else{if(a.category)category=a.category;location.hash=a.href;}}});}
+
 function food() {return `<div class="page-head"><a class="screen-back" href="#home">${icon('left')}На главную</a>${miniHouse()}<h1>Вкусный отдых.<br>Без хлопот.</h1><p>Завтрак не спеша, обед после прогулки и тёплый вечер в ресторане.</p></div><div class="section"><article class="service-card"><div class="service-photo"><img src="${esc(image('restaurant'))}" width="600" height="380" alt="Ресторан Берёзовой рощи"><span class="category-tag">Ресторан на территории</span></div><div class="service-copy"><h2>К столу!</h2><p>Завтраки «шведский стол», комплексные обеды и ужины. Актуальное меню, часы работы и наличие мест подскажет администратор.</p><button class="primary full" data-action="restaurant">Уточнить меню и заказать ${icon('arrow')}</button></div></article></div><div class="section"><div class="about-card"><h3>Начните утро вкусно</h3><p>Завтрак — с 10:00, стоимость 1 500 ₽ на человека. Перед посещением уточните время и условия для вашей брони.</p><button class="primary full" data-action="breakfast">Хочу на завтрак ${icon('arrow')}</button></div></div><p class="footnote">Меню и обслуживание согласуются с базой.<br>Мы подготовим запрос, а вы выберете удобный способ связи.</p>`;}
 
 function render() {
+  mapController?.destroy();mapController=null;
   const route=location.hash.slice(1);screen=['services','guide','map','food'].includes(route)?route:'home';
   $('main').innerHTML=`<div class="screen ${selected.length?'has-bar':''}">${({home,services,guide,map,food}[screen])()}</div>`;
   const active=screen==='food'?'home':screen;
@@ -85,6 +91,7 @@ function render() {
   document.querySelector('.bottom-nav').style.setProperty('--nav',['home','services','guide','map'].indexOf(active));
   updateRequestBar();
   updateHousePhoto(H());
+  if(screen==='map')mountMap();
 }
 function updateRequestBar() {
   $('request-bar').hidden=!selected.length;
@@ -98,6 +105,9 @@ function setHouse(id) {
     document.querySelector('.house-picker small').textContent=H()?'Ваш дом':'Начнём знакомство';
     document.querySelector('.house-picker b').textContent=H()?H().name:'Выберите свой дом';
     updateHousePhoto(H());
+  }else if(screen==='map'&&mapController){
+    document.querySelector('.mini-house').innerHTML=icon('home')+(H()?esc(H().name):'Выберите свой дом')+icon('down');
+    mapController.setSelected(house);
   }else render();
   closeSheet();toast(H()?`Ваш дом — ${H().name}`:'Выбрана общая информация');
 }
@@ -140,7 +150,7 @@ function showDraft(text) {showSheet('Осталось отправить.',`<div
 function simpleRequest(text){requestForm(text);}
 function assistant(query='') {showSheet('Чем вам помочь?',`<p class="sheet-body-copy">Найдём ответ в памятке. По вопросам вашего дома всегда можно связаться с базой.</p><label class="search">${icon('search')}<input id="assistant-search" type="search" placeholder="Например, как подключить Wi-Fi" aria-label="Ваш вопрос" value="${esc(query)}" autocomplete="off"></label><div id="assistant-results" class="assistant-results"></div><button class="secondary full" data-action="contact">Спросить у администратора ${icon('chat')}</button>`,'Быстрые ответы');assistantResults(query);}
 function assistantResults(query) {const words=normalize(query).split(/[^а-яa-z0-9-]+/).filter(w=>w.length>2&&!['как','где','что','мне','для','нас','наш'].includes(w)).map(w=>w.slice(0,5));const list=words.length?D.guides.map(g=>({g,n:words.reduce((n,w)=>n+Number(normalize(g.title+' '+g.body).includes(w)),0)})).filter(x=>x.n).sort((a,b)=>b.n-a.n).slice(0,3).map(x=>x.g):D.guides.slice(0,3);$('assistant-results').innerHTML=list.map(g=>`<div class="assistant-result"><h3>${esc(g.title)}</h3><p>${esc(g.body).replace(/\n/g,'<br>')}</p>${g.action?`<button class="text-button" data-action="${esc(g.action)}">${esc(g.action_label)} ↗</button>`:''}</div>`).join('')||'<p class="empty">В памятке пока нет точного ответа. Администратор поможет.</p>';}
-function mapLarge(){showSheet('Территория крупнее.',`<p class="sheet-body-copy">Увеличьте карту кнопкой «+» и перемещайтесь по ней пальцем.</p><div class="map-view" id="map-view"><img id="zoom-map" src="assets/map.webp" alt="Увеличенная официальная карта Берёзовой рощи"></div><div class="zoom-controls"><button data-zoom="-1" aria-label="Уменьшить карту">−</button><span id="zoom-value">100%</span><button data-zoom="1" aria-label="Увеличить карту">+</button></div><a class="secondary full" href="${esc(D.map.url)}" target="_blank" rel="noopener">Официальная карта на сайте ↗</a>`,'Найдите своё место');let zoom=1;$('sheet-body').querySelectorAll('[data-zoom]').forEach(b=>b.addEventListener('click',()=>{zoom=Math.max(1,Math.min(4,zoom+Number(b.dataset.zoom)*.5));$('zoom-map').style.width=(zoom*100)+'%';$('zoom-value').textContent=Math.round(zoom*100)+'%';}));}
+function mapLarge(){mapController?.openFullscreen();}
 const story=$('story');
 function showStory(index) {storyIndex=Math.max(0,Math.min(D.stories.length-1,index));const s=D.stories[storyIndex];if(!seen.includes(s.id)){seen.push(s.id);save('seen',seen);}
   $('story-progress').innerHTML=D.stories.map((_,i)=>`<span class="${i<storyIndex?'done':i===storyIndex?'current':''}"><i></i></span>`).join('');

@@ -10,8 +10,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/Manrope-Regular.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="assets/DespairDisplay-Bold.woff" as="font" type="font/woff" crossorigin>
-  <link rel="stylesheet" href="style.css">
-  <script type="module" src="app.js?v=20261023-map"></script>
+  <link rel="stylesheet" href="style.css?v=20261023-comfort">
+  <script type="module" src="app.js?v=20261023-comfort"></script>
  <link rel="stylesheet" href="interactive-map.css?v=20261023-map">
 </head>
 <body>
@@ -23,7 +23,7 @@
     </header>
     <main id="main" tabindex="-1"></main>
     <div class="request-bar" id="request-bar" hidden><button data-action="request"><span><b id="request-count"></b><small>Согласуем с администратором</small></span><span>Продолжить <span aria-hidden="true">↗</span></span></button></div>
-    <nav class="bottom-nav" aria-label="Основная навигация"><i class="nav-marker" aria-hidden="true"></i><a href="#home" data-screen="home"><span data-icon="home"></span><span>Главная</span></a><a href="#services" data-screen="services"><span data-icon="spark"></span><span>Услуги</span></a><a href="#guide" data-screen="guide"><span data-icon="book"></span><span>Памятка</span></a><a href="#map" data-screen="map"><span data-icon="map"></span><span>Карта</span></a></nav>
+    <nav class="bottom-nav" aria-label="Основная навигация"><i class="nav-marker" aria-hidden="true"></i><a href="#home" data-screen="home"><span data-icon="home"></span><span>Главная</span></a><a href="#food" data-screen="food"><span data-icon="food"></span><span>Ресторан</span></a><a href="#services" data-screen="services"><span data-icon="spark"></span><span>Услуги</span></a><a href="#guide" data-screen="guide"><span data-icon="book"></span><span>Памятка</span></a><a href="#map" data-screen="map"><span data-icon="map"></span><span>Карта</span></a></nav>
   </div>
   <dialog id="sheet" class="sheet" aria-labelledby="sheet-title"><div class="sheet-grip" aria-hidden="true"></div><header class="sheet-head"><div><p class="eyebrow" id="sheet-label"></p><h2 id="sheet-title"></h2></div><button class="icon-button" id="sheet-close" aria-label="Закрыть"><span data-icon="close"></span></button></header><div id="sheet-body"></div></dialog>
   <dialog id="story" class="story" aria-labelledby="story-title"><div id="story-progress" class="story-progress"></div><div class="story-top"><img src="assets/brand-logo.svg" width="130" height="48" alt="Берёзовая роща"><button class="icon-button" data-action="close-story" aria-label="Закрыть памятку"><span data-icon="close"></span></button></div><div id="story-content"></div><div class="story-controls"><button class="icon-button" data-action="story-prev" aria-label="Предыдущая история"><span data-icon="left"></span></button><span id="story-counter"></span><button class="icon-button" data-action="story-next" aria-label="Следующая история"><span data-icon="right"></span></button></div></dialog>

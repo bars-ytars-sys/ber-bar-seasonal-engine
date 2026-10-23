@@ -1,4 +1,5 @@
-import D from './data.js';
+import D from './data.js?v=20261023-house-photo';
+import {createHousePhoto} from './house-photo.js';
 import { motion, initExperience } from './experience.js?v=20261013-motion';
 const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=n=>Number(n).toLocaleString('ru-RU')+' ₽';
@@ -14,6 +15,7 @@ if(!D.houses.some(h=>h.id===house))house='';
 let tab=location.hash==='#pre'?'pre':'home',serviceCategory='Популярное',serviceExpanded=false,foodCategory='Все',foodSearch='';
 let cart=read('bp-guest-cart',{});for(const id of Object.keys(cart)){if(!D.food.products.some(p=>p.id===id)||!Number.isInteger(cart[id])||cart[id]<1||cart[id]>20)delete cart[id]}
 const H=()=>D.houses.find(h=>h.id===house),products=()=>D.food.products||[];
+const updateHousePhoto=createHousePhoto({selector:'.hero-photo:not(.house-photo-next)',fallbackSrc:'assets/cover.webp',fallbackAlt:'Дом на территории Барских полей'});
 const popup=$('sheet');let returnFocus=null,chatHistory=[],sheetToken=0;
 function show(title,body,eyebrow='Ваш отдых'){
  const wasOpen=popup.open;++sheetToken;motion.stop(popup);if(!wasOpen)returnFocus=document.activeElement;$('sheet-title').textContent=title;$('sheet-eyebrow').textContent=eyebrow;popup.classList.remove('map-sheet');$('sheet-body').innerHTML=body;
@@ -23,6 +25,7 @@ function close(){if(!popup.open)return;const token=++sheetToken;motion.sheetClos
 popup.addEventListener('cancel',e=>{e.preventDefault();close()});
 popup.addEventListener('close',()=>document.body.classList.remove('modal-open'));
 $('close-sheet').onclick=close;popup.addEventListener('click',e=>{if(e.target===popup){const b=popup.getBoundingClientRect();if(e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom)close()}});
+document.addEventListener('guest:photo-error',()=>toast('Фото дома не загрузилось. Попробуйте выбрать дом ещё раз.'));
 let toastTimer;function toast(t){$('toast').textContent=t;$('toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),3800)}
 async function copy(text){try{await navigator.clipboard.writeText(text);toast('Скопировано. Можно вставить в сообщение.');return true}catch{toast('Выделите и скопируйте текст заявки ниже.');return false}}
 function channelLinks(cls='outline-button',draft=false){return D.contacts.socials.filter(s=>['telegram','max','whatsapp'].includes(s.id)).map(s=>`<a class="${cls}" href="${esc(s.url)}" target="_blank" rel="noopener" ${draft?'data-draft-channel':''}>${esc(s.title)} ↗</a>`).join('')}
@@ -41,6 +44,7 @@ phoneViewport.addEventListener('change',()=>syncMobileScreen(true));
 function selectHouse(id){house=D.houses.some(h=>h.id===id)?id:'';save('bp-guest-house',house);updateURL();renderContext();renderServices();renderGuide($('guide-search').value);close()}
 function houses(){show('Какой у вас дом?',`<p class="note" style="margin-bottom:16px">Выберите дом — покажем его время заезда, выезда и доступные услуги.</p><div class="house-choices"><button class="house-choice" data-house-choice="" aria-pressed="${!house}"><b>Вся территория</b><small>Общая информация о базе</small></button>${D.houses.map(h=>`<button class="house-choice" data-house-choice="${h.id}" aria-pressed="${house===h.id}"><b>${esc(h.name)}</b><small>До ${h.capacity} гостей · ${esc(h.bath)}</small></button>`).join('')}</div>`,'Ваш дом')}
 function renderContext(){
+ updateHousePhoto(H());
  const h=H(),ci=h?.checkin||D.stay.default_checkin,co=h?.checkout||D.stay.default_checkout;
  $('house-button').innerHTML=icon('home')+`<span class="house-title"><small>${h?'Ваш дом':'Для точной информации'}</small>${h?esc(h.name):'Выберите свой дом'}</span><span aria-hidden="true">⌄</span>`;
  $('mobile-house-name').textContent=h?h.name:'Выберите свой дом';

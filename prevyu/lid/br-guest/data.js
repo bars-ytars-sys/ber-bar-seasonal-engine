@@ -1,0 +1,811 @@
+export default {
+  "name": "Берёзовая роща",
+  "contacts": {
+    "phone": "+7 (495) 120-20-08",
+    "phone_url": "tel:+74951202008",
+    "phone_hours": "Ежедневно с 9:00 до 24:00",
+    "phone_role": "Отдел бронирования",
+    "administrator_hours": null,
+    "address": "Московская область, деревня Васюково, КДЗ Новое Мишкино 1/5",
+    "email": "BR.BP.House@yandex.ru",
+    "socials": [
+      {
+        "id": "telegram",
+        "title": "Telegram",
+        "url": "https://t.me/ecobazabr"
+      },
+      {
+        "id": "max",
+        "title": "MAX",
+        "url": "https://max.ru/u/f9LHodD0cOJm8laQZfqVi7jnVVCh5Jiy-jmBnK8CdmUI1iVXCLbmKXSFqI0"
+      },
+      {
+        "id": "whatsapp",
+        "title": "WhatsApp",
+        "url": "https://wa.me/74951202008"
+      },
+      {
+        "id": "vk",
+        "title": "ВКонтакте",
+        "url": "https://vk.ru/bazabr"
+      },
+      {
+        "id": "instagram",
+        "title": "Instagram",
+        "url": "https://www.instagram.com/ecobaza_br/"
+      }
+    ],
+    "source": "https://ecobr.ru/"
+  },
+  "map": {
+    "url": "https://ecobr.ru/kartabr",
+    "image": "https://static.tildacdn.com/tild3439-6666-4264-a539-616130646439/Frame_2_1_1.webp",
+    "yandex_url": "https://yandex.ru/maps/-/CCUGr6g4xD",
+    "reviews": "https://yandex.ru/maps/org/beryozovaya_roshcha/91160063546/",
+    "two_gis_url": "https://go.2gis.com/39yoe"
+  },
+  "houses": [
+    {
+      "id": "baus-1",
+      "name": "Баус-1",
+      "url": "https://ecobr.ru/doma/baus-1",
+      "source": "https://ecobr.ru/doma/baus-1",
+      "capacity": 2,
+      "image": "assets/houses/baus-1.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "baus-2",
+      "name": "Баус-2",
+      "url": "https://ecobr.ru/doma/baus-2",
+      "source": "https://ecobr.ru/doma/baus-2",
+      "capacity": 2,
+      "image": "assets/houses/baus-2.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "baus-3",
+      "name": "Баус-3",
+      "url": "https://ecobr.ru/doma/baus-3",
+      "source": "https://ecobr.ru/doma/baus-3",
+      "capacity": 2,
+      "image": "assets/houses/baus-3.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "sfera",
+      "name": "Сфера",
+      "url": "https://ecobr.ru/doma/sfera",
+      "source": "https://ecobr.ru/doma/sfera",
+      "capacity": 4,
+      "image": "assets/houses/sfera.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Баня",
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "aframe-luxe-white",
+      "name": "А-фрейм люкс белый",
+      "url": "https://ecobr.ru/doma/aframe-luxe-white",
+      "source": "https://ecobr.ru/doma/aframe-luxe-white",
+      "capacity": 4,
+      "image": "assets/houses/aframe-luxe-white.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "aframe-luxe-black",
+      "name": "А-фрейм люкс черный",
+      "url": "https://ecobr.ru/doma/aframe-luxe-black",
+      "source": "https://ecobr.ru/doma/aframe-luxe-black",
+      "capacity": 4,
+      "image": "assets/houses/aframe-luxe-black.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "aframe-white",
+      "name": "А-фрейм белый",
+      "url": "https://ecobr.ru/doma/aframe-white",
+      "source": "https://ecobr.ru/doma/aframe-white",
+      "capacity": 4,
+      "image": "assets/houses/aframe-white.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "aframe-black",
+      "name": "А-фрейм черный",
+      "url": "https://ecobr.ru/doma/aframe-black",
+      "source": "https://ecobr.ru/doma/aframe-black",
+      "capacity": 4,
+      "image": "assets/houses/aframe-black.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Баня",
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "aframe-neo",
+      "name": "А-фрейм НЕО",
+      "url": "https://ecobr.ru/doma/aframe-neo",
+      "source": "https://ecobr.ru/doma/aframe-neo",
+      "capacity": 4,
+      "image": "assets/houses/aframe-neo.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": []
+    },
+    {
+      "id": "barn-1",
+      "name": "Барнхаус-1",
+      "url": "https://ecobr.ru/doma/barn-1",
+      "source": "https://ecobr.ru/doma/barn-1",
+      "capacity": 6,
+      "image": "assets/houses/barn-1.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "barn-2",
+      "name": "Барнхаус-2",
+      "url": "https://ecobr.ru/doma/barn-2",
+      "source": "https://ecobr.ru/doma/barn-2",
+      "capacity": 6,
+      "image": "assets/houses/barn-2.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "barn-3",
+      "name": "Барнхаус-3",
+      "url": "https://ecobr.ru/doma/barn-3",
+      "source": "https://ecobr.ru/doma/barn-3",
+      "capacity": 6,
+      "image": "assets/houses/barn-3.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "barn-4",
+      "name": "Барнхаус-4",
+      "url": "https://ecobr.ru/doma/barn-4",
+      "source": "https://ecobr.ru/doma/barn-4",
+      "capacity": 6,
+      "image": "assets/houses/barn-4.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Баня"
+      ]
+    },
+    {
+      "id": "house-1",
+      "name": "Хаус-1",
+      "url": "https://ecobr.ru/doma/house-1",
+      "source": "https://ecobr.ru/doma/house-1",
+      "capacity": 5,
+      "image": "assets/houses/house-1.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "house-2",
+      "name": "Хаус-2",
+      "url": "https://ecobr.ru/doma/house-2",
+      "source": "https://ecobr.ru/doma/house-2",
+      "capacity": 5,
+      "image": "assets/houses/house-2.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "house-3",
+      "name": "Хаус-3",
+      "url": "https://ecobr.ru/doma/house-3",
+      "source": "https://ecobr.ru/doma/house-3",
+      "capacity": 5,
+      "image": "assets/houses/house-3.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "house-4",
+      "name": "Хаус-4",
+      "url": "https://ecobr.ru/doma/house-4",
+      "source": "https://ecobr.ru/doma/house-4",
+      "capacity": 4,
+      "image": "assets/houses/house-4.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "bariloche",
+      "name": "Барилоче",
+      "url": "https://ecobr.ru/doma/bariloche",
+      "source": "https://ecobr.ru/doma/bariloche",
+      "capacity": 7,
+      "image": "assets/houses/bariloche.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "chalet",
+      "name": "Шале",
+      "url": "https://ecobr.ru/doma/chalet",
+      "source": "https://ecobr.ru/doma/chalet",
+      "capacity": 6,
+      "image": "assets/houses/chalet.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "scandi",
+      "name": "Сканди",
+      "url": "https://ecobr.ru/doma/scandi",
+      "source": "https://ecobr.ru/doma/scandi",
+      "capacity": 8,
+      "image": "assets/houses/scandi.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "panorama",
+      "name": "Панорама",
+      "url": "https://ecobr.ru/doma/panorama",
+      "source": "https://ecobr.ru/doma/panorama",
+      "capacity": 10,
+      "image": "assets/houses/panorama.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Баня",
+        "Банный чан"
+      ]
+    },
+    {
+      "id": "holidayhouse",
+      "name": "Холидей хаус",
+      "url": "https://ecobr.ru/doma/holidayhouse",
+      "source": "https://ecobr.ru/doma/holidayhouse",
+      "capacity": 4,
+      "image": "assets/houses/holidayhouse.webp",
+      "checkin": null,
+      "checkout": null,
+      "status": 200,
+      "features": [
+        "Баня",
+        "Банный чан",
+        "Сухой флоатинг",
+        "сауна"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "id": "spa",
+      "title": "SPA-комплекс",
+      "category": "SPA и релакс",
+      "description": "Подогреваемый бассейн под открытым небом, хамам, русская и японская бани. Примерно 300 м от домов.",
+      "price": "от 1 000 ₽",
+      "url": "https://ecobr.ru/spa",
+      "source": "https://ecobr.ru/spa",
+      "hours": "Вс–чт 10:00–22:00; пт–сб 10:00–23:00",
+      "prices": [
+        {
+          "title": "1 час",
+          "amount": 1000
+        },
+        {
+          "title": "2 часа",
+          "amount": 1500
+        },
+        {
+          "title": "Безлимит на день",
+          "amount": 4000
+        }
+      ],
+      "children": "Детям до 14 лет — 50% от основного тарифа.",
+      "included": "Бассейн, лежаки и бани.",
+      "extra": "Банщик, массаж, банные принадлежности, полотенца, еда и напитки оплачиваются отдельно.",
+      "note": "Бассейн без спасателя. Дети — под постоянным присмотром взрослых.",
+      "price_label": "от 1 000 ₽",
+      "image": "assets/spa.webp",
+      "unit": "1 час · детям до 14 лет −50%"
+    },
+    {
+      "id": "tub",
+      "title": "Банный чан",
+      "category": "SPA и релакс",
+      "description": "Классический чан или наполнение на выбор. Итоговую цену и время подготовки подтвердит менеджер.",
+      "price": "от 5 500 ₽",
+      "url": "https://ecobr.ru/banchan",
+      "source": "https://ecobr.ru/banchan",
+      "prices": [
+        {
+          "title": "Классический без наполнения",
+          "amount": 5500
+        },
+        {
+          "title": "Еловый",
+          "amount": 6500
+        },
+        {
+          "title": "Двойное еловое",
+          "amount": 7500
+        },
+        {
+          "title": "Елово-цитрусовый",
+          "amount": 7500
+        },
+        {
+          "title": "Двойное елово-цитрусовое",
+          "amount": 8500
+        },
+        {
+          "title": "Клеопатры",
+          "amount": 8500
+        },
+        {
+          "title": "Утиные истории",
+          "amount": 7000
+        },
+        {
+          "title": "Сибирский",
+          "amount": 8500
+        },
+        {
+          "title": "Любви",
+          "amount": 13500
+        },
+        {
+          "title": "Чайная церемония",
+          "amount": 13500
+        },
+        {
+          "title": "Барский",
+          "amount": 15500
+        }
+      ],
+      "hours": "Готовый чан предоставляют не позднее 22:00.",
+      "note": "«Любви» бронируют за 2 дня до заезда. Тариф дома SPA house отдельно: классический чан 7 000 ₽; к другим домам не применять.",
+      "price_label": "от 5 500 ₽",
+      "image": "assets/tub.webp",
+      "unit": "Классический, без наполнения"
+    },
+    {
+      "id": "bath",
+      "title": "Баня",
+      "category": "SPA и релакс",
+      "description": "Баня есть у отдельных домов. Возможность аренды и время подготовки согласуются с менеджером.",
+      "price": "6 000–7 000 ₽ / 4 часа",
+      "url": "https://ecobr.ru/banchan",
+      "source": "https://ecobr.ru/banchan",
+      "note": "Панорама — 10 000 ₽. Отдельно от дома — от 3 часов при наличии свободной бани; цена у менеджера. Актуальная цена зависит от дома.",
+      "price_label": "6 000–7 000 ₽ / 4 часа",
+      "image": "assets/bath.webp",
+      "unit": "Цена зависит от дома"
+    },
+    {
+      "id": "floating",
+      "title": "Сухой флоатинг",
+      "category": "SPA и релакс",
+      "description": "Расслабление на водной мембране, при котором тело остаётся сухим.",
+      "price": "от 4 000 ₽",
+      "url": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe#popup:floating",
+      "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
+      "prices": [
+        {
+          "title": "Флоатинг с гидромассажем, маской и медитацией, 45 мин",
+          "amount": 4000
+        },
+        {
+          "title": "Парный флоатинг, 45 + 45 мин",
+          "amount": 7000
+        }
+      ],
+      "price_label": "от 4 000 ₽",
+      "image": "https://static.tildacdn.com/tild3838-3636-4538-b262-323963386635/image_8.webp"
+    },
+    {
+      "id": "restaurant",
+      "title": "Ресторан",
+      "category": "Ресторан",
+      "description": "Завтрак в формате шведского стола, обед и ужин — комплексное меню.",
+      "price": null,
+      "url": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe#popup:restoran",
+      "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
+      "menu_url": null,
+      "hours": null,
+      "note": "Ссылка меню #menurestoran не имеет найденной цели. Уточнять меню у менеджера.",
+      "price_label": "Меню у менеджера",
+      "image": "assets/restaurant.webp"
+    },
+    {
+      "id": "breakfast",
+      "title": "Завтрак",
+      "category": "Ресторан",
+      "description": "Подаётся в ресторане с 10:00. Можно выбрать тариф с завтраком.",
+      "price": "1 500 ₽ / человек",
+      "url": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe#popup:zavtraki",
+      "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
+      "amount": 1500,
+      "hours": "с 10:00",
+      "note": "Окончание завтрака на текущей странице не указано.",
+      "price_label": "1 500 ₽ / человек",
+      "image": "assets/restaurant.webp"
+    },
+    {
+      "id": "farm",
+      "title": "Контактная ферма",
+      "category": "Впечатления",
+      "description": "Животные, птичий двор и контактная зона для детей и взрослых.",
+      "price": "Бесплатно",
+      "url": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe#popup:ferma",
+      "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
+      "amount": 0,
+      "note": "Бесплатное посещение подтверждено FAQ. График и возможность кормления уточняйте у сотрудника.",
+      "price_label": "Бесплатно",
+      "image": "assets/farm.webp"
+    },
+    {
+      "id": "buggy",
+      "title": "Багги и квадроциклы",
+      "category": "Впечатления",
+      "description": "Поездка на природе по предварительному согласованию.",
+      "price": "от 4 000 ₽",
+      "url": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe#baggi",
+      "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
+      "prices": [
+        {
+          "title": "Багги с водителем",
+          "amount": 4000
+        },
+        {
+          "title": "Багги без водителя",
+          "amount": 6000
+        },
+        {
+          "title": "Квадроцикл с водителем",
+          "amount": 5000
+        },
+        {
+          "title": "Квадроцикл без водителя",
+          "amount": 7000
+        }
+      ],
+      "note": "Продолжительность тарифа не указана на странице: подтвердить перед заказом.",
+      "price_label": "от 4 000 ₽",
+      "image": "https://static.tildacdn.com/tild3531-3236-4536-a136-373830363464/image_7.webp"
+    },
+    {
+      "id": "horses",
+      "title": "Конные прогулки",
+      "category": "Впечатления",
+      "description": "Маршруты разной сложности. По предварительной записи.",
+      "price": "6 500 ₽ / час",
+      "url": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe#koni",
+      "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
+      "amount": 6500,
+      "price_label": "6 500 ₽ / час",
+      "image": "assets/horses.webp"
+    },
+    {
+      "id": "fishing",
+      "title": "Рыбалка",
+      "category": "Впечатления",
+      "description": "Пруды примерно в 300 м от домов. Выловленная рыба оплачивается отдельно.",
+      "price": "от 500 ₽ / день",
+      "url": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe#popup:zimnajarybalka",
+      "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
+      "prices": [
+        {
+          "title": "Взрослый, 1 день",
+          "amount": 500,
+          "from": true
+        },
+        {
+          "title": "Ребёнок от 7 лет, 1 день",
+          "amount": 300,
+          "from": true
+        }
+      ],
+      "price_label": "от 500 ₽ / день",
+      "image": "https://static.tildacdn.com/tild3833-3336-4464-a465-346439636563/fb8bd2cb-c544-4105-8.webp"
+    },
+    {
+      "id": "sup",
+      "title": "Сапборды",
+      "category": "Впечатления",
+      "description": "Сезонная прогулка по Истре. Возможность зависит от погоды.",
+      "price": "2 000 ₽ / день",
+      "url": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe#popup:sup",
+      "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
+      "amount": 2000,
+      "hours": "Световой день, на сайте указан интервал 08:00–22:00",
+      "note": "До 2 человек / 180 кг, жилет +200 ₽, гермомешок +200 ₽. Аренда совершеннолетним после оформления, возвратный залог 5 000 ₽. Место выдачи на ресепшен.",
+      "price_label": "2 000 ₽ / день",
+      "image": "https://static.tildacdn.com/tild6665-6636-4966-b565-343135383532/IMG_4229-177_1.webp"
+    },
+    {
+      "id": "romantic",
+      "title": "Романтик",
+      "category": "Особый повод",
+      "description": "Украшение дома, воздушные шары, фрукты, напиток на выбор, декор и свечи.",
+      "price": "9 000 ₽",
+      "url": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe#popup:romantic",
+      "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
+      "amount": 9000,
+      "note": "Чан заказывается отдельно. Не запускать подарочную акцию и не обещать «Свидание года» для Баусов.",
+      "price_label": "9 000 ₽",
+      "image": "assets/romantic.webp"
+    },
+    {
+      "id": "birthday",
+      "title": "День рождения",
+      "category": "Особый повод",
+      "description": "Праздничное оформление дома и фотозона к приезду именинника.",
+      "price": "9 000 ₽",
+      "url": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe#popup:dr",
+      "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
+      "amount": 9000,
+      "price_label": "9 000 ₽",
+      "image": "https://static.tildacdn.com/tild3064-3836-4637-b639-663362626134/IMG_4716.webp"
+    },
+    {
+      "id": "girls",
+      "title": "Девичник",
+      "category": "Особый повод",
+      "description": "Тематический декор и детали для праздника с подругами.",
+      "price": "9 500 ₽",
+      "url": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe#popup:girlparty",
+      "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
+      "amount": 9500,
+      "price_label": "9 500 ₽",
+      "image": "https://static.tildacdn.com/tild6635-6438-4133-b662-653836306462/23735725-27c9-42de-b.webp"
+    },
+    {
+      "id": "photo",
+      "title": "Семейная фотосессия",
+      "category": "Особый повод",
+      "description": "Съёмка в доме и на территории. Для одной семьи до 4 человек.",
+      "price": "20 000 ₽",
+      "url": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe#popup:fotoden",
+      "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
+      "amount": 20000,
+      "price_label": "20 000 ₽",
+      "image": "https://static.tildacdn.com/tild6330-3564-4464-b436-343134346661/7a72ad67-a4e9-41dc-9.webp"
+    }
+  ],
+  "images": {
+    "map": "assets/map.webp",
+    "restaurant": "assets/restaurant.webp",
+    "romantic": "assets/romantic.webp",
+    "farm": "assets/farm.webp",
+    "tub": "assets/tub.webp",
+    "bath": "assets/bath.webp",
+    "horses": "assets/horses.webp",
+    "spa": "assets/spa.webp",
+    "cover": "assets/cover.webp",
+    "couple": "assets/couple.webp"
+  },
+  "guides": [
+    {
+      "id": "wifi",
+      "title": "Как подключиться к Wi-Fi?",
+      "icon": "wifi",
+      "body": "На территории есть Wi-Fi. Название сети и пароль уточните для своего дома у администратора.\nВыберите свой дом в путеводителе — добавим его в запрос.",
+      "action": "wifi",
+      "action_label": "Уточнить сеть и пароль"
+    },
+    {
+      "id": "arrival",
+      "title": "Во сколько можно заехать?",
+      "icon": "clock",
+      "body": "Время заселения и порядок получения ключей смотрите в подтверждении бронирования. Если планируете ранний или поздний приезд, заранее согласуйте его с базой.",
+      "action": "contact",
+      "action_label": "Согласовать приезд"
+    },
+    {
+      "id": "departure",
+      "title": "Как проходит выезд?",
+      "icon": "home",
+      "body": "Проверьте время выезда в подтверждении своей брони. Если хотите остаться подольше, сначала уточните возможность и стоимость у администратора.",
+      "action": "contact",
+      "action_label": "Уточнить условия выезда"
+    },
+    {
+      "id": "spa",
+      "title": "Как работает SPA-комплекс?",
+      "icon": "bath",
+      "body": "Воскресенье–четверг: 10:00–22:00. Пятница–суббота: 10:00–23:00.\n1 час — 1 000 ₽, 2 часа — 1 500 ₽, безлимит на день — 4 000 ₽. Детям до 14 лет — 50% от тарифа.\nВ стоимость входят бассейн, лежаки и бани. Полотенца, банщик, массаж, закуски и напитки оплачиваются отдельно.",
+      "url": "https://ecobr.ru/spa"
+    },
+    {
+      "id": "tub",
+      "title": "Как заказать банный чан?",
+      "icon": "bath",
+      "body": "Чан готовят по предварительному согласованию. Классический без наполнения — от 5 500 ₽, еловый — от 6 500 ₽.\nГотовый чан предоставляют не позднее 22:00. Наполнение, время подготовки и итоговую стоимость подтвердит администратор.",
+      "url": "https://ecobr.ru/banchan"
+    },
+    {
+      "id": "bath",
+      "title": "В каких домах есть баня?",
+      "icon": "bath",
+      "body": "Собственная баня есть у отдельных домов. Возможность её аренды зависит от вашего дома и доступности.\nНа сайте указано 6 000–7 000 ₽ за 4 часа, для Панорамы — 10 000 ₽. Подтвердите условия для своего дома перед заказом.",
+      "action": "contact",
+      "action_label": "Спросить о бане"
+    },
+    {
+      "id": "food",
+      "title": "Где позавтракать и поужинать?",
+      "icon": "food",
+      "body": "На территории есть ресторан с завтраками «шведский стол», комплексными обедами и ужинами.\nЗавтрак — с 10:00, 1 500 ₽ на человека. Актуальное меню, часы работы и условия для вашей брони уточните у базы.",
+      "action": "restaurant",
+      "action_label": "Уточнить меню"
+    },
+    {
+      "id": "farm",
+      "title": "Чем заняться на территории?",
+      "icon": "leaf",
+      "body": "Контактная ферма, прогулки и детская площадка — для спокойного отдыха. Багги, конные прогулки, рыбалка и другие активности доступны по записи.\nВыберите услугу в разделе «Услуги» и согласуйте удобное время.",
+      "url": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe"
+    },
+    {
+      "id": "parking",
+      "title": "Как добраться и где оставить машину?",
+      "icon": "map",
+      "body": "База находится в Московской области: деревня Васюково, КДЗ Новое Мишкино 1/5. На территории есть парковка.\nОткройте маршрут в Яндекс Картах или 2ГИС. При въезде администратор подскажет, где удобнее припарковаться.",
+      "action": "route",
+      "action_label": "Открыть маршрут"
+    },
+    {
+      "id": "pets",
+      "title": "Можно ли приехать с питомцем?",
+      "icon": "heart",
+      "body": "Пожалуйста, согласуйте проживание с питомцем для выбранного дома до приезда. Условия и возможную доплату уточните при бронировании.",
+      "action": "contact",
+      "action_label": "Согласовать питомца"
+    },
+    {
+      "id": "celebration",
+      "title": "Как подготовить сюрприз?",
+      "icon": "spark",
+      "body": "Можно заказать оформление дома и программу «Романтик», день рождения или девичник. Состав, стоимость и доступность для вашего дома согласуются заранее.\nВ Баусах доступен «Романтик». Программа «Свидание года» для Баусов не предусмотрена.",
+      "action": "contact",
+      "action_label": "Обсудить особый повод"
+    },
+    {
+      "id": "help",
+      "title": "Как связаться с базой?",
+      "icon": "chat",
+      "body": "Отдел бронирования на связи ежедневно с 9:00 до 24:00: +7 (495) 120-20-08.\nМожно написать в Telegram, MAX или WhatsApp. Если вопрос касается вашего дома, укажите его название.",
+      "action": "contact",
+      "action_label": "Все способы связи"
+    }
+  ],
+  "stories": [
+    {
+      "id": "home",
+      "short": "Ваш дом",
+      "title": "Устраивайтесь поудобнее.",
+      "image": "cover",
+      "body": "Выберите свой дом в путеводителе. Его название автоматически попадёт в ваши запросы.\nВремя заезда и выезда смотрите в подтверждении брони. Если что-то нужно — база на связи.",
+      "action": "houses",
+      "action_label": "Выбрать мой дом"
+    },
+    {
+      "id": "relax",
+      "short": "Без спешки",
+      "title": "Сегодня можно никуда не спешить.",
+      "image": "spa",
+      "body": "Подогреваемый бассейн, хамам и бани. Или тёплый чан у своего дома.\nВыберите свой способ замедлиться — мы поможем согласовать время.",
+      "action": "#services",
+      "action_label": "Выбрать отдых"
+    },
+    {
+      "id": "food",
+      "short": "К столу",
+      "title": "Утро начинается вкусно.",
+      "image": "restaurant",
+      "body": "Завтрак без спешки, обед после прогулки и ужин вместе. Ресторан — на территории.\nАктуальное меню и время подскажет администратор.",
+      "action": "#food",
+      "action_label": "О ресторане"
+    },
+    {
+      "id": "walk",
+      "short": "На прогулку",
+      "title": "Маленькие открытия рядом.",
+      "image": "farm",
+      "body": "Познакомиться с обитателями фермы. Прогуляться среди деревьев. Найти своё место для тишины.\nЗагляните на карту и отправляйтесь на прогулку.",
+      "action": "#map",
+      "action_label": "Посмотреть карту"
+    },
+    {
+      "id": "together",
+      "short": "Для двоих",
+      "title": "Время быть рядом.",
+      "image": "couple",
+      "body": "Повод для особенного вечера можно придумать самим. Украшение дома, воздушные шары и шампанское — программа «Романтик».\nДетали сюрприза лучше согласовать заранее.",
+      "action": "contact",
+      "action_label": "Обсудить сюрприз"
+    }
+  ]
+};

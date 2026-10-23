@@ -83,3 +83,6 @@ html.theme-changing *,html.theme-changing{transition:background-color .4s,color 
 }
 @media(max-width:359px){.masthead-inner img{width:150px}.hero-copy{padding:18px}.hero-copy h1{font-size:31px}.service-card{flex-basis:86%}.quick-card.wifi{padding:9px 12px}.shortcuts>a,.shortcuts>button{padding:11px;font-size:12px}.story-body{gap:15px;min-height:44dvh}.story-body h2{font-size:29px}.story-body p{font-size:15px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.fx-reveal{opacity:1!important;transform:none!important}.hero-photo{will-change:auto}.fx-ripple{display:none}}
+
+/* A new image must not resize the desktop grid while changing houses. */
+.hero-photo{contain:size}

@@ -1,9 +1,9 @@
-import D from './data.js?v=20261026-lera';
-import {availableForHouse,requestTarget,supplySelection} from './guest-rules.js?v=20261026-lera';
+import D from './data.js?v=20261026-menu';
+import {availableForHouse,requestTarget,supplySelection} from './guest-rules.js?v=20261026-menu';
 import {createHousePhoto} from './house-photo.js';
-import {createInteractiveMap} from './interactive-map.js?v=20261026-lera';
-import territoryMap from './map-data.js?v=20261026-lera';
-import { motion, initExperience } from './experience.js?v=20261026-lera';
+import {createInteractiveMap} from './interactive-map.js?v=20261026-menu';
+import territoryMap from './map-data.js?v=20261026-menu';
+import { motion, initExperience } from './experience.js?v=20261026-menu';
 let mapController=null,pendingHouseAction='';
 const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=n=>Number(n).toLocaleString('ru-RU')+' ₽';
@@ -75,7 +75,7 @@ function renderContext(){
  $('services-title').textContent=tab==='pre'?'Подготовьте отдых к приезду':'Можно заказать';$('guide-title').textContent=tab==='pre'?'Перед поездкой':'О доме и территории';$('reviews').hidden=tab==='pre';$('quick').classList.toggle('before-arrival',tab==='pre');
  document.dispatchEvent(new CustomEvent('bp:context'));
 }
-const popular=['breakfast','tub','chalet-sauna','sauna','buggy','bike'];
+const popular=['breakfast','tub','chalet-sauna','sauna','bike'];
 const serviceIcon=s=>s.category==='Еда'?'food':s.category==='Баня и чан'||s.category==='Бани и сауны'?'bath':s.category==='Досуг'||s.kind==='goods'?'leaf':'gift';
 const priceLabel=s=>s.price===0?'Бесплатно':s.price==null?'По согласованию':(s.price_prefix==='от'?'от ':'')+money(s.price);
 function renderServices(){

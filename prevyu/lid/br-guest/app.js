@@ -1,9 +1,10 @@
-import D from './data.js?v=20261026-admin';
-import {availableForHouse,supplySelection,eligibleSelection,assertRequestAllowed} from './guest-rules.js?v=20261026-admin';
+import D from './data.js?v=20261026-menu';
+import BABIN from './babin-dvor.js?v=20261026-menu';
+import {availableForHouse,supplySelection,eligibleSelection,assertRequestAllowed} from './guest-rules.js?v=20261026-menu';
 import {createHousePhoto} from './house-photo.js';
-import {createInteractiveMap} from './interactive-map.js?v=20261026-admin';
-import territoryMap from './map-data.js?v=20261026-admin';
-let mapController=null,pendingHouseAction='';
+import {createInteractiveMap} from './interactive-map.js?v=20261026-menu';
+import territoryMap from './map-data.js?v=20261026-menu';
+let mapController=null,pendingHouseAction='',babinGroup='Все',documentView=null;
 
 const $ = id => document.getElementById(id);
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -81,8 +82,8 @@ function serviceCards() {
  return items.map(s=>{const action=s.advance?`<p class="advance-note">${esc(s.advance_note)}</p><button class="text-button" data-action="booking-contact">Согласовать заранее ↗</button>`:`<button class="primary" ${s.kind==='goods'?`data-supplies="${esc(s.id)}"`:`data-add-service="${esc(s.id)}" aria-pressed="${selected.includes(s.id)}"`}>${s.kind==='goods'?'Выбрать':selected.includes(s.id)?'В заявке '+icon('check'):'Добавить '+icon('right')}</button>`;return `<article class="service-card service-compact ${selected.includes(s.id)?'is-selected':''}" data-service-card="${esc(s.id)}"><div class="service-summary"><img src="${esc(s.image||image('cover'))}" alt="${esc(s.title)}" width="92" height="100" loading="lazy"><div><span class="service-category">${esc(s.category)}</span><h2>${esc(s.title)}</h2><p class="service-teaser">${esc(s.description)}</p></div></div><div class="service-bottom"><div class="price">${esc(s.price_label)}<small>${esc(s.unit||'Время согласуем с отделом бронирования')}</small></div>${s.advance?'':action}</div>${s.advance?`<div class="advance-actions">${action}</div>`:''}<details class="service-info"><summary>Описание и условия</summary><p>${esc(s.description)}</p><a href="${esc(s.url)}" target="_blank" rel="noopener">Подробности на сайте ↗</a></details></article>`;}).join('') || `<div class="service-empty"><h2>${house?'В вашем доме нет отдельной бани':'Выберите свой дом'}</h2><p>${house?'Для отдыха отдельно доступен SPA-комплекс. Аренду свободной бани на территории можно обсудить с отделом бронирования.':'Покажем собственную баню именно для выбранного дома.'}</p><button class="secondary full" ${house?'data-category="SPA и релакс"':'data-action="houses"'}>${house?'Посмотреть SPA':'Выбрать дом'}</button></div>`;
 }
 function services() {
- const categories=['Все',...new Set(D.services.map(s=>s.category))];
- return title('Услуги и впечатления','SPA, чаны и программы — через отдел бронирования. Принадлежности — через администратора базы.')+`<div class="chips" aria-label="Категории услуг">${categories.map(c=>`<button data-category="${esc(c)}" aria-pressed="${c===category}">${esc(c)}</button>`).join('')}</div><div id="service-list" class="service-list">${serviceCards()}</div><a class="source-link" href="https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe" target="_blank" rel="noopener">Все впечатления на сайте базы ↗</a>`;
+ const categories=['Все','БабинДвор',...new Set(D.services.map(s=>s.category))];
+ return title('Услуги и впечатления','SPA, чаны и программы — через отдел бронирования. Принадлежности — через администратора базы.')+`<a class="babin-entry" href="#babin-dvor"><span>${icon('bath')}<b>SPA и банный двор «БабинДвор»</b><small>20 программ и процедур · запись заранее</small></span>${icon('right')}</a><div class="chips" aria-label="Категории услуг">${categories.map(c=>`<button data-category="${esc(c)}" aria-pressed="${c===category}">${esc(c)}</button>`).join('')}</div><div id="service-list" class="service-list">${serviceCards()}</div><a class="source-link" href="https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe" target="_blank" rel="noopener">Все впечатления на сайте базы ↗</a>`;
 }
 
 function guideList(query='') {
@@ -93,13 +94,25 @@ function guide() { return title('Памятка гостя','Заезд, Wi-Fi �
 function map() {return title('Карта территории','Ваш дом и любимые места. Нажмите на схему, чтобы узнать больше.')+`<div id="territory-map"></div><div class="route-card"><h3>Как добраться</h3><p>${esc(D.contacts.address)}</p><div class="route-links"><a class="primary" href="${esc(D.map.yandex_url)}" target="_blank" rel="noopener">Маршрут в Яндекс Картах ${icon('arrow')}</a><a class="secondary" href="${esc(D.map.two_gis_url)}" target="_blank" rel="noopener">Открыть 2ГИС ${icon('arrow')}</a></div></div><div class="map-shortcuts"><button data-action="houses">${icon('home')}Найти свой дом</button><button data-action="contact">${icon('chat')}Нужна помощь?</button></div>`;}
 function mountMap(){mapController=createInteractiveMap({host:$('territory-map'),data:territoryMap,houses:D.houses,selected:house,onSelect:setHouse,onChooseHouse:houses,onPhoto:showHousePhoto,onAction:a=>{if(a.type==='contact')contact();else{if(a.category)category=a.category;location.hash=a.href;}}});}
 
-function food() {return `<div class="page-head"><a class="screen-back" href="#home">${icon('left')}На главную</a>${miniHouse()}<h1>Ресторан и завтраки</h1><p>Меню, завтрак и тёплый вечер — согласуем с базой.</p></div><div class="section"><article class="service-card"><div class="service-photo"><img src="${esc(image('restaurant'))}" width="600" height="380" alt="Ресторан Берёзовой рощи"><span class="category-tag">Ресторан на территории</span></div><div class="service-copy"><h2>К столу!</h2><p>Завтраки «шведский стол», комплексные обеды и ужины. Актуальное меню, часы работы и наличие мест подскажет администратор.</p><button class="primary full" data-action="restaurant">Уточнить меню и заказать ${icon('arrow')}</button></div></article></div><div class="section"><div class="about-card"><h3>Начните утро вкусно</h3><p>Завтрак — с 10:00, стоимость 1 500 ₽ на человека. Перед посещением уточните время и условия для вашей брони.</p><button class="primary full" data-action="breakfast">Хочу на завтрак ${icon('arrow')}</button></div></div><p class="footnote">Меню и обслуживание согласуются с базой.<br>Мы подготовим запрос, а вы выберете удобный способ связи.</p>`;}
+
+function food() {
+ const menu=BABIN.documents.menu;
+ return `<div class="page-head"><a class="screen-back" href="#home">${icon('left')}На главную</a>${miniHouse()}<h1>Ресторан «БабинДвор»</h1><p>Выберите раздел меню. Страницы можно открыть крупно и увеличить.</p></div><section class="restaurant-menu-intro"><img src="${esc(image('restaurant'))}" alt="Ресторан" width="600" height="380"><div><p class="eyebrow">К столу, без спешки</p><h2>Настоящая кухня</h2><p>Блюда из русской печи, завтраки, домашняя кухня, десерты и напитки. Меню предоставлено базой.</p><button class="primary full" data-document="menu" data-document-page="1">Посмотреть меню ${icon('right')}</button><a class="text-button" href="${esc(menu.pdf)}" target="_blank" rel="noopener">Открыть всё меню в PDF ↗</a></div></section><section class="menu-page-list" aria-label="Разделы меню">${menu.pages.map((p,i)=>`<button data-document="menu" data-document-page="${i}"><span>${icon(i===0?'book':'food')}<b>${esc(p.title)}</b></span>${icon('right')}</button>`).join('')}</section><section class="section"><div class="about-card"><h3>Завтрак в «БабинДворе»</h3><p>В меню есть завтраки на выбор. Шведский стол — 1 500 ₽ на человека, только в агротуристическом комплексе «БабинДвор». Время и условия для вашей брони согласуйте заранее.</p><button class="secondary full" data-action="breakfast">Уточнить завтрак ${icon('arrow')}</button></div></section><section class="section"><button class="primary full" data-action="restaurant">Уточнить меню и столик ${icon('arrow')}</button><p class="footnote">Подготовим вопрос для отдела бронирования.<br>Получатель подтвердит условия после вашего сообщения.</p></section>`;
+}
+function babinDvor() {
+ const groups=['Все','SPA','Парение','Массаж'],list=BABIN.programs.filter(p=>babinGroup==='Все'||p.group===babinGroup);
+ return title('Отдых в «БабинДворе»','SPA, авторские парения и массаж. Запись за несколько дней до приезда через отдел бронирования.')+`<div class="babin-source"><button class="secondary full" data-document="spa">Открыть оригинал прайса ↗</button><a href="${esc(BABIN.documents.spa.pdf)}" target="_blank" rel="noopener">Скачать прайс PDF ↓</a></div><div class="chips" aria-label="Виды программ БабинДвора">${groups.map(g=>`<button data-babin-group="${esc(g)}" aria-pressed="${g===babinGroup}">${esc(g)}</button>`).join('')}</div><div class="babin-programs">${list.map(p=>`<article class="babin-program" data-program-card="${esc(p.id)}"><p class="eyebrow">${esc(p.group)}</p><h2>${esc(p.title)}</h2><p>${esc(p.description)}</p><div class="babin-program-price"><strong>${p.price.toLocaleString('ru-RU')} ₽</strong><span>${esc(p.duration)}</span></div><button class="secondary full" data-babin-program="${esc(p.id)}">Согласовать заранее ↗</button><button class="text-button" data-document="spa" data-document-page="${p.page-1}">Состав в прайсе ↗</button></article>`).join('')}</div><p class="footnote">Цены и длительность — из предоставленного прайса.<br>Доступность, место, время и итоговые условия подтвердит отдел бронирования.</p>`;
+}
+function showDocument(type,page=0,zoom=1) {
+ const doc=BABIN.documents[type];if(!doc)return;page=Math.max(0,Math.min(doc.pages.length-1,page));zoom=Math.max(1,Math.min(3,zoom));documentView={type,page,zoom};const current=doc.pages[page];
+ showSheet(current.title,`<div class="document-toolbar" role="group" aria-label="Управление страницей"><button data-document-command="previous" aria-label="Предыдущая страница" ${page===0?'disabled':''}>‹</button><span>Страница ${page+1} / ${doc.pages.length}</span><button data-document-command="next" aria-label="Следующая страница" ${page===doc.pages.length-1?'disabled':''}>›</button><button data-document-command="minus" aria-label="Уменьшить страницу" ${zoom<=1?'disabled':''}>−</button><span aria-label="Масштаб страницы">${Math.round(zoom*100)}%</span><button data-document-command="plus" aria-label="Увеличить страницу" ${zoom>=3?'disabled':''}>+</button></div><div class="document-viewport" tabindex="0" aria-label="${esc(current.title)}. После увеличения страницу можно двигать пальцем."><img src="${esc(current.image)}" alt="${esc(current.title)} — страница ${page+1}" style="width:${zoom*100}%;max-width:none" width="1200" height="1697"></div><p class="form-note">Увеличьте страницу кнопкой + и перемещайте пальцем. Листайте стрелками.</p><a class="secondary full" href="${esc(doc.pdf)}" target="_blank" rel="noopener">Открыть оригинал PDF ↗</a>`,doc.title);
+}
 
 function render() {
   mapController?.destroy();mapController=null;
-  const route=location.hash.slice(1);screen=['services','guide','map','food'].includes(route)?route:'home';
-  $('main').innerHTML=`<div class="screen ${selected.length?'has-bar':''}">${({home,services,guide,map,food}[screen])()}</div>`;
-  const active=screen;
+  const route=location.hash.slice(1);screen=['services','guide','map','food','babin-dvor'].includes(route)?route:'home';
+  $('main').innerHTML=`<div class="screen ${selected.length?'has-bar':''}">${({home,services,guide,map,food,'babin-dvor':babinDvor}[screen])()}</div>`;
+  const active=screen==='babin-dvor'?'services':screen;
   document.querySelectorAll('[data-screen]').forEach(a=>a.toggleAttribute('aria-current',false));
   document.querySelector(`[data-screen="${active}"]`).setAttribute('aria-current','page');
   document.querySelector('.bottom-nav').style.setProperty('--nav',['home','food','services','guide','map'].indexOf(active));
@@ -208,9 +221,14 @@ document.addEventListener('input',e=>{if(e.target.id==='house-search')$('house-l
 document.addEventListener('click',e=>{
   const target=e.target.closest('button,a');if(!target)return;
   if(target.dataset.routeCategory)category=target.dataset.routeCategory;
+  if(target.dataset.document){showDocument(target.dataset.document,Number(target.dataset.documentPage||0));return;}
+  if(target.dataset.documentCommand&&documentView){const v=documentView,cmd=target.dataset.documentCommand;showDocument(v.type,v.page+(cmd==='next'?1:cmd==='previous'?-1:0),cmd==='plus'?v.zoom+.5:cmd==='minus'?v.zoom-.5:1);return;}
+  if(target.dataset.babinGroup){babinGroup=target.dataset.babinGroup;render();return;}
+  if(target.dataset.babinProgram){const p=BABIN.programs.find(p=>p.id===target.dataset.babinProgram);if(p)simpleRequest(`Хотели бы заранее согласовать программу «${p.title}» в «БабинДворе». По прайсу: ${p.price.toLocaleString('ru-RU')} ₽, ${p.duration}. Подтвердите, пожалуйста, состав, место, время и итоговые условия.`);return;}
+
   if(target.dataset.phase){phase=target.dataset.phase;save('phase',phase);history.replaceState(null,'',location.pathname+location.search+(phase==='in'?'#home':'#'+phase));render();return;}
   if(target.hasAttribute('data-house')){setHouse(target.dataset.house);return;}
-  if(target.dataset.category){category=target.dataset.category;render();return;}
+  if(target.dataset.category){if(target.dataset.category==='БабинДвор'){location.hash='#babin-dvor';return;}category=target.dataset.category;render();return;}
   if(target.hasAttribute('data-story')){showStory(Number(target.dataset.story));return;}
   if(target.dataset.supplies){orderSupplies(target.dataset.supplies);return;}
   if(target.dataset.addService){const id=target.dataset.addService,item=D.services.find(s=>s.id===id);if(!item||item.advance||item.kind==='goods'||!availableForHouse(item,house)){toast('Выберите дом, для которого доступна эта услуга.');return;}selected=selected.includes(id)?selected.filter(x=>x!==id):[...selected,id];save('request',selected);if(screen==='services'){target.setAttribute('aria-pressed',String(selected.includes(id)));target.innerHTML=selected.includes(id)?'В заявке '+icon('check'):'Добавить '+icon('right');target.closest('.service-card')?.classList.toggle('is-selected',selected.includes(id));}updateRequestBar();toast(selected.includes(id)?'Добавили в ваши пожелания':'Убрали из пожеланий');return;}
@@ -223,7 +241,7 @@ const actions={
   arrival:()=>openGuide('arrival'),departure:()=>openGuide('departure'),
   route:()=>{if(sheet.open)closeSheet();location.hash='map';},
   wifi:()=>{if(!H())return houses('wifi');simpleRequest('Подскажите, пожалуйста, название сети и пароль Wi-Fi для нашего дома.');},
-  restaurant:()=>simpleRequest('Хотели бы посмотреть актуальное меню ресторана. Подскажите часы работы, варианты обеда и ужина.'),
+  restaurant:()=>simpleRequest('Хотели бы согласовать посещение ресторана «БабинДвор». Подскажите часы работы, наличие столика и условия для нашей брони.'),
   breakfast:()=>simpleRequest('Хотели бы записаться на завтрак. Подскажите время, наличие мест и стоимость для нашей брони.'),
   'close-story':closeStory,'story-prev':()=>showStory(storyIndex-1),'story-next':()=>showStory(storyIndex+1)
 };

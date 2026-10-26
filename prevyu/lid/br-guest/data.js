@@ -37,10 +37,11 @@ export default {
     ],
     "source": "https://ecobr.ru/",
     "administrator": {
-      "phone": null,
-      "phone_url": null,
+      "phone": "+7 (991) 169-12-53",
+      "phone_url": "tel:+79911691253",
       "hours": null,
-      "source": "https://ecobr.ru/contacts"
+      "source": "Уточнение владельца от 26.10.2026",
+      "names": "Валентина / Анна"
     }
   },
   "map": {

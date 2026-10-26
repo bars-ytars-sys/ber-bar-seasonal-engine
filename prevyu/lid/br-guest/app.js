@@ -1,8 +1,8 @@
-import D from './data.js?v=20261026-photos';
-import {availableForHouse,supplySelection,eligibleSelection,assertRequestAllowed} from './guest-rules.js?v=20261026-photos';
+import D from './data.js?v=20261026-admin';
+import {availableForHouse,supplySelection,eligibleSelection,assertRequestAllowed} from './guest-rules.js?v=20261026-admin';
 import {createHousePhoto} from './house-photo.js';
-import {createInteractiveMap} from './interactive-map.js?v=20261026-photos';
-import territoryMap from './map-data.js?v=20261026-photos';
+import {createInteractiveMap} from './interactive-map.js?v=20261026-admin';
+import territoryMap from './map-data.js?v=20261026-admin';
 let mapController=null,pendingHouseAction='';
 
 const $ = id => document.getElementById(id);
@@ -54,7 +54,7 @@ function serviceForHouse(item,houseId=house) {
 }
 function administratorCard() {
  const a=D.contacts.administrator;
- return `<aside class="administrator-card"><div>${icon('phone')}<span><b>Администратор базы</b><small>${a.hours?esc(a.hours):'Вопросы по дому и принадлежностям'}</small></span></div>${a.phone?`<a href="${esc(a.phone_url)}">${esc(a.phone)}</a>`:`<button class="text-button" data-action="admin-contact">Уточнить контакт на ресепшене ↗</button>`}</aside>`;
+ return `<aside class="administrator-card"><div>${icon('phone')}<span><b>Администратор базы</b><small>${a.names?esc(a.names):'Вопросы по дому и принадлежностям'}${a.hours?' · '+esc(a.hours):''}</small></span></div>${a.phone?`<a href="${esc(a.phone_url)}">${esc(a.phone)}</a>`:`<button class="text-button" data-action="admin-contact">Уточнить контакт на ресепшене ↗</button>`}</aside>`;
 }
 function afterStay() {
  return `<section class="after-stay"><div class="after-intro"><p class="eyebrow">До новых встреч</p><h2>Спасибо, что выбрали нас</h2><p>Надеемся, вы увезли с собой тепло и хорошие воспоминания. Будем рады видеть вас снова в «Берёзовой роще».</p></div><article class="return-coupon"><img src="assets/guest-coupon.png" alt="Купон на 3 000 рублей на дополнительные услуги при следующем приезде" width="1080" height="1350"><div><h3>Для вашего следующего отдыха</h3><p>${esc(D.afterstay.scope)}. ${esc(D.afterstay.terms)}</p><div class="coupon-code"><small>Ваш купон</small><strong>${esc(D.afterstay.code)}</strong><button class="text-button" data-action="copy-coupon">Скопировать код</button></div><a class="primary full" href="assets/guest-coupon.png" download="Берёзовая-роща-купон-3000.png">Сохранить купон ↓</a><button class="secondary full" data-action="booking-contact">Обсудить следующий приезд ↗</button></div></article><article class="winter-card"><p class="eyebrow">Отдых зимой</p><h3>Новый год в роще</h3><p>Тёплый дом, банный чан и SPA-комплекс. Спланируйте следующую встречу с лесом.</p><a class="text-button" href="https://ecobr.ru/new-year" target="_blank" rel="noopener">Посмотреть Новый год ↗</a></article><div class="after-reviews"><h3>Как прошёл ваш отдых?</h3><p>Будем благодарны за несколько слов о вашем приезде.</p><a class="secondary full" href="${esc(D.map.reviews)}" target="_blank" rel="noopener">Оставить отзыв ↗</a></div></section>`;
@@ -153,7 +153,7 @@ const channels = () => D.contacts.socials.filter(s=>['telegram','max','whatsapp'
 
 function contact(kind='all') {
  const a=D.contacts.administrator;
- const admin=`<section class="contact-group"><p class="eyebrow">Администратор базы</p><h3>Помощь на территории</h3><p class="sheet-body-copy">Уголь, решётки, розжиг и другие принадлежности.${a.hours?' На связи '+esc(a.hours)+'.':''}</p>${a.phone?`<a class="primary full" href="${esc(a.phone_url)}">${esc(a.phone)}</a>`:`<p class="form-note">Прямой контакт подскажут на ресепшене или в отделе бронирования.</p><button class="secondary full" data-action="booking-contact">Уточнить контакт администратора ↗</button>`}</section>`;
+ const admin=`<section class="contact-group"><p class="eyebrow">Администратор базы</p><h3>${a.names?esc(a.names):'Помощь на территории'}</h3><p class="sheet-body-copy">Уголь, решётки, розжиг и другие принадлежности.${a.hours?' На связи '+esc(a.hours)+'.':''}</p>${a.phone?`<a class="primary full" href="${esc(a.phone_url)}">${esc(a.phone)}</a>`:`<p class="form-note">Прямой контакт подскажут на ресепшене или в отделе бронирования.</p><button class="secondary full" data-action="booking-contact">Уточнить контакт администратора ↗</button>`}</section>`;
  const booking=`<section class="contact-group"><p class="eyebrow">Отдел бронирования</p><h3>SPA, чаны и программы</h3><p class="sheet-body-copy">${esc(D.contacts.phone_hours)}</p><div class="contact-list"><a class="primary" href="${esc(D.contacts.phone_url)}">${esc(D.contacts.phone)}</a>${channels().map(s=>`<a class="secondary" href="${esc(s.url)}" target="_blank" rel="noopener">Написать в ${esc(s.title)}</a>`).join('')}</div></section>`;
  showSheet(kind==='booking'?'Отдел бронирования':'Мы рядом.',(kind==='booking'?booking:kind==='administrator'?admin:admin+booking)+`<div class="social-list">${D.contacts.socials.filter(s=>!channels().includes(s)).map(s=>`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)} ↗</a>`).join('')}<a href="https://ecobr.ru/" target="_blank" rel="noopener">Сайт базы ↗</a></div>`,'Берёзовая роща');
 }
@@ -186,7 +186,7 @@ function requestForm(preset='') {
 function showDraft(text,target='booking') {
  const a=D.contacts.administrator,admin=target==='administrator';
  const links=admin?(a.phone?`<a class="secondary full" href="${esc(a.phone_url)}">Позвонить администратору: ${esc(a.phone)}</a>`:`<p class="form-note">Передайте список администратору на ресепшене. Его прямой контакт также можно уточнить в отделе бронирования.</p><button class="secondary full" data-action="booking-contact">Уточнить контакт администратора ↗</button>`):`<div class="contact-list">${channels().map(s=>`<a class="secondary" href="${esc(s.id==='whatsapp'?s.url+'?text='+encodeURIComponent(text):s.url)}" target="_blank" rel="noopener">Открыть ${esc(s.title)}</a>`).join('')}</div>`;
- showSheet('Осталось отправить.',`<div class="request-recipient"><small>Получатель</small><strong>${admin?'Администратор базы':'Отдел бронирования'}</strong><p>${admin?(a.hours?esc(a.hours):'На территории базы'):esc(D.contacts.phone_hours)}</p></div><p class="sheet-body-copy">Текст готов. Скопируйте его и передайте получателю.</p><button id="copy-draft" class="primary full">Скопировать текст ${icon('book')}</button><div class="draft" id="draft-text">${esc(text)}</div>${links}<p class="form-note" style="margin-top:17px">Пока ничего не отправлено. Получатель подтвердит возможность, время и итоговую стоимость.</p>`,'С заботой о деталях');$('copy-draft').addEventListener('click',()=>copyText(text));
+ showSheet('Осталось отправить.',`<div class="request-recipient"><small>Получатель</small><strong>${admin?'Администратор базы':'Отдел бронирования'}</strong><p>${admin?((a.names?esc(a.names)+' · ':'')+(a.hours?esc(a.hours):'На территории базы')):esc(D.contacts.phone_hours)}</p></div><p class="sheet-body-copy">Текст готов. Скопируйте его и передайте получателю.</p><button id="copy-draft" class="primary full">Скопировать текст ${icon('book')}</button><div class="draft" id="draft-text">${esc(text)}</div>${links}<p class="form-note" style="margin-top:17px">Пока ничего не отправлено. Получатель подтвердит возможность, время и итоговую стоимость.</p>`,'С заботой о деталях');$('copy-draft').addEventListener('click',()=>copyText(text));
 }
 
 function simpleRequest(text){requestForm(text);}

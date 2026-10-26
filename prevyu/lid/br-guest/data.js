@@ -520,7 +520,7 @@ export default {
         }
       ],
       "price_label": "от 4 000 ₽",
-      "image": "https://static.tildacdn.com/tild3838-3636-4538-b262-323963386635/image_8.webp",
+      "image": "assets/service-floating.webp",
       "request_target": "booking"
     },
     {
@@ -595,7 +595,7 @@ export default {
       ],
       "note": "Продолжительность тарифа не указана на странице: подтвердить перед заказом.",
       "price_label": "от 4 000 ₽",
-      "image": "https://static.tildacdn.com/tild3531-3236-4536-a136-373830363464/image_7.webp",
+      "image": "assets/service-buggy.webp",
       "request_target": "booking"
     },
     {
@@ -632,7 +632,7 @@ export default {
         }
       ],
       "price_label": "от 500 ₽ / день",
-      "image": "https://static.tildacdn.com/tild3833-3336-4464-a465-346439636563/fb8bd2cb-c544-4105-8.webp",
+      "image": "assets/service-fishing.webp",
       "request_target": "booking"
     },
     {
@@ -647,7 +647,7 @@ export default {
       "hours": "Световой день, на сайте указан интервал 08:00–22:00",
       "note": "До 2 человек / 180 кг, жилет +200 ₽, гермомешок +200 ₽. Аренда совершеннолетним после оформления, возвратный залог 5 000 ₽. Место выдачи на ресепшен.",
       "price_label": "2 000 ₽ / день",
-      "image": "https://static.tildacdn.com/tild6665-6636-4966-b565-343135383532/IMG_4229-177_1.webp",
+      "image": "assets/service-sup.webp",
       "request_target": "booking"
     },
     {
@@ -676,7 +676,7 @@ export default {
       "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
       "amount": 9000,
       "price_label": "9 000 ₽",
-      "image": "https://static.tildacdn.com/tild3064-3836-4637-b639-663362626134/IMG_4716.webp",
+      "image": "assets/service-birthday.webp",
       "request_target": "booking",
       "advance": true,
       "advance_note": "Программу нужно согласовать за несколько дней до приезда с отделом бронирования."
@@ -691,7 +691,7 @@ export default {
       "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
       "amount": 9500,
       "price_label": "9 500 ₽",
-      "image": "https://static.tildacdn.com/tild6635-6438-4133-b662-653836306462/23735725-27c9-42de-b.webp",
+      "image": "assets/service-girls.webp",
       "request_target": "booking",
       "advance": true,
       "advance_note": "Программу нужно согласовать за несколько дней до приезда с отделом бронирования."
@@ -706,7 +706,7 @@ export default {
       "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
       "amount": 20000,
       "price_label": "20 000 ₽",
-      "image": "https://static.tildacdn.com/tild6330-3564-4464-b436-343134346661/7a72ad67-a4e9-41dc-9.webp",
+      "image": "assets/service-photo.webp",
       "request_target": "booking",
       "advance": true,
       "advance_note": "Программу нужно согласовать за несколько дней до приезда с отделом бронирования."

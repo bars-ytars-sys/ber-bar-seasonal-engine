@@ -1,8 +1,8 @@
-import D from './data.js?v=20261026-parity';
-import {availableForHouse,supplySelection,eligibleSelection,assertRequestAllowed} from './guest-rules.js?v=20261026-parity';
+import D from './data.js?v=20261026-photos';
+import {availableForHouse,supplySelection,eligibleSelection,assertRequestAllowed} from './guest-rules.js?v=20261026-photos';
 import {createHousePhoto} from './house-photo.js';
-import {createInteractiveMap} from './interactive-map.js?v=20261026-parity';
-import territoryMap from './map-data.js?v=20261026-parity';
+import {createInteractiveMap} from './interactive-map.js?v=20261026-photos';
+import territoryMap from './map-data.js?v=20261026-photos';
 let mapController=null,pendingHouseAction='';
 
 const $ = id => document.getElementById(id);

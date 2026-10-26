@@ -51,14 +51,14 @@ export default {
     {
       "id": "garden3",
       "x": 39.3,
-      "y": 69.0,
+      "y": 69,
       "w": 13.5,
       "h": 5.6
     },
     {
       "id": "garden4",
       "x": 38.6,
-      "y": 80.0,
+      "y": 80,
       "w": 13.5,
       "h": 5.6
     },
@@ -107,7 +107,7 @@ export default {
     {
       "id": "river6",
       "x": 59.7,
-      "y": 88.0,
+      "y": 88,
       "w": 13.5,
       "h": 5.6
     }
@@ -141,19 +141,6 @@ export default {
       }
     },
     {
-      "id": "veranda",
-      "title": "Летняя веранда",
-      "x": 47.2,
-      "y": 36.2,
-      "icon": "food",
-      "type": "poi",
-      "description": "Пространство для встреч и событий. Аренда и время согласуются заранее.",
-      "action": {
-        "type": "contact",
-        "label": "Обсудить посещение"
-      }
-    },
-    {
       "id": "playground",
       "title": "Детская площадка",
       "x": 35.7,
@@ -165,7 +152,7 @@ export default {
     {
       "id": "bowling",
       "title": "Боулинг",
-      "x": 47.0,
+      "x": 47,
       "y": 28.7,
       "icon": "play",
       "type": "poi",
@@ -192,7 +179,7 @@ export default {
     {
       "id": "singing-forest",
       "title": "Поющий лес",
-      "x": 91.0,
+      "x": 91,
       "y": 63.8,
       "icon": "leaf",
       "type": "poi",

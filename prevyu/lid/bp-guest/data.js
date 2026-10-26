@@ -8,8 +8,8 @@ export default {
     "phone_url": "tel:+74951503908",
     "phone_hours": "Ежедневно с 9:00 до 24:00",
     "phone_role": "Отдел бронирования",
-    "administrator_until": "19:00",
-    "after_19": "После 19:00 — бесконтактное заселение. Порядок согласуйте заранее.",
+    "administrator_until": "20:00",
+    "after_19": "При позднем заезде заранее согласуйте порядок заселения с администратором.",
     "socials": [
       {
         "id": "telegram",
@@ -48,7 +48,15 @@ export default {
         "source": "https://barskie-polya.ru/"
       }
     ],
-    "source": "https://barskie-polya.ru/"
+    "source": "https://barskie-polya.ru/",
+    "administrator": {
+      "phone": "+7 (901) 051-02-20",
+      "phone_url": "tel:+79010510220",
+      "names": "Екатерина / Анастасия",
+      "hours": "10:00–20:00",
+      "role": "Администратор базы",
+      "source": "https://docs.google.com/spreadsheets/d/1FvwmrfNoD9w0yfZBH4tLUI85BUNF4pX921b_w1bOVLw/edit?gid=1917499896#gid=1917499896"
+    }
   },
   "stay": {
     "default_checkin": "16:00",
@@ -57,9 +65,10 @@ export default {
     "river_checkout": "12:00",
     "early_late": "Ранний заезд и поздний выезд согласуются с администрацией при наличии свободных мест и оплачиваются отдельно.",
     "wifi_ssid": null,
-    "wifi_password": null,
-    "wifi_note": "В домах есть интернет. Название сети и пароль уточните у администратора.",
-    "source": "https://barskie-polya.ru/#pravila"
+    "wifi_password": "88888",
+    "wifi_note": "Логин — название вашего дома. Пароль можно посмотреть в путеводителе.",
+    "source": "https://barskie-polya.ru/#pravila",
+    "wifi_login": "Название выбранного дома"
   },
   "houses": [
     {
@@ -70,7 +79,7 @@ export default {
       "url": "https://barskie-polya.ru/chalet",
       "rooms": "2 отдельные спальни и диван",
       "territory": "Полностью огорожена",
-      "bath": "Своя баня",
+      "bath": "Баня с холодной купелью",
       "pets": false,
       "checkin": "16:00",
       "checkout": "13:00",
@@ -296,42 +305,26 @@ export default {
   "services": [
     {
       "id": "breakfast",
-      "title": "Завтрак в домик",
-      "price": 1000,
-      "unit": "₽ / человек",
-      "description": "Доставка в будни с 10:00 до 11:00. Возможность доставки в выходные согласуйте с администратором.",
+      "title": "Питание в домики",
+      "price": null,
+      "unit": "Завтраки, обеды и ужины",
+      "description": "Завтраки, обеды и ужины с доставкой в домик. Время доставки согласовывается с администратором.",
       "source": "https://barskie-polya.ru/menu",
       "category": "Еда",
-      "time": "10:00–11:00"
-    },
-    {
-      "id": "food",
-      "title": "Блюда нашей кухни",
-      "price": null,
-      "unit": "По меню",
-      "description": "Выберите блюда в меню; заказ оформляется у администратора или по QR-коду в доме. Доставка в домик или BBQ-веранду.",
-      "source": "https://barskie-polya.ru/menu",
-      "category": "Еда"
+      "time": "10:00–11:00",
+      "request_target": "booking"
     },
     {
       "id": "tub",
       "title": "Банный чан",
       "price": 5500,
       "unit": "₽",
-      "description": "Банный чан у каждого дома, до 6 человек. Без наполнения. Последняя сдача готового чана — не позднее 22:00.",
+      "description": "Банный чан у вашего дома. Классический или с наполнением на выбор. Время подготовки согласуйте заранее.",
       "source": "https://barskie-polya.ru/banchan",
       "category": "Баня и чан",
-      "time": "До 22:00"
-    },
-    {
-      "id": "tub-filling",
-      "title": "Чан с наполнением",
-      "price": 6500,
-      "unit": "₽ и выше",
-      "description": "Еловые, цитрусовые, молочные и другие наполнения. Выберите вариант и удобное время у администратора.",
-      "source": "https://barskie-polya.ru/banchan",
-      "category": "Баня и чан",
-      "price_prefix": "от"
+      "time": "До 22:00",
+      "price_prefix": "от",
+      "request_target": "booking"
     },
     {
       "id": "sauna",
@@ -340,26 +333,28 @@ export default {
       "unit": "₽ / 4 часа",
       "description": "Баня в Гарден 1 и Гарден 4, электрическая сауна в Барском доме. Доступна при проживании в соответствующем доме. Готовая баня сдаётся не позднее 21:00.",
       "source": "https://barskie-polya.ru/banchan",
-      "category": "Баня и чан",
+      "category": "Бани и сауны",
       "house_ids": [
         "garden1",
         "garden4",
         "barski"
       ],
-      "time": "До 21:00"
+      "time": "До 21:00",
+      "request_target": "booking"
     },
     {
       "id": "chalet-sauna",
-      "title": "Баня с купелью в Шале",
+      "title": "Баня с холодной купелью в Шале",
       "price": 7000,
       "unit": "₽ / 4 часа",
-      "description": "Личная баня с купелью на территории Шале. Последняя сдача готовой бани — не позднее 21:00.",
+      "description": "Своя баня с холодной купелью на территории Шале. Доступна гостям этого дома по предварительному согласованию.",
       "source": "https://barskie-polya.ru/banchan",
-      "category": "Баня и чан",
+      "category": "Бани и сауны",
       "house_ids": [
         "chalet"
       ],
-      "time": "До 21:00"
+      "time": "До 21:00",
+      "request_target": "booking"
     },
     {
       "id": "steam-master",
@@ -368,7 +363,10 @@ export default {
       "unit": "Уточнить стоимость",
       "description": "Дополнительная программа при бронировании бани. Индивидуальное парение, веники, халаты, тапочки, масла и запарки. Массаж оплачивается отдельно.",
       "source": "https://barskie-polya.ru/banchan",
-      "category": "Баня и чан"
+      "category": "Баня и чан",
+      "advance": true,
+      "advance_note": "Бронируется за несколько дней, после согласования с отделом бронирования.",
+      "request_target": "booking"
     },
     {
       "id": "massage",
@@ -377,7 +375,10 @@ export default {
       "unit": "₽ / 60 минут / 1 гость",
       "description": "Сеанс массажа после бани. Согласуйте время с менеджером.",
       "source": "https://barskie-polya.ru/banchan",
-      "category": "Баня и чан"
+      "category": "Баня и чан",
+      "advance": true,
+      "advance_note": "Бронируется за несколько дней, после согласования с отделом бронирования.",
+      "request_target": "booking"
     },
     {
       "id": "samovar",
@@ -386,7 +387,14 @@ export default {
       "unit": "₽",
       "description": "Баня, банные шапки, самовар, алтайский травяной чай, мёд и сушки или орехи, вода 0,5 л на гостя. Для домов со своей баней.",
       "source": "https://barskie-polya.ru/",
-      "category": "Баня и чан"
+      "category": "Баня и чан",
+      "house_ids": [
+        "garden1",
+        "garden4",
+        "barski",
+        "chalet"
+      ],
+      "request_target": "booking"
     },
     {
       "id": "russian-sauna",
@@ -395,17 +403,25 @@ export default {
       "unit": "₽",
       "description": "Баня, веник и банные шапки, самовар, травяной чай, мёд и сушки или орехи, вода на гостя и холодный чан. Для домов со своей баней.",
       "source": "https://barskie-polya.ru/",
-      "category": "Баня и чан"
+      "category": "Баня и чан",
+      "house_ids": [
+        "garden1",
+        "garden4",
+        "barski",
+        "chalet"
+      ],
+      "request_target": "booking"
     },
     {
       "id": "buggy",
-      "title": "Багги и квадроциклы",
+      "title": "Квадроциклы",
       "price": 6000,
       "unit": "₽ / 60 минут",
-      "description": "Лесная поездка на багги или квадроциклах. Уточните доступность и время у менеджера.",
+      "description": "Лесная поездка на квадроцикле. Доступность и время согласуйте с отделом бронирования.",
       "source": "https://barskie-polya.ru/dosug",
       "category": "Досуг",
-      "price_prefix": "от"
+      "price_prefix": "от",
+      "request_target": "booking"
     },
     {
       "id": "archery",
@@ -414,7 +430,8 @@ export default {
       "unit": "₽ / час",
       "description": "Лук, арбалет, аксессуары, площадка и помощь инструктора включены.",
       "source": "https://barskie-polya.ru/dosug",
-      "category": "Досуг"
+      "category": "Досуг",
+      "request_target": "booking"
     },
     {
       "id": "kids-car",
@@ -423,7 +440,8 @@ export default {
       "unit": "₽ / 30 минут",
       "description": "Катание на детских машинках на территории базы.",
       "source": "https://barskie-polya.ru/dosug",
-      "category": "Досуг"
+      "category": "Досуг",
+      "request_target": "booking"
     },
     {
       "id": "bike",
@@ -432,7 +450,8 @@ export default {
       "unit": "Бесплатно",
       "description": "Велосипеды для прогулки по лесу. Доступность уточните у администратора.",
       "source": "https://barskie-polya.ru/dosug",
-      "category": "Досуг"
+      "category": "Досуг",
+      "request_target": "booking"
     },
     {
       "id": "farm",
@@ -441,7 +460,8 @@ export default {
       "unit": "Бесплатно",
       "description": "Кролики, шиншиллы, козочки и павлины. Посещение бесплатное; лакомства для животных продаются отдельно.",
       "source": "https://barskie-polya.ru/dosug",
-      "category": "Досуг"
+      "category": "Досуг",
+      "request_target": "booking"
     },
     {
       "id": "costumes",
@@ -450,7 +470,8 @@ export default {
       "unit": "Бесплатно",
       "description": "Гостям выдаём русские народные костюмы по запросу.",
       "source": "https://barskie-polya.ru/",
-      "category": "Досуг"
+      "category": "Досуг",
+      "request_target": "booking"
     },
     {
       "id": "birthday",
@@ -459,7 +480,10 @@ export default {
       "unit": "Уточнить стоимость",
       "description": "Праздничное оформление дома. Посмотрите программу и согласуйте пожелания с менеджером.",
       "source": "https://barskie-polya.ru/programmy/birthday",
-      "category": "Особый повод"
+      "category": "Особый повод",
+      "advance": true,
+      "advance_note": "Закажите программу за несколько дней до заселения. Состав и время согласуем заранее.",
+      "request_target": "booking"
     },
     {
       "id": "romantic",
@@ -468,7 +492,10 @@ export default {
       "unit": "Уточнить стоимость",
       "description": "Подготовим дом к вашему приезду. Условия и состав оформления — на странице программы.",
       "source": "https://barskie-polya.ru/programmy/romantic",
-      "category": "Особый повод"
+      "category": "Особый повод",
+      "advance": true,
+      "advance_note": "Закажите программу за несколько дней до заселения. Состав и время согласуем заранее.",
+      "request_target": "booking"
     },
     {
       "id": "svidanie",
@@ -477,7 +504,10 @@ export default {
       "unit": "Уточнить стоимость",
       "description": "VIP-программа для влюблённых. Состав и стоимость согласуйте с менеджером.",
       "source": "https://barskie-polya.ru/svidanie",
-      "category": "Особый повод"
+      "category": "Особый повод",
+      "advance": true,
+      "advance_note": "Закажите программу за несколько дней до заселения. Состав и время согласуем заранее.",
+      "request_target": "booking"
     },
     {
       "id": "perezagruzka",
@@ -486,26 +516,82 @@ export default {
       "unit": "Уточнить стоимость",
       "description": "VIP-программа с баней, церемонией и питанием. Условия на сайте.",
       "source": "https://barskie-polya.ru/perezagruzka",
-      "category": "Особый повод"
+      "category": "Особый повод",
+      "advance": true,
+      "advance_note": "Закажите программу за несколько дней до заселения. Состав и время согласуем заранее.",
+      "request_target": "booking"
     },
     {
-      "id": "veranda",
-      "title": "Большая летняя веранда",
-      "price": 20000,
-      "unit": "₽",
-      "description": "До 24 гостей, 15:00–23:00. Самостоятельная уборка — 20 000 ₽, с уборкой персоналом — 23 000 ₽. Колонка, газовый гриль, можно со своей едой или кейтерингом.",
-      "source": "https://barskie-polya.ru/menu",
-      "category": "Особый повод",
-      "season": "Апрель–сентябрь",
-      "seasonal": true,
-      "available_in_october": false,
-      "price_prefix": "от"
+      "id": "coal-3",
+      "title": "Уголь, 3 кг",
+      "price": 500,
+      "unit": "Упаковка 3 кг",
+      "description": "Наличие и выдачу согласуйте с администратором базы с 10:00 до 20:00.",
+      "category": "Принадлежности",
+      "kind": "goods",
+      "request_target": "administrator",
+      "source": "https://docs.google.com/spreadsheets/d/1FvwmrfNoD9w0yfZBH4tLUI85BUNF4pX921b_w1bOVLw/edit?gid=1917499896#gid=1917499896"
+    },
+    {
+      "id": "coal-5",
+      "title": "Уголь, 5 кг",
+      "price": 600,
+      "unit": "Упаковка 5 кг",
+      "description": "Наличие и выдачу согласуйте с администратором базы с 10:00 до 20:00.",
+      "category": "Принадлежности",
+      "kind": "goods",
+      "request_target": "administrator",
+      "source": "https://docs.google.com/spreadsheets/d/1FvwmrfNoD9w0yfZBH4tLUI85BUNF4pX921b_w1bOVLw/edit?gid=1917499896#gid=1917499896"
+    },
+    {
+      "id": "lighter",
+      "title": "Розжиг, 0,5 л",
+      "price": 300,
+      "unit": "Флакон 0,5 л",
+      "description": "Наличие и выдачу согласуйте с администратором базы с 10:00 до 20:00.",
+      "category": "Принадлежности",
+      "kind": "goods",
+      "request_target": "administrator",
+      "source": "https://docs.google.com/spreadsheets/d/1FvwmrfNoD9w0yfZBH4tLUI85BUNF4pX921b_w1bOVLw/edit?gid=1917499896#gid=1917499896"
+    },
+    {
+      "id": "grill",
+      "title": "Решётка для мангала",
+      "price": 800,
+      "unit": "1 штука",
+      "description": "Наличие и выдачу согласуйте с администратором базы с 10:00 до 20:00.",
+      "category": "Принадлежности",
+      "kind": "goods",
+      "request_target": "administrator",
+      "source": "https://docs.google.com/spreadsheets/d/1FvwmrfNoD9w0yfZBH4tLUI85BUNF4pX921b_w1bOVLw/edit?gid=1917499896#gid=1917499896"
+    },
+    {
+      "id": "oak-broom",
+      "title": "Дубовый веник",
+      "price": 550,
+      "unit": "1 штука",
+      "description": "Наличие и выдачу согласуйте с администратором базы с 10:00 до 20:00.",
+      "category": "Принадлежности",
+      "kind": "goods",
+      "request_target": "administrator",
+      "source": "https://docs.google.com/spreadsheets/d/1FvwmrfNoD9w0yfZBH4tLUI85BUNF4pX921b_w1bOVLw/edit?gid=1917499896#gid=1917499896"
+    },
+    {
+      "id": "birch-broom",
+      "title": "Берёзовый веник",
+      "price": 500,
+      "unit": "1 штука",
+      "description": "Наличие и выдачу согласуйте с администратором базы с 10:00 до 20:00.",
+      "category": "Принадлежности",
+      "kind": "goods",
+      "request_target": "administrator",
+      "source": "https://docs.google.com/spreadsheets/d/1FvwmrfNoD9w0yfZBH4tLUI85BUNF4pX921b_w1bOVLw/edit?gid=1917499896#gid=1917499896"
     }
   ],
   "tub_fillings": [
     {
       "id": "plain",
-      "title": "Без наполнения",
+      "title": "Классический чан",
       "price": 5500,
       "description": "",
       "source": "https://barskie-polya.ru/banchan"
@@ -1157,9 +1243,10 @@ export default {
     "product_count": 28,
     "breakfast_price": 1000,
     "breakfast_hours": "10:00–11:00",
-    "weekend_breakfast": "В выходные — шведский стол от 10 человек или доставка по согласованию.",
+    "weekend_breakfast": "Время доставки завтраков, обедов и ужинов согласуйте с администратором.",
     "order": "Оформите заказ у администратора по телефону или через QR-код в доме.",
-    "source": "https://barskie-polya.ru/menu"
+    "source": "https://barskie-polya.ru/menu",
+    "delivery_note": "Питание в домики по согласованию. Время доставки согласовывается с администратором."
   },
   "sections": [
     {
@@ -1178,9 +1265,9 @@ export default {
       "title": "Заезд и выезд",
       "tab": "pre",
       "items": [
-        "Ривер: заезд с 15:00, выезд до 12:00.",
-        "Остальные дома: заезд с 16:00, выезд до 13:00.",
-        "Администраторы работают до 19:00. После 19:00 — бесконтактное заселение.",
+        "RIVER: заезд после 15:00, выезд до 12:00.",
+        "Остальные дома: заезд после 16:00, выезд до 13:00.",
+        "Администратор базы работает с 10:00 до 20:00. При позднем заезде заранее согласуйте порядок заселения.",
         "Ранний заезд и поздний выезд — по согласованию, оплачиваются отдельно."
       ],
       "source": "https://barskie-polya.ru/#pravila"
@@ -1226,20 +1313,20 @@ export default {
       "title": "Интернет и Wi-Fi",
       "tab": "in",
       "items": [
-        "На базе есть интернет.",
-        "Название сети и пароль вашего дома сообщит администратор."
+        "Логин Wi-Fi — название вашего дома. Выберите дом в путеводителе.",
+        "Пароль можно посмотреть и скопировать кнопкой «Подключиться к Wi-Fi»."
       ],
       "source": "https://barskie-polya.ru/dosug"
     },
     {
       "id": "food",
-      "title": "Еда и завтраки",
+      "title": "Питание в домики",
       "tab": "in",
       "items": [
-        "Завтрак в домик — 1 000 ₽ на человека. В будни доставка с 10:00 до 11:00.",
-        "В выходные доставка по согласованию или шведский стол от 10 человек.",
-        "Блюда кухни доставляют в домик или BBQ-веранду. Меню откроется отдельной кнопкой.",
-        "Заказ оформляется у администратора."
+        "Завтраки, обеды и ужины с доставкой в домики.",
+        "Время доставки согласовывается с администратором.",
+        "Завтрак — 1 000 ₽ на человека. Остальные блюда — по меню.",
+        "Выберите блюда во вкладке «Меню» и подготовьте заявку. Наличие и итоговую сумму подтвердит отдел бронирования."
       ],
       "source": "https://barskie-polya.ru/menu"
     },
@@ -1248,12 +1335,12 @@ export default {
       "title": "Банный чан и баня",
       "tab": "in",
       "items": [
-        "Чан у каждого дома вмещает до 6 человек. Без наполнения — 5 500 ₽, с наполнением — от 6 500 ₽.",
-        "Последняя сдача готового чана — не позднее 22:00.",
-        "Баня в Гарден 1 и Гарден 4, сауна в Барском доме — 6 000 ₽ за 4 часа.",
-        "Баня с купелью в Шале — 7 000 ₽ за 4 часа.",
-        "Последняя сдача готовой бани или сауны — не позднее 21:00.",
-        "Подготовку чана, бани, парение и время согласуйте с администратором."
+        "Стоимость банного чана — от 5 500 ₽. Классический чан или наполнение на выбор.",
+        "Готовый чан предоставляют не позднее 22:00. Время подготовки нужно согласовать заранее.",
+        "Своя баня доступна в Гарден 1 и Гарден 4, сауна — в Барском доме.",
+        "В Шале есть баня с холодной купелью. Услуги своей бани показываются для выбранного дома.",
+        "Баня и сауна — 6 000 ₽ за 4 часа, баня с купелью в Шале — 7 000 ₽ за 4 часа.",
+        "Парение с мастером и массаж бронируются за несколько дней и только после согласования."
       ],
       "source": "https://barskie-polya.ru/banchan"
     },
@@ -1263,7 +1350,10 @@ export default {
       "tab": "in",
       "items": [
         "У каждого дома есть собственная мангальная зона.",
-        "По вопросам подготовки и принадлежностей для мангала обратитесь к администратору."
+        "Можно приобрести уголь: 3 кг — 500 ₽, 5 кг — 600 ₽.",
+        "Розжиг 0,5 л — 300 ₽, решётка — 800 ₽.",
+        "Дубовый веник — 550 ₽, берёзовый — 500 ₽.",
+        "Наличие и выдача принадлежностей — у администратора базы с 10:00 до 20:00."
       ],
       "source": "https://barskie-polya.ru/"
     },
@@ -1275,8 +1365,9 @@ export default {
         "Бесплатная ферма с животными; корм продаётся отдельно.",
         "Детская площадка и игровая комната «Детский мир».",
         "Бесплатные велосипеды и народные костюмы по запросу.",
-        "Багги, квадроциклы, стрельба из лука и детские электромобили — по записи.",
-        "Для поиска домов и объектов откройте карту территории."
+        "Квадроциклы, стрельба из лука и детские электромобили — по записи.",
+        "Для поиска домов и объектов откройте карту территории.",
+        "Готовим к зиме горку и каток. Об открытии сообщим дополнительно."
       ],
       "source": "https://barskie-polya.ru/dosug"
     },
@@ -1296,11 +1387,20 @@ export default {
       "title": "Нужна помощь",
       "tab": "in",
       "items": [
-        "Позвоните по номеру +7 (495) 150-39-08 или напишите в Telegram, MAX либо WhatsApp.",
-        "Звонки принимают ежедневно с 9:00 до 24:00.",
-        "Если что-то не работает или вам нужна помощь с техникой, укажите название дома в обращении."
+        "Администратор базы: +7 (901) 051-02-20, Екатерина / Анастасия, с 10:00 до 20:00.",
+        "По углю, решёткам, розжигу и принадлежностям обращайтесь к администратору.",
+        "Отдел бронирования: +7 (495) 150-39-08, ежедневно с 9:00 до 24:00. Telegram, MAX и WhatsApp.",
+        "Заявки на чан и основные услуги направляются в отдел бронирования."
       ],
       "source": "https://barskie-polya.ru/"
     }
-  ]
+  ],
+  "afterstay": {
+    "title": "Будем ждать вас снова",
+    "amount": 3000,
+    "code": "BP-3000",
+    "scope": "На дополнительные услуги при следующем приезде",
+    "terms": "Купон действует в течение месяца после получения. Дополнительные услуги согласовываются с отделом бронирования.",
+    "source": "https://docs.google.com/spreadsheets/d/1FvwmrfNoD9w0yfZBH4tLUI85BUNF4pX921b_w1bOVLw/edit?gid=1917499896#gid=1917499896"
+  }
 };

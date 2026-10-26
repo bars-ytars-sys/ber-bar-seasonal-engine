@@ -10,9 +10,10 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/Manrope-Regular.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="assets/DespairDisplay-Bold.woff" as="font" type="font/woff" crossorigin>
-  <link rel="stylesheet" href="style.css?v=20261023-comfort">
-  <script type="module" src="app.js?v=20261023-comfort"></script>
- <link rel="stylesheet" href="interactive-map.css?v=20261023-map">
+  <link rel="stylesheet" href="style.css?v=20261026-parity">
+  <script type="module" src="app.js?v=20261026-parity"></script>
+ <link rel="stylesheet" href="interactive-map.css?v=20261026-parity">
+ <link rel="stylesheet" href="guest-updates.css?v=20261026-parity">
 </head>
 <body>
   <a class="skip" href="#main">К содержимому</a>
@@ -22,7 +23,7 @@
       <button class="contact-head" data-action="contact" aria-label="Связаться с базой"><span class="availability"><i></i> Мы рядом</span><span class="round-icon" data-icon="chat"></span></button>
     </header>
     <main id="main" tabindex="-1"></main>
-    <div class="request-bar" id="request-bar" hidden><button data-action="request"><span><b id="request-count"></b><small>Согласуем с администратором</small></span><span>Продолжить <span aria-hidden="true">↗</span></span></button></div>
+    <div class="request-bar" id="request-bar" hidden><button data-action="request"><span><b id="request-count"></b><small>Отдел бронирования</small></span><span>Продолжить <span aria-hidden="true">↗</span></span></button></div>
     <nav class="bottom-nav" aria-label="Основная навигация"><i class="nav-marker" aria-hidden="true"></i><a href="#home" data-screen="home"><span data-icon="home"></span><span>Главная</span></a><a href="#food" data-screen="food"><span data-icon="food"></span><span>Ресторан</span></a><a href="#services" data-screen="services"><span data-icon="spark"></span><span>Услуги</span></a><a href="#guide" data-screen="guide"><span data-icon="book"></span><span>Памятка</span></a><a href="#map" data-screen="map"><span data-icon="map"></span><span>Карта</span></a></nav>
   </div>
   <dialog id="sheet" class="sheet" aria-labelledby="sheet-title"><div class="sheet-grip" aria-hidden="true"></div><header class="sheet-head"><div><p class="eyebrow" id="sheet-label"></p><h2 id="sheet-title"></h2></div><button class="icon-button" id="sheet-close" aria-label="Закрыть"><span data-icon="close"></span></button></header><div id="sheet-body"></div></dialog>

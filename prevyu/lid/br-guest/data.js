@@ -35,7 +35,13 @@ export default {
         "url": "https://www.instagram.com/ecobaza_br/"
       }
     ],
-    "source": "https://ecobr.ru/"
+    "source": "https://ecobr.ru/",
+    "administrator": {
+      "phone": null,
+      "phone_url": null,
+      "hours": null,
+      "source": "https://ecobr.ru/contacts"
+    }
   },
   "map": {
     "url": "https://ecobr.ru/kartabr",
@@ -57,7 +63,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "baus-2",
@@ -71,7 +78,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "baus-3",
@@ -85,7 +93,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "sfera",
@@ -100,7 +109,8 @@ export default {
       "features": [
         "Баня",
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": true
     },
     {
       "id": "aframe-luxe-white",
@@ -114,7 +124,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "aframe-luxe-black",
@@ -128,7 +139,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "aframe-white",
@@ -142,7 +154,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "aframe-black",
@@ -157,7 +170,8 @@ export default {
       "features": [
         "Баня",
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": true
     },
     {
       "id": "aframe-neo",
@@ -169,7 +183,8 @@ export default {
       "checkin": null,
       "checkout": null,
       "status": 200,
-      "features": []
+      "features": [],
+      "has_private_bath": false
     },
     {
       "id": "barn-1",
@@ -183,7 +198,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "barn-2",
@@ -197,7 +213,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "barn-3",
@@ -211,7 +228,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "barn-4",
@@ -225,7 +243,8 @@ export default {
       "status": 200,
       "features": [
         "Баня"
-      ]
+      ],
+      "has_private_bath": true
     },
     {
       "id": "house-1",
@@ -239,7 +258,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "house-2",
@@ -253,7 +273,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "house-3",
@@ -267,7 +288,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "house-4",
@@ -281,7 +303,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "bariloche",
@@ -295,7 +318,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "chalet",
@@ -309,7 +333,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "scandi",
@@ -323,7 +348,8 @@ export default {
       "status": 200,
       "features": [
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": false
     },
     {
       "id": "panorama",
@@ -338,7 +364,8 @@ export default {
       "features": [
         "Баня",
         "Банный чан"
-      ]
+      ],
+      "has_private_bath": true
     },
     {
       "id": "holidayhouse",
@@ -355,7 +382,8 @@ export default {
         "Банный чан",
         "Сухой флоатинг",
         "сауна"
-      ]
+      ],
+      "has_private_bath": true
     }
   ],
   "services": [
@@ -388,19 +416,20 @@ export default {
       "note": "Бассейн без спасателя. Дети — под постоянным присмотром взрослых.",
       "price_label": "от 1 000 ₽",
       "image": "assets/spa.webp",
-      "unit": "1 час · детям до 14 лет −50%"
+      "unit": "1 час · детям до 14 лет −50%",
+      "request_target": "booking"
     },
     {
       "id": "tub",
       "title": "Банный чан",
-      "category": "SPA и релакс",
+      "category": "Баня и чан",
       "description": "Классический чан или наполнение на выбор. Итоговую цену и время подготовки подтвердит менеджер.",
       "price": "от 5 500 ₽",
       "url": "https://ecobr.ru/banchan",
       "source": "https://ecobr.ru/banchan",
       "prices": [
         {
-          "title": "Классический без наполнения",
+          "title": "Классический чан",
           "amount": 5500
         },
         {
@@ -448,20 +477,29 @@ export default {
       "note": "«Любви» бронируют за 2 дня до заезда. Тариф дома SPA house отдельно: классический чан 7 000 ₽; к другим домам не применять.",
       "price_label": "от 5 500 ₽",
       "image": "assets/tub.webp",
-      "unit": "Классический, без наполнения"
+      "unit": "Классический чан",
+      "request_target": "booking"
     },
     {
       "id": "bath",
       "title": "Баня",
-      "category": "SPA и релакс",
-      "description": "Баня есть у отдельных домов. Возможность аренды и время подготовки согласуются с менеджером.",
+      "category": "Бани и сауны",
+      "description": "Собственная баня или сауна у вашего дома. Время подготовки и стоимость согласуйте с отделом бронирования.",
       "price": "6 000–7 000 ₽ / 4 часа",
       "url": "https://ecobr.ru/banchan",
       "source": "https://ecobr.ru/banchan",
       "note": "Панорама — 10 000 ₽. Отдельно от дома — от 3 часов при наличии свободной бани; цена у менеджера. Актуальная цена зависит от дома.",
       "price_label": "6 000–7 000 ₽ / 4 часа",
       "image": "assets/bath.webp",
-      "unit": "Цена зависит от дома"
+      "unit": "Цена зависит от дома",
+      "request_target": "booking",
+      "house_ids": [
+        "sfera",
+        "aframe-black",
+        "barn-4",
+        "panorama",
+        "holidayhouse"
+      ]
     },
     {
       "id": "floating",
@@ -482,7 +520,8 @@ export default {
         }
       ],
       "price_label": "от 4 000 ₽",
-      "image": "https://static.tildacdn.com/tild3838-3636-4538-b262-323963386635/image_8.webp"
+      "image": "https://static.tildacdn.com/tild3838-3636-4538-b262-323963386635/image_8.webp",
+      "request_target": "booking"
     },
     {
       "id": "restaurant",
@@ -496,7 +535,8 @@ export default {
       "hours": null,
       "note": "Ссылка меню #menurestoran не имеет найденной цели. Уточнять меню у менеджера.",
       "price_label": "Меню у менеджера",
-      "image": "assets/restaurant.webp"
+      "image": "assets/restaurant.webp",
+      "request_target": "booking"
     },
     {
       "id": "breakfast",
@@ -510,7 +550,8 @@ export default {
       "hours": "с 10:00",
       "note": "Окончание завтрака на текущей странице не указано.",
       "price_label": "1 500 ₽ / человек",
-      "image": "assets/restaurant.webp"
+      "image": "assets/restaurant.webp",
+      "request_target": "booking"
     },
     {
       "id": "farm",
@@ -523,7 +564,8 @@ export default {
       "amount": 0,
       "note": "Бесплатное посещение подтверждено FAQ. График и возможность кормления уточняйте у сотрудника.",
       "price_label": "Бесплатно",
-      "image": "assets/farm.webp"
+      "image": "assets/farm.webp",
+      "request_target": "booking"
     },
     {
       "id": "buggy",
@@ -553,7 +595,8 @@ export default {
       ],
       "note": "Продолжительность тарифа не указана на странице: подтвердить перед заказом.",
       "price_label": "от 4 000 ₽",
-      "image": "https://static.tildacdn.com/tild3531-3236-4536-a136-373830363464/image_7.webp"
+      "image": "https://static.tildacdn.com/tild3531-3236-4536-a136-373830363464/image_7.webp",
+      "request_target": "booking"
     },
     {
       "id": "horses",
@@ -565,7 +608,8 @@ export default {
       "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
       "amount": 6500,
       "price_label": "6 500 ₽ / час",
-      "image": "assets/horses.webp"
+      "image": "assets/horses.webp",
+      "request_target": "booking"
     },
     {
       "id": "fishing",
@@ -588,7 +632,8 @@ export default {
         }
       ],
       "price_label": "от 500 ₽ / день",
-      "image": "https://static.tildacdn.com/tild3833-3336-4464-a465-346439636563/fb8bd2cb-c544-4105-8.webp"
+      "image": "https://static.tildacdn.com/tild3833-3336-4464-a465-346439636563/fb8bd2cb-c544-4105-8.webp",
+      "request_target": "booking"
     },
     {
       "id": "sup",
@@ -602,7 +647,8 @@ export default {
       "hours": "Световой день, на сайте указан интервал 08:00–22:00",
       "note": "До 2 человек / 180 кг, жилет +200 ₽, гермомешок +200 ₽. Аренда совершеннолетним после оформления, возвратный залог 5 000 ₽. Место выдачи на ресепшен.",
       "price_label": "2 000 ₽ / день",
-      "image": "https://static.tildacdn.com/tild6665-6636-4966-b565-343135383532/IMG_4229-177_1.webp"
+      "image": "https://static.tildacdn.com/tild6665-6636-4966-b565-343135383532/IMG_4229-177_1.webp",
+      "request_target": "booking"
     },
     {
       "id": "romantic",
@@ -615,7 +661,10 @@ export default {
       "amount": 9000,
       "note": "Чан заказывается отдельно. Не запускать подарочную акцию и не обещать «Свидание года» для Баусов.",
       "price_label": "9 000 ₽",
-      "image": "assets/romantic.webp"
+      "image": "assets/romantic.webp",
+      "request_target": "booking",
+      "advance": true,
+      "advance_note": "Программу нужно согласовать за несколько дней до приезда с отделом бронирования."
     },
     {
       "id": "birthday",
@@ -627,7 +676,10 @@ export default {
       "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
       "amount": 9000,
       "price_label": "9 000 ₽",
-      "image": "https://static.tildacdn.com/tild3064-3836-4637-b639-663362626134/IMG_4716.webp"
+      "image": "https://static.tildacdn.com/tild3064-3836-4637-b639-663362626134/IMG_4716.webp",
+      "request_target": "booking",
+      "advance": true,
+      "advance_note": "Программу нужно согласовать за несколько дней до приезда с отделом бронирования."
     },
     {
       "id": "girls",
@@ -639,7 +691,10 @@ export default {
       "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
       "amount": 9500,
       "price_label": "9 500 ₽",
-      "image": "https://static.tildacdn.com/tild6635-6438-4133-b662-653836306462/23735725-27c9-42de-b.webp"
+      "image": "https://static.tildacdn.com/tild6635-6438-4133-b662-653836306462/23735725-27c9-42de-b.webp",
+      "request_target": "booking",
+      "advance": true,
+      "advance_note": "Программу нужно согласовать за несколько дней до приезда с отделом бронирования."
     },
     {
       "id": "photo",
@@ -651,7 +706,125 @@ export default {
       "source": "https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe",
       "amount": 20000,
       "price_label": "20 000 ₽",
-      "image": "https://static.tildacdn.com/tild6330-3564-4464-b436-343134346661/7a72ad67-a4e9-41dc-9.webp"
+      "image": "https://static.tildacdn.com/tild6330-3564-4464-b436-343134346661/7a72ad67-a4e9-41dc-9.webp",
+      "request_target": "booking",
+      "advance": true,
+      "advance_note": "Программу нужно согласовать за несколько дней до приезда с отделом бронирования."
+    },
+    {
+      "id": "massage",
+      "title": "Массаж",
+      "category": "SPA и релакс",
+      "description": "Время и программу согласуйте с отделом бронирования за несколько дней до приезда.",
+      "price_label": "По согласованию",
+      "image": "assets/spa.webp",
+      "url": "https://ecobr.ru/spa",
+      "source": "https://ecobr.ru/spa",
+      "advance": true,
+      "advance_note": "Запись заранее, за несколько дней до приезда.",
+      "request_target": "booking"
+    },
+    {
+      "id": "steam-master",
+      "title": "Парение и массаж у дома",
+      "category": "Бани и сауны",
+      "description": "Время и программу согласуйте с отделом бронирования за несколько дней до приезда.",
+      "price_label": "По согласованию",
+      "image": "assets/spa.webp",
+      "url": "https://ecobr.ru/banchan",
+      "source": "https://ecobr.ru/banchan",
+      "advance": true,
+      "advance_note": "Запись заранее, за несколько дней до приезда.",
+      "request_target": "booking",
+      "house_ids": [
+        "sfera",
+        "aframe-black",
+        "barn-4"
+      ]
+    },
+    {
+      "id": "coal-3",
+      "title": "Уголь, 3 кг",
+      "price": 500,
+      "unit": "Упаковка 3 кг",
+      "description": "Наличие и выдачу согласуйте с администратором базы.",
+      "category": "Принадлежности",
+      "kind": "goods",
+      "request_target": "administrator",
+      "source": "https://ecobr.ru/contacts",
+      "url": "https://ecobr.ru/contacts",
+      "image": "assets/bath.webp",
+      "price_label": "500 ₽"
+    },
+    {
+      "id": "coal-5",
+      "title": "Уголь, 5 кг",
+      "price": 600,
+      "unit": "Упаковка 5 кг",
+      "description": "Наличие и выдачу согласуйте с администратором базы.",
+      "category": "Принадлежности",
+      "kind": "goods",
+      "request_target": "administrator",
+      "source": "https://ecobr.ru/contacts",
+      "url": "https://ecobr.ru/contacts",
+      "image": "assets/bath.webp",
+      "price_label": "600 ₽"
+    },
+    {
+      "id": "lighter",
+      "title": "Розжиг, 0,5 л",
+      "price": 300,
+      "unit": "Флакон 0,5 л",
+      "description": "Наличие и выдачу согласуйте с администратором базы.",
+      "category": "Принадлежности",
+      "kind": "goods",
+      "request_target": "administrator",
+      "source": "https://ecobr.ru/contacts",
+      "url": "https://ecobr.ru/contacts",
+      "image": "assets/bath.webp",
+      "price_label": "300 ₽"
+    },
+    {
+      "id": "grill",
+      "title": "Решётка для мангала",
+      "price": 800,
+      "unit": "1 штука",
+      "description": "Наличие и выдачу согласуйте с администратором базы.",
+      "category": "Принадлежности",
+      "kind": "goods",
+      "request_target": "administrator",
+      "source": "https://ecobr.ru/contacts",
+      "url": "https://ecobr.ru/contacts",
+      "image": "assets/bath.webp",
+      "price_label": "800 ₽"
+    },
+    {
+      "id": "oak-broom",
+      "title": "Дубовый веник",
+      "price": 550,
+      "unit": "1 штука",
+      "description": "Наличие и выдачу согласуйте с администратором базы.",
+      "category": "Принадлежности",
+      "kind": "goods",
+      "request_target": "administrator",
+      "source": "https://ecobr.ru/contacts",
+      "url": "https://ecobr.ru/contacts",
+      "image": "assets/bath.webp",
+      "price_label": "550 ₽"
+    },
+    {
+      "id": "birch-broom",
+      "title": "Берёзовый веник",
+      "price": 500,
+      "unit": "1 штука",
+      "description": "Наличие и выдачу согласуйте с администратором базы.",
+      "category": "Принадлежности",
+      "kind": "goods",
+      "request_target": "administrator",
+      "source": "https://ecobr.ru/contacts",
+      "url": "https://ecobr.ru/contacts",
+      "image": "assets/bath.webp",
+      "price_label": "500 ₽"
     }
   ],
   "images": {
@@ -702,14 +875,14 @@ export default {
       "id": "tub",
       "title": "Как заказать банный чан?",
       "icon": "bath",
-      "body": "Чан готовят по предварительному согласованию. Классический без наполнения — от 5 500 ₽, еловый — от 6 500 ₽.\nГотовый чан предоставляют не позднее 22:00. Наполнение, время подготовки и итоговую стоимость подтвердит администратор.",
+      "body": "Чан готовят по предварительному согласованию. Классический чан — от 5 500 ₽, еловый — от 6 500 ₽.\nГотовый чан предоставляют не позднее 22:00. Наполнение, время подготовки и итоговую стоимость подтвердит отдел бронирования.",
       "url": "https://ecobr.ru/banchan"
     },
     {
       "id": "bath",
       "title": "В каких домах есть баня?",
       "icon": "bath",
-      "body": "Собственная баня есть у отдельных домов. Возможность её аренды зависит от вашего дома и доступности.\nНа сайте указано 6 000–7 000 ₽ за 4 часа, для Панорамы — 10 000 ₽. Подтвердите условия для своего дома перед заказом.",
+      "body": "Собственная баня есть в Сфере, А-фрейме чёрном, Барнхаусе-4, Панораме и Холидей хаусе.\nВыберите свой дом — в услугах покажем доступную именно для него баню. Для остальных домов отдельно доступен SPA-комплекс.\nАренду свободной бани отдельно от дома согласуйте с отделом бронирования.",
       "action": "contact",
       "action_label": "Спросить о бане"
     },
@@ -748,7 +921,7 @@ export default {
       "id": "celebration",
       "title": "Как подготовить сюрприз?",
       "icon": "spark",
-      "body": "Можно заказать оформление дома и программу «Романтик», день рождения или девичник. Состав, стоимость и доступность для вашего дома согласуются заранее.\nВ Баусах доступен «Романтик». Программа «Свидание года» для Баусов не предусмотрена.",
+      "body": "Можно заказать оформление дома и программу «Романтик», день рождения или девичник. Состав, стоимость и доступность для вашего дома согласуются заранее.\nВ Баусах доступен «Романтик». Программа «Свидание года» для Баусов не предусмотрена.\nПрограммы нужно согласовать за несколько дней до приезда.",
       "action": "contact",
       "action_label": "Обсудить особый повод"
     },
@@ -759,6 +932,14 @@ export default {
       "body": "Отдел бронирования на связи ежедневно с 9:00 до 24:00: +7 (495) 120-20-08.\nМожно написать в Telegram, MAX или WhatsApp. Если вопрос касается вашего дома, укажите его название.",
       "action": "contact",
       "action_label": "Все способы связи"
+    },
+    {
+      "id": "supplies",
+      "title": "Где взять уголь, решётку или веник?",
+      "icon": "bath",
+      "body": "Принадлежности для мангала и бани согласовываются с администратором базы. В разделе «Услуги» → «Принадлежности» можно собрать один список.",
+      "action": "supplies",
+      "action_label": "Выбрать принадлежности"
     }
   ],
   "stories": [
@@ -807,5 +988,13 @@ export default {
       "action": "contact",
       "action_label": "Обсудить сюрприз"
     }
-  ]
+  ],
+  "afterstay": {
+    "title": "Будем ждать вас снова",
+    "amount": 3000,
+    "code": "BR-3000",
+    "scope": "На дополнительные услуги при следующем приезде",
+    "terms": "Купон действует в течение месяца после получения. Дополнительные услуги согласовываются с отделом бронирования.",
+    "source": "https://docs.google.com/spreadsheets/d/1FvwmrfNoD9w0yfZBH4tLUI85BUNF4pX921b_w1bOVLw/edit?gid=1917499896#gid=1917499896"
+  }
 };

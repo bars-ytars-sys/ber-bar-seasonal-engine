@@ -59,8 +59,8 @@ export default {
       "source": "https://ecobr.ru/doma/baus-1",
       "capacity": 2,
       "image": "assets/houses/baus-1.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "15:00",
+      "checkout": "12:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -74,8 +74,8 @@ export default {
       "source": "https://ecobr.ru/doma/baus-2",
       "capacity": 2,
       "image": "assets/houses/baus-2.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "15:00",
+      "checkout": "12:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -89,8 +89,8 @@ export default {
       "source": "https://ecobr.ru/doma/baus-3",
       "capacity": 2,
       "image": "assets/houses/baus-3.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "15:00",
+      "checkout": "12:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -104,8 +104,8 @@ export default {
       "source": "https://ecobr.ru/doma/sfera",
       "capacity": 4,
       "image": "assets/houses/sfera.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Баня",
@@ -120,8 +120,8 @@ export default {
       "source": "https://ecobr.ru/doma/aframe-luxe-white",
       "capacity": 4,
       "image": "assets/houses/aframe-luxe-white.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "15:00",
+      "checkout": "12:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -135,8 +135,8 @@ export default {
       "source": "https://ecobr.ru/doma/aframe-luxe-black",
       "capacity": 4,
       "image": "assets/houses/aframe-luxe-black.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "15:00",
+      "checkout": "12:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -150,8 +150,8 @@ export default {
       "source": "https://ecobr.ru/doma/aframe-white",
       "capacity": 4,
       "image": "assets/houses/aframe-white.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "15:00",
+      "checkout": "12:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -165,8 +165,8 @@ export default {
       "source": "https://ecobr.ru/doma/aframe-black",
       "capacity": 4,
       "image": "assets/houses/aframe-black.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "15:00",
+      "checkout": "12:00",
       "status": 200,
       "features": [
         "Баня",
@@ -181,8 +181,8 @@ export default {
       "source": "https://ecobr.ru/doma/aframe-neo",
       "capacity": 4,
       "image": "assets/houses/aframe-neo.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "15:00",
+      "checkout": "12:00",
       "status": 200,
       "features": [],
       "has_private_bath": false
@@ -194,8 +194,8 @@ export default {
       "source": "https://ecobr.ru/doma/barn-1",
       "capacity": 6,
       "image": "assets/houses/barn-1.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -209,8 +209,8 @@ export default {
       "source": "https://ecobr.ru/doma/barn-2",
       "capacity": 6,
       "image": "assets/houses/barn-2.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -224,8 +224,8 @@ export default {
       "source": "https://ecobr.ru/doma/barn-3",
       "capacity": 6,
       "image": "assets/houses/barn-3.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -239,8 +239,8 @@ export default {
       "source": "https://ecobr.ru/doma/barn-4",
       "capacity": 6,
       "image": "assets/houses/barn-4.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Баня"
@@ -254,8 +254,8 @@ export default {
       "source": "https://ecobr.ru/doma/house-1",
       "capacity": 5,
       "image": "assets/houses/house-1.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -269,8 +269,8 @@ export default {
       "source": "https://ecobr.ru/doma/house-2",
       "capacity": 5,
       "image": "assets/houses/house-2.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -284,8 +284,8 @@ export default {
       "source": "https://ecobr.ru/doma/house-3",
       "capacity": 5,
       "image": "assets/houses/house-3.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -299,8 +299,8 @@ export default {
       "source": "https://ecobr.ru/doma/house-4",
       "capacity": 4,
       "image": "assets/houses/house-4.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -314,8 +314,8 @@ export default {
       "source": "https://ecobr.ru/doma/bariloche",
       "capacity": 7,
       "image": "assets/houses/bariloche.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -329,8 +329,8 @@ export default {
       "source": "https://ecobr.ru/doma/chalet",
       "capacity": 6,
       "image": "assets/houses/chalet.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -344,8 +344,8 @@ export default {
       "source": "https://ecobr.ru/doma/scandi",
       "capacity": 8,
       "image": "assets/houses/scandi.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Банный чан"
@@ -359,8 +359,8 @@ export default {
       "source": "https://ecobr.ru/doma/panorama",
       "capacity": 10,
       "image": "assets/houses/panorama.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Баня",
@@ -375,8 +375,8 @@ export default {
       "source": "https://ecobr.ru/doma/holidayhouse",
       "capacity": 4,
       "image": "assets/houses/holidayhouse.webp",
-      "checkin": null,
-      "checkout": null,
+      "checkin": "16:00",
+      "checkout": "13:00",
       "status": 200,
       "features": [
         "Баня",

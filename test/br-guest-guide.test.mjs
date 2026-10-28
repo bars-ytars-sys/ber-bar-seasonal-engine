@@ -3,8 +3,22 @@ import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
 import D from '../prevyu/lid/br-guest/data.js';
 import M from '../prevyu/lid/br-guest/map-data.js';
-import {availableForHouse,eligibleSelection,assertRequestAllowed,requestTarget,supplySelection} from '../prevyu/lid/br-guest/guest-rules.js';
+import {availableForHouse,eligibleSelection,assertRequestAllowed,requestTarget,supplySelection,stayForHouse} from '../prevyu/lid/br-guest/guest-rules.js';
 const service=id=>D.services.find(s=>s.id===id);
+
+test('BR arrival and departure follow the selected house and the owner-confirmed schedule',()=>{
+ const early=new Set(['baus-1','baus-2','baus-3','aframe-luxe-white','aframe-luxe-black','aframe-white','aframe-black','aframe-neo']);
+ for(const h of D.houses){
+  const arrival=early.has(h.id)?'15:00':'16:00',departure=early.has(h.id)?'12:00':'13:00';
+  assert.equal(h.checkin,arrival);assert.equal(h.checkout,departure);
+  const info=stayForHouse(h);
+  assert.equal(info.arrivalLabel,`После ${arrival}`);assert.equal(info.departureLabel,`До ${departure}`);
+  assert.ok(info.departure.includes(h.name)&&info.departure.includes(departure));
+  assert.match(info.departure,/менеджера/);
+ }
+ assert.equal(stayForHouse(null).departureLabel,'По вашей брони');
+ assert.equal(stayForHouse({name:'Без подтверждённых часов',checkout:'25:00'}).departureLabel,'По вашей брони');
+});
 
 test('a private bath is unavailable to Baus and other houses without one',()=>{
  const baths=new Set(['sfera','aframe-black','barn-4','panorama','holidayhouse']);

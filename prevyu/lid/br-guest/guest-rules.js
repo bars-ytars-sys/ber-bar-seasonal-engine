@@ -34,3 +34,17 @@ export function assertRequestAllowed(items,houseId) {
  if(items.some(s=>!availableForHouse(s,houseId)||s.advance||s.kind==='goods'))throw new Error('В выбранном доме эта услуга недоступна.');
  return requestTarget(items);
 }
+
+// Unknown hours stay unknown: BP's schedule must not become BR's default.
+export function stayForHouse(house) {
+ const time=value=>typeof value==='string'&&/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(value)?value:null;
+ const checkin=time(house?.checkin),checkout=time(house?.checkout);
+ const name=house?`Для дома «${house.name}» `:'';
+ const sentence=text=>name+(house?text:text[0].toUpperCase()+text.slice(1));
+ return {
+  arrivalLabel:checkin?`После ${checkin}`:'По вашей брони',
+  departureLabel:checkout?`До ${checkout}`:'По вашей брони',
+  arrival:`${sentence(checkin?`заезд — после ${checkin}.`:'время заезда смотрите в подтверждении брони.')} Если согласовано другое время, ориентируйтесь на подтверждение. Подробности заезда уточняйте у менеджера.`,
+  departure:`${sentence(checkout?`выезд — до ${checkout}.`:'время выезда смотрите в подтверждении брони.')} Если согласовано другое время, ориентируйтесь на подтверждение. Подробности и возможность позднего выезда уточняйте у менеджера.`,
+ };
+}

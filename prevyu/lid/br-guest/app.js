@@ -1,6 +1,6 @@
-import D from './data.js?v=20261026-menu';
+import D from './data.js?v=20261028-stay-hours';
 import BABIN from './babin-dvor.js?v=20261026-menu';
-import {availableForHouse,supplySelection,eligibleSelection,assertRequestAllowed} from './guest-rules.js?v=20261026-menu';
+import {availableForHouse,supplySelection,eligibleSelection,assertRequestAllowed,stayForHouse} from './guest-rules.js?v=20261028-stay-hours';
 import {createHousePhoto} from './house-photo.js';
 import {createInteractiveMap} from './interactive-map.js?v=20261026-menu';
 import territoryMap from './map-data.js?v=20261026-menu';
@@ -62,11 +62,15 @@ function afterStay() {
 }
 function phaseTabs(){return `<div class="phase" role="tablist" aria-label="Этап отдыха" style="--phase:${['in','pre','after'].indexOf(phase)}"><i aria-hidden="true"></i>${[['in','В доме'],['pre','Перед приездом'],['after','После отъезда']].map(([id,name])=>`<button role="tab" data-phase="${id}" aria-selected="${phase===id}">${name}</button>`).join('')}</div>`;}
 
+function stayQuick() {
+  const stay=stayForHouse(H());
+  const quick=phase==='in'?[['wifi','Wi-Fi','Сеть и пароль','wifi'],['clock','Заезд',stay.arrivalLabel,'arrival'],['home','Выезд',stay.departureLabel,'departure']]:[['map','Дорога','Маршрут к базе','route'],['clock','Заезд',H()?.checkin?stay.arrivalLabel:'Как заселиться','arrival'],['chat','Связь','Мы рядом','contact']];
+  return quick.map(([ic,name,sub,action])=>`<button data-action="${action}">${icon(ic)}<b>${name}</b><small>${esc(sub)}</small></button>`).join('');
+}
 function home() {
-  const quick=phase==='in'?[['wifi','Wi-Fi','Сеть и пароль','wifi'],['clock','Заезд','По вашей брони','arrival'],['home','Выезд','По вашей брони','departure']]:[['map','Дорога','Маршрут к базе','route'],['clock','Заезд','Как заселиться','arrival'],['chat','Связь','Мы рядом','contact']];
   return `<section class="hero hero-welcome"><img class="hero-photo" src="${esc(H()?.image||'assets/cover.webp')}" alt="${esc(H()?H().name+' — ваш дом в Берёзовой роще':'Дом на территории Берёзовой рощи')}" width="900" height="600" fetchpriority="high"><div class="hero-message"><p class="hero-eyebrow">Путеводитель гостя</p><h1>${phase==='after'?'До новых<br>встреч.':'Ваш отдых.<br>Без хлопот.'}</h1></div><button class="hero-photo-open" data-action="house-photo" aria-label="Посмотреть фото выбранного дома" ${H()?'':'hidden'}>Фото дома ↗</button><button class="house-picker" data-action="houses" aria-haspopup="dialog">${icon('home')}<span><small>${H() ? 'Ваш дом' : 'Начнём знакомство'}</small><b>${H() ? esc(H().name) : 'Выберите свой дом'}</b></span>${icon('down')}</button></section>
   ${phaseTabs()}${phase==='after'?afterStay():`
-  <nav class="stay-quick" aria-label="Важное о вашем доме">${quick.map(([ic,name,sub,action])=>`<button data-action="${action}">${icon(ic)}<b>${name}</b><small>${sub}</small></button>`).join('')}</nav>
+  <nav class="stay-quick" aria-label="Важное о вашем доме">${stayQuick()}</nav>
   ${administratorCard()}
   <nav class="home-actions" aria-label="Быстрые действия"><a href="#food">${icon('food')}<span><b>Ресторан</b><small>Завтраки и меню</small></span>${icon('right')}</a><a href="#services">${icon('bath')}<span><b>SPA и услуги</b><small>Время для себя</small></span>${icon('right')}</a><a href="#map">${icon('map')}<span><b>Карта</b><small>Ваш дом и места</small></span>${icon('right')}</a><button data-action="assistant">${icon('chat')}<span><b>Помощник</b><small>Ответы и связь</small></span>${icon('right')}</button></nav>
   <section class="home-stories"><div class="section-title"><h2>Коротко о важном</h2><a href="#guide">Вся памятка ↗</a></div><nav class="stories" aria-label="Коротко о важном">${D.stories.map((story,i)=>`<button class="story-button ${seen.includes(story.id)?'seen':''}" data-story="${i}"><span class="story-ring"><img src="${esc(image(story.image))}" alt="" width="52" height="52" loading="lazy"></span>${esc(story.short)}</button>`).join('')}</nav></section>
@@ -86,8 +90,12 @@ function services() {
  return title('Услуги и впечатления','SPA, чаны и программы — через отдел бронирования. Принадлежности — через администратора базы.')+`<a class="babin-entry" href="#babin-dvor"><span>${icon('bath')}<b>SPA и банный двор «БабинДвор»</b><small>20 программ и процедур · запись заранее</small></span>${icon('right')}</a><div class="chips" aria-label="Категории услуг">${categories.map(c=>`<button data-category="${esc(c)}" aria-pressed="${c===category}">${esc(c)}</button>`).join('')}</div><div id="service-list" class="service-list">${serviceCards()}</div><a class="source-link" href="https://ecobr.ru/aktivnosti-v-beryozovoj-roshhe" target="_blank" rel="noopener">Все впечатления на сайте базы ↗</a>`;
 }
 
+function houseGuides() {
+  const stay=stayForHouse(H());
+  return D.guides.map(g=>g.id==='arrival'?{...g,body:stay.arrival}:g.id==='departure'?{...g,body:stay.departure}:g);
+}
 function guideList(query='') {
-  const q=normalize(query).trim(), matches=D.guides.filter(g=>!q||normalize(g.title+' '+g.body).includes(q));
+  const q=normalize(query).trim(), matches=houseGuides().filter(g=>!q||normalize(g.title+' '+g.body).includes(q));
   return matches.map(g=>`<details data-guide-id="${esc(g.id)}" ${q?'open':''}><summary>${icon(g.icon)}<span>${esc(g.title)}</span></summary><div class="guide-answer">${g.body.split('\n').filter(Boolean).map(p=>`<p>${esc(p)}</p>`).join('')}${g.action?`<button class="text-button" data-action="${esc(g.action)}">${esc(g.action_label)} ↗</button>`:''}${g.url?`<a class="text-button" href="${esc(g.url)}" target="_blank" rel="noopener">Подробнее на сайте ↗</a>`:''}</div></details>`).join('') || `<p class="empty">Пока не нашли ответ.<br><button class="text-button" data-action="contact">Спросить у администратора ↗</button></p>`;
 }
 function guide() { return title('Памятка гостя','Заезд, Wi-Fi и отдых на территории — ответы под рукой.')+`<label class="search">${icon('search')}<input id="guide-search" type="search" aria-label="Поиск по памятке" placeholder="Wi-Fi, выезд, SPA…" autocomplete="off"></label><div class="guide-list" id="guide-list">${guideList()}</div>`; }
@@ -133,6 +141,7 @@ function setHouse(id) {
   if(screen==='home'){
     document.querySelector('.house-picker small').textContent=H()?'Ваш дом':'Начнём знакомство';
     document.querySelector('.house-picker b').textContent=H()?H().name:'Выберите свой дом';
+    const quick=document.querySelector('.stay-quick');if(quick)quick.innerHTML=stayQuick();
     updateHousePhoto(H());document.querySelector('.hero-photo-open').hidden=!H();
   }else if(screen==='map'&&mapController){
     document.querySelector('.mini-house').innerHTML=icon('home')+(H()?esc(H().name):'Выберите свой дом')+icon('down');
@@ -204,7 +213,7 @@ function showDraft(text,target='booking') {
 
 function simpleRequest(text){requestForm(text);}
 function assistant(query='') {showSheet('Чем вам помочь?',`<p class="sheet-body-copy">Найдём ответ в памятке. По вопросам вашего дома всегда можно связаться с базой.</p><label class="search">${icon('search')}<input id="assistant-search" type="search" placeholder="Например, как подключить Wi-Fi" aria-label="Ваш вопрос" value="${esc(query)}" autocomplete="off"></label><div id="assistant-results" class="assistant-results"></div><button class="secondary full" data-action="contact">Спросить у администратора ${icon('chat')}</button>`,'Быстрые ответы');assistantResults(query);}
-function assistantResults(query) {const words=normalize(query).split(/[^а-яa-z0-9-]+/).filter(w=>w.length>2&&!['как','где','что','мне','для','нас','наш'].includes(w)).map(w=>w.slice(0,5));const list=words.length?D.guides.map(g=>({g,n:words.reduce((n,w)=>n+Number(normalize(g.title+' '+g.body).includes(w)),0)})).filter(x=>x.n).sort((a,b)=>b.n-a.n).slice(0,3).map(x=>x.g):D.guides.slice(0,3);$('assistant-results').innerHTML=list.map(g=>`<div class="assistant-result"><h3>${esc(g.title)}</h3><p>${esc(g.body).replace(/\n/g,'<br>')}</p>${g.action?`<button class="text-button" data-action="${esc(g.action)}">${esc(g.action_label)} ↗</button>`:''}</div>`).join('')||'<p class="empty">В памятке пока нет точного ответа. Администратор поможет.</p>';}
+function assistantResults(query) {const words=normalize(query).split(/[^а-яa-z0-9-]+/).filter(w=>w.length>2&&!['как','где','что','мне','для','нас','наш'].includes(w)).map(w=>w.slice(0,5));const guides=houseGuides();const list=words.length?guides.map(g=>({g,n:words.reduce((n,w)=>n+Number(normalize(g.title+' '+g.body).includes(w)),0)})).filter(x=>x.n).sort((a,b)=>b.n-a.n).slice(0,3).map(x=>x.g):guides.slice(0,3);$('assistant-results').innerHTML=list.map(g=>`<div class="assistant-result"><h3>${esc(g.title)}</h3><p>${esc(g.body).replace(/\n/g,'<br>')}</p>${g.action?`<button class="text-button" data-action="${esc(g.action)}">${esc(g.action_label)} ↗</button>`:''}</div>`).join('')||'<p class="empty">В памятке пока нет точного ответа. Администратор поможет.</p>';}
 function mapLarge(){mapController?.openFullscreen();}
 const story=$('story');
 function showStory(index) {storyIndex=Math.max(0,Math.min(D.stories.length-1,index));const s=D.stories[storyIndex];if(!seen.includes(s.id)){seen.push(s.id);save('seen',seen);}

@@ -1,0 +1,68 @@
+/* A short house card; the existing calendar opens only when requested. */
+#bb-stay .bpc-compact-card .bst-photo{height:clamp(120px,24svh,218px);aspect-ratio:auto;flex:none}
+#bb-stay .bpc-compact-card .bst-card-body{padding:18px;gap:0}
+#bb-stay .bpc-compact-card h3{min-height:0;font-size:28px!important;line-height:1.15!important}
+#bb-stay .bpc-compact-card .bst-card-tag{margin:8px 0!important;font-size:13px}
+#bb-stay .bpc-compact-card .bst-house-details{min-height:0;margin:0 0 14px!important;line-height:1.5;font-size:12px}
+.bpc-compact-summary{margin-top:auto;margin-bottom:14px}
+.bpc-compact-price{font-size:12px;color:#c9cebf;line-height:1.5}
+.bpc-compact-price strong{color:#eee5d5;font-size:22px;font-weight:400}
+.bpc-compact-dates{font-size:12px;color:#efd0ac;line-height:1.5;margin-top:4px!important}
+#bb-stay .bpc-choose-dates{width:100%;gap:10px;font:400 14px/1.3 'BPProductionRubik',Rubik,Arial,sans-serif;min-height:48px;border-radius:9px}
+.bpc-choose-dates svg{width:19px;height:19px;flex:none}
+#bb-stay .bpc-compact-card .bpc-photo-link{margin-top:12px!important;padding-top:10px!important;min-height:32px;font-size:12px!important;text-align:center}
+html.bpc-calendar-open,html.bpc-calendar-open body{overflow:hidden!important;overscroll-behavior:none}
+dialog.bpc-date-dialog.bst{position:fixed;inset:0;width:min(460px,calc(100vw - 24px));height:fit-content;max-height:min(780px,calc(100dvh - 24px));margin:auto;padding:0;border:1px solid #728678;border-radius:20px;background:#28413a;color:#eee5d5;overflow:hidden;font-family:'BPProductionRubik',Rubik,Arial,sans-serif;box-shadow:0 25px 100px #0006}
+dialog.bpc-date-dialog:not([open]){display:none!important}
+dialog.bpc-date-dialog[open]{display:flex;flex-direction:column;animation:bpc-dialog-in .22s ease-out}
+.bpc-date-dialog::backdrop{background:#101e1ab3;backdrop-filter:blur(4px)}
+.bpc-dialog-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:17px 20px;flex:none;border-bottom:1px solid #eee5d522}
+.bpc-dialog-heading p{font-size:10px;letter-spacing:.08em;color:#ceb996;text-transform:uppercase;margin:0 0 4px!important}
+.bpc-dialog-heading h2{font:300 27px/1.15 'BPProductionSerif',Georgia,serif!important;margin:0!important;color:#eee5d5!important}
+.bpc-dialog-close{width:44px;height:44px;flex:none;border:1px solid #eee5d54d;border-radius:50%;background:transparent;color:#eee5d5;font-size:28px!important;line-height:1;display:grid;place-items:center}
+.bpc-dialog-close:hover{background:#3b584b}
+.bpc-dialog-content{padding:14px 20px 18px;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.bpc-date-dialog .bpc-calendar-host{min-height:0;display:flex;flex-direction:column;--bpc-day-size:40px}
+.bpc-date-dialog .bpc-calendar{padding:12px;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#829582 #344f46}
+.bpc-date-dialog .bpc-month{margin-bottom:8px}
+.bpc-date-dialog .bpc-month select{font-size:15px;min-height:36px}
+.bpc-date-dialog .bpc-calendar .bpc-weekend-note{margin:2px 0 12px!important;font-size:11px;line-height:1.4}
+.bpc-date-dialog .bpc-weekend-note span{font-size:10px}
+.bpc-date-dialog .bpc-selection button{min-height:53px;padding:8px 10px;gap:3px}
+.bpc-date-dialog .bpc-calendar .bpc-hint{height:auto;min-height:34px;margin:10px 2px!important;font-size:11px;line-height:1.4}
+.bpc-date-dialog .bpc-card-legend{margin-top:8px;padding-top:8px}
+.bpc-date-dialog .bpc-price-row{padding:12px 0 4px;flex:none;min-height:36px}
+.bpc-date-dialog .bpc-rate-note{margin-bottom:6px!important;flex:none}
+.bpc-date-dialog .bpc-book{flex:none;min-height:46px;margin:4px 0 6px!important}
+.bpc-date-dialog .bpc-error,.bpc-date-dialog .bpc-note{flex:none}
+.bpc-date-dialog .bpc-note{font-size:10px!important}
+@keyframes bpc-dialog-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media(max-width:640px){
+ #bb-stay .bpc-compact-card .bst-photo{height:clamp(120px,23svh,194px)}
+ #bb-stay .bpc-compact-card .bst-card-body{padding:16px}
+ #bb-stay .bpc-compact-card h3{font-size:27px!important}
+ dialog.bpc-date-dialog.bst{width:calc(100vw - 16px);max-height:calc(100dvh - 16px);border-radius:18px}
+ .bpc-dialog-heading{padding:12px 16px}
+ .bpc-dialog-content{padding:12px 14px 14px}
+ .bpc-date-dialog .bpc-calendar-host{--bpc-day-size:clamp(31px,5dvh,42px)}
+}
+@media(max-height:600px){
+ .bpc-dialog-heading{padding:8px 14px}.bpc-dialog-heading h2{font-size:23px!important}
+ .bpc-dialog-content{padding:8px 12px 10px}
+ .bpc-date-dialog .bpc-calendar-host{--bpc-day-size:32px}
+ .bpc-date-dialog .bpc-calendar{padding:9px}
+ .bpc-date-dialog .bpc-calendar .bpc-weekend-note span{display:none}
+ .bpc-date-dialog .bpc-calendar .bpc-weekend-note{display:none}
+ .bpc-date-dialog .bpc-note{display:none}
+ .bpc-date-dialog .bpc-calendar .bpc-hint{min-height:28px;margin:8px 2px!important}
+ .bpc-date-dialog .bpc-selection button{min-height:48px;padding:7px 9px}
+}
+@media(min-width:600px) and (max-height:500px){
+ #bb-stay .bst-grid{grid-template-columns:1fr}
+ #bb-stay .bpc-compact-card{display:grid;grid-template-columns:38% minmax(0,1fr)}
+ #bb-stay .bpc-compact-card .bst-photo{height:100%;min-height:225px}
+ #bb-stay .bpc-compact-card .bst-card-body{padding:14px}
+ #bb-stay .bpc-compact-card .bst-house-details{margin-bottom:8px!important}
+ .bpc-compact-summary{margin-bottom:8px}
+}
+@media(prefers-reduced-motion:reduce){dialog.bpc-date-dialog[open]{animation:none}}

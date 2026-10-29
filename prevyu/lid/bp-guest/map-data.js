@@ -1,7 +1,7 @@
 export default {
   "theme": "bp",
   "title": "Барские поля",
-  "image": "assets/map.svg",
+  "image": "assets/map-light.webp",
   "width": 2111,
   "height": 3706,
   "source": "https://barskie-polya.ru/maps",

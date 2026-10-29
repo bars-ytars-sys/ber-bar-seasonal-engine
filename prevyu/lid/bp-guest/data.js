@@ -65,7 +65,7 @@ export default {
     "river_checkout": "12:00",
     "early_late": "Ранний заезд и поздний выезд согласуются с администрацией при наличии свободных мест и оплачиваются отдельно.",
     "wifi_ssid": null,
-    "wifi_password": "88888",
+    "wifi_password": "88888888",
     "wifi_note": "Логин — название вашего дома. Пароль можно посмотреть в путеводителе.",
     "source": "https://barskie-polya.ru/#pravila",
     "wifi_login": "Название выбранного дома"

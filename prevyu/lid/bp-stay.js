@@ -58,21 +58,27 @@
   if(s.arrival&&s.picking==='arrival')hint='Выберите новый день заезда';
   if(s.departure&&s.picking==='departure')hint='Выберите новый день выезда';
   const picks=`<div class="bpc-selection"><button type="button" data-pick="arrival" aria-label="Заезд: ${s.arrival?dayLabel(s.arrival):'выбрать дату'}" class="${s.picking==='arrival'?'is-active':''}"><small>Заезд</small><span>${s.arrival?shortDay(s.arrival):'Выбрать'}</span></button><span class="bpc-selection-arrow" aria-hidden="true">→</span><button type="button" data-pick="departure" aria-label="Выезд: ${s.departure?dayLabel(s.departure):'выбрать дату'}" class="${s.picking==='departure'?'is-active':''}" ${s.arrival?'':'disabled'}><small>Выезд</small><span>${s.departure?shortDay(s.departure):'Выбрать'}</span></button></div>`;
+  const startRule=s.arrival&&s.data?calendar.rule(s.data,s.arrival):null;
+  const stayNote=startRule?(startRule.minimum===1?'На эти даты доступна 1 ночь':`Для этого заезда — от ${startRule.minimum} ночей`):'Выходные — обычно от 2 ночей';
   const prices=s.data?Object.entries(s.data.prices).filter(([d,v])=>d.startsWith(s.month)&&d>=today&&v?.p>0&&calendar.rule(s.data,d).available).map(([,v])=>v.p):[];
-  el.innerHTML=`<div class="bpc-calendar">${heading}<p class="bpc-weekend-note"><strong>Выходные — от 2 ночей</strong><span>При заезде в пятницу или субботу.</span></p>${picks}<p class="bpc-hint" aria-live="polite">${hint}</p>${content}<div class="bpc-card-legend"><span><i class="bpc-key-free"></i>Свободно</span><span><i class="bpc-key-closed"></i>Нет заезда</span></div></div><div class="bpc-price-row"><span>${prices.length?'от <strong>'+Math.min(...prices).toLocaleString('ru-RU')+' ₽</strong> / ночь':'Цены уточняются'}</span>${s.arrival?'<button type="button" class="bst-link bpc-clear" data-clear>Сбросить даты</button>':''}</div>${prices.length?'<small class="bpc-rate-note">Цена за двоих. Итог — при бронировании.</small>':''}<p class="bpc-error" role="alert" ${s.error?'':'hidden'}>${esc(s.error)} ${s.error&&!s.loading?'<button type="button" class="bst-link" data-retry>Повторить</button>':''}</p><button type="button" class="bst-btn bpc-book" data-book ${enabled?'':'disabled'}>${button}</button><small class="bpc-note">${enabled?'Дом и даты уже выбраны. Останется оформить бронирование.':'Для бронирования выберите заезд и выезд в календаре.'}</small>`;
+  el.innerHTML=`<div class="bpc-calendar">${heading}<p class="bpc-weekend-note"><strong>${stayNote}</strong><span>Доступные выезды отмечены в календаре.</span></p>${picks}<p class="bpc-hint" aria-live="polite">${hint}</p>${content}<div class="bpc-card-legend"><span><i class="bpc-key-free"></i>Свободно</span><span><i class="bpc-key-closed"></i>${s.picking==='departure'&&s.arrival?'Нет выезда':'Нет заезда'}</span></div></div><div class="bpc-price-row"><span>${prices.length?'от <strong>'+Math.min(...prices).toLocaleString('ru-RU')+' ₽</strong> / ночь':'Цены уточняются'}</span>${s.arrival?'<button type="button" class="bst-link bpc-clear" data-clear>Сбросить даты</button>':''}</div>${prices.length?'<small class="bpc-rate-note">Цена за двоих. Итог — при бронировании.</small>':''}<p class="bpc-error" role="alert" ${s.error?'':'hidden'}>${esc(s.error)} ${s.error&&!s.loading?'<button type="button" class="bst-link" data-retry>Повторить</button>':''}</p><button type="button" class="bst-btn bpc-book" data-book ${enabled?'':'disabled'}>${button}</button><small class="bpc-note">${enabled?'Дом и даты уже выбраны. Останется оформить бронирование.':'Для бронирования выберите заезд и выезд в календаре.'}</small>`;
  }
  function day(h,d,adjacent=false){
   const s=view(h),r=calendar.rule(s.data||{closed:{},prices:{}},d),pickingEnd=s.arrival&&s.picking==='departure',end=pickingEnd&&d>s.arrival&&s.data&&!calendar.validate(s.data,s.arrival,d,today);
-  const blocked=s.loading||!s.data||d<today||d>bookingEnd||(pickingEnd?(!end&&d!==s.arrival):(!r.available||adjacent||d>=bookingEnd)),chosen=d===s.arrival||d===s.departure,inRange=s.departure&&d>s.arrival&&d<s.departure;
-  const status=d<today?'past':r.noArrival?'closed':r.available?'free':'unknown';
-  const label=`${dayLabel(d)}. ${r.available?'Свободно':r.noArrival?'Заезд недоступен':'Нужно уточнить доступность'}${r.minimum>1?'. От '+r.minimum+' ночей':''}${r.price?'. От '+r.price+' рублей за ночь':''}${end?'. Можно выбрать для выезда':''}`;
+  const blocked=s.loading||!s.data||d<today||d>bookingEnd||(pickingEnd?(!end&&d!==s.arrival):(!r.available||d>=bookingEnd)),chosen=d===s.arrival||d===s.departure,inRange=s.departure&&d>s.arrival&&d<s.departure;
+  const status=d<today?'past':pickingEnd&&d!==s.arrival?(end?'free':r.known?'closed':'unknown'):r.noArrival?'closed':r.available?'free':'unknown';
+  const availability=pickingEnd&&d!==s.arrival?(end?'Можно выбрать для выезда':r.noDeparture?'Выезд недоступен':r.known?'Не подходит для выбранного заезда':'Нужно уточнить доступность'):(r.available?'Свободно':r.noArrival?'Заезд недоступен':'Нужно уточнить доступность');
+  const label=`${dayLabel(d)}. ${availability}${!pickingEnd&&r.minimum>1?'. От '+r.minimum+' ночей':''}${!pickingEnd&&r.price?'. От '+r.price+' рублей за ночь':''}`;
   const n=Number(d.slice(-2));return `<button type="button" class="bpc-day bpc-day--${status} ${adjacent?'bpc-day--adjacent':''} ${chosen?'bpc-day--chosen':''} ${inRange?'bpc-day--range':''}" data-day="${d}" aria-label="${esc(label)}" aria-pressed="${!!chosen}" ${blocked?'disabled':''}><span>${n}${adjacent?'<small>'+new Intl.DateTimeFormat('ru-RU',{month:'short'}).format(new Date(d+'T12:00:00'))+'</small>':''}</span></button>`;
  }
  async function choose(h,d){
   const s=view(h);if(s.loading||!s.data)return;s.error='';
   if(!s.arrival||s.picking!=='departure'||d===s.arrival){if(!calendar.rule(s.data,d).available)return;s.arrival=d;s.departure='';s.picking='departure';}
   else{const error=calendar.validate(s.data,s.arrival,d,today);if(error)s.error=error;else{s.departure=d;s.picking='complete';}}
-  draw(h);
+  // A visible neighbouring day is a real ISO date, not a placeholder for this month.
+  const month=d.slice(0,7);
+  if(!s.error&&month!==s.month&&months.includes(month)){s.month=month;await load(h);}
+  else draw(h);
  }
  async function book(h){
   const s=view(h);if(!s.arrival||!s.departure||s.loading)return;s.loading=true;s.error='';draw(h);
@@ -83,7 +89,7 @@
  function onChange(e){
   if(e.target.matches('[data-guests]')){draft.guests=Number(e.target.value);pending();}
   if(e.target.matches('[data-month-all]')){draft.month=e.target.value;pending();}
-  if(e.target.matches('[data-month]')){const h=houses.find(h=>h.id===e.target.closest('[data-house]').dataset.house);const s=view(h);if(s.departure){s.arrival='';s.departure='';s.picking='arrival';}s.version++;s.loading=false;s.month=e.target.value;s.data=null;s.error='';load(h);}
+  if(e.target.matches('[data-month]')){const h=houses.find(h=>h.id===e.target.closest('[data-house]').dataset.house);const s=view(h);s.version++;s.loading=false;s.month=e.target.value;s.data=null;s.error='';load(h);}
  }
  function pending(){section.querySelector('.bpc-apply-note').textContent='Условия изменены. Нажмите «Подобрать».';}
  function apply(){Object.assign(state,{guests:draft.guests,bath:draft.bath,tub:draft.tub,pets:draft.pets,fenced:draft.fenced});globalMonth=draft.month;limit=3;for(const h of houses){const s=view(h);if(s.month!==globalMonth){s.version++;s.loading=false;s.month=globalMonth;s.data=null;s.arrival='';s.departure='';s.picking='arrival';s.error='';}}section.querySelector('.bpc-apply-note').textContent='';render();section.querySelector('.bpc-count').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'start'});}
@@ -100,7 +106,7 @@
   if('pick'in d){s.picking=d.pick;s.error='';draw(h);}
   if('retry'in d)load(h,true);
   if('book'in d)book(h);
-  if('monthStep'in d){const index=months.indexOf(s.month)+Number(d.monthStep);if(months[index]){if(s.departure){s.arrival='';s.departure='';s.picking='arrival';}s.version++;s.loading=false;s.month=months[index];s.data=null;s.error='';load(h);}}
+  if('monthStep'in d){const index=months.indexOf(s.month)+Number(d.monthStep);if(months[index]){s.version++;s.loading=false;s.month=months[index];s.data=null;s.error='';load(h);}}
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })();

@@ -1,0 +1,14 @@
+{
+  "page": "https://barskie-polya.ru/",
+  "pageid": "41434555",
+  "record": "rec5032383501",
+  "production_published": false,
+  "other_scripts_in_this_record_unchanged": true,
+  "source_main_sha256": "7f5718360db7b00b9f5694b239a2d2d8806801fcbbb933c6eab47da949a39a38",
+  "source_record_sha256": "54281782fd17d6b4f9d2dc22ff656e8fea57ff4af7473134ab661f4183395997",
+  "files": {
+    "01-BP-HOME-PART4-T123.html": "136dba05110e10e3c689ee5014d940ed5b046e001af0bf6b4a6d35ac21820638",
+    "README-RU.txt": "7811b513855bcfb55dac6263927155eace0f240ad074386f2263a49ab59c9bf1",
+    "bp-stay.js": "fdc816e4cfbbe818e57ef60669183a8ae399012a857332d66de049d41bc5e4f0"
+  }
+}

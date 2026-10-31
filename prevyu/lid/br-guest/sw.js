@@ -1,8 +1,8 @@
 // Scope is restricted to this guide. Never intercept the main resort website.
 const scope = new URL(self.registration.scope);
 const prefix = 'berbar-guest:'+scope.pathname+':';
-const cacheName = prefix+'20261029-light';
-const shell = ["./", "assets/favicon.svg", "assets/Manrope-Regular.woff", "assets/DespairDisplay-Bold.woff", "style.css?v=20261026-menu", "app.js?v=20261029-light", "interactive-map.css?v=20261026-menu", "guest-updates.css?v=20261026-menu", "menus.css?v=20261026-menu", "connection.js?v=20261029-light", "./data.js?v=20261028-stay-hours", "./babin-dvor.js?v=20261026-menu", "./guest-rules.js?v=20261028-stay-hours", "./house-photo.js", "./interactive-map.js?v=20261029-light", "./map-data.js?v=20261026-menu", "assets/Manrope-Semibold.woff"];
+const cacheName = prefix+'20261031-clarity';
+const shell = ["./", "assets/favicon.svg", "assets/Manrope-Regular.woff", "assets/DespairDisplay-Bold.woff", "style.css?v=20261026-menu", "app.js?v=20261031-clarity", "interactive-map.css?v=20261026-menu", "guest-updates.css?v=20261026-menu", "menus.css?v=20261026-menu", "clarity.css?v=20261031-clarity", "connection.js?v=20261029-light", "./data.js?v=20261028-stay-hours", "./babin-dvor.js?v=20261026-menu", "./guest-rules.js?v=20261028-stay-hours", "./house-photo.js", "./interactive-map.js?v=20261029-light", "./map-data.js?v=20261026-menu", "assets/Manrope-Semibold.woff"];
 const key = input => {const u=new URL(typeof input==='string'?input:input.url,scope);u.search='';u.hash='';if(u.pathname===scope.pathname+'index.html')u.pathname=scope.pathname;return u.href;};
 const allowed = url => url.origin===scope.origin && url.pathname.startsWith(scope.pathname);
 const image = url => /\.(?:webp|png|jpe?g|svg|woff2?)$/i.test(url.pathname);

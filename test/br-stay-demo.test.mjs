@@ -26,8 +26,9 @@ test('Reject impossible, reversed, past dates and missing child age',()=>{
   assert.ok(C.partyError({...state,children:[null]}));
   assert.throws(()=>C.bookingUrl({...state,children:[9]},house));
 });
-test('Scenarios and private bath do not confuse shared SPA with a private bath',()=>{
-  assert.equal(C.matches(house,{...state,scenario:'spa'}),true);
+test('Scenarios filter house capacity independently of private bath preferences',()=>{
+  assert.equal(C.matches(house,{...state,scenario:'couple'}),true);
+  assert.equal(C.matches({...house,capacity:7},{...state,scenario:'couple'}),false);
   assert.equal(C.matches(house,{...state,bath:true}),false);
   assert.equal(C.matches(house,{...state,children:[6]}),false);
   assert.equal(C.matches({...house,capacity:7},{...state,scenario:'friends'}),true);

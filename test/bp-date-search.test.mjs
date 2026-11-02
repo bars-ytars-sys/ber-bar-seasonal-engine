@@ -65,3 +65,24 @@ test('Party capacity and multiple amenities continue to filter all 15 records ra
  assert.ok(list.length>4);assert.ok(list.every(h=>h.capacity>=4));
  assert.ok(S.visible(houses,{...party,bath:true,fenced:true},null).every(h=>h.bath&&h.fenced));
 });
+
+test('A date-first trip can return without a selected house and keeps the full period and party',()=>{
+ const q='?dfrom=2026-12-30&dto=2027-01-03&adults=2&children=%5B7%5D';
+ const trip=ctx.window.BPBookingReturn.selection(q,houses,'2026-11-02','2027-02-01');
+ assert.ok(trip);assert.equal(trip.house,undefined);assert.equal(trip.guests,3);
+ const back=new URL(ctx.window.BPBookingReturn.returnUrl(trip));
+ assert.equal(back.searchParams.has('house'),false);
+ assert.equal(back.searchParams.get('arrival'),'2026-12-30');
+ assert.equal(back.searchParams.get('departure'),'2027-01-03');
+ assert.equal(back.searchParams.get('children'),'[7]');
+ assert.equal(back.hash,'#bb-stay');
+ assert.equal(ctx.window.BPBookingReturn.selection(q+'&house=wrong-house',houses,'2026-11-02','2027-02-01'),null);
+});
+
+test('A specific-house checkout still preserves its room, dates and guest ages',()=>{
+ const house=houses.find(h=>h.id==='river2');
+ const url=new URL(ctx.window.BPBookingReturn.checkoutUrl({arrival:'2026-12-30',departure:'2027-01-03',adults:2,children:[7]},house));
+ assert.equal(url.searchParams.get('onlyrooms'),'406980');
+ const trip=ctx.window.BPBookingReturn.selection(url.search,houses,'2026-11-02','2027-02-01');
+ assert.equal(trip.house.id,'river2');assert.equal(trip.arrival,'2026-12-30');assert.equal(trip.departure,'2027-01-03');
+});

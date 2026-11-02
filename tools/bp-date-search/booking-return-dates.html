@@ -1,0 +1,71 @@
+<!-- БП: возврат к выбранному дому и датам; родной модуль Bnovo сохранён. -->
+<style>
+.bp-booking-return{position:sticky;top:var(--bp-booking-header,76px);z-index:950;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 auto 16px;padding:14px max(20px,calc((100% - 1100px)/2));background:#314c44;border-bottom:1px solid #5a6b5c;color:#eee5d5;font:400 15px/1.4 Rubik,Arial,sans-serif}
+.bp-booking-return a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:1px solid #d1a878;border-radius:6px;color:#f4e8d5!important;text-decoration:none!important;background:#995d2f;box-sizing:border-box}
+.bp-booking-return a:focus-visible{outline:2px solid #eee5d5;outline-offset:3px}.bp-booking-return span{font-size:13px;color:#d3ccbe}
+@media(max-width:640px){.bp-booking-return{padding:10px 16px;gap:8px;top:var(--bp-booking-header,45px)}.bp-booking-return a{width:100%;font-size:14px}.bp-booking-return span{width:100%;text-align:center;font-size:12px}}
+</style>
+<nav class="bp-booking-return" aria-label="Возврат к выбору отдыха"><a id="bp-booking-back" href="https://barskie-polya.ru/#bb-stay">← К выбору отдыха</a><span id="bp-booking-selection">Вы можете вернуться к выбору и продолжить бронирование</span></nav>
+
+<script>
+/* Keep Bnovo in the site's existing booking page and preserve the return selection. */
+(function(root){
+ 'use strict';
+ function date(value){
+  if(/^\d{2}-\d{2}-\d{4}$/.test(value||''))value=value.split('-').reverse().join('-');
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(value||''))return '';
+  const d=new Date(value+'T12:00:00');
+  return !isNaN(d)&&`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`===value?value:'';
+ }
+ function selection(search,houses,today,end){
+  try{
+   const q=new URLSearchParams(search),house=houses.find(h=>h.id===q.get('house'))||houses.find(h=>String(h.roomId)===q.get('onlyrooms'));
+   if((q.has('house')||q.has('onlyrooms'))&&!house)return null;
+   const arrival=date(q.get('arrival')||q.get('dfrom')),departure=date(q.get('departure')||q.get('dto'));
+   const adults=Number(q.get('adults')||2),children=JSON.parse(q.get('children')||'[]');
+   if(!arrival||!departure||arrival<today||departure<=arrival||departure>end||!Number.isInteger(adults)||adults<1||!Array.isArray(children)||children.length>4||children.some(a=>!Number.isInteger(a)||a<0||a>17)||adults+children.length>(house?.capacity||6))return null;
+   return {house,arrival,departure,adults,children,guests:adults+children.length,month:arrival.slice(0,7)};
+  }catch{return null;}
+ }
+ function checkoutUrl(state,house){
+  const u=new URL('https://barskie-polya.ru/booking');
+  u.searchParams.set('house',house.id);u.searchParams.set('onlyrooms',String(house.roomId));
+  u.searchParams.set('dfrom',state.arrival);u.searchParams.set('dto',state.departure);
+  u.searchParams.set('adults',String(state.adults));u.searchParams.set('children',JSON.stringify(state.children));
+  u.searchParams.set('scroll_to_rooms','1');return u.href;
+ }
+ function returnUrl(state,base='https://barskie-polya.ru/'){
+  const u=new URL('/',base);
+  if(state){for(const [k,v]of Object.entries({...(state.house?{house:state.house.id}:{}),arrival:state.arrival,departure:state.departure,adults:state.adults,children:JSON.stringify(state.children)}))u.searchParams.set(k,String(v));}
+  u.hash='bb-stay';return u.href;
+ }
+ const api={selection,checkoutUrl,returnUrl};
+ if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.BPBookingReturn=api;
+})(typeof window==='undefined'?globalThis:window);
+
+(()=>{const houses=[{"id": "chalet", "roomId": 640822, "capacity": 5, "name": "Шале"}, {"id": "barski", "roomId": 470445, "capacity": 6, "name": "Барский дом"}, {"id": "barnhause1", "roomId": 461727, "capacity": 6, "name": "Барнхаус 1"}, {"id": "garden1", "roomId": 406982, "capacity": 4, "name": "Гарден 1"}, {"id": "river1", "roomId": 406981, "capacity": 4, "name": "Ривер 1"}, {"id": "river2", "roomId": 406980, "capacity": 4, "name": "Ривер 2"}, {"id": "river3", "roomId": 406978, "capacity": 4, "name": "Ривер 3"}, {"id": "river4", "roomId": 406979, "capacity": 4, "name": "Ривер 4"}, {"id": "river5", "roomId": 406976, "capacity": 4, "name": "Ривер 5"}, {"id": "river6", "roomId": 406977, "capacity": 4, "name": "Ривер 6"}, {"id": "garden2", "roomId": 406983, "capacity": 4, "name": "Гарден 2"}, {"id": "garden3", "roomId": 409133, "capacity": 4, "name": "Гарден 3"}, {"id": "garden4", "roomId": 409136, "capacity": 4, "name": "Гарден 4"}, {"id": "garden5", "roomId": 409140, "capacity": 4, "name": "Гарден 5"}, {"id": "barnhause2", "roomId": 461732, "capacity": 6, "name": "Барнхаус 2"}];const today=new Date(),ymd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const selected=window.BPBookingReturn.selection(location.search,houses,ymd(today),'2027-02-01');
+const back=document.getElementById('bp-booking-back');back.href=window.BPBookingReturn.returnUrl(selected,location.href);
+if(selected){const fmt=d=>new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'short'}).format(new Date(d+'T12:00:00'));document.getElementById('bp-booking-selection').textContent=(selected.house?selected.house.name+' · ':'')+fmt(selected.arrival)+' — '+fmt(selected.departure);}
+function header(){const h=document.querySelector('#rec1185050691 .t396__artboard')?.getBoundingClientRect().height;if(h>0)document.querySelector('.bp-booking-return').style.setProperty('--bp-booking-header',Math.ceil(h)+'px');}
+header();window.addEventListener('resize',header);window.addEventListener('load',header,{once:true});})();
+</script>
+<div id="booking_iframe" style="position: relative; padding-bottom: 30px;"> <div id="bn_iframe" style="font-family: 'Proxima nova', 'Helvetica Neue', 'Cera Pro Medium',
+Arial, Helvetica, sans-serif; position: absolute; right: 0; bottom: 0; font-size: 12px; line-height:
+1em; opacity: .5; z-index: 10; margin-top: 10px;"> <div style="color: #995D2F!important; background: rgba(0, 0, 0, 0)!important;"> <a style="color: #808080!important; background: #fff!important;"
+href="https://bnovo.ru/bnovo-mb/?utm_source=client_modul_br" id="bnovo_link"
+target="_blank">Система управления отелем Bnovo ©</a> </div> </div> </div> <script src="https://widget.reservationsteps.ru/iframe/library/dist/booking_iframe.js"></script> <script type="text/javascript">
+(function () {
+var BnovoBookFrame = new BookingIframe({
+html_id: "booking_iframe",
+uid: "17f7bf8e-d176-4c55-83a8-a1c0cd6187ae",
+lang: "ru",
+width: "auto",
+height: "auto",
+rooms: "",
+IsMobile: "0",
+scroll_to_rooms: "0",
+});
+BnovoBookFrame.init();
+})();
+</script>

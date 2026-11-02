@@ -23,7 +23,7 @@
   const text=selected?(departure&&departure!=='Выбрать'?host.querySelector('.bpc-hint')?.textContent:'Заезд '+arrival+' · выберите выезд'):'';
   if(dates.textContent!==text)dates.textContent=text||'';
   dates.hidden=!text;
-  button.querySelector('span').textContent=selected?'Изменить даты':'Выбрать даты';
+  button.querySelector('span').textContent=card.closest('[data-date-search]')?'Даты и цены':selected?'Изменить даты':'Выбрать даты';
  }
  function enhance(card){
   if(card.classList.contains('bpc-compact-card'))return;

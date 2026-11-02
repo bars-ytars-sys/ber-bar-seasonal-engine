@@ -64,10 +64,10 @@
  function selection(search,houses,today,end){
   try{
    const q=new URLSearchParams(search),house=houses.find(h=>h.id===q.get('house'))||houses.find(h=>String(h.roomId)===q.get('onlyrooms'));
-   if(!house)return null;
+   if((q.has('house')||q.has('onlyrooms'))&&!house)return null;
    const arrival=date(q.get('arrival')||q.get('dfrom')),departure=date(q.get('departure')||q.get('dto'));
    const adults=Number(q.get('adults')||2),children=JSON.parse(q.get('children')||'[]');
-   if(!arrival||!departure||arrival<today||departure<=arrival||departure>end||!Number.isInteger(adults)||adults<1||!Array.isArray(children)||children.length>4||children.some(a=>!Number.isInteger(a)||a<0||a>17)||adults+children.length>house.capacity)return null;
+   if(!arrival||!departure||arrival<today||departure<=arrival||departure>end||!Number.isInteger(adults)||adults<1||!Array.isArray(children)||children.length>4||children.some(a=>!Number.isInteger(a)||a<0||a>17)||adults+children.length>(house?.capacity||6))return null;
    return {house,arrival,departure,adults,children,guests:adults+children.length,month:arrival.slice(0,7)};
   }catch{return null;}
  }
@@ -80,7 +80,7 @@
  }
  function returnUrl(state,base='https://barskie-polya.ru/'){
   const u=new URL('/',base);
-  if(state){for(const [k,v]of Object.entries({house:state.house.id,arrival:state.arrival,departure:state.departure,adults:state.adults,children:JSON.stringify(state.children)}))u.searchParams.set(k,String(v));}
+  if(state){for(const [k,v]of Object.entries({...(state.house?{house:state.house.id}:{}),arrival:state.arrival,departure:state.departure,adults:state.adults,children:JSON.stringify(state.children)}))u.searchParams.set(k,String(v));}
   u.hash='bb-stay';return u.href;
  }
  const api={selection,checkoutUrl,returnUrl};

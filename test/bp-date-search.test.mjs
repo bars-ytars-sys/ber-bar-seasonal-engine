@@ -86,3 +86,21 @@ test('A specific-house checkout still preserves its room, dates and guest ages',
  const trip=ctx.window.BPBookingReturn.selection(url.search,houses,'2026-11-02','2027-02-01');
  assert.equal(trip.house.id,'river2');assert.equal(trip.arrival,'2026-12-30');assert.equal(trip.departure,'2027-01-03');
 });
+
+test('The shared date picker selects a stay across the year without requiring a house',()=>{
+ const a=S.selectTripDay({picking:'arrival'},'2026-12-30','2026-11-02','2027-02-01');
+ assert.equal(a.arrival,'2026-12-30');assert.equal(a.picking,'departure');
+ const b=S.selectTripDay(a,'2027-01-03','2026-11-02','2027-02-01');
+ assert.equal(b.arrival,'2026-12-30');assert.equal(b.departure,'2027-01-03');assert.equal(b.picking,'complete');
+ const restart=S.selectTripDay({...b,picking:'departure'},'2026-12-29','2026-11-02','2027-02-01');
+ assert.equal(restart.arrival,'2026-12-29');assert.equal(restart.departure,'');
+});
+
+test('The shared picker rejects past and impossible dates and allows February 1 only as checkout',()=>{
+ const choose=(s,d)=>S.selectTripDay(s,d,'2026-11-02','2027-02-01');
+ assert.equal(choose({picking:'arrival'},'2026-11-01'),null);
+ assert.equal(choose({picking:'arrival'},'2026-12-32'),null);
+ assert.equal(choose({picking:'arrival'},'2027-02-01'),null);
+ assert.equal(choose({picking:'departure',arrival:'2027-01-31'},'2027-02-01').departure,'2027-02-01');
+ assert.equal(choose({picking:'departure',arrival:'2027-01-31'},'2027-02-02'),null);
+});

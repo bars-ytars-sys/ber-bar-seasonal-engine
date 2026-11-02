@@ -22,9 +22,12 @@
 #bb-stay[data-date-search] .bpds-fields{display:grid;grid-template-columns:1.3fr 1.3fr .8fr .9fr;gap:14px;align-items:end}
 #bb-stay[data-date-search] .bpds-fields .bpc-child-ages{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,130px),1fr));gap:12px;margin:0}
 #bb-stay[data-date-search] .bpds-fields .bpc-child-ages:empty{display:none}
-#bb-stay[data-date-search] .bpds-fields label{display:flex;flex-direction:column;gap:9px;min-width:0;font-size:13px;color:#dedeca}
+#bb-stay[data-date-search] .bpds-fields label,#bb-stay[data-date-search] .bpds-date-field{display:flex;flex-direction:column;gap:9px;min-width:0;font-size:13px;color:#dedeca}
+#bb-stay[data-date-search] .bpds-date-control{display:flex;align-items:center;justify-content:space-between;gap:8px;box-sizing:border-box;width:100%;min-width:0;min-height:48px;margin:0;padding:11px 12px;border:1px solid #9aaa9266;border-radius:9px;background:#28413a;color:#eee5d5;font:400 15px/1.4 'BPProductionRubik',Rubik,Arial,sans-serif;text-align:left;cursor:pointer}
+#bb-stay[data-date-search] .bpds-date-control:hover{border-color:#d3ac80}
+#bb-stay[data-date-search] .bpds-date-control:focus-visible{outline:2px solid #efbc8c;outline-offset:3px}
+#bb-stay[data-date-search] .bpds-date-control svg{width:19px;height:19px;flex:none;color:#c5d0be}
 #bb-stay[data-date-search] .bpds-fields input,#bb-stay[data-date-search] .bpds-fields select{box-sizing:border-box;width:100%;min-width:0;min-height:48px;margin:0;padding:11px 12px;border:1px solid #9aaa9266;border-radius:9px;background:#28413a;color:#eee5d5;font:400 15px/1.4 'BPProductionRubik',Rubik,Arial,sans-serif;color-scheme:dark}
-#bb-stay[data-date-search] input[type=date]::-webkit-date-and-time-value{text-align:left}
 #bb-stay[data-date-search] .bpds-submit{grid-column:1/-1;min-height:50px;border-radius:9px;font-size:15px;margin-top:3px}
 #bb-stay[data-date-search] .bpds-form-bottom{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:16px;color:#c0cabb;font-size:12px;line-height:1.6}
 #bb-stay[data-date-search] .bpds-form-bottom button{font-size:12px!important;text-align:left;line-height:1.5;min-height:32px}
@@ -54,6 +57,32 @@
 #bb-stay[data-date-search] .bpc-day--unknown:not(:disabled){color:#e5c69c;border-color:#bca07280;border-style:dashed;opacity:1}
 #bb-stay[data-date-search] .bpc-card-legend{gap:10px;flex-wrap:wrap;font-size:10px}
 #bb-stay[data-date-search] .bpc-weekend-note strong{font-weight:500}
+dialog.bpc-date-dialog.bst.bpds-trip-dialog{width:min(440px,calc(100vw - 24px));max-height:calc(100dvh - 24px)}
+#bb-stay .bpds-trip-body{padding:16px 20px 12px;min-height:0;overflow:auto;overscroll-behavior:contain}
+#bb-stay .bpds-trip-picks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#bb-stay .bpds-trip-picks button{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0;min-height:63px;padding:10px 12px;border:1px solid #9aaa9270;border-radius:10px;background:#344f46;color:#eee5d5;font:400 15px/1.3 'BPProductionRubik',Rubik,Arial,sans-serif;text-align:left}
+#bb-stay .bpds-trip-picks button[aria-pressed=true]{border-color:#e5ba89;box-shadow:inset 0 0 0 1px #e5ba89}
+#bb-stay .bpds-trip-picks small{font-size:11px;color:#c3cebd}
+#bb-stay .bpds-trip-hint{margin:12px 0 8px!important;min-height:34px;font-size:12px;line-height:1.5;color:#e5c6a3}
+#bb-stay .bpds-trip-month{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+#bb-stay .bpds-trip-month strong{font:500 17px/1.4 'BPProductionRubik',Rubik,Arial,sans-serif;text-transform:capitalize;color:#eee5d5}
+#bb-stay .bpds-trip-month button{display:grid;place-items:center;width:40px;height:40px;padding:0;border:1px solid #eee5d53b;border-radius:50%;background:transparent;color:#eee5d5;font-size:27px;line-height:1;cursor:pointer}
+#bb-stay .bpds-trip-month button:disabled,#bb-stay .bpds-trip-picks button:disabled{opacity:.35;cursor:default}
+#bb-stay .bpds-trip-week,#bb-stay .bpds-trip-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+#bb-stay .bpds-trip-week{margin:0 0 7px;color:#a9b9a8;font:400 11px/1.5 'BPProductionRubik',Rubik,Arial,sans-serif;text-align:center}
+#bb-stay .bpds-trip-days button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-sizing:border-box;width:100%;min-width:0;height:42px;padding:0;margin:0;border:0;border-radius:9px;background:transparent;color:#eee5d5;font:400 15px/1 'BPProductionRubik',Rubik,Arial,sans-serif;cursor:pointer}
+#bb-stay .bpds-trip-days button small{font-size:8px;line-height:1;color:inherit}
+#bb-stay .bpds-trip-days button:disabled{opacity:.25;cursor:default}
+#bb-stay .bpds-trip-days button:not(:disabled):hover{background:#eee5d51a}
+#bb-stay .bpds-trip-days button.is-range{background:#c5925638;border-radius:5px}
+#bb-stay .bpds-trip-days button.is-chosen,#bb-stay .bpds-trip-days button.is-chosen:hover{background:#d29b60;color:#223d33;font-weight:500}
+#bb-stay .bpds-trip-days button.is-adjacent:not(.is-chosen){color:#afc0a8}
+#bb-stay .bpds-trip-days button:focus-visible,#bb-stay .bpds-trip-month button:focus-visible,#bb-stay .bpds-trip-picks button:focus-visible{outline:2px solid #f3d7b3;outline-offset:1px}
+#bb-stay .bpds-trip-note{margin:12px 0 0!important;font-size:11px;line-height:1.5;color:#b8c6b3}
+#bb-stay .bpds-trip-footer{display:flex;align-items:center;gap:18px;flex:none;padding:12px 20px 16px;border-top:1px solid #eee5d522}
+#bb-stay .bpds-trip-footer>.bst-btn{flex:1;min-height:46px;margin:0;padding:10px 14px;border-radius:9px;font-size:14px}
+#bb-stay .bpds-trip-footer>.bst-btn:disabled{opacity:.4;cursor:default}
+#bb-stay .bpds-trip-footer>.bst-link{min-height:44px;font-size:12px}
 @media(min-width:1200px){#bb-stay[data-date-search] .bpds-fields{grid-template-columns:1.2fr 1.2fr .7fr .8fr}}
 @media(max-width:640px){
  #bb-stay[data-date-search] .bpds-modes{margin-top:20px;gap:3px;padding:4px;border-radius:11px}
@@ -66,6 +95,8 @@
  #bb-stay[data-date-search] .bpds-form{padding:16px;margin-top:20px;border-radius:13px}
  #bb-stay[data-date-search] .bpds-fields{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 10px}
  #bb-stay[data-date-search] .bpds-fields input,#bb-stay[data-date-search] .bpds-fields select{min-height:48px;font-size:14px;padding:10px 9px}
+ #bb-stay[data-date-search] .bpds-date-control{min-height:48px;font-size:13px;padding:10px 9px;gap:5px}
+ #bb-stay[data-date-search] .bpds-date-control svg{width:17px;height:17px}
  #bb-stay[data-date-search] .bpds-fields label{font-size:12px;gap:7px}
  #bb-stay[data-date-search] .bpds-form-bottom{gap:6px;margin-top:12px}
  #bb-stay[data-date-search] .bpds-form-bottom button{min-height:40px}
@@ -73,7 +104,10 @@
  #bb-stay[data-date-search] .bpds-trip{font-size:18px}
  #bb-stay[data-date-search] .bpds-results-head>button{max-width:115px;font-size:12px!important;white-space:normal;line-height:1.5}
  #bb-stay[data-date-search] .bpds-uncertain{padding:14px;font-size:12px;line-height:1.55}
+ #bb-stay .bpds-trip-body{padding:12px 14px}
+ #bb-stay .bpds-trip-footer{padding:12px 14px;gap:14px}
 }
+@media(max-height:650px){#bb-stay .bpds-trip-body{padding:10px 12px}#bb-stay .bpds-trip-picks button{min-height:49px;padding:7px 9px;gap:3px;font-size:13px}#bb-stay .bpds-trip-hint{min-height:28px;margin:8px 0 4px!important;font-size:11px}#bb-stay .bpds-trip-month button{width:34px;height:34px}#bb-stay .bpds-trip-days{gap:4px}#bb-stay .bpds-trip-days button{height:30px;font-size:13px}#bb-stay .bpds-trip-note{display:none}#bb-stay .bpds-trip-footer{padding:8px 12px}#bb-stay .bpds-trip-footer>.bst-btn{min-height:43px}}
 @media(prefers-reduced-motion:reduce){#bb-stay[data-date-search] *{scroll-behavior:auto!important}}
 
 #bb-stay[data-date-search] .bpc-compact-card .bst-photo{height:clamp(100px,18svh,170px)}

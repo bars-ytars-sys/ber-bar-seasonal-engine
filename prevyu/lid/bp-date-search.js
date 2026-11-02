@@ -10,7 +10,7 @@
  const today=calendar.iso(new Date()),firstMonth=today.slice(0,7),bookingEnd=calendar.bookingEnd,lastMonth=calendar.add(bookingEnd,-1).slice(0,7),months=[];
  for(let m=firstMonth;m<=lastMonth;){months.push(m);const d=new Date(m+'-01T12:00:00');d.setMonth(d.getMonth()+1);m=calendar.iso(d).slice(0,7);}
  const options=m=>months.map(value=>`<option value="${value}" ${value===m?'selected':''}>${monthLabel(value)}</option>`).join('');
- let section,limit=6,globalMonth=firstMonth,dirty=false,results=null,searching=false,requestVersion=0,showUnavailable=false;
+ let section,tripDialog,tripDraft,tripReturnFocus,limit=6,globalMonth=firstMonth,dirty=false,results=null,searching=false,requestVersion=0,showUnavailable=false;
  const S=window.BPDateSearch,initialURL=new URL(window.BBStayInitialURL||location.href),views=new Map();
  let activeHouse=initialURL.searchParams.get('house');if(!houses.some(h=>h.id===activeHouse))activeHouse='';
  let mode=activeHouse?'houses':'dates',validationAttempted=false;
@@ -30,6 +30,8 @@
  const trip=()=>hasDates()?shortDay(state.arrival)+' — '+shortDay(state.departure):'Даты пока не выбраны';
  const nightsLabel=n=>`${n} ${n%10===1&&n%100!==11?'ночь':n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?'ночи':'ночей'}`;
  const partyLabel=()=>`${state.adults} ${state.adults===1?'взрослый':'взрослых'}${state.children.length?' · дети: '+state.children.map(a=>a===null?'возраст не указан':a===0?'до года':a+' лет').join(', '):''}`;
+ const dateIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 2v6m10-6v6M3 11h18"/></svg>';
+ const tripField=(key,label)=>`<div class="bpds-date-field"><span>${label}</span><input type="hidden" data-${key}><button type="button" class="bpds-date-control" data-open-trip="${key}" aria-haspopup="dialog" aria-controls="bpds-trip-calendar"><span data-date-label="${key}">Выбрать дату</span>${dateIcon}</button></div>`;
  function checkout(h){
   core.validateParty(state,h?[h]:[]);
   if(h)return window.BPBookingReturn.checkoutUrl({...state},h);
@@ -49,8 +51,8 @@
    <form class="bpds-form" aria-label="Подбор дома по датам">
     <p class="bpds-form-label">Когда и с кем хотите отдохнуть?</p>
     <div class="bpds-fields">
-     <label class="bpds-date-field">Заезд<input type="date" data-arrival aria-label="Дата заезда" min="${today}" max="${calendar.add(bookingEnd,-1)}"></label>
-     <label class="bpds-date-field">Выезд<input type="date" data-departure aria-label="Дата выезда" min="${calendar.add(today,1)}" max="${bookingEnd}"></label>
+     ${tripField('arrival','Заезд')}
+     ${tripField('departure','Выезд')}
      <label>Взрослые<select data-adults aria-label="Взрослые">${Array.from({length:6},(_,i)=>`<option value="${i+1}" ${i===1?'selected':''}>${i+1}</option>`).join('')}</select></label>
      <label>Дети<select data-children aria-label="Количество детей">${Array.from({length:5},(_,i)=>`<option value="${i}">${i===0?'Без детей':i}</option>`).join('')}</select></label>
      <div class="bpc-child-ages" aria-live="polite"></div>
@@ -59,6 +61,7 @@
     <p class="bpds-form-hint">Дом заранее выбирать не нужно. Проверим все подходящие варианты.</p>
     <p class="bpds-error" role="alert" hidden></p>
    </form>
+   <dialog id="bpds-trip-calendar" class="bst bpc-date-dialog bpds-trip-dialog" data-brand="bp" aria-labelledby="bpds-trip-title"><header class="bpc-dialog-heading"><div><p>Барские поля</p><h2 id="bpds-trip-title">Даты отдыха</h2></div><button type="button" class="bpc-dialog-close" data-trip-close aria-label="Закрыть выбор дат">×</button></header><div class="bpds-trip-body"></div><footer class="bpds-trip-footer"><button type="button" class="bst-link" data-trip-clear>Сбросить</button><button type="button" class="bst-btn" data-trip-apply>Применить даты</button></footer></dialog>
    <details class="bst-preferences"><summary>Удобства дома</summary><div class="bst-filters">${Object.entries(S.filterLabels).map(([k,t])=>`<button type="button" class="bst-pill" data-filter="${k}" aria-pressed="false">${t}</button>`).join('')}</div></details>
    <div class="bpds-active" aria-live="polite"></div><p class="bpc-apply-note" role="status"></p>
    <div class="bpds-results-head"><div><p class="bpds-trip"></p><p class="bpds-party"></p><p class="bpc-count" role="status" aria-live="polite"></p></div><div class="bpds-result-actions"><button type="button" class="bst-link" data-edit-dates>Изменить даты</button><button type="button" class="bst-link" data-reset>Сбросить удобства</button></div></div>
@@ -68,6 +71,11 @@
    <div class="bst-simple-help"><p>Поможем подобрать отдых</p><a href="tel:+74951503908" class="bst-link">+7 (495) 150-39-08</a></div>
    <p class="bpc-window bpds-footer-note">Даты отдыха — до 1 февраля 2027 включительно. <a href="${catalogueHref}">Каталог всех 15 домов →</a></p>
   </div>`;
+  tripDialog=section.querySelector('#bpds-trip-calendar');
+  tripDialog.addEventListener('close',()=>{if(tripDialog.open)return;if(!document.querySelector('dialog[open]'))document.documentElement.classList.remove('bpc-calendar-open');tripReturnFocus?.focus({preventScroll:true});});
+  tripDialog.addEventListener('cancel',e=>{e.preventDefault();tripDialog.close();});
+  tripDialog.addEventListener('click',e=>{if(e.target!==tripDialog)return;const r=tripDialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)tripDialog.close();});
+  tripDialog.addEventListener('keydown',tripKeys);
   section.querySelector('.bpds-form').addEventListener('submit',e=>{e.preventDefault();if(mode==='dates')search();});
   syncControls();
 
@@ -78,7 +86,44 @@
   window.addEventListener('click',e=>{const a=e.target.closest?.('a[data-bb-planner],a[href="#bb-stay"],a[href="#houses"]');if(!a)return;e.preventDefault();e.stopImmediatePropagation();const menu=a.closest('#rec1185050696'),close=menu?.querySelector('[data-elem-id="1752787864116"]');if(close)close.click();const go=()=>section.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});if(close)setTimeout(go,420);else go();},{capture:true});
   render();if(mode==='dates'&&hasDates())search();if(['#bb-stay','#houses'].includes(location.hash))section.scrollIntoView();
  }
- function syncControls(){if(!section)return;section.querySelector('[data-arrival]').value=state.arrival;section.querySelector('[data-departure]').value=state.departure;section.querySelector('[data-departure]').min=state.arrival?calendar.add(state.arrival,1):calendar.add(today,1);section.querySelector('[data-adults]').value=String(state.adults);const children=section.querySelector('[data-children]');children.value=String(state.children.length);[...children.options].forEach(o=>o.disabled=Number(o.value)>Math.min(4,6-state.adults));childAges();}
+ function syncControls(){if(!section)return;for(const key of ['arrival','departure']){section.querySelector(`[data-${key}]`).value=state[key];const button=section.querySelector(`[data-open-trip="${key}"]`);button.querySelector('[data-date-label]').textContent=state[key]?shortDay(state[key]):'Выбрать дату';button.setAttribute('aria-label',(key==='arrival'?'Заезд: ':'Выезд: ')+(state[key]?dayLabel(state[key]):'выбрать дату'));}section.querySelector('[data-adults]').value=String(state.adults);const children=section.querySelector('[data-children]');children.value=String(state.children.length);[...children.options].forEach(o=>o.disabled=Number(o.value)>Math.min(4,6-state.adults));childAges();}
+ const tripMonth=day=>day.slice(0,7)<firstMonth?firstMonth:day.slice(0,7)>lastMonth?lastMonth:day.slice(0,7);
+ function openTrip(which,opener){
+  tripReturnFocus=opener||section.querySelector(`[data-open-trip="${which}"]`);
+  const focus=state[which]||state.arrival||today;
+  tripDraft={arrival:state.arrival,departure:state.departure,picking:which==='departure'&&state.arrival?'departure':'arrival',month:tripMonth(focus),focus};
+  drawTrip();document.documentElement.classList.add('bpc-calendar-open');tripDialog.showModal();tripDialog.querySelector(`[data-trip-day="${focus}"]:not(:disabled)`)?.focus({preventScroll:true});
+ }
+ function drawTrip(focusDay){
+  const s=tripDraft,first=s.month+'-01',[y,m]=s.month.split('-').map(Number),count=new Date(y,m,0).getDate(),offset=(new Date(y,m-1,1).getDay()+6)%7;
+  const complete=s.arrival&&s.departure&&!S.dateError(s,today,bookingEnd);
+  const focus=focusDay||s.focus||s.arrival||today;
+  const hint=complete?`${dayLabel(s.arrival)} — ${dayLabel(s.departure)} · ${nightsLabel(calendar.nights(s.arrival,s.departure))}`:s.picking==='departure'?'Теперь выберите дату выезда.':'Выберите дату заезда.';
+  tripDialog.querySelector('.bpds-trip-body').innerHTML=`<div class="bpds-trip-picks">${['arrival','departure'].map((key,i)=>`<button type="button" data-trip-pick="${key}" aria-pressed="${s.picking===key}" ${key==='departure'&&!s.arrival?'disabled':''}><small>${i+1}. ${i===0?'Заезд':'Выезд'}</small><span>${s[key]?shortDay(s[key]):'Выбрать дату'}</span></button>`).join('')}</div><p class="bpds-trip-hint" role="status" aria-live="polite">${hint}</p>
+   <div class="bpds-trip-month"><button type="button" data-trip-step="-1" aria-label="Предыдущий месяц" ${s.month===firstMonth?'disabled':''}>‹</button><strong>${monthLabel(s.month)}</strong><button type="button" data-trip-step="1" aria-label="Следующий месяц" ${s.month===lastMonth?'disabled':''}>›</button></div>
+   <div class="bpds-trip-week" aria-hidden="true">${['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(d=>`<span>${d}</span>`).join('')}</div><div class="bpds-trip-days" role="group" aria-label="Дни месяца">${'<span></span>'.repeat(offset)}${Array.from({length:42-offset},(_,i)=>{
+    const d=calendar.add(first,i),disabled=d<today||d>bookingEnd||d===bookingEnd&&s.picking!=='departure',chosen=d===s.arrival||d===s.departure,range=s.departure&&d>s.arrival&&d<s.departure;
+    return `<button type="button" data-trip-day="${d}" tabindex="${d===focus&&!disabled?'0':'-1'}" aria-label="${dayLabel(d)}${chosen?d===s.arrival?', заезд':', выезд':''}" aria-pressed="${chosen}" class="${chosen?'is-chosen':''} ${range?'is-range':''} ${i>=count?'is-adjacent':''}" ${disabled?'disabled':''}>${Number(d.slice(-2))}${i>=count?'<small>'+new Intl.DateTimeFormat('ru-RU',{month:'short'}).format(new Date(d+'T12:00:00'))+'</small>':''}</button>`;
+   }).join('')}</div><p class="bpds-trip-note">После выбора дат проверим подходящие дома.</p>`;
+  const removing=s.cleared&&!s.arrival&&!s.departure&&hasDates();
+  tripDialog.querySelector('[data-trip-apply]').disabled=!complete&&!removing;
+  tripDialog.querySelector('[data-trip-apply]').textContent=removing?'Убрать даты':'Применить даты';
+  if(focusDay)tripDialog.querySelector(`[data-trip-day="${focusDay}"]:not(:disabled)`)?.focus({preventScroll:true});
+ }
+ function stepTrip(step){const index=months.indexOf(tripDraft.month)+step;if(!months[index])return;tripDraft.month=months[index];const first=tripDraft.month+'-01';tripDraft.focus=first<today?today:first;drawTrip(tripDraft.focus);}
+ function tripKeys(e){
+  const button=e.target.closest('[data-trip-day]');if(!button)return;
+  if(e.key==='PageDown'||e.key==='PageUp'){e.preventDefault();stepTrip(e.key==='PageDown'?1:-1);return;}
+  const delta={ArrowLeft:-1,ArrowRight:1,ArrowUp:-7,ArrowDown:7}[e.key];if(!delta)return;
+  e.preventDefault();const day=calendar.add(button.dataset.tripDay,delta);if(day<today||day>bookingEnd||day===bookingEnd&&tripDraft.picking!=='departure')return;tripDraft.month=tripMonth(day);tripDraft.focus=day;drawTrip(day);
+ }
+ function applyTrip(){
+  const removing=tripDraft.cleared&&!tripDraft.arrival&&!tripDraft.departure;
+  if(!removing&&(!tripDraft.arrival||!tripDraft.departure||S.dateError(tripDraft,today,bookingEnd)))return;
+  state.arrival=tripDraft.arrival;state.departure=tripDraft.departure;globalMonth=state.arrival?state.arrival.slice(0,7):firstMonth;clearResults();showError('');
+  for(const v of views.values()){v.version++;v.loading=false;v.month=globalMonth;v.arrival='';v.departure='';v.picking='arrival';v.loadedMonth='';v.error='';}
+  syncControls();render();if(removing){try{sessionStorage.removeItem(storageKey);}catch{}}else if(partyValid())remember();tripDialog.close();
+ }
  function updateFilters(){
   section.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(!!state[b.dataset.filter])));
   const active=S.activeFilters(state);
@@ -123,7 +168,7 @@
   other.innerHTML=closed.length?`<button type="button" class="bst-link" data-show-other>${showUnavailable?'Скрыть остальные дома':'Посмотреть остальные дома'} (${closed.length})</button>`:'';
   if(!dated)for(const h of list.slice(0,limit))draw(h);
  }
- function editDates(){section.querySelector('.bpds-form').scrollIntoView({behavior:'smooth',block:'center'});section.querySelector('[data-arrival]').focus({preventScroll:true});}
+ function editDates(){openTrip('arrival');}
  function setMode(next){
   mode=next;activeHouse='';validationAttempted=false;clearResults();showError('');syncControls();render();if(mode==='dates'&&hasDates()&&partyValid())search();
  }
@@ -217,6 +262,13 @@
  function onClick(e){
   const link=e.target.closest('a[data-checkout]');if(link){remember();return;}
   const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if('openTrip'in d){openTrip(d.openTrip,b);return;}
+  if('tripClose'in d){tripDialog.close();return;}
+  if('tripStep'in d){stepTrip(Number(d.tripStep));return;}
+  if('tripPick'in d){tripDraft.picking=d.tripPick;const focus=tripDraft[d.tripPick]||tripDraft.arrival||today;tripDraft.month=tripMonth(focus);tripDraft.focus=focus;drawTrip(focus);return;}
+  if('tripDay'in d){const next=S.selectTripDay(tripDraft,d.tripDay,today,bookingEnd);if(next){Object.assign(tripDraft,next,{month:tripMonth(d.tripDay),focus:d.tripDay});drawTrip(d.tripDay);}return;}
+  if('tripClear'in d){tripDraft={arrival:'',departure:'',picking:'arrival',month:firstMonth,focus:today,cleared:true};drawTrip(today);return;}
+  if('tripApply'in d){applyTrip();return;}
   if('mode'in d){setMode(d.mode);return;}
   if('editDates'in d){editDates();return;}
   if('applyDates'in d){const h=houses.find(h=>h.id===b.closest('[data-house]')?.dataset.house),v=h&&view(h);if(v?.arrival&&v.departure){state.arrival=v.arrival;state.departure=v.departure;globalMonth=v.arrival.slice(0,7);setMode('dates');remember();section.querySelector('.bpds-results-head').scrollIntoView({behavior:'smooth',block:'start'});}return;}

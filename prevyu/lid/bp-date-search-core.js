@@ -49,7 +49,13 @@
   if(day<=s.arrival||inspect(cal,data,s.arrival,day).status==='unavailable')return null;
   return {arrival:s.arrival,departure:day,picking:'complete',month:day.slice(0,7)};
  }
- root.BPDateSearch={dateError,inspect,activeFilters,visible,nextSelection,filterLabels};
+ function selectTripDay(s,day,today,end){
+  if(!valid(day)||day<today||day>end)return null;
+  if(s.picking==='departure'&&s.arrival&&day>s.arrival)return {arrival:s.arrival,departure:day,picking:'complete'};
+  if(day>=end)return null;
+  return {arrival:day,departure:'',picking:'departure'};
+ }
+ root.BPDateSearch={dateError,inspect,activeFilters,visible,nextSelection,selectTripDay,filterLabels};
 })(typeof window==='undefined'?globalThis:window);
 
 /* Keep Bnovo in the site's existing booking page and preserve the return selection. */

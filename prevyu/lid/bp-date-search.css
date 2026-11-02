@@ -1,0 +1,59 @@
+/* Local BP picker only. Native site header and other records are untouched. */
+#bb-stay[data-date-search] .bpds-form{margin:26px 0 16px;padding:22px;border:1px solid #eee5d539;border-radius:16px;background:#344f46}
+#bb-stay[data-date-search] .bpds-fields{display:grid;grid-template-columns:1.3fr 1.3fr .8fr .9fr;gap:14px;align-items:end}
+#bb-stay[data-date-search] .bpds-fields label{display:flex;flex-direction:column;gap:9px;min-width:0;font-size:13px;color:#dedeca}
+#bb-stay[data-date-search] .bpds-fields input,#bb-stay[data-date-search] .bpds-fields select{box-sizing:border-box;width:100%;min-width:0;min-height:48px;margin:0;padding:11px 12px;border:1px solid #9aaa9266;border-radius:9px;background:#28413a;color:#eee5d5;font:400 15px/1.4 'BPProductionRubik',Rubik,Arial,sans-serif;color-scheme:dark}
+#bb-stay[data-date-search] input[type=date]::-webkit-date-and-time-value{text-align:left}
+#bb-stay[data-date-search] .bpds-submit{grid-column:1/-1;min-height:50px;border-radius:9px;font-size:15px;margin-top:3px}
+#bb-stay[data-date-search] .bpds-form-bottom{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:16px;color:#c0cabb;font-size:12px;line-height:1.6}
+#bb-stay[data-date-search] .bpds-form-bottom button{font-size:12px!important;text-align:left;line-height:1.5;min-height:32px}
+#bb-stay[data-date-search] .bpds-error{margin:12px 0 0!important;color:#ffd4c1;font-size:13px;line-height:1.5}
+#bb-stay[data-date-search] .bst-preferences{margin:14px 0}
+#bb-stay[data-date-search] .bpds-active{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 24px}
+#bb-stay[data-date-search] .bpds-active button{padding:9px 13px;min-height:38px;border:1px solid #d8b385;border-radius:9px;background:#d8b38524;color:#f6d9b7;font:400 13px/1.4 'BPProductionRubik',Rubik,Arial,sans-serif;text-align:left}
+#bb-stay[data-date-search] .bpds-results-head{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:26px 0 22px}
+#bb-stay[data-date-search] .bpds-results-head .bpc-count{margin:5px 0 0!important;font-size:13px;line-height:1.5;color:#c4cebe}
+#bb-stay[data-date-search] .bpds-trip{font:400 22px/1.4 'BPProductionRubik',Rubik,Arial,sans-serif;color:#eee5d5}
+#bb-stay[data-date-search] .bpds-uncertain{display:flex;flex-direction:column;gap:8px;margin:0 0 24px;padding:17px 19px;border:1px solid #d8b38570;border-radius:12px;color:#ead8bd;font-size:13px;line-height:1.6}
+#bb-stay[data-date-search] .bpds-uncertain strong{font-weight:500}
+#bb-stay[data-date-search] .bpds-uncertain a{color:#f2c092;text-decoration:underline;text-underline-offset:4px}
+#bb-stay[data-date-search] .bpds-status{margin:0 0 14px!important;padding:10px 12px;border-radius:8px;font-size:12px;line-height:1.5}
+#bb-stay[data-date-search] .bpds-status--available{background:#9bbd8e1f;color:#d5e6cb;border:1px solid #9bbd8e66}
+#bb-stay[data-date-search] .bpds-status--unknown{background:#c79a5926;color:#f4d4ab;border:1px solid #d7b17d70}
+#bb-stay[data-date-search] .bpds-status--unavailable{background:#eee5d50a;color:#c9c5b7;border:1px solid #eee5d524}
+#bb-stay[data-date-search] .bpds-book{width:100%;min-height:48px;margin:0 0 12px!important;border-radius:9px;font-size:13px!important;line-height:1.5;padding:10px 14px}
+#bb-stay[data-date-search] .bpc-compact-card .bst-house-details{margin-bottom:12px!important}
+#bb-stay[data-date-search] .bpds-loading,#bb-stay[data-date-search] .bpc-empty{grid-column:1/-1;padding:26px;border:1px solid #eee5d52b;border-radius:12px;color:#d1d9c9;font-size:14px;line-height:1.7}
+#bb-stay[data-date-search] .bpc-empty a{display:block;margin-top:14px;min-height:40px}
+#bb-stay[data-date-search] .bpds-other{text-align:center;margin:22px 0}
+#bb-stay[data-date-search] .bpds-other button{line-height:1.6;white-space:normal}
+#bb-stay[data-date-search] [hidden]{display:none!important}
+#bb-stay[data-date-search] .bpc-day--not-checkout{color:#92a492;opacity:.55}
+#bb-stay[data-date-search] .bpc-day--not-checkout>span{text-decoration:none}
+#bb-stay[data-date-search] .bpc-day--unknown:not(:disabled){color:#e5c69c;border-color:#bca07280;border-style:dashed;opacity:1}
+#bb-stay[data-date-search] .bpc-card-legend{gap:10px;flex-wrap:wrap;font-size:10px}
+#bb-stay[data-date-search] .bpc-weekend-note strong{font-weight:500}
+@media(min-width:1200px){#bb-stay[data-date-search] .bpds-fields{grid-template-columns:1.2fr 1.2fr .7fr .8fr 1.8fr}#bb-stay[data-date-search] .bpds-submit{grid-column:auto;margin:0}}
+@media(max-width:640px){
+ #bb-stay[data-date-search] .bpds-form{padding:16px;margin-top:20px;border-radius:13px}
+ #bb-stay[data-date-search] .bpds-fields{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 10px}
+ #bb-stay[data-date-search] .bpds-fields input,#bb-stay[data-date-search] .bpds-fields select{min-height:48px;font-size:14px;padding:10px 9px}
+ #bb-stay[data-date-search] .bpds-fields label{font-size:12px;gap:7px}
+ #bb-stay[data-date-search] .bpds-form-bottom{gap:6px;margin-top:12px}
+ #bb-stay[data-date-search] .bpds-form-bottom button{min-height:40px}
+ #bb-stay[data-date-search] .bpds-results-head{align-items:flex-start;gap:12px}
+ #bb-stay[data-date-search] .bpds-trip{font-size:18px}
+ #bb-stay[data-date-search] .bpds-results-head>button{max-width:115px;font-size:12px!important;white-space:normal;line-height:1.5}
+ #bb-stay[data-date-search] .bpds-uncertain{padding:14px;font-size:12px;line-height:1.55}
+}
+@media(prefers-reduced-motion:reduce){#bb-stay[data-date-search] *{scroll-behavior:auto!important}}
+
+#bb-stay[data-date-search] .bpc-compact-card .bst-photo{height:clamp(100px,18svh,170px)}
+#bb-stay[data-date-search] .bpc-card[data-availability="available"] .bpc-choose-dates,
+#bb-stay[data-date-search] .bpc-card[data-availability="unknown"] .bpc-choose-dates{min-height:36px;padding:5px 9px;background:transparent;color:#efc293;border:1px solid #efc29366;font-size:12px}
+@media(max-height:700px) and (max-width:599px){
+ #bb-stay[data-date-search] .bpc-compact-card .bst-card-body{padding:13px}
+ #bb-stay[data-date-search] .bpc-compact-card .bst-house-details{display:none}
+ #bb-stay[data-date-search] .bpc-compact-card .bst-photo{height:100px}
+ #bb-stay[data-date-search] .bpds-status{padding:8px 10px;margin-bottom:10px!important}
+}

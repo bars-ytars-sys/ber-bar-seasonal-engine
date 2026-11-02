@@ -17,9 +17,9 @@
   const departure=host.querySelector('[data-pick="departure"]>span')?.textContent;
   const selected=arrival&&arrival!=='Выбрать';
   const note=host.querySelector('.bpc-weekend-note strong');
-  if(note&&note.textContent!=='Минимальный срок зависит от даты заезда')note.textContent='Минимальный срок зависит от даты заезда';
+  if(!card.closest('[data-date-search]')&&note&&note.textContent!=='Минимальный срок зависит от даты заезда')note.textContent='Минимальный срок зависит от даты заезда';
   const noteDetail=host.querySelector('.bpc-weekend-note span');
-  if(noteDetail&&noteDetail.textContent!=='Выберите заезд — покажем условия.')noteDetail.textContent='Выберите заезд — покажем условия.';
+  if(!card.closest('[data-date-search]')&&noteDetail&&noteDetail.textContent!=='Выберите заезд — покажем условия.')noteDetail.textContent='Выберите заезд — покажем условия.';
   const text=selected?(departure&&departure!=='Выбрать'?host.querySelector('.bpc-hint')?.textContent:'Заезд '+arrival+' · выберите выезд'):'';
   if(dates.textContent!==text)dates.textContent=text||'';
   dates.hidden=!text;
@@ -58,7 +58,7 @@
  function init(){
   const section=document.querySelector('#bb-stay');if(!section)return;
   const intro=section.querySelector('.bst-intro');
-  if(intro)intro.textContent='Укажите месяц и гостей, нажмите «Подобрать». Выберите дом и откройте его календарь кнопкой «Выбрать даты».';
+  if(intro&&!section.dataset.dateSearch)intro.textContent='Укажите месяц и гостей, нажмите «Подобрать». Выберите дом и откройте его календарь кнопкой «Выбрать даты».';
   const grid=section.querySelector('.bst-grid');if(!grid)return;
   window.addEventListener('keydown',event=>{if(event.key==='Escape'&&active?.open){event.preventDefault();event.stopPropagation();active.close();}},{capture:true});
   const observer=new MutationObserver(records=>{

@@ -19,42 +19,13 @@
     const section = document.createElement('section');
     section.id = 'brd-winter'; section.className = 'brd-winter';
     section.setAttribute('aria-labelledby','brd-winter-title');
-    section.innerHTML = `<div class="brd-winter__inner"><p class="brd-winter__eyebrow">Берёзовая роща · зима 2026 / 2027</p><h2 id="brd-winter-title">Новый год или каникулы?<br>Выбирайте свой отдых</h2><p class="brd-winter__intro">Два повода приехать в лес. Встреча Нового года и январские каникулы — отдельно, с понятными датами.</p><div class="brd-winter__cards">${periods.map(p => `<article class="brd-winter__card" id="brd-${p.id}"><div class="brd-winter__photo"><img src="${escape(asset(p.photo))}" alt="${escape(p.alt)}" width="720" height="375" loading="lazy"><span class="brd-winter__tag">${p.tag}</span></div><div class="brd-winter__body"><h3>${p.name}</h3><p class="brd-winter__dates">${p.dates}</p><p class="brd-winter__text">${p.text}</p><div class="brd-winter__actions"><a class="brd-winter__button" href="${escape(booking(p.from,p.to))}">${p.button}<span aria-hidden="true">↗</span></a><a class="brd-winter__more" href="${escape(new URL('br-new-year.html',base).href+'#brd-'+p.id)}">Подробнее об отдыхе</a></div></div></article>`).join('')}</div><p class="brd-winter__note">Выбирайте доступный дом и удобные даты в бронировании. Стоимость проживания и дополнительных услуг зависит от выбранного тарифа.</p></div>`;
+    section.innerHTML = `<div class="brd-winter__inner"><p class="brd-winter__eyebrow">Берёзовая роща · зима 2026 / 2027</p><h2 id="brd-winter-title">Зима в Берёзовой роще</h2><p class="brd-winter__intro">Встретьте Новый год за городом или приезжайте на январские каникулы.</p><div class="brd-winter__cards">${periods.map(p => `<article class="brd-winter__card" id="brd-${p.id}"><div class="brd-winter__photo"><img src="${escape(asset(p.photo))}" alt="${escape(p.alt)}" width="720" height="375" loading="lazy"><span class="brd-winter__tag">${p.tag}</span></div><div class="brd-winter__body"><h3>${p.name}</h3><p class="brd-winter__dates">${p.dates}</p><p class="brd-winter__text">${p.text}</p><div class="brd-winter__actions"><a class="brd-winter__button" href="${escape(booking(p.from,p.to))}">${p.button}<span aria-hidden="true">↗</span></a><a class="brd-winter__more" href="${escape(new URL('br-new-year.html',base).href+'#brd-'+p.id)}">Подробнее об отдыхе</a></div></div></article>`).join('')}</div><p class="brd-winter__note">Наличие домов и стоимость — в бронировании.</p></div>`;
     return section;
-  }
-  function nav(hero) {
-    if (document.getElementById('brd-nav')) return;
-    const node = document.createElement('nav'); node.id='brd-nav';node.className='brd-nav';
-    node.setAttribute('aria-label','Быстрый переход по демке');
-    node.innerHTML=`<div class="brd-nav__inner"><a href="${escape(asset('br-doma.html')+'#bb-stay')}">Дома и даты</a><a class="brd-nav__winter" href="${escape(here('brd-newyear'))}"><span aria-hidden="true">✧</span>Новый год</a><a href="${escape(here('brd-holidays'))}">Каникулы</a><a href="${escape(here('rec4153838101'))}">Впечатления</a><a href="${escape(here('rec1841838861'))}">Карта базы</a></div>`;
-    hero.before(node);
-    const header = document.getElementById('t-header');
-    const elements=[...(header?.querySelectorAll('#rec1729326481 .tn-elem,#rec1730117851 .tn-elem')||[])];
-    const height = () => {
-      // Tilda keeps its fixed header artboard at 1px; measure its visible elements.
-      const boxes=elements.map(el=>el.getBoundingClientRect()).filter(r=>r.width>20&&r.height>10&&r.height<150&&r.top>=0&&r.top<60&&r.bottom<150);
-      const size=boxes.length?Math.ceil(Math.max(...boxes.map(r=>r.bottom))):0;
-      node.style.marginTop=size+'px';
-      // The original hero already reserves this space for its fixed header.
-      hero.style.marginTop=-size+'px';
-    };
-    height();window.addEventListener('resize',height,{passive:true});window.addEventListener('load',height,{once:true});
-    const headerSize=new ResizeObserver(height);elements.forEach(el=>headerSize.observe(el));
   }
   function swapStories() {
     const stories=document.getElementById('rec4153838101'),ribbon=document.getElementById('rec1910740261');
     if (!stories||!ribbon||stories.dataset.brdMoved) return;
     const marker=document.createComment('Original carousel position');ribbon.before(marker);stories.before(ribbon);marker.replaceWith(stories);stories.dataset.brdMoved='true';
-  }
-  function gallery() {
-    const target=document.getElementById('rec2851363001');
-    const houses=window.BRStayData?.houses;
-    if (!target||!houses?.length||document.getElementById('brd-gallery')) return false;
-    const node=document.createElement('section');node.id='brd-gallery';node.className='brd-gallery';node.setAttribute('aria-label','Фотографии всех 22 домов');
-    node.innerHTML=`<div class="brd-gallery__head"><div><h2>Посмотрите все ${houses.length} дома</h2><p>Фотографии, удобства и выбор дат — в каталоге</p></div><div class="brd-gallery__controls"><button type="button" data-brd-scroll="-1" aria-label="Предыдущие фотографии">‹</button><button type="button" data-brd-scroll="1" aria-label="Следующие фотографии">›</button></div></div><div class="brd-gallery__track">${houses.map(h=>`<a class="brd-gallery__house" href="${escape(asset('br-doma.html')+'?house='+encodeURIComponent(h.id)+'#bb-stay')}" aria-label="${escape(h.name)} — посмотреть в каталоге"><img src="${escape(asset(h.image))}" alt="${escape(h.name)}" width="300" height="200" loading="lazy" decoding="async"><b>${escape(h.name)}</b><small>До ${h.capacity} гостей</small></a>`).join('')}</div><a class="brd-winter__button brd-gallery__catalog" href="${escape(asset('br-doma.html')+'#bb-stay')}">Открыть каталог домов →</a>`;
-    target.after(node);
-    node.addEventListener('click',event=>{const button=event.target.closest('[data-brd-scroll]');if(!button)return;const row=node.querySelector('.brd-gallery__track');row.scrollBy({left:Number(button.dataset.brdScroll)*row.clientWidth*.8,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});});
-    return true;
   }
   function holidayPage() {
     const hero=document.querySelector('.нг-бр .герой');
@@ -77,8 +48,7 @@
   function mount() {
     if(winterPage){holidayPage();return;}
     const hero=document.getElementById('rec2411016811');if(!hero)return;
-    if(!document.getElementById('brd-winter')){document.body.classList.add('brd-demo-ready');nav(hero);hero.after(winter());swapStories();}
-    gallery();
+    if(!document.getElementById('brd-winter')){document.body.classList.add('brd-demo-ready');hero.after(winter());swapStories();}
   }
   document.addEventListener('click',event=>{
     const link=event.target.closest?.('a[href]');
@@ -95,5 +65,4 @@
     history.replaceState(history.state,'',url.href);target.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});
   },true);
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
-  if(!winterPage&&!window.BRStayData){const data=document.createElement('script');data.src=asset('br-stay-data.js?v=20261107');data.onload=gallery;document.head.append(data);}
 })();

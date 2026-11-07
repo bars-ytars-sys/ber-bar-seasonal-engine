@@ -1,0 +1,9 @@
+/* Critical first paint, native header addition, and clean demo presentation. */
+.brd-header-newyear{position:fixed;z-index:1004;display:inline-flex;align-items:center;justify-content:center;gap:7px;width:126px;height:36px;box-sizing:border-box;border:1px solid #b0e7d1;border-radius:7px;background:#f4fcf8;color:#198c68!important;font:600 14px/1 TildaSans,Arial,sans-serif;text-decoration:none!important;white-space:nowrap}
+.brd-header-newyear[hidden]{display:none!important}.brd-header-newyear:hover{background:#e2f8ee;border-color:#2ed8a3}.brd-header-newyear:focus-visible{outline:2px solid #15966b;outline-offset:3px}
+.brd-header-menu-item{position:static;flex:none;font:500 18px/1.35 TildaSans,Arial,sans-serif;padding:0 0 9px}.brd-header-menu-item a{color:#15966b!important;text-decoration:none!important}
+.bbk-чип{display:none!important}.bbk-рамка{outline:none!important}
+/* Native Zero blocks otherwise hide this content until their remote init finishes. */
+#rec2411016811 .tn-elem,#rec2411016811 .tn-atom{visibility:visible!important}
+#rec2411016811 .t396__carrier{background-image:var(--brd-hero-poster);background-position:center;background-size:cover}
+#rec2411016811 .tn-atom__gallery:empty{background:var(--brd-hero-poster) center/cover no-repeat}

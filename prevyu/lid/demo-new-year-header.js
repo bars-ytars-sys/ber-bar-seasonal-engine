@@ -23,6 +23,10 @@
     hat.setAttribute('aria-hidden', 'true');
     hat.append(document.createElement('i'));
     link.prepend(hat);
+    const sparkles = document.createElement('span');
+    sparkles.className = 'demo-ny-sparkles';
+    sparkles.setAttribute('aria-hidden', 'true');
+    link.append(sparkles);
     return link;
   }
 
@@ -70,7 +74,7 @@
 
   const stylesheet = document.createElement('link');
   stylesheet.rel = 'stylesheet';
-  stylesheet.href = new URL('demo-new-year-header.css?v=20261112', base);
+  stylesheet.href = new URL('demo-new-year-header.css?v=20261112-2', base);
   stylesheet.addEventListener('load', () => {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount, {once: true});
     else mount();

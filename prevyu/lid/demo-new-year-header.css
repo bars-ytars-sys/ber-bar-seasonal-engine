@@ -1,15 +1,17 @@
 #t-header[data-demo-ny-site="br"] {
-  --demo-ny-ink: #164b3a;
-  --demo-ny-pale: #edf8f2;
-  --demo-ny-edge: #9dd2bf;
+  --demo-ny-start: #235849;
+  --demo-ny-end: #10392e;
+  --demo-ny-edge: #619985;
+  --demo-ny-sparkle: #b5e8d1;
   --demo-ny-surface: #f8fbfa;
   --demo-ny-book: #24cfa2;
   --demo-ny-book-ink: #14392d;
 }
 #t-header[data-demo-ny-site="bp"] {
-  --demo-ny-ink: #f4e5ce;
-  --demo-ny-pale: #3b5043;
-  --demo-ny-edge: #b39671;
+  --demo-ny-start: #753b36;
+  --demo-ny-end: #4c2529;
+  --demo-ny-edge: #b8866c;
+  --demo-ny-sparkle: #f4cb8d;
   --demo-ny-surface: #2e4941;
   --demo-ny-book: #92592f;
   --demo-ny-book-ink: #fff2df;
@@ -23,54 +25,88 @@
   box-sizing: border-box;
   border: 1px solid var(--demo-ny-edge);
   border-radius: 7px;
-  background: var(--demo-ny-pale);
-  color: var(--demo-ny-ink) !important;
   font: 650 12px/1.15 var(--t-text-font, Arial, sans-serif);
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
 }
-#t-header .demo-ny-link:hover { filter: brightness(1.08); }
+#t-header .demo-ny-link {
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(112deg, var(--demo-ny-start), var(--demo-ny-end) 78%);
+  box-shadow: inset 0 1px 0 #fff2, 0 1px 4px #17282130;
+  color: #fff6e5 !important;
+  font-weight: 750;
+}
+#t-header .demo-ny-link:hover {
+  filter: brightness(1.14);
+  border-color: var(--demo-ny-sparkle);
+}
 #t-header .demo-ny-link:focus-visible,
 #t-header .demo-ny-mobile-book:focus-visible {
   outline: 2px solid var(--demo-ny-edge);
   outline-offset: 2px;
 }
+.demo-ny-sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.demo-ny-sparkles::before,
+.demo-ny-sparkles::after {
+  content: "";
+  position: absolute;
+  background: var(--demo-ny-sparkle);
+  clip-path: polygon(50% 0, 63% 37%, 100% 50%, 63% 63%, 50% 100%, 37% 63%, 0 50%, 37% 37%);
+}
+.demo-ny-sparkles::before {
+  top: 4px;
+  right: 4px;
+  width: 7px;
+  height: 7px;
+}
+.demo-ny-sparkles::after {
+  top: 11px;
+  right: 10px;
+  width: 4px;
+  height: 4px;
+  opacity: .7;
+}
 .demo-ny-hat {
   position: relative;
-  width: 18px;
-  height: 16px;
-  flex: 0 0 18px;
-  transform: rotate(-12deg);
+  width: 21px;
+  height: 20px;
+  flex: 0 0 21px;
+  transform: rotate(-13deg);
+  filter: drop-shadow(0 1px 1px #19070a60);
 }
 .demo-ny-hat::before {
   content: "";
   position: absolute;
-  inset: 1px 2px 3px 1px;
-  border-radius: 11px 10px 3px 2px;
-  background: #b9333c;
-  clip-path: polygon(0 95%, 20% 41%, 43% 12%, 67% 0, 88% 14%, 100% 48%, 92% 70%, 69% 53%, 77% 100%);
+  inset: 1px 2px 4px 1px;
+  border-radius: 12px 9px 3px 3px;
+  background: linear-gradient(118deg, #ff7a6b, #df4c50 45%, #a51e34);
+  clip-path: polygon(0 100%, 12% 52%, 29% 18%, 53% 0, 76% 4%, 93% 25%, 100% 56%, 88% 71%, 69% 51%, 75% 100%);
 }
 .demo-ny-hat::after {
   content: "";
   position: absolute;
-  top: 5px;
+  top: 6px;
   right: 0;
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: #fffaf0;
-  box-shadow: 0 0 0 1px #9a7056;
+  background: radial-gradient(circle at 35% 25%, #fffdf6 30%, #e2c49d);
 }
 .demo-ny-hat > i {
   position: absolute;
-  bottom: 0;
+  bottom: 1px;
   left: 0;
-  width: 14px;
-  height: 4px;
-  border-radius: 4px;
-  background: #fffaf0;
-  box-shadow: 0 0 0 1px #9a7056;
+  width: 16px;
+  height: 5px;
+  border-radius: 5px;
+  background: linear-gradient(#fffdf6 35%, #e9d1b1);
 }
 #t-header .demo-ny-mobile, .demo-ny-spacer { display: none; }
 
@@ -102,6 +138,7 @@
     position: absolute;
     inset: 0 calc(100% + 8px) 0 auto;
     width: 108px;
+    padding-inline: 7px;
   }
   #rec1185050691 .demo-ny-contact { translate: -116px 0; }
 }
@@ -123,6 +160,8 @@
     background: var(--demo-ny-surface);
     box-shadow: 0 3px 10px #0002;
   }
+  #t-header .demo-ny-link .demo-ny-sparkles::before { top: 5px; right: 10px; }
+  #t-header .demo-ny-link .demo-ny-sparkles::after { top: 13px; right: 18px; }
   #t-header .demo-ny-mobile-book {
     background: var(--demo-ny-book);
     border-color: var(--demo-ny-book);

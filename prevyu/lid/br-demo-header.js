@@ -14,7 +14,7 @@
   function mount() {
     const header = document.getElementById('t-header');
     if (!header || !header.querySelector('a[href="/"]')) return false;
-    if (!link) {
+    if (!link && !document.querySelector('script[data-demo-new-year-header]')) {
       link = document.createElement('a'); link.className = 'brd-header-newyear';
       link.href = destination; link.innerHTML = '<span aria-hidden="true">✧</span> Новый год';
       header.append(link);

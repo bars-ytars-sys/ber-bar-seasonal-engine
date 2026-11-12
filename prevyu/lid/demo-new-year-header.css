@@ -1,0 +1,132 @@
+#t-header[data-demo-ny-site="br"] {
+  --demo-ny-ink: #164b3a;
+  --demo-ny-pale: #edf8f2;
+  --demo-ny-edge: #9dd2bf;
+  --demo-ny-surface: #f8fbfa;
+  --demo-ny-book: #24cfa2;
+  --demo-ny-book-ink: #14392d;
+}
+#t-header[data-demo-ny-site="bp"] {
+  --demo-ny-ink: #f4e5ce;
+  --demo-ny-pale: #3b5043;
+  --demo-ny-edge: #b39671;
+  --demo-ny-surface: #2e4941;
+  --demo-ny-book: #92592f;
+  --demo-ny-book-ink: #fff2df;
+}
+#t-header .demo-ny-link, #t-header .demo-ny-mobile-book {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 9px;
+  box-sizing: border-box;
+  border: 1px solid var(--demo-ny-edge);
+  border-radius: 7px;
+  background: var(--demo-ny-pale);
+  color: var(--demo-ny-ink) !important;
+  font: 650 12px/1.15 var(--t-text-font, Arial, sans-serif);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+#t-header .demo-ny-link:hover { filter: brightness(1.08); }
+#t-header .demo-ny-link:focus-visible,
+#t-header .demo-ny-mobile-book:focus-visible {
+  outline: 2px solid var(--demo-ny-edge);
+  outline-offset: 2px;
+}
+.demo-ny-hat {
+  position: relative;
+  width: 18px;
+  height: 16px;
+  flex: 0 0 18px;
+  transform: rotate(-12deg);
+}
+.demo-ny-hat::before {
+  content: "";
+  position: absolute;
+  inset: 1px 2px 3px 1px;
+  border-radius: 11px 10px 3px 2px;
+  background: #b9333c;
+  clip-path: polygon(0 95%, 20% 41%, 43% 12%, 67% 0, 88% 14%, 100% 48%, 92% 70%, 69% 53%, 77% 100%);
+}
+.demo-ny-hat::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fffaf0;
+  box-shadow: 0 0 0 1px #9a7056;
+}
+.demo-ny-hat > i {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 14px;
+  height: 4px;
+  border-radius: 4px;
+  background: #fffaf0;
+  box-shadow: 0 0 0 1px #9a7056;
+}
+#t-header .demo-ny-mobile, .demo-ny-spacer { display: none; }
+
+@media (min-width: 960px) {
+  #t-header #rec1729326481 .demo-ny-booking-slot {
+    display: flex;
+    align-items: stretch;
+    gap: 7px;
+  }
+  #rec1729326481 .demo-ny-booking-slot > .demo-ny-link { order: -1; }
+  #rec1729326481 .demo-ny-booking-slot > .tn-atom {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+  }
+  #t-header #rec1729326481 .demo-ny-booking-slot .tn-atom__button-content {
+    box-sizing: border-box;
+    width: 100%;
+    padding-inline: 4px;
+  }
+  #t-header #rec1729326481 .demo-ny-booking-slot .tn-atom__button-text {
+    white-space: normal;
+    font-size: 10px;
+    line-height: 1.15;
+    text-align: center;
+  }
+  #rec1185050691 .demo-ny-booking-slot { z-index: 4 !important; }
+  #rec1185050691 .demo-ny-booking-slot > .demo-ny-link {
+    position: absolute;
+    inset: 0 calc(100% + 8px) 0 auto;
+    width: 108px;
+  }
+  #rec1185050691 .demo-ny-contact { translate: -116px 0; }
+}
+
+@media (max-width: 959px) {
+  #t-header .demo-ny-booking-slot > .demo-ny-link { display: none; }
+  #t-header .demo-ny-mobile:not([hidden]) {
+    position: fixed;
+    z-index: 9;
+    top: var(--demo-ny-top);
+    left: 0;
+    right: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    box-sizing: border-box;
+    height: 47px;
+    padding: 4px max(12px, env(safe-area-inset-right)) 6px max(12px, env(safe-area-inset-left));
+    background: var(--demo-ny-surface);
+    box-shadow: 0 3px 10px #0002;
+  }
+  #t-header .demo-ny-mobile-book {
+    background: var(--demo-ny-book);
+    border-color: var(--demo-ny-book);
+    color: var(--demo-ny-book-ink) !important;
+  }
+  .demo-ny-spacer:not([hidden]) { display: block; height: 47px; }
+}

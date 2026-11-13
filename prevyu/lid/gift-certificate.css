@@ -18,3 +18,16 @@
 @media(max-width:360px){.br-gift__sheet-text{padding:10% 16% 0}.br-gift__brand{margin-bottom:12px;font-size:8px}.br-gift__occasion{font-size:9px;margin-bottom:7px}.br-gift__sheet-title{font-size:21px;margin-bottom:9px}.br-gift__sheet-amount{font-size:21px;margin-bottom:8px}.br-gift__message{font-size:9px}.br-gift__recipient,.br-gift__sender{font-size:9px}.br-gift__sheet-foot{font-size:6px}.br-gift__theme span{font-size:9px}}
 @media(max-width:760px){.br-gift__editor{grid-template-columns:minmax(0,1fr)}.br-gift__preview{min-width:0}.br-gift__sheet{width:100%;min-height:500px}}
 @media print{body{background:#fff}.br-gift__preview{position:static}.br-gift__sheet{box-shadow:none;border:0;width:148mm;max-width:100%;min-height:0;border-radius:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}.br-gift__sheet-title{font-size:32px}}
+
+.br-gift__sheet[data-photo-layout="winter"] { background: #f6f0e3; }
+.br-gift__sheet[data-photo-layout="winter"] .br-gift__sheet-image {
+  top: auto;
+  height: 58%;
+  object-position: center;
+  mask-image: linear-gradient(to bottom, transparent, #000 27%);
+}
+.br-gift__sheet[data-photo-layout="winter"] .br-gift__recipient,
+.br-gift__sheet[data-photo-layout="winter"] .br-gift__message,
+.br-gift__sheet[data-photo-layout="winter"] .br-gift__sender {
+  text-shadow: 0 0 4px #f6f0e3, 0 0 9px #f6f0e3;
+}

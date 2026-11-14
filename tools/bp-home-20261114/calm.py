@@ -85,11 +85,11 @@ def hero(hero, ASSETS, variant='chalet'):
     new_hero = (
         '<div id="bp-production-hero" class="r t-rec bp-hero-record bp-calm-record">'
         '<div class="bp-calm">'
-        + pics + '<div class="bp-calm__shade" aria-hidden="true"></div>'
+        '<div class="bp-calm__media">' + pics + '<div class="bp-calm__shade" aria-hidden="true"></div></div>'
         '<div class="bp-calm__content">'
         '<h1 class="bp-calm__eyebrow">' + h1 + '</h1>'
         '<p class="bp-calm__title">Уединённый отдых в лесу</p>'
-        '<p class="bp-calm__lead">Дома с полностью или частично огороженной территорией. Час от Москвы по Новорижскому шоссе.</p>'
+        '<p class="bp-calm__lead"><span class="bp-calm__lead-more">Дома с полностью или частично огороженной территорией. </span>Час от Москвы по Новорижскому шоссе.</p>'
         '<div class="bp-calm__cta"><a class="bp-calm__btn" href="#bb-stay" data-bb-planner>Выбрать дом</a>'
         '<span class="bp-calm__price"><b>от 9 900 ₽</b>за ночь в будни</span></div>'
         '<p class="bp-calm__links"><a href="' + catalogue + '">Каталог всех домов</a><a href="#popup:quiz">Сертификат за опрос</a></p>'

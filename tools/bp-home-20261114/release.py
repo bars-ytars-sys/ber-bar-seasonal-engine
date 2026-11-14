@@ -24,6 +24,7 @@ ap.add_argument('out')
 ap.add_argument('--hero')
 ap.add_argument('--promo')
 ap.add_argument('--source')
+ap.add_argument('--variant', default='chalet', help='chalet (d05c518) | slides (слайдер сверху, 79a03f8)')
 a = ap.parse_args()
 out = Path(a.out)
 (out / 'base').mkdir(parents=True, exist_ok=True)
@@ -48,12 +49,18 @@ promo_base = Path(a.promo).read_text(encoding='utf-8') if a.promo else live_code
 
 css = (ROOT / 'prevyu/lid/bp-home-calm.css').read_text(encoding='utf-8')
 js = (ROOT / 'prevyu/lid/bp-home-calm.js').read_text(encoding='utf-8')
+if a.variant == 'slides':
+    js += (ROOT / 'prevyu/lid/bp-home-slides.js').read_text(encoding='utf-8')
 cut = css.index('/* Плавающая плашка акции')
 hero_css, promo_css = css[:cut].rstrip() + '\n', css[cut:]
+if a.variant == 'slides':
+    hero_css += (ROOT / 'prevyu/lid/bp-home-slides.css').read_text(encoding='utf-8')
 
-hero_new = calm.hero(hero_base, ASSETS).strip()
-hero_new = ('<!-- ГЛАВНАЯ БП · ПЕРВЫЙ ЭКРАН · 14.11.2026 (демо d05c518). Вставить целиком вместо прежнего кода блока.\n'
-            '     Шапка, H1 и SEO не меняются; фото — реальное Шале с GitHub Pages, свет в окнах добавлен. -->\n'
+hero_new = calm.hero(hero_base, ASSETS, a.variant).strip()
+hero_new = (('<!-- ГЛАВНАЯ БП · ПЕРВЫЙ ЭКРАН · 14.11.2026 (демо 79a03f8, слайдер: Шале, Барский дом, Барнхаус сверху). Вставить целиком вместо прежнего кода блока.\n'
+             '     Шапка, H1 и SEO не меняются; кадры — визуализации с GitHub Pages. -->\n' if a.variant == 'slides' else
+             '<!-- ГЛАВНАЯ БП · ПЕРВЫЙ ЭКРАН · 14.11.2026 (демо d05c518). Вставить целиком вместо прежнего кода блока.\n'
+             '     Шапка, H1 и SEO не меняются; фото — реальное Шале с GitHub Pages, свет в окнах добавлен. -->\n')
             + hero_new + '\n<style>\n' + hero_css + '</style>\n<script>\n' + js + '</script>\n')
 promo_new = calm.promo(promo_base).strip()
 promo_new = promo_new + '\n<style>\n/* 14.11.2026: «Чёрная пятница» — простая карточка, окно и таймер одной строкой */\n' + promo_css + '</style>\n'

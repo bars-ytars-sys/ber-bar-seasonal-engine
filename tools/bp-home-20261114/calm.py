@@ -25,16 +25,45 @@ def one(text, old, new):
     return text.replace(old, new)
 
 
-PHOTOS = {  # вариант: (компьютер, телефон, alt)
-    'chalet': (('bp-home-chalet-forest-light-20261114.webp', 1680, 1120), ('bp-home-chalet-light-mobile-20261114.webp', 1086, 1448),
-               'Шале «Барских полей»: дом с террасой в лесу'),
-    'aerial': (('bp-home-chalet-aerial-20261114.webp', 1920, 1072), ('bp-home-chalet-aerial-mobile-20261114.webp', 1080, 1446),
-               'Участок Шале сверху: дом, баня с купелью, банный чан, забор и берёзовый лес (визуализация)'),
+# Кадры первого экрана: (компьютер, телефон, alt, подпись, ссылка на дом)
+def _slide(name, dw, dh, mw, mh, alt, caption=None, href=None):
+    return (('bp-home-%s-20261114.webp' % name, dw, dh), ('bp-home-%s-mobile-20261114.webp' % name.replace('chalet-forest-light', 'chalet-light'), mw, mh), alt, caption, href)
+
+
+PHOTOS = {
+    'chalet': [(('bp-home-chalet-forest-light-20261114.webp', 1680, 1120), ('bp-home-chalet-light-mobile-20261114.webp', 1086, 1448),
+                'Шале «Барских полей»: дом с террасой в лесу', None, None)],
+    'slides': [
+        _slide('top-chalet', 1920, 1072, 1080, 1446, 'Участок Шале сверху: дом, площадка с костровой чашей, баня с купелью, банный чан (визуализация)', 'Шале · вид сверху', '/chalet'),
+        _slide('top-barski', 1920, 1072, 1080, 1446, 'Участок Барского дома сверху: дом, беседка, костровая зона, банный чан (визуализация)', 'Барский дом · вид сверху', '/barski'),
+        _slide('top-barn', 1920, 1072, 1080, 1446, 'Участок Барнхауса сверху: дом, костровая зона, банный чан в лесу (визуализация)', 'Барнхаус · вид сверху', '/barnhauses'),
+    ],
 }
 
 
+def pictures(slides, ASSETS):
+    """Один кадр — прежняя разметка; несколько — слайдер (остальные кадры грузятся после загрузки страницы)."""
+    if len(slides) == 1:
+        (desk, dw, dh), (mob, mw, mh), alt, _, _ = slides[0]
+        return ('<picture class="bp-calm__photo">'
+                '<source media="(max-width:640px)" srcset="' + ASSETS + mob + '" width="%d" height="%d">' % (mw, mh) +
+                '<img src="' + ASSETS + desk + '" width="%d" height="%d" alt="%s" fetchpriority="high" decoding="async">' % (dw, dh, alt) +
+                '</picture>'), ''
+    pics, caps, dots = '', '', ''
+    for i, ((desk, dw, dh), (mob, mw, mh), alt, caption, href) in enumerate(slides):
+        first = i == 0
+        src = 'srcset' if first else 'data-srcset'
+        img = ('src="%s" fetchpriority="high"' % (ASSETS + desk)) if first else ('data-src="%s"' % (ASSETS + desk))
+        pics += ('<picture class="bp-calm__photo%s" data-calm-slide="%d"%s>' % (' is-active' if first else '', i, '' if first else ' aria-hidden="true"') +
+                 '<source media="(max-width:640px)" %s="%s" width="%d" height="%d">' % (src, ASSETS + mob, mw, mh) +
+                 '<img %s width="%d" height="%d" alt="%s" decoding="async"></picture>' % (img, dw, dh, alt))
+        caps += '<a class="bp-calm__caption%s" data-calm-caption="%d" href="%s">%s →</a>' % (' is-active' if first else '', i, href, caption)
+        dots += '<button type="button" class="bp-calm__dot%s" data-calm-dot="%d" aria-label="Кадр %d: %s"></button>' % (' is-active' if first else '', i, i + 1, caption)
+    return pics, '<div class="bp-calm__nav">' + caps + '<div class="bp-calm__dots">' + dots + '</div></div>'
+
+
 def hero(hero, ASSETS, variant='chalet'):
-    (desk, dw, dh), (mob, mw, mh), alt = PHOTOS[variant]
+    pics, nav = pictures(PHOTOS[variant], ASSETS)
     h1 = re.search(r'<h1 class="bp-hero__eyebrow">(.*?)</h1>', hero).group(1)
     assert h1 == 'База отдыха «Барские поля» в Подмосковье', h1
     assert 'Дом от 9 900 ₽ за ночь в будни' in hero and 'href="#popup:quiz"' in hero
@@ -56,10 +85,7 @@ def hero(hero, ASSETS, variant='chalet'):
     new_hero = (
         '<div id="bp-production-hero" class="r t-rec bp-hero-record bp-calm-record">'
         '<div class="bp-calm">'
-        '<picture class="bp-calm__photo">'
-        '<source media="(max-width:640px)" srcset="' + ASSETS + mob + '" width="%d" height="%d">' % (mw, mh) +
-        '<img src="' + ASSETS + desk + '" width="%d" height="%d" alt="%s" fetchpriority="high" decoding="async">' % (dw, dh, alt) +
-        '</picture><div class="bp-calm__shade" aria-hidden="true"></div>'
+        + pics + '<div class="bp-calm__shade" aria-hidden="true"></div>'
         '<div class="bp-calm__content">'
         '<h1 class="bp-calm__eyebrow">' + h1 + '</h1>'
         '<p class="bp-calm__title">Уединённый отдых в лесу</p>'
@@ -67,7 +93,7 @@ def hero(hero, ASSETS, variant='chalet'):
         '<div class="bp-calm__cta"><a class="bp-calm__btn" href="#bb-stay" data-bb-planner>Выбрать дом</a>'
         '<span class="bp-calm__price"><b>от 9 900 ₽</b>за ночь в будни</span></div>'
         '<p class="bp-calm__links"><a href="' + catalogue + '">Каталог всех домов</a><a href="#popup:quiz">Сертификат за опрос</a></p>'
-        '</div></div>' + FACTS + medals + '</div>')
+        '</div>' + nav + '</div>' + FACTS + medals + '</div>')
     inner_s = hero.index('<div id="bp-production-hero"')
     inner = hero[slice(*element(hero, inner_s))]
     return hero.replace(inner, new_hero)

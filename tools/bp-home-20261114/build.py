@@ -29,7 +29,7 @@ args = ap.parse_args()
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import calm
-(DESK, _, _), (MOB, _, _), _ = calm.PHOTOS[args.variant]
+(DESK, _, _), (MOB, _, _), _, _, _ = calm.PHOTOS[args.variant][0]
 if args.variant != 'chalet':
     HOME = 'bp-production-preview-%s.html' % args.variant
 if args.source:
@@ -104,6 +104,9 @@ preview_forms = (ROOT / 'tools/bp-release/preview-forms.js').read_text()
 preview_forms = one(preview_forms, r'stat\.tildacdn|tildastat', r'stat\.tildacdn|stat\.tildaapi|tildastat')
 calm_css = (OUT / 'bp-home-calm.css').read_text()
 calm_js = (OUT / 'bp-home-calm.js').read_text()
+if args.variant == 'slides':
+    calm_css += (OUT / 'bp-home-slides.css').read_text()
+    calm_js += (OUT / 'bp-home-slides.js').read_text()
 head = ('<meta name="robots" content="noindex,nofollow">'
         '<script>window.BPPreviewRoutes=' + json.dumps({'home': HOME, 'catalog': CATALOG, 'winter': 'bp-new-year.html'}) + ';</script>'
         '<script>' + preview_forms + '</script>'

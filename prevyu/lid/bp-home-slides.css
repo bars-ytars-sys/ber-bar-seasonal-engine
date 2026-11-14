@@ -1,0 +1,16 @@
+/* Слайдер первого экрана: кадры участков сверху (Шале, Барский дом, Барнхаус). */
+#bp-production-hero .bp-calm__photo[data-calm-slide]{transition:opacity 1.2s ease}
+#bp-production-hero .bp-calm__photo[data-calm-slide]:not(.is-active){opacity:0}
+#bp-production-hero .bp-calm__nav{position:absolute;z-index:3;top:12px;right:12px;display:flex;align-items:center;gap:8px;padding:5px 6px 5px 12px;border-radius:999px;background:rgba(24,40,33,.62);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+#bp-production-hero .bp-calm__caption{font:400 12px/1.2 'Rubik',Arial,sans-serif;color:#fff8eb!important;text-decoration:none!important;white-space:nowrap}
+#bp-production-hero .bp-calm__caption:not(.is-active){display:none}
+#bp-production-hero .bp-calm__dots{display:flex}
+#bp-production-hero .bp-calm__dot{position:relative;width:22px;height:22px;margin:0;padding:0;border:0;background:none;cursor:pointer}
+#bp-production-hero .bp-calm__dot::before{content:'';position:absolute;inset:7px;border-radius:50%;background:rgba(255,248,235,.42);transition:background-color .2s}
+#bp-production-hero .bp-calm__dot.is-active::before{background:#fff8eb}
+#bp-production-hero .bp-calm__dot:focus-visible{outline:2px solid #fff8eb;outline-offset:0;border-radius:50%}
+@media (min-width:641px){
+  #bp-production-hero .bp-calm__nav{top:auto;bottom:96px;right:max(40px,calc((100% - 1200px) / 2));padding:6px 8px 6px 14px}
+  #bp-production-hero .bp-calm__caption{font-size:13px}
+}
+@media (prefers-reduced-motion:reduce){#bp-production-hero .bp-calm__photo[data-calm-slide]{transition:none}}

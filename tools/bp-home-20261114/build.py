@@ -101,8 +101,8 @@ head = ('<meta name="robots" content="noindex,nofollow">'
         '<script>window.BPPreviewRoutes=' + json.dumps({'home': HOME, 'catalog': CATALOG, 'winter': 'bp-new-year.html'}) + ';</script>'
         '<script>' + preview_forms + '</script>'
         '<style>.bp-preview-form-result{margin-top:18px;padding:16px;border:1px solid #ee995d;border-radius:8px;background:#eee5d5;color:#28413a;font:400 14px/1.5 Rubik,Arial,sans-serif}.bp-preview-form-result[hidden]{display:none}</style>'
-        '<link rel="preload" as="image" href="../../demo/assets/bp-home-chalet-mobile-20261114.webp" media="(max-width:640px)">'
-        '<link rel="preload" as="image" href="../../demo/assets/bp-home-chalet-20261114.webp" media="(min-width:641px)">'
+        '<link rel="preload" as="image" href="../../demo/assets/bp-home-chalet-light-mobile-20261114.webp" media="(max-width:640px)">'
+        '<link rel="preload" as="image" href="../../demo/assets/bp-home-chalet-light-20261114.webp" media="(min-width:641px)">'
         '<script>' + calm_js + '</script>')
 html = html.replace('<head>', '<head>' + head, 1)
 
@@ -142,21 +142,29 @@ medals = re.sub(r'<br\s*/?>', ' ', medals)
 medals = one(medals, '<strong class="bp-hero__top30">ТОП-30</strong><small>отелей по версии Siva Travel</small>',
              '<strong class="bp-hero__top30">ТОП-30 отелей</strong><small>по версии Siva Travel</small>')
 catalogue = re.search(r'<a class="bp-hero__catalogue" href="([^"]+)"', hero).group(1)
+# Три факта с сайта (каталог 15 домов; блок «О домах»), иконки — тонкая линия в цвете БП.
+ICON = '<svg viewBox="0 0 40 40" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{}</svg>'
+FACTS = (
+    '<ul class="bp-calm__facts">'
+    '<li>' + ICON.format('<path d="M4 34h32"/><path d="M8 34V20l9-7 9 7v14"/><path d="M14 34v-7h6v7"/><path d="M32 34v-5"/><path d="M32 9l-4.5 9h9z"/><path d="M32 14l-5.5 11h11z"/>') + '<span>15 домов в лесу</span></li>'
+    '<li>' + ICON.format('<path d="M7 22h26"/><path d="M9 22l1.6 12h18.8L31 22"/><path d="M10 28h20"/><path d="M15 18c-2-3 2-5 0-8"/><path d="M20 18c-2-3 2-5 0-8"/><path d="M25 18c-2-3 2-5 0-8"/>') + '<span>Терраса и банный чан у каждого дома</span></li>'
+    '<li>' + ICON.format('<path d="M7 34V21l13-9 13 9v13z"/><path d="M7 25.5h26"/><path d="M7 29.8h26"/><path d="M17 34v-6h6v6"/><path d="M27 17.5V11h3v8.6"/><path d="M28.5 8c-1.5-2 1.5-3 0-5"/>') + '<span>Дома с собственной баней</span></li>'
+    '</ul>')
 new_hero = (
     '<div id="bp-production-hero" class="r t-rec bp-hero-record bp-calm-record">'
     '<div class="bp-calm">'
     '<picture class="bp-calm__photo">'
-    '<source media="(max-width:640px)" srcset="' + ASSETS + 'bp-home-chalet-mobile-20261114.webp" width="1086" height="1448">'
-    '<img src="' + ASSETS + 'bp-home-chalet-20261114.webp" width="1680" height="1120" alt="Шале «Барских полей»: дом с террасой в лесу" fetchpriority="high" decoding="async">'
+    '<source media="(max-width:640px)" srcset="' + ASSETS + 'bp-home-chalet-light-mobile-20261114.webp" width="1086" height="1448">'
+    '<img src="' + ASSETS + 'bp-home-chalet-light-20261114.webp" width="1680" height="1120" alt="Шале «Барских полей»: дом с террасой в лесу" fetchpriority="high" decoding="async">'
     '</picture><div class="bp-calm__shade" aria-hidden="true"></div>'
     '<div class="bp-calm__content">'
     '<h1 class="bp-calm__eyebrow">' + h1 + '</h1>'
     '<p class="bp-calm__title">Уединённый отдых в лесу</p>'
-    '<p class="bp-calm__lead">У каждого дома — терраса и банный чан. Час от Москвы по Новорижскому шоссе.</p>'
+    '<p class="bp-calm__lead">Дома с полностью или частично огороженной территорией. Час от Москвы по Новорижскому шоссе.</p>'
     '<div class="bp-calm__cta"><a class="bp-calm__btn" href="#bb-stay" data-bb-planner>Выбрать дом</a>'
     '<span class="bp-calm__price"><b>от 9 900 ₽</b>за ночь в будни</span></div>'
     '<p class="bp-calm__links"><a href="' + catalogue + '">Каталог всех домов</a><a href="#popup:quiz">Сертификат за опрос</a></p>'
-    '</div></div>' + medals + '</div>')
+    '</div></div>' + FACTS + medals + '</div>')
 inner_s = hero.index('<div id="bp-production-hero"')
 inner = hero[slice(*element(hero, inner_s))]
 hero = hero.replace(inner, new_hero)

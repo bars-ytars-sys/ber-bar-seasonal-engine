@@ -25,7 +25,16 @@ def one(text, old, new):
     return text.replace(old, new)
 
 
-def hero(hero, ASSETS):
+PHOTOS = {  # вариант: (компьютер, телефон, alt)
+    'chalet': (('bp-home-chalet-forest-light-20261114.webp', 1680, 1120), ('bp-home-chalet-light-mobile-20261114.webp', 1086, 1448),
+               'Шале «Барских полей»: дом с террасой в лесу'),
+    'aerial': (('bp-home-chalet-aerial-20261114.webp', 1920, 1072), ('bp-home-chalet-aerial-mobile-20261114.webp', 1080, 1446),
+               'Участок Шале сверху: дом, баня с купелью, банный чан, забор и берёзовый лес (визуализация)'),
+}
+
+
+def hero(hero, ASSETS, variant='chalet'):
+    (desk, dw, dh), (mob, mw, mh), alt = PHOTOS[variant]
     h1 = re.search(r'<h1 class="bp-hero__eyebrow">(.*?)</h1>', hero).group(1)
     assert h1 == 'База отдыха «Барские поля» в Подмосковье', h1
     assert 'Дом от 9 900 ₽ за ночь в будни' in hero and 'href="#popup:quiz"' in hero
@@ -48,8 +57,8 @@ def hero(hero, ASSETS):
         '<div id="bp-production-hero" class="r t-rec bp-hero-record bp-calm-record">'
         '<div class="bp-calm">'
         '<picture class="bp-calm__photo">'
-        '<source media="(max-width:640px)" srcset="' + ASSETS + 'bp-home-chalet-light-mobile-20261114.webp" width="1086" height="1448">'
-        '<img src="' + ASSETS + 'bp-home-chalet-forest-light-20261114.webp" width="1680" height="1120" alt="Шале «Барских полей»: дом с террасой в лесу" fetchpriority="high" decoding="async">'
+        '<source media="(max-width:640px)" srcset="' + ASSETS + mob + '" width="%d" height="%d">' % (mw, mh) +
+        '<img src="' + ASSETS + desk + '" width="%d" height="%d" alt="%s" fetchpriority="high" decoding="async">' % (dw, dh, alt) +
         '</picture><div class="bp-calm__shade" aria-hidden="true"></div>'
         '<div class="bp-calm__content">'
         '<h1 class="bp-calm__eyebrow">' + h1 + '</h1>'

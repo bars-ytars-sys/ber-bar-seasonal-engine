@@ -24,7 +24,14 @@ ASSETS = '../../demo/assets/'  # демка на GitHub Pages; при перен
 
 ap = argparse.ArgumentParser()
 ap.add_argument('--source', help='сохранённый HTML действующей главной')
+ap.add_argument('--variant', default='chalet', help='chalet (одобрено) | aerial (вид сверху, отдельная страница)')
 args = ap.parse_args()
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import calm
+(DESK, _, _), (MOB, _, _), _ = calm.PHOTOS[args.variant]
+if args.variant != 'chalet':
+    HOME = 'bp-production-preview-%s.html' % args.variant
 if args.source:
     source = Path(args.source).read_text(encoding='utf-8')
 else:
@@ -101,8 +108,8 @@ head = ('<meta name="robots" content="noindex,nofollow">'
         '<script>window.BPPreviewRoutes=' + json.dumps({'home': HOME, 'catalog': CATALOG, 'winter': 'bp-new-year.html'}) + ';</script>'
         '<script>' + preview_forms + '</script>'
         '<style>.bp-preview-form-result{margin-top:18px;padding:16px;border:1px solid #ee995d;border-radius:8px;background:#eee5d5;color:#28413a;font:400 14px/1.5 Rubik,Arial,sans-serif}.bp-preview-form-result[hidden]{display:none}</style>'
-        '<link rel="preload" as="image" href="../../demo/assets/bp-home-chalet-light-mobile-20261114.webp" media="(max-width:640px)">'
-        '<link rel="preload" as="image" href="../../demo/assets/bp-home-chalet-forest-light-20261114.webp" media="(min-width:641px)">'
+        '<link rel="preload" as="image" href="../../demo/assets/' + MOB + '" media="(max-width:640px)">'
+        '<link rel="preload" as="image" href="../../demo/assets/' + DESK + '" media="(min-width:641px)">'
         '<script>' + calm_js + '</script>')
 html = html.replace('<head>', '<head>' + head, 1)
 
@@ -130,12 +137,9 @@ for number in ['1', '4']:
     html = html.replace('https://barskie-polya.ru/gardens/garden' + number, 'bp-gardens.html?v=20261021b#bp-garden' + number)
 
 # ---------- 2–3. Первый экран и «Чёрная пятница» (общие правки calm.py) ----------
-import sys
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-import calm
 h1 = calm.H1
 s, e = record(html, 'rec5032272401')
-html = html[:s] + calm.hero(html[s:e], ASSETS) + html[e:]
+html = html[:s] + calm.hero(html[s:e], ASSETS, args.variant) + html[e:]
 s, e = record(html, 'rec4596018801')
 html = html[:s] + calm.promo(html[s:e]) + html[e:]
 
@@ -159,5 +163,5 @@ meta = {
     'production_changed': False, 'search_indexing': False, 'lead_submissions': False,
     'files': {HOME: hashlib.sha256(html.encode()).hexdigest()},
 }
-(OUT / 'bp-production-preview.json').write_text(json.dumps(meta, ensure_ascii=False, indent=2))
+(OUT / HOME.replace('.html', '.json')).write_text(json.dumps(meta, ensure_ascii=False, indent=2))
 print('Built', HOME, len(html), 'bytes; source', source_sha[:12])

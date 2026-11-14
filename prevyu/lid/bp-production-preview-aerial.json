@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-14",
+  "homepage": "bp-production-preview-aerial.html",
+  "catalog": "bp-production-houses.html",
+  "base": "live https://barskie-polya.ru/ 8d195a66279f5d5c28a461e0cf6ba34814876898c00ab37a41e96e245000fdec",
+  "changed_records": [
+    "rec5032272401 first screen",
+    "rec4596018801 Black Friday card and popup"
+  ],
+  "production_changed": false,
+  "search_indexing": false,
+  "lead_submissions": false,
+  "files": {
+    "bp-production-preview-aerial.html": "31931b73a883751f226897cb4551a3490f1922eadb878089bc802214067f3470"
+  }
+}

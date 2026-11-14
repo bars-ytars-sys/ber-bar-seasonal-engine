@@ -1,15 +1,16 @@
 {
-  "date": "2026-10-21",
+  "date": "2026-11-14",
   "homepage": "bp-production-preview.html",
   "catalog": "bp-production-houses.html",
+  "base": "live https://barskie-polya.ru/ 8d195a66279f5d5c28a461e0cf6ba34814876898c00ab37a41e96e245000fdec",
+  "changed_records": [
+    "rec5032272401 first screen",
+    "rec4596018801 Black Friday card and popup"
+  ],
   "production_changed": false,
   "search_indexing": false,
   "lead_submissions": false,
-  "native_form_validation": true,
-  "news_hidden": true,
-  "telegram_tasks_applied": true,
   "files": {
-    "bp-production-preview.html": "ba155f9f610636fd2324867f5702a9256cbb8a5fb6c0fa0d536bbf35044e24ec",
-    "bp-production-houses.html": "0a487678c77f065ccd3a54c5840de2fa45b8d59a446379bc8a70faf4a9ee58b4"
+    "bp-production-preview.html": "985c5d3fe645e2b6d6339dff2a04265ecd4a80ebb352363a4bcbdb5e848830a4"
   }
 }

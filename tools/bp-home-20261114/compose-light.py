@@ -6,7 +6,7 @@
 оригинал вклеиваются только стёкла окон/дверей и мягкий тёплый отсвет вокруг
 (только там, где стало светлее). Остальное — пиксели исходной фотографии.
 
-    python3 compose-light.py ORIGINAL AI_RESULT {mobile|desktop} OUT.webp [strength=1]
+    python3 compose-light.py ORIGINAL AI_RESULT {mobile|desktop|forest} OUT.webp [strength=1]
 """
 import sys
 import numpy as np
@@ -17,8 +17,9 @@ WINDOWS = {
     # выше перил: балясины и поручень лестницы остаются пикселями оригинала
     'mobile': [(226, 482, 316, 597), (480, 490, 549, 597), (759, 486, 821, 594), (826, 486, 898, 597)],
     'desktop': [(460, 572, 546, 686), (706, 575, 788, 686), (982, 574, 1068, 780), (1080, 574, 1163, 780)],
+    'forest': [],  # архив Бново, Шале/022.jpg: только карта «стало светлее»
 }
-LAMPS = {'mobile': [(583, 478, 597, 506)], 'desktop': [(879, 523, 891, 714)]}
+LAMPS = {'mobile': [(583, 478, 597, 506)], 'desktop': [(879, 523, 891, 714)], 'forest': []}
 
 
 def gray(a):
@@ -45,7 +46,7 @@ def mask(size, boxes, blur, grow=0, ellipse=False):
     return np.asarray(m.filter(ImageFilter.GaussianBlur(blur)), dtype=np.float32)[..., None] / 255.0
 
 
-FACADE = {'mobile': (150, 430, 980, 720), 'desktop': (360, 470, 1450, 820)}
+FACADE = {'mobile': (150, 430, 980, 720), 'desktop': (360, 470, 1450, 820), 'forest': (780, 0, 1680, 880)}
 
 
 def main(orig_path, ai_path, kind, out_path, strength=1.0):

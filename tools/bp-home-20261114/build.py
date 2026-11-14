@@ -102,7 +102,7 @@ head = ('<meta name="robots" content="noindex,nofollow">'
         '<script>' + preview_forms + '</script>'
         '<style>.bp-preview-form-result{margin-top:18px;padding:16px;border:1px solid #ee995d;border-radius:8px;background:#eee5d5;color:#28413a;font:400 14px/1.5 Rubik,Arial,sans-serif}.bp-preview-form-result[hidden]{display:none}</style>'
         '<link rel="preload" as="image" href="../../demo/assets/bp-home-chalet-light-mobile-20261114.webp" media="(max-width:640px)">'
-        '<link rel="preload" as="image" href="../../demo/assets/bp-home-chalet-light-20261114.webp" media="(min-width:641px)">'
+        '<link rel="preload" as="image" href="../../demo/assets/bp-home-chalet-forest-light-20261114.webp" media="(min-width:641px)">'
         '<script>' + calm_js + '</script>')
 html = html.replace('<head>', '<head>' + head, 1)
 
@@ -155,7 +155,7 @@ new_hero = (
     '<div class="bp-calm">'
     '<picture class="bp-calm__photo">'
     '<source media="(max-width:640px)" srcset="' + ASSETS + 'bp-home-chalet-light-mobile-20261114.webp" width="1086" height="1448">'
-    '<img src="' + ASSETS + 'bp-home-chalet-light-20261114.webp" width="1680" height="1120" alt="Шале «Барских полей»: дом с террасой в лесу" fetchpriority="high" decoding="async">'
+    '<img src="' + ASSETS + 'bp-home-chalet-forest-light-20261114.webp" width="1680" height="1120" alt="Шале «Барских полей»: дом с террасой в лесу" fetchpriority="high" decoding="async">'
     '</picture><div class="bp-calm__shade" aria-hidden="true"></div>'
     '<div class="bp-calm__content">'
     '<h1 class="bp-calm__eyebrow">' + h1 + '</h1>'

@@ -38,6 +38,9 @@
       if (hero) root.style.setProperty('--bp-calm-top', Math.max(0, Math.round(hero.getBoundingClientRect().top + scrollY)) + 'px');
     }
     addEventListener('resize', sync); addEventListener('load', sync); sync();
+    // Тильда добавляет отступ под шапку и строку «Новый год» позже — пересчитываем при любом сдвиге.
+    [300, 1000, 2500].forEach(t => setTimeout(sync, t));
+    if ('ResizeObserver' in window) new ResizeObserver(sync).observe(document.body);
 
     if (hero && 'IntersectionObserver' in window) {
       new IntersectionObserver(entries => {

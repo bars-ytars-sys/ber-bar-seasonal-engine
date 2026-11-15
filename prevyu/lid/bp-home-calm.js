@@ -67,3 +67,19 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready, {once: true});
   else ready();
 })();
+
+/* iPhone: новогоднюю строку под шапкой переносим внутрь фиксированной шапки, чтобы Safari рисовал их одним слоем. */
+(() => {
+  'use strict';
+  function move() {
+    const row = document.querySelector('#t-header .demo-ny-mobile');
+    const bar = document.querySelector('#rec1185050691 .t396__artboard');
+    if (!row || !bar) return false;
+    if (row.parentNode !== bar) bar.appendChild(row);
+    Object.assign(row.style, {position: 'absolute', top: '100%', left: '0', right: '0', zIndex: '5'});
+    return true;
+  }
+  let tries = 0;
+  (function wait() { if (!move() && tries++ < 60) setTimeout(wait, 100); })();
+  addEventListener('load', move);
+})();

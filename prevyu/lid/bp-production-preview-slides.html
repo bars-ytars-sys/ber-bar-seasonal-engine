@@ -107,6 +107,22 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready, {once: true});
   else ready();
 })();
+
+/* iPhone: новогоднюю строку под шапкой переносим внутрь фиксированной шапки, чтобы Safari рисовал их одним слоем. */
+(() => {
+  'use strict';
+  function move() {
+    const row = document.querySelector('#t-header .demo-ny-mobile');
+    const bar = document.querySelector('#rec1185050691 .t396__artboard');
+    if (!row || !bar) return false;
+    if (row.parentNode !== bar) bar.appendChild(row);
+    Object.assign(row.style, {position: 'absolute', top: '100%', left: '0', right: '0', zIndex: '5'});
+    return true;
+  }
+  let tries = 0;
+  (function wait() { if (!move() && tries++ < 60) setTimeout(wait, 100); })();
+  addEventListener('load', move);
+})();
 /* Слайдер первого экрана: смена кадров раз в 6 с, пауза при наведении и в фоновой вкладке,
    без автосмены при «уменьшить движение». Кадры, кроме первого, грузятся после загрузки страницы. */
 (() => {
@@ -6685,6 +6701,14 @@ window.tildastatcookie='no';window.tildastatscroll='yes';setTimeout(function(){(
 #bp-production-hero .bp-calm__facts svg{width:46px;height:46px}
 }
 @media (max-width:359px){#bp-production-hero .bp-calm__content{padding:40px 24px 24px 28px}#bp-production-hero .bp-calm__title{font-size:34px}#bp-production-hero .bp-calm__accent{font-size:40px}}
+
+/* iPhone: шапка не дорисовывалась при загрузке главной (Safari), пока одновременно есть отдельная
+   фиксированная строка «Новый год / Забронировать» и слой листопада во весь экран. Строку переносим
+   внутрь шапки (скрипт ниже), листопад на телефоне выключаем, пока виден первый экран (он там и так прозрачный). */
+@media (max-width:959px){
+  #rec1185050691 .t396__artboard{overflow:visible!important}
+  body.bp-hero-in-view #bp-canvas{display:none!important}
+}
 
 /* Плавающая плашка акции не спорит с первым экраном */
 #bp-bf-launcher{transition:opacity .25s,visibility .25s}

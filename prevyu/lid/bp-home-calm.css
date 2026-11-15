@@ -122,6 +122,14 @@
 }
 @media (max-width:359px){#bp-production-hero .bp-calm__content{padding:40px 24px 24px 28px}#bp-production-hero .bp-calm__title{font-size:34px}#bp-production-hero .bp-calm__accent{font-size:40px}}
 
+/* iPhone: шапка не дорисовывалась при загрузке главной (Safari), пока одновременно есть отдельная
+   фиксированная строка «Новый год / Забронировать» и слой листопада во весь экран. Строку переносим
+   внутрь шапки (скрипт ниже), листопад на телефоне выключаем, пока виден первый экран (он там и так прозрачный). */
+@media (max-width:959px){
+  #rec1185050691 .t396__artboard{overflow:visible!important}
+  body.bp-hero-in-view #bp-canvas{display:none!important}
+}
+
 /* Плавающая плашка акции не спорит с первым экраном */
 #bp-bf-launcher{transition:opacity .25s,visibility .25s}
 body.bp-hero-in-view #bp-bf-launcher,body.bp-bf-card-in-view #bp-bf-launcher{opacity:0;visibility:hidden;pointer-events:none}

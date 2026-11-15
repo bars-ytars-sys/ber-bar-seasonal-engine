@@ -72,15 +72,17 @@
       const header = document.querySelector('#rec1185050691 .t396__artboard');
       const nav = document.querySelector('.t975');
       const bottom = nav && getComputedStyle(nav).display !== 'none' ? nav.getBoundingClientRect().height : 0;
-      root.style.setProperty('--bp-screen', innerHeight + 'px');
       root.style.setProperty('--bp-header-height', (header?.getBoundingClientRect().height || 76) + 'px');
       root.style.setProperty('--bp-bottom-height', bottom + 'px');
       if (hero) root.style.setProperty('--bp-calm-top', Math.max(0, Math.round(hero.getBoundingClientRect().top + scrollY)) + 'px');
     }
-    addEventListener('resize', sync); addEventListener('load', sync); sync();
+    // Высота экрана — в CSS через 100svh (не меняется при скрытии адресной строки Safari).
+    // Здесь только отступ сверху; пересчёт при повороте экрана, а не при каждом изменении окна.
+    let lastW = innerWidth;
+    addEventListener('resize', () => { if (innerWidth !== lastW) { lastW = innerWidth; sync(); } });
+    addEventListener('load', sync); sync();
     // Тильда добавляет отступ под шапку и строку «Новый год» позже — пересчитываем при любом сдвиге.
     [300, 1000, 2500].forEach(t => setTimeout(sync, t));
-    if ('ResizeObserver' in window) new ResizeObserver(sync).observe(document.body);
 
     if (hero && 'IntersectionObserver' in window) {
       new IntersectionObserver(entries => {
@@ -6525,7 +6527,7 @@ window.tildastatcookie='no';window.tildastatscroll='yes';setTimeout(function(){(
 /* ---------- Первый экран ---------- */
 #bp-production-hero.bp-calm-record{position:relative;padding:0!important;background:#233b32!important;overflow:hidden!important}
 #bp-production-hero .bp-calm{position:relative;display:flex;align-items:flex-end;box-sizing:border-box;
-  min-height:max(560px,calc(var(--bp-screen,100svh) - var(--bp-calm-top,101px) - var(--bp-bottom-height,66px)));
+  min-height:max(560px,calc(100svh - var(--bp-calm-top,101px) - var(--bp-bottom-height,66px)));
   padding:0 20px 104px;color:#fff8eb;background:#233b32;font-family:'Rubik',Arial,sans-serif}
 #bp-production-hero .bp-calm__media{position:absolute;inset:0}
 #bp-production-hero .bp-calm__photo{position:absolute;inset:0;margin:0}
@@ -6566,7 +6568,7 @@ window.tildastatcookie='no';window.tildastatscroll='yes';setTimeout(function(){(
 #bp-production-hero .bp-calm__quiz-ic{display:none}
 @media (max-width:640px){
   #bp-production-hero .bp-calm{display:flex;flex-direction:column;align-items:stretch;
-    min-height:max(540px,calc(var(--bp-screen,100svh) - var(--bp-calm-top,101px) - var(--bp-bottom-height,66px)));padding:0}
+    min-height:max(540px,calc(100svh - var(--bp-calm-top,101px) - var(--bp-bottom-height,66px)));padding:0}
   #bp-production-hero .bp-calm__photo img{object-position:50% 70%}
   #bp-production-hero .bp-calm__shade{background:linear-gradient(180deg,#233b32 0%,rgba(35,59,50,.9) 16%,rgba(35,59,50,.45) 34%,rgba(35,59,50,0) 48%,rgba(35,59,50,0) 62%,rgba(35,59,50,.6) 80%,#233b32 100%)}
   #bp-production-hero .bp-calm__content{box-sizing:border-box;display:flex;flex-direction:column;flex:1;padding:26px 20px 24px}
@@ -6592,7 +6594,7 @@ window.tildastatcookie='no';window.tildastatscroll='yes';setTimeout(function(){(
   #bp-production-hero .bp-calm__awards{gap:6px;padding:10px 8px 12px}
 }
 @media (min-width:641px){
-  #bp-production-hero .bp-calm{min-height:max(620px,calc(var(--bp-screen,100svh) - var(--bp-calm-top,0px) - 58px));padding:0 40px 56px}
+  #bp-production-hero .bp-calm{min-height:max(620px,calc(100svh - var(--bp-calm-top,0px) - 58px));padding:0 40px 56px}
   #bp-production-hero .bp-calm__photo img{object-position:50% 32%}
   #bp-production-hero .bp-calm__shade{background:
     linear-gradient(90deg,rgba(24,40,33,.6) 0%,rgba(24,40,33,.3) 40%,rgba(24,40,33,0) 62%),

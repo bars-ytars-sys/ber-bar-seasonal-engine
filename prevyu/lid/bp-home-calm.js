@@ -32,15 +32,17 @@
       const header = document.querySelector('#rec1185050691 .t396__artboard');
       const nav = document.querySelector('.t975');
       const bottom = nav && getComputedStyle(nav).display !== 'none' ? nav.getBoundingClientRect().height : 0;
-      root.style.setProperty('--bp-screen', innerHeight + 'px');
       root.style.setProperty('--bp-header-height', (header?.getBoundingClientRect().height || 76) + 'px');
       root.style.setProperty('--bp-bottom-height', bottom + 'px');
       if (hero) root.style.setProperty('--bp-calm-top', Math.max(0, Math.round(hero.getBoundingClientRect().top + scrollY)) + 'px');
     }
-    addEventListener('resize', sync); addEventListener('load', sync); sync();
+    // Высота экрана — в CSS через 100svh (не меняется при скрытии адресной строки Safari).
+    // Здесь только отступ сверху; пересчёт при повороте экрана, а не при каждом изменении окна.
+    let lastW = innerWidth;
+    addEventListener('resize', () => { if (innerWidth !== lastW) { lastW = innerWidth; sync(); } });
+    addEventListener('load', sync); sync();
     // Тильда добавляет отступ под шапку и строку «Новый год» позже — пересчитываем при любом сдвиге.
     [300, 1000, 2500].forEach(t => setTimeout(sync, t));
-    if ('ResizeObserver' in window) new ResizeObserver(sync).observe(document.body);
 
     if (hero && 'IntersectionObserver' in window) {
       new IntersectionObserver(entries => {

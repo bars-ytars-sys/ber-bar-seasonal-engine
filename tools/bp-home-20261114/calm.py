@@ -89,13 +89,10 @@ def hero(hero, ASSETS, variant='chalet'):
         '<div class="bp-calm__content">'
         '<h1 class="bp-calm__eyebrow">' + h1 + '</h1>'
         '<p class="bp-calm__title">Уединённый отдых <span class="bp-calm__accent">в лесу</span></p>'
-        '<p class="bp-calm__lead"><span class="bp-calm__lead-more">Дома с полностью или частично огороженной территорией. </span>Час от Москвы по Новорижскому шоссе.</p>'
-        '<div class="bp-calm__cta"><a class="bp-calm__btn" href="#bb-stay" data-bb-planner>Выбрать дом</a>'
+        '<p class="bp-calm__lead">В дизайнерских домиках с тёплыми банными чанами. Всего час от Москвы по Новорижскому шоссе.</p>'
+        '<div class="bp-calm__cta"><a class="bp-calm__btn" href="' + catalogue + '">Каталог домов</a>'
         '<span class="bp-calm__price"><b>от 9 900 ₽</b>за ночь в будни</span></div>'
-        '<p class="bp-calm__links"><a class="bp-calm__catalogue" href="' + catalogue + '">Каталог всех домов</a>'
-        '<a class="bp-calm__quiz" href="#popup:quiz"><span class="bp-calm__quiz-ic" aria-hidden="true">'
-        '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="9" width="17" height="11.5" rx="1"/><path d="M2.5 9h19V6.5h-19z"/><path d="M12 6.5v14"/><path d="M12 6.5c-1.5-3-5.5-3.5-5.5-1S10 6.5 12 6.5c2 0 5.5-.5 5.5-1s-4-2-5.5 1z"/></svg>'
-        '</span><span>Сертификат за опрос</span></a></p>'
+        # 15.11 Валерия: сертификат и дубль «Выбрать дом/Каталог» убрать; одна кнопка — каталог домов (Лера: кнопка не должна просто листать вниз)
         '</div>' + nav + '</div>' + FACTS + medals + '</div>')
     inner_s = hero.index('<div id="bp-production-hero"')
     inner = hero[slice(*element(hero, inner_s))]

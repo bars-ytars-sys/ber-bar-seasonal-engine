@@ -70,7 +70,7 @@ for text, name in [(hero_new, 'hero'), (promo_new, 'promo')]:
     assert 'bars-ytars-sys.github.io' in text
     assert '../../demo/assets' not in text and 'bp-production-houses.html' not in text and 'noindex' not in text
 assert hero_new.count('<h1') == 1 and '>' + calm.H1 + '</h1>' in hero_new
-assert 'data-bb-planner' in hero_new and 'href="#popup:quiz"' in hero_new
+assert 'class="bp-calm__btn" href="/houses">Каталог домов<' in hero_new and 'popup:quiz' not in hero_new.split('<style>')[0]
 assert promo_new.count('data-bp-black-friday') >= 2 and 'bpCalmAutoShow' in promo_new
 
 files = {

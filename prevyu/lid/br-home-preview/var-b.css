@@ -1,0 +1,27 @@
+/* Вариант B «Тёмный»: фото на весь экран, тёмно-зелёное затемнение, белый текст */
+.brx { color: #fff; background: #12291f; }
+.brx::after { background: linear-gradient(90deg, rgba(12, 32, 24, .82) 0%, rgba(12, 32, 24, .62) 30%, rgba(12, 32, 24, .18) 50%, rgba(12, 32, 24, 0) 62%); }
+.brx__eyebrow { color: #2ed8a3; }
+.brx__title { color: #fff; text-shadow: 0 3px 24px rgba(0, 0, 0, .35); }
+.brx__title span { color: #2ed8a3; }
+.brx__lead, .brx__lead-m { color: rgba(255, 255, 255, .92); text-shadow: 0 1px 10px rgba(0, 0, 0, .5); }
+.brx__more { color: #fff !important; }
+@media (max-width: 960px) {
+  .brx::after { background:
+    linear-gradient(180deg, rgba(12, 32, 24, .88) 0%, rgba(12, 32, 24, .7) 22%, rgba(12, 32, 24, .25) 36%, rgba(12, 32, 24, 0) 46%),
+    linear-gradient(0deg, rgba(12, 32, 24, .85) 0%, rgba(12, 32, 24, 0) 24%); }
+}
+
+/* 16.11: заголовок без наложения строк (точки «Ё» не задевают строку выше), текст владельца */
+.brx__title { max-width: 15ch; font-size: clamp(42px, 4.4vw, 70px); line-height: 1.12; letter-spacing: .005em; }
+.brx__title span { margin-top: .04em; }
+.brx__lead { max-width: 44ch; }
+@media (max-width: 960px) {
+  .brx__title { font-size: clamp(30px, 8.6vw, 38px); line-height: 1.14; margin-bottom: 12px; }
+  .brx__lead-m { font-size: 15px; }
+}
+@media (max-width: 359px) { .brx__title { font-size: 28px; } }
+.brx__title, .brx__title span { text-wrap: balance; }
+@media (min-width: 961px) { .brx__title { max-width: 17ch; } }
+@media (min-width: 961px) { .brx__title { max-width: 21ch; } }
+@media (min-width: 961px) { .brx__slide[data-k="house"] img { object-position: 72% 100%; } }

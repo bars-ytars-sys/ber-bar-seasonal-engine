@@ -1,0 +1,67 @@
+/* БР, первый экран (локально, 16.11, Claude) — решения грилла:
+   Q1 дом «Панорама» снаружи; Q2 смена на крытый бассейн SPA; Q3 телефон: текст сверху, середина фото чистая, кнопка внизу;
+   Q4 светлая кремовая дымка, тёмный текст; Q5 «Свой дом в берёзовой роще»; Q6 фирменный жирный шрифт;
+   Q7 «Проверить даты» + «Все 22 дома →»; Q8 компьютер: фото на весь экран, текст слева. */
+.brx { --brx-mint: #2ed8a3; --brx-ink: #16231d; --brx-cream: 247, 245, 238; --brx-head: 60px;
+  position: relative; isolation: isolate; overflow: hidden; color: var(--brx-ink); background: rgb(var(--brx-cream));
+  margin-top: var(--brx-head); min-height: clamp(600px, calc(100svh - var(--brx-head)), 900px);
+  display: flex; align-items: center; font-family: 'TildaSans', Arial, sans-serif; }
+.brx * { box-sizing: border-box; }
+.brx a { text-decoration: none; }
+
+.brx__slides { position: absolute; inset: 0; z-index: -2; }
+.brx__slide { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .55s ease; }
+.brx__slide.is-on { opacity: 1; }
+.brx__slide img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); }
+.brx__slide.is-on img { animation: brx-zoom 9s ease-out forwards; }
+@keyframes brx-zoom { from { transform: scale(1.05); } to { transform: scale(1); } }
+.brx__slide[data-k="house"] img { object-position: 60% 55%; }
+.brx__slide[data-k="spa"] img { object-position: 55% 55%; }
+
+/* Компьютер: мягкая кремовая дымка слева под текстом, фото справа открыто */
+.brx::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(90deg, rgba(var(--brx-cream), .94) 0%, rgba(var(--brx-cream), .84) 26%, rgba(var(--brx-cream), .4) 42%, rgba(var(--brx-cream), 0) 56%); }
+
+.brx__copy { width: min(100%, 1440px); margin: 0 auto; padding: 48px clamp(28px, 6vw, 96px); }
+.brx__eyebrow { margin: 0 0 18px; font: 600 13px/1.4 'TildaSans', Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #1b6b52; }
+.brx__title { margin: 0 0 20px; max-width: 11ch; font: 400 clamp(46px, 5vw, 80px)/.98 'DespairDisplay', 'TildaSans', Arial, sans-serif; text-transform: uppercase; color: var(--brx-ink); }
+.brx__title span { display: block; color: #11865f; }
+.brx__lead { max-width: 38ch; margin: 0 0 30px; font: 500 18px/1.5 'TildaSans', Arial, sans-serif; color: #2b3a33; }
+.brx__lead-m { display: none; }
+.brx__row { display: flex; align-items: center; flex-wrap: wrap; gap: 16px 28px; }
+.brx__cta { display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 0 38px; border-radius: 999px;
+  background: var(--brx-mint); color: var(--brx-ink) !important; font: 700 14px/1 'TildaSans', Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase;
+  box-shadow: 0 10px 26px rgba(17, 134, 95, .28); transition: background-color .2s; }
+.brx__cta:hover { background: #5be4b8; }
+.brx__more { display: inline-flex; align-items: center; gap: 8px; color: var(--brx-ink) !important; font: 700 13px/1.2 'TildaSans', Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; border-bottom: 1px solid currentColor; padding-bottom: 3px; }
+.brx__more i { display: none; }
+.brx__more::after { content: '→'; }
+.brx__cta:focus-visible, .brx__more:focus-visible { outline: 2px solid var(--brx-ink); outline-offset: 4px; }
+.brx__facts, .brx__bars { display: none; }
+
+.brx__eyebrow, .brx__title, .brx__lead, .brx__lead-m, .brx__row { animation: brx-in .8s cubic-bezier(.2, .7, .2, 1) both; }
+.brx__title { animation-delay: .1s; } .brx__lead, .brx__lead-m { animation-delay: .22s; } .brx__row { animation-delay: .34s; }
+@keyframes brx-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* Телефон: текст сверху на кремовой дымке, середина фото чистая, кнопка внизу кадра над нижней панелью */
+@media (max-width: 960px) {
+  .brx { --brx-head: 70px; display: flex; flex-direction: column; align-items: stretch;
+    min-height: max(560px, calc(100svh - var(--brx-head) - 61px)); }
+  .brx::after { background:
+    linear-gradient(180deg, rgba(var(--brx-cream), .97) 0%, rgba(var(--brx-cream), .9) 22%, rgba(var(--brx-cream), .55) 34%, rgba(var(--brx-cream), 0) 46%),
+    linear-gradient(0deg, rgba(var(--brx-cream), .85) 0%, rgba(var(--brx-cream), 0) 20%); }
+  .brx__slide[data-k="house"] img { object-position: 50% 75%; }
+  .brx__slide[data-k="spa"] img { object-position: 50% 70%; }
+  .brx__copy { display: flex; flex-direction: column; flex: 1; padding: 22px 22px 18px; }
+  .brx__eyebrow { margin-bottom: 10px; font-size: 10px; letter-spacing: .06em; white-space: nowrap; }
+  .brx__title { max-width: none; font-size: clamp(34px, 10vw, 44px); margin-bottom: 10px; }
+  .brx__lead { display: none; }
+  .brx__lead-m { display: block; margin: 0; font: 500 15px/1.45 'TildaSans', Arial, sans-serif; color: #2b3a33; }
+  .brx__row { margin-top: auto; flex-direction: column; align-items: stretch; gap: 12px; }
+  .brx__cta { min-height: 54px; }
+  .brx__more { align-self: center; }
+}
+@media (max-width: 359px) { .brx__eyebrow { font-size: 8.8px; } .brx__title { font-size: 31px; } }
+@media (prefers-reduced-motion: reduce) {
+  .brx__slide.is-on img, .brx__eyebrow, .brx__title, .brx__lead, .brx__lead-m, .brx__row { animation: none; transform: none; }
+}

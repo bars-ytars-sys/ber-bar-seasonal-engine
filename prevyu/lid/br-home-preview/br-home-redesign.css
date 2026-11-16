@@ -1,11 +1,11 @@
 /* Layout for the home-page preview. The existing header and footer retain their own rules. */
 .brh {
   --brh-ink: #1a1b19;
-  --brh-muted: #505955;
-  --brh-paper: #f5f7f3;
-  --brh-line: #dbe5de;
+  --brh-muted: #44504d;
+  --brh-paper: #f4f5fa;
+  --brh-line: #dce1e6;
   --brh-mint: #2ed8a3;
-  --brh-link: #176a53;
+  --brh-link: #11654e;
   --brh-text: var(--t-text-font, 'TildaSans', Arial, sans-serif);
   color: var(--brh-ink);
   font-family: var(--brh-text);
@@ -57,23 +57,16 @@
   margin-inline: auto;
   padding: 55px clamp(32px, 8.3vw, 120px);
 }
-.brh-hero h1 {
-  margin: 0 0 18px;
-  max-width: 475px;
-  color: #ddf2e9;
-  font: 650 12px/1.45 var(--brh-text);
-  letter-spacing: .085em;
-  text-transform: uppercase;
-}
+
 .brh-hero .brh-hero__name {
-  max-width: 9.7ch;
+  max-width: 18ch;
   color: #fffdf8;
-  font: 600 clamp(55px, 6.2vw, 94px)/.99 var(--brh-text);
-  letter-spacing: -.047em;
+  font: 700 clamp(40px, 4.6vw, 68px)/1.06 Arial, sans-serif;
+  letter-spacing: -.043em;
   text-wrap: balance;
 }
 .brh-hero .brh-hero__description {
-  max-width: 33ch;
+  max-width: 39ch;
   margin-top: 19px;
   font-size: clamp(17px, 1.48vw, 21px);
   line-height: 1.4;
@@ -98,10 +91,10 @@
 .brh-section {
   max-width: 1504px;
   margin: 0 auto;
-  padding: clamp(50px, 7vw, 102px) clamp(18px,4.2vw,72px);
+  padding: clamp(32px, 5.3vw, 74px) clamp(18px,4.2vw,72px);
   scroll-margin-top: 105px;
 }
-.brh-wide-bg { background: #eef4ef; }
+.brh-wide-bg { background: var(--brh-paper, #f3f4f9); }
 .brh-section__heading {
   margin-bottom: 24px;
   display: flex;
@@ -148,8 +141,10 @@
 .brh-booking__panel {
   padding: clamp(19px, 3.6vw, 42px);
   border-radius: 16px;
-  background: #214035;
-  color: #fbfff9;
+  position: relative;
+  background: #f3f4fa;
+  border: 1px solid #e1e6e9;
+  color: #1a1b19;
 }
 .brh-booking h2 {
   margin-bottom: 22px;
@@ -163,40 +158,83 @@
 .brh-booking #_bn_widget_ iframe { width: 100% !important; display: block; }
 .brh-booking__fallback { margin-top: 15px !important; text-align: center; }
 .brh-booking__fallback a {
-  color: #e0f1e8;
+  color: var(--brh-link);
   font-size: 14px;
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-.brh-booking__fallback a:focus-visible { outline-color: #fff; }
+
+.brh-booking__status {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset-inline: 12px;
+  min-height: 56px;
+  color: var(--brh-muted);
+  pointer-events: none;
+  font-size: 15px;
+}
+.brh-booking__panel[data-widget-state="loading"] .brh-booking__status { display: flex; }
+.brh-booking__panel[data-widget-state="loading"] #_bn_widget_ { min-height: 56px; }
+.brh-booking__panel[data-widget-state="failed"] #_bn_widget_ { display: none; }
 #br-home-map, #br-home-spa { scroll-margin-top: 102px; }
-.brh-activities__controls, .brh-activities__arrows { display: flex; align-items: center; gap: 13px; }
-.brh-activities__arrows { gap: 6px; }
-.brh-activities__arrows button {
-  flex: 0 0 44px; height: 44px; width: 44px; padding: 0;
-  border: 1px solid #c8ded4; border-radius: 50%;
-  background: #fff; color: #1c664f;
-  font: 400 28px/1 Arial,sans-serif;
+.brh-house-controls, .brh-house-arrows { display: flex; align-items: center; gap: 14px; }
+.brh-house-arrows { gap: 6px; }
+.brh-house-arrows button {
+  width: 44px; height: 44px; padding: 0 0 4px;
+  border: 1px solid #cfe1dc; border-radius: 50%;
+  background: #e8f8f2; color: #145742;
+  font: 400 27px/1 Arial, sans-serif;
   cursor: pointer;
 }
-.brh-activities__arrows button:disabled { opacity: .42; cursor: default; }
-.brh-activities__arrows button:focus-visible { outline: 2px solid var(--brh-link); outline-offset: -4px; }
-.brh-activities__track {
-  display: grid;
+.brh-house-arrows button:disabled { opacity: .4; cursor: default; }
+.brh button:focus-visible { outline: 2px solid #12694f; outline-offset: -3px; }
+.brh #br-house-cards {
+  grid-template-columns: none;
   grid-auto-flow: column;
-  grid-auto-columns: clamp(292px, 29.5vw, 420px);
+  grid-auto-columns: calc((100% - 66px) / 4.18);
   gap: 16px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: 4px 4px 13px;
-  margin: -4px -4px 0;
-  scrollbar-width: thin;
-  scrollbar-color: #b1ccc0 transparent;
+  scrollbar-width: none;
+  padding: 3px 2px 6px;
+  margin-inline: -2px;
 }
-.brh-activities__track .brh-activity { scroll-snap-align: start; }
-.brh-activities__track .brh-activity figure { aspect-ratio: 1 / 1.13; }
-.brh-activities__track .brh-activity .brh-card__body { padding: 19px 21px 22px; }
-.brh-activities__track .brh-activity img { object-position: 54% 50%; }
+#br-house-cards::-webkit-scrollbar { display: none; }
+#br-home-houses { padding-top: clamp(20px, 3vw, 44px); padding-bottom: 10px; }
+#br-home-offers { padding-top: clamp(19px, 2.5vw, 37px); }
+.brh-house { scroll-snap-align: start; border-radius: 16px; }
+.brh-house__visual { position: relative; }
+.brh-house__visual a { display: block; }
+.brh-house .brh-house__visual figure { aspect-ratio: 4 / 4.65; }
+.brh-house .brh-house__visual figure:focus-within { outline: 2px solid #159675; outline-offset: -4px; }
+.brh-house__badges {
+  position: absolute; top: 12px; inset-inline: 12px; display: flex; flex-wrap: wrap; gap: 5px; pointer-events: none;
+}
+.brh-house__badges span {
+  border-radius: 99px; padding: 5px 9px; background: #fffffff2; color: #1b3028; font: 650 12px/1.15 var(--brh-text);
+}
+.brh-house__photos { display: flex; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); padding: 0 4px; background: #1726227d; border-radius: 24px; }
+.brh-house__photos button { width: 32px; height: 32px; background: none; border: 0; display: grid; place-items: center; cursor: pointer; }
+.brh-house__photos button::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #fff9; }
+.brh-house__photos button[aria-pressed="true"]::before { background: white; transform: scale(1.23); }
+.brh-house__photos button:focus-visible { outline-color: #fff; }
+.brh-house .brh-card__body { padding: 12px 14px 14px; }
+.brh .brh-house__button {
+  display: inline-flex; min-height: 42px; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 11px; padding: 0 14px; border: 1px solid #29cfa0; border-radius: 7px;
+  background: #f2fcf8; color: #115742; font-weight: 700; font-size: 15px;
+}
+.brh .brh-house__button:hover { background: #dcf9ee; }
+.brh-activities__track {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 22px);
+}
+.brh-activity { position: relative; display: block; overflow: hidden; min-width: 0; border-radius: 14px; background: #e6edf0; aspect-ratio: 1.34; isolation: isolate; }
+.brh-activity img { height: 100%; object-fit: cover; }
+.brh-activity::after { content: ""; position: absolute; inset: 30% 0 0; pointer-events: none; background: linear-gradient(transparent, #15211ee8); }
+.brh-activity__label { position: absolute; inset: auto 14px 13px; z-index: 1; display: flex; justify-content: space-between; gap: 6px; align-items: end; color: #fff; font-weight: 700; font-size: clamp(17px, 2vw, 25px); line-height: 1.16; }
+.brh-activity__label span { flex: none; }
 #rec3546311701 .акции-шапка { display: none !important; }
 .preview-home-redesign #au-canvas, .preview-home-redesign .au-sprig, .preview-home-redesign .au2-side,
 .preview-home-redesign #brbf-launcher,
@@ -251,15 +289,7 @@
     inset: calc(-1 * var(--brh-mobile-top)) calc(-1 * var(--brh-mobile-gutter)) -58px;
     background: linear-gradient(180deg, #0c241cde, #0c241cc7 calc(100% - 58px), transparent);
   }
-  .brh-hero h1 {
-    max-width: 320px;
-    margin-bottom: 14px;
-    color: #e7fff4;
-    font-size: 12px;
-    font-weight: 750;
-    letter-spacing: .045em;
-  }
-  .brh-hero .brh-hero__name { font-size: clamp(43px, 12.6vw, 59px); }
+  .brh-hero .brh-hero__name { max-width: 20ch; font-size: clamp(30px, 8.1vw, 47px); }
   .brh-hero .brh-hero__description {
     max-width: 34ch;
     margin-top: 12px;
@@ -272,7 +302,7 @@
   .brh-hero__photo { object-position: 57% 54%; }
   .brh-hero__visual[data-brh-visual="spa"] img { object-position: 49% 49%; }
   #br-home-booking { scroll-margin-top: 64px; }
-  .brh-section { padding: 44px 17px; }
+  .brh-section { padding: 31px 16px; }
   .brh-section__heading { display: block; margin-bottom: 17px; }
   .brh-section__heading .brh-link { display: inline-block; margin-top: 10px; }
   .brh-grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(220px, 79%); scroll-snap-type: x mandatory; overflow-x: auto; padding-bottom: 10px; gap: 12px; }
@@ -284,14 +314,23 @@
   .brh-booking__panel { padding: 21px 14px 18px; }
   .brh-booking h2 { margin-bottom: 18px; }
   .brh-booking__fallback { margin-top: 11px !important; }
-  .brh-activities__controls { justify-content: space-between; margin-top: 6px; }
-  .brh-activities__controls .brh-link { margin-top: 0; }
-  .brh-activities__track { grid-auto-columns: min(83vw, 355px); gap: 12px; }
-  .brh-activities__track .brh-activity figure { aspect-ratio: 1 / 1.03; }
+  .brh-booking__status, .brh-booking__panel[data-widget-state="loading"] #_bn_widget_ { min-height: 192px; }
+  #br-home-houses .brh-section__heading { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 12px; }
+  .brh-house-controls { gap: 7px; flex-wrap: wrap; }
+  #br-home-houses .brh-link { margin-top: 0; }
+  #br-home-houses #br-house-cards { gap: 12px; grid-auto-columns: min(83%, 350px); }
+  .brh-house .brh-house__visual figure { aspect-ratio: 1.08; }
+  .brh-house .brh-card__body { padding: 11px 13px 14px; }
+  .brh-activities__track { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+  .brh-activity { aspect-ratio: 1.08; border-radius: 11px; }
+  .brh-activity__label { inset: auto 9px 10px; font-size: clamp(15px,4vw,19px); }
+  .brh-activity:first-child { grid-column: 1/-1; aspect-ratio: 1.72; }
+  .brh-activity:first-child .brh-activity__label { font-size: 22px; left: 13px; right: 13px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .brh *, .brh *::before, .brh *::after { transition: none !important; }
 }
+.brh-map-heading { display: none; }
 .brh-map-actions button {
   min-height: 44px;
   padding: 0 14px;
@@ -303,7 +342,12 @@
   cursor: pointer;
 }
 @media (max-width: 639px) {
-  .brh-map-actions { display: flex; align-items: center; gap: 12px; padding: 0 16px 13px; margin-top: -26px; position: relative; z-index: 1; }
+  #br-home-map { padding-top: 25px; background: #f3f4fa; }
+  #br-home-map #rec1841838861 { display: none; }
+  .brh-map-heading { display: block; padding: 0 16px 12px; }
+  .brh-map-heading h2 { font-size: 29px; font-weight: 700; letter-spacing: -.025em; line-height: 1.08; }
+  .brh-map-heading p { margin-top: 8px; color: var(--brh-muted); font-size: 15px; }
+  .brh-map-actions { display: flex; align-items: center; gap: 12px; padding: 0 16px 12px; position: relative; z-index: 1; }
   .brh-map-swipe { font-size: 14px; color: #42584f; }
   #br-home-map.brh-map--fit #rec2856176101 { height: var(--brh-map-height); overflow: clip; padding-inline: 9px; }
   #br-home-map.brh-map--fit #rec2856176101 .t396 { transform: scale(var(--brh-map-scale)); transform-origin: 0 0; }
@@ -311,4 +355,21 @@
 }
 @media (max-width: 360px) {
   .brh-booking { padding-inline: 9px; }
+}
+
+@media (min-width: 641px) and (max-width: 960px) {
+  .brh #br-house-cards { grid-auto-columns: 34%; }
+}
+@media (max-width: 959px) {
+  body.brh-mobile-contact #rec1841867761 .t898__btn:not(:has(.t898__btn_input:checked)) {
+    visibility: hidden; pointer-events: none;
+  }
+  html:has(body.preview-home-redesign) { scroll-padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  body.preview-home-redesign.есть-панель-моб { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
+  body.preview-home-redesign .панель-моб a { min-height: 46px; font-size: 13px; }
+}
+@media (max-width: 640px) {
+  #br-home-map, #br-home-spa { scroll-margin-top: 67px; }
+  .preview-home-redesign #rec3717893401 input:not([type="checkbox"]) { font-size: 16px !important; }
+  .preview-home-redesign #rec3717893401 input::placeholder { color: #52645d !important; opacity: 1; }
 }

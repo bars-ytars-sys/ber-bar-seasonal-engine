@@ -33,9 +33,9 @@
     schedule();
   }
 
-  const track = document.getElementById('br-activity-cards');
+  const track = document.getElementById('br-house-cards');
   if (track) {
-    const arrows = document.querySelector('.brh-activities__arrows');
+    const arrows = document.querySelector('.brh-house-arrows');
     const buttons = [...arrows.querySelectorAll('[data-brh-step]')];
     const updateArrows = () => {
       const end = track.scrollWidth - track.clientWidth;
@@ -45,11 +45,50 @@
     };
     buttons.forEach(button => button.addEventListener('click', () => {
       const distance = track.firstElementChild.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap);
-      track.scrollBy({ left: Number(button.dataset.brhStep) * distance, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+      track.scrollBy({ left: Number(button.dataset.brhStep) * distance, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     }));
     track.addEventListener('scroll', updateArrows, {passive:true});
     window.addEventListener('resize', updateArrows, {passive:true});
     updateArrows();
+  }
+  document.querySelectorAll('.brh-house__photos').forEach(group => {
+    const photo = group.parentElement.querySelector('img');
+    const choices = [...group.querySelectorAll('[data-src]')];
+    let request = 0;
+    group.hidden = false;
+    for (const button of choices) {
+      button.addEventListener('click', async () => {
+        const id = ++request;
+        const next = new Image();
+        next.src = button.dataset.src;
+        try { await next.decode(); } catch { return; }
+        if (id !== request) return;
+        photo.src = next.src;
+        photo.alt = button.dataset.alt;
+        for (const choice of choices) choice.setAttribute('aria-pressed', String(choice === button));
+      });
+    }
+  });
+
+  const chat = document.getElementById('rec1841867761');
+  const toggle = chat?.querySelector('.t898__btn_input');
+  if (toggle) {
+    function connectChat() {
+      const write = document.querySelector('.панель-моб a[href="https://t.me/ecobazabr"]');
+      if (!write) return false;
+      write.setAttribute('aria-controls', chat.id);
+      const sync = () => write.setAttribute('aria-expanded', String(toggle.checked));
+      write.addEventListener('click', event => { event.preventDefault(); toggle.click(); });
+      toggle.addEventListener('change', sync);
+      sync();
+      document.body.classList.add('brh-mobile-contact');
+      return true;
+    }
+    if (!connectChat()) {
+      const wait = new MutationObserver(() => { if (connectChat()) wait.disconnect(); });
+      wait.observe(document.body, {childList: true, subtree: true});
+      window.setTimeout(() => wait.disconnect(), 6000);
+    }
   }
 })();
 
@@ -64,6 +103,7 @@
   const onMobile = matchMedia('(max-width: 639px)');
   let expanded = false;
   let currentScale = 1;
+  let pending = 0;
   function layout() {
     actions.hidden = !onMobile.matches;
     const fit = onMobile.matches && !expanded;
@@ -89,9 +129,12 @@
     layout();
   });
   onMobile.addEventListener('change', layout);
-  window.addEventListener('resize', () => requestAnimationFrame(layout), {passive:true});
-  window.addEventListener('load', layout, {once:true});
-  if (window.ResizeObserver) new ResizeObserver(layout).observe(tile);
+  function scheduleLayout() {
+    if (!pending) pending = requestAnimationFrame(() => { pending = 0; layout(); });
+  }
+  window.addEventListener('resize', scheduleLayout, {passive:true});
+  window.addEventListener('load', scheduleLayout, {once:true});
+  if (window.ResizeObserver) new ResizeObserver(scheduleLayout).observe(tile);
   layout();
 })();
 
@@ -99,6 +142,10 @@
   const widget = document.getElementById('_bn_widget_');
   const template = document.getElementById('br-home-booking-skin');
   if (!widget || !template) return;
+  const panel = widget.closest('.brh-booking__panel');
+  const loadingTimeout = window.setTimeout(() => {
+    if (panel.dataset.widgetState === 'loading') panel.dataset.widgetState = 'failed';
+  }, 6500);
 
   function applySkin(frame) {
     const doc = frame.contentDocument;
@@ -108,6 +155,8 @@
     const style = template.content.querySelector('style').cloneNode(true);
     style.id = 'br-booking-style';
     doc.head.append(style);
+    window.clearTimeout(loadingTimeout);
+    panel.dataset.widgetState = 'ready';
     frame.title = 'Даты и гости для поиска свободных домов';
     for (const [id, label] of [['from', 'Заезд'], ['to', 'Выезд'], ['guests_count', 'Количество гостей']]) {
       doc.getElementById(id)?.setAttribute('aria-label', label);

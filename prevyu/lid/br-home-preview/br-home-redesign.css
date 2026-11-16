@@ -6,7 +6,8 @@
   --brh-line: #dce1e6;
   --brh-mint: #2ed8a3;
   --brh-link: #11654e;
-  --brh-text: var(--t-text-font, 'TildaSans', Arial, sans-serif);
+  --brh-text: 'TildaSans', Arial, sans-serif;
+  --brh-display: 'DespairDisplay', Arial, sans-serif;
   color: var(--brh-ink);
   font-family: var(--brh-text);
   box-sizing: border-box;
@@ -59,10 +60,10 @@
 }
 
 .brh-hero .brh-hero__name {
-  max-width: 18ch;
+  max-width: 25ch;
   color: #fffdf8;
-  font: 700 clamp(40px, 4.6vw, 68px)/1.06 Arial, sans-serif;
-  letter-spacing: -.043em;
+  font: 700 clamp(32px, 3.75vw, 53px)/1.13 var(--brh-text);
+  text-transform: uppercase;
   text-wrap: balance;
 }
 .brh-hero .brh-hero__description {
@@ -70,6 +71,7 @@
   margin-top: 19px;
   font-size: clamp(17px, 1.48vw, 21px);
   line-height: 1.4;
+  font-weight: 400;
   color: #f3f5f0;
 }
 .brh-hero .brh-hero__action {
@@ -82,7 +84,8 @@
   border-radius: 7px;
   background: #2ed8a3;
   color: #122e24;
-  font: 700 16px/1.25 var(--brh-text);
+  font: 700 13px/1.25 var(--brh-display);
+  text-transform: uppercase;
   transition: background .18s ease;
 }
 .brh-hero .brh-hero__action:hover { background: #77e7c0; }
@@ -102,13 +105,10 @@
   justify-content: space-between;
   gap: 16px 24px;
 }
-.brh-section h2 {
+.brh-section h2, .brh-map-heading h2 {
   color: var(--brh-ink);
-  font-family: var(--brh-text);
-  font-weight: 700;
-  font-size: clamp(30px, 3.6vw, 52px);
-  line-height: 1.04;
-  letter-spacing: -.035em;
+  font: 700 clamp(25px, 3.15vw, 44px)/1.1 var(--brh-display);
+  text-transform: uppercase;
 }
 .brh-section__heading .brh-link {
   color: var(--brh-link);
@@ -133,7 +133,7 @@
 .brh-card:hover img { transform: scale(1.025); }
 .brh-card__body { padding: 16px 18px 18px; }
 .brh-card__kicker { color: var(--brh-muted); font-size: 13px; line-height: 1.2; }
-.brh .brh-card__name { margin: 4px 0 2px; font: 700 clamp(21px, 2vw, 29px)/1.12 var(--brh-text); letter-spacing: -.018em; }
+.brh .brh-card__name { margin: 4px 0 2px; font: 600 clamp(21px, 2vw, 27px)/1.15 var(--brh-text); }
 .brh-card__link { display: inline-block; margin-top: 8px; font-size: 15px; color: var(--brh-link); }
 .brh-section--offers { padding-bottom: 6px; }
 .brh-section--offers .brh-section__heading { margin-bottom: 0; }
@@ -150,8 +150,7 @@
   margin-bottom: 22px;
   text-align: center;
   color: inherit;
-  font-size: clamp(26px, 3.2vw, 43px);
-  letter-spacing: -.025em;
+  font-size: clamp(23px, 2.95vw, 39px);
 }
 .brh-booking #rec3032928101 .t123 { min-height: 0; }
 .brh-booking #_bnovo_link_ { display: none; }
@@ -224,7 +223,7 @@
 .brh .brh-house__button {
   display: inline-flex; min-height: 42px; align-items: center; justify-content: center; gap: 8px;
   margin-top: 11px; padding: 0 14px; border: 1px solid #29cfa0; border-radius: 7px;
-  background: #f2fcf8; color: #115742; font-weight: 700; font-size: 15px;
+  background: #f2fcf8; color: #115742; font: 700 12px/1.25 var(--brh-display); text-transform: uppercase;
 }
 .brh .brh-house__button:hover { background: #dcf9ee; }
 .brh-activities__track {
@@ -233,7 +232,7 @@
 .brh-activity { position: relative; display: block; overflow: hidden; min-width: 0; border-radius: 14px; background: #e6edf0; aspect-ratio: 1.34; isolation: isolate; }
 .brh-activity img { height: 100%; object-fit: cover; }
 .brh-activity::after { content: ""; position: absolute; inset: 30% 0 0; pointer-events: none; background: linear-gradient(transparent, #15211ee8); }
-.brh-activity__label { position: absolute; inset: auto 14px 13px; z-index: 1; display: flex; justify-content: space-between; gap: 6px; align-items: end; color: #fff; font-weight: 700; font-size: clamp(17px, 2vw, 25px); line-height: 1.16; }
+.brh-activity__label { position: absolute; inset: auto 14px 13px; z-index: 1; display: flex; justify-content: space-between; gap: 6px; align-items: end; color: #fff; font: 700 clamp(16px, 1.6vw, 23px)/1.15 var(--brh-display); text-transform: uppercase; }
 .brh-activity__label span { flex: none; }
 #rec3546311701 .акции-шапка { display: none !important; }
 .preview-home-redesign #au-canvas, .preview-home-redesign .au-sprig, .preview-home-redesign .au2-side,
@@ -289,13 +288,13 @@
     inset: calc(-1 * var(--brh-mobile-top)) calc(-1 * var(--brh-mobile-gutter)) -58px;
     background: linear-gradient(180deg, #0c241cde, #0c241cc7 calc(100% - 58px), transparent);
   }
-  .brh-hero .brh-hero__name { max-width: 20ch; font-size: clamp(30px, 8.1vw, 47px); }
+  .brh-hero .brh-hero__name { max-width: 24ch; font-size: clamp(25px, 7.7vw, 39px); }
   .brh-hero .brh-hero__description {
     max-width: 34ch;
     margin-top: 12px;
     color: #fff;
     font-size: 17px;
-    font-weight: 550;
+    font-weight: 400;
     line-height: 1.45;
   }
   .brh-hero .brh-hero__action { min-height: 48px; padding-inline: 19px; }
@@ -323,9 +322,9 @@
   .brh-house .brh-card__body { padding: 11px 13px 14px; }
   .brh-activities__track { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
   .brh-activity { aspect-ratio: 1.08; border-radius: 11px; }
-  .brh-activity__label { inset: auto 9px 10px; font-size: clamp(15px,4vw,19px); }
+  .brh-activity__label { inset: auto 9px 10px; font-size: clamp(13px,3.65vw,18px); }
   .brh-activity:first-child { grid-column: 1/-1; aspect-ratio: 1.72; }
-  .brh-activity:first-child .brh-activity__label { font-size: 22px; left: 13px; right: 13px; }
+  .brh-activity:first-child .brh-activity__label { font-size: clamp(17px,4.8vw,22px); left: 13px; right: 13px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .brh *, .brh *::before, .brh *::after { transition: none !important; }
@@ -338,14 +337,14 @@
   border-radius: 6px;
   background: #fff;
   color: #176a53;
-  font: 600 15px var(--brh-text);
+  font: 700 12px/1.25 var(--brh-display);
+  text-transform: uppercase;
   cursor: pointer;
 }
 @media (max-width: 639px) {
   #br-home-map { padding-top: 25px; background: #f3f4fa; }
   #br-home-map #rec1841838861 { display: none; }
   .brh-map-heading { display: block; padding: 0 16px 12px; }
-  .brh-map-heading h2 { font-size: 29px; font-weight: 700; letter-spacing: -.025em; line-height: 1.08; }
   .brh-map-heading p { margin-top: 8px; color: var(--brh-muted); font-size: 15px; }
   .brh-map-actions { display: flex; align-items: center; gap: 12px; padding: 0 16px 12px; position: relative; z-index: 1; }
   .brh-map-swipe { font-size: 14px; color: #42584f; }

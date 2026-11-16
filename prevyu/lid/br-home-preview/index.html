@@ -1819,14 +1819,15 @@ fill="#000" /> </svg></div></a> <a href="https://www.instagram.com/ecobaza_br?ig
   text-decoration: none;
   white-space: nowrap;
 }
-#t-header .demo-ny-link {
+#t-header[data-demo-ny-site="br"] .demo-ny-link {
   isolation: isolate;
   position: relative;
   overflow: hidden;
   background: linear-gradient(112deg, var(--demo-ny-start), var(--demo-ny-end) 78%);
   box-shadow: inset 0 1px 0 #fff2, 0 1px 4px #17282130;
   color: #fff6e5 !important;
-  font-weight: 750;
+  font: 700 11px/1.15 DespairDisplay, Arial, sans-serif;
+  text-transform: uppercase;
 }
 #t-header .demo-ny-link:hover {
   filter: brightness(1.14);
@@ -1864,38 +1865,35 @@ fill="#000" /> </svg></div></a> <a href="https://www.instagram.com/ecobaza_br?ig
 }
 .demo-ny-hat {
   position: relative;
-  width: 21px;
-  height: 20px;
-  flex: 0 0 21px;
-  transform: rotate(-13deg);
-  filter: drop-shadow(0 1px 1px #19070a60);
+  width: 19px;
+  height: 18px;
+  flex: 0 0 19px;
 }
 .demo-ny-hat::before {
   content: "";
   position: absolute;
-  inset: 1px 2px 4px 1px;
-  border-radius: 12px 9px 3px 3px;
-  background: linear-gradient(118deg, #ff7a6b, #df4c50 45%, #a51e34);
-  clip-path: polygon(0 100%, 12% 52%, 29% 18%, 53% 0, 76% 4%, 93% 25%, 100% 56%, 88% 71%, 69% 51%, 75% 100%);
+  inset: 0;
+  background: linear-gradient(125deg, #eb655b, #b72f3c 76%);
+  clip-path: path("M 2 13 C 3 9 5 3 8 2 C 12 0 16 3 18 8 L 15 10 C 14 8 13 7 12 7 L 13 13 Z");
 }
 .demo-ny-hat::after {
   content: "";
   position: absolute;
-  top: 6px;
+  top: 7px;
   right: 0;
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 25%, #fffdf6 30%, #e2c49d);
+  background: #fff8ec;
 }
 .demo-ny-hat > i {
   position: absolute;
-  bottom: 1px;
-  left: 0;
-  width: 16px;
-  height: 5px;
-  border-radius: 5px;
-  background: linear-gradient(#fffdf6 35%, #e9d1b1);
+  bottom: 2px;
+  left: 1px;
+  width: 13px;
+  height: 4px;
+  border-radius: 4px;
+  background: #fff8ec;
 }
 #t-header .demo-ny-mobile, .demo-ny-spacer { display: none; }
 
@@ -2181,11 +2179,12 @@ body.bnovo .bnovo__fields {
   backdrop-filter: none;
 }
 body.bnovo .bnovo__form-items {
+  --br-booking-gap: 20px;
   display: flex;
-  gap: 12px;
+  gap: var(--br-booking-gap);
 }
 body.bnovo .bnovo__inputs {
-  gap: 12px;
+  gap: var(--br-booking-gap);
   min-width: 0;
 }
 body.bnovo .bnovo__inputs .bnovo__field {
@@ -2236,8 +2235,15 @@ body.bnovo .bnovo__form .openReceptionButton:hover, body.bnovo .bnovo__form .ope
   background: #70e3bc;
   color: #1a1b19;
 }
+body.bnovo #ui-datepicker-div,
+body.bnovo .bnovo__guests.dropdown__list {
+  margin-top: 10px;
+}
 @media (max-width: 700px) {
-  body.bnovo .bnovo__form-items { flex-direction: column; }
+  body.bnovo .bnovo__form-items {
+    --br-booking-gap: 16px;
+    flex-direction: column;
+  }
   body.bnovo .bnovo__inputs {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

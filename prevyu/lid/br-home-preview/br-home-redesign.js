@@ -1,25 +1,17 @@
 (() => {
   const hero = document.querySelector('[data-brh-hero]');
   if (hero) {
-    const panels = [...hero.querySelectorAll('[data-brh-panel]')];
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let interval = 0;
     let inView = true;
     let hovered = false;
 
-    function show(name) {
-      hero.dataset.slide = name;
-      panels.forEach(panel => {
-        panel.hidden = false;
-        const inactive = panel.dataset.brhPanel !== name;
-        panel.setAttribute('aria-hidden', String(inactive));
-        panel.inert = inactive;
-      });
-    }
     function schedule() {
       window.clearInterval(interval);
       if (!motion.matches && inView && !hovered && !document.hidden && !hero.contains(document.activeElement)) {
-        interval = window.setInterval(() => show(hero.dataset.slide === 'panorama' ? 'spa' : 'panorama'), 7500);
+        interval = window.setInterval(() => {
+          hero.dataset.slide = hero.dataset.slide === 'panorama' ? 'spa' : 'panorama';
+        }, 7500);
       }
     }
     hero.addEventListener('focusin', schedule);
@@ -38,7 +30,6 @@
         schedule();
       }).observe(hero);
     }
-    show('panorama');
     schedule();
   }
 
@@ -102,4 +93,59 @@
   window.addEventListener('load', layout, {once:true});
   if (window.ResizeObserver) new ResizeObserver(layout).observe(tile);
   layout();
+})();
+
+(() => {
+  const widget = document.getElementById('_bn_widget_');
+  const template = document.getElementById('br-home-booking-skin');
+  if (!widget || !template) return;
+
+  function applySkin(frame) {
+    const doc = frame.contentDocument;
+    const form = doc?.querySelector('.bnovo__form');
+    if (!form || doc.getElementById('br-booking-style')) return;
+
+    const style = template.content.querySelector('style').cloneNode(true);
+    style.id = 'br-booking-style';
+    doc.head.append(style);
+    frame.title = 'Даты и гости для поиска свободных домов';
+    for (const [id, label] of [['from', 'Заезд'], ['to', 'Выезд'], ['guests_count', 'Количество гостей']]) {
+      doc.getElementById(id)?.setAttribute('aria-label', label);
+    }
+
+    // Calendars and the guest picker sit below the fields inside the frame.
+    // Include their visible height so the page can scroll to every option.
+    let pending = 0;
+    function sizeFrame() {
+      pending = 0;
+      if (!frame.isConnected) return;
+      const popups = doc.querySelectorAll('#ui-datepicker-div, .dropdown__list');
+      const visible = [...popups].filter(popup =>
+        popup.getBoundingClientRect().height > 0 &&
+        doc.defaultView.getComputedStyle(popup).visibility !== 'hidden'
+      );
+      const bottom = Math.max(form.getBoundingClientRect().bottom, ...visible.map(popup => popup.getBoundingClientRect().bottom));
+      const height = Math.ceil(bottom + (visible.length ? 8 : 0)) + 'px';
+      if (frame.style.height !== height) frame.style.height = height;
+    }
+    function schedule() {
+      if (!pending) pending = requestAnimationFrame(sizeFrame);
+    }
+    new ResizeObserver(schedule).observe(form);
+    const formChanges = new MutationObserver(schedule);
+    formChanges.observe(doc.body, {subtree:true, childList:true, attributes:true, attributeFilter:['style', 'class']});
+    formChanges.observe(frame, {attributes:true, attributeFilter:['style']});
+    schedule();
+  }
+
+  const observed = new WeakSet();
+  function connect() {
+    const frame = widget.querySelector('iframe');
+    if (!frame || observed.has(frame)) return;
+    observed.add(frame);
+    frame.addEventListener('load', () => applySkin(frame));
+    applySkin(frame);
+  }
+  new MutationObserver(connect).observe(widget, {childList:true, subtree:true});
+  connect();
 })();

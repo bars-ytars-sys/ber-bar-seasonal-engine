@@ -39,7 +39,7 @@
 .brh-hero__visual { display: block; transition: opacity .7s ease; }
 .brh-hero__visual[data-brh-visual="spa"] { z-index: 1; opacity: 0; }
 .brh-hero__layout[data-slide="spa"] [data-brh-visual="spa"] { opacity: 1; }
-.brh-hero__photo { height: 100%; object-fit: cover; object-position: 50% 53%; }
+.brh-hero__photo { height: 100%; object-fit: cover; object-position: 50% 15%; }
 .brh-hero__visual[data-brh-visual="spa"] img { object-position: 50% 49%; }
 .brh-hero__layout::after {
   content: "";

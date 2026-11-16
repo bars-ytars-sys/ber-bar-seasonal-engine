@@ -21,6 +21,7 @@ HERO = (
     '</div><div class="brx__copy">'
     '<h1 id="br-home-title" class="brx__h1"><span class="brx__h1-a">База отдыха</span> <span class="brx__h1-b">«Берёзовая роща»</span> <small>в Подмосковье</small></h1>'
     '<p class="brx__script">Ради нас берут выходной</p>'
+    '<h2 class="brx__sub">SPA-комплекс, ферма и ресторан · 40 минут от Москвы</h2>'
     '<div class="brx__row"><a class="brx__cta" href="#br-home-booking">Проверить даты</a>'
     '<a class="brx__ghost" href="https://ecobr.ru/doma">Все 22 дома</a></div>'
     '</div></section>')
@@ -32,7 +33,7 @@ s = s[:a] + HERO + s[b:]
 
 HEAD = ('<!-- BR-HERO-20261116 --><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
         '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap">'
-        '<link rel="stylesheet" href="br-hero-wow.css?v=7"><link rel="stylesheet" href="var-b.css?v=6"><link rel="stylesheet" href="var-h.css?v=4">'
+        '<link rel="stylesheet" href="br-hero-wow.css?v=7"><link rel="stylesheet" href="var-b.css?v=6"><link rel="stylesheet" href="var-h.css?v=6">'
         '<script src="br-hero-wow.js?v=5" defer></script><!-- /BR-HERO-20261116 -->')
 s = re.sub(r'<!-- BR-HERO-20261116 -->.*?<!-- /BR-HERO-20261116 -->', '', s, flags=re.S)
 m = re.search(r'<script src="br-home-redesign\.js[^"]*" defer></script>', s)

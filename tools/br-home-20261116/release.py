@@ -76,6 +76,7 @@ markup = (
     '<h1 id="br-home-title" class="brx__h1"><span class="brx__h1-a">База отдыха</span> <span class="brx__h1-b">«Берёзовая роща»</span> '
     '<small>в Подмосковье с питанием и SPA</small></h1>'
     '<p class="brx__script">Ради нас берут выходной</p>'
+    '<h2 class="brx__sub">SPA-комплекс, ферма и ресторан · 40 минут от Москвы</h2>'
     f'<div class="brx__row"><a class="brx__cta" href="{BOOKING}">Проверить даты</a>'
     '<a class="brx__ghost" href="https://ecobr.ru/doma">Все 22 дома</a></div>'
     '</div></section>')

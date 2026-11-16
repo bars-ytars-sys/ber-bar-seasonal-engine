@@ -59,3 +59,11 @@
   .brx__h1, .brx__script { text-align: center; }
   .brx__row { width: 100%; }
 }
+
+/* H2 под фразой: сохраняет смысл подзаголовка прежнего первого экрана для поиска */
+.brx__sub { margin: 0 0 30px; font: 500 16px/1.4 'TildaSans', Arial, sans-serif; letter-spacing: .02em; color: rgba(255, 255, 255, .92); text-shadow: 0 1px 10px rgba(0, 0, 0, .55); white-space: nowrap; }
+.brx__script { margin-bottom: 14px; }
+@media (max-width: 960px) {
+  .brx__script { margin-bottom: 0; }
+  .brx__sub { margin: 10px 0 0; font-size: min(3.3vw, 14px); text-align: center; }
+}

@@ -1,0 +1,37 @@
+/* БР, первый экран, 16.11 (Claude): дом «Панорама» и его банный чан вместо фото SPA.
+   По референсу «Трофимов Берег», в белом стиле БР: тёмный текст на светлой дымке, фото справа/снизу открыто. */
+.brh-hero__layout { background: #fff; color: #1a1b19; }
+.brh-hero__layout::after {
+  background: linear-gradient(90deg, #fff 0%, #fff 34%, rgba(255, 255, 255, .86) 40%, rgba(255, 255, 255, .35) 47%, rgba(255, 255, 255, 0) 54%);
+}
+.brh-hero__gallery { left: 36%; }
+.brh-hero__photo { object-position: 40% 60%; }
+.brh-hero__visual[data-brh-visual="spa"] img { object-position: 50% 50%; }
+.brh-hero .brh-hero__name { max-width: 13ch; color: #1a1b19; text-shadow: none; }
+.brh-hero .brh-hero__description { max-width: 34ch; color: #313a39; text-shadow: none; }
+
+/* Подпись к кадру со ссылкой на дом */
+.brh-hero__captions { position: absolute; z-index: 2; right: clamp(20px, 4vw, 56px); bottom: clamp(20px, 4vh, 40px); }
+.brh-hero__caption {
+  display: none; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px;
+  background: rgba(255, 255, 255, .94); color: #1a1b19 !important;
+  font: 500 14px/1.2 'TildaSans', Arial, sans-serif; text-decoration: none !important;
+  box-shadow: 0 6px 20px rgba(8, 24, 18, .16);
+}
+.brh-hero__caption:hover { background: #fff; }
+.brh-hero__layout[data-slide="panorama"] .brh-hero__caption[data-for="panorama"],
+.brh-hero__layout[data-slide="spa"] .brh-hero__caption[data-for="spa"] { display: inline-flex; }
+
+@media (max-width: 960px) {
+  .brh-hero__gallery { left: 0; }
+  .brh-hero__photo { object-position: 50% 100%; }
+  .brh-hero__visual[data-brh-visual="spa"] img { object-position: 50% 100%; }
+  .brh-hero__layout::after {
+    background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, .95) 24%, rgba(255, 255, 255, .72) 36%, rgba(255, 255, 255, 0) 50%);
+  }
+  .brh-hero__intro::before { display: none; }
+  .brh-hero .brh-hero__name { max-width: none; }
+  .brh-hero .brh-hero__description { max-width: 34ch; color: #313a39; font-weight: 500; }
+  .brh-hero .brh-hero__action { box-shadow: 0 8px 22px rgba(8, 24, 18, .28); }
+  .brh-hero__captions { display: none; }
+}

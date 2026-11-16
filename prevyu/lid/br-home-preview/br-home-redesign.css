@@ -365,8 +365,8 @@
   }
   html:has(body.preview-home-redesign) { scroll-padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
   body.preview-home-redesign.есть-панель-моб { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
-  .brh-booking { isolation: isolate; }
-  body.brh-booking-occupies-dock .панель-моб { visibility: hidden; }
+  /* The embedded widget's layers stay below the fixed mobile navigation. */
+  .brh-booking { position: relative; isolation: isolate; z-index: 0; }
   body.preview-home-redesign .панель-моб a { min-height: 46px; font-size: 13px; }
 }
 @media (max-width: 640px) {

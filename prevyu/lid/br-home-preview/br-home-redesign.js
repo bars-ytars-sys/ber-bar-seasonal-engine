@@ -143,40 +143,6 @@
   const template = document.getElementById('br-home-booking-skin');
   if (!widget || !template) return;
   const panel = widget.closest('.brh-booking__panel');
-  const mobile = window.matchMedia('(max-width: 959px)');
-  const viewport = window.visualViewport;
-  let dock;
-  let dockUpdate = 0;
-
-  function updateDock() {
-    if (dockUpdate) return;
-    dockUpdate = requestAnimationFrame(() => {
-      dockUpdate = 0;
-      if (!mobile.matches) {
-        document.body.classList.remove('brh-booking-occupies-dock');
-        return;
-      }
-      dock ??= document.querySelector('.панель-моб');
-      if (!dock) return;
-
-      // The browser controls can move independently of the layout viewport on iOS.
-      const visibleBottom = viewport ? viewport.offsetTop + viewport.height : window.innerHeight;
-      const dockBounds = dock.getBoundingClientRect();
-      const dockTop = Math.min(dockBounds.top, visibleBottom - dockBounds.height);
-      const bookingBounds = panel.getBoundingClientRect();
-      const overlap = bookingBounds.bottom > dockTop && bookingBounds.top < visibleBottom;
-      document.body.classList.toggle('brh-booking-occupies-dock', overlap);
-    });
-  }
-
-  addEventListener('scroll', updateDock, { passive: true });
-  addEventListener('resize', updateDock, { passive: true });
-  mobile.addEventListener('change', updateDock);
-  viewport?.addEventListener('resize', updateDock, { passive: true });
-  viewport?.addEventListener('scroll', updateDock, { passive: true });
-  new ResizeObserver(updateDock).observe(panel);
-  updateDock();
-
   const loadingTimeout = window.setTimeout(() => {
     if (panel.dataset.widgetState === 'loading') panel.dataset.widgetState = 'failed';
   }, 6500);

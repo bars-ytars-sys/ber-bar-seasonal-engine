@@ -1,0 +1,5 @@
+/* 16.11: «Специальные предложения» на компьютере целиком в один экран — фото карточек ниже на невысоких экранах */
+@media (min-width: 1024px) {
+  .brh-page #rec3546311701 .to-grid > .to-card > .to-pic { height: clamp(130px, calc(100vh - 580px), 224px) !important; aspect-ratio: auto !important; overflow: hidden; }
+  .brh-page #rec3546311701 .to-grid > .to-card > .to-pic img { width: 100%; height: 100% !important; object-fit: cover; }
+}

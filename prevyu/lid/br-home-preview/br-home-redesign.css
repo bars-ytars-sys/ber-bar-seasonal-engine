@@ -229,17 +229,45 @@
     min-height: max(470px, calc(100svh - var(--brh-header-gap) - 61px));
   }
   .brh-hero__layout::after {
-    background:
-      linear-gradient(154deg, #0d271fd9, #0d271f91 29%, #0d271f22 53%, transparent 77%),
-      linear-gradient(0deg, #112b22ef, #112b2269 22%, transparent 39%);
+    background: linear-gradient(0deg, #112b22ef, #112b2269 22%, transparent 39%);
   }
   .brh-hero__copy {
+    --brh-mobile-top: clamp(30px, 5.2svh, 46px);
+    --brh-mobile-gutter: clamp(24px, 7.2vw, 40px);
     justify-content: space-between;
-    padding: clamp(31px, 5.9svh, 52px) clamp(25px, 8.2vw, 44px) 31px;
+    padding: var(--brh-mobile-top) var(--brh-mobile-gutter) 31px;
   }
-  .brh-hero h1 { max-width: 28ch; margin-bottom: 15px; font-size: 11px; letter-spacing: .062em; }
+  .brh-hero__intro {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+  }
+  /* Let the dark area follow the copy when it wraps. Keep the facade visible below it. */
+  .brh-hero__intro::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    inset: calc(-1 * var(--brh-mobile-top)) calc(-1 * var(--brh-mobile-gutter)) -58px;
+    background: linear-gradient(180deg, #0c241cde, #0c241cc7 calc(100% - 58px), transparent);
+  }
+  .brh-hero h1 {
+    max-width: 320px;
+    margin-bottom: 14px;
+    color: #e7fff4;
+    font-size: 12px;
+    font-weight: 750;
+    letter-spacing: .045em;
+  }
   .brh-hero .brh-hero__name { font-size: clamp(43px, 12.6vw, 59px); }
-  .brh-hero .brh-hero__description { max-width: 29ch; margin-top: 13px; font-size: 16px; }
+  .brh-hero .brh-hero__description {
+    max-width: 34ch;
+    margin-top: 12px;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 550;
+    line-height: 1.45;
+  }
   .brh-hero .brh-hero__action { min-height: 48px; padding-inline: 19px; }
   .brh-hero__photo { object-position: 57% 54%; }
   .brh-hero__visual[data-brh-visual="spa"] img { object-position: 49% 49%; }

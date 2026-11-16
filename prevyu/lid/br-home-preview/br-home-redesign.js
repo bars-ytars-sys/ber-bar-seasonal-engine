@@ -33,6 +33,43 @@
     schedule();
   }
 
+  const track = document.getElementById('br-house-cards');
+  if (track) {
+    const arrows = document.querySelector('.brh-house-arrows');
+    const buttons = [...arrows.querySelectorAll('[data-brh-step]')];
+    const updateArrows = () => {
+      const end = track.scrollWidth - track.clientWidth;
+      arrows.hidden = end < 2;
+      buttons[0].disabled = track.scrollLeft < 2;
+      buttons[1].disabled = track.scrollLeft >= end - 2;
+    };
+    buttons.forEach(button => button.addEventListener('click', () => {
+      const distance = track.firstElementChild.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap);
+      track.scrollBy({ left: Number(button.dataset.brhStep) * distance, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }));
+    track.addEventListener('scroll', updateArrows, {passive:true});
+    window.addEventListener('resize', updateArrows, {passive:true});
+    updateArrows();
+  }
+  document.querySelectorAll('.brh-house__photos').forEach(group => {
+    const photo = group.parentElement.querySelector('img');
+    const choices = [...group.querySelectorAll('[data-src]')];
+    let request = 0;
+    group.hidden = false;
+    for (const button of choices) {
+      button.addEventListener('click', async () => {
+        const id = ++request;
+        const next = new Image();
+        next.src = button.dataset.src;
+        try { await next.decode(); } catch { return; }
+        if (id !== request) return;
+        photo.src = next.src;
+        photo.alt = button.dataset.alt;
+        for (const choice of choices) choice.setAttribute('aria-pressed', String(choice === button));
+      });
+    }
+  });
+
   const chat = document.getElementById('rec1841867761');
   const toggle = chat?.querySelector('.t898__btn_input');
   if (toggle) {

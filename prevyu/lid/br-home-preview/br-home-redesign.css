@@ -149,6 +149,23 @@
   border-bottom: 1px solid var(--brh-mint);
   padding-bottom: 5px;
 }
+.brh-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: clamp(12px, 1.9vw, 28px); }
+.brh-card {
+  display: block;
+  min-width: 0;
+  scroll-margin-top: 135px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--brh-line);
+  border-radius: 14px;
+}
+.brh-card figure { aspect-ratio: 1.52; background: var(--brh-paper); overflow: hidden; }
+.brh-card img { height: 100%; object-fit: cover; transition: transform .24s ease; }
+.brh-card:hover img { transform: scale(1.025); }
+.brh-card__body { padding: 16px 18px 18px; }
+.brh-card__kicker { color: var(--brh-muted); font-size: 13px; line-height: 1.2; }
+.brh .brh-card__name { margin: 4px 0 2px; font: 600 clamp(21px, 2vw, 27px)/1.15 var(--brh-text); }
+.brh-card__link { display: inline-block; margin-top: 8px; font-size: 15px; color: var(--brh-link); }
 .brh-section--offers { padding-bottom: 6px; }
 .brh-section--offers .brh-section__heading { margin-bottom: 0; }
 .brh-booking { padding-block: clamp(36px, 4vw, 62px) clamp(26px, 3vw, 44px); }
@@ -191,9 +208,55 @@
 .brh-booking__panel[data-widget-state="loading"] .brh-booking__status { display: flex; }
 .brh-booking__panel[data-widget-state="loading"] #_bn_widget_ { min-height: 56px; }
 .brh-booking__panel[data-widget-state="failed"] #_bn_widget_ { display: none; }
-#br-home-houses, #br-home-map, #br-home-spa { scroll-margin-top: 102px; }
+#br-home-map, #br-home-spa { scroll-margin-top: 102px; }
+.brh-house-controls, .brh-house-arrows { display: flex; align-items: center; gap: 14px; }
+.brh-house-arrows { gap: 6px; }
+.brh-house-arrows button {
+  width: 44px; height: 44px; padding: 0 0 4px;
+  border: 1px solid var(--brh-line); border-radius: 50%;
+  background: #fff; color: var(--brh-ink);
+  font: 400 27px/1 Arial, sans-serif;
+  cursor: pointer;
+}
+.brh-house-arrows button:disabled { opacity: .4; cursor: default; }
 .brh button:focus-visible { outline: 2px solid #12694f; outline-offset: -3px; }
+.brh #br-house-cards {
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 66px) / 4.18);
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 3px 2px 6px;
+  margin-inline: -2px;
+}
+#br-house-cards::-webkit-scrollbar { display: none; }
+#br-home-houses { padding-block: clamp(25px, 3vw, 44px) clamp(24px, 3vw, 43px); }
 #br-home-offers { padding-top: clamp(24px, 3vw, 43px); }
+.brh-house { scroll-snap-align: start; border-radius: 16px; }
+.brh-house__visual { position: relative; }
+.brh-house__visual a { display: block; }
+.brh-house .brh-house__visual figure { aspect-ratio: 4 / 4.65; }
+.brh-house .brh-house__visual figure:focus-within { outline: 2px solid #159675; outline-offset: -4px; }
+.brh-house__badges {
+  position: absolute; top: 12px; inset-inline: 12px; display: flex; flex-wrap: wrap; gap: 5px; pointer-events: none;
+}
+.brh-house__badges span {
+  border-radius: 99px; padding: 5px 9px; background: #fffffff2; color: #1b3028; font: 650 12px/1.15 var(--brh-text);
+}
+.brh-house__photos { display: flex; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); padding: 0 4px; background: #1726227d; border-radius: 24px; }
+.brh-house__photos button { width: 32px; height: 32px; background: none; border: 0; display: grid; place-items: center; cursor: pointer; }
+.brh-house__photos button::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #fff9; }
+.brh-house__photos button[aria-pressed="true"]::before { background: white; transform: scale(1.23); }
+.brh-house__photos button:focus-visible { outline-color: #fff; }
+.brh-house .brh-card__body { padding: 12px 14px 14px; }
+.brh .brh-house__button {
+  display: inline-flex; min-height: 42px; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 11px; padding: 0 14px; border: 1px solid var(--brh-mint); border-radius: 7px;
+  background: var(--brh-paper); color: var(--brh-ink); font: 700 12px/1.25 var(--brh-display); text-transform: uppercase;
+}
+.brh .brh-house__button:hover { background: #dcf9ee; }
 .brh-activities__track {
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 22px);
 }
@@ -284,12 +347,22 @@
   .brh-section { padding: 40px 16px; }
   .brh-section__heading { display: block; margin-bottom: 17px; }
   .brh-section__heading .brh-link { display: inline-block; margin-top: 10px; }
+  .brh-grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(220px, 79%); scroll-snap-type: x mandatory; overflow-x: auto; padding-bottom: 10px; gap: 12px; }
+  .brh-card { scroll-snap-align: start; }
+  .brh-card figure { aspect-ratio: 1.60; }
+  .brh-card__body { padding: 12px 14px 14px; }
   .brh-section--offers { padding-bottom: 6px; }
   .brh-booking { padding-block: 34px 30px; }
   .brh-booking__panel { padding: 21px 14px 18px; }
   .brh-booking h2 { margin-bottom: 18px; }
   .brh-booking__fallback { margin-top: 11px !important; }
   .brh-booking__status, .brh-booking__panel[data-widget-state="loading"] #_bn_widget_ { min-height: 192px; }
+  #br-home-houses .brh-section__heading { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 12px; }
+  .brh-house-controls { gap: 7px; flex-wrap: wrap; }
+  #br-home-houses .brh-link { margin-top: 0; }
+  #br-home-houses #br-house-cards { gap: 12px; grid-auto-columns: min(83%, 350px); }
+  .brh-house .brh-house__visual figure { aspect-ratio: 1.08; }
+  .brh-house .brh-card__body { padding: 11px 13px 14px; }
   .brh-activities__track { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
   .brh-activity { aspect-ratio: 1.08; border-radius: 11px; }
   .brh-activity__label { inset: auto 9px 10px; font-size: clamp(13px,3.65vw,18px); }
@@ -326,6 +399,9 @@
   .brh-booking { padding-inline: 9px; }
 }
 
+@media (min-width: 641px) and (max-width: 960px) {
+  .brh #br-house-cards { grid-auto-columns: 34%; }
+}
 @media (max-width: 959px) {
   body.brh-mobile-contact #rec1841867761 .t898__btn:not(:has(.t898__btn_input:checked)) {
     visibility: hidden; pointer-events: none;
@@ -337,7 +413,7 @@
   body.preview-home-redesign .панель-моб a { min-height: 46px; font-size: 13px; }
 }
 @media (max-width: 640px) {
-  #br-home-houses, #br-home-map, #br-home-spa { scroll-margin-top: 67px; }
+  #br-home-map, #br-home-spa { scroll-margin-top: 67px; }
   .preview-home-redesign #rec3717893401 input:not([type="checkbox"]) { font-size: 16px !important; }
   .preview-home-redesign #rec3717893401 input::placeholder { color: #52645d !important; opacity: 1; }
 }

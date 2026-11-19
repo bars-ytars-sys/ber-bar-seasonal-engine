@@ -1,7 +1,7 @@
 <template id="programs">
 <section class="br-nov" id="programmy-otdyha" aria-labelledby="br-nov-programs-title">
   <div class="br-nov-band-inner">
-  <h2 id="br-nov-programs-title">Готовые программы отдыха</h2>
+  <h2 id="br-nov-programs-title">Программы отдыха</h2>
   <div class="br-nov-grid br-nov-program-list">
     <details class="br-nov-program" name="br-home-programs"><summary><img class="br-nov-program-photo" src="/br-assets/program-romance-v9.webp" width="88" height="52" alt="" loading="lazy" decoding="async"><span class="br-nov-program-name">Свидание года</span><span class="br-nov-program-action"><span class="br-nov-action-expand">Подробнее</span><span class="br-nov-action-collapse">Свернуть</span></span></summary><div class="br-nov-program-content"><p>Проживание, банный чан, массаж для двоих и завтрак.</p><strong>от 65 000 ₽</strong><a class="br-nov-button" href="/vip-programmy/svidanie" aria-label="Подробнее о программе «Свидание года»">К программе</a></div></details>
     <details class="br-nov-program" name="br-home-programs"><summary><img class="br-nov-program-photo" src="/br-assets/program-reset-v9.webp" width="88" height="52" alt="" loading="lazy" decoding="async"><span class="br-nov-program-name">Полная перезагрузка</span><span class="br-nov-program-action"><span class="br-nov-action-expand">Подробнее</span><span class="br-nov-action-collapse">Свернуть</span></span></summary><div class="br-nov-program-content"><p>Проживание, баня с парением, массаж, завтрак, прогулка и SPA.</p><strong>от 77 000 ₽</strong><a class="br-nov-button" href="/vip-programmy/perezagruzka" aria-label="Подробнее о программе «Полная перезагрузка»">К программе</a></div></details>
@@ -13,7 +13,7 @@
 <template id="events">
 <section class="br-nov br-nov-events" id="prazdniki" aria-labelledby="br-nov-events-title">
   <div class="br-nov-band-inner">
-  <h2 id="br-nov-events-title">Ваш праздник за городом</h2>
+  <h2 id="br-nov-events-title">Праздники и мероприятия</h2>
   <div class="br-nov-grid">
     <article class="br-nov-event-card"><img class="br-nov-event-photo" src="/br-assets/event-birthday-v10.webp" width="800" height="530" alt="" loading="lazy" decoding="async"><div class="br-nov-event-content"><h3>День рождения</h3><p>Оформление дома к вашему приезду.</p><a class="br-nov-button" href="#popup:dr">Подробнее о дне рождения</a></div></article>
     <article class="br-nov-event-card br-nov-event-card--family"><img class="br-nov-event-photo" src="/br-assets/event-family-v10.webp" width="800" height="530" alt="" loading="lazy" decoding="async"><div class="br-nov-event-content"><h3>Семейный праздник</h3><p>Соберите близких за городом. Для детей можно подобрать отдельную программу.</p><a class="br-nov-button" href="/deti#detskiy-prazdnik">Детский праздник</a></div></article>
@@ -56,14 +56,29 @@
   <a class="br-nov-more" href="/deti#detskiy-prazdnik">Детские праздники →</a>
 </section>
 </template>
+<template id="scenario_filters">
+<section class="br-nov br-nov-scenarios" aria-labelledby="br-nov-scenarios-title">
+  <h2 id="br-nov-scenarios-title">Программы отдыха</h2>
+  <div class="br-nov-filters" role="group" aria-label="Выберите формат отдыха" hidden>
+    <button type="button" data-br-filter="all" aria-pressed="true">Все</button>
+    <button type="button" data-br-filter="couple" aria-pressed="false">Для двоих</button>
+    <button type="button" data-br-filter="relax" aria-pressed="false">Расслабиться</button>
+  </div>
+  <div class="br-nov-grid">
+    <article data-br-category="couple"><h3>Свидание года</h3><p>Проживание, чан, массаж для двоих и завтрак.</p><strong>от 65 000 ₽</strong><a class="br-nov-button" href="/vip-programmy/svidanie">Подробнее</a></article>
+    <article data-br-category="relax"><h3>Полная перезагрузка</h3><p>Проживание, баня с парением, массаж и SPA.</p><strong>от 77 000 ₽</strong><a class="br-nov-button" href="/vip-programmy/perezagruzka">Подробнее</a></article>
+    <article data-br-category="relax"><h3>Банный отдых с самоваром</h3><p>Баня, алтайский чай и угощение.</p><strong>от 8 000 ₽</strong><a class="br-nov-button" href="#samovar">Подробнее</a></article>
+  </div>
+</section>
+</template>
 <template id="menu">
 <nav class="br-nov-menu" aria-label="Разделы сайта">
   <a href="/doma">Каталог домов</a>
-  <details><summary>Сценарии отдыха</summary><a href="/vip-programmy">Готовые программы</a><a href="/vip-programmy/svidanie">Романтический отдых</a><a href="/vip-programmy#samovar">Банный отдых с самоваром</a></details>
-  <details><summary>SPA, бани и банные чаны</summary><a href="/spa">SPA · массаж и флоатинг</a><a href="/banchan">Бани и банные чаны</a></details>
-  <details><summary>Чем заняться</summary><a href="/aktivnosti-v-beryozovoj-roshhe">Активности и прогулки</a><a href="/aktivnosti-v-beryozovoj-roshhe#popup:ferma">Контактная ферма</a><a href="/deti">С детьми</a></details>
-  <details><summary>Праздники и мероприятия</summary><a href="/#prazdniki">Дни рождения и корпоративы</a><a href="/#devichniki">Девичники</a><a href="/deti#detskiy-prazdnik">Детские праздники</a></details>
-  <details><summary>Специальные предложения</summary><a href="/special">Скидки и сезонные предложения</a><a href="https://t.me/ecobazabr">Уточнить про подарки</a></details>
-  <details><summary>О базе</summary><a href="/about">Территория и фото</a><a href="/kartabr">Карта территории</a><a href="/contacts">Контакты и проезд</a><a href="https://t.me/ecobazabr">Уточнить правила проживания</a></details>
+  <a href="/vip-programmy#br-nov-scenarios-title">Сценарии отдыха</a>
+  <a href="/spa">SPA, бани и банные чаны</a>
+  <a href="/aktivnosti-v-beryozovoj-roshhe">Чем заняться</a>
+  <a href="/#prazdniki">Праздники и мероприятия</a>
+  <a href="/special">Специальные предложения</a>
+  <a href="/about">О базе</a>
 </nav>
 </template>

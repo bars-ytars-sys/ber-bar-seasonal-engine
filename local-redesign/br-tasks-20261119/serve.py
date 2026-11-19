@@ -32,7 +32,7 @@ ASSETS = {
     for file in (HERE / "assets").iterdir() if file.is_file()
 }
 ASSETS["/custom.css"] = HERE / "assets/site-custom.css"
-ASSET_TYPES = {".css": "text/css; charset=utf-8", ".jpg": "image/jpeg", ".webp": "image/webp"}
+ASSET_TYPES = {".css": "text/css; charset=utf-8", ".jpg": "image/jpeg", ".webp": "image/webp", ".js": "text/javascript; charset=utf-8"}
 SPA = {"/spa": ("rec1910053581", "SPA"), "/banchan": ("rec1796236641", "Бани и банные чаны")}
 ACTIVITIES = "/aktivnosti-v-beryozovoj-roshhe"
 WOODS = "/br-assets/quad-woods.webp"
@@ -85,6 +85,25 @@ def rename_quad(body):
         parts[index] = part
     return "".join(parts)
 
+def with_family_tab(body):
+    tab = (
+        '<li role="presentation" class="t1281__item t1281__tab t1281__tab-style2 t1281__width_25" '
+        'data-tab-rec-ids="2863878101" data-tab-number="4">'
+        '<button type="button" class="t1281__title t-name t-name_xs t1281__title-style2" '
+        'id="tab4_2863877701" role="tab" aria-selected="false" aria-controls="rec2863878101" tabindex="-1">'
+        '<div class="t1281__title-text">С детьми</div></button></li>'
+    )
+    start = body.index('id="carousel_2863877701"')
+    end = body.index("</ul>", start)
+    body = body[:start] + body[start:end].replace("t1281__width_33", "t1281__width_25") + tab + body[end:]
+    body = body.replace(
+        '<option value="2863878001">Мероприятия</option>',
+        '<option value="2863878001">Мероприятия</option><option value="2863878101">С детьми</option>',
+        1,
+    )
+    panel = '<div id="rec2863878101" class="r t-rec">' + FRAGMENTS["activities"] + '</div>'
+    return before_record(body, "rec2863569901", panel)
+
 @lru_cache(maxsize=len(ROUTES))
 def render(route):
     original = read_original(route)
@@ -94,12 +113,17 @@ def render(route):
     head = re.sub(r"(?<=<head>)", lambda _: "<script>window.__brDemoPaths="
                   + json.dumps(list(ROUTES)) + ";\n" + GUARD + "</script>", head, count=1, flags=re.I)
     body = rename_quad(body)
-    body = body.replace(
-        '>ПРОВЕРИТЬ ДАТЫ И ЗАБРОНИРОВАТЬ</span>',
-        '>Даты и бронь</span>',
+    body = re.sub(
+        r'(<div\s+[^>]*data-group-id="1766499026279000004"[^>]*>)',
+        lambda m: m[1] + FRAGMENTS["menu"],
+        body,
     )
-    for record in ("rec1728108931", "rec1729227991"):
-        body = re.sub(r'(<div id="' + record + r'"[^>]*>)', lambda m: m[1] + FRAGMENTS["menu"], body, count=1)
+    booking = 'class="tn-atom__button-text">ПРОВЕРИТЬ ДАТЫ И ЗАБРОНИРОВАТЬ</span>'
+    booking_copy = (
+        'class="tn-atom__button-text br-native-booking-copy">'
+        '<span>ПРОВЕРИТЬ ДАТЫ </span><span>И ЗАБРОНИРОВАТЬ</span></span>'
+    )
+    body = body.replace(booking, booking_copy, 1)
     if route in ("/", "/special"):
         body = re.sub(
             r'<article class="to-card">(?:(?!<article).)*?<h3 class="to-t">Банный отдых с самоваром</h3>.*?</article>',
@@ -112,9 +136,12 @@ def render(route):
     if route == "/deti":
         body = before_footer(body, FRAGMENTS["kids"])
     if route == "/vip-programmy":
-        body = before_footer(body, FRAGMENTS["bath"])
+        body = before_footer(
+            body, FRAGMENTS["scenario_filters"] + FRAGMENTS["bath"]
+            + '<script src="/br-assets/scenario-filters.js" defer></script>',
+        )
     if route == ACTIVITIES:
-        body = before_footer(body, FRAGMENTS["activities"])
+        body = with_family_tab(body)
     if route in SPA:
         links = "".join(f'<a href="{path}"{(" aria-current=page" if path == route else "")}>{name}</a>'
                         for path, (_, name) in SPA.items())

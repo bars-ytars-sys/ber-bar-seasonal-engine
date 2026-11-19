@@ -72,12 +72,11 @@ await Promise.all([390, 1440].map(async width => {
       const menu = page.locator('.t-popup_show .br-nov-menu').filter({ visible: true }).first();
       await menu.waitFor({ timeout: 10000 });
       assert.equal(await menu.locator(':scope > *').count(), 7);
-      await menu.getByText('Сценарии отдыха', { exact: true }).click();
-      await menu.getByRole('link', { name: 'Банный отдых с самоваром' }).waitFor();
+      assert.equal(await menu.locator('details').count(), 0);
       await shot('menu', menu);
-      await menu.getByRole('link', { name: 'Банный отдых с самоваром' }).click();
-      await page.waitForURL('**/vip-programmy#samovar', { waitUntil: 'domcontentloaded' });
-      await page.locator('#samovar').waitFor();
+      await menu.getByRole('link', { name: 'Сценарии отдыха' }).click();
+      await page.waitForURL('**/vip-programmy#br-nov-scenarios-title', { waitUntil: 'domcontentloaded' });
+      await page.locator('.br-nov-filters').waitFor();
     });
     await check('Кнопка «Подробнее» ведёт на программу', async () => {
       await load('/');

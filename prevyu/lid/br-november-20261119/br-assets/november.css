@@ -209,9 +209,6 @@
   place-items: center;
   min-height: 34px;
   padding-inline: clamp(6px, 1vw, 10px);
-  border-radius: 6px;
-  background: var(--br-nov-mint);
-  color: var(--br-nov-ink);
   font-size: clamp(10px, 1vw, 13px);
   font-weight: 700;
   white-space: nowrap;
@@ -241,13 +238,23 @@
 }
 .br-nov-band-inner article p { margin: 7px 0 10px; font-size: 16px; }
 .br-nov-band-inner article strong { margin-bottom: 10px; }
-.br-nov-band-inner a.br-nov-button {
-  background: var(--br-nov-mint);
-  border-radius: 6px;
+:is(.br-nov-band-inner, .br-nov-scenarios) a.br-nov-button {
   font: 700 clamp(11px, 1vw, 14px)/1.2 var(--br-nov-display);
   text-transform: uppercase;
 }
-.br-nov-band-inner a.br-nov-button:hover { background: #50e0b4; }
+/* Same surface, outline and accent as the native special-offer buttons. */
+.br-nov-program-action,
+:is(.br-nov-band-inner, .br-nov-scenarios) a.br-nov-button {
+  background: var(--br-nov-surface);
+  border: 1px solid var(--br-nov-mint);
+  border-radius: 5px;
+  color: var(--br-nov-mint);
+}
+.br-nov-program summary:hover .br-nov-program-action,
+:is(.br-nov-band-inner, .br-nov-scenarios) a.br-nov-button:hover {
+  background: var(--br-nov-mint);
+  color: var(--br-nov-ink);
+}
 @media (max-width: 639px) {
   .br-nov-band-inner { width: calc(100% - 28px); }
   .br-nov-band-inner article p { font-size: 17px; }

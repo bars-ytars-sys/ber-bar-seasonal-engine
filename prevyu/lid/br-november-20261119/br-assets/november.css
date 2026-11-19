@@ -147,3 +147,54 @@
   .br-nov-menu { padding: 12px; font-size: 20px; }
   .br-nov-menu details a { font-size: 17px; line-height: 1.3; }
 }
+
+#programmy-otdyha {
+  background: #b8ebd6;
+  border: 1px solid #7accad;
+}
+#prazdniki {
+  background: #124b3a;
+  border: 1px solid #124b3a;
+}
+#prazdniki > h2, #prazdniki > .br-nov-more { color: #fff; }
+:is(#programmy-otdyha, #prazdniki) .br-nov-grid { gap: clamp(14px, 2vw, 24px); }
+:is(#programmy-otdyha, #prazdniki) .br-nov-grid article {
+  --card-inset: clamp(14px, 2vw, 24px);
+  border: 0;
+  padding: 0 var(--card-inset) var(--card-inset);
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgb(11 48 36 / .12);
+}
+.br-nov-card-photo {
+  display: block;
+  align-self: center;
+  width: calc(100% + 2 * var(--card-inset));
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  margin-bottom: var(--card-inset);
+}
+#prazdniki article:nth-child(2) .br-nov-card-photo { object-position: center 43%; }
+#programmy-otdyha article strong {
+  color: #13583f;
+  font-size: 19px;
+}
+:is(#programmy-otdyha, #prazdniki) a.br-nov-button {
+  background: #006347;
+}
+:is(#programmy-otdyha, #prazdniki) a.br-nov-button:hover { background: #004730; }
+#t-header a[data-tilda-event-name$="/button1718876194020"] .tn-atom__button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-width: 0;
+  padding: 0 5px;
+}
+#t-header a[data-tilda-event-name$="/button1718876194020"] .tn-atom__button-text {
+  display: block;
+  font: 750 clamp(10px, 1vw, 13px)/1.17 TildaSans, Arial, sans-serif !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap;
+  text-align: center;
+  color: #102a21 !important;
+}

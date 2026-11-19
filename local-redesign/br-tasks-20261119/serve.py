@@ -94,6 +94,10 @@ def render(route):
     head = re.sub(r"(?<=<head>)", lambda _: "<script>window.__brDemoPaths="
                   + json.dumps(list(ROUTES)) + ";\n" + GUARD + "</script>", head, count=1, flags=re.I)
     body = rename_quad(body)
+    body = body.replace(
+        '>ПРОВЕРИТЬ ДАТЫ И ЗАБРОНИРОВАТЬ</span>',
+        '>Даты и бронь</span>',
+    )
     for record in ("rec1728108931", "rec1729227991"):
         body = re.sub(r'(<div id="' + record + r'"[^>]*>)', lambda m: m[1] + FRAGMENTS["menu"], body, count=1)
     if route in ("/", "/special"):

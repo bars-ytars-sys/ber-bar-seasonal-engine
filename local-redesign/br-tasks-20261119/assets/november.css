@@ -235,7 +235,9 @@
   position: relative;
   isolation: isolate;
   justify-content: flex-end;
-  min-height: 230px;
+  --event-shade: .64;
+  --event-shade-bottom: .80;
+  min-height: 250px;
   padding: 0;
   overflow: hidden;
   border: 0;
@@ -247,14 +249,14 @@
   position: relative;
   isolation: isolate;
   width: 100%;
-  padding: 9px clamp(14px, 1.8vw, 22px) 16px;
+  padding: 5px clamp(14px, 1.8vw, 22px) 14px;
 }
 .br-nov-event-content::before {
   content: "";
   position: absolute;
-  inset: -35px 0 0;
+  inset: -22px 0 0;
   z-index: -1;
-  background: linear-gradient(180deg, transparent, rgb(14 17 18 / .76) 35px, rgb(14 17 18 / .91));
+  background: linear-gradient(180deg, transparent, rgb(14 17 18 / var(--event-shade)) 22px, rgb(14 17 18 / var(--event-shade-bottom)));
 }
 .br-nov-event-photo {
   position: absolute;
@@ -264,11 +266,17 @@
   height: 100%;
   object-fit: cover;
 }
+.br-nov-band-inner .br-nov-event-card--family {
+  --event-shade: .59;
+  --event-shade-bottom: .74;
+}
+.br-nov-event-card--family .br-nov-event-photo { object-position: center 35%; }
 .br-nov-band-inner .br-nov-event-card h3 { color: inherit; }
+.br-nov-event-card :is(h3, p) { text-shadow: 0 1px 2px rgb(0 0 0 / .48); }
 .br-nov-band-inner .br-nov-event-card p { flex: 0 0 auto; margin: 7px 0 12px; }
 .br-nov-event-card .br-nov-button { max-width: 100%; }
 @media (max-width: 639px) {
-  .br-nov-band-inner .br-nov-event-card { min-height: 203px; }
+  .br-nov-band-inner .br-nov-event-card { min-height: 225px; }
 }
 @media (max-width: 359px) {
   #br-nov-programs-title { font-size: 22px; }

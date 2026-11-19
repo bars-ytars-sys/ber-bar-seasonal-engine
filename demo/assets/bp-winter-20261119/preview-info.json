@@ -1,0 +1,60 @@
+{
+  "preview": "/prevyu/lid/bp-winter-20261119.html",
+  "productionChanged": false,
+  "robots": "noindex,nofollow",
+  "builtInImageGen": true,
+  "snowflakesMobile": 24,
+  "snowflakesDesktop": 42,
+  "photos": [
+    {
+      "file": "bp-hero-winter-desktop.webp",
+      "sha256": "8aa8b8d19ee5e541af8a74e7e950871112dd40f2885f2c5a3989b88eba1d70b4",
+      "bytes": 398714
+    },
+    {
+      "file": "bp-hero-winter-mobile.webp",
+      "sha256": "947d51e7dff2848eefaeb3db1733129040b4b9a20ccf12a30601abc6e02038d0",
+      "bytes": 349380
+    }
+  ],
+  "checks": [
+    {
+      "width": 390,
+      "engine": "webkit",
+      "live": false,
+      "state": {
+        "photo": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/bp-winter-20261119/bp-hero-winter-mobile.webp",
+        "flakes": "24",
+        "intercepts": "none",
+        "h1": 1,
+        "overflow": 0,
+        "robots": "noindex, nofollow",
+        "autumn": false
+      },
+      "calendarOpens": true,
+      "reducedMotion": true,
+      "pass": true,
+      "errors": [],
+      "writesBlocked": 2
+    },
+    {
+      "width": 1440,
+      "engine": "chromium",
+      "live": false,
+      "state": {
+        "photo": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/bp-winter-20261119/bp-hero-winter-desktop.webp",
+        "flakes": "42",
+        "intercepts": "none",
+        "h1": 1,
+        "overflow": 0,
+        "robots": "noindex, nofollow",
+        "autumn": false
+      },
+      "calendarOpens": true,
+      "reducedMotion": true,
+      "pass": true,
+      "errors": [],
+      "writesBlocked": 0
+    }
+  ]
+}

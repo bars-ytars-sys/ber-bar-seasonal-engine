@@ -32,7 +32,7 @@ ASSETS = {
     for file in (HERE / "assets").iterdir() if file.is_file()
 }
 ASSETS["/custom.css"] = HERE / "assets/site-custom.css"
-ASSET_TYPES = {".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".jpg": "image/jpeg", ".webp": "image/webp"}
+ASSET_TYPES = {".css": "text/css; charset=utf-8", ".jpg": "image/jpeg", ".webp": "image/webp"}
 SPA = {"/spa": ("rec1910053581", "SPA"), "/banchan": ("rec1796236641", "Бани и банные чаны")}
 ACTIVITIES = "/aktivnosti-v-beryozovoj-roshhe"
 WOODS = "/br-assets/quad-woods.webp"
@@ -108,8 +108,7 @@ def render(route):
     if route == "/":
         marker = '<section class="brh brh-section brh-section--offers"'
         assert body.count(marker) == 1
-        body = body.replace(marker, FRAGMENTS["programs"] + FRAGMENTS["events"]
-                            + '<script src="/br-assets/program-filters.js" defer></script>' + marker)
+        body = body.replace(marker, FRAGMENTS["programs"] + FRAGMENTS["events"] + marker)
     if route == "/deti":
         body = before_footer(body, FRAGMENTS["kids"])
     if route == "/vip-programmy":

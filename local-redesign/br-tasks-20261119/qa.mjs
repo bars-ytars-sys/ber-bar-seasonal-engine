@@ -59,7 +59,8 @@ await Promise.all([390, 1440].map(async width => {
     await check('Главная и порядок блоков', async () => {
       assert.deepEqual(await page.locator('#br-home-houses,#programmy-otdyha,#prazdniki,#br-home-offers').evaluateAll(nodes => nodes.map(n => n.id)),
         ['br-home-houses','programmy-otdyha','prazdniki','br-home-offers']);
-      assert.equal(await page.locator('#programmy-otdyha article').count(), 3);
+      assert.equal(await page.locator('#programmy-otdyha details').count(), 3);
+      assert.equal(await page.locator('#programmy-otdyha details[open]').count(), 0);
       assert.equal(await page.locator('#prazdniki article').count(), 3);
       await shot('programs', page.locator('#programmy-otdyha'));
       await shot('events', page.locator('#prazdniki'));
@@ -80,7 +81,13 @@ await Promise.all([390, 1440].map(async width => {
     });
     await check('Кнопка «Подробнее» ведёт на программу', async () => {
       await load('/');
-      await page.locator('#programmy-otdyha a[href="/vip-programmy/svidanie"]').click();
+      const programs = page.locator('#programmy-otdyha');
+      await programs.getByText('Свидание года', { exact: true }).click();
+      await programs.getByText('от 65 000 ₽', { exact: true }).waitFor();
+      await programs.getByText('Полная перезагрузка', { exact: true }).click();
+      assert.equal(await programs.locator('details[open]').count(), 1);
+      await programs.getByText('Свидание года', { exact: true }).click();
+      await programs.locator('a[href="/vip-programmy/svidanie"]').click();
       await page.waitForURL('**/vip-programmy/svidanie', { waitUntil: 'domcontentloaded' });
     });
     await check('Праздники: родная карточка и переход к детскому блоку', async () => {

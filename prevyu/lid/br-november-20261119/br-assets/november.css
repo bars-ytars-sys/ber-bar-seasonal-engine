@@ -79,3 +79,71 @@
 :is(#rec1728108931, #rec1729227991):has(> .br-nov-menu) > .t396 { display: none !important; }
 #rec1763992611 .t750__col { margin-inline: auto; float: none; }
 #rec1763992611 .t750__col:has(.t-slds) { display: none; }
+
+/* Mobile review: keep the brand typography and give copy a stable contrast. */
+@media (max-width: 639px) {
+  #t-header #rec1730117851 .t396__artboard,
+  #t-header #rec1730117851 .t396__carrier,
+  #t-header #rec1730117851 .t396__filter {
+    background: #fff !important;
+  }
+  #br-home-start.brx {
+    min-height: clamp(440px, 64svh, 560px);
+    background-color: #102e26;
+  }
+  #br-home-start.brx::after {
+    background: linear-gradient(180deg, rgba(10, 33, 26, .94), rgba(10, 33, 26, .82) 49%, rgba(10, 33, 26, .51) 78%, rgba(10, 33, 26, .77));
+  }
+  #br-home-start .brx__copy {
+    padding: 28px 20px 26px;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+  #br-home-start .brx__h1 {
+    font-size: clamp(25px, 7.6vw, 36px);
+    line-height: 1.12;
+    white-space: normal;
+    text-wrap: balance;
+  }
+  #br-home-start .brx__h1 :is(.brx__h1-a, .brx__h1-b) { white-space: normal; }
+  #br-home-start .brx__h1 small {
+    color: #b8f5de;
+    font-size: 14px;
+    line-height: 1.35;
+    letter-spacing: .035em;
+  }
+  #br-home-start .brx__script { display: none; }
+  #br-home-start .brx__copy :is(.brx__sub, .brx__lead-m) {
+    color: #fff;
+    font-size: 17px;
+    line-height: 1.43;
+    max-width: 34ch;
+    margin: 16px auto 22px;
+    white-space: normal;
+  }
+  #br-home-start .brx__row { gap: 10px; }
+  #br-home-start .brx__row :is(.brx__cta, .brx__ghost) {
+    min-height: 52px;
+    padding-inline: 12px;
+    font-size: 16px;
+    line-height: 1.22;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  #br-home-start .brx__row .brx__ghost { background-color: #18392f; }
+  body.есть-панель-моб #allrecords :is(.t898__btn, .t898__popup) {
+    display: none !important;
+  }
+  .br-nov {
+    width: calc(100% - 24px);
+    padding: 18px 14px;
+    scroll-margin-top: 78px;
+  }
+  .br-nov h2 { font-size: clamp(26px, 7.1vw, 32px); }
+  .br-nov h3 { font-size: 22px; line-height: 1.18; }
+  .br-nov p { font-size: 18px; line-height: 1.5; }
+  .br-nov-grid article { padding: 16px; }
+  .br-nov a.br-nov-button { min-height: 48px; font-size: 17px; line-height: 1.2; }
+  .br-nov-menu { padding: 12px; font-size: 20px; }
+  .br-nov-menu details a { font-size: 17px; line-height: 1.3; }
+}

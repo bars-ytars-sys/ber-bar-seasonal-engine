@@ -61,7 +61,8 @@ await Promise.all([390, 1440].map(async width => {
         ['br-home-houses','programmy-otdyha','prazdniki','br-home-offers']);
       assert.equal(await page.locator('#programmy-otdyha details').count(), 3);
       assert.equal(await page.locator('#programmy-otdyha details[open]').count(), 0);
-      assert.equal(await page.locator('#prazdniki article').count(), 3);
+      assert.equal(await page.locator('#prazdniki details').count(), 3);
+      assert.equal(await page.locator('#prazdniki details[open]').count(), 0);
       await shot('programs', page.locator('#programmy-otdyha'));
       await shot('events', page.locator('#prazdniki'));
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
@@ -92,6 +93,7 @@ await Promise.all([390, 1440].map(async width => {
     await check('Праздники: родная карточка и переход к детскому блоку', async () => {
       await load('/');
       await page.waitForFunction(() => typeof window.t750_init === 'function');
+      await page.locator('#prazdniki').getByText('День рождения', { exact: true }).click();
       const birthdayLink = page.locator('#prazdniki a[href="#popup:dr"]');
       const birthday = page.locator('[data-tooltip-hook="#popup:dr"].t-popup_show');
       await birthdayLink.click();
@@ -99,6 +101,7 @@ await Promise.all([390, 1440].map(async width => {
       catch { await birthdayLink.click(); await birthday.waitFor(); }
       await birthday.locator('.t-popup__close button').click();
       await birthday.waitFor({ state: 'hidden' });
+      await page.locator('#prazdniki').getByText('Семейный праздник', { exact: true }).click();
       await page.locator('#prazdniki a[href="/deti#detskiy-prazdnik"]').click();
       await page.waitForURL('**/deti#detskiy-prazdnik', { waitUntil: 'domcontentloaded' });
     });

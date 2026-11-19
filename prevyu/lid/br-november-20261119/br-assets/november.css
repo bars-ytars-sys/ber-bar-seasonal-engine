@@ -302,7 +302,15 @@
 .br-nov-band-inner .br-nov-event-card h3 { color: inherit; }
 .br-nov-event-card :is(h3, p) { text-shadow: 0 1px 2px rgb(0 0 0 / .48); }
 .br-nov-band-inner .br-nov-event-card p { flex: 0 0 auto; margin: 7px 0 12px; }
-.br-nov-event-card .br-nov-button { max-width: 100%; }
+.br-nov-band-inner .br-nov-event-card a.br-nov-button {
+  max-width: 100%;
+  border-color: #159f7b;
+  color: #137f65;
+}
+.br-nov-band-inner .br-nov-event-card a.br-nov-button:hover {
+  border-color: var(--br-nov-mint);
+  color: var(--br-nov-ink);
+}
 @media (max-width: 639px) {
   .br-nov-band-inner .br-nov-event-card { min-height: 225px; }
 }

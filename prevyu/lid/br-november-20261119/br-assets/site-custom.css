@@ -1,0 +1,14 @@
+#rec2411016811 .t396__artboard:not(.t396__artboard_scale) > .t396__elem,
+#rec2411016811 .t396__artboard:not(.t396__artboard_scale) > .t396__group{visibility:hidden}
+
+#rec3032928101 .t123{min-height:142px}
+@media screen and (max-width:799px){#rec3032928101 .t123{min-height:334px}}
+
+#rec2411016811 .t396__artboard,#rec2411016811 .t396__filter,#rec2411016811 .t396__carrier{height:54.1667vw!important}
+@media screen and (max-width:1199px){#rec2411016811 .t396__artboard,#rec2411016811 .t396__filter,#rec2411016811 .t396__carrier{height:67.7083vw!important}}
+@media screen and (max-width:959px){#rec2411016811 .t396__artboard,#rec2411016811 .t396__filter,#rec2411016811 .t396__carrier{height:101.5625vw!important}}
+@media screen and (max-width:639px){#rec2411016811 .t396__artboard,#rec2411016811 .t396__filter,#rec2411016811 .t396__carrier{height:163.3333vw!important}}
+@media screen and (max-width:479px){#rec2411016811 .t396__artboard,#rec2411016811 .t396__filter,#rec2411016811 .t396__carrier{height:198.125vw!important}}
+
+#rec2851363001 .house-1,#rec2851363001 .house-2,#rec2851363001 .house-3,#rec2851363001 .house-4,#rec2851363001 .house-5,#rec2851363001 .house-6,#rec2851363001 .house-7,#rec2851363001 .house-8,#rec2851363001 .house-9,#rec2851363001 .house-10{visibility:hidden!important;opacity:0!important;pointer-events:none!important;transition:none!important}
+#rec2851363001 .house-1.h-on,#rec2851363001 .house-2.h-on,#rec2851363001 .house-3.h-on,#rec2851363001 .house-4.h-on,#rec2851363001 .house-5.h-on,#rec2851363001 .house-6.h-on,#rec2851363001 .house-7.h-on,#rec2851363001 .house-8.h-on,#rec2851363001 .house-9.h-on,#rec2851363001 .house-10.h-on{visibility:visible!important;opacity:1!important;pointer-events:auto!important}

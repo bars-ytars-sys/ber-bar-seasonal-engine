@@ -165,7 +165,7 @@
 .br-nov-program-list { align-items: start; }
 .br-nov-program {
   min-width: 0;
-  border: 1px solid var(--br-nov-line);
+  border: 1px solid #a8b2bb;
   border-radius: 8px;
   background: #fff;
 }
@@ -178,35 +178,41 @@
   cursor: pointer;
   padding: 10px 12px;
   min-height: 52px;
-  font-size: clamp(17px, 1.65vw, 21px);
+  font-size: clamp(18px, 1.65vw, 22px);
   font-weight: 750;
   line-height: 1.15;
 }
 .br-nov-program summary::-webkit-details-marker { display: none; }
-.br-nov-program summary::after {
+.br-nov-program-caret {
+  display: grid;
+  flex: 0 0 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 6px;
+  background: var(--br-nov-mint);
+}
+.br-nov-program-caret::before {
   content: "";
-  display: block;
-  flex: 0 0 10px;
-  width: 10px;
-  height: 10px;
-  margin: -4px 4px 0;
+  width: 9px;
+  height: 9px;
+  margin-top: -4px;
   border-right: 2px solid currentColor;
   border-bottom: 2px solid currentColor;
   transform: rotate(45deg);
 }
-.br-nov-program[open] summary { background: var(--br-nov-mint); border-radius: 7px 7px 0 0; }
-.br-nov-program[open] summary::after { margin-top: 5px; transform: rotate(225deg); }
+.br-nov-program[open] summary { border-bottom: 2px solid var(--br-nov-mint); }
+.br-nov-program[open] .br-nov-program-caret::before { margin-top: 4px; transform: rotate(225deg); }
 .br-nov-program summary:focus-visible { outline: 2px solid var(--br-nov-ink); outline-offset: 2px; }
 .br-nov-program-content { padding: 2px 12px 12px; }
-.br-nov-program-content p { margin: 8px 0; font-size: 16px; }
+.br-nov-program-content p { margin: 8px 0; font-size: 17px; }
 .br-nov-program-content strong { display: block; margin-bottom: 10px; }
 #programmy-otdyha { padding-block: clamp(18px, 2.5vw, 34px); }
 @media (max-width: 700px) {
   .br-nov-program-list { gap: 6px; }
-  .br-nov-program summary { min-height: 44px; padding-block: 8px; }
+  .br-nov-program summary { min-height: 46px; padding-block: 6px; }
 }
 .br-nov-band-inner article {
-  border: 1px solid var(--br-nov-line);
+  border: 1px solid #a8b2bb;
   border-radius: 8px;
   padding: clamp(12px, 2vw, 20px);
 }

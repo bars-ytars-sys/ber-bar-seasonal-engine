@@ -33,7 +33,7 @@ def static_page(route):
     html = render(route).decode()
     html = html.replace('"/br-assets/', f'"{ASSET_ROOT}/').replace("'/br-assets/", f"'{ASSET_ROOT}/")
     html = HREF.sub(static_href, html)
-    html = html.replace(ASSET_ROOT + "/november.css", ASSET_ROOT + "/november.css?v=9")
+    html = html.replace(ASSET_ROOT + "/november.css", ASSET_ROOT + "/november.css?v=10")
     html = html.replace(
         "if (location.hostname !== '127.0.0.1' && location.hostname !== 'localhost') return;",
         f"const demoPrefix = {json.dumps(PREFIX)};",

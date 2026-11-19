@@ -1,0 +1,81 @@
+[
+  {
+    "width": 1440,
+    "checks": [
+      {
+        "label": "Главная и порядок блоков",
+        "passed": true
+      },
+      {
+        "label": "Нативное меню, 7 разделов и вложенные ссылки",
+        "passed": true
+      },
+      {
+        "label": "Кнопка «Подробнее» ведёт на программу",
+        "passed": true
+      },
+      {
+        "label": "Праздники: родная карточка и переход к детскому блоку",
+        "passed": true
+      },
+      {
+        "label": "Самовар и цены",
+        "passed": true
+      },
+      {
+        "label": "Детский блок, обе фотографии, CTA",
+        "passed": true
+      },
+      {
+        "label": "Переключение SPA → бани → SPA",
+        "passed": true
+      },
+      {
+        "label": "Квадроциклы и подраздел «С детьми»",
+        "passed": true
+      }
+    ],
+    "errors": []
+  },
+  {
+    "width": 390,
+    "checks": [
+      {
+        "label": "Главная и порядок блоков",
+        "passed": true
+      },
+      {
+        "label": "Нативное меню, 7 разделов и вложенные ссылки",
+        "passed": true
+      },
+      {
+        "label": "Кнопка «Подробнее» ведёт на программу",
+        "passed": true
+      },
+      {
+        "label": "Праздники: родная карточка и переход к детскому блоку",
+        "passed": true
+      },
+      {
+        "label": "Самовар и цены",
+        "passed": true
+      },
+      {
+        "label": "Детский блок, обе фотографии, CTA",
+        "passed": true
+      },
+      {
+        "label": "Переключение SPA → бани → SPA",
+        "passed": true
+      },
+      {
+        "label": "Квадроциклы и подраздел «С детьми»",
+        "passed": true
+      }
+    ],
+    "errors": [
+      "/neo.tildacdn.com/js/tilda-fallback-advanced-1.0.min.js due to access control checks.",
+      "ResizeObserver loop completed with undelivered notifications."
+    ]
+  }
+]

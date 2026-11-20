@@ -58,7 +58,7 @@ await Promise.all([390, 1440].map(async width => {
     await load('/');
     await check('Главная и порядок блоков', async () => {
       assert.deepEqual(await page.locator('#br-home-houses,#programmy-otdyha,#prazdniki,#br-home-offers').evaluateAll(nodes => nodes.map(n => n.id)),
-        ['br-home-houses','programmy-otdyha','prazdniki','br-home-offers']);
+        ['br-home-houses','br-home-offers','programmy-otdyha','prazdniki']);
       assert.equal(await page.locator('#programmy-otdyha details').count(), 3);
       assert.equal(await page.locator('#programmy-otdyha details[open]').count(), 0);
       assert.equal(await page.locator('#prazdniki details').count(), 3);
@@ -72,7 +72,7 @@ await Promise.all([390, 1440].map(async width => {
       await trigger.click({ timeout: 10000 });
       const menu = page.locator('.t-popup_show .br-nov-menu').filter({ visible: true }).first();
       await menu.waitFor({ timeout: 10000 });
-      assert.equal(await menu.locator(':scope > *').count(), 7);
+      assert.equal(await menu.locator(':scope > *').count(), 8);
       assert.equal(await menu.locator('details').count(), 0);
       await shot('menu', menu);
       await menu.getByRole('link', { name: 'Сценарии отдыха' }).click();

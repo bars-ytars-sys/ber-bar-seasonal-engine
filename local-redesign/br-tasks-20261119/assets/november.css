@@ -167,15 +167,21 @@
   background: var(--br-nov-surface);
 }
 #prazdniki { background: #edf0f5; }
-.br-nov-band-inner { width: min(1200px, calc(100% - 40px)); margin-inline: auto; }
+.br-nov-band-inner {
+  width: 100%;
+  max-width: 1504px;
+  margin-inline: auto;
+  padding-inline: clamp(18px, 4.2vw, 72px);
+}
 .br-nov-band-inner h2 {
   color: var(--br-nov-ink);
-  font: 700 clamp(23px, 3vw, 39px)/1.12 var(--br-nov-display);
+  font: 700 clamp(25px, 3.15vw, 44px)/1.1 var(--br-nov-display);
   text-transform: uppercase;
   margin-bottom: 14px;
 }
 .br-nov-program-list { align-items: start; }
 .br-nov-program {
+  container-type: inline-size;
   min-width: 0;
   border: 1px solid #a8b2bb;
   border-radius: 8px;
@@ -183,13 +189,13 @@
 }
 .br-nov-program summary {
   display: grid;
-  grid-template-columns: clamp(64px, 7.4vw, 88px) minmax(0, 1fr) auto;
+  grid-template-columns: clamp(46px, 16cqw, 66px) minmax(0, 1fr) clamp(67px, 20cqw, 82px);
   align-items: center;
-  gap: clamp(8px, 1vw, 13px);
+  gap: 7px;
   list-style: none;
   cursor: pointer;
   padding: 6px 9px 6px 6px;
-  font: 700 clamp(14px, 1.35vw, 20px)/1.15 var(--br-nov-display);
+  font: 700 clamp(8.9px, calc(3.5cqw - 1.5px), 12.5px)/1.15 var(--br-nov-display);
   text-transform: uppercase;
   border-radius: 7px;
 }
@@ -201,15 +207,15 @@
   object-fit: cover;
   background: var(--br-nov-surface);
 }
-.br-nov-program-name { overflow-wrap: anywhere; }
+.br-nov-program-name { white-space: nowrap; }
 .br-nov-program summary:hover { background: #eefaf6; }
 .br-nov-program summary::-webkit-details-marker { display: none; }
 .br-nov-program-action {
   display: inline-grid;
   place-items: center;
   min-height: 34px;
-  padding-inline: clamp(6px, 1vw, 10px);
-  font-size: clamp(10px, 1vw, 13px);
+  padding-inline: 3px;
+  font-size: clamp(9px, 2.5cqw, 10.5px);
   font-weight: 700;
   white-space: nowrap;
 }
@@ -223,7 +229,6 @@
 .br-nov-program-content strong { display: block; margin-bottom: 10px; }
 :is(#programmy-otdyha, #prazdniki) { padding-block: clamp(18px, 2.5vw, 34px); }
 @media (max-width: 700px) {
-  #br-nov-programs-title { font-size: clamp(17px, 5.1vw, 23px); }
   .br-nov-program-list { gap: 6px; }
 }
 .br-nov-band-inner article {
@@ -255,12 +260,12 @@
   background: var(--br-nov-mint);
   color: var(--br-nov-ink);
 }
-@media (max-width: 639px) {
-  .br-nov-band-inner { width: calc(100% - 28px); }
+@media (max-width: 640px) {
+  .br-nov-band-inner { padding-inline: 16px; }
   .br-nov-band-inner article p { font-size: 17px; }
 }
 @media (max-width: 359px) {
-  .br-nov-program summary { grid-template-columns: 54px minmax(0, 1fr) auto; }
+  .br-nov-program summary { grid-template-columns: 40px minmax(0, 1fr) 62px; padding-inline: 5px 6px; gap: 5px; }
   .br-nov-program-photo { height: 40px; }
 }
 .br-nov-filters:not([hidden]) { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
@@ -294,3 +299,49 @@
     font-size: 8.7px !important;
   }
 }
+
+@media (min-width: 701px) and (max-width: 759px) {
+  .br-nov-program-list { grid-template-columns: 1fr; }
+}
+@media (min-width: 760px) and (max-width: 1099px) {
+  .br-nov-program-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.br-nov-gift-photo { display:block; width:100%; height:100%; object-fit:cover; }
+.br-nov-trust {
+  position: absolute;
+  z-index: 979;
+  top: 65px;
+  right: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  pointer-events: none;
+}
+.br-nov-trust a {
+  pointer-events: auto;
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  border-radius: 6px;
+  padding: 3px 8px;
+  border: 1px solid #2ed8a3;
+  background: #f4f6fb;
+  color: #1a1b19 !important;
+  font: 700 10px/1.15 DespairDisplay, TildaSans, Arial, sans-serif;
+  text-decoration: none;
+}
+#br-home-start.brx { margin-top: 98px; }
+@media (min-width: 1250px) {
+  .br-nov-trust {
+    position: fixed;
+    top: 17px;
+    left: clamp(173px, 14vw, 236px);
+    right: auto;
+  }
+  #br-home-start.brx { margin-top: var(--brx-head); }
+}
+
+.br-nov-special-gift { background: transparent; padding-block: 0; }
+.br-nov-special-gift .to-card { max-width: 400px; margin: 0 auto; }

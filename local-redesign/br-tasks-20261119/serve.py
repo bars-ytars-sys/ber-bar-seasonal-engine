@@ -129,10 +129,21 @@ def render(route):
             r'<article class="to-card">(?:(?!<article).)*?<h3 class="to-t">Банный отдых с самоваром</h3>.*?</article>',
             "", body, count=1, flags=re.S,
         )
+    if route == "/special":
+        body = before_footer(body, '<section class="br-nov br-nov-special-gift" aria-label="Подарочный сертификат">'
+                             + FRAGMENTS["gift_offer"] + "</section>")
     if route == "/":
-        marker = '<section class="brh brh-section brh-section--offers"'
+        grid_end = re.search(
+            r'(?<=</article>)(?:\s*<!--[^>]+-->)*\s*</div>\s*</div>\s*<style>\s*/\* Все значения',
+            body[body.index('<div class="to-grid">'):],
+        )
+        assert grid_end, route
+        insert_at = body.index('<div class="to-grid">') + grid_end.start()
+        body = body[:insert_at] + FRAGMENTS["gift_offer"] + body[insert_at:]
+        marker = '<span hidden data-br-slot="rec3546311701"></span>'
         assert body.count(marker) == 1
-        body = body.replace(marker, FRAGMENTS["programs"] + FRAGMENTS["events"] + marker)
+        body = body.replace(marker, marker + FRAGMENTS["programs"] + FRAGMENTS["events"])
+        body = body.replace("</header>", FRAGMENTS["trust"] + "</header>", 1)
     if route == "/deti":
         body = before_footer(body, FRAGMENTS["kids"])
     if route == "/vip-programmy":

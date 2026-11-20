@@ -2276,12 +2276,12 @@ dialog.bst{width:min(920px,calc(100vw - 32px));max-height:88dvh;padding:0;border
   else start();
 })();
 </script> <!-- ГЛАВНАЯ БП · ПЕРВЫЙ ЭКРАН · 14.11.2026 (демо d05c518). Вставить целиком вместо прежнего кода блока.
-     Шапка, H1 и SEO не меняются; фото — реальное Шале с GitHub Pages, свет в окнах добавлен. --> <style id="bp-demo-stable-entry">#bp-production-hero .bp-calm__content{transition:opacity .18s ease}html.bp-entry-pending #bp-production-hero .bp-calm__content{opacity:0}@media(prefers-reduced-motion:reduce){#bp-production-hero .bp-calm__content{transition:none}}</style>
+     Шапка, H1 и SEO не меняются; фото — реальное Шале с GitHub Pages, свет в окнах добавлен. --> <style id="bp-demo-stable-entry">html.bp-entry-ready .t-records{opacity:1!important;transition:none!important}#bp-production-hero .bp-calm__content{transition:opacity .18s ease}html.bp-entry-pending #bp-production-hero .bp-calm__content{opacity:0}@media(prefers-reduced-motion:reduce){#bp-production-hero .bp-calm__content{transition:none}}</style>
 <script id="bp-demo-stable-entry-script">
 (function(){
  var root=document.documentElement,start=performance.now(),last='',stable=start,done=false;
  root.classList.add('bp-entry-pending');
- function reveal(){if(done)return;done=true;root.classList.remove('bp-entry-pending');}
+ function reveal(){if(done)return;done=true;root.classList.remove('bp-entry-pending');root.classList.add('bp-entry-ready');}
  setTimeout(reveal,1500);
  function frame(){
   if(done)return;

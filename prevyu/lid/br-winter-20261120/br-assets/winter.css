@@ -1,0 +1,109 @@
+.br-winter-snow {
+  position: fixed;
+  z-index: 850;
+  inset: 58px 0 0;
+  pointer-events: none;
+  opacity: .55;
+  background-image:
+    radial-gradient(circle at 23px 27px, #fff 0 1.4px, transparent 2.3px),
+    radial-gradient(circle at 63px 76px, #fff 0 .9px, transparent 1.7px),
+    radial-gradient(circle at 110px 35px, #fff 0 1px, transparent 1.8px);
+  background-size: 181px 157px, 215px 201px, 253px 233px;
+  animation: br-winter-fall 19s linear infinite;
+  mask-image: linear-gradient(black, transparent 90%);
+}
+@keyframes br-winter-fall {
+  to { background-position: 45px 157px, 40px 201px, 50px 233px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .br-winter-snow { animation: none; }
+}
+
+@media (max-width: 639px) {
+  #br-home-start.brx::after {
+    background: linear-gradient(
+      180deg,
+      rgb(20 24 27 / .91),
+      rgb(20 24 27 / .78) 34%,
+      rgb(20 24 27 / .39) 55%,
+      rgb(20 24 27 / .19) 75%,
+      rgb(20 24 27 / .27)
+    );
+  }
+}
+
+#br-home-start.brx {
+  margin-top: var(--brx-head, 62px);
+  flex-direction: column;
+}
+#br-home-start.brx > .brx__copy { padding-bottom: clamp(16px, 3vh, 36px); }
+
+.br-winter-benefits {
+  scroll-margin-top: 80px;
+  width: min(100%, 1440px);
+  padding: 0 clamp(28px, 6vw, 96px) 20px;
+  margin: auto auto 0;
+  color: #fff;
+  font: 500 14px/1.3 TildaSans, Arial, sans-serif;
+}
+.br-winter-benefits ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.br-winter-benefits li {
+  min-width: 0;
+  border: 1px solid #2ed8a36b;
+  border-radius: 999px;
+  background: #142820e6;
+}
+.br-winter-benefits a,
+.br-winter-benefits li:last-child {
+  min-height: 32px;
+  padding: 3px 10px;
+}
+.br-winter-benefits a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff !important;
+}
+.br-winter-benefits li:last-child { display: flex; align-items: center; }
+.br-winter-benefits a:hover, .br-winter-benefits a:focus-visible { text-decoration: underline; }
+.br-winter-benefits a:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: inherit; }
+.br-winter-benefits__short { display: none; }
+.br-winter-benefits img { display: block; height: auto; }
+.br-winter-benefits__award {
+  flex: none;
+}
+.br-winter-benefits .br-winter-benefits__award img { width: 17px; }
+.br-winter-benefits__split {
+  flex: none;
+}
+.br-winter-benefits .br-winter-benefits__split img { width: 56px; }
+@media (max-width: 960px) {
+  .br-winter-benefits { padding: 0 22px 14px; font-size: 13px; }
+}
+@media (max-width: 639px) {
+  .br-winter-benefits { padding-inline: 20px; }
+  .br-winter-benefits ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.25fr;
+    gap: 6px;
+    align-items: stretch;
+    max-width: 380px;
+    margin-inline: auto;
+  }
+  .br-winter-benefits :is(a, li:last-child) {
+    min-height: 42px;
+    justify-content: center;
+    padding-inline: 5px;
+    white-space: nowrap;
+  }
+  .br-winter-benefits__full { display: none; }
+  .br-winter-benefits__short { display: inline; }
+}

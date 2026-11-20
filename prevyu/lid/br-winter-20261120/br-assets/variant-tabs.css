@@ -39,7 +39,7 @@
   height: 100%;
   object-fit: cover;
 }
-.sample-tabs .sample-frame img[src$="winter-activity-spa-hq.webp"] { object-position: 50% 56%; }
+.sample-tabs .sample-frame img[src$="br-date-evening.webp"] { object-position: center 52%; }
 .sample-tabs .sample-copy { padding:clamp(14px,2vw,28px); }
 .sample-tabs .br-nov-button {
   display:inline-flex; align-items:center; min-height:42px; padding:5px 12px; box-sizing:border-box;

@@ -199,12 +199,16 @@ def main():
         folder.mkdir(parents=True, exist_ok=True)
         (folder / "index.html").write_text(stamp_assets(layout_variant.render_cards(html, PREFIX) if route == "/" else html))
         if route == "/":
-            variant = output / "variant-3"
-            variant.mkdir(exist_ok=True)
-            (variant / "index.html").write_text(stamp_assets(layout_variant.render_cards(html, PREFIX)))
-            tabs = output / "variant-tabs"
-            tabs.mkdir(exist_ok=True)
-            (tabs / "index.html").write_text(stamp_assets(layout_variant.render_cards(html, PREFIX)))
+            versions = {
+                "version-1": layout_variant.render_tabs,
+                "version-2": layout_variant.render_cards,
+                "variant-tabs": layout_variant.render_tabs,
+                "variant-3": layout_variant.render_cards,
+            }
+            for name, renderer in versions.items():
+                variant = output / name
+                variant.mkdir(exist_ok=True)
+                (variant / "index.html").write_text(stamp_assets(renderer(html, PREFIX)))
     print(f"{len(pages.ROUTES)} pages, {len(approved)} winter photos · {output}")
 
 if __name__ == "__main__":

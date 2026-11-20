@@ -1,0 +1,33 @@
+.br-winter-snow {
+  position: fixed;
+  z-index: 850;
+  inset: 58px 0 0;
+  pointer-events: none;
+  opacity: .55;
+  background-image:
+    radial-gradient(circle at 23px 27px, #fff 0 1.4px, transparent 2.3px),
+    radial-gradient(circle at 63px 76px, #fff 0 .9px, transparent 1.7px),
+    radial-gradient(circle at 110px 35px, #fff 0 1px, transparent 1.8px);
+  background-size: 181px 157px, 215px 201px, 253px 233px;
+  animation: br-winter-fall 19s linear infinite;
+  mask-image: linear-gradient(black, transparent 90%);
+}
+@keyframes br-winter-fall {
+  to { background-position: 45px 157px, 40px 201px, 50px 233px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .br-winter-snow { animation: none; }
+}
+
+@media (max-width: 639px) {
+  #br-home-start.brx::after {
+    background: linear-gradient(
+      180deg,
+      rgb(20 24 27 / .91),
+      rgb(20 24 27 / .78) 34%,
+      rgb(20 24 27 / .39) 55%,
+      rgb(20 24 27 / .19) 75%,
+      rgb(20 24 27 / .27)
+    );
+  }
+}

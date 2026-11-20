@@ -9,7 +9,7 @@ python3 -B local-redesign/br-winter-20261120/build.py --root /tmp/br-winter-prev
 python3 -m http.server 8188 --bind 127.0.0.1 --directory /tmp/br-winter-preview
 ```
 
-[Открыть демо](http://127.0.0.1:8188/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/).
+[Открыть демо](http://127.0.0.1:8188/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/) · [Вариант 3](http://127.0.0.1:8188/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/variant-3/#br-sample).
 
 - Зимние кадры первого экрана для телефона и компьютера и зимний вид из окна SPA.
 - На главной обновлены внешние ракурсы в карточках домов, активности, открытые кадры в историях и низ страницы со спецпредложениями. Фотографии интерьеров и присланные фото детей сохранены.

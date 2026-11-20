@@ -7,6 +7,8 @@ import re
 import shutil
 import sys
 
+import layout_variant
+
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / "br-tasks-20261119"))
 pages = importlib.import_module("build_pages")
@@ -96,6 +98,10 @@ def main():
         folder = output / route.strip("/")
         folder.mkdir(parents=True, exist_ok=True)
         (folder / "index.html").write_text(html)
+        if route == "/":
+            variant = output / "variant-3"
+            variant.mkdir(exist_ok=True)
+            (variant / "index.html").write_text(layout_variant.render(html, PREFIX))
     print(f"{len(pages.ROUTES)} pages, {len(approved)} winter photos · {output}")
 
 if __name__ == "__main__":

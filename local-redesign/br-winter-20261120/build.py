@@ -120,6 +120,7 @@ def main():
             hero = '<section class="brx brx--s1"'
             html = html.replace(hero, '<div class="br-winter-snow" aria-hidden="true"></div>' + hero, 1)
             html = layout_variant.without_home_prices(html)
+            html = layout_variant.update_home_programs_and_events(html, PREFIX)
             html = re.sub(r'<nav class="br-nov-trust"[^>]*>.*?</nav>', "", html, count=1, flags=re.S)
             benefits = f"""
 <aside id="br-home-benefits" class="br-winter-benefits" aria-label="Награда и условия отдыха">

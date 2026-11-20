@@ -9,6 +9,9 @@
 .sample-tabs h3 { font:750 clamp(19px,2vw,28px)/1.15 TildaSans,Arial,sans-serif; margin:0 0 8px; color:inherit; }
 .sample-tabs p { margin: 0 0 16px; }
 .sample-tabs .sample-controls { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; margin-bottom:12px; }
+@media (min-width: 701px) {
+ .sample-tabs #prazdniki .sample-controls { grid-template-columns:repeat(6,minmax(0,1fr)); }
+}
 .sample-tabs button {
   display:grid; place-items:center; text-align:center; min-width:0; height:48px; padding:5px 8px; border:1px solid #a4b3bc; border-radius:6px;
   background:#fff; color:#1a1b19; font:700 14px/1.2 TildaSans,Arial,sans-serif; cursor:pointer;
@@ -37,8 +40,6 @@
   object-fit: cover;
 }
 .sample-tabs .sample-frame img[src$="winter-activity-spa-hq.webp"] { object-position: 50% 56%; }
-.sample-tabs .sample-frame img[src$="drive-samovar.webp"] { object-position: center top; }
-.sample-tabs .sample-frame img[src$="kids-party.jpg"] { object-position: center 40%; }
 .sample-tabs .sample-copy { padding:clamp(14px,2vw,28px); }
 .sample-tabs .br-nov-button {
   display:inline-flex; align-items:center; min-height:42px; padding:5px 12px; box-sizing:border-box;

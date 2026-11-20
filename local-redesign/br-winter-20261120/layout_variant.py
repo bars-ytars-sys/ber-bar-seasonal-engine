@@ -2,10 +2,19 @@
 import re
 
 REPOSITORY_ASSETS = "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/"
+SAMOVAR_PHOTO = REPOSITORY_ASSETS + "demo/assets/card-banya.webp"
 LARGE_PHOTOS = {
     "program-romance-v9.webp": REPOSITORY_ASSETS + "demo/assets/storis/br-romantik.webp",
-    "program-samovar-v9.webp": REPOSITORY_ASSETS + "demo/assets/card-banya.webp",
+    "program-samovar-v9.webp": SAMOVAR_PHOTO,
 }
+EXTRA_EVENTS = (
+    ("Романтик", "Украшение дома, воздушные шары и шампанское.", "romantic",
+     "br-romantic-decoration.webp"),
+    ("Девичник", "Праздник за городом в компании подруг.", "girlparty",
+     "br-girlparty-decoration.webp"),
+    ("Фотодень", "Индивидуальная фотосессия на территории базы.", "fotoden",
+     "https://static.tildacdn.com/tild6330-3564-4464-b436-343134346661/7a72ad67-a4e9-41dc-9.webp"),
+)
 
 def photo_url(url):
     name = url.rsplit("/", 1)[-1]
@@ -37,13 +46,44 @@ def without_home_prices(home):
         home, count=1, flags=re.S,
     )
 
+def update_home_programs_and_events(home, prefix):
+    assets = {
+        "program-romance-v9.webp": f"{prefix}/br-assets/br-romance-tub.webp",
+        "program-samovar-v9.webp": SAMOVAR_PHOTO,
+        "event-birthday-v9.webp": f"{prefix}/br-assets/br-birthday.webp",
+        "event-family-v9.webp": f"{prefix}/br-assets/br-family-table.webp",
+    }
+    for original, updated in assets.items():
+        home = home.replace(f'src="{prefix}/br-assets/{original}"', f'src="{updated}"', 1)
+    home = home.replace(
+        'Соберите близких за городом. Для детей можно подобрать отдельную программу.</p>'
+        '<a class="br-nov-button" '
+        f'href="{prefix}/deti/#detskiy-prazdnik">Детский праздник</a>',
+        'Соберите близких за городом.</p>'
+        '<a class="br-nov-button" href="https://t.me/ecobazabr">Обсудить семейный праздник</a>',
+        1,
+    )
+    extra_cards = "".join(
+        f'<details class="br-nov-program" name="br-home-events"><summary>'
+        f'<img class="br-nov-program-photo" src="{prefix + "/br-assets/" + photo if not photo.startswith("https://") else photo}" '
+        f'width="88" height="52" alt="" loading="lazy" decoding="async">'
+        f'<span class="br-nov-program-name">{title}</span><span class="br-nov-program-action">'
+        f'<span class="br-nov-action-expand">Подробнее</span><span class="br-nov-action-collapse">Свернуть</span>'
+        f'</span></summary><div class="br-nov-program-content"><p>{description}</p>'
+        f'<a class="br-nov-button" href="#popup:{popup}">Подробнее</a></div></details>'
+        for title, description, popup, photo in EXTRA_EVENTS
+    )
+    event_start = home.index('id="prazdniki"')
+    last_event = home.index("</details>", home.index(">Корпоратив</span>", event_start)) + len("</details>")
+    return home[:last_event] + extra_cards + home[last_event:]
+
 def render(home, prefix):
     programs, celebrations = (
         re.search(rf'<section\b[^>]*\bid="{id}"[^>]*>.*?</section>', home, re.S)[0]
         for id in ("programmy-otdyha", "prazdniki")
     )
     program_cards, event_cards = cards(programs), cards(celebrations)
-    assert len(program_cards) == len(event_cards) == 3
+    assert len(program_cards) == 3 and len(event_cards) == 3 + len(EXTRA_EVENTS)
     rows = "".join(
         f'<article>{photo(url)}<div><h3>{title}</h3>{body}</div></article>'
         for url, title, body in program_cards
@@ -52,7 +92,7 @@ def render(home, prefix):
         f'<details name="sample-event"><summary>{title}</summary><div>{body}</div></details>'
         for _, title, body in event_cards
     )
-    family_photo = f"{prefix}/br-assets/kids-party.jpg"
+    family_photo = f"{prefix}/br-assets/br-family-table.webp"
     strip = f'<div class="sample-strip">{photo(family_photo)}<div>{details}</div></div>'
     markup = '<div id="br-sample" class="sample-3">' + block(
         "programmy-otdyha", "Сценарии отдыха", f'<div class="sample-tiles">{rows}</div>'
@@ -63,16 +103,10 @@ def render(home, prefix):
 def render_tabs(home, prefix):
     section_ids = ("programmy-otdyha", "prazdniki")
     titles = ("Сценарии отдыха", "Праздники и мероприятия")
-    replacements = {
-        "Свидание года": "drive-romance.webp",
-        "Банный отдых с самоваром": "drive-samovar.webp",
-        "День рождения": "kids-entertainers.jpg",
-        "Семейный праздник": "kids-party.jpg",
-    }
     for section_id, title in zip(section_ids, titles):
         section = re.search(rf'<section\b[^>]*\bid="{section_id}"[^>]*>.*?</section>', home, re.S)[0]
         items = cards(section)
-        assert len(items) == 3
+        assert len(items) == (3 if section_id == "programmy-otdyha" else 3 + len(EXTRA_EVENTS))
         buttons, panels = [], []
         for index, (url, label, body) in enumerate(items):
             key = f"{section_id}-{index}"
@@ -81,8 +115,7 @@ def render_tabs(home, prefix):
                 f'<button id="tab-{key}" type="button" role="tab" aria-selected="{selected}" '
                 f'aria-controls="panel-{key}" tabindex="{0 if index == 0 else -1}">{label}</button>'
             )
-            asset = replacements.get(label)
-            image_url = f"{prefix}/br-assets/{asset}" if asset else photo_url(url)
+            image_url = photo_url(url)
             hidden = " hidden" if index else ""
             panels.append(
                 f'<article id="panel-{key}" role="tabpanel" aria-labelledby="tab-{key}"{hidden}>'

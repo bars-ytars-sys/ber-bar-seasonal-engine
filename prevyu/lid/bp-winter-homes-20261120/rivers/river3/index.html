@@ -2417,7 +2417,10 @@ body.t-body_popupshowed #bp-winter-snow,body:has(.t-popup_show) #bp-winter-snow{
   if(path==='/houses')return catalogue+u.search+u.hash;
   if(path==='/')return home+u.search+u.hash;
   if(routes.indexOf(path)!==-1)return prefix+path+'/'+u.search+u.hash;
-  if(raw[0]==='/'&&raw[1]!=='/')return 'https://barskie-polya.ru'+raw;
+  // Native runtime can turn /new-year into an absolute GitHub-origin URL.
+  // Keep preview paths on Pages; resolve other site-root routes on production.
+  if(u.hostname==='barskie-polya.ru')return u.href;
+  if(u.origin===new URL(site).origin&&!u.pathname.startsWith('/ber-bar-seasonal-engine/'))return 'https://barskie-polya.ru'+u.pathname+u.search+u.hash;
   return null;
  }
  function fix(a){var value=address(a.getAttribute('href'));if(value&&a.getAttribute('href')!==value)a.setAttribute('href',value)}

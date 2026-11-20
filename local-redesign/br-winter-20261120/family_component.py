@@ -12,7 +12,6 @@ def birthday(source, instance='family'):
     heading = re.search(r'<h3>([\s\S]*?)</h3>', source)[1]
     paragraphs = re.findall(r'<p>[\s\S]*?</p>', source)
     photos = re.findall(r'<img\b[^>]*>', source)
-    button = re.search(r'<a class="br-nov-button"[^>]*>[\s\S]*?</a>', source)[0]
     assert len(paragraphs) == 2 and len(photos) == 2
     figures = ''.join(f'<figure role="group" aria-label="Фото {i+1} из 2">{img}</figure>' for i, img in enumerate(photos))
     return (
@@ -28,8 +27,21 @@ def birthday(source, instance='family'):
         '</div></div></div>'
         '<div class="br-family-birthday__copy"><p class="br-family-birthday__eyebrow">Детские праздники</p>'
         f'<h3>{heading}</h3>{paragraphs[0]}'
-        '<details><summary>Как организовать праздник</summary>' + paragraphs[1] + '</details>'
-        + button + '</div></article>'
+        '<details class="br-family-more"><summary class="br-nov-button">Подробнее</summary>'
+        + paragraphs[1] + '<a class="br-family-contact" href="https://t.me/ecobazabr">'
+        'Написать менеджеру</a></details></div></article>'
+    )
+
+def stay_info(prefix):
+    return (
+        '<article class="br-family-stay" id="br-family-stay">'
+        '<h3>Отдых с детьми в парк-отеле «Берёзовая роща»</h3>'
+        '<p>Мы предусмотрели всё, чтобы детям было интересно, а родителям — спокойно:</p>'
+        '<ul><li>В проживание включены детские кроватки и стульчики для кормления. '
+        'Для гостей с детьми до 3 лет предоставляем бесплатно, по запросу.</li>'
+        '<li>На территории экодеревни есть удобные дорожки '
+        'для комфортных прогулок с коляской.</li></ul>'
+        f'<a class="br-nov-button" href="{prefix}/doma/">Подобрать дом</a></article>'
     )
 
 def replace_family(html, pages, prefix):
@@ -45,7 +57,7 @@ def replace_family(html, pages, prefix):
         '<section class="br-family-activities" id="s-detmi" aria-labelledby="br-nov-family-title">'
         '<div class="br-family-activities__heading"><h2 id="br-nov-family-title">Чем занять детей, пока родители отдыхают</h2>'
         '<a href="#detskiy-prazdnik" class="br-family-jump">Детский день рождения <span aria-hidden="true">↓</span></a></div>'
-        f'<div class="br-family-activities__grid">{cards}</div>{birthday(original)}</section>'
+        f'<div class="br-family-activities__grid">{cards}</div>{birthday(original)}{stay_info(prefix)}</section>'
     )
     return html[:start] + panel + html[end:]
 

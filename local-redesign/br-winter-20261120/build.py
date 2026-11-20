@@ -9,6 +9,7 @@ import sys
 
 import layout_variant
 import family_component
+import review_changes
 import hashlib
 
 HERE = Path(__file__).resolve().parent
@@ -154,6 +155,7 @@ def main():
         canonical = re.search(canonical_pattern, original_pages.read_original(route), re.I)[0]
         html = re.sub(canonical_pattern, lambda _: canonical, html, count=1, flags=re.I)
         html = rewrite_photos(html, approved)
+        html = review_changes.apply(html, route, PREFIX)
         if route == "/aktivnosti-v-beryozovoj-roshhe":
             html = family_component.replace_family(html, pages, PREFIX)
         if route == "/deti":

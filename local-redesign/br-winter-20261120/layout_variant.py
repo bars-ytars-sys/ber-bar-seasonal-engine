@@ -61,9 +61,10 @@ def update_home_programs_and_events(home, prefix):
         '<a class="br-nov-button" '
         f'href="{prefix}/deti/#detskiy-prazdnik">Детский праздник</a>',
         'Соберите близких за городом.</p>'
-        '<a class="br-nov-button" href="https://t.me/ecobazabr">Обсудить семейный праздник</a>',
+        f'<a class="br-nov-button" href="{prefix}/deti/#rec1750133371">Подробнее</a>',
         1,
     )
+    home = home.replace('>Подробнее о дне рождения</a>', '>Подробнее</a>')
     extra_cards = "".join(
         f'<details class="br-nov-program" name="br-home-events"><summary>'
         f'<img class="br-nov-program-photo" src="{prefix + "/br-assets/" + photo if not photo.startswith("https://") else photo}" '
@@ -76,7 +77,15 @@ def update_home_programs_and_events(home, prefix):
     )
     event_start = home.index('id="prazdniki"')
     last_event = home.index("</details>", home.index(">Корпоратив</span>", event_start)) + len("</details>")
-    return home[:last_event] + extra_cards + home[last_event:]
+    home = home[:last_event] + extra_cards + home[last_event:]
+    return home.replace(
+        '<a class="br-nov-button" href="https://t.me/ecobazabr">Обсудить корпоратив</a>',
+        '<details class="br-event-details"><summary class="br-nov-button">Подробнее</summary>'
+        '<p>Формат мероприятия, количество гостей и пожелания к программе '
+        'согласуйте с менеджером заранее.</p>'
+        '<a class="br-nov-more" href="https://t.me/ecobazabr">Написать менеджеру</a></details>',
+        1,
+    )
 
 def render(home, prefix):
     programs, celebrations = (
@@ -144,12 +153,6 @@ def render_cards(home, prefix):
         for index, (url, label, body) in enumerate(items):
             if section_id == "programmy-otdyha":
                 body = body.replace('>К программе</a>', '>Подробнее</a>')
-            else:
-                # Preserve each real program/popup destination; the wording is
-                # specific when it opens a description rather than a chat.
-                body = body.replace('>Подробнее о дне рождения</a>', '>Обсудить праздник</a>')
-                body = body.replace('>Обсудить семейный праздник</a>', '>Обсудить праздник</a>')
-                body = body.replace('>Обсудить корпоратив</a>', '>Обсудить праздник</a>')
             rendered.append(
                 f'<article class="br-editorial-card"><div class="br-editorial-photo">'
                 f'<img src="{photo_url(url)}" alt="{label}" loading="lazy" decoding="async">'

@@ -9,9 +9,9 @@ LARGE_PHOTOS = {
 }
 EXTRA_EVENTS = (
     ("Романтик", "Украшение дома, воздушные шары и шампанское.", "romantic",
-     "br-romantic-decoration.webp"),
+     "br-romantic-house.webp"),
     ("Девичник", "Праздник за городом в компании подруг.", "girlparty",
-     "br-girlparty-decoration.webp"),
+     "br-girlparty-chalet.webp"),
     ("Фотодень", "Индивидуальная фотосессия на территории базы.", "fotoden",
      "https://static.tildacdn.com/tild6330-3564-4464-b436-343134346661/7a72ad67-a4e9-41dc-9.webp"),
 )
@@ -48,10 +48,11 @@ def without_home_prices(home):
 
 def update_home_programs_and_events(home, prefix):
     assets = {
-        "program-romance-v9.webp": f"{prefix}/br-assets/br-romance-tub.webp",
+        "program-romance-v9.webp": f"{prefix}/br-assets/br-date-evening.webp",
+        "winter-activity-spa-hq.webp": f"{prefix}/br-assets/winter-selector-spa-pool.webp",
         "program-samovar-v9.webp": SAMOVAR_PHOTO,
-        "event-birthday-v9.webp": f"{prefix}/br-assets/br-birthday.webp",
-        "event-family-v9.webp": f"{prefix}/br-assets/br-family-table.webp",
+        "event-birthday-v9.webp": f"{prefix}/br-assets/br-birthday-panoramic.webp",
+        "event-family-v9.webp": f"{prefix}/br-assets/br-family-bariloche.webp",
     }
     for original, updated in assets.items():
         home = home.replace(f'src="{prefix}/br-assets/{original}"', f'src="{updated}"', 1)
@@ -92,7 +93,7 @@ def render(home, prefix):
         f'<details name="sample-event"><summary>{title}</summary><div>{body}</div></details>'
         for _, title, body in event_cards
     )
-    family_photo = f"{prefix}/br-assets/br-family-table.webp"
+    family_photo = f"{prefix}/br-assets/br-family-bariloche.webp"
     strip = f'<div class="sample-strip">{photo(family_photo)}<div>{details}</div></div>'
     markup = '<div id="br-sample" class="sample-3">' + block(
         "programmy-otdyha", "Сценарии отдыха", f'<div class="sample-tiles">{rows}</div>'

@@ -30,6 +30,13 @@ def block(id, title, content):
         f'<h2>{title}</h2>{content}</div></section>'
     )
 
+def without_home_prices(home):
+    pattern = r'<section\b[^>]*\bid="programmy-otdyha"[^>]*>.*?</section>'
+    return re.sub(
+        pattern, lambda section: re.sub(r'<strong>[^<]+</strong>', '', section[0]),
+        home, count=1, flags=re.S,
+    )
+
 def render(home, prefix):
     programs, celebrations = (
         re.search(rf'<section\b[^>]*\bid="{id}"[^>]*>.*?</section>', home, re.S)[0]
@@ -45,7 +52,8 @@ def render(home, prefix):
         f'<details name="sample-event"><summary>{title}</summary><div>{body}</div></details>'
         for _, title, body in event_cards
     )
-    strip = f'<div class="sample-strip">{photo(event_cards[1][0])}<div>{details}</div></div>'
+    family_photo = f"{prefix}/br-assets/kids-party.jpg"
+    strip = f'<div class="sample-strip">{photo(family_photo)}<div>{details}</div></div>'
     markup = '<div id="br-sample" class="sample-3">' + block(
         "programmy-otdyha", "Сценарии отдыха", f'<div class="sample-tiles">{rows}</div>'
     ) + block("prazdniki", "Праздники и мероприятия", strip) + "</div>"

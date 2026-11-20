@@ -95,6 +95,7 @@ def main():
         if route == "/":
             hero = '<section class="brx brx--s1"'
             html = html.replace(hero, '<div class="br-winter-snow" aria-hidden="true"></div>' + hero, 1)
+            html = layout_variant.without_home_prices(html)
         folder = output / route.strip("/")
         folder.mkdir(parents=True, exist_ok=True)
         (folder / "index.html").write_text(html)

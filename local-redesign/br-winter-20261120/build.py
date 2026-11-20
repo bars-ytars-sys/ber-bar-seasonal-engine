@@ -10,6 +10,7 @@ import sys
 import layout_variant
 import family_component
 import review_changes
+import menu_layout
 import hashlib
 
 HERE = Path(__file__).resolve().parent
@@ -126,6 +127,7 @@ def family_activities(html):
 
 
 def stamp_assets(html):
+    html = menu_layout.apply(html, PREFIX)
     pattern = re.compile(r'(<(?:link|script)\b[^>]*?(?:href|src)=["\'])(' + re.escape(PREFIX) + r'/br-assets/([^"\'?]+\.(?:css|js)))(?:\?[^"\']*)?(["\'])', re.I)
     def version(match):
         filename = match[3]

@@ -142,10 +142,22 @@ def render(route):
         body = body[:insert_at] + FRAGMENTS["gift_offer"] + body[insert_at:]
         marker = '<span hidden data-br-slot="rec3546311701"></span>'
         assert body.count(marker) == 1
-        body = body.replace(marker, marker + FRAGMENTS["programs"] + FRAGMENTS["events"])
+        # The requirements place these sections after houses, before the offers
+        # heading. The native slot is later moved into the offers placeholder.
+        offer_heading = '<section class="brh brh-section brh-section--offers"'
+        assert body.count(offer_heading) == 1
+        body = body.replace(offer_heading, FRAGMENTS["programs"] + FRAGMENTS["events"] + offer_heading, 1)
         body = body.replace("</header>", FRAGMENTS["trust"] + "</header>", 1)
     if route == "/deti":
         body = before_footer(body, FRAGMENTS["kids"])
+    if route == "/about":
+        about_links = (
+            '<nav class="br-about-links" aria-label="О базе отдыха">'
+            '<a href="/kartabr">Территория и фото</a>'
+            '<a href="https://disk.yandex.ru/d/hwkFGjYcvJ62Lg">Правила и оферта</a>'
+            '<a href="/contacts">Контакты и проезд</a></nav>'
+        )
+        body = before_record(body, "rec1750178861", about_links)
     if route == "/vip-programmy":
         body = before_footer(
             body, FRAGMENTS["scenario_filters"] + FRAGMENTS["bath"]

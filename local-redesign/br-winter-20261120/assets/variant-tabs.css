@@ -1,0 +1,108 @@
+/* Selected BR layout. Native Despair headings, TildaSans copy and mint accents. */
+.sample-tabs {
+  --br-program-mint: #2ed8a3;
+  --br-program-ink: #1a1b19;
+  font: 400 16px/1.45 TildaSans, Arial, sans-serif;
+  color: var(--br-program-ink);
+}
+.sample-tabs, .sample-tabs * { box-sizing: border-box; }
+.sample-tabs .sample-section {
+  padding: clamp(26px, 3vw, 44px) 0;
+  background: #f4f6fb;
+  scroll-margin-top: 100px;
+}
+.sample-tabs + .sample-tabs .sample-section { padding-top: 12px; }
+.sample-tabs .sample-width {
+  max-width: 1440px;
+  margin: auto;
+  padding-inline: clamp(16px, 4.2vw, 60px);
+}
+.sample-tabs h2 {
+  margin: 0 0 20px;
+  font: 700 clamp(26px, 3vw, 42px)/1.07 DespairDisplay, TildaSans, Arial, sans-serif;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.sample-tabs h3 {
+  margin: 0;
+  font: 700 clamp(21px, 2.05vw, 29px)/1.12 DespairDisplay, TildaSans, Arial, sans-serif;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.sample-tabs p { margin: 0; max-width: 35ch; color: #4a514e; }
+.sample-tabs .sample-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.sample-tabs #prazdniki .sample-controls { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.sample-tabs button {
+  min-width: 0;
+  min-height: 48px;
+  padding: 9px 12px;
+  border: 1px solid #d7e2dc;
+  border-radius: 9px;
+  background: #fff;
+  color: var(--br-program-ink);
+  font: 600 15px/1.2 TildaSans, Arial, sans-serif;
+  cursor: pointer;
+  transition: background-color .16s ease, border-color .16s ease;
+}
+.sample-tabs button[aria-selected=true] { background: #dff9ee; border-color: var(--br-program-mint); box-shadow: inset 0 -2px var(--br-program-mint); }
+.sample-tabs button:hover { border-color: var(--br-program-mint); }
+.sample-tabs button:focus-visible, .sample-tabs a:focus-visible { outline: 2px solid #168769; outline-offset: 3px; }
+/* Inactive panels reserve their natural size; changing a tab never moves the next section. */
+.sample-tabs .sample-panels { display: grid; }
+.sample-tabs [role=tabpanel] {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e0e6e2;
+  border-radius: 16px;
+  background: #fff;
+}
+.sample-tabs [role=tabpanel][hidden] { display: grid; visibility: hidden; pointer-events: none; }
+.sample-tabs .sample-frame { min-width: 0; position: relative; min-height: 320px; background: #e9eeeb; }
+.sample-tabs .sample-frame img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }
+.sample-tabs .sample-frame img[src$="br-date-evening.webp"] { object-position: center 48%; }
+.sample-tabs .sample-frame img[src$="br-romantic-house.webp"] { object-position: center 48%; }
+.sample-tabs .sample-frame img[src$="br-girlparty-chalet.webp"] { object-position: center 48%; }
+.sample-tabs .sample-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 14px; padding: clamp(22px, 3vw, 42px); }
+.sample-tabs .br-nov-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 4px;
+  padding: 10px 18px;
+  border: 1px solid var(--br-program-mint);
+  border-radius: 9px;
+  background: var(--br-program-mint);
+  color: #15221c;
+  font: 700 15px/1.2 DespairDisplay, TildaSans, Arial, sans-serif;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+@media (max-width: 900px) {
+  .sample-tabs #prazdniki .sample-controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .sample-tabs .sample-frame { min-height: 300px; }
+  .sample-tabs .sample-copy { padding: 22px; }
+}
+@media (max-width: 700px) {
+  #rec3546311701:has(+ .sample-tabs) { padding-bottom: 10px !important; }
+  .sample-tabs .sample-section { padding-block: 22px; }
+  .sample-tabs + .sample-tabs .sample-section { padding-top: 12px; }
+  .sample-tabs h2 { font-size: clamp(25px, 6.3vw, 30px); margin-bottom: 12px; }
+  .sample-tabs h3 { font-size: 20px; line-height: 1.1; }
+  .sample-tabs p { font-size: 15px; line-height: 1.4; }
+  .sample-tabs .sample-controls { gap: 6px; margin-bottom: 10px; }
+  .sample-tabs button { min-height: 46px; padding: 6px; font-size: 12px; line-height: 1.2; }
+  .sample-tabs [role=tabpanel] { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; border-radius: 13px; }
+  .sample-tabs .sample-frame { min-height: 0; aspect-ratio: 16 / 10; }
+  .sample-tabs .sample-copy { min-height: 154px; gap: 8px; padding: 15px 16px; justify-content: flex-start; }
+  .sample-tabs .br-nov-button { min-height: 44px; margin-top: auto; padding: 9px 14px; font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .sample-tabs button { transition: none; } }

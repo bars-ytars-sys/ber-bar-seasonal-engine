@@ -1,0 +1,148 @@
+[
+  {
+    "width": 390,
+    "clicked": true,
+    "visible": [
+      {
+        "visible": true,
+        "links": [
+          {
+            "text": "Каталог домов",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/doma/",
+            "x": 29.25,
+            "right": 334
+          },
+          {
+            "text": "Сценарии отдыха",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/vip-programmy/#br-nov-scenarios-title",
+            "x": 29.25,
+            "right": 334
+          },
+          {
+            "text": "SPA, бани и банные чаны",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/spa/",
+            "x": 29.25,
+            "right": 334
+          },
+          {
+            "text": "Чем заняться",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/aktivnosti-v-beryozovoj-roshhe/",
+            "x": 29.25,
+            "right": 334
+          },
+          {
+            "text": "Праздники и мероприятия",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/#prazdniki",
+            "x": 29.25,
+            "right": 334
+          },
+          {
+            "text": "Специальные предложения",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/special/",
+            "x": 29.25,
+            "right": 334
+          },
+          {
+            "text": "Подарочный сертификат",
+            "href": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/br-gift.html",
+            "x": 29.25,
+            "right": 334
+          },
+          {
+            "text": "О базе",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/about/",
+            "x": 29.25,
+            "right": 334
+          }
+        ]
+      }
+    ],
+    "aboutLinks": [
+      {
+        "text": "Территория и фото",
+        "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/kartabr/"
+      },
+      {
+        "text": "Правила и оферта",
+        "href": "https://disk.yandex.ru/d/hwkFGjYcvJ62Lg"
+      },
+      {
+        "text": "Контакты и проезд",
+        "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/contacts/"
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "clicked": true,
+    "visible": [
+      {
+        "visible": true,
+        "links": [
+          {
+            "text": "Каталог домов",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/doma/",
+            "x": 40.796875,
+            "right": 290.390625
+          },
+          {
+            "text": "Сценарии отдыха",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/vip-programmy/#br-nov-scenarios-title",
+            "x": 40.796875,
+            "right": 290.390625
+          },
+          {
+            "text": "SPA, бани и банные чаны",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/spa/",
+            "x": 40.796875,
+            "right": 290.390625
+          },
+          {
+            "text": "Чем заняться",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/aktivnosti-v-beryozovoj-roshhe/",
+            "x": 40.796875,
+            "right": 290.390625
+          },
+          {
+            "text": "Праздники и мероприятия",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/#prazdniki",
+            "x": 40.796875,
+            "right": 290.390625
+          },
+          {
+            "text": "Специальные предложения",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/special/",
+            "x": 40.796875,
+            "right": 290.390625
+          },
+          {
+            "text": "Подарочный сертификат",
+            "href": "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/br-gift.html",
+            "x": 40.796875,
+            "right": 290.390625
+          },
+          {
+            "text": "О базе",
+            "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/about/",
+            "x": 40.796875,
+            "right": 290.390625
+          }
+        ]
+      }
+    ],
+    "aboutLinks": [
+      {
+        "text": "Территория и фото",
+        "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/kartabr/"
+      },
+      {
+        "text": "Правила и оферта",
+        "href": "https://disk.yandex.ru/d/hwkFGjYcvJ62Lg"
+      },
+      {
+        "text": "Контакты и проезд",
+        "href": "http://127.0.0.1:8192/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/contacts/"
+      }
+    ]
+  }
+]

@@ -1,0 +1,301 @@
+{
+  "pages": [
+    {
+      "route": "/banchan",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/aktivnosti-v-beryozovoj-roshhe",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/about",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/booking",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/deti",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/contacts",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/aframe-luxe-white",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/aframe-neo",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/aframe-black",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/aframe-luxe-black",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/aframe-white",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/barn-1",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/barn-2",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/bariloche",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/barn-3",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/baus-1",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/barn-4",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/baus-2",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/baus-3",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/chalet",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/holidayhouse",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/house-2",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/house-3",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/house-1",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/panorama",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/house-4",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/scandi",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/doma/sfera",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/glamping",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/mayskiye2026",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/new-year",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/privacy",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/kartabr",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/spa",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/split",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/special",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/tarif",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/vip-programmy",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/vip-programmy/perezagruzka",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    },
+    {
+      "route": "/vip-programmy/svidanie",
+      "seoSame": true,
+      "h1Same": true,
+      "formsSame": true,
+      "inputsSame": true
+    }
+  ],
+  "brokenLocalLinks": [],
+  "uniqueLocalResources": 76,
+  "pass": true
+}

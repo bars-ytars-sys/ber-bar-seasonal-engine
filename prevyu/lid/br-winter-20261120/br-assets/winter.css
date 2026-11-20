@@ -38,6 +38,30 @@
 }
 #br-home-start.brx > .brx__copy { padding-bottom: clamp(16px, 3vh, 36px); }
 
+#rec3546311701 .to-grid > .to-card:not(#br-black-friday) {
+  border: 1px solid transparent;
+}
+#rec3546311701 .to-grid > .to-card > .to-pic {
+  position: relative;
+  overflow: hidden;
+}
+#rec3546311701 .to-pic > .br-nov-gift-photo {
+  position: absolute;
+  inset: 0;
+}
+#allrecords #rec3546311701 .to-grid > .to-card > .to-body > .to-terms {
+  min-height: 0;
+  margin: 10px 0 14px;
+}
+#allrecords #rec3546311701 .to-grid > .to-card > .to-body > .to-btn {
+  order: 1;
+  min-height: 48px;
+  margin-top: auto;
+}
+@media (max-width: 1199px) {
+  #allrecords #rec3546311701 .to-grid > .to-card > .to-body > .to-btn { min-height: 64px; }
+}
+
 .br-winter-benefits {
   scroll-margin-top: 80px;
   width: min(100%, 1440px);

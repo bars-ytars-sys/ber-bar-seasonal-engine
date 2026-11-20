@@ -35,6 +35,25 @@ URL = re.compile(
 SPA_HERO = re.compile(
     r"""https://[^/]+/tild3031-6666-4338-b861-666432343536/[^"'<>\s(),]*ChatGPT_Image_9__202\.webp"""
 )
+NATIVE_PHOTOS = {
+    "tild6332-6365-4533-b938-383537656539": "selector-aframe",
+    "tild3863-6162-4634-b361-326630343263": "bariloche",
+    "tild6466-3735-4037-a631-616463343866": "scandi",
+    "tild6536-6562-4363-b666-366437663763": "house-panorama-2",
+    "tild3034-3630-4035-b662-373935306330": "selector-baus",
+    "tild3064-3136-4166-b562-333239343964": "selector-chalet",
+    "tild3936-3531-4839-b862-303765353032": "house-house-2-2",
+    "tild3962-3764-4635-b038-366332343264": "selector-barn",
+    "tild3238-3034-4562-b735-646535623737": "selector-sfera",
+    "tild3061-6364-4266-b765-303136303965": "selector-holiday",
+    "tild3031-3065-4461-b065-323461373666": "selector-spa-pool",
+    "tild3161-6566-4534-a165-346361656362": "spa-hero",
+    "tild6536-6165-4238-b865-653061663032": "activity-spa-hq",
+    "tild3665-3264-4533-b436-303439303638": "selector-spa-lounge",
+}
+NATIVE_IMAGE = re.compile(
+    r"""https://(?:static|optim|thb)\.tildacdn\.com/(tild[a-z0-9-]+)/[^"'<>\s(),&]+?\.(?:webp|png|jpe?g)(?:\.webp)?"""
+)
 AUTUMN = re.compile(r"<script\b[^>]*>\s*window\.AUTUMN\s*=.*?</script>", re.S)
 
 def rewrite_photos(html, assets):
@@ -52,6 +71,11 @@ def rewrite_photos(html, assets):
         return changed
 
     html = URL.sub(replace, IMAGE.sub(normalize_tag, html))
+    def native(match):
+        name = NATIVE_PHOTOS.get(match[1])
+        return f"{PREFIX}/br-assets/winter-{name}.webp" if name in assets else match[0]
+
+    html = NATIVE_IMAGE.sub(native, html)
     if "spa-hero" in assets:
         html = SPA_HERO.sub(PREFIX + "/br-assets/winter-spa-hero.webp", html)
     if "activity-spa-hq" in assets:
@@ -96,6 +120,28 @@ def main():
             hero = '<section class="brx brx--s1"'
             html = html.replace(hero, '<div class="br-winter-snow" aria-hidden="true"></div>' + hero, 1)
             html = layout_variant.without_home_prices(html)
+            html = re.sub(r'<nav class="br-nov-trust"[^>]*>.*?</nav>', "", html, count=1, flags=re.S)
+            benefits = f"""
+<aside id="br-home-benefits" class="br-winter-benefits" aria-label="Награда и условия отдыха">
+  <ul>
+    <li><a href="https://yandex.ru/maps/org/beryozovaya_roshcha/91160063546/" aria-label="«Хорошее место» Яндекса 5 лет подряд">
+      <span class="br-winter-benefits__award"><img src="{PREFIX}/br-assets/brand-yandex.svg" alt="" width="24" height="24"></span>
+      <span class="br-winter-benefits__full">«Хорошее место» Яндекса 5 лет подряд</span>
+      <span class="br-winter-benefits__short">5 лет</span>
+    </a></li>
+    <li><a href="{PREFIX}/split/" aria-label="Яндекс Сплит, оплата частями">
+      <span class="br-winter-benefits__split"><img src="{PREFIX}/br-assets/brand-split.svg" alt="Яндекс Сплит" width="78" height="21"></span>
+      <span class="br-winter-benefits__full">Оплата частями</span>
+    </a></li>
+    <li>
+      <span class="br-winter-benefits__full">С животными можно</span>
+      <span class="br-winter-benefits__short">С питомцами</span>
+    </li>
+  </ul>
+</aside>
+"""
+            hero_end = html.index("</section>", html.index(hero))
+            html = html[:hero_end] + benefits + html[hero_end:]
         folder = output / route.strip("/")
         folder.mkdir(parents=True, exist_ok=True)
         (folder / "index.html").write_text(html)
@@ -103,6 +149,9 @@ def main():
             variant = output / "variant-3"
             variant.mkdir(exist_ok=True)
             (variant / "index.html").write_text(layout_variant.render(html, PREFIX))
+            tabs = output / "variant-tabs"
+            tabs.mkdir(exist_ok=True)
+            (tabs / "index.html").write_text(layout_variant.render_tabs(html, PREFIX))
     print(f"{len(pages.ROUTES)} pages, {len(approved)} winter photos · {output}")
 
 if __name__ == "__main__":

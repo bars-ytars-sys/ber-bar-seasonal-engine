@@ -59,3 +59,41 @@ def render(home, prefix):
     ) + block("prazdniki", "Праздники и мероприятия", strip) + "</div>"
     home = home.replace(programs, markup, 1).replace(celebrations, "", 1)
     return home.replace("</head>", f'<link rel="stylesheet" href="{prefix}/br-assets/variant-3.css"></head>', 1)
+
+def render_tabs(home, prefix):
+    section_ids = ("programmy-otdyha", "prazdniki")
+    titles = ("Сценарии отдыха", "Праздники и мероприятия")
+    replacements = {
+        "Свидание года": "drive-romance.webp",
+        "Банный отдых с самоваром": "drive-samovar.webp",
+        "День рождения": "kids-entertainers.jpg",
+        "Семейный праздник": "kids-party.jpg",
+    }
+    for section_id, title in zip(section_ids, titles):
+        section = re.search(rf'<section\b[^>]*\bid="{section_id}"[^>]*>.*?</section>', home, re.S)[0]
+        items = cards(section)
+        assert len(items) == 3
+        buttons, panels = [], []
+        for index, (url, label, body) in enumerate(items):
+            key = f"{section_id}-{index}"
+            selected = str(index == 0).lower()
+            buttons.append(
+                f'<button id="tab-{key}" type="button" role="tab" aria-selected="{selected}" '
+                f'aria-controls="panel-{key}" tabindex="{0 if index == 0 else -1}">{label}</button>'
+            )
+            asset = replacements.get(label)
+            image_url = f"{prefix}/br-assets/{asset}" if asset else photo_url(url)
+            hidden = " hidden" if index else ""
+            panels.append(
+                f'<article id="panel-{key}" role="tabpanel" aria-labelledby="tab-{key}"{hidden}>'
+                f'<div class="sample-frame"><img src="{image_url}" alt="" decoding="async"></div>'
+                f'<div class="sample-copy"><h3>{label}</h3>{body}</div></article>'
+            )
+        controls = f'<div class="sample-controls" role="tablist" aria-label="{title}">' + "".join(buttons) + "</div>"
+        markup = block(section_id, title, controls + "".join(panels))
+        home = home.replace(section, f'<div class="sample-tabs">{markup}</div>', 1)
+    head_assets = (
+        f'<link rel="stylesheet" href="{prefix}/br-assets/variant-tabs.css">'
+        f'<script src="{prefix}/br-assets/variant-tabs.js" defer></script>'
+    )
+    return home.replace("</head>", head_assets + "</head>", 1)

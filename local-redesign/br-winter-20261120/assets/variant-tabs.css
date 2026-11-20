@@ -1,0 +1,71 @@
+.sample-tabs {
+  font: 400 16px/1.45 TildaSans, Arial, sans-serif;
+  color: #1a1b19;
+}
+.sample-tabs .sample-section { padding: clamp(24px, 3vw, 42px) 0; background: #f4f6fb; scroll-margin-top: 85px; }
+.sample-tabs + .sample-tabs .sample-section { background: #edf0f5; }
+.sample-tabs .sample-width { box-sizing:border-box; max-width:1504px; padding-inline:clamp(16px,4.2vw,72px); margin:auto; }
+.sample-tabs h2 { font:750 clamp(25px,3vw,42px)/1.08 TildaSans,Arial,sans-serif; margin:0 0 16px; color:inherit; }
+.sample-tabs h3 { font:750 clamp(19px,2vw,28px)/1.15 TildaSans,Arial,sans-serif; margin:0 0 8px; color:inherit; }
+.sample-tabs p { margin: 0 0 16px; }
+.sample-tabs .sample-controls { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; margin-bottom:12px; }
+.sample-tabs button {
+  display:grid; place-items:center; text-align:center; min-width:0; height:48px; padding:5px 8px; border:1px solid #a4b3bc; border-radius:6px;
+  background:#fff; color:#1a1b19; font:700 14px/1.2 TildaSans,Arial,sans-serif; cursor:pointer;
+}
+.sample-tabs button[aria-selected=true] { background:#2ed8a3; border-color:#2ed8a3; }
+.sample-tabs button:focus-visible { outline:2px solid #11654e; outline-offset:2px; }
+.sample-tabs [role=tabpanel] {
+  display:grid; grid-template-columns:min(48%, 500px) minmax(0,1fr); align-items:center;
+  overflow:hidden; border:1px solid #dce1e6; background:white; border-radius:11px;
+}
+.sample-tabs [hidden] { display:none; }
+/* A shared frame keeps the card geometry independent of the photo's aspect ratio. */
+.sample-tabs .sample-frame {
+  position: relative;
+  align-self: start;
+  min-width: 0;
+  aspect-ratio: 3 / 2;
+  background: #edf0f5;
+}
+.sample-tabs .sample-frame img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sample-tabs .sample-frame img[src$="winter-activity-spa-hq.webp"] { object-position: 50% 56%; }
+.sample-tabs .sample-frame img[src$="drive-samovar.webp"] { object-position: center top; }
+.sample-tabs .sample-frame img[src$="kids-party.jpg"] { object-position: center 40%; }
+.sample-tabs .sample-copy { padding:clamp(14px,2vw,28px); }
+.sample-tabs .br-nov-button {
+  display:inline-flex; align-items:center; min-height:42px; padding:5px 12px; box-sizing:border-box;
+  border:1px solid #2ed8a3; border-radius:6px; background:#f4f6fb; color:#11654e; font-weight:700;
+}
+@media(max-width:700px){
+ #rec3546311701:has(+ .sample-tabs) { padding-bottom: 6px !important; }
+ .sample-tabs .sample-section { padding-block: 10px; }
+ .sample-tabs h2 { font-size: clamp(23px, 5.7vw, 28px); margin-bottom: 8px; }
+ .sample-tabs h3 { font-size: 17px; margin-bottom: 0; }
+ .sample-tabs p { font-size: 14px; line-height: 1.4; margin-bottom: 0; }
+ .sample-tabs .sample-controls { margin-bottom: 6px; }
+ .sample-tabs button { box-sizing:border-box; height:46px; padding:3px 4px; font-size:12px; overflow-wrap:anywhere; }
+ .sample-tabs [role=tabpanel] { grid-template-columns:minmax(0,1fr); }
+ .sample-tabs .sample-frame { aspect-ratio: 16 / 10; }
+ .sample-tabs .sample-copy {
+   box-sizing: border-box;
+   display: grid;
+   grid-template-rows: auto 1fr auto;
+   justify-items: start;
+   gap: 4px;
+   min-height: 126px;
+   padding: 8px 12px;
+ }
+ .sample-tabs .br-nov-button { font-size: 14px; }
+}
+@media(max-width:319px){
+ .sample-tabs button { height: 50px; }
+ .sample-tabs .sample-copy { min-height: 146px; }
+}

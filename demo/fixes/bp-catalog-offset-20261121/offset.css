@@ -1,0 +1,18 @@
+/* Reserve space in the catalog; the native fixed header remains untouched. */
+.bph-catalog {
+  --bph-header-overlap: 64px;
+  padding-top: calc(48px + var(--bph-header-overlap));
+}
+
+@media (max-width: 640px) {
+  .bph-catalog {
+    padding-top: calc(30px + var(--bph-header-overlap));
+  }
+}
+
+/* The native phone header already reserves its height through body padding. */
+@media (max-width: 639px) {
+  .bph-catalog {
+    --bph-header-overlap: 0px;
+  }
+}

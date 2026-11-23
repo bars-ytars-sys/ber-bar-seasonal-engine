@@ -1,6 +1,8 @@
 /* Scoped to the two native BR menu panels. Main header, forms and booking stay intact. */
-:is(#rec1728108931,#rec1729227991).br-menu-ready .t396,:is(#rec1728108931,#rec1729227991).br-menu-ready .t396__artboard{height:100dvh!important;max-height:100dvh!important;overflow:hidden!important;overscroll-behavior:contain;background:#f8f9fc!important;box-sizing:border-box}
-:is(#rec1728108931,#rec1729227991).br-menu-ready .t396__artboard>:is(.tn-elem,.t396__group){display:none!important}
+#rec1729227991.br-menu-ready .t396,#rec1729227991.br-menu-ready .t396__artboard{height:100dvh!important;max-height:100dvh!important;overflow:hidden!important;overscroll-behavior:contain;background:#f8f9fc!important;box-sizing:border-box}
+#rec1729227991.br-menu-ready .t396__artboard>:is(.tn-elem,.t396__group){display:none!important}
+@media(max-width:1199px){#rec1728108931.br-menu-ready .t396,#rec1728108931.br-menu-ready .t396__artboard{height:100dvh!important;max-height:100dvh!important;overflow:hidden!important;overscroll-behavior:contain;background:#f8f9fc!important;box-sizing:border-box}#rec1728108931.br-menu-ready .t396__artboard>:is(.tn-elem,.t396__group){display:none!important}}
+@media(min-width:1200px){#rec1728108931 .br-menu-shell{display:none}}
 .br-menu-shell,.br-menu-shell *{box-sizing:border-box}
 .br-menu-shell{position:relative;z-index:5;height:100dvh;display:flex;flex-direction:column;overflow:hidden;color:#1a1b19;font:400 16px/1.5 TildaSans,Arial,sans-serif;background:#f8f9fc}
 .br-menu-shell a{color:#1a1b19!important;text-decoration:none}

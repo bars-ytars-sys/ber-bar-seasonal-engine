@@ -1,4 +1,4 @@
-/* BR preview only: flowing menu, grouped list of all 22 houses. Native opener stays. */
+/* BR preview only: native desktop menu; flowing layout below 1200px. */
 (()=>{
  'use strict';
  const ids=['rec1728108931','rec1729227991'];
@@ -8,6 +8,8 @@
   const desktop=document.getElementById(ids[0]);if(!desktop)return;
   const houses=new Map();for(const a of desktop.querySelectorAll('a[href]')){const id=new URL(a.href).pathname.match(/\/doma\/([^/]+)\/?$/)?.[1];if(id)houses.set(id,{name:a.textContent.trim(),href:a.href});}
   if(houses.size!==22||groups.some(([,list])=>list.some(id=>!houses.has(id))))return;
+  // CSS keeps the original desktop Zero layout at its full-width breakpoint.
+  // Below it, the flowing shell prevents the native tablet elements overlapping.
   for(const id of ids){
    const rec=document.getElementById(id),art=rec?.querySelector('.t396__artboard'),nav=rec?.querySelector('.br-nov-menu');if(!art||!nav||rec.classList.contains('br-menu-ready'))continue;
    const close=rec.querySelector('a[href="#menuopen"]'),logo=rec.querySelector('[data-elem-id="1766501078669000001"] a'),callback=rec.querySelector('a[href="#zayavka"]');if(!close||!logo||!callback)continue;

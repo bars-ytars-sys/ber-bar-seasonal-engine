@@ -39,12 +39,19 @@ def render(html, prefix, layout):
     hero = hero.replace(help_link, holiday_link, 1)
     hero = hero.replace(">Проверить даты и цены</a>", ">Проверить даты</a>", 1)
     benefits = re.search(r'<aside id="br-home-benefits".*?</aside>', hero, re.S)[0]
-    hero = hero.replace(benefits, "", 1)
+    pets = re.search(r'\s*<li>\s*<span class="br-winter-benefits__full">С животными можно</span>.*?</li>', benefits, re.S)[0]
+    brands = benefits.replace(pets, "", 1).replace(
+        'aria-label="Награда и условия отдыха"', 'aria-label="Яндекс и оплата частями"', 1,
+    )
+    actions_end = holiday_link + "</div></div>"
+    assert hero.count(actions_end) == 1
+    hero = hero.replace(benefits, "", 1).replace(actions_end, holiday_link + "</div>" + brands + "</div>", 1)
     html = html.replace('<div class="br-winter-snow" aria-hidden="true"></div>' + before, hero, 1)
     assert html.count('class="br-winter-snow"') == 1 and before not in html
     booking = section(html, "br-home-booking")
     help_link = help_link.replace('class="brx__ghost"', 'class="brh-link br-ny-booking-help"')
-    html = html.replace(booking, booking.replace("</section>", help_link + "</section>", 1) + benefits, 1)
+    pets_note = '<aside class="br-winter-benefits" aria-label="Условия отдыха"><ul>' + pets + "</ul></aside>"
+    html = html.replace(booking, booking.replace("</section>", help_link + "</section>", 1) + pets_note, 1)
     return html.replace(
         "</head>",
         f'<link rel="stylesheet" href="{prefix}/br-assets/holiday-home.css"></head>',

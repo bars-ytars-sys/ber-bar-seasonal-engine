@@ -93,15 +93,27 @@
 #br-home-start.br-ny-hero .br-ny-hero__holiday { color: #12604b !important; }
 .br-ny-hero__holiday span { font-size: 17px; line-height: 1; }
 #br-home-start.br-ny-hero .brx__row a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+#br-home-start.br-ny-hero .br-review-hero__actions .br-winter-benefits {
+  padding: 4px 0 0;
+}
+#br-home-start.br-ny-hero .br-review-hero__actions .br-winter-benefits ul {
+  gap: 4px 16px;
+}
+#br-home-start.br-ny-hero .br-review-hero__actions .br-winter-benefits a { min-height: 36px; }
+#br-home-start.br-ny-hero .br-winter-benefits a:focus-visible { outline-color: currentColor; }
 
 /* Panoramic photograph, with the copy and actions on the shaded side. */
 #br-home-start.br-ny-hero--photo {
   grid-template-columns: 1fr;
   grid-template-rows: 1fr auto;
   grid-template-areas: "copy" "actions";
-  --br-ny-min-height: clamp(420px, 45vw, 600px);
+  --br-ny-screen-height: 100vh;
+  --br-ny-min-height: calc(var(--br-ny-screen-height) - var(--brx-top, 60px) - var(--brx-dock, 0px));
   color: #fff;
   background: #20392f;
+}
+@supports (height: 100svh) {
+  #br-home-start.br-ny-hero--photo { --br-ny-screen-height: 100svh; }
 }
 #br-home-start.br-ny-hero--photo .brx__slides {
   position: absolute;
@@ -117,6 +129,7 @@
 }
 #br-home-start.br-ny-hero--photo .brx__copy { z-index: 1; padding-top: 20px; }
 #br-home-start.br-ny-hero--photo .br-ny-hero__holiday { color: #bcf1dd !important; }
+#br-home-start.br-ny-hero--photo .br-review-hero__actions .br-winter-benefits a { color: #f2faf6 !important; }
 
 /* White editorial panel and a separate photograph. */
 #br-home-start.br-ny-hero--light .brx__slides { grid-column: 2; }
@@ -178,7 +191,7 @@
   #br-home-start.br-ny-hero--photo {
     grid-template-rows: 1fr auto;
     grid-template-areas: "copy" "actions";
-    --br-ny-min-height: clamp(382px, 113vw, 526px);
+    --br-ny-min-height: calc(var(--br-ny-screen-height) - var(--brx-top, 60px) - var(--brx-dock, 60px));
   }
   #br-home-start.br-ny-hero--photo .brx__slides { height: 100%; }
   #br-home-start.br-ny-hero--photo .brx__slides::after {

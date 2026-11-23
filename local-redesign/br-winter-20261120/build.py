@@ -151,7 +151,10 @@ def main():
     approved = {file.stem[7:] for file in files}
     shutil.copytree(pages.HERE / "assets", output / "br-assets", dirs_exist_ok=True)
     shutil.copytree(HERE / "assets", output / "br-assets", dirs_exist_ok=True)
-    for route in pages.ROUTES:
+    guide_photo = HERE.parents[1] / "prevyu/lid/br-guest/assets/bath.webp"
+    shutil.copyfile(guide_photo, output / "br-assets/bath-guide.webp")
+    routes = ["/", *(route for route in pages.ROUTES if route != "/")]
+    for route in routes:
         html = AUTUMN.sub("", pages.static_page(route))
         # Preview routing rewrites navigation only; canonical stays on ecobr.ru.
         canonical_pattern = r'<link\b[^>]*\brel=["\']canonical["\'][^>]*>'
@@ -178,6 +181,7 @@ def main():
             # The owner explicitly removed homepage program prices after review.
             html = layout_variant.without_home_prices(html)
             html = layout_variant.update_home_programs_and_events(html, PREFIX)
+            home_events = home_review.section(html, "prazdniki")
             html = re.sub(r'<nav class="br-nov-trust"[^>]*>.*?</nav>', "", html, count=1, flags=re.S)
             benefits = f"""
 <aside id="br-home-benefits" class="br-winter-benefits" aria-label="Награда и условия отдыха">
@@ -202,8 +206,10 @@ def main():
             html = html[:hero_end] + benefits + html[hero_end:]
         folder = output / route.strip("/")
         folder.mkdir(parents=True, exist_ok=True)
-        homepage = home_review.apply(html, PREFIX) if route == "/" else html
-        (folder / "index.html").write_text(stamp_assets(homepage))
+        result = home_review.apply(html, PREFIX) if route == "/" else html
+        if route == "/vip-programmy":
+            result = home_review.add_events_to_programs(result, home_events, PREFIX)
+        (folder / "index.html").write_text(stamp_assets(result))
         if route == "/":
             versions = {
                 "version-1": layout_variant.render_tabs,

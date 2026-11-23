@@ -1,4 +1,4 @@
-"""Homepage-only corrections from the owner's 23 November video review."""
+"""Winter homepage review and its programs and events links."""
 import re
 from layout_variant import cards, photo
 
@@ -10,18 +10,39 @@ def section(html, identifier):
     return matches[0]
 
 
-def compact_offers(html):
+def offer_styles(html, prefix):
+    return html.replace('</head>', f'<link rel="stylesheet" href="{prefix}/br-assets/offers.css"></head>', 1)
+
+
+def tease_offers(html, prefix):
     programs = section(html, 'programmy-otdyha')
     events = section(html, 'prazdniki')
-    program_items = cards(programs)
-    event_items = cards(events)
-    assert len(program_items) == 3 and len(event_items) == 6
+    teaser = (
+        '<section class="br-offer-teaser" id="programmy-otdyha" aria-labelledby="br-offer-title">'
+        '<span id="prazdniki" class="br-offer-anchor" aria-hidden="true"></span>'
+        '<div class="br-offer-teaser__card"><div class="br-offer-teaser__photos">'
+        f'<img src="{prefix}/br-assets/bath-guide.webp" alt="" loading="lazy" decoding="async">'
+        f'<img src="{prefix}/br-assets/br-birthday-panoramic.webp" alt="" loading="lazy" decoding="async">'
+        '</div><div class="br-offer-teaser__copy">'
+        '<h2 id="br-offer-title">Свидание, баня или праздник</h2>'
+        f'<a class="br-offer-teaser__link" href="{prefix}/vip-programmy/#br-nov-scenarios-title">'
+        '<span>Смотреть программы</span><span aria-hidden="true">→</span></a>'
+        '</div></div></section>'
+    )
+    original = re.escape(programs) + r'\s*' + re.escape(events)
+    result, count = re.subn(original, lambda _: teaser, html, count=1)
+    assert count == 1
+    return offer_styles(result, prefix)
 
-    def row(item, subtitle=''):
+
+def add_events_to_programs(html, events, prefix):
+    event_items = cards(events)
+    assert len(event_items) == 6
+
+    def row(item):
         url, title, body = item
-        caption = f'<small>{subtitle}</small>' if subtitle else ''
         content = (
-            photo(url) + f'<span class="br-review-offer-name">{title}{caption}</span>'
+            photo(url) + f'<span class="br-review-offer-name">{title}</span>'
             '<span class="br-review-offer-arrow" aria-hidden="true">›</span>'
         )
         if '<details class="br-event-details">' in body:
@@ -33,28 +54,15 @@ def compact_offers(html):
         href = re.search(r'\bhref="([^"]+)"', body)[1]
         return f'<a class="br-review-offer-row" href="{href}">{content}</a>'
 
-    program_rows = ''.join(row(item, subtitle) for item, subtitle in zip(
-        program_items, ('Чан и массаж для двоих', 'Баня, массаж и SPA', 'Баня и чай из самовара'),
-    ))
-    event_rows = [row(item) for item in event_items]
-    event_list = ''.join(event_rows[:3]) + (
-        '<details class="br-review-extra-events"><summary>'
-        '<span class="br-review-expand-label">Ещё 3 мероприятия</span>'
-        '<span class="br-review-collapse-label">Свернуть</span>'
-        '<span class="br-review-offer-arrow" aria-hidden="true">›</span>'
-        '</summary>' + ''.join(event_rows[3:]) + '</details>'
+    directory = (
+        '<section id="prazdniki" class="br-nov br-program-events" aria-labelledby="br-program-events-title">'
+        '<h2 id="br-program-events-title">Праздники и мероприятия</h2>'
+        '<div class="br-review-offer-list">' + ''.join(row(item) for item in event_items) + '</div></section>'
     )
-    compact = (
-        '<div class="brh brh-section br-review-directory">'
-        '<section id="programmy-otdyha"><h2>Сценарии отдыха</h2>'
-        f'<div class="br-review-offer-list">{program_rows}</div></section>'
-        '<section id="prazdniki"><h2>Праздники и мероприятия</h2>'
-        f'<div class="br-review-offer-list">{event_list}</div></section></div>'
-    )
-    original = re.escape(programs) + r'\s*' + re.escape(events)
-    result, count = re.subn(original, lambda _: compact, html, count=1)
-    assert count == 1
-    return result
+    scenarios = re.search(r'<section class="br-nov br-nov-scenarios"[^>]*>.*?</section>', html, re.S)[0]
+    jump_link = '<a class="br-program-event-jump" href="#prazdniki">Праздники и мероприятия <span aria-hidden="true">↓</span></a>'
+    updated = scenarios.replace('</h2>', '</h2>' + jump_link, 1)
+    return offer_styles(html.replace(scenarios, updated + directory, 1), prefix)
 
 
 def apply(html, prefix):
@@ -137,7 +145,7 @@ def apply(html, prefix):
     html = html.replace(house_options, '', 1)
     html = html.replace(compact_activities, compact_activities + house_options, 1)
 
-    html = compact_offers(html)
+    html = tease_offers(html, prefix)
 
     # Compact map preview, with the original interactive map retained on demand.
     map_match = re.search(

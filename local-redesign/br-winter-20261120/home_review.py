@@ -24,7 +24,7 @@ def tease_offers(html, prefix):
         f'<img class="br-offer-teaser__photo" src="{prefix}/br-assets/br-birthday-panoramic.webp" '
         'alt="" width="1500" height="1125" loading="lazy" decoding="async">'
         '<div class="br-offer-teaser__copy">'
-        '<h2 id="br-offer-title">Программы и праздники</h2>'
+        '<h2 id="br-offer-title">Программы отдыха</h2>'
         '<p>Дни рождения, SPA и банные программы</p>'
         f'<a class="br-offer-teaser__link" href="{prefix}/vip-programmy/#br-nov-scenarios-title">'
         '<span>Смотреть программы</span><span aria-hidden="true">→</span></a>'
@@ -40,25 +40,28 @@ def add_events_to_programs(html, events, prefix):
     event_items = cards(events)
     assert len(event_items) == 6
 
-    def row(item):
+    def event_card(item):
         url, title, body = item
         content = (
             photo(url) + f'<span class="br-review-offer-name">{title}</span>'
-            '<span class="br-review-offer-arrow" aria-hidden="true">›</span>'
+            '<span class="br-review-offer-action" aria-hidden="true">Подробнее <span>→</span></span>'
         )
         if '<details class="br-event-details">' in body:
             details = re.search(r'</summary>(.*?)</details>', body, re.S)[1]
             return (
-                '<details class="br-review-offer-details"><summary class="br-review-offer-row">'
+                '<details class="br-review-offer-card"><summary class="br-review-offer-link">'
                 + content + '</summary><div class="br-review-offer-info">' + details + '</div></details>'
             )
         href = re.search(r'\bhref="([^"]+)"', body)[1]
-        return f'<a class="br-review-offer-row" href="{href}">{content}</a>'
+        return (
+            f'<article class="br-review-offer-card"><a class="br-review-offer-link" href="{href}">'
+            f'{content}</a></article>'
+        )
 
     directory = (
         '<section id="prazdniki" class="br-nov br-program-events" aria-labelledby="br-program-events-title">'
         '<h2 id="br-program-events-title">Праздники и мероприятия</h2>'
-        '<div class="br-review-offer-list">' + ''.join(row(item) for item in event_items) + '</div></section>'
+        '<div class="br-review-offer-grid">' + ''.join(event_card(item) for item in event_items) + '</div></section>'
     )
     scenarios = re.search(r'<section class="br-nov br-nov-scenarios"[^>]*>.*?</section>', html, re.S)[0]
     jump_link = (
@@ -68,8 +71,16 @@ def add_events_to_programs(html, events, prefix):
         f'<a class="br-program-event-jump" href="{prefix}/spa/">'
         'SPA и релакс <span aria-hidden="true">↗</span></a></nav>'
     )
-    updated = scenarios.replace('</h2>', '</h2>' + jump_link, 1)
-    return offer_styles(html.replace(scenarios, updated + directory, 1), prefix)
+    bath = section(html, 'samovar')
+    bath_options = bath.split('</h2>', 1)[1].removesuffix('</section>').strip()
+    bath_cta = '<a class="br-nov-button" href="#samovar">Подробнее</a>'
+    assert scenarios.count(bath_cta) == 1
+    bath_details = (
+        '<details class="br-review-bath-details"><summary class="br-nov-button">Подробнее</summary>'
+        '<div id="samovar" class="br-review-bath-options">' + bath_options + '</div></details>'
+    )
+    updated = scenarios.replace('</h2>', '</h2>' + jump_link, 1).replace(bath_cta, bath_details, 1)
+    return offer_styles(html.replace(scenarios, updated + directory, 1).replace(bath, '', 1), prefix)
 
 
 def apply(html, prefix):
@@ -134,6 +145,12 @@ def apply(html, prefix):
     assert len(activity_cards) == 9
     rest = ''.join(activity_cards[3:]).replace('<span aria-hidden="true">↗</span>',
                                              '<span aria-hidden="true">↗︎</span>')
+    # Use the winter photograph that shows Chalet's hot tub.
+    rest = re.sub(
+        r'<img\b[^>]*\bsrc="[^"]*/activity-tub-hq\.webp"[^>]*>',
+        f'<img src="{prefix}/br-assets/winter-chalet.webp" alt="" loading="lazy" decoding="async">',
+        rest, count=1,
+    )
     featured = ''.join(activity_cards[:3]).replace('href="#br-home-spa"',
                                                   f'href="{prefix}/spa/"', 1)
     compact_activities = (

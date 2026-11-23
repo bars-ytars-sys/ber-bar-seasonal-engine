@@ -105,14 +105,14 @@ def render(home, prefix):
     family_photo = f"{prefix}/br-assets/br-family-bariloche.webp"
     strip = f'<div class="sample-strip">{photo(family_photo)}<div>{details}</div></div>'
     markup = '<div id="br-sample" class="sample-3">' + block(
-        "programmy-otdyha", "Сценарии отдыха", f'<div class="sample-tiles">{rows}</div>'
+        "programmy-otdyha", "Программы отдыха", f'<div class="sample-tiles">{rows}</div>'
     ) + block("prazdniki", "Праздники и мероприятия", strip) + "</div>"
     home = home.replace(programs, markup, 1).replace(celebrations, "", 1)
     return home.replace("</head>", f'<link rel="stylesheet" href="{prefix}/br-assets/variant-3.css"></head>', 1)
 
 def render_tabs(home, prefix):
     section_ids = ("programmy-otdyha", "prazdniki")
-    titles = ("Сценарии отдыха", "Праздники и мероприятия")
+    titles = ("Программы отдыха", "Праздники и мероприятия")
     for section_id, title in zip(section_ids, titles):
         section = re.search(rf'<section\b[^>]*\bid="{section_id}"[^>]*>.*?</section>', home, re.S)[0]
         items = cards(section)
@@ -144,7 +144,7 @@ def render_tabs(home, prefix):
 
 def render_cards(home, prefix):
     """The owner's latest direction: visible photo, contents, price and action."""
-    for section_id, title in (("programmy-otdyha", "Сценарии отдыха"),
+    for section_id, title in (("programmy-otdyha", "Программы отдыха"),
                               ("prazdniki", "Праздники и мероприятия")):
         section = re.search(rf'<section\b[^>]*\bid="{section_id}"[^>]*>.*?</section>', home, re.S)[0]
         items = cards(section)

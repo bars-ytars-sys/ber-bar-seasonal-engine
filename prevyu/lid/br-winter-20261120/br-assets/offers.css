@@ -1,4 +1,4 @@
-/* Home teaser and the event list on the programs page. */
+/* Home teaser and event cards on the programs page. */
 #br-home-layout .br-offer-teaser {
   position: relative;
   box-sizing: border-box;
@@ -96,13 +96,17 @@
   text-decoration-color: #2ed8a3;
   text-underline-offset: 4px;
 }
-.br-program-events {
+#prazdniki.br-program-events {
   --brh-line: #dce1e6;
   --brh-ink: #191c1a;
   --brh-link: #11654e;
   --brh-muted: #313a39;
   --brh-paper: #f4f6fb;
   --brh-text: TildaSans, Arial, sans-serif;
+  width: min(1200px, calc(100% - 32px));
+  margin: clamp(32px, 5vw, 60px) auto;
+  padding: 0;
+  background: transparent;
   scroll-margin-top: 105px;
 }
 .br-program-events h2 {
@@ -110,36 +114,58 @@
   text-transform: uppercase;
 }
 #br-nov-scenarios-title { scroll-margin-top: 104px; }
-.br-review-offer-list {
-  padding: 0 12px;
-  background: #fff;
+.br-review-offer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 24px);
+}
+.br-review-offer-card {
+  min-width: 0;
   border: 1px solid var(--brh-line);
   border-radius: 12px;
+  background: #fff;
 }
-.br-review-offer-list > * + * { border-top: 1px solid #e8eceb; }
-.br-review-offer-list .br-review-offer-row {
-  display: grid;
-  grid-template-columns: 54px minmax(0, 1fr) 18px;
-  align-items: center;
-  gap: 12px;
-  min-height: 54px;
-  padding: 6px 0;
+.br-review-offer-link {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 14px;
+  overflow: hidden;
+  border-radius: 11px;
   cursor: pointer;
   color: var(--brh-ink) !important;
 }
-.br-review-offer-row img {
-  width: 54px;
-  height: 40px;
+.br-review-offer-link img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
-  border-radius: 5px;
   background: var(--brh-paper);
 }
-.br-review-offer-name { font: 600 16px/1.2 var(--brh-text); }
-.br-review-offer-arrow { color: var(--brh-link); text-align: right; font: 400 23px/1 var(--brh-text); }
-.br-review-offer-list summary { list-style: none; }
-.br-review-offer-list summary::-webkit-details-marker { display: none; }
-.br-review-offer-list :is(a, summary):hover .br-review-offer-name { color: var(--brh-link); }
-.br-review-offer-list :is(a, summary):focus-visible { outline: 2px solid var(--brh-link); outline-offset: 2px; }
-.br-review-offer-list details[open] > summary .br-review-offer-arrow { transform: rotate(90deg); }
-.br-review-offer-info { padding: 0 0 10px 66px; color: var(--brh-muted); font: 400 14px/1.4 var(--brh-text); }
+.br-review-offer-name, .br-review-offer-action { padding-inline: clamp(10px, 1.5vw, 18px); }
+.br-review-offer-name { font: 600 clamp(16px, 2vw, 22px)/1.2 var(--brh-text); }
+.br-review-offer-action { display: flex; justify-content: space-between; gap: 6px; color: var(--brh-link); font: 600 14px/1.35 var(--brh-text); }
+.br-review-offer-link:hover .br-review-offer-action { text-decoration: underline; text-underline-offset: 3px; }
+.br-review-offer-link:focus-visible { outline: 2px solid var(--brh-link); outline-offset: 2px; }
+.br-review-offer-info { padding: 0 14px 12px; color: var(--brh-muted); font: 400 14px/1.4 var(--brh-text); }
 .br-review-offer-info a { display: inline-block; padding: 8px 0; color: var(--brh-link) !important; text-decoration: underline; }
+.br-review-bath-details { width: 100%; }
+.br-review-bath-details > summary {
+  width: fit-content;
+  min-height: 44px;
+  padding: 10px 15px;
+  border: 1px solid #bdcfc8;
+  border-radius: 8px;
+  color: #11654e;
+  font-weight: 600;
+  cursor: pointer;
+}
+.br-review-bath-options { margin-top: 12px; scroll-margin-top: 105px; }
+.br-review-bath-options .br-nov-grid { grid-template-columns: 1fr; }
+.br-review-bath-options .br-nov-grid article { padding: 12px; }
+.br-review-bath-options h3 { font-size: 18px; }
+@media (max-width: 680px) {
+  .br-review-offer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .br-review-offer-name { min-height: 2.4em; }
+}
+.br-review-offer-link::-webkit-details-marker { display: none; }

@@ -43,7 +43,7 @@ SPA_HERO = re.compile(
     r"""https://[^/]+/tild3031-6666-4338-b861-666432343536/[^"'<>\s(),]*ChatGPT_Image_9__202\.webp"""
 )
 NATIVE_PHOTOS = {
-    "tild6332-6365-4533-b938-383537656539": "selector-aframe",
+    "tild6332-6365-4533-b938-383537656539": "aframe-luxe-white",
     "tild3863-6162-4634-b361-326630343263": "bariloche",
     "tild6466-3735-4037-a631-616463343866": "scandi",
     "tild6536-6562-4363-b666-366437663763": "house-panorama-2",
@@ -129,6 +129,11 @@ def family_activities(html):
 
 
 def stamp_assets(html):
+    html = html.replace(">Сценарии отдыха</a>", ">Программы отдыха</a>")
+    html = html.replace(
+        f'href="{PREFIX}/#prazdniki">Праздники и мероприятия</a>',
+        f'href="{PREFIX}/vip-programmy/#prazdniki">Праздники и мероприятия</a>',
+    )
     html = menu_layout.apply(html, PREFIX)
     pattern = re.compile(r'(<(?:link|script)\b[^>]*?(?:href|src)=["\'])(' + re.escape(PREFIX) + r'/br-assets/([^"\'?]+\.(?:css|js)))(?:\?[^"\']*)?(["\'])', re.I)
     def version(match):

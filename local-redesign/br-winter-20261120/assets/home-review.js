@@ -1,18 +1,6 @@
 /* Scoped homepage interactions; no form, payment or booking interception. */
 (()=>{
  'use strict';
- const reduced=()=>matchMedia('(prefers-reduced-motion:reduce)').matches;
- for(const track of document.querySelectorAll('.br-review-rail')){
-  const controls=track.closest('section').querySelector('.br-review-rail-controls');
-  const buttons=[...controls.querySelectorAll('button')];
-  const update=()=>{const end=track.scrollWidth-track.clientWidth;controls.hidden=end<2;buttons[0].disabled=track.scrollLeft<2;buttons[1].disabled=track.scrollLeft>=end-2;};
-  for(const button of buttons)button.addEventListener('click',()=>{
-   const distance=track.firstElementChild.getBoundingClientRect().width+parseFloat(getComputedStyle(track).columnGap);
-   track.scrollBy({left:Number(button.dataset.brReviewStep)*distance,behavior:reduced()?'auto':'smooth'});
-  });
-  track.addEventListener('scroll',update,{passive:true});
-  new ResizeObserver(update).observe(track);update();
- }
  for(const visual of document.querySelectorAll('#br-house-cards .brh-house__visual')){
   const choices=[...visual.querySelectorAll('.brh-house__photos button')];if(choices.length<2)continue;
   const step=direction=>{const current=Math.max(0,choices.findIndex(b=>b.getAttribute('aria-pressed')==='true'));choices[(current+direction+choices.length)%choices.length].click();};

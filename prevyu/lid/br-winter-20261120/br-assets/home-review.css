@@ -61,29 +61,74 @@
 #br-home-start.br-review-hero .br-winter-benefits__split { display: inline-block; width: 13px; height: 14px; overflow: hidden; }
 #br-home-start.br-review-hero .br-winter-benefits__split img { width: 49px; height: 14px; max-width: none; }
 
-/* Programmes remain complete, but no longer consume three full mobile screens. */
-#br-home-layout .br-editorial { padding-block: 40px; }
-#br-home-layout .br-editorial-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.br-review-rail-controls { display: flex; flex: none; gap: 8px; }
-.br-review-rail-controls[hidden] { display: none; }
-.br-review-rail-controls button,.br-review-photo-step {
+/* Compact lists use the same type and colours as the home catalogue. */
+#br-home-layout .br-review-directory {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 5vw, 72px);
+  padding-block: 32px;
+}
+#br-home-layout .br-review-directory > section {
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  scroll-margin-top: calc(var(--brx-top, 60px) + 22px);
+}
+#br-home-layout .br-review-directory h2 {
+  margin: 0 0 12px;
+  font: 700 clamp(20px, 2.2vw, 30px)/1.15 var(--brh-display);
+}
+.br-review-offer-list {
+  padding: 0 12px;
+  background: #fff;
+  border: 1px solid var(--brh-line);
+  border-radius: 12px;
+}
+.br-review-offer-list > * + *, .br-review-extra-events > a { border-top: 1px solid #e8eceb; }
+.br-review-offer-list .br-review-offer-row {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) 18px;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 6px 0;
+  cursor: pointer;
+  color: var(--brh-ink) !important;
+}
+.br-review-offer-row img {
+  width: 54px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 5px;
+  background: var(--brh-paper);
+}
+.br-review-offer-name { font: 600 16px/1.2 var(--brh-text); }
+.br-review-offer-name small { display: block; margin-top: 2px; color: var(--brh-muted); font: 400 13px/1.2 var(--brh-text); }
+.br-review-offer-arrow { color: var(--brh-link); text-align: right; font: 400 23px/1 var(--brh-text); }
+.br-review-offer-list summary { list-style: none; }
+.br-review-offer-list summary::-webkit-details-marker { display: none; }
+.br-review-offer-list :is(a, summary):hover .br-review-offer-name { color: var(--brh-link); }
+.br-review-offer-list :is(a, summary):focus-visible { outline: 2px solid var(--brh-link); outline-offset: 2px; }
+.br-review-offer-list details[open] > summary .br-review-offer-arrow { transform: rotate(90deg); }
+.br-review-extra-events > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  color: var(--brh-link);
+  font: 600 14px/1.2 var(--brh-text);
+  cursor: pointer;
+}
+.br-review-extra-events:not([open]) .br-review-collapse-label,
+.br-review-extra-events[open] .br-review-expand-label { display: none; }
+.br-review-offer-info { padding: 0 0 10px 66px; color: var(--brh-muted); font: 400 14px/1.4 var(--brh-text); }
+.br-review-offer-info a { display: inline-block; padding: 8px 0; color: var(--brh-link) !important; text-decoration: underline; }
+
+.br-review-photo-step {
   display: grid; place-items: center; width: 42px; height: 42px; padding: 0;
   border: 1px solid #d7e5df; border-radius: 50%; background: #fff; color: #176a53;
   font: 400 27px/1 TildaSans,Arial,sans-serif; cursor: pointer;
 }
-.br-review-rail-controls button:disabled { opacity: .35; cursor: default; }
-#br-home-layout .br-editorial-photo { aspect-ratio: 16/10; }
-#br-home-layout .br-editorial-copy { gap: 8px; padding-top: 14px; }
-#br-home-layout .br-editorial h3 { font-size: 21px; line-height: 1.25; }
-#br-home-layout .br-editorial p { font-size: 15px; line-height: 1.4; }
-#br-home-layout .br-editorial .br-nov-button { margin-top: auto; min-height: 44px; }
-#br-home-layout .br-editorial--prazdniki .br-editorial-grid {
-  display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 56px)/3);
-  grid-template-columns: none; gap: 28px; overflow-x: auto; scroll-snap-type: x mandatory;
-  overscroll-behavior-x: contain; scrollbar-width: thin; padding-bottom: 12px;
-}
-.br-review-rail > article { scroll-snap-align: start; }
-.br-review-rail:focus-visible { outline: 2px solid #20d1a1; outline-offset: 4px; }
 
 /* Core facilities precede add-ons; all further activities remain expandable. */
 .br-review-activities .brh-activities__track.br-review-featured { grid-template-columns: 1.4fr 1fr 1fr; }
@@ -129,15 +174,8 @@
   #br-home-start.br-review-hero .br-winter-benefits ul { justify-content: center; gap: 8px 15px; }
 }
 @media(max-width:700px) {
-  #br-home-layout .br-editorial { padding-block: 30px; }
-  #br-home-layout .br-editorial-width { padding-inline: 20px; }
-  #br-home-layout .br-editorial h2 { font-size: 27px; }
-  #br-home-layout .br-editorial-heading { margin-bottom: 18px; }
-  #br-home-layout .br-editorial-grid.br-review-rail { display: grid; grid-auto-flow: column; grid-auto-columns: 83%; grid-template-columns: none; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; padding-bottom: 10px; scrollbar-width: thin; }
-  #br-home-layout .br-editorial-photo { aspect-ratio: 16/9; }
-  #br-home-layout .br-editorial h3 { font-size: 20px; }
-  #br-home-layout .br-editorial p { font-size: 14px; }
-  #br-home-layout .br-editorial--prazdniki .br-editorial-grid { grid-auto-columns: 72%; }
+  #br-home-layout .br-review-directory { grid-template-columns: minmax(0, 1fr); gap: 22px; padding-block: 24px; }
+  #br-home-layout .br-review-directory h2 { margin-bottom: 9px; }
   .br-review-activities .brh-activities__track.br-review-featured { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .br-review-activities .br-review-featured > a:first-child { grid-column: 1/-1; aspect-ratio: 1.9; }
   .br-review-activities .br-review-featured > a:not(:first-child) { aspect-ratio: 1.4; }
@@ -148,8 +186,6 @@
 @media(max-width:359px) {
   #br-home-start.br-review-hero .brx__h1 { font-size: 28px; }
   #br-home-start.br-review-hero .brx__sub { font-size: 16px; }
-  #br-home-layout .br-editorial h2 { font-size: 24px; }
-  .br-review-rail-controls { gap: 4px; }
-  .br-review-rail-controls button { width: 36px; height: 36px; }
+  #br-home-layout .br-review-directory h2 { font-size: 19px; }
+  .br-review-offer-list .br-review-offer-row { gap: 9px; }
 }
-@media(prefers-reduced-motion:reduce) { .br-review-rail { scroll-behavior: auto; } }

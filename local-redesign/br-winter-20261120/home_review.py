@@ -1,5 +1,6 @@
 """Homepage-only corrections from the owner's 23 November video review."""
 import re
+from layout_variant import cards, photo
 
 
 def section(html, identifier):
@@ -7,6 +8,53 @@ def section(html, identifier):
     matches = re.findall(pattern, html, re.S)
     assert len(matches) == 1, identifier
     return matches[0]
+
+
+def compact_offers(html):
+    programs = section(html, 'programmy-otdyha')
+    events = section(html, 'prazdniki')
+    program_items = cards(programs)
+    event_items = cards(events)
+    assert len(program_items) == 3 and len(event_items) == 6
+
+    def row(item, subtitle=''):
+        url, title, body = item
+        caption = f'<small>{subtitle}</small>' if subtitle else ''
+        content = (
+            photo(url) + f'<span class="br-review-offer-name">{title}{caption}</span>'
+            '<span class="br-review-offer-arrow" aria-hidden="true">›</span>'
+        )
+        if '<details class="br-event-details">' in body:
+            details = re.search(r'</summary>(.*?)</details>', body, re.S)[1]
+            return (
+                '<details class="br-review-offer-details"><summary class="br-review-offer-row">'
+                + content + '</summary><div class="br-review-offer-info">' + details + '</div></details>'
+            )
+        href = re.search(r'\bhref="([^"]+)"', body)[1]
+        return f'<a class="br-review-offer-row" href="{href}">{content}</a>'
+
+    program_rows = ''.join(row(item, subtitle) for item, subtitle in zip(
+        program_items, ('Чан и массаж для двоих', 'Баня, массаж и SPA', 'Баня и чай из самовара'),
+    ))
+    event_rows = [row(item) for item in event_items]
+    event_list = ''.join(event_rows[:3]) + (
+        '<details class="br-review-extra-events"><summary>'
+        '<span class="br-review-expand-label">Ещё 3 мероприятия</span>'
+        '<span class="br-review-collapse-label">Свернуть</span>'
+        '<span class="br-review-offer-arrow" aria-hidden="true">›</span>'
+        '</summary>' + ''.join(event_rows[3:]) + '</details>'
+    )
+    compact = (
+        '<div class="brh brh-section br-review-directory">'
+        '<section id="programmy-otdyha"><h2>Сценарии отдыха</h2>'
+        f'<div class="br-review-offer-list">{program_rows}</div></section>'
+        '<section id="prazdniki"><h2>Праздники и мероприятия</h2>'
+        f'<div class="br-review-offer-list">{event_list}</div></section></div>'
+    )
+    original = re.escape(programs) + r'\s*' + re.escape(events)
+    result, count = re.subn(original, lambda _: compact, html, count=1)
+    assert count == 1
+    return result
 
 
 def apply(html, prefix):
@@ -89,30 +137,7 @@ def apply(html, prefix):
     html = html.replace(house_options, '', 1)
     html = html.replace(compact_activities, compact_activities + house_options, 1)
 
-    copy = {
-        'Проживание, банный чан, массаж для двоих и завтрак.': 'Дом, чан, массаж для двоих и завтрак.',
-        'Проживание, баня с парением, массаж, завтрак, прогулка и SPA.': 'Дом, парение, массаж и SPA.',
-        'Баня, самовар с алтайским чаем и угощение. Две программы на выбор.': 'Баня, травяной чай и угощение.',
-        'Расскажите менеджеру, какой формат и сколько гостей вы планируете.': 'Встреча с коллегами за городом.',
-    }
-    for identifier, label in [('programmy-otdyha', 'программы'), ('prazdniki', 'праздники')]:
-        original = section(html, identifier)
-        result = original
-        for before, after in copy.items():
-            result = result.replace(before, after)
-        track = 'br-review-track-' + identifier
-        controls = (
-            '<div class="br-review-rail-controls" role="group" aria-label="Листать ' + label + '" hidden>'
-            f'<button type="button" data-br-review-step="-1" aria-controls="{track}" '
-            'aria-label="Назад">‹</button>'
-            f'<button type="button" data-br-review-step="1" aria-controls="{track}" '
-            'aria-label="Далее">›</button></div>'
-        )
-        result = result.replace('</h2></div>', '</h2>' + controls + '</div>', 1)
-        result = result.replace('<div class="br-editorial-grid">',
-                                f'<div class="br-editorial-grid br-review-rail" id="{track}" tabindex="0" '
-                                f'aria-label="{label.capitalize()}">', 1)
-        html = html.replace(original, result, 1)
+    html = compact_offers(html)
 
     # Compact map preview, with the original interactive map retained on demand.
     map_match = re.search(

@@ -202,7 +202,8 @@ def main():
             html = html[:hero_end] + benefits + html[hero_end:]
         folder = output / route.strip("/")
         folder.mkdir(parents=True, exist_ok=True)
-        (folder / "index.html").write_text(stamp_assets(home_review.apply(layout_variant.render_cards(html, PREFIX), PREFIX) if route == "/" else html))
+        homepage = home_review.apply(html, PREFIX) if route == "/" else html
+        (folder / "index.html").write_text(stamp_assets(homepage))
         if route == "/":
             versions = {
                 "version-1": layout_variant.render_tabs,

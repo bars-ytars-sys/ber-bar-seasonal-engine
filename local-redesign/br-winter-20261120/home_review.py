@@ -20,11 +20,12 @@ def tease_offers(html, prefix):
     teaser = (
         '<section class="br-offer-teaser" id="programmy-otdyha" aria-labelledby="br-offer-title">'
         '<span id="prazdniki" class="br-offer-anchor" aria-hidden="true"></span>'
-        '<div class="br-offer-teaser__card"><div class="br-offer-teaser__photos">'
-        f'<img src="{prefix}/br-assets/bath-guide.webp" alt="" loading="lazy" decoding="async">'
-        f'<img src="{prefix}/br-assets/br-birthday-panoramic.webp" alt="" loading="lazy" decoding="async">'
-        '</div><div class="br-offer-teaser__copy">'
-        '<h2 id="br-offer-title">Свидание, баня или праздник</h2>'
+        '<div class="br-offer-teaser__card">'
+        f'<img class="br-offer-teaser__photo" src="{prefix}/br-assets/br-date-evening.webp" '
+        'alt="" width="609" height="599" loading="lazy" decoding="async">'
+        '<div class="br-offer-teaser__copy">'
+        '<h2 id="br-offer-title">Вечер для двоих</h2>'
+        '<p>SPA, праздники и банные программы</p>'
         f'<a class="br-offer-teaser__link" href="{prefix}/vip-programmy/#br-nov-scenarios-title">'
         '<span>Смотреть программы</span><span aria-hidden="true">→</span></a>'
         '</div></div></section>'
@@ -60,7 +61,13 @@ def add_events_to_programs(html, events, prefix):
         '<div class="br-review-offer-list">' + ''.join(row(item) for item in event_items) + '</div></section>'
     )
     scenarios = re.search(r'<section class="br-nov br-nov-scenarios"[^>]*>.*?</section>', html, re.S)[0]
-    jump_link = '<a class="br-program-event-jump" href="#prazdniki">Праздники и мероприятия <span aria-hidden="true">↓</span></a>'
+    jump_link = (
+        '<nav class="br-program-links" aria-label="Дополнительно">'
+        '<a class="br-program-event-jump" href="#prazdniki">'
+        'Праздники и мероприятия <span aria-hidden="true">↓</span></a>'
+        f'<a class="br-program-event-jump" href="{prefix}/spa/">'
+        'SPA и релакс <span aria-hidden="true">↗</span></a></nav>'
+    )
     updated = scenarios.replace('</h2>', '</h2>' + jump_link, 1)
     return offer_styles(html.replace(scenarios, updated + directory, 1), prefix)
 

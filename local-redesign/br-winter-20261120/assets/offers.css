@@ -17,56 +17,72 @@
   scroll-margin-top: calc(var(--brx-top, 60px) + 20px);
 }
 .br-offer-teaser__card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(204px, 58vw, 336px);
   max-width: 980px;
-  margin: 0 auto;
+  margin-inline: auto;
   overflow: hidden;
-  border: 1px solid #dfe7e2;
   border-radius: 13px;
-  background: #fff;
+  background: #183027;
 }
-.br-offer-teaser__photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; }
-.br-offer-teaser__photos img {
-  display: block;
+.br-offer-teaser__photo,
+.br-offer-teaser__card::before {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: clamp(108px, 14vw, 190px);
-  object-fit: cover;
-  object-position: center 48%;
-  background: #eef2ef;
+  height: 100%;
 }
-.br-offer-teaser__photos img:first-child { object-position: center 54%; }
-.br-offer-teaser__copy { padding: 13px 14px 8px; }
+.br-offer-teaser__photo {
+  z-index: -2;
+  display: block;
+  object-fit: cover;
+  object-position: center 65%;
+}
+.br-offer-teaser__card::before {
+  content: "";
+  z-index: -1;
+  background: linear-gradient(0deg, #10241df5 0%, #10241db8 34%, #10241d00 78%);
+}
+.br-offer-teaser__copy { padding: clamp(13px, 3vw, 30px); }
 #br-home-layout .br-offer-teaser h2 {
   margin: 0;
-  color: #191c1a;
-  font: 700 clamp(16px, 4.5vw, 30px)/1.1 DespairDisplay, TildaSans, sans-serif;
-  letter-spacing: -.025em;
+  color: #fff;
+  font: 700 clamp(18px, 4.9vw, 37px)/1.1 DespairDisplay, TildaSans, sans-serif;
+  letter-spacing: -.02em;
   text-transform: uppercase;
 }
+.br-offer-teaser__copy p {
+  margin: 4px 0 9px;
+  color: #f2fbf6;
+  font: 500 clamp(13px, 3.7vw, 18px)/1.22 TildaSans, Arial, sans-serif;
+}
 .br-offer-teaser__link {
-  display: flex;
+  display: inline-flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  gap: 13px;
   min-height: 44px;
-  font: 660 15px/1.2 TildaSans, Arial, sans-serif;
+  padding: 0 12px;
+  border-radius: 7px;
+  background: #f4fbf8;
   color: #173c30 !important;
+  font: 700 15px/1.2 TildaSans, Arial, sans-serif;
 }
-.br-offer-teaser__link span:first-child {
-  text-decoration: underline;
-  text-decoration-color: #39c59a;
-  text-underline-offset: 5px;
-}
+.br-offer-teaser__link:hover { background: #dff7ed; }
 .br-offer-teaser__link span:last-child { font-size: 19px; }
 .br-offer-teaser__link:focus-visible, .br-program-event-jump:focus-visible {
-  outline: 2px solid #11654e;
+  outline: 2px solid #19af82;
   outline-offset: 2px;
 }
 @media (min-width: 700px) {
   #br-home-layout .br-offer-teaser { padding: 28px clamp(20px, 4.2vw, 60px); }
-  .br-offer-teaser__photos img:first-child { object-position: center 29%; }
-  .br-offer-teaser__copy { padding: 19px 24px 12px; }
+  .br-offer-teaser__photo { object-position: center 54%; }
   .br-offer-teaser__link { font-size: 17px; }
 }
+.br-program-links { display: flex; flex-wrap: wrap; gap: 0 18px; }
 
 .br-program-event-jump {
   display: inline-flex;

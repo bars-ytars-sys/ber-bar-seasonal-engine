@@ -12,6 +12,7 @@ import family_component
 import review_changes
 import menu_layout
 import home_review
+import holiday_home
 import hashlib
 
 HERE = Path(__file__).resolve().parent
@@ -221,6 +222,10 @@ def main():
                 variant = output / name
                 variant.mkdir(exist_ok=True)
                 (variant / "index.html").write_text(stamp_assets(renderer(html, PREFIX)))
+            for name, layout in holiday_home.VERSIONS.items():
+                variant = output / name
+                variant.mkdir(exist_ok=True)
+                (variant / "index.html").write_text(stamp_assets(holiday_home.render(result, PREFIX, layout)))
     print(f"{len(pages.ROUTES)} pages, {len(approved)} winter photos · {output}")
 
 if __name__ == "__main__":

@@ -11,6 +11,7 @@ import layout_variant
 import family_component
 import review_changes
 import menu_layout
+import home_review
 import hashlib
 
 HERE = Path(__file__).resolve().parent
@@ -201,7 +202,7 @@ def main():
             html = html[:hero_end] + benefits + html[hero_end:]
         folder = output / route.strip("/")
         folder.mkdir(parents=True, exist_ok=True)
-        (folder / "index.html").write_text(stamp_assets(layout_variant.render_cards(html, PREFIX) if route == "/" else html))
+        (folder / "index.html").write_text(stamp_assets(home_review.apply(layout_variant.render_cards(html, PREFIX), PREFIX) if route == "/" else html))
         if route == "/":
             versions = {
                 "version-1": layout_variant.render_tabs,

@@ -101,6 +101,10 @@
 }
 #br-home-start.br-ny-hero .br-review-hero__actions .br-winter-benefits a { min-height: 36px; }
 #br-home-start.br-ny-hero .br-winter-benefits a:focus-visible { outline-color: currentColor; }
+@media (min-width: 961px) {
+  #br-home-start.br-ny-hero .br-review-hero__actions .br-winter-benefits { font-size: 14px; }
+  #br-home-start.br-ny-hero .br-review-hero__actions .br-winter-benefits ul { gap: 4px 20px; }
+}
 
 /* Panoramic photograph, with the copy and actions on the shaded side. */
 #br-home-start.br-ny-hero--photo {

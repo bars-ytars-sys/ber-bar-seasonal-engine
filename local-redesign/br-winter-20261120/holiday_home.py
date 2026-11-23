@@ -40,9 +40,11 @@ def render(html, prefix, layout):
     hero = hero.replace(">Проверить даты и цены</a>", ">Проверить даты</a>", 1)
     benefits = re.search(r'<aside id="br-home-benefits".*?</aside>', hero, re.S)[0]
     pets = re.search(r'\s*<li>\s*<span class="br-winter-benefits__full">С животными можно</span>.*?</li>', benefits, re.S)[0]
+    award, split = re.findall(r'<li><a\b.*?</li>', benefits, re.S)
     brands = benefits.replace(pets, "", 1).replace(
-        'aria-label="Награда и условия отдыха"', 'aria-label="Яндекс и оплата частями"', 1,
+        'aria-label="Награда и условия отдыха"', 'aria-label="Оплата частями и награда Яндекса"', 1,
     )
+    brands = re.sub(r'<ul>.*?</ul>', lambda _: f"<ul>{split}{award}</ul>", brands, count=1, flags=re.S)
     actions_end = holiday_link + "</div></div>"
     assert hero.count(actions_end) == 1
     hero = hero.replace(benefits, "", 1).replace(actions_end, holiday_link + "</div>" + brands + "</div>", 1)

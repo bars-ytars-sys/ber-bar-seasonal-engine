@@ -21,11 +21,11 @@ def tease_offers(html, prefix):
         '<section class="br-offer-teaser" id="programmy-otdyha" aria-labelledby="br-offer-title">'
         '<span id="prazdniki" class="br-offer-anchor" aria-hidden="true"></span>'
         '<div class="br-offer-teaser__card">'
-        f'<img class="br-offer-teaser__photo" src="{prefix}/br-assets/br-date-evening.webp" '
-        'alt="" width="609" height="599" loading="lazy" decoding="async">'
+        f'<img class="br-offer-teaser__photo" src="{prefix}/br-assets/br-birthday-panoramic.webp" '
+        'alt="" width="1500" height="1125" loading="lazy" decoding="async">'
         '<div class="br-offer-teaser__copy">'
-        '<h2 id="br-offer-title">Вечер для двоих</h2>'
-        '<p>SPA, праздники и банные программы</p>'
+        '<h2 id="br-offer-title">Программы и праздники</h2>'
+        '<p>Дни рождения, SPA и банные программы</p>'
         f'<a class="br-offer-teaser__link" href="{prefix}/vip-programmy/#br-nov-scenarios-title">'
         '<span>Смотреть программы</span><span aria-hidden="true">→</span></a>'
         '</div></div></section>'
@@ -76,10 +76,15 @@ def apply(html, prefix):
     hero = section(html, 'br-home-start')
     opening = hero[:hero.index('>') + 1].replace('brx--s1', 'brx--s1 br-review-hero')
     slides = re.search(r'<div class="brx__slides">.*?</picture></div>', hero, re.S)[0]
-    # A separate, shallow mobile photo needs the full-width frame, not the old
-    # portrait crop that was made for a photograph behind the entire hero.
-    slides = slides.replace('winter-br-hero-pano-20261116-mobile.webp',
-                            'winter-br-hero-pano-20261116.webp')
+    # Use the same frames from their higher-resolution masters, with the
+    # existing left-hand pool crop on phones.
+    slides = (
+        slides.replace('winter-br-hero-pano-20261116-mobile.webp', 'hero-winter-panorama-hq.webp')
+        .replace('winter-br-hero-pano-20261116.webp', 'hero-winter-panorama-hq.webp')
+        .replace('winter-br-hero-spa-20261116-mobile.webp', 'hero-winter-spa-mobile-hq.webp')
+        .replace('winter-spa-hero.webp', 'hero-winter-spa-hq.webp')
+        .replace('width="1920" height="948"', 'width="1785" height="881"')
+    )
     heading = re.search(r'<h1\b[^>]*>.*?</h1>', hero, re.S)[0]
     actions = re.search(r'<div class="brx__row">.*?</div>', hero, re.S)[0]
     benefits = re.search(r'<aside\b.*?</aside>', hero, re.S)[0]

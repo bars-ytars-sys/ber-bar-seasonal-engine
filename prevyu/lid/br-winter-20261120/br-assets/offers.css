@@ -39,7 +39,7 @@
   z-index: -2;
   display: block;
   object-fit: cover;
-  object-position: center 65%;
+  object-position: center 25%;
 }
 .br-offer-teaser__card::before {
   content: "";
@@ -79,7 +79,7 @@
 }
 @media (min-width: 700px) {
   #br-home-layout .br-offer-teaser { padding: 28px clamp(20px, 4.2vw, 60px); }
-  .br-offer-teaser__photo { object-position: center 54%; }
+  .br-offer-teaser__photo { object-position: center 18%; }
   .br-offer-teaser__link { font-size: 17px; }
 }
 .br-program-links { display: flex; flex-wrap: wrap; gap: 0 18px; }

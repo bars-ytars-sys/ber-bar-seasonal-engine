@@ -2670,45 +2670,88 @@ document.documentElement.dataset.bpDesktop = ['2','3'].includes(bpDesktopChoice)
 
 #bp-production-hero:has(.bp-calm__accent--lit) .bp-calm .bp-calm__eyebrow,
 #bp-production-hero .bp-calm .bp-calm__title .bp-calm__accent--lit{
-  color:#e7af84;
+  color:var(--bp-hero-wood,#e7af84);
 }
 #bp-production-hero .bp-calm__title .bp-calm__accent--lit{
   text-shadow:0 2px 4px #1a241c,0 0 12px #c8906c4d;
 }
 
 @media (max-width: 640px) {
-  #bp-production-hero .bp-calm__title { margin-bottom: 15px; }
-  #bp-production-hero .bp-calm__accent { font-size: clamp(30px, 9.4vw, 42px); }
-  #bp-production-hero .bp-calm__content { padding-bottom: 25px; }
+  #bp-production-hero .bp-calm {
+    --bp-hero-wood: #ffd6ad;
+    min-height: calc(100svh - max(108px, var(--bp-calm-top, 108px)) - var(--bp-bottom-height, 66px));
+  }
+  #bp-production-hero .bp-calm__photo img { object-position: 65% center; }
+  #bp-production-hero .bp-calm__shade {
+    background:
+      linear-gradient(180deg, transparent 19%, rgba(18,33,27,.14) 36%,
+        rgba(18,33,27,.76) 61%, rgba(18,33,27,.96) 90%, #20372e),
+      linear-gradient(90deg, rgba(18,33,27,.37), transparent 83%);
+  }
+  #bp-production-hero .bp-calm__content {
+    max-width: 530px;
+    justify-content: flex-end;
+    padding: clamp(83px, calc(31svh - 84px), 215px) clamp(16px, 5.6vw, 32px) 67px;
+  }
+  #bp-production-hero .bp-calm__eyebrow {
+    max-width: 35ch;
+    margin: 0 0 8px;
+    color: var(--bp-hero-wood);
+    font: 500 clamp(11px, 2.9vw, 13px)/1.4 Rubik, Arial, sans-serif;
+    letter-spacing: .065em;
+    white-space: normal;
+    text-shadow: 0 1px 8px #101c16;
+  }
+  #bp-production-hero .bp-calm__title {
+    margin: 0 0 12px;
+    font-size: clamp(36px, 10vw, 52px);
+    text-wrap: initial;
+  }
+  #bp-production-hero .bp-calm__accent {
+    font-size: clamp(30px, 9vw, 47px);
+  }
+  #bp-production-hero .bp-calm__lead {
+    max-width: 37ch;
+    font-size: clamp(14px, 3.7vw, 16px);
+    line-height: 1.45;
+  }
   #bp-production-hero .bp-calm__cta {
     display: grid;
-    align-items: center;
+    align-items: stretch;
     grid-template-columns: minmax(0, 1fr) max-content;
     gap: 10px;
-    padding-top: 20px;
-    padding-bottom: 0;
+    margin: 16px 0 0;
+    padding: 0;
   }
   #bp-production-hero .bp-calm__cta .bp-calm__btn {
     min-width: 0;
-    min-height: 46px;
-    padding: 8px 11px;
+    min-height: 48px;
+    padding: 7px 12px;
     white-space: normal;
     text-align: center;
     line-height: 1.15;
+    box-sizing: border-box;
   }
   #bp-production-hero .bp-calm__cta .bp-forest-catalogue {
-    min-height: 44px;
+    min-height: 48px;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    padding: 0 clamp(10px, 3.2vw, 16px);
+    border: 1px solid rgba(255,248,235,.46);
+    border-radius: 28px;
+    background: rgba(21,37,30,.42);
     white-space: nowrap;
+    text-decoration: none;
     font-size: clamp(12px, 3.4vw, 14px);
   }
-}
-
-@media (max-width:640px) and (max-height:680px) {
-  #bp-production-hero .bp-calm {
-    min-height: calc(100svh - var(--bp-calm-top,101px) - var(--bp-bottom-height,66px));
+  body.bp-hero-in-view #rec1798395461 .t898 .t898__btn {
+    bottom: max(12px, calc(var(--bp-bottom-height, 66px) + 8px)) !important;
   }
-  #bp-production-hero .bp-calm__content { padding-top:24px;padding-bottom:16px; }
-  #bp-production-hero .bp-calm__cta { padding-top:14px; }
+  body.bp-hero-in-view #rec1798395461 .t898 .t898__btn_label {
+    width: 48px;
+    height: 48px;
+  }
 }
 @media (min-width: 641px) {
   html[data-bp-desktop="1"] #bp-production-hero .bp-calm {
@@ -2855,7 +2898,7 @@ document.documentElement.dataset.bpDesktop = ['2','3'].includes(bpDesktopChoice)
   function fallback() {
     if (!started || !video.isConnected) return;
     const frame = document.createElement('iframe');
-    frame.src = 'https://kinescope.io/embed/iT9iefJRT6aHc9qM1BNPLz?autoplay=1' + (video.muted ? '&muted=1' : '');
+    frame.src = 'https://kinescope.io/embed/iT9iefJRT6aHc9qM1BNPLz?autoplay=1&loop=1' + (video.muted ? '&muted=1' : '');
     frame.title = title;
     frame.allow = 'autoplay; fullscreen; picture-in-picture';
     frame.allowFullscreen = true;
@@ -2868,6 +2911,7 @@ document.documentElement.dataset.bpDesktop = ['2','3'].includes(bpDesktopChoice)
     video.preload = 'auto';
     video.controls = true;
     video.playsInline = true;
+    video.loop = true;
     video.poster = play.querySelector('img').src;
     video.setAttribute('aria-label', title);
     video.addEventListener('error', () => { failed = true; fallback(); }, {once:true});

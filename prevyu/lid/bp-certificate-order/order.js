@@ -9,7 +9,6 @@ const gallery = get('photos');
 const back = get('photo-back');
 const next = get('photo-next');
 const currency = new Intl.NumberFormat('ru-RU');
-const prices = new Map([[10000, 8000], [20000, 17000], [30000, 25000]]);
 const telegram = 'https://t.me/bazabarskie_polya';
 
 for (const [id, title] of photos) {
@@ -59,9 +58,6 @@ function refreshOrder() {
   get('preview-recipient').hidden = !name;
   get('preview-amount').textContent = Number.isSafeInteger(amount) && amount > 0
     ? currency.format(amount) + ' ₽' : '—';
-  get('purchase-price').textContent = custom
-    ? 'Стоимость для своего номинала уточнит менеджер.'
-    : 'К оплате — ' + currency.format(prices.get(amount)) + ' ₽';
   get('request-fallback').hidden = true;
   return {custom, amount, selectedPhoto, name};
 }
@@ -82,7 +78,7 @@ order.addEventListener('submit', (event) => {
   const details = [
     'Заявка на подарочный сертификат «Барские поля»',
     'Номинал: ' + currency.format(amount) + ' ₽' + (custom ? ' (свой номинал)' : ''),
-    'К оплате: ' + (custom ? 'уточнить у менеджера' : currency.format(prices.get(amount)) + ' ₽'),
+    'Сумма к оплате: уточнить у менеджера.',
     'Получатель: ' + name,
     'Фото: ' + photos.get(selectedPhoto),
     photoUrl(selectedPhoto).href,

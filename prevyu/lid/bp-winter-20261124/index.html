@@ -2899,6 +2899,8 @@ document.documentElement.dataset.bpDesktop = ['2','3'].includes(bpDesktopChoice)
     if (!started || !video.isConnected) return;
     const frame = document.createElement('iframe');
     frame.src = 'https://kinescope.io/embed/iT9iefJRT6aHc9qM1BNPLz?autoplay=1&loop=1' + (video.muted ? '&muted=1' : '');
+    // Этот ролик уже был запущен. Общий скрипт сайта не должен снова подставлять обложку.
+    frame.dataset.bbVideo = frame.src;
     frame.title = title;
     frame.allow = 'autoplay; fullscreen; picture-in-picture';
     frame.allowFullscreen = true;

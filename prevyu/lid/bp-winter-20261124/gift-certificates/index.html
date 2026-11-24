@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f3f0e5">
+  <meta name="description" content="Выберите номинал и оформление подарочного сертификата на отдых в Барских полях.">
+  <title>Подарочные сертификаты — Барские поля</title>
+  <link rel="stylesheet" href="certificate.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&amp;family=Rubik:wght@400;500;600&amp;display=swap" media="print" onload="this.media='all'">
+  <script defer src="certificate.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">К содержанию</a>
+  <header class="site-header">
+    <nav class="site-nav shell" aria-label="Основное меню">
+      <a class="brand" href="../" aria-label="Барские поля, главная">
+        <img src="../../../../demo/assets/bp-winter-20261124/certificates/barskie-polya-logo.svg" alt="Барские поля" width="178" height="32">
+      </a>
+      <a class="nav-link" href="../houses/">Каталог домов</a>
+      <a class="nav-link" href="../new-year/">Новый год</a>
+      <a class="nav-link active" href="./" aria-current="page">Сертификаты</a>
+      <a class="phone" href="tel:+74951503908">+7 (495) 150-39-08</a>
+    </nav>
+  </header>
+  <main class="shell" id="main">
+    <section class="intro">
+      <h1>Подарите отдых в&nbsp;лесу</h1>
+      <p>Домик среди деревьев, тёплый банный чан и время для близких. Подарочный сертификат действует на проживание и дополнительные услуги в «Барских полях».</p>
+    </section>
+
+    <div class="builder">
+      <div class="controls">
+        <fieldset class="control-section" id="denomination">
+          <legend>Номинал</legend>
+          <p>Сертификат можно использовать для нового бронирования через пять дней после покупки.</p>
+          <div class="pills" id="amounts">
+            <label class="pill"><input type="radio" name="amount" value="10000"><span>10 000 ₽</span></label>
+            <label class="pill"><input type="radio" name="amount" value="15000" checked><span>15 000 ₽</span></label>
+            <label class="pill"><input type="radio" name="amount" value="20000"><span>20 000 ₽</span></label>
+            <label class="pill"><input type="radio" name="amount" value="30000"><span>30 000 ₽</span></label>
+          </div>
+          <label class="amount-field" for="own-amount">Своя сумма, ₽
+            <input id="own-amount" type="number" min="1" max="9999999" step="1" inputmode="numeric" placeholder="Введите номинал">
+          </label>
+        </fieldset>
+
+        <fieldset class="control-section">
+          <legend>Повод и оформление</legend>
+          <div class="pills" id="occasions">
+            <label class="pill"><input type="radio" name="occasion" value="barskie-polya-winter" checked><span>Без повода</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="prazdnik"><span>День рождения</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="svadba"><span>Свадьба</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="zakat"><span>Годовщина</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="valentin"><span>День влюблённых</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="svidanie"><span>Свидание</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="predlozhenie"><span>Предложение</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="medovyi"><span>Медовый месяц</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="noch"><span>Для двоих</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="mame"><span>Маме</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="siren"><span>Для неё</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="bor"><span>Для него</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="devichnik"><span>Девичник</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="tyulpany"><span>8 Марта</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="banya"><span>23 Февраля</span></label>
+            <label class="pill"><input type="radio" name="occasion" value="yolka"><span>Новый год</span></label>
+          </div>
+          <p class="art-current" id="art-current" aria-live="polite">Зима в Барских полях</p>
+          <div class="art-picker">
+            <div class="art-strip" id="art-strip" role="group" aria-label="Иллюстрации сертификата"></div>
+            <button class="art-arrow previous" id="art-previous" type="button" aria-label="Предыдущие иллюстрации">‹</button>
+            <button class="art-arrow next" id="art-next" type="button" aria-label="Следующие иллюстрации">›</button>
+          </div>
+        </fieldset>
+
+        <fieldset class="control-section">
+          <legend>Надписи на сертификате</legend>
+          <p>Строка над заголовком, имена и поздравление сразу появятся на макете.</p>
+          <label class="field line-field" for="overline">Строка над заголовком
+            <input id="overline" maxlength="40" placeholder="Например, с юбилеем!">
+          </label>
+          <div class="name-fields">
+            <label class="field" for="recipient">Кому<input id="recipient" maxlength="60" placeholder="Имя получателя"></label>
+            <label class="field" for="sender">От кого<input id="sender" maxlength="60" placeholder="Ваше имя"></label>
+          </div>
+          <label class="field" for="greeting">Поздравление
+            <textarea id="greeting" maxlength="300" rows="3" placeholder="Ваши пожелания"></textarea>
+          </label>
+          <span class="character-count" id="character-count">0 / 300</span>
+        </fieldset>
+
+        <section class="request" aria-labelledby="request-title">
+          <h2 id="request-title">Оформление сертификата</h2>
+          <p>Номинал перенесётся в заявку. Надписи и оформление можно согласовать с менеджером.</p>
+          <a class="primary" id="request-link" href="../?certificate=1&amp;nominal=15000#gift-card">Оставить заявку</a>
+        </section>
+      </div>
+
+      <aside class="preview" id="preview" aria-labelledby="preview-name">
+        <p class="preview-label" id="preview-name">Так выглядит сертификат</p>
+        <article class="sheet">
+          <img class="sheet-art" id="sheet-art" src="../../../../demo/assets/bp-winter-20261124/certificates/barskie-polya-winter.webp" alt="Зима в Барских полях" width="1080" height="720">
+          <div class="perforation" aria-hidden="true"></div>
+          <div class="sheet-paper">
+            <div class="ribbon">
+              <img src="../../../../demo/assets/bp-winter-20261124/certificates/barskie-polya-logo.svg" alt="Барские поля">
+            </div>
+            <p class="sheet-kind">Проживание и&nbsp;дополнительные услуги</p>
+            <p class="sheet-overline" id="sheet-overline" hidden></p>
+            <h2 class="sheet-title">Подарочный сертификат</h2>
+            <dl class="sheet-names" id="sheet-names" hidden>
+              <div id="sheet-to" hidden><dt>Кому</dt><dd></dd></div>
+              <div id="sheet-from" hidden><dt>От кого</dt><dd></dd></div>
+            </dl>
+            <p class="sheet-greeting" id="sheet-greeting" hidden></p>
+            <p class="sheet-amount"><span>Номинал</span><strong id="sheet-amount">15 000 ₽</strong></p>
+            <p class="sheet-terms">Действует на новое бронирование. Использовать можно через пять дней после покупки.</p>
+          </div>
+        </article>
+        <p class="preview-caption">Предпросмотр оформления.</p>
+      </aside>
+    </div>
+
+    <section class="details" aria-labelledby="steps-title">
+      <h2 id="steps-title">Как это работает</h2>
+      <ol class="steps">
+        <li><strong>Выбираете номинал</strong><p>Можно выбрать предложенную сумму или указать свою.</p></li>
+        <li><strong>Подбираете оформление</strong><p>Выберите иллюстрацию и добавьте поздравление.</p></li>
+        <li><strong>Оставляете заявку</strong><p>Менеджер уточнит оформление и условия покупки.</p></li>
+        <li><strong>Дарите отдых</strong><p>Получатель использует сертификат при новом бронировании.</p></li>
+      </ol>
+    </section>
+    <section class="details faqs" aria-labelledby="faq-title">
+      <h2 id="faq-title">Частые вопросы</h2>
+      <details><summary>На что можно потратить сертификат?</summary><p>На проживание и дополнительные услуги на базе отдыха «Барские поля».</p></details>
+      <details><summary>Когда можно воспользоваться сертификатом?</summary><p>Через пять дней после покупки.</p></details>
+      <details><summary>Можно оплатить существующее бронирование?</summary><p>Сертификат действует при новом бронировании.</p></details>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="shell"><a href="../">Барские поля</a><a href="tel:+74951503908">+7 (495) 150-39-08</a></div>
+  </footer>
+</body>
+</html>

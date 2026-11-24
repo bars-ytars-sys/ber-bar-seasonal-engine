@@ -1,11 +1,20 @@
 const illustrations = [
   ['barskie-polya-winter', 'Шале · Новый год'],
+  ['winter-tree-daylight', 'Ёлка у Шале'],
   ['barski-tulips', 'Барский дом · Тюльпаны'],
   ['barn1-birthday', 'Барнхаус 1 · День рождения'],
   ['barn2-amber', 'Барнхаус 2 · Золотая осень'],
-  ['winter-tree', 'Ёлка у Шале'],
   ['garden-lilac', 'Гарден 3 · Сирень'],
+  ['chalet-first-snow', 'Шале · Первый снег'],
+  ['barn2-pink-evening', 'Барнхаус 2 · Розовый вечер'],
+  ['barski-golden-day', 'Барский дом · Золотой день'],
+  ['barn1-spring-birches', 'Барнхаус 1 · Весенние берёзы'],
+  ['chalet-white-night', 'Шале · Белая ночь'],
+  ['barski-birthday-lights', 'Барский дом · Праздничные фонарики'],
   ['river2-evening', 'Ривер 2 · Вечер для двоих'],
+  ['barn1-winter-morning', 'Барнхаус 1 · Зимнее утро'],
+  ['barn2-meadow', 'Барнхаус 2 · Летний луг'],
+  ['garden2-spring-rain', 'Гарден 2 · После дождя'],
 ];
 
 const assets = '../../../../demo/assets/bp-winter-20261124/certificates/';
@@ -23,8 +32,8 @@ let activeArt;
 let preset = amountButtons.querySelector('input:checked');
 
 function updateArrows() {
-  previous.disabled = strip.scrollLeft < 2;
-  next.disabled = strip.scrollWidth - strip.clientWidth - strip.scrollLeft < 2;
+  previous.disabled = strip.scrollLeft <= 5;
+  next.disabled = strip.scrollWidth - strip.clientWidth - strip.scrollLeft <= 5;
 }
 
 function selectArt(button, move) {
@@ -69,7 +78,7 @@ get('occasions').addEventListener('change', (event) => {
   if (button) selectArt(button, true);
 });
 strip.addEventListener('scroll', updateArrows, {passive: true});
-window.addEventListener('resize', updateArrows);
+new ResizeObserver(updateArrows).observe(strip);
 previous.addEventListener('click', () => strip.scrollBy({left: -strip.clientWidth * .85, behavior: movement.matches ? 'instant' : 'smooth'}));
 next.addEventListener('click', () => strip.scrollBy({left: strip.clientWidth * .85, behavior: movement.matches ? 'instant' : 'smooth'}));
 updateArrows();

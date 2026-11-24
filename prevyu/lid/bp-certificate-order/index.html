@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#314c44">
   <title>Подарочный сертификат — Барские поля</title>
   <link rel="stylesheet" href="order.css">
-  <script type="module" src="order.js?v=2"></script>
+  <script type="module" src="order.js?v=4"></script>
 </head>
 <body>
   <a class="skip" href="#main">К содержанию</a>
@@ -62,8 +62,10 @@
           <label class="field" for="phone">Телефон для связи <span class="hint">(необязательно)</span>
             <input id="phone" type="tel" autocomplete="tel" maxlength="30">
           </label>
-          <button class="primary" type="submit" id="send-request" disabled>Открыть заявку в Telegram</button>
-          <p class="hint">В чате «Барские Поля» нажмите «Отправить». Менеджер ответит там же.</p>
+          <button class="secondary" type="button" id="download-draft" disabled>Скачать макет PDF</button>
+          <p class="hint" id="draft-status" role="status">Макет содержит выбранное фото, имя и номинал.</p>
+          <button class="primary" type="submit" id="send-request" disabled>Написать менеджеру</button>
+          <p class="hint">Откроется Telegram и начнётся скачивание PDF. В чате «Барские Поля» отправьте заявку и при желании приложите файл.</p>
           <div id="request-fallback" hidden>
             <label class="field" for="draft">Текст заявки
               <textarea id="draft" rows="6" readonly></textarea>

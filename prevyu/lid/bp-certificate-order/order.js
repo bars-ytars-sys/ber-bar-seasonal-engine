@@ -1,9 +1,12 @@
 import {photos, photoUrl} from './photos.js';
+import {drawCertificate, downloadCertificate, loadCertificateFonts, loadImage} from './certificate-pdf.js';
 
 const get = (id) => document.getElementById(id);
 const order = get('order');
 const recipient = get('recipient');
 const phone = get('phone');
+const draftButton = get('download-draft');
+const draftStatus = get('draft-status');
 const customAmount = get('custom-amount');
 const gallery = get('photos');
 const back = get('photo-back');
@@ -96,6 +99,36 @@ order.addEventListener('submit', (event) => {
   const chat = get('open-chat');
   chat.href = link.href;
   chat.click();
+  void saveDraft({amount, selectedPhoto, name});
+});
+
+async function saveDraft({amount, selectedPhoto, name}) {
+  if (draftButton.disabled) return;
+  draftButton.disabled = true;
+  draftStatus.textContent = 'Готовим макет PDF…';
+  try {
+    const [photo, logo] = await Promise.all([
+      loadImage(photoUrl(selectedPhoto)),
+      loadImage(document.querySelector('.brand img').src),
+      loadCertificateFonts(),
+    ]);
+    const canvas = document.createElement('canvas');
+    canvas.width = 2400;
+    canvas.height = 1696;
+    drawCertificate(canvas, photo, logo, {name, nominal: amount, draft: true});
+    await downloadCertificate(canvas, 'barskie-polya-maket.pdf');
+    draftStatus.textContent = 'Макет скачан. Его можно приложить к заявке в Telegram.';
+  } catch {
+    draftStatus.textContent = 'Не удалось скачать макет. Повторите попытку.';
+  } finally {
+    draftButton.disabled = false;
+  }
+}
+
+draftButton.addEventListener('click', () => {
+  const details = refreshOrder();
+  recipient.setCustomValidity(details.name ? '' : 'Укажите имя получателя.');
+  if (order.reportValidity()) void saveDraft(details);
 });
 
 get('copy').addEventListener('click', async () => {
@@ -111,3 +144,4 @@ get('copy').addEventListener('click', async () => {
 
 refreshOrder();
 get('send-request').disabled = false;
+draftButton.disabled = false;

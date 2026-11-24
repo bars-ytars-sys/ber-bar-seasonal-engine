@@ -1,6 +1,7 @@
 const illustrations = [
   ['barskie-polya-winter', 'Шале · Новый год'],
   ['winter-tree-daylight', 'Ёлка у Шале'],
+  ['barn1-winter-morning', 'Барнхаус 1 · Зимнее утро'],
   ['barski-tulips', 'Барский дом · Тюльпаны'],
   ['barn1-birthday', 'Барнхаус 1 · День рождения'],
   ['barn2-amber', 'Барнхаус 2 · Золотая осень'],
@@ -12,7 +13,6 @@ const illustrations = [
   ['chalet-white-night', 'Шале · Белая ночь'],
   ['barski-birthday-lights', 'Барский дом · Праздничные фонарики'],
   ['river2-evening', 'Ривер 2 · Вечер для двоих'],
-  ['barn1-winter-morning', 'Барнхаус 1 · Зимнее утро'],
   ['barn2-meadow', 'Барнхаус 2 · Летний луг'],
   ['garden2-spring-rain', 'Гарден 2 · После дождя'],
 ];

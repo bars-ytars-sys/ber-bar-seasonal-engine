@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Выпуск сертификата — Барские поля</title>
+  <link rel="stylesheet" href="certificate.css">
+  <script defer src="manager.js"></script>
+  <style>
+    .manager-layout { display: grid; grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); align-items: start; gap: 28px; padding-bottom: 36px; }
+    .manager-form { display: grid; gap: 14px; }
+    .manager-form input { width: 100%; }
+    .manager-form .primary { justify-self: start; border: 0; }
+    .manager-form .form-status { margin: 0; }
+    .certificate-preview { margin: 0; min-width: 0; }
+    .certificate-preview canvas { display: block; width: 100%; height: auto; background: var(--paper); border-radius: 10px; }
+    @media (max-width: 780px) { .manager-layout { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">К содержанию</a>
+  <header class="site-header">
+    <div class="site-nav shell">
+      <div class="brand">
+        <img src="./assets/barskie-polya-logo.svg" alt="Барские поля" width="178" height="33">
+      </div>
+    </div>
+  </header>
+  <main id="main" class="shell">
+    <section class="intro">
+      <h1>Выпуск сертификата</h1>
+      <p>После подтверждения оплаты введите имя получателя, номинал подарка и номер сертификата.</p>
+    </section>
+    <div class="manager-layout">
+      <form class="request manager-form" id="issue-certificate" autocomplete="off">
+        <label class="field" for="recipient">Имя получателя
+          <input id="recipient" type="text" maxlength="80" required>
+        </label>
+        <label class="field" for="denomination">Номинал, ₽
+          <input id="denomination" type="number" inputmode="numeric" min="1" max="9007199254740991" step="1" required>
+        </label>
+        <label class="field" for="certificate-number">Номер сертификата
+          <input id="certificate-number" type="text" maxlength="36" required>
+        </label>
+        <button class="primary" type="submit" id="download-pdf" disabled>Скачать PDF</button>
+        <p class="form-status" id="pdf-status" role="status"></p>
+      </form>
+      <figure class="certificate-preview">
+        <figcaption class="preview-label">Предпросмотр PDF</figcaption>
+        <canvas id="certificate-sheet" width="2400" height="1696" role="img" aria-label="Макет подарочного сертификата"></canvas>
+      </figure>
+    </div>
+  </main>
+</body>
+</html>

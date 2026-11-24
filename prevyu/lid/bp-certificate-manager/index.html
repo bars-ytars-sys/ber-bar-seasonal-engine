@@ -6,11 +6,12 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Выпуск сертификата — Барские поля</title>
   <link rel="stylesheet" href="certificate.css">
-  <script defer src="manager.js"></script>
+  <script type="module" src="manager.js?v=2"></script>
   <style>
     .manager-layout { display: grid; grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); align-items: start; gap: 28px; padding-bottom: 36px; }
     .manager-form { display: grid; gap: 14px; }
-    .manager-form input { width: 100%; }
+    .manager-form input, .manager-form select { width: 100%; }
+    .manager-form select { min-height: 44px; padding: 8px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--ink); font: inherit; }
     .manager-form .primary { justify-self: start; border: 0; }
     .manager-form .form-status { margin: 0; }
     .certificate-preview { margin: 0; min-width: 0; }
@@ -42,6 +43,9 @@
         </label>
         <label class="field" for="certificate-number">Номер сертификата
           <input id="certificate-number" type="text" maxlength="36" required>
+        </label>
+        <label class="field" for="certificate-photo">Фото из заявки
+          <select id="certificate-photo" disabled></select>
         </label>
         <button class="primary" type="submit" id="download-pdf" disabled>Скачать PDF</button>
         <p class="form-status" id="pdf-status" role="status"></p>

@@ -26,7 +26,7 @@ function writeText(context, text, x, y, size, {family = sans, color = '#233b32',
   context.fillText(text, x, y);
 }
 
-export function drawCertificate(sheet, photo, logo, {name, nominal, number = '', draft = false}) {
+export function drawCertificate(sheet, photo, logo, {name, nominal, number = '', requiresConfirmation = false}) {
   const context = sheet.getContext('2d', {alpha: false});
   const write = (...parts) => writeText(context, ...parts);
   context.setTransform(2, 0, 0, 2, 0, 0);
@@ -51,16 +51,11 @@ export function drawCertificate(sheet, photo, logo, {name, nominal, number = '',
   const amount = Number.isSafeInteger(nominal) ? rubles.format(nominal) + ' ₽' : '— ₽';
   write(amount, left + 24, 578, 48, {family: serif, width: 495});
 
-  if (draft) {
-    context.fillStyle = '#233b32';
-    context.fillRect(24, 724, 510, 100);
-    write('МАКЕТ · НЕ ДЕЙСТВУЕТ', 56, 786, 29, {color: '#fff9ee', width: 445});
-  }
-  write(draft ? 'Макет · Не оплачено' : '№ ' + (number || '—'), left, 663, 24, {width: 545});
+  write('№ ' + (number || '—'), left, 663, 24, {width: 545});
   context.fillStyle = '#cec9b7';
   context.fillRect(left, 699, 545, 1);
-  write(draft ? 'Именной сертификат выдаст менеджер после оплаты.' : 'Действует на новое бронирование.', left, 746, 19, {color: '#506256'});
-  write(draft ? 'Этот макет нельзя использовать для бронирования.' : 'Можно использовать через пять дней после покупки.', left, 775, 19, {color: '#506256'});
+  write(requiresConfirmation ? 'Действует на новое бронирование после подтверждения оплаты.' : 'Действует на новое бронирование.', left, 746, 19, {color: '#506256'});
+  write('Можно использовать через пять дней после покупки.', left, 775, 19, {color: '#506256'});
 
   sheet.setAttribute('aria-label', 'Сертификат. Получатель: ' + (name || 'не указан') +
     '. Номинал: ' + amount + '. Номер: ' + (number || 'не указан') + '.');

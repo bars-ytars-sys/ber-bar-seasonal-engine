@@ -1,12 +1,13 @@
 import {photos, photoUrl} from './photos.js';
-import {drawCertificate, downloadCertificate, loadCertificateFonts, loadImage} from './certificate-pdf.js';
+import {drawCertificate, downloadCertificate, loadCertificateFonts, loadImage} from './certificate-pdf.js?v=2';
 
 const get = (id) => document.getElementById(id);
 const order = get('order');
 const recipient = get('recipient');
 const phone = get('phone');
-const draftButton = get('download-draft');
-const draftStatus = get('draft-status');
+const downloadButton = get('download-certificate');
+const downloadStatus = get('download-status');
+const certificateNumbers = new Map();
 const customAmount = get('custom-amount');
 const gallery = get('photos');
 const back = get('photo-back');
@@ -72,14 +73,25 @@ order.addEventListener('input', () => {
 order.addEventListener('change', (event) => {
   if (event.target.name === 'amount' && event.target.value === 'custom') customAmount.focus();
 });
+function certificateNumber({amount, selectedPhoto, name}) {
+  const key = JSON.stringify([amount, selectedPhoto, name]);
+  if (!certificateNumbers.has(key)) {
+    const id = crypto.randomUUID().replaceAll('-', '').slice(0, 20).toUpperCase();
+    certificateNumbers.set(key, 'BP-' + id);
+  }
+  return certificateNumbers.get(key);
+}
+
 order.addEventListener('submit', (event) => {
   event.preventDefault();
   const {custom, amount, selectedPhoto, name} = refreshOrder();
   recipient.setCustomValidity(name ? '' : 'Укажите имя получателя.');
   if (!order.reportValidity()) return;
 
+  const number = certificateNumber({amount, selectedPhoto, name});
   const details = [
     'Заявка на подарочный сертификат «Барские поля»',
+    'Номер сертификата: ' + number,
     'Номинал: ' + currency.format(amount) + ' ₽' + (custom ? ' (свой номинал)' : ''),
     'Сумма к оплате: уточнить у менеджера.',
     'Получатель: ' + name,
@@ -99,13 +111,13 @@ order.addEventListener('submit', (event) => {
   const chat = get('open-chat');
   chat.href = link.href;
   chat.click();
-  void saveDraft({amount, selectedPhoto, name});
+  void saveCertificate({amount, selectedPhoto, name, number});
 });
 
-async function saveDraft({amount, selectedPhoto, name}) {
-  if (draftButton.disabled) return;
-  draftButton.disabled = true;
-  draftStatus.textContent = 'Готовим макет PDF…';
+async function saveCertificate({amount, selectedPhoto, name, number}) {
+  if (downloadButton.disabled) return;
+  downloadButton.disabled = true;
+  downloadStatus.textContent = 'Готовим сертификат…';
   try {
     const [photo, logo] = await Promise.all([
       loadImage(photoUrl(selectedPhoto)),
@@ -115,20 +127,20 @@ async function saveDraft({amount, selectedPhoto, name}) {
     const canvas = document.createElement('canvas');
     canvas.width = 2400;
     canvas.height = 1696;
-    drawCertificate(canvas, photo, logo, {name, nominal: amount, draft: true});
-    await downloadCertificate(canvas, 'barskie-polya-maket.pdf');
-    draftStatus.textContent = 'Макет скачан. Его можно приложить к заявке в Telegram.';
+    drawCertificate(canvas, photo, logo, {name, nominal: amount, number, requiresConfirmation: true});
+    await downloadCertificate(canvas, 'barskie-polya-' + number + '.pdf');
+    downloadStatus.textContent = 'Сертификат скачан. Номер ' + number + ' указан в PDF и заявке.';
   } catch {
-    draftStatus.textContent = 'Не удалось скачать макет. Повторите попытку.';
+    downloadStatus.textContent = 'Не удалось скачать сертификат. Повторите попытку.';
   } finally {
-    draftButton.disabled = false;
+    downloadButton.disabled = false;
   }
 }
 
-draftButton.addEventListener('click', () => {
+downloadButton.addEventListener('click', () => {
   const details = refreshOrder();
   recipient.setCustomValidity(details.name ? '' : 'Укажите имя получателя.');
-  if (order.reportValidity()) void saveDraft(details);
+  if (order.reportValidity()) void saveCertificate({...details, number: certificateNumber(details)});
 });
 
 get('copy').addEventListener('click', async () => {
@@ -144,4 +156,4 @@ get('copy').addEventListener('click', async () => {
 
 refreshOrder();
 get('send-request').disabled = false;
-draftButton.disabled = false;
+downloadButton.disabled = false;

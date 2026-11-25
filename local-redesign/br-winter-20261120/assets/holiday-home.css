@@ -195,7 +195,7 @@ body.br-home-release #br-home-start.br-winter-hero--houses { min-height: clamp(4
   body.br-home-release #br-home-start.br-winter-hero--brand {
     min-height: max(510px, var(--hero-base));
   }
-  body:has(.br-winter-hero--brand) #rec2851363001 .t396__artboard {
+  body:has(.br-winter-hero) #rec2851363001 .t396__artboard {
     overflow: hidden;
   }
   body:has(.br-winter-hero--brand) #br-home-layout > .brh-quick-links {

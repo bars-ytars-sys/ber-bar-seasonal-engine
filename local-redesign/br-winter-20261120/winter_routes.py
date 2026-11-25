@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import re
 
-from winter_site import HOUSE_COVERS, SPA_POOL_DAY, SPA_POOL_SNOW, within_record
+from winter_site import HOUSE_COVERS, SPA_POOL_DAY, SPA_POOL_SNOW, WINTER_HORSE, within_record
 
 HERE = Path(__file__).resolve().parent
 STAY_DATA = HERE.parents[1] / "prevyu/lid/br-stay-data.js"
@@ -45,6 +45,7 @@ SOCIAL_ASSETS = {
     "/glamping": "winter-glamping.webp",
     "/banchan": "winter-panorama-tub.webp",
     "/kartabr": "territory-map.webp",
+    "/special": "winter-offers-window.webp",
     "/aktivnosti-v-beryozovoj-roshhe": "winter-playground.webp",
     "/vip-programmy/svidanie": "winter-svidanie.webp",
     "/vip-programmy/perezagruzka": "hero-winter-spa-hq.webp",
@@ -313,11 +314,18 @@ def apply(html, route, prefix, bath_programs=""):
         html = html.replace(map_heading, map_heading + map_links(prefix), 1)
     if route == "/kartabr":
         html = insert_before_record(html, "rec2856176101", map_links(prefix))
+    if route == "/deti":
+        summer_horse = "https://static.tildacdn.com/tild6538-6533-4165-a561-313935353936/image-2.png"
+        winter_horse = f"{prefix}/br-assets/{WINTER_HORSE}"
+        html = within_record(html, "rec1750149901", lambda record: record.replace(summer_horse, winter_horse))
     if route + "/" == ACTIVITIES:
         html = insert_before_record(html, "rec2863877701", winter_activities(prefix))
     if route == "/new-year":
         return new_year_page(html, prefix)
     if route == "/special":
+        old_cover = "https://static.tildacdn.com/tild3637-6635-4039-b237-636162656332/6_2.webp"
+        winter_cover = f"{prefix}/br-assets/{SOCIAL_ASSETS[route]}"
+        html = within_record(html, "rec1751257721", lambda record: record.replace(old_cover, winter_cover))
         html = insert_before_record(html, "rec1758798101", holiday_banner(prefix))
     if route == "/banchan":
         html = insert_before_record(html, "rec2056178221", bath_programs)

@@ -27,6 +27,7 @@ SPA_POOL_SNOW = "winter-spa-pool-snow.webp"
 SPA_POOL_DAY = "winter-spa-pool-day.webp"
 SPA_POOL_EVENING = "winter-spa-pool-evening.webp"
 SPA_WINDOW_LOUNGE = "winter-spa-window-lounge.webp"
+WINTER_HORSE = "winter-family-horse.webp"
 SPA_HOME_SLIDES = {
     "tild3065-3831-4739-b664-343066326331": (SPA_POOL_SNOW, "Пар над открытым бассейном и заснеженная терраса"),
     "tild6538-3461-4165-a666-363832663861": (SPA_POOL_DAY, "Открытый бассейн рядом с панорамными окнами SPA"),
@@ -54,9 +55,9 @@ SEASONAL_PHOTOS = {
     "tild6530-3230-4462-a430-383433303839": "winter-outdoor-spa.webp",
     "tild3132-3061-4366-b965-623461633166": "winter-outdoor-spa.webp",
     "tild3731-3761-4065-a265-316663363832": "winter-activity-farm-hq.webp",
-    "tild3730-6465-4933-a530-306163333162": "winter-br-koni-v.webp",
-    "tild6464-3062-4236-a339-353834353033": "winter-activity-koni-hq.webp",
-    "tild6461-3866-4937-a562-333030663635": "winter-br-koni-v.webp",
+    "tild3730-6465-4933-a530-306163333162": WINTER_HORSE,
+    "tild6464-3062-4236-a339-353834353033": WINTER_HORSE,
+    "tild6461-3866-4937-a562-333030663635": WINTER_HORSE,
     "tild6661-3336-4866-b537-633661613032": "winter-activity-fish-hq.webp",
     "tild3635-6430-4538-b739-376564343432": "winter-activity-sup-hq.webp",
     "tild6330-3133-4062-a262-616263626665": "hero-winter-spa-hq.webp",
@@ -87,7 +88,7 @@ SEASONAL_PHOTOS = {
     "tild3131-3736-4261-a637-326261306138": "winter-baus-1.webp",
     "tild3937-3638-4664-b035-343763643331": "winter-baus-1.webp",
     "tild6666-3534-4936-b735-333763383361": "winter-svidanie.webp",
-    "tild3233-6137-4033-b962-323933393263": "winter-activity-koni-hq.webp",
+    "tild3233-6137-4033-b962-323933393263": WINTER_HORSE,
     "tild6266-6536-4766-a338-303837633662": "winter-farm-deer.webp",
     "tild3237-6331-4331-a466-376635303833": "winter-svidanie.webp",
     "tild3832-3533-4562-b163-656264613232": "winter-group-lounge.webp",
@@ -141,6 +142,23 @@ def winter_spa_home_gallery(record, prefix):
     updated, count = images.subn(update_slides, record, count=1)
     assert count == 1
     return updated
+
+
+def winter_restaurant_gallery(record):
+    summer_asset = "tild6664-6230-4564-a139-333066643764"
+    slide = re.compile(
+        r'<div class="t-slds__item " data-slide-index="17">.*?</div>\s*</div>\s*</div>\s*</div>'
+        r'(?=\s*</div>\s*<div class="t-slds__arrow_container)', re.S,
+    )
+    thumbnail = re.compile(
+        r'<div class="t-slds__thumbsbullet t-slds__bullet " data-slide-bullet-for="17">'
+        r'.*?<div class="t-slds__thumbsbullet-border"></div>\s*</div>', re.S,
+    )
+    for item in (slide, thumbnail):
+        match = item.search(record)
+        assert match and summer_asset in match[0]
+        record = record[:match.start()] + record[match.end():]
+    return record
 
 
 def season_switch(winter, summer):
@@ -347,6 +365,8 @@ def apply(html, route, prefix):
     replacements = {key: f"{prefix}/br-assets/{value}" for key, value in SEASONAL_PHOTOS.items()}
     def replace_photos(part):
         part = PHOTO_URL.sub(lambda m: replacements.get(m[1], m[0]), part)
+        for former_horse in ("winter-activity-koni-hq.webp", "winter-br-koni-v.webp", "family-ponies.webp"):
+            part = part.replace(f"{prefix}/br-assets/{former_horse}", f"{prefix}/br-assets/{WINTER_HORSE}")
         part = part.replace(f"{prefix}/br-assets/family-playground.webp", f"{prefix}/br-assets/winter-playground.webp")
         part = part.replace(f"{prefix}/br-assets/family-farm.webp", f"{prefix}/br-assets/winter-farm-goat.webp")
         part = part.replace(f"{prefix}/br-assets/br-birthday-panoramic.webp", f"{prefix}/br-assets/winter-birthday-panoramic.webp")
@@ -354,6 +374,8 @@ def apply(html, route, prefix):
         return part.replace(f"{prefix}/br-assets/activity-baggi-real.webp", f"{prefix}/br-assets/winter-buggy.webp")
 
     html = replace_outside_summer_archive(html, replace_photos)
+    if 'id="rec1764117341"' in html:
+        html = within_record(html, "rec1764117341", winter_restaurant_gallery)
     menu = f"{prefix}/br-assets/restaurant-set-menu-20261125.jpg"
     html = html.replace('href="#menurestoran"', f'href="{menu}" target="_blank" rel="noopener"')
     if route == "/":

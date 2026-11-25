@@ -1,7 +1,7 @@
 """Winter homepage review and its programs and events links."""
 import re
 from layout_variant import cards, photo
-from winter_site import SPA_POOL_DAY, SPA_POOL_SNOW
+from winter_site import SPA_POOL_DAY
 
 
 def section(html, identifier):
@@ -92,11 +92,7 @@ def apply(html, prefix):
     slides = (
         slides.replace('winter-br-hero-pano-20261116-mobile.webp', 'hero-winter-panorama-hq.webp')
         .replace('winter-br-hero-pano-20261116.webp', 'hero-winter-panorama-hq.webp')
-        .replace('winter-br-hero-spa-20261116-mobile.webp', SPA_POOL_SNOW)
-        .replace('winter-spa-hero.webp', SPA_POOL_SNOW)
-        .replace('Крытый бассейн SPA-комплекса', 'Открытый бассейн SPA-комплекса зимой')
         .replace('width="1920" height="948"', 'width="1785" height="881"')
-        .replace('width="1536" height="1024"', 'width="997" height="902"')
     )
     heading = re.search(r'<h1\b[^>]*>.*?</h1>', hero, re.S)[0]
     actions = re.search(r'<div class="brx__row">.*?</div>', hero, re.S)[0]

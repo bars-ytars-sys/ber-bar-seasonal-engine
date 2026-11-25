@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import re
 
-from winter_site import HOUSE_COVERS, SPA_POOL_DAY, SPA_POOL_SNOW, WINTER_HORSE, within_record
+from winter_site import HOUSE_COVERS, SPA_POOL_DAY, SPA_WINDOW_LOUNGE, WINTER_HORSE, within_record
 
 HERE = Path(__file__).resolve().parent
 STAY_DATA = HERE.parents[1] / "prevyu/lid/br-stay-data.js"
@@ -40,7 +40,7 @@ SOCIAL_ASSETS = {
     "/": "hero-panorama-garland.webp",
     "/doma": "hero-panorama-garland.webp",
     "/new-year": "winter-new-year-holiday-table.webp",
-    "/spa": SPA_POOL_SNOW,
+    "/spa": SPA_POOL_DAY,
     "/deti": "winter-playground.webp",
     "/glamping": "winter-glamping.webp",
     "/banchan": "winter-panorama-tub.webp",
@@ -48,7 +48,7 @@ SOCIAL_ASSETS = {
     "/special": "winter-offers-window.webp",
     "/aktivnosti-v-beryozovoj-roshhe": "winter-playground.webp",
     "/vip-programmy/svidanie": "winter-svidanie.webp",
-    "/vip-programmy/perezagruzka": "hero-winter-spa-hq.webp",
+    "/vip-programmy/perezagruzka": SPA_WINDOW_LOUNGE,
 }
 
 
@@ -66,7 +66,7 @@ def rewrite_house_booking(html, slug, prefix):
 def winter_map(html, prefix):
     labels = {
         "Ферма": "winter-activity-farm-hq.webp",
-        "SPA-комплекс": "hero-winter-spa-hq.webp",
+        "SPA-комплекс": SPA_WINDOW_LOUNGE,
     }
     houses = set()
 

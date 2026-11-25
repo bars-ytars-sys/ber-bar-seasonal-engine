@@ -9,7 +9,7 @@ export const photos = new Map([
   ['cert-photo-black-aframe', 'А-фрейм · Уютный вечер'],
   ['cert-photo-baus-tub', 'Баус · Горячий чан'],
   ['winter-samovar-program', 'Баня · Чай с самоваром'],
-  ['spa-open-pool-20261125', 'SPA · Тёплый бассейн'],
+  ['winter-spa-pool-steam', 'SPA · Тёплый бассейн'],
   ['cert-photo-baus-evening', 'Баус · Зимние сумерки'],
   ['cert-photo-aframe-bridge', 'А-фрейм · У воды'],
   ['cert-photo-barn-birches', 'Барнхаус · В берёзах'],

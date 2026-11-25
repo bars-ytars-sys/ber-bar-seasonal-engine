@@ -23,17 +23,16 @@ HOME_EXTERIOR = re.compile(r'<button\b(?=[^>]*\baria-label="(?:Внешний в
 HOME_PHOTO_CHOICES = re.compile(r'(<div class="brh-house__photos"[^>]*>)(.*?)(</div>)', re.S)
 HOME_CARD_ACTIONS = re.compile(r'<a class="brh-house__button"[^>]*>.*?</a>\s*<a class="brh-house-details"[^>]*>.*?</a>', re.S)
 HOLIDAY_PHOTOS = "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/new-year-20261105/"
-SPA_POOL_SNOW = "winter-spa-pool-snow.webp"
-SPA_POOL_DAY = "winter-spa-pool-day.webp"
-SPA_POOL_EVENING = "winter-spa-pool-evening.webp"
+SPA_POOL_DAY = "winter-spa-pool-steam.webp"
 SPA_WINDOW_LOUNGE = "winter-spa-window-lounge.webp"
-WINTER_HORSE = "winter-family-horse.webp"
+WINTER_HORSE = "family-ponies.webp"
 SPA_HOME_SLIDES = {
-    "tild3065-3831-4739-b664-343066326331": (SPA_POOL_SNOW, "Пар над открытым бассейном и заснеженная терраса"),
-    "tild6538-3461-4165-a666-363832663861": (SPA_POOL_DAY, "Открытый бассейн рядом с панорамными окнами SPA"),
+    "tild3065-3831-4739-b664-343066326331": (SPA_POOL_DAY, "Пар над открытым бассейном SPA"),
     "tild6232-3763-4434-a331-643431306162": (SPA_WINDOW_LOUNGE, "Зона отдыха SPA с видом на зимний бассейн"),
-    "tild3532-6232-4238-a462-306339376632": (SPA_POOL_EVENING, "Тёплая вода, снег и огни в вечернем SPA"),
 }
+OMITTED_SPA_SLIDES = {"tild6538-3461-4165-a666-363832663861", "tild3532-6232-4238-a462-306339376632"}
+SPA_HERO_SLIDE = re.compile(r'<picture\b(?=[^>]*\bdata-k="spa")[^>]*>.*?</picture>', re.S)
+SPA_HERO_ROTATION = re.compile(r'<script>\s*/\* БР: кадр дома всегда под бассейном\..*?</script>', re.S)
 SUMMER_GALLERIES = {
     "bariloche": ("rec2411770091", {1, 2, 3, 20, 21, 22, 23, 24, 25}),
     "chalet": ("rec1737097191", {1, 2, 3, 4, 24, 25, 27}),
@@ -52,8 +51,8 @@ SEASONAL_PHOTOS = {
     "tild6436-3761-4635-b134-303833343966": "winter-reception.webp",
     "tild6338-3836-4531-a665-666238636533": "winter-aframe-luxe-white.webp",
     "tild3239-6634-4135-a663-333565636338": "winter-panorama-tub.webp",
-    "tild6530-3230-4462-a430-383433303839": "winter-outdoor-spa.webp",
-    "tild3132-3061-4366-b965-623461633166": "winter-outdoor-spa.webp",
+    "tild6530-3230-4462-a430-383433303839": "winter-weekday-chan.webp",
+    "tild3132-3061-4366-b965-623461633166": "winter-weekday-chan.webp",
     "tild3731-3761-4065-a265-316663363832": "winter-activity-farm-hq.webp",
     "tild3730-6465-4933-a530-306163333162": WINTER_HORSE,
     "tild6464-3062-4236-a339-353834353033": WINTER_HORSE,
@@ -63,8 +62,8 @@ SEASONAL_PHOTOS = {
     "tild6330-3133-4062-a262-616263626665": "hero-winter-spa-hq.webp",
     "tild6339-6561-4130-b464-646463313361": "hero-winter-spa-hq.webp",
     "tild3664-3965-4431-a537-396337656361": "hero-winter-spa-hq.webp",
-    "tild6139-3532-4136-a431-333736333265": SPA_POOL_SNOW,
-    "tild3163-3639-4336-b865-653432633265": SPA_POOL_EVENING,
+    "tild6139-3532-4136-a431-333736333265": SPA_POOL_DAY,
+    "tild3163-3639-4336-b865-653432633265": SPA_WINDOW_LOUNGE,
     "tild3766-3164-4638-a161-373538633736": "restaurant-set-menu-20261125.jpg",
     "tild3761-3162-4066-b435-326639616461": "winter-buggy.webp",
     "tild3831-6231-4262-b431-376566303264": "winter-baus-1.webp",
@@ -93,7 +92,7 @@ SEASONAL_PHOTOS = {
     "tild3237-6331-4331-a466-376635303833": "winter-svidanie.webp",
     "tild3832-3533-4562-b163-656264613232": "winter-group-lounge.webp",
     "tild3231-3238-4966-a334-323963666132": "winter-card-chan.webp",
-    "tild3662-3666-4537-b639-353836353062": "winter-outdoor-spa.webp",
+    "tild3662-3666-4537-b639-353836353062": "winter-weekday-chan.webp",
     **{media_id: info["asset"] for media_id, info in GALLERY_RETOUCH.items()},
     "tild3831-6631-4534-a630-383066633037": HOUSE_COVERS["barn-1"]["asset"],
     "tild6261-3334-4038-b531-643962386566": "house-winter-sfera.webp",
@@ -102,7 +101,7 @@ SEASONAL_PHOTOS = {
 def validate_assets(folder):
     names = {house["asset"] for house in HOUSE_COVERS.values()} | set(SEASONAL_PHOTOS.values())
     names.update(asset for asset, _ in SPA_HOME_SLIDES.values())
-    names.update(("winter-farm-goat.webp", "winter-birthday-panoramic.webp", "winter-open-pool.webp",
+    names.update(("winter-farm-goat.webp", "winter-birthday-panoramic.webp",
                   "hero-panorama-garland-mobile.avif", "territory-map.webp", "winter-samovar-program.webp"))
     for name in sorted(names):
         if not (folder / name).is_file():
@@ -131,6 +130,7 @@ def winter_spa_home_gallery(record, prefix):
         slides = json.loads(unescape(match[2]))
         present = {slide["lid"] for slide in slides}
         assert SPA_HOME_SLIDES.keys() <= present
+        slides = [slide for slide in slides if slide["lid"] not in OMITTED_SPA_SLIDES]
         for slide in slides:
             winter_photo = SPA_HOME_SLIDES.get(slide["lid"])
             if winter_photo:
@@ -365,8 +365,9 @@ def apply(html, route, prefix):
     replacements = {key: f"{prefix}/br-assets/{value}" for key, value in SEASONAL_PHOTOS.items()}
     def replace_photos(part):
         part = PHOTO_URL.sub(lambda m: replacements.get(m[1], m[0]), part)
-        for former_horse in ("winter-activity-koni-hq.webp", "winter-br-koni-v.webp", "family-ponies.webp"):
+        for former_horse in ("winter-activity-koni-hq.webp", "winter-br-koni-v.webp"):
             part = part.replace(f"{prefix}/br-assets/{former_horse}", f"{prefix}/br-assets/{WINTER_HORSE}")
+        part = part.replace(f"{prefix}/br-assets/hero-winter-spa-hq.webp", f"{prefix}/br-assets/{SPA_WINDOW_LOUNGE}")
         part = part.replace(f"{prefix}/br-assets/family-playground.webp", f"{prefix}/br-assets/winter-playground.webp")
         part = part.replace(f"{prefix}/br-assets/family-farm.webp", f"{prefix}/br-assets/winter-farm-goat.webp")
         part = part.replace(f"{prefix}/br-assets/br-birthday-panoramic.webp", f"{prefix}/br-assets/winter-birthday-panoramic.webp")
@@ -379,6 +380,9 @@ def apply(html, route, prefix):
     menu = f"{prefix}/br-assets/restaurant-set-menu-20261125.jpg"
     html = html.replace('href="#menurestoran"', f'href="{menu}" target="_blank" rel="noopener"')
     if route == "/":
+        html, removed_slide = SPA_HERO_SLIDE.subn("", html, count=1)
+        html, removed_timer = SPA_HERO_ROTATION.subn("", html, count=1)
+        assert removed_slide == removed_timer == 1
         html = home_covers(html, prefix)
         html = within_record(html, "rec2263527021", lambda record: winter_spa_home_gallery(record, prefix))
     if route == "/booking":

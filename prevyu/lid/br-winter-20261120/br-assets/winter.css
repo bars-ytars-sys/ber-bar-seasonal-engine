@@ -570,10 +570,11 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
   grid-template-columns: repeat(2, minmax(0, 1fr));
   width: min(100% - 28px, 980px);
   max-width: 980px;
-  align-items: start;
+  align-items: stretch !important;
   gap: 18px;
 }
 #allrecords .to-grid:has(.br-weekday-offer) .to-card { width: auto; }
+#allrecords .to-grid:has(.br-weekday-offer) .to-body { flex: 1; }
 #allrecords .to-grid:has(.br-weekday-offer) .to-pic {
   aspect-ratio: 16 / 8.5;
   height: auto;
@@ -594,6 +595,7 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
   justify-content: center;
   box-sizing: border-box;
   min-height: var(--br-button-min-height) !important;
+  margin-top: auto;
   height: auto;
   padding: 10px 14px !important;
   background: var(--br-button-background);
@@ -604,8 +606,15 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
   text-align: center;
 }
 #allrecords .br-weekday-offer .to-terms { margin: 0 0 15px; font-size: 14px; }
+@media (min-width: 681px) {
+  #allrecords .to-grid:has(.br-weekday-offer) .to-body > .to-btn { min-height: 60px !important; }
+}
 @media (max-width: 680px) {
-  #allrecords .to-grid:has(.br-weekday-offer) { grid-template-columns: 1fr; margin-inline: auto; }
+  #allrecords .to-grid:has(.br-weekday-offer) {
+    grid-template-columns: 1fr !important;
+    grid-auto-flow: row !important;
+    margin-inline: auto;
+  }
   #allrecords .to-grid:has(.br-weekday-offer) .to-btn { width: 100%; }
 }
 #allrecords .br-program-contact > a {

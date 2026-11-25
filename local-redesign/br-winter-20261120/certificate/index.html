@@ -11,7 +11,7 @@
   <link rel="preload" href="https://static.tildacdn.com/fonts/tildasans/TildaSans-VF.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="https://static.tildacdn.com/tild3139-3132-4331-b632-343362316164/DespairDisplay-Bold.woff" as="font" type="font/woff" crossorigin>
   <link rel="stylesheet" href="../br-assets/br-controls.css">
-  <link rel="stylesheet" href="order.css?v=4">
+  <link rel="stylesheet" href="order.css?v=5">
   <script type="module" src="order.js?v=5"></script>
 </head>
 <body>
@@ -19,7 +19,7 @@
   <header class="site-header">
     <nav class="site-nav shell" aria-label="Основное меню">
       <a class="brand" href="../" aria-label="Берёзовая роща, главная">
-        <img src="https://static.tildacdn.com/tild6330-6562-4465-a232-323932353661/LOGO.svg" width="178" height="56" alt="Берёзовая роща">
+        <img src="../br-assets/brand-logo.svg" width="178" height="56" alt="Берёзовая роща">
       </a>
       <a class="nav-link" href="../doma/">Каталог домов</a>
       <a class="nav-link" href="../new-year/">Новый год</a>
@@ -127,13 +127,11 @@
       <aside class="order-preview" id="certificate-preview" aria-labelledby="preview-label">
         <p class="preview-label" id="preview-label">Так выглядит сертификат</p>
         <article class="preview-card">
-          <img id="preview-photo" class="preview-photo" src="../br-assets/cert-art-bariloche-morning.webp" width="1200" height="900" alt="Барилоче · Зимнее утро" fetchpriority="high">
-          <div class="perforation" aria-hidden="true"></div>
           <div class="preview-paper">
-            <div class="ribbon">
-              <img src="https://static.tildacdn.com/tild6330-6562-4465-a232-323932353661/LOGO.svg" width="178" height="56" alt="Берёзовая роща">
+            <div class="preview-brand">
+              <img src="../br-assets/brand-logo.svg" width="178" height="56" alt="Берёзовая роща">
+              <p class="preview-kind">На проживание</p>
             </div>
-            <p class="preview-kind">На проживание</p>
             <p id="preview-overline" class="preview-overline" hidden></p>
             <h2>Подарочный сертификат</h2>
             <dl class="preview-names" id="preview-names" hidden>
@@ -141,9 +139,12 @@
               <div id="preview-sender-group" hidden><dt>От кого</dt><dd id="preview-sender"></dd></div>
             </dl>
             <p id="preview-greeting" class="preview-greeting" hidden></p>
-            <p class="preview-amount"><span>Номинал</span><strong id="preview-amount">10 000 ₽</strong></p>
-            <p class="preview-terms">Срок действия — 6 месяцев.</p>
+            <div class="preview-details">
+              <p class="preview-amount"><span>Номинал</span><strong id="preview-amount">10 000 ₽</strong></p>
+              <p class="preview-terms">Срок действия — 6 месяцев.</p>
+            </div>
           </div>
+          <img id="preview-photo" class="preview-photo" src="../br-assets/cert-art-bariloche-morning.webp" width="1200" height="900" alt="Барилоче · Зимнее утро" fetchpriority="high">
         </article>
         <p class="preview-caption">Предпросмотр оформления</p>
       </aside>

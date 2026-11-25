@@ -135,6 +135,9 @@ body.br-home-release #br-home-start.br-winter-hero--houses { min-height: clamp(4
 #br-home-start.br-winter-hero--houses ~ #br-home-layout #br-home-houses { padding-top: 28px; }
 
 @media (min-width: 961px) {
+  body.br-home-release #br-home-start.br-winter-hero--brand {
+    min-height: max(0px, var(--hero-base));
+  }
   #br-home-start.br-winter-hero--brand > .brx__copy {
     padding-top: clamp(52px, 9vh, 110px);
   }
@@ -157,6 +160,14 @@ body.br-home-release #br-home-start.br-winter-hero--houses { min-height: clamp(4
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: stretch;
+  }
+}
+
+@media (min-width: 961px) and (min-height: 690px) {
+  #br-home-start.br-winter-hero--brand #br-home-benefits {
+    position: absolute;
+    inset-inline-start: var(--hero-edge);
+    inset-block-end: clamp(23px, 4.2svh, 46px);
   }
 }
 

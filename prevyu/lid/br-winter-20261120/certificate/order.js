@@ -14,6 +14,13 @@ const telegram = 'https://t.me/ecobazabr';
 const movement = matchMedia('(prefers-reduced-motion: reduce)');
 const photoInputs = new Map();
 
+if (new URLSearchParams(location.search).get('site') === 'ecobr') {
+  for (const link of document.querySelectorAll('[data-live-path]')) {
+    link.href = new URL(link.dataset.livePath, 'https://ecobr.ru/');
+  }
+  document.querySelector('.site-nav [aria-current="page"]').href = './?site=ecobr';
+}
+
 for (const [id, title] of photos) {
   const label = document.createElement('label');
   label.className = 'photo-option';

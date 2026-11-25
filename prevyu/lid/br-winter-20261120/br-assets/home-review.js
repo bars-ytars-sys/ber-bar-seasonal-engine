@@ -19,4 +19,16 @@
   map.querySelector('summary>span').innerHTML=(map.open?'Свернуть карту':'Развернуть карту')+' <span aria-hidden="true">↗︎</span>';
   if(map.open&&typeof window.t396_doResize==='function')requestAnimationFrame(()=>window.t396_doResize('2856176101'));
  });
+ const activities = document.getElementById('br-other-activities');
+ const activitiesToggle = document.querySelector('[aria-controls="br-other-activities"]');
+ if (activities && activitiesToggle) {
+  activitiesToggle.addEventListener('click', () => {
+   const opening = activities.hidden;
+   activities.hidden = !opening;
+   activitiesToggle.setAttribute('aria-expanded', String(opening));
+   if (opening && activities.getBoundingClientRect().top > window.innerHeight * .8) {
+    activities.scrollIntoView({ block: 'start' });
+   }
+  });
+ }
 })();

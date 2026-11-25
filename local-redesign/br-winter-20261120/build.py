@@ -172,7 +172,7 @@ def catalog_houses_first(html):
     assert html.count(houses_source) == 1
     html = html.replace(
         houses_source,
-        'const coverOrder = ["panorama", "baus-1", "bariloche", "house-2"];\n'
+        'const coverOrder = ["bariloche", "panorama", "baus-1", "house-2"];\n'
         '  const coverRank = id => coverOrder.includes(id) ? coverOrder.indexOf(id) : coverOrder.length;\n'
         '  const houses = [...D.houses].sort((a, b) => coverRank(a.id) - coverRank(b.id)),assetBase=',
         1,
@@ -230,6 +230,7 @@ def main():
     shutil.copytree(HERE / "assets", output / "br-assets", dirs_exist_ok=True)
     guide_photo = HERE.parents[1] / "prevyu/lid/br-guest/assets/bath.webp"
     shutil.copyfile(guide_photo, output / "br-assets/bath-guide.webp")
+    shutil.copytree(HERE / "certificate", output / "certificate", dirs_exist_ok=True)
     routes = ["/", *(route for route in pages.ROUTES if route != "/")]
     bath_source = review_changes.apply(pages.static_page("/vip-programmy"), "/vip-programmy", PREFIX)
     bath_programs = home_review.section(bath_source, "samovar")
@@ -271,7 +272,8 @@ def main():
                 f'<script src="{PREFIX}/br-assets/program-contact.js" defer></script></head>',
                 1,
             )
-        css_link = f'<link rel="stylesheet" href="{PREFIX}/br-assets/winter.css">'
+        css_link = (f'<link rel="stylesheet" href="{PREFIX}/br-assets/br-controls.css">'
+                    f'<link rel="stylesheet" href="{PREFIX}/br-assets/winter.css">')
         html = html.replace("</head>", css_link + "</head>", 1)
         if route == "/":
             hero = '<section class="brx brx--s1"'

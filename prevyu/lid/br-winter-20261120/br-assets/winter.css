@@ -1,5 +1,3 @@
-@font-face { font-family: BRManrope; src: url('./Manrope-Regular.woff') format('woff'); font-weight: 400 500; font-display: swap; }
-@font-face { font-family: BRManrope; src: url('./Manrope-Semibold.woff') format('woff'); font-weight: 600 800; font-display: swap; }
 .br-winter-snow {
   position: fixed;
   z-index: 850;
@@ -209,8 +207,7 @@
 .br-family-birthday__navigation button:disabled { opacity: .55; cursor: default; }
 .br-family-birthday__navigation svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; }
 .br-family-birthday__copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 13px; padding: clamp(20px, 3vw, 36px); min-width: 0; }
-.br-family-birthday__copy .br-family-birthday__eyebrow { margin: 0; color: #626d67; font: 600 12px/1.2 TildaSans,Arial,sans-serif; letter-spacing: .08em; text-transform: uppercase; }
-.br-family-birthday__copy h3 { margin: 0; font: 700 clamp(24px,2.4vw,32px)/1.1 DespairDisplay,TildaSans,Arial,sans-serif; text-transform: uppercase; text-wrap: balance; }
+.br-family-birthday__copy :is(h2,h3) { margin: 0; font: 700 clamp(24px,2.4vw,32px)/1.1 DespairDisplay,TildaSans,Arial,sans-serif; text-transform: uppercase; text-wrap: balance; }
 .br-family-birthday__copy > p, .br-family-birthday__copy details p { margin: 0; font: 400 16px/1.45 TildaSans,Arial,sans-serif; color: #4a514e; }
 .br-family-birthday__copy details { width: 100%; padding-block: 12px; border-top: 1px solid #e7ece9; border-bottom: 1px solid #e7ece9; }
 .br-family-birthday__copy summary { cursor: pointer; font: 600 15px/1.3 TildaSans,Arial,sans-serif; color: #1a1b19; }
@@ -239,24 +236,31 @@
   .br-family-activities__grid p { font-size: 14px; }
   .br-family-birthday { grid-template-columns: minmax(0,1fr); margin-top: 22px; border-radius: 14px; }
   .br-family-birthday__copy { padding: 20px 16px; gap: 12px; }
-  .br-family-birthday__copy h3 { font-size: 25px; }
+  .br-family-birthday__copy :is(h2,h3) { font-size: 25px; }
   .br-family-birthday__copy > p, .br-family-birthday__copy details p { font-size: 15px; }
   .br-family-birthday__copy > .br-nov-button { width: 100%; font-size: 14px; }
 }
 
-/* Typography of the new review sections only; the published header is unchanged. */
+/* The family pages use the site's original typography. */
 .br-family-activities, .br-family-activities p, .br-family-activities summary,
 .br-family-activities .br-family-jump, .br-family-birthday__copy > p,
-.br-family-birthday__copy details p { font-family: BRManrope,Arial,sans-serif; }
+.br-family-birthday__copy details p { font-family: TildaSans,Arial,sans-serif; }
 .br-family-activities > .br-family-activities__heading h2,
-.br-family-activities__grid h3, .br-family-birthday__copy h3 {
-  font-family: BRManrope,Arial,sans-serif; font-weight: 600; text-transform: none; letter-spacing: -.025em;
+.br-family-activities__grid h3, .br-family-birthday__copy :is(h2,h3) {
+  font-family: DespairDisplay,TildaSans,Arial,sans-serif; font-weight: 600; letter-spacing: normal;
 }
 .br-family-activities > .br-family-activities__heading h2 { font-size: clamp(26px,3vw,36px); line-height: 1.2; }
 .br-family-activities__grid h3 { font-size: 17px; line-height: 1.3; }
-.br-family-birthday__copy h3 { font-size: clamp(25px,2.5vw,32px); line-height: 1.2; }
-.br-family-birthday__copy > .br-nov-button { background: #174d40; color: #fff !important; font-family: BRManrope,Arial,sans-serif; font-weight: 600; text-transform: none; }
-.br-about-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 28px; padding: 22px 20px; background: #fff; font: 400 16px/1.4 BRManrope,TildaSans,Arial,sans-serif; }
+.br-family-birthday__copy :is(h2,h3) { font-size: clamp(25px,2.5vw,32px); line-height: 1.2; }
+.br-family-birthday__copy > .br-nov-button { background: #174d40; color: #fff !important; font-weight: 600; }
+.br-family-activities--birthday { padding: 16px 0 28px; }
+.br-family-activities--birthday .br-family-birthday { margin-top: 0; }
+#rec1750133371 h1.tn-atom, #br-family-guide { font-family: TildaSans,Arial,sans-serif !important; }
+#br-family-guide :is(h2,h3) { font-family: DespairDisplay,TildaSans,Arial,sans-serif; }
+@media (max-width: 700px) {
+  .br-family-activities--birthday .br-family-birthday__copy { grid-row: 1; }
+}
+.br-about-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 28px; padding: 22px 20px; background: #fff; font: 400 16px/1.4 var(--br-text-font); }
 .br-about-links a { display: inline-flex; align-items: center; min-height: 44px; color: #174d40 !important; text-decoration: underline; text-underline-offset: 5px; }
 
 /* Review corrections: real photographs, descriptive actions and family information. */
@@ -277,14 +281,14 @@
 .br-event-details > summary::-webkit-details-marker { display: none; }
 .br-editorial .br-event-details > summary {
   padding: 4px 0; border: 0; border-radius: 0; border-bottom: 1px solid #1fcda0;
-  color: #174d40; font-family: BRManrope,Arial,sans-serif;
+  color: #174d40; font-family: var(--br-text-font);
 }
 .br-event-details[open] > p { margin-top: 16px; }
 .br-family-more { border: 0 !important; padding: 0 !important; }
 .br-family-more > summary.br-nov-button {
   display: inline-flex; align-items: center; justify-content: center;
   min-height: 46px; padding: 11px 20px; border-radius: 9px;
-  background: #174d40; color: #fff; font: 600 15px/1.4 BRManrope,Arial,sans-serif;
+  background: #174d40; color: #fff; font: 600 15px/1.4 DespairDisplay,TildaSans,Arial,sans-serif;
   list-style: none;
 }
 .br-family-more > summary::-webkit-details-marker { display: none; }
@@ -293,9 +297,9 @@
 .br-family-stay {
   margin-top: 28px; padding: clamp(22px,4vw,40px);
   border: 1px solid #e0e6e2; border-radius: 16px; background: #fff;
-  font: 400 16px/1.55 BRManrope,TildaSans,Arial,sans-serif;
+  font: 400 16px/1.55 TildaSans,Arial,sans-serif;
 }
-.br-family-stay h3 { max-width: 30ch; margin: 0 0 20px; font: 600 clamp(25px,3vw,34px)/1.2 BRManrope,Arial,sans-serif; }
+.br-family-stay h3 { max-width: 30ch; margin: 0 0 20px; font: 600 clamp(25px,3vw,34px)/1.2 DespairDisplay,TildaSans,Arial,sans-serif; }
 .br-family-stay p { margin: 0 0 16px; }
 .br-family-stay ul { margin: 0 0 22px; padding-left: 22px; }
 .br-family-stay li + li { margin-top: 14px; }
@@ -330,13 +334,24 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
   padding: 0 20px 12px;
   font-family: TildaSans, Arial, sans-serif;
 }
-.br-season-archive summary {
-  width: fit-content;
-  min-height: 44px;
-  padding: 12px 0;
-  color: #19644e;
-  font-weight: 600;
-  cursor: pointer;
+[data-br-season-panel][hidden] { display: none !important; }
+.br-house-seasons {
+  box-sizing: border-box;
+  width: min(100% - 32px, 1200px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 26px auto 12px;
+}
+.br-house-seasons button { min-width: 150px; }
+.br-house-seasons button[aria-pressed="false"] {
+  background: #edf6f1;
+  border-color: #77998a;
+}
+.br-house-seasons button[aria-pressed="false"]:hover { background: #dcf1e6; }
+@media (max-width: 500px) {
+  .br-house-seasons { flex-wrap: nowrap; margin-top: 20px; }
+  .br-house-seasons button { flex: 1; min-width: 0; padding-inline: 8px; }
 }
 .br-season-archive > div {
   display: grid;
@@ -450,4 +465,149 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
   .br-winter-holiday { grid-template-columns: minmax(0, 1fr); }
   .br-winter-holiday img { aspect-ratio: 16 / 8; }
   .br-winter-holiday h2 { margin-bottom: 10px; }
+}
+
+.br-sfera-hero {
+  box-sizing: border-box;
+  width: min(100% - 32px, 1200px);
+  display: grid;
+  grid-template-columns: minmax(0, .65fr) minmax(0, 1.35fr);
+  align-items: center;
+  gap: clamp(18px, 3vw, 40px);
+  margin: clamp(18px, 3vw, 40px) auto 18px;
+  border-radius: 18px;
+  padding: clamp(14px, 2.4vw, 26px);
+  background: #eef5ef;
+  color: #192b24;
+  font: 400 18px/1.4 var(--br-text-font);
+}
+.br-sfera-hero h1 { margin: 0 0 9px; font: 700 clamp(36px, 5vw, 62px)/1.08 var(--br-text-font); }
+.br-sfera-hero ul { margin: 14px 0 20px; padding-left: 1em; }
+.br-sfera-hero img { display: block; width: 100%; height: auto; border-radius: 12px; }
+@media (max-width: 760px) {
+  .br-sfera-hero { grid-template-columns: 1fr; gap: 14px; }
+  .br-sfera-hero__copy { display: contents; }
+  .br-sfera-hero h1 { grid-row: 1; margin: 0; }
+  .br-sfera-hero img { grid-row: 2; }
+  .br-sfera-hero ul { margin: 0; }
+  .br-sfera-hero a { width: 100%; }
+}
+/* Match site actions to the catalogue and to the original brand fonts. */
+#allrecords [data-br-winter-cover] a.tn-atom[href*="onlyrooms="] {
+  box-sizing: border-box;
+  min-height: var(--br-button-min-height);
+  border-radius: var(--br-button-radius);
+  font: 700 15px/1.2 var(--br-title-font);
+}
+#allrecords [data-br-winter-cover] a.tn-atom[href*="onlyrooms="] .tn-atom__button-text {
+  font: inherit;
+}
+#allrecords :is(.brp-btn, .br-nov-button, .brh-house__button, .to-btn, .br-review-activities-toggle) {
+  min-height: var(--br-button-min-height);
+  border-radius: var(--br-button-radius);
+  font-family: var(--br-title-font);
+}
+#allrecords :is(.brh-card__name, .brp-card h3, .brp-card p, .brh-card__text) { font-family: var(--br-text-font); }
+#allrecords :is(.br-review-program-toggle, .br-event-details > summary, .br-family-more > summary) {
+  min-height: var(--br-button-min-height);
+  align-content: center;
+  font-family: var(--br-title-font);
+}
+.t-slds__bgimg[data-original*="restaurant-set-menu-20261125"] {
+  background-size: contain !important;
+  background-color: #fff8ed;
+}
+#allrecords .brp-card .brp-btn { font-size: 15px; line-height: 1.25; text-transform: uppercase; }
+#allrecords .brp-card .brp-link {
+  min-height: var(--br-button-min-height);
+  display: inline-flex;
+  align-items: center;
+  font: 650 15px/1.2 var(--br-text-font);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+#allrecords .brp-card .brp-card-body h3 { font: 700 clamp(19px, 2.25vw, 25px)/1.15 var(--br-text-font); }
+#allrecords img:is(
+  [src*="house-winter-aframe-black.webp"],
+  [src*="house-winter-aframe-neo.webp"],
+  [src*="house-winter-house-1.webp"],
+  [src*="house-winter-house-3.webp"]
+) { filter: saturate(.88) brightness(1.04); }
+#allrecords .нг-бр .holiday-periods {
+  background: linear-gradient(135deg, #edf5ee, #f8f3e8 90%);
+  font-family: var(--br-text-font);
+}
+#allrecords .нг-бр .holiday-periods h1 { font-family: var(--br-text-font); }
+#allrecords .нг-бр :is(.holiday-card h2, .holiday-card__book, .holiday-card__program summary) { font-family: var(--br-title-font); }
+#allrecords .нг-бр .holiday-card__book {
+  min-height: var(--br-button-min-height);
+  border-radius: var(--br-button-radius);
+  font-size: 15px;
+  background: var(--br-button-background);
+  text-transform: uppercase;
+}
+#allrecords .нг-бр .holiday-card__program summary { min-height: var(--br-button-min-height); }
+.br-new-year-perk {
+  margin: -6px 0 18px;
+  padding: 10px 13px;
+  border-left: 3px solid #ba8b4e;
+  border-radius: 3px 8px 8px 3px;
+  background: #fbf0dd;
+  color: #523515;
+  font: 650 16px/1.35 var(--br-text-font);
+}
+#allrecords .br-winter-holiday .br-winter-primary {
+  min-height: var(--br-button-min-height);
+  font-family: var(--br-title-font);
+  text-decoration: none;
+  gap: 6px;
+  padding-inline: 18px;
+}
+#allrecords .to-grid:has(.br-weekday-offer) {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: min(100% - 28px, 980px);
+  max-width: 980px;
+  gap: 18px;
+}
+#allrecords .to-grid:has(.br-weekday-offer) .to-card { width: auto; }
+#allrecords .to-grid:has(.br-weekday-offer) .to-pic {
+  aspect-ratio: 16 / 8.5;
+  height: auto;
+  background: #e9eeea;
+}
+#allrecords .to-grid:has(.br-weekday-offer) .to-pic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+#allrecords .to-grid:has(.br-weekday-offer) :is(.to-t,.to-btn) { font-family: var(--br-title-font); }
+#allrecords .to-grid:has(.br-weekday-offer) :is(.to-d,.to-hl,.to-terms) { font-family: var(--br-text-font); }
+#allrecords .to-grid:has(.br-weekday-offer) .to-btn {
+  min-height: var(--br-button-min-height);
+  padding-inline: 12px;
+  background: var(--br-button-background);
+  color: var(--br-button-text) !important;
+  border-color: transparent;
+  font-size: 15px;
+}
+#allrecords .br-weekday-offer .to-terms { margin: 0 0 15px; font-size: 14px; }
+@media (max-width: 680px) {
+  #allrecords .to-grid:has(.br-weekday-offer) { grid-template-columns: 1fr; margin-inline: auto; }
+  #allrecords .to-grid:has(.br-weekday-offer) .to-btn { width: 100%; }
+}
+#allrecords .br-program-contact > a {
+  box-sizing: border-box;
+  min-height: var(--br-button-min-height);
+  border-radius: var(--br-button-radius);
+  font-family: var(--br-title-font);
+}
+
+#allrecords .brh-house__button {
+  font-size: 15px;
+  line-height: 1.2;
+  background: var(--br-button-background);
+  color: var(--br-button-text) !important;
 }

@@ -13,6 +13,10 @@ def birthday(source, instance='family'):
     paragraphs = re.findall(r'<p>[\s\S]*?</p>', source)
     photos = re.findall(r'<img\b[^>]*>', source)
     assert len(paragraphs) == 2 and len(photos) == 2
+    standalone = instance == 'deti'
+    title = '<h2>Детский день рождения</h2>' if standalone else f'<h3>{heading}</h3>'
+    contact = ('<a class="br-family-contact" href="https://t.me/ecobazabr">'
+               'Обсудить детский день рождения</a>')
     figures = ''.join(f'<figure role="group" aria-label="Фото {i+1} из 2">{img}</figure>' for i, img in enumerate(photos))
     return (
         '<article class="br-family-birthday" id="detskiy-prazdnik">'
@@ -25,11 +29,10 @@ def birthday(source, instance='family'):
         f'<button type="button" data-br-photo-next aria-controls="br-family-gallery-{instance}" aria-label="Следующее фото">'
         '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m10 6 6 6-6 6"/></svg></button>'
         '</div></div></div>'
-        '<div class="br-family-birthday__copy"><p class="br-family-birthday__eyebrow">Детские праздники</p>'
-        f'<h3>{heading}</h3>{paragraphs[0]}'
-        '<details class="br-family-more"><summary class="br-nov-button">Подробнее</summary>'
-        + paragraphs[1] + '<a class="br-family-contact" href="https://t.me/ecobazabr">'
-        'Написать менеджеру</a></details></div></article>'
+        f'<div class="br-family-birthday__copy">{title}{paragraphs[0]}'
+        + (contact if standalone else '')
+        + '<details class="br-family-more"><summary class="br-nov-button">Подробнее</summary>'
+        + paragraphs[1] + ('' if standalone else contact) + '</details></div></article>'
     )
 
 def stay_info(prefix):
@@ -64,4 +67,13 @@ def replace_family(html, pages, prefix):
 def replace_standalone(html):
     pattern = r'<section\b[^>]*\bid="detskiy-prazdnik"[^>]*>[\s\S]*?</section>'
     source = re.search(pattern, html)[0]
-    return re.sub(pattern, lambda _: '<section class="br-family-activities br-family-activities--birthday" aria-label="Детские праздники">' + birthday(source, 'deti') + '</section>', html, count=1)
+    birthday_section = ('<section class="br-family-activities br-family-activities--birthday" aria-label="Детские праздники">'
+                        + birthday(source, 'deti') + '</section>')
+    html = html.replace(source, '', 1)
+    entry = '<div id="rec1750147771"'
+    assert html.count(entry) == 1
+    html = html.replace(entry, birthday_section + entry, 1)
+    share_copy = ('Семейный отдых и детские дни рождения в «Берёзовой роще». '
+                  'Дома для семьи, контактная ферма, детская площадка и анимация для праздников.')
+    description = re.compile(r'(<meta[^>]*\b(?:property="og:description"|name="description")[^>]*\bcontent=")[^"]*"')
+    return description.sub(lambda match: f'{match[1]}{share_copy}"', html)

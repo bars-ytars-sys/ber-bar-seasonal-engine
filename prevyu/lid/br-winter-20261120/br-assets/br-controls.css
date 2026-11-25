@@ -1,0 +1,43 @@
+@font-face {
+  font-family: TildaSans;
+  src: url("https://static.tildacdn.com/fonts/tildasans/TildaSans-VF.woff2") format("woff2");
+  font-weight: 250 1000;
+  font-display: swap;
+}
+@font-face {
+  font-family: DespairDisplay;
+  src: url("https://static.tildacdn.com/tild3139-3132-4331-b632-343362316164/DespairDisplay-Bold.woff") format("woff");
+  font-weight: 700;
+  font-display: swap;
+}
+:root {
+  --br-text-font: TildaSans, Arial, sans-serif;
+  --br-title-font: DespairDisplay, TildaSans, Arial, sans-serif;
+  --br-button-min-height: 48px;
+  --br-button-radius: 10px;
+  --br-button-background: #2ed8a3;
+  --br-button-text: #132a22;
+}
+.br-winter-primary,
+.br-house-seasons button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--br-button-min-height);
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  border-radius: var(--br-button-radius);
+  background: var(--br-button-background);
+  color: var(--br-button-text) !important;
+  font: 700 15px/1.23 var(--br-title-font);
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.br-winter-primary:hover, .br-house-seasons button[aria-pressed="true"]:hover { background: #24c997; }
+.br-winter-primary:focus-visible, .br-house-seasons button:focus-visible {
+  outline: 2px solid #195b49;
+  outline-offset: 3px;
+}

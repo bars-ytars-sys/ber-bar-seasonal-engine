@@ -7,15 +7,15 @@ import re
 
 HERE = Path(__file__).resolve().parent
 HOUSE_COVERS = json.loads((HERE / "winter-house-covers.json").read_text())
+HOUSE_GALLERIES = json.loads((HERE / "winter-house-galleries.json").read_text())
 GALLERY_RETOUCH = json.loads((HERE / "winter-gallery-retouch.json").read_text())
 RECORD = re.compile(r'<div id="(rec\d+)"[^>]*>')
 PHOTO_URL = re.compile(r"""https://(?:static|optim|thb)\.tildacdn\.com/(tild[a-z0-9-]+)/[^"'<>\s(),&]+""")
-NATIVE_TABS = re.compile(r'(<ul\b[^>]*\bdata-tab-current="1"[^>]*>)(.*?)(</ul>)', re.S)
-NATIVE_TAB = re.compile(r'<li\b[^>]*>.*?</li>', re.S)
-NATIVE_SLIDE = re.compile(
-    r'<div\s+class="t1148__item"[^>]*>\s*<div\b[^>]*>\s*<img\b[^>]*>\s*</div>\s*</div>', re.S,
+HOUSE_SLIDE_START = re.compile(r'<div\s+class="t1148__item"[^>]*>')
+SUMMER_ARCHIVE = re.compile(
+    r'(<section class="br-season-archive"[^>]*>.*?</section>|<div id="rec\d+"[^>]*data-br-season-panel="summer"[^>]*>.*?(?=<div id="rec\d+"|<footer id="t-footer"|$))',
+    re.S,
 )
-SUMMER_ARCHIVE = re.compile(r'(<details class="br-season-archive">.*?</details>)', re.S)
 HOME_HOUSES = re.compile(r'<section\b(?=[^>]*\bid="br-home-houses")[^>]*>.*?</section>', re.S)
 HOME_HOUSE = re.compile(r'<article class="brh-card brh-house"[^>]*>.*?</article>', re.S)
 HOME_PHOTO = re.compile(r'<img\b[^>]*>')
@@ -47,7 +47,8 @@ SEASONAL_PHOTOS = {
     "tild6330-3133-4062-a262-616263626665": "hero-winter-spa-hq.webp",
     "tild6339-6561-4130-b464-646463313361": "hero-winter-spa-hq.webp",
     "tild3664-3965-4431-a537-396337656361": "hero-winter-spa-hq.webp",
-    "tild6139-3532-4136-a431-333736333265": "hero-winter-spa-hq.webp",
+    "tild6139-3532-4136-a431-333736333265": "spa-open-pool-20261125.webp",
+    "tild3766-3164-4638-a161-373538633736": "restaurant-set-menu-20261125.jpg",
     "tild3761-3162-4066-b435-326639616461": "winter-buggy.webp",
     "tild3831-6231-4262-b431-376566303264": "winter-baus-1.webp",
     "tild6130-6631-4137-b063-366531356132": "winter-svidanie.webp",
@@ -77,12 +78,14 @@ SEASONAL_PHOTOS = {
     "tild3231-3238-4966-a334-323963666132": "winter-card-chan.webp",
     "tild3662-3666-4537-b639-353836353062": "winter-outdoor-spa.webp",
     **{media_id: info["asset"] for media_id, info in GALLERY_RETOUCH.items()},
+    "tild3831-6631-4534-a630-383066633037": HOUSE_COVERS["barn-1"]["asset"],
+    "tild6261-3334-4038-b531-643962386566": HOUSE_COVERS["sfera"]["asset"],
 }
 
 def validate_assets(folder):
     names = {house["asset"] for house in HOUSE_COVERS.values()} | set(SEASONAL_PHOTOS.values())
     names.update(("winter-farm-goat.webp", "winter-birthday-panoramic.webp", "winter-open-pool.webp",
-                  "hero-panorama-garland-mobile.avif", "territory-map.webp"))
+                  "hero-panorama-garland-mobile.avif", "territory-map.webp", "winter-samovar-program.webp"))
     for name in sorted(names):
         if not (folder / name).is_file():
             raise FileNotFoundError(folder / name)
@@ -103,30 +106,67 @@ def within_record(html, target, transform):
     raise ValueError(f"Missing record {target}")
 
 
-def activate_winter_tab(html):
-    def activate(match):
-        tabs = NATIVE_TAB.findall(match[2])
-        if len(tabs) != 2 or "ЗИМНИЕ ФОТО" not in tabs[1] or "ЛЕТНИЕ ФОТО" not in tabs[0]:
-            return match[0]
-        first = re.sub(r'\s+t1281__[\w-]+_active', '', tabs[0])
-        first = first.replace('aria-selected="true"', 'aria-selected="false"').replace('tabindex="0"', 'tabindex="-1"')
-        second = re.sub(r'(\bclass="[^"]*\bt1281__tab\b)(?!-|_)', r'\1 t1281__tab_active t1281__tab-style2_active', tabs[1], count=1)
-        second = second.replace('aria-selected="false"', 'aria-selected="true"').replace('tabindex="-1"', 'tabindex="0"')
-        start = match[1].replace('data-tab-current="1"', 'data-tab-current="2"')
-        return start + first + second + match[3]
-
-    html = NATIVE_TABS.sub(activate, html)
-    return re.sub(r'(<option value="\d+")>ЗИМНИЕ ФОТО</option>', r'\1 selected>ЗИМНИЕ ФОТО</option>', html, count=1)
+def season_switch(winter, summer):
+    return f'''<div class="br-house-seasons" role="group" aria-label="Сезон фотогалереи" data-br-season-switch>
+  <button type="button" aria-controls="{winter}" aria-pressed="true">Зимние фото</button>
+  <button type="button" aria-controls="{summer}" aria-pressed="false">Летние фото</button>
+</div>'''
 
 
-def seasonal_gallery(record, cover, summer_indices):
-    matches = list(NATIVE_SLIDE.finditer(record))
-    assert matches and max(summer_indices) <= len(matches), cover
-    assert record.count('aria-roledescription="slide"') == len(matches), cover
-    summer = [matches[index - 1][0] for index in sorted(summer_indices)]
-    kept = [m[0] for index, m in enumerate(matches, 1) if index not in summer_indices]
-    winter = re.sub(r'\b(src|data-original|data-img-zoom-url)="[^"]+"', lambda m: f'{m[1]}="{cover}"', matches[0][0])
-    slides = [winter, *kept]
+def house_photo(url, alt=""):
+    url = escape(url, quote=True)
+    return (
+        '<div class="t1148__item" role="group" aria-roledescription="slide" aria-label="1 из 1" aria-current="false">'
+        '<div class="t1148__img-wrapper" style="--height:530px; --mob-height:340px">'
+        f'<img class="t-img t1148__img" src="{url}" data-original="{url}" data-img-zoom-url="{url}" '
+        f'data-index="0" imgfield="gi_img__0" data-zoomable="yes" data-zoom-target="0" draggable="false" '
+        f'alt="{escape(alt, quote=True)}" loading="lazy" decoding="async"></div></div>'
+    )
+
+
+def gallery_bounds(record):
+    starts = list(HOUSE_SLIDE_START.finditer(record))
+    assert starts
+    end = re.search(r'</div>\s*</div>\s*</div>\s*<style>', record[starts[-1].end():])
+    assert end
+    # Include the closing item and wrapper while leaving the slider and outer containers intact.
+    last_start = starts[-1].end() + end.start()
+    image_end = record.rfind('/>', starts[-1].start(), last_start) + 2
+    closings = re.match(r'\s*</div>\s*</div>', record[image_end:])
+    if closings:
+        end_position = image_end + closings.end()
+    else:
+        # Last slide embeds a video. The slider, gallery and block close immediately before the styles.
+        end_position = last_start
+    boundaries = [match.start() for match in starts] + [end_position]
+    return boundaries[0], boundaries[-1], [record[a:b].strip() for a, b in zip(boundaries, boundaries[1:])]
+
+
+def slide_url(slide):
+    return re.search(r'\bdata-img-zoom-url="([^"]+)"', slide)[1]
+
+
+def render_gallery(record, slug, cover, interiors, summer_indices):
+    start, end, original = gallery_bounds(record)
+    summer = [original[index - 1] for index in sorted(summer_indices)]
+    retained = [slide for index, slide in enumerate(original, 1) if index not in summer_indices]
+    tagged = {slide_url(slide): slide for slide in retained}
+    primary = house_photo(cover, "Интерьер «Сферы»" if slug == "sfera" else "Дом зимой")
+    selected = [tagged.get(url) or house_photo(url, "Интерьер дома") for url in interiors]
+    known = set(interiors) | {cover}
+    first_url = slide_url(original[0])
+    if not summer_indices or first_url in known:
+        known.add(first_url)
+    if slug == "baus-2":
+        # The same uncovered hammock appears at the centre of the terrace on this second exterior.
+        known.add(slide_url(original[8]))
+    slides = [primary, *selected]
+    if slug != "sfera":
+        if 'class="t1148__play"' in original[0] and first_url in known:
+            # Keep the original walk-through with the updated winter photo as its poster.
+            slides.append(re.sub(r'\b(src|data-original|data-img-zoom-url)="[^"]+"',
+                                 lambda match: f'{match[1]}="{cover}"', original[0]))
+        slides.extend(slide for slide in retained if slide_url(slide) not in known)
     for index, item in enumerate(slides):
         item = re.sub(r'aria-label="\d+ из \d+"', f'aria-label="{index + 1} из {len(slides)}"', item, count=1)
         item = re.sub(r'aria-current="(?:true|false)"', f'aria-current="{str(index == 0).lower()}"', item, count=1)
@@ -134,32 +174,67 @@ def seasonal_gallery(record, cover, summer_indices):
             r'(data-index="|data-zoom-target="|imgfield="gi_img__)\d+',
             lambda m: f'{m[1]}{index}', item,
         )
-    record = record[:matches[0].start()] + ' '.join(slides) + record[matches[-1].end():]
-    originals = [re.search(r'\bdata-img-zoom-url="([^"]+)"', photo)[1] for photo in summer]
+    record = record[:start] + ' '.join(slides) + record[end:]
+    if not summer:
+        return record
+    winter_id = HOUSE_GALLERIES[slug]["winter"]
+    summer_id = winter_id + "-summer"
     pictures = ''.join(
         f'<a href="{escape(url, quote=True)}"><img src="{escape(url, quote=True)}" '
         f'alt="Летний вид дома, фото {index}" loading="lazy" decoding="async"></a>'
-        for index, url in enumerate(originals, 1)
+        for index, url in enumerate(map(slide_url, summer), 1)
     )
-    return record + f'<details class="br-season-archive"><summary>Летние фото</summary><div>{pictures}</div></details>'
+    archive = f'<section class="br-season-archive" id="{summer_id}" data-br-season-panel="summer" hidden aria-label="Летние фото"><div>{pictures}</div></section>'
+    return season_switch(winter_id, summer_id) + record + archive
+
+
+def sfera_hero(record, record_id, cover, prefix):
+    assert f'href="{prefix}/booking/"' in record
+    end = record.rfind("</div>") + len("</div>")
+    return f'''<div id="{record_id}" class="r t-rec" data-br-winter-cover="sfera">
+  <section class="br-sfera-hero" aria-labelledby="br-sfera-title">
+    <div class="br-sfera-hero__copy">
+      <h1 id="br-sfera-title">Сфера</h1>
+      <p>Купольный дом с панорамными окнами, собственной баней и банным чаном.</p>
+      <ul aria-label="Удобства"><li>До 4 гостей</li><li>Баня</li><li>Банный чан</li></ul>
+      <a class="br-winter-primary" href="{prefix}/booking/">Проверить даты</a>
+    </div>
+    <img src="{cover}" width="1440" height="1068" alt="Интерьер «Сферы» со второго этажа, со свечами и видом на снег" fetchpriority="high">
+  </section>
+</div>''' + record[end:]
 
 
 def house_page(html, slug, prefix):
     cover = HOUSE_COVERS[slug]
     cover_path = f"{prefix}/br-assets/{cover['asset']}"
+    gallery = HOUSE_GALLERIES[slug]
+    winter = gallery["winter"]
+    summer = gallery["summer"]
 
     def replace_cover(record):
+        if slug == "sfera":
+            return sfera_hero(record, cover["record"], cover_path, prefix)
         image = lambda m: cover_path if m[1] == cover["old"] else m[0]
         replaced = PHOTO_URL.sub(image, record)
         assert replaced != record, slug
         return replaced.replace(f'id="{cover["record"]}"', f'id="{cover["record"]}" data-br-winter-cover="{slug}"', 1)
 
     html = within_record(html, cover["record"], replace_cover)
-    if slug in SUMMER_GALLERIES:
-        record, summer_indices = SUMMER_GALLERIES[slug]
-        return within_record(html, record, lambda fragment: seasonal_gallery(fragment, cover_path, summer_indices))
-    assert ">ЗИМНИЕ ФОТО<" in html, slug
-    return activate_winter_tab(html)
+    interiors = [url if url.startswith("https://") else f"{prefix}/br-assets/{url}" for url in gallery["interiors"]]
+    summer_indices = SUMMER_GALLERIES[slug][1] if slug in SUMMER_GALLERIES else set()
+    def winter_gallery(block):
+        block = block.replace(f'id="{winter}"', f'id="{winter}" data-br-season-panel="winter"', 1)
+        return render_gallery(block, slug, cover_path, interiors, summer_indices)
+
+    html = within_record(html, winter, winter_gallery)
+    if not summer_indices:
+        tabs = next(match[1] for match in RECORD.finditer(html) if 'data-record-type="1281"' in match[0])
+        def replace_tabs(block):
+            assert "ЗИМНИЕ ФОТО" in block and f'aria-controls="{winter}"' in block, slug
+            return season_switch(winter, summer)
+        html = within_record(html, tabs, replace_tabs)
+        html = within_record(html, summer, lambda block: block.replace(f'id="{summer}"', f'id="{summer}" data-br-season-panel="summer" hidden', 1))
+    return html.replace("</body>", f'<script src="{prefix}/br-assets/house-seasons.js" defer></script></body>', 1)
 
 
 def catalogue_covers(html, prefix):
@@ -176,8 +251,6 @@ def home_covers(html, prefix):
     def rewrite_card(match):
         card = match[0]
         slug = re.search(r'\bhref="[^"]*/doma/([^/"]+)/?"', card)[1]
-        if slug == "barn-2":
-            return card
         name = re.search(r'<h3 class="brh-card__name">([^<]+)</h3>', card)[1]
         alt = f"{name} — зимний внешний вид"
         cover = f"{prefix}/br-assets/{HOUSE_COVERS[slug]['asset']}"
@@ -189,15 +262,27 @@ def home_covers(html, prefix):
             return re.sub(r'\balt="[^"]*"', f'alt="{alt}"', image, count=1)
 
         def rewrite_exterior(button):
-            button = button[0].replace('aria-pressed="false"', 'aria-pressed="true"')
+            button = button[0]
+            if slug != "barn-2":
+                button = button.replace('aria-pressed="false"', 'aria-pressed="true"')
             button = re.sub(r'\bdata-src="[^"]*"', f'data-src="{cover}"', button, count=1)
             return re.sub(r'\bdata-alt="[^"]*"', f'data-alt="{alt}"', button, count=1)
 
-        card = HOME_PHOTO.sub(rewrite_photo, card, count=1)
-        card = card.replace('aria-pressed="true"', 'aria-pressed="false"')
+        if slug != "barn-2":
+            card = HOME_PHOTO.sub(rewrite_photo, card, count=1)
+            card = card.replace('aria-pressed="true"', 'aria-pressed="false"')
         return HOME_EXTERIOR.sub(rewrite_exterior, card, count=1)
 
-    return HOME_HOUSES.sub(lambda section: HOME_HOUSE.sub(rewrite_card, section[0]), html, count=1)
+    def order_cards(section):
+        block = section[0]
+        cards = list(HOME_HOUSE.finditer(block))
+        featured = next(card for card in cards if 'href="' + prefix + '/doma/bariloche/' in card[0])
+        if featured.start() > cards[0].start():
+            first = cards[0].start()
+            block = block[:first] + featured[0] + block[first:featured.start()] + block[featured.end():]
+        return HOME_HOUSE.sub(rewrite_card, block)
+
+    return HOME_HOUSES.sub(order_cards, html, count=1)
 
 
 def booking_link(html):
@@ -231,6 +316,8 @@ def apply(html, route, prefix):
         return part.replace(f"{prefix}/br-assets/activity-baggi-real.webp", f"{prefix}/br-assets/winter-buggy.webp")
 
     html = replace_outside_summer_archive(html, replace_photos)
+    menu = f"{prefix}/br-assets/restaurant-set-menu-20261125.jpg"
+    html = html.replace('href="#menurestoran"', f'href="{menu}" target="_blank" rel="noopener"')
     if route == "/":
         html = home_covers(html, prefix)
     if route == "/booking":
@@ -239,6 +326,7 @@ def apply(html, route, prefix):
         html = html.replace(">Сапборд</h2>", ">Сапборд в тёплый сезон</h2>", 1)
     if route == "/new-year":
         html = html.replace(HOLIDAY_PHOTOS + "br-panorama.webp", f"{prefix}/br-assets/hero-panorama-garland.webp")
+        html = html.replace(HOLIDAY_PHOTOS + "br-skandi.webp", f"{prefix}/br-assets/winter-new-year-scandi.webp")
         html = html.replace(HOLIDAY_PHOTOS, f"{prefix}/br-assets/holiday/")
     if route in ("/", "/special"):
         html = re.sub(

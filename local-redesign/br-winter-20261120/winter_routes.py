@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import re
 
-from winter_site import HOUSE_COVERS
+from winter_site import HOUSE_COVERS, within_record
 
 HERE = Path(__file__).resolve().parent
 STAY_DATA = HERE.parents[1] / "prevyu/lid/br-stay-data.js"
@@ -15,6 +15,24 @@ ROOM_IDS = {
 assert set(ROOM_IDS) == set(HOUSE_COVERS)
 
 ACTIVITIES = "/aktivnosti-v-beryozovoj-roshhe/"
+HOUSE_CATEGORY_ORDER = (
+    "БАРИЛОЧЕ", "ПАНОРАМА", "СКАНДИ", "ШАЛЕ", "БАРНХАУС",
+    "БАУС", "А-ФРЕЙМ", "СФЕРА", "ХАУС", "ХОЛИДЕЙ ХАУС",
+)
+# The two columns are stored one after the other in the Tilda record.
+HOUSE_CATEGORY_SLOTS = (1, 6, 2, 7, 3, 8, 4, 9, 5, 10)
+HOUSE_CATEGORY_PHOTOS = {
+    "winter-aframe-luxe-white.webp": "aframe-luxe-white",
+    "bariloche-warm.webp": "bariloche",
+    "winter-scandi.webp": "scandi",
+    "winter-house-panorama-2.webp": "panorama",
+    "winter-selector-baus.webp": "baus-1",
+    "winter-selector-chalet.webp": "chalet",
+    "house-2-warm.webp": "house-2",
+    "winter-selector-barn.webp": "barn-2",
+    "winter-selector-sfera.webp": "sfera",
+    "winter-selector-holiday.webp": "holidayhouse",
+}
 TOOLTIP = re.compile(
     r'(data-tipimg-original=")[^"]+(">\s*<div class=[\x27"]tn-atom__tip-text[\x27"]>)(.*?)</div>',
     re.S,
@@ -23,7 +41,7 @@ SOCIAL_ASSETS = {
     "/": "hero-panorama-garland.webp",
     "/doma": "hero-panorama-garland.webp",
     "/new-year": "hero-panorama-garland.webp",
-    "/spa": "hero-winter-spa-hq.webp",
+    "/spa": "spa-open-pool-20261125.webp",
     "/deti": "winter-playground.webp",
     "/glamping": "winter-glamping.webp",
     "/banchan": "winter-panorama-tub.webp",
@@ -85,7 +103,7 @@ def preview_social_image(html, route, prefix):
 
 def winter_activities(prefix):
     cards = (
-        ("/spa/", "winter-open-pool.webp", "SPA и тёплый бассейн", "Открытый бассейн, сауны и хамам"),
+        ("/spa/", "spa-open-pool-20261125.webp", "SPA и тёплый бассейн", "Открытый бассейн, сауны и хамам"),
         ("/banchan/#samovar", "winter-panorama-tub.webp", "Баня и чан", "Парение и травяной чай из самовара"),
         ("/deti/", "winter-activity-farm-hq.webp", "Зимой с детьми", "Контактная ферма, площадка и семейное кино"),
         ("/new-year/", "hero-panorama-garland.webp", "Новый год и каникулы", "Новогодний заезд и даты в январе"),
@@ -106,12 +124,40 @@ def winter_activities(prefix):
 def holiday_banner(prefix):
     return (
         '<section class="br-winter-route br-winter-holiday" aria-labelledby="br-winter-holiday-title">'
-        f'<img src="{prefix}/br-assets/holiday/br-skandi.webp" alt="Зимний двор дома Сканди с банным чаном" '
+        f'<img src="{prefix}/br-assets/winter-new-year-scandi.webp" alt="Новогодние огни у дома Сканди" '
         'loading="lazy" decoding="async">'
         '<div><h2 id="br-winter-holiday-title">Новый год и каникулы</h2>'
         '<p>Новогодний заезд с 31 декабря по 3 января. Январские каникулы — с 3 января.</p>'
-        f'<a href="{prefix}/new-year/">Посмотреть заезды <span aria-hidden="true">→</span></a></div></section>'
+        f'<a class="br-winter-primary" href="{prefix}/new-year/">Посмотреть заезды <span aria-hidden="true">→</span></a></div></section>'
     )
+
+
+def revise_offers(html, prefix):
+    certificate = '<article class="to-card" id="podarochnyy-sertifikat">'
+    assert html.count(certificate) == 1
+    html = html.replace(
+        'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/certificates/br-baus-hot-tub-snow.webp',
+        f'{prefix}/br-assets/house-winter-holidayhouse.webp',
+    )
+    html = html.replace(
+        'Выберите номинал, оформление и добавьте своё поздравление.',
+        'Выберите номинал, фото и укажите имя получателя.',
+    )
+    weekdays = f'''<article class="to-card br-weekday-offer" id="uyutnye-budni">
+      <div class="to-pic"><img src="{prefix}/br-assets/weekday-chan-br.webp"
+        alt="Банный чан на территории «Берёзовой рощи»" width="1024" height="1024" loading="lazy" decoding="async"></div>
+      <div class="to-body">
+        <h3 class="to-t">Уютные будни</h3>
+        <p class="to-d">Встречаем зиму в тепле. Днём — прогулки среди заснеженных берёз, вечером — горячий чан под открытым небом и уют вашего дома. Приезжайте отдыхать — мы обо всём позаботимся.</p>
+        <p class="to-hl">При бронировании <strong>от 2 суток в будни классический чан включён в стоимость проживания.</strong></p>
+        <p class="to-terms">Предложение доступно для отдельных категорий домов. Подробности уточняйте у менеджера. Акции не суммируются.</p>
+        <a class="to-btn br-winter-primary" href="{prefix}/booking/">Выбрать даты</a>
+      </div>
+    </article>'''
+    html = re.sub(r'<article class="to-card" id="br-black-friday"[^>]*>.*?</article>', '', html, flags=re.S)
+    html = re.sub(r'<(?:style|script) id="brbf-[^"]+"[^>]*>.*?</(?:style|script)>', '', html, flags=re.S)
+    html = re.sub(r'<button id="brbf-launcher"[^>]*>.*?</button>\s*<dialog id="brbf-dialog"[^>]*>.*?</dialog>', '', html, flags=re.S)
+    return html.replace(certificate, weekdays + certificate, 1)
 
 
 def map_links(prefix):
@@ -124,6 +170,33 @@ def map_links(prefix):
     )
 
 
+def house_categories(record, prefix):
+    def name(label):
+        return label.strip().upper().replace("A", "А")
+
+    label = re.compile(r'(<span class="tn-atom__button-text">)([^<]+)(</span>)')
+    tabs = [match for match in label.finditer(record) if name(match[2]) in HOUSE_CATEGORY_ORDER]
+    assert len(tabs) == len(HOUSE_CATEGORY_ORDER)
+    original = {name(tab[2]): (index, tab[2]) for index, tab in enumerate(tabs, 1)}
+    order = dict(zip(HOUSE_CATEGORY_ORDER, HOUSE_CATEGORY_SLOTS))
+    groups = {old: order[title] for title, (old, _) in original.items()}
+    labels = {slot: original[title][1] for title, slot in order.items()}
+
+    def rename_label(match):
+        previous = original.get(name(match[2]))
+        return f"{match[1]}{labels[previous[0]]}{match[3]}" if previous else match[0]
+
+    record = label.sub(rename_label, record)
+    pattern = re.compile(r'(class="t396__group tn-group house-)(\d+)\b')
+    record, count = pattern.subn(lambda match: f"{match[1]}{groups[int(match[2])]}", record)
+    assert count == len(tabs)
+    for old, slug in HOUSE_CATEGORY_PHOTOS.items():
+        new = HOUSE_COVERS[slug]["asset"]
+        record = record.replace(f"{prefix}/br-assets/{old}", f"{prefix}/br-assets/{new}")
+    # Mark the static order so the original delayed rearrangement skips it.
+    return record.replace('id="rec2851363001"', 'id="rec2851363001" data-bb-poryadok="1"', 1)
+
+
 def insert_before_record(html, record, markup):
     pattern = re.compile(r'<div id="' + re.escape(record) + r'"')
     updated, count = pattern.subn(lambda match: markup + match[0], html, count=1)
@@ -133,12 +206,20 @@ def insert_before_record(html, record, markup):
 
 def apply(html, route, prefix, bath_programs=""):
     html = preview_social_image(html, route, prefix)
+    html = html.replace(
+        "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/br-gift.html",
+        prefix + "/certificate/",
+    )
+    # The previous shared script also set certificate links at runtime.
+    html = html.replace('data-gift-link', 'data-br-winter-certificate-link')
     catalogue = f'<a href="{prefix}/doma/">Каталог домов</a>'
     holiday_menu = f'<a href="{prefix}/new-year/" class="br-winter-menu-link">Новый год и каникулы</a>'
     html = html.replace('<nav class="br-nov-menu" aria-label="Разделы сайта">\n  ' + catalogue,
                         '<nav class="br-nov-menu" aria-label="Разделы сайта">\n  ' + catalogue + holiday_menu)
     if route.startswith("/doma/"):
         return rewrite_house_booking(html, route.rsplit("/", 1)[1], prefix)
+    if route in ("/", "/special"):
+        html = revise_offers(html, prefix)
     if route in ("/", "/kartabr"):
         html = winter_map(html, prefix)
         html = html.replace("</body>", f'<script src="{prefix}/br-assets/winter-map.js" defer></script></body>', 1)
@@ -147,6 +228,7 @@ def apply(html, route, prefix, bath_programs=""):
             f"{prefix}/br-assets/territory-map.webp",
         )
     if route == "/":
+        html = within_record(html, "rec2851363001", lambda record: house_categories(record, prefix))
         activity_section = '<section id="br-home-activities"'
         if activity_section in html:
             html = html.replace(activity_section, holiday_banner(prefix) + activity_section, 1)
@@ -158,6 +240,13 @@ def apply(html, route, prefix, bath_programs=""):
         html = insert_before_record(html, "rec2856176101", map_links(prefix))
     if route + "/" == ACTIVITIES:
         html = insert_before_record(html, "rec2863877701", winter_activities(prefix))
+    if route == "/new-year":
+        intro = "Новогодний заезд в загородный дом. Праздничный ужин можно заказать в ресторане.</p>"
+        assert html.count(intro) == 1
+        html = html.replace(
+            intro,
+            intro + '<p class="br-new-year-perk">Новогодняя лотерея и подарки в каждом доме</p>',
+        )
     if route == "/special":
         html = insert_before_record(html, "rec1758798101", holiday_banner(prefix))
     if route == "/banchan":

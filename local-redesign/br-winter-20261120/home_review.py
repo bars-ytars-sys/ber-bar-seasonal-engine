@@ -73,6 +73,7 @@ def add_events_to_programs(html, events, prefix):
     )
     bath = section(html, 'samovar')
     bath_options = bath.split('</h2>', 1)[1].removesuffix('</section>').strip()
+    bath_options = re.sub(r'<img\b[^>]*\bclass="br-review-program-photo"[^>]*>', '', bath_options)
     bath_cta = '<a class="br-nov-button" href="#samovar">Подробнее</a>'
     assert scenarios.count(bath_cta) == 1
     bath_details = (
@@ -94,6 +95,9 @@ def apply(html, prefix):
         .replace('winter-br-hero-pano-20261116.webp', 'hero-winter-panorama-hq.webp')
         .replace('winter-br-hero-spa-20261116-mobile.webp', 'hero-winter-spa-mobile-hq.webp')
         .replace('winter-spa-hero.webp', 'hero-winter-spa-hq.webp')
+        .replace('hero-winter-spa-mobile-hq.webp', 'spa-open-pool-20261125.webp')
+        .replace('hero-winter-spa-hq.webp', 'spa-open-pool-20261125.webp')
+        .replace('Крытый бассейн SPA-комплекса', 'Открытый бассейн SPA-комплекса зимой')
         .replace('width="1920" height="948"', 'width="1785" height="881"')
     )
     heading = re.search(r'<h1\b[^>]*>.*?</h1>', hero, re.S)[0]
@@ -143,7 +147,9 @@ def apply(html, prefix):
     activities = section(html, 'br-home-activities')
     activity_cards = re.findall(r'<a class="brh-activity".*?</a>', activities, re.S)
     assert len(activity_cards) == 9
-    rest = ''.join(activity_cards[3:]).replace('<span aria-hidden="true">↗</span>',
+    other_activities = [card for card in activity_cards[3:] if '#baggi' not in card]
+    assert len(other_activities) == 5
+    rest = ''.join(other_activities).replace('<span aria-hidden="true">↗</span>',
                                              '<span aria-hidden="true">↗︎</span>')
     # Use the winter photograph that shows Chalet's hot tub.
     rest = re.sub(
@@ -153,15 +159,18 @@ def apply(html, prefix):
     )
     featured = ''.join(activity_cards[:3]).replace('href="#br-home-spa"',
                                                   f'href="{prefix}/spa/"', 1)
+    featured = featured.replace('winter-selector-spa-lounge.webp', 'spa-open-pool-20261125.webp', 1)
     compact_activities = (
         '<section id="br-home-activities" class="brh brh-section br-review-activities" '
         'aria-labelledby="br-home-activities-title"><div class="brh-section__heading">'
         '<h2 id="br-home-activities-title">Отдых за пределами дома</h2>'
-        f'<a class="brh-link" href="{prefix}/aktivnosti-v-beryozovoj-roshhe/">Все занятия →</a></div>'
+        '<div class="br-review-activity-actions">'
+        '<button class="br-review-activities-toggle" type="button" aria-expanded="false" '
+        'aria-controls="br-other-activities">Другой досуг <span aria-hidden="true">+</span></button>'
+        f'<a class="brh-link" href="{prefix}/aktivnosti-v-beryozovoj-roshhe/">Все занятия →</a></div></div>'
         '<div class="brh-activities__track br-review-featured">' + featured + '</div>'
-        '<details class="br-review-more-activities"><summary>Бани, прогулки и другие занятия'
-        '<span aria-hidden="true">+</span></summary><div class="brh-activities__track">'
-        + rest + '</div></details></section>'
+        '<div class="brh-activities__track" id="br-other-activities" hidden>'
+        + rest + '</div></section>'
     )
     wrapped = r'<div class="brh-wide-bg">\s*' + re.escape(activities) + r'\s*</div>'
     html, count = re.subn(wrapped, '', html, count=1)

@@ -61,6 +61,6 @@
   }
 
   for (const contact of document.querySelectorAll('.br-family-contact')) {
-    contact.replaceWith(contactOptions('Семейный праздник'));
+    contact.replaceWith(contactOptions('Детский день рождения'));
   }
 })();

@@ -20,9 +20,9 @@ def apply(html, route, prefix):
         photographs = (
             (r'<article data-br-category="couple">', "br-date-evening.webp", "Свидание года"),
             (r'<article data-br-category="relax">(?=<h3>Полная)', "winter-selector-spa-lounge.webp", "Полная перезагрузка"),
-            (r'<article data-br-category="relax">(?=<h3>Банный)', "drive-samovar.webp", "Банный отдых с самоваром"),
-            (r'<article>(?=<h3>В берёзовом)', "drive-samovar.webp", "Самовар и чай в бане"),
-            (r'<article>(?=<h3>Баня по-русски)', "bath-program-photo.webp", "Банный отдых"),
+            (r'<article data-br-category="relax">(?=<h3>Банный)', "winter-samovar-program.webp", "Самовар, сушки, мёд и орехи в комнате отдыха при бане"),
+            (r'<article>(?=<h3>В берёзовом)', "winter-samovar-program.webp", "Самовар, сушки, мёд и орехи в комнате отдыха при бане"),
+            (r'<article>(?=<h3>Баня по-русски)', "bath-guide.webp", "Деревянная парная"),
         )
         for pattern, photo, title in photographs:
             html, count = re.subn(

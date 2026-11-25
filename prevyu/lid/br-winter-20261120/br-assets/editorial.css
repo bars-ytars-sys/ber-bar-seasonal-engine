@@ -1,22 +1,20 @@
 /* BR review variant requested by the owner: quiet type and complete photo cards. */
-@font-face { font-family: BRManrope; src: url('./Manrope-Regular.woff') format('woff'); font-weight: 400 500; font-display: swap; }
-@font-face { font-family: BRManrope; src: url('./Manrope-Semibold.woff') format('woff'); font-weight: 600 800; font-display: swap; }
-.br-editorial { --br-forest: #174d40; --br-ink: #252d2a; color: var(--br-ink); background: #fff; font: 400 16px/1.55 BRManrope,Arial,sans-serif; padding: clamp(40px,5vw,76px) 0; scroll-margin-top: 100px; }
+.br-editorial { --br-forest: #174d40; --br-ink: #252d2a; color: var(--br-ink); background: #fff; font: 400 16px/1.55 var(--br-text-font); padding: clamp(40px,5vw,76px) 0; scroll-margin-top: 100px; }
 .br-editorial, .br-editorial * { box-sizing: border-box; }
 .br-editorial { background: #fff !important; }
 .br-editorial + .br-editorial { padding-top: 12px; }
 .br-editorial-width { max-width: 1320px; margin: 0 auto; padding: 0 clamp(20px,4vw,56px); }
 .br-editorial-heading { margin-bottom: clamp(22px,3vw,34px); }
-.br-editorial h2 { margin: 0; max-width: 26ch; font: 500 clamp(28px,3.1vw,42px)/1.22 BRManrope,Arial,sans-serif; text-transform: none; letter-spacing: -.04em; text-wrap: balance; }
+.br-editorial h2 { margin: 0; max-width: 26ch; font: 700 clamp(28px,3.1vw,42px)/1.22 var(--br-title-font); text-transform: none; letter-spacing: -.04em; text-wrap: balance; }
 .br-editorial-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 28px; }
 .br-editorial-card { display: flex; flex-direction: column; min-width: 0; }
 .br-editorial-photo { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 10px; background: #edf1ee; }
 .br-editorial-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .br-editorial-copy { display: flex; align-items: flex-start; flex: 1; flex-direction: column; gap: 12px; padding-top: 20px; }
-.br-editorial h3 { margin: 0; font: 600 clamp(20px,1.8vw,24px)/1.3 BRManrope,Arial,sans-serif; text-transform: none; letter-spacing: -.025em; }
+.br-editorial h3 { margin: 0; font: 700 clamp(20px,1.8vw,24px)/1.3 var(--br-title-font); text-transform: none; letter-spacing: -.025em; }
 .br-editorial p { margin: 0; color: #5c6560; font: inherit; }
-.br-editorial strong { margin: auto 0 0; padding-top: 4px; font: 600 20px/1.3 BRManrope,Arial,sans-serif; color: var(--br-ink); }
-.br-editorial .br-nov-button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; margin: 4px 0 0; padding: 12px 20px; background: var(--br-forest); border: 0; border-radius: 7px; box-shadow: none; text-transform: none; color: #fff !important; font: 600 15px/1.35 BRManrope,Arial,sans-serif; text-decoration: none; }
+.br-editorial strong { margin: auto 0 0; padding-top: 4px; font: 600 20px/1.3 var(--br-text-font); color: var(--br-ink); }
+.br-editorial .br-nov-button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; margin: 4px 0 0; padding: 12px 20px; background: var(--br-forest); border: 0; border-radius: 7px; box-shadow: none; text-transform: none; color: #fff !important; font: 700 15px/1.35 var(--br-title-font); text-decoration: none; }
 .br-editorial .br-nov-button:hover { background: #236351; }
 .br-editorial .br-nov-button:focus-visible { outline: 3px solid #2ed8a3; outline-offset: 3px; }
 .br-editorial--prazdniki .br-editorial-grid { row-gap: 36px; }

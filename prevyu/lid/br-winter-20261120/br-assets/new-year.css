@@ -1,4 +1,7 @@
 #allrecords.t-records {
+  max-width: 100%;
+  /* Native zero blocks can extend past the viewport before Tilda sizes them. */
+  overflow-x: clip;
   opacity: 1;
   transition: none;
 }

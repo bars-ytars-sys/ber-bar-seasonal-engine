@@ -23,13 +23,13 @@ HOME_EXTERIOR = re.compile(r'<button\b(?=[^>]*\baria-label="(?:Внешний в
 HOME_PHOTO_CHOICES = re.compile(r'(<div class="brh-house__photos"[^>]*>)(.*?)(</div>)', re.S)
 HOME_CARD_ACTIONS = re.compile(r'<a class="brh-house__button"[^>]*>.*?</a>\s*<a class="brh-house-details"[^>]*>.*?</a>', re.S)
 HOLIDAY_PHOTOS = "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/new-year-20261105/"
-SPA_POOL_DAY = "winter-spa-pool-steam.webp"
+SPA_POOL_OUTDOOR = "winter-spa-pool-outdoor.webp"
 # IMG_2950_2_2.jpg from the supplied SPA folder shows the sheltered pool entrance.
 SPA_POOL_CARD = "winter-spa-pool-access.webp"
 SPA_WINDOW_LOUNGE = "winter-spa-window-lounge.webp"
 WINTER_HORSE = "family-ponies.webp"
 SPA_HOME_SLIDES = {
-    "tild3065-3831-4739-b664-343066326331": (SPA_POOL_DAY, "Пар над открытым бассейном SPA"),
+    "tild3065-3831-4739-b664-343066326331": (SPA_POOL_OUTDOOR, "Открытый бассейн SPA зимой"),
     "tild6232-3763-4434-a331-643431306162": (SPA_WINDOW_LOUNGE, "Зона отдыха SPA с видом на зимний бассейн"),
 }
 OMITTED_SPA_SLIDES = {"tild6538-3461-4165-a666-363832663861", "tild3532-6232-4238-a462-306339376632"}
@@ -64,7 +64,7 @@ SEASONAL_PHOTOS = {
     "tild6330-3133-4062-a262-616263626665": "hero-winter-spa-hq.webp",
     "tild6339-6561-4130-b464-646463313361": "hero-winter-spa-hq.webp",
     "tild3664-3965-4431-a537-396337656361": "hero-winter-spa-hq.webp",
-    "tild6139-3532-4136-a431-333736333265": SPA_POOL_DAY,
+    "tild6163-3931-4636-a662-363666353966": SPA_POOL_OUTDOOR,
     "tild3163-3639-4336-b865-653432633265": SPA_WINDOW_LOUNGE,
     "tild3766-3164-4638-a161-373538633736": "restaurant-set-menu-20261125.jpg",
     "tild3761-3162-4066-b435-326639616461": "winter-buggy.webp",
@@ -154,8 +154,7 @@ def winter_spa_gallery(record):
     item = re.compile(r'<div class="t979__grid-item [^"]*"[^>]*>.*?</div>', re.S)
     originals = list(item.finditer(record))
     spa_photos = {
-        "_pdf-image-005.webp": "Открытый подогреваемый бассейн зимой",
-        SPA_POOL_DAY: "Пар над открытым бассейном",
+        SPA_POOL_OUTDOOR: "Открытый подогреваемый бассейн зимой",
         "winter-spa-hero.webp": "Вход в бассейн из зоны SPA",
         SPA_WINDOW_LOUNGE: "Панорамная зона отдыха SPA",
         "2148000315_1jpg.webp": "Парная SPA-комплекса",

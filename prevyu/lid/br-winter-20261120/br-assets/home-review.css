@@ -68,7 +68,7 @@
 }
 
 /* Core facilities precede add-ons; all further activities remain expandable. */
-.br-review-activities .brh-activities__track.br-review-featured { grid-template-columns: 1.4fr 1fr 1fr; }
+.br-review-activities .brh-activities__track.br-review-featured { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .br-review-more-activities { margin-top: 20px; }
 .br-review-more-activities > summary {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
@@ -111,9 +111,8 @@
   #br-home-start.br-review-hero .br-winter-benefits ul { justify-content: center; gap: 8px 15px; }
 }
 @media(max-width:700px) {
-  .br-review-activities .brh-activities__track.br-review-featured { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .br-review-activities .br-review-featured > a:first-child { grid-column: 1/-1; aspect-ratio: 1.9; }
-  .br-review-activities .br-review-featured > a:not(:first-child) { aspect-ratio: 1.4; }
+  .br-review-activities .brh-activities__track.br-review-featured { grid-template-columns: minmax(0, 1fr); }
+  .br-review-activities .br-review-featured > a { aspect-ratio: 2; }
   .br-review-more-activities > summary { font-size: 16px; }
   #br-home-map.br-review-map { padding-top: 30px; }
   .br-review-map summary > img { height: 220px; }

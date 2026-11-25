@@ -13,6 +13,7 @@ import review_changes
 import menu_layout
 import home_review
 import holiday_home
+import winter_site
 import hashlib
 
 HERE = Path(__file__).resolve().parent
@@ -145,6 +146,74 @@ def stamp_assets(html):
     return pattern.sub(version, html)
 
 
+WARM_PHOTOS = {
+    "winter-house-house-2-2.webp": "house-2-warm.webp",
+    "winter-barn-2.webp": "barn-2-warm.webp",
+    "winter-bariloche.webp": "bariloche-warm.webp",
+}
+
+
+def catalog_houses_first(html):
+    cover_photos = {
+        "winter-panorama.webp": "hero-panorama-warm.webp",
+        "br-guest/assets/houses/house-2.webp": "house-2-warm.webp",
+    }
+    for source, cover in cover_photos.items():
+        html = re.sub(
+            rf'("image": ")[^"]*{re.escape(source)}"',
+            rf'\1{PREFIX}/br-assets/{cover}"', html, count=1,
+        )
+    html = re.sub(
+        r'("url": ")https://ecobr\.ru(/doma/[^"]+?)/?"',
+        rf'\1{PREFIX}\2/"', html,
+    )
+    houses_source = "const houses=D.houses,assetBase="
+    assert html.count(houses_source) == 1
+    html = html.replace(
+        houses_source,
+        'const coverOrder = ["panorama", "baus-1", "bariloche", "house-2"];\n'
+        '  const coverRank = id => coverOrder.includes(id) ? coverOrder.indexOf(id) : coverOrder.length;\n'
+        '  const houses = [...D.houses].sort((a, b) => coverRank(a.id) - coverRank(b.id)),assetBase=',
+        1,
+    )
+    start = '<div class="brp-search" role="search"'
+    end = '</div><div class="brp-results-head">'
+    assert html.count(start) == 1
+    before, search = html.split(start, 1)
+    filters, after = search.split(end, 1)
+    filter_start = '<div class="brp-scenarios"'
+    before, scenarios = before.split(filter_start, 1)
+    before = re.sub(
+        r'<p class="brp-eyebrow">.*?</p><h2 id="brp-title">.*?</h2><p class="brp-intro">.*?</p>',
+        '<h1 id="brp-title" class="br-winter-catalog-title">Каталог домов</h1>',
+        before, count=1,
+    )
+    disclosure = (
+        '<details class="br-winter-catalog-search"><summary>Подобрать по датам и гостям</summary>'
+        + filter_start + scenarios + start + filters + '</div></details>'
+    )
+    html = before + disclosure + '<div class="brp-results-head">' + after
+    directory = re.search(r'<section id="br-catalog-directory".*?</section>', html, re.S)[0]
+    html = html.replace(directory, '', 1)
+    marker = '    target.before(section);'
+    assert html.count(marker) == 1
+    html = html.replace(
+        marker,
+        marker + '\n    section.after(document.getElementById("br-catalog-directory"));',
+        1,
+    )
+    html = html.replace('</body>', directory + '</body>', 1)
+    html = re.sub(
+        r'<h1([^>]*>Каталог домов в Берёзовой роще)</h1>',
+        r'<p\1</p>', html, count=1,
+    )
+    return html.replace(
+        "</head>",
+        f'<link rel="stylesheet" href="{PREFIX}/br-assets/catalog-houses-first.css"></head>',
+        1,
+    )
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, required=True, help="Document root of the local preview server")
@@ -153,6 +222,7 @@ def main():
     output.mkdir(parents=True, exist_ok=True)
     pages.PREFIX = PREFIX
     pages.ASSET_ROOT = PREFIX + "/br-assets"
+    winter_site.validate_assets(HERE / "assets")
     files = (HERE / "assets").glob("winter-*.webp")
     approved = {file.stem[7:] for file in files}
     shutil.copytree(pages.HERE / "assets", output / "br-assets", dirs_exist_ok=True)
@@ -166,18 +236,35 @@ def main():
         canonical_pattern = r'<link\b[^>]*\brel=["\']canonical["\'][^>]*>'
         canonical = re.search(canonical_pattern, original_pages.read_original(route), re.I)[0]
         html = re.sub(canonical_pattern, lambda _: canonical, html, count=1, flags=re.I)
-        html = rewrite_photos(html, approved)
+        if route.startswith("/doma/"):
+            html = winter_site.house_page(html, route.rsplit("/", 1)[1], PREFIX)
+        if route != "/mayskiye2026":
+            html = winter_site.replace_outside_summer_archive(html, lambda fragment: rewrite_photos(fragment, approved))
         html = review_changes.apply(html, route, PREFIX)
         if route == "/aktivnosti-v-beryozovoj-roshhe":
             html = family_component.replace_family(html, pages, PREFIX)
         if route == "/deti":
             html = family_component.replace_standalone(html)
+            html = html.replace(
+                "</body>",
+                f'<script src="{PREFIX}/br-assets/deti-callback.js" defer></script></body>',
+                1,
+            )
         if route in ("/deti", "/aktivnosti-v-beryozovoj-roshhe"):
             html = html.replace("</body>", f'<script src="{PREFIX}/br-assets/family-gallery.js" defer></script></body>', 1)
         if route == "/doma":
+            html = catalog_houses_first(html)
+            html = winter_site.catalogue_covers(html, PREFIX)
             html = html.replace(
                 "new URL(h.image,assetBase)",
                 "new URL(h.image,h.image.startsWith('/') ? location.origin : assetBase)",
+            )
+        if route in ("/", "/deti") or route.startswith("/vip-programmy"):
+            html = html.replace(
+                "</head>",
+                f'<link rel="stylesheet" href="{PREFIX}/br-assets/program-contact.css">'
+                f'<script src="{PREFIX}/br-assets/program-contact.js" defer></script></head>',
+                1,
             )
         css_link = f'<link rel="stylesheet" href="{PREFIX}/br-assets/winter.css">'
         html = html.replace("</head>", css_link + "</head>", 1)
@@ -190,7 +277,7 @@ def main():
             home_events = home_review.section(html, "prazdniki")
             html = re.sub(r'<nav class="br-nov-trust"[^>]*>.*?</nav>', "", html, count=1, flags=re.S)
             benefits = f"""
-<aside id="br-home-benefits" class="br-winter-benefits" aria-label="Награда и условия отдыха">
+<aside id="br-home-benefits" class="br-winter-benefits" aria-label="Оплата частями и награда Яндекса">
   <ul>
     <li><a href="https://yandex.ru/maps/org/beryozovaya_roshcha/91160063546/" aria-label="«Хорошее место» Яндекса 5 лет подряд">
       <span class="br-winter-benefits__award"><img src="{PREFIX}/br-assets/brand-yandex.svg" alt="" width="24" height="24"></span>
@@ -201,10 +288,6 @@ def main():
       <span class="br-winter-benefits__split"><img src="{PREFIX}/br-assets/brand-split.svg" alt="Яндекс Сплит" width="78" height="21"></span>
       <span class="br-winter-benefits__full">Оплата частями</span>
     </a></li>
-    <li>
-      <span class="br-winter-benefits__full">С животными можно</span>
-      <span class="br-winter-benefits__short">С питомцами</span>
-    </li>
   </ul>
 </aside>
 """
@@ -215,7 +298,17 @@ def main():
         result = home_review.apply(html, PREFIX) if route == "/" else html
         if route == "/vip-programmy":
             result = home_review.add_events_to_programs(result, home_events, PREFIX)
-        (folder / "index.html").write_text(stamp_assets(result))
+        for source, warm in WARM_PHOTOS.items():
+            result = result.replace(f"{PREFIX}/br-assets/{source}", f"{PREFIX}/br-assets/{warm}")
+        homepage = holiday_home.render(result, PREFIX, "brand") if route == "/" else result
+        page = winter_site.apply(homepage, route, PREFIX)
+        if route == "/new-year":
+            holiday_source = HERE.parents[1] / "demo/assets/new-year-20261105"
+            holiday_output = output / "br-assets/holiday"
+            holiday_output.mkdir(exist_ok=True)
+            for filename in sorted(set(re.findall(r'/br-assets/holiday/(br-[a-z-]+\.webp)', page))):
+                shutil.copyfile(holiday_source / filename, holiday_output / filename)
+        (folder / "index.html").write_text(stamp_assets(page))
         if route == "/":
             versions = {
                 "version-1": layout_variant.render_tabs,
@@ -226,11 +319,11 @@ def main():
             for name, renderer in versions.items():
                 variant = output / name
                 variant.mkdir(exist_ok=True)
-                (variant / "index.html").write_text(stamp_assets(renderer(html, PREFIX)))
+                (variant / "index.html").write_text(stamp_assets(winter_site.apply(renderer(html, PREFIX), route, PREFIX)))
             for name, layout in holiday_home.VERSIONS.items():
                 variant = output / name
                 variant.mkdir(exist_ok=True)
-                (variant / "index.html").write_text(stamp_assets(holiday_home.render(result, PREFIX, layout)))
+                (variant / "index.html").write_text(stamp_assets(winter_site.apply(holiday_home.render(result, PREFIX, layout), route, PREFIX)))
     print(f"{len(pages.ROUTES)} pages, {len(approved)} winter photos · {output}")
 
 if __name__ == "__main__":

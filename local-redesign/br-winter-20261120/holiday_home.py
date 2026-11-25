@@ -1,4 +1,4 @@
-"""Three winter homepage layouts that share links and content with the BR demo."""
+"""Render the winter homepage with three treatments of the same panorama."""
 import re
 
 from home_review import section
@@ -6,54 +6,63 @@ from home_review import section
 
 VERSIONS = {
     "ny-photo": "photo",
-    "ny-light": "light",
-    "ny-card": "card",
+    "ny-light": "brand",
+    "ny-card": "houses",
 }
 
 
 def render(html, prefix, layout):
     before = section(html, "br-home-start")
-    hero = before.replace("br-review-hero", f"br-review-hero br-ny-hero br-ny-hero--{layout}", 1)
-    hero, title_count = re.subn(
-        r'(<h1 id="br-home-title" class="brx__h1">).*?</h1>',
-        r'\1Зима в «Берёзовой роще»</h1>',
-        hero, count=1, flags=re.S,
+    opening = before[:before.index(">") + 1].replace(
+        "br-review-hero", f"br-winter-hero br-winter-hero--{layout}", 1,
     )
-    assert title_count == 1
-    hero = hero.replace(
-        '<h2 class="brx__sub">22 дома. В 40 минутах от Москвы.</h2>',
-        '<p class="brx__sub">Дома и SPA в 40 минутах от Москвы.</p>',
-        1,
-    )
-    hero = hero.replace(
+    slides = re.search(r'<div class="brx__slides">.*?</picture></div>', before, re.S)[0]
+    panorama = "hero-panorama-garland.webp" if layout == "brand" else "hero-panorama-warm.webp"
+    slides = slides.replace("hero-winter-panorama-hq.webp", panorama)
+    slides = slides.replace(
         "</picture></div>",
-        '</picture><div class="br-winter-snow" aria-hidden="true"></div></div>',
+        '</picture><div class="br-winter-hero__snow br-winter-snow" aria-hidden="true"></div></div>',
         1,
     )
-    holiday_link = (
-        f'<a class="br-ny-hero__holiday" href="{prefix}/new-year/">'
-        '<span aria-hidden="true">❄︎</span> Новый год</a>'
-    )
+    booking = '<a class="brx__cta" href="#br-home-booking">Проверить даты и цены</a>'
     help_link = '<a class="brx__ghost" href="#zayavka">Помочь выбрать дом</a>'
-    assert hero.count(help_link) == 1
-    hero = hero.replace(help_link, holiday_link, 1)
-    hero = hero.replace(">Проверить даты и цены</a>", ">Проверить даты</a>", 1)
-    benefits = re.search(r'<aside id="br-home-benefits".*?</aside>', hero, re.S)[0]
-    pets = re.search(r'\s*<li>\s*<span class="br-winter-benefits__full">С животными можно</span>.*?</li>', benefits, re.S)[0]
+    houses_link = '<a class="brx__cta" href="#br-home-houses">Смотреть дома</a>'
+    if layout == "brand":
+        copy = (
+            re.search(r'<h1\b.*?</h1>', before, re.S)[0]
+            + '<p class="brx__script">Ради нас берут выходной</p>'
+            + '<p class="brx__sub">Зимний отдых в 40 минутах от Москвы. 22 дома, SPA с бассейном, ресторан и ферма.</p>'
+        )
+        actions = booking + help_link
+    else:
+        copy = (
+            '<h1 id="br-home-title" class="brx__h1">Зима в «Берёзовой роще»</h1>'
+            '<p class="brx__sub">Дома и SPA в 40 минутах от Москвы.</p>'
+        )
+        if layout == "houses":
+            actions = houses_link + booking.replace("brx__cta", "brx__ghost")
+        else:
+            actions = booking + f'<a class="brx__ghost" href="{prefix}/new-year/">Новый год</a>'
+
+    benefits = re.search(r'<aside id="br-home-benefits".*?</aside>', before, re.S)[0]
     award, split = re.findall(r'<li><a\b.*?</li>', benefits, re.S)
-    brands = benefits.replace(pets, "", 1).replace(
-        'aria-label="Награда и условия отдыха"', 'aria-label="Оплата частями и награда Яндекса"', 1,
+    benefits = re.sub(r'<ul>.*?</ul>', lambda _: f"<ul>{split}{award}</ul>", benefits, count=1, flags=re.S)
+    hero = (
+        opening + slides + '<div class="brx__copy">'
+        '<div class="br-winter-hero__intro">' + copy + '</div>'
+        '<div class="br-winter-hero__footer"><div class="brx__row">' + actions + '</div>'
+        + benefits + '</div></div></section>'
     )
-    brands = re.sub(r'<ul>.*?</ul>', lambda _: f"<ul>{split}{award}</ul>", brands, count=1, flags=re.S)
-    actions_end = holiday_link + "</div></div>"
-    assert hero.count(actions_end) == 1
-    hero = hero.replace(benefits, "", 1).replace(actions_end, holiday_link + "</div>" + brands + "</div>", 1)
-    html = html.replace('<div class="br-winter-snow" aria-hidden="true"></div>' + before, hero, 1)
-    assert html.count('class="br-winter-snow"') == 1 and before not in html
-    booking = section(html, "br-home-booking")
-    help_link = help_link.replace('class="brx__ghost"', 'class="brh-link br-ny-booking-help"')
-    pets_note = '<aside class="br-winter-benefits" aria-label="Условия отдыха"><ul>' + pets + "</ul></aside>"
-    html = html.replace(booking, booking.replace("</section>", help_link + "</section>", 1) + pets_note, 1)
+    standalone_snow = '<div class="br-winter-snow" aria-hidden="true"></div>'
+    html = html.replace(standalone_snow + before, hero, 1)
+    assert before not in html
+
+    if layout == "houses":
+        booking_section = section(html, "br-home-booking")
+        houses_section = section(html, "br-home-houses")
+        html = html.replace(booking_section, "", 1)
+        html = html.replace(houses_section, houses_section + booking_section, 1)
+
     return html.replace(
         "</head>",
         f'<link rel="stylesheet" href="{prefix}/br-assets/holiday-home.css"></head>',

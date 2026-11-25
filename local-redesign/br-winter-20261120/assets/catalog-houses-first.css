@@ -1,0 +1,21 @@
+/* Compact catalog entry. The house grid stays visible before dates are chosen. */
+#rec2121966071:has(~ #rec2037067891) { padding-top: clamp(58px, 6vw, 88px) !important; }
+#rec1737953811:has(~ #rec2037067891),
+#rec2037071111:has(~ #rec2037067891) { display: none !important; }
+.brp:has(.br-winter-catalog-title) { padding-block-start: clamp(18px, 3vw, 38px); }
+.br-winter-catalog-title {
+  margin: 0;
+  font: 700 clamp(26px, 3vw, 43px)/1.12 DespairDisplay, TildaSans, sans-serif;
+}
+.br-winter-catalog-search[open] > summary { margin-bottom: 12px; }
+.br-winter-catalog-search { margin-block: 12px 18px; }
+.br-winter-catalog-search > summary {
+  width: fit-content;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid #a8c7ba;
+  border-radius: 9px;
+  color: #154e3e;
+  cursor: pointer;
+  font-weight: 600;
+}

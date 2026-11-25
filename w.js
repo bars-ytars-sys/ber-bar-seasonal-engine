@@ -272,3 +272,14 @@ if (location.hostname === "ecobr.ru") {
     start();
   }
 })();
+
+
+(() => {
+  const home = document.querySelector('#allrecords[data-tilda-project-id="4027012"][data-tilda-page-id="103448346"]');
+  const record = home?.querySelector('#rec4153838101');
+  const oldStories = record?.querySelector('#st:has([data-s="baggi"])');
+  if (location.hostname !== 'ecobr.ru' || !oldStories) return;
+  const loader = document.createElement('script');
+  loader.src = 'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/br-assets/winter-stories-20261125.js?v=2';
+  oldStories.after(loader);
+})();

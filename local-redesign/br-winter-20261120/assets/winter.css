@@ -531,7 +531,9 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
   [src*="house-winter-aframe-black.webp"],
   [src*="house-winter-aframe-neo.webp"],
   [src*="house-winter-house-1.webp"],
-  [src*="house-winter-house-3.webp"]
+  [src*="house-winter-house-3.webp"],
+  [src*="house-winter-baus-1.webp"],
+  [src*="house-winter-sfera-exterior.webp"]
 ) { filter: saturate(.88) brightness(1.04); }
 #allrecords .нг-бр .holiday-periods {
   background: linear-gradient(135deg, #edf5ee, #f8f3e8 90%);
@@ -547,9 +549,9 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
   text-transform: uppercase;
 }
 #allrecords .нг-бр .holiday-card__program summary { min-height: var(--br-button-min-height); }
-.br-new-year-perk {
-  margin: -6px 0 18px;
-  padding: 10px 13px;
+#allrecords .нг-бр .holiday-card .br-new-year-perk {
+  margin: 0 0 14px;
+  padding: 9px 12px;
   border-left: 3px solid #ba8b4e;
   border-radius: 3px 8px 8px 3px;
   background: #fbf0dd;
@@ -568,6 +570,7 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
   grid-template-columns: repeat(2, minmax(0, 1fr));
   width: min(100% - 28px, 980px);
   max-width: 980px;
+  align-items: start;
   gap: 18px;
 }
 #allrecords .to-grid:has(.br-weekday-offer) .to-card { width: auto; }
@@ -585,13 +588,20 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
 }
 #allrecords .to-grid:has(.br-weekday-offer) :is(.to-t,.to-btn) { font-family: var(--br-title-font); }
 #allrecords .to-grid:has(.br-weekday-offer) :is(.to-d,.to-hl,.to-terms) { font-family: var(--br-text-font); }
-#allrecords .to-grid:has(.br-weekday-offer) .to-btn {
-  min-height: var(--br-button-min-height);
-  padding-inline: 12px;
+#allrecords .to-grid:has(.br-weekday-offer) .to-body > .to-btn {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: var(--br-button-min-height) !important;
+  height: auto;
+  padding: 10px 14px !important;
   background: var(--br-button-background);
   color: var(--br-button-text) !important;
   border-color: transparent;
   font-size: 15px;
+  line-height: 1.23;
+  text-align: center;
 }
 #allrecords .br-weekday-offer .to-terms { margin: 0 0 15px; font-size: 14px; }
 @media (max-width: 680px) {
@@ -605,9 +615,57 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
   font-family: var(--br-title-font);
 }
 
-#allrecords .brh-house__button {
+#allrecords .brh-house__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 13px;
+  margin-top: 11px;
+}
+#allrecords .brh-house__actions .brh-house__button {
+  margin: 0;
   font-size: 15px;
   line-height: 1.2;
   background: var(--br-button-background);
   color: var(--br-button-text) !important;
+}
+#allrecords .brh-house__actions .brh-house-details { margin: 0; }
+
+
+#allrecords .br-winter-holiday h2 { text-transform: uppercase; }
+#allrecords .br-winter-holiday__perk {
+  margin-top: -6px;
+  color: #205a48;
+  font-weight: 650;
+}
+#allrecords .br-new-year-links {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 12px;
+  width: min(100% - 32px, 1160px);
+  margin: 16px auto 10px;
+}
+#allrecords .br-new-year-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--br-button-min-height);
+  padding: 8px 15px;
+  border: 1px solid #c2d8cd;
+  border-radius: var(--br-button-radius);
+  background: #f8fcfa;
+  color: #164b3b !important;
+  font: 650 15px/1.2 var(--br-text-font);
+  text-align: center;
+}
+#allrecords .br-new-year-links a:hover { background: #e7f7ef; }
+@media (max-width: 540px) {
+  #allrecords .br-new-year-links { justify-content: flex-start; }
+  #allrecords .br-new-year-links a { padding-inline: 12px; }
+}
+
+#allrecords .нг-бр .holiday-card__photo[src*="winter-new-year-scandi.webp"] {
+  object-position: 50% 44% !important;
 }

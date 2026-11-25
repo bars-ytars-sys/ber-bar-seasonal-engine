@@ -15,6 +15,7 @@ import home_review
 import holiday_home
 import winter_routes
 import winter_site
+import performance
 import hashlib
 
 HERE = Path(__file__).resolve().parent
@@ -136,7 +137,7 @@ def stamp_assets(html):
         f'href="{PREFIX}/#prazdniki">Праздники и мероприятия</a>',
         f'href="{PREFIX}/vip-programmy/#prazdniki">Праздники и мероприятия</a>',
     )
-    html = menu_layout.apply(html, PREFIX)
+    html = performance.optimize(menu_layout.apply(html, PREFIX), PREFIX)
     pattern = re.compile(r'(<(?:link|script)\b[^>]*?(?:href|src)=["\'])(' + re.escape(PREFIX) + r'/br-assets/([^"\'?]+\.(?:css|js)))(?:\?[^"\']*)?(["\'])', re.I)
     def version(match):
         filename = match[3]

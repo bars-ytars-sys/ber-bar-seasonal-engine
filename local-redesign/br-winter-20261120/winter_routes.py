@@ -40,7 +40,7 @@ TOOLTIP = re.compile(
 SOCIAL_ASSETS = {
     "/": "hero-panorama-garland.webp",
     "/doma": "hero-panorama-garland.webp",
-    "/new-year": "hero-panorama-garland.webp",
+    "/new-year": "winter-new-year-welcome.webp",
     "/spa": "spa-open-pool-20261125.webp",
     "/deti": "winter-playground.webp",
     "/glamping": "winter-glamping.webp",
@@ -124,10 +124,11 @@ def winter_activities(prefix):
 def holiday_banner(prefix):
     return (
         '<section class="br-winter-route br-winter-holiday" aria-labelledby="br-winter-holiday-title">'
-        f'<img src="{prefix}/br-assets/winter-new-year-scandi.webp" alt="Новогодние огни у дома Сканди" '
+        f'<img src="{prefix}/br-assets/winter-new-year-living-room.webp" alt="Новогодняя ёлка в гостиной «Берёзовой рощи»" '
         'loading="lazy" decoding="async">'
         '<div><h2 id="br-winter-holiday-title">Новый год и каникулы</h2>'
         '<p>Новогодний заезд с 31 декабря по 3 января. Январские каникулы — с 3 января.</p>'
+        '<p class="br-winter-holiday__perk">В новогодний заезд — лотерея и подарки в каждом доме.</p>'
         f'<a class="br-winter-primary" href="{prefix}/new-year/">Посмотреть заезды <span aria-hidden="true">→</span></a></div></section>'
     )
 
@@ -135,17 +136,19 @@ def holiday_banner(prefix):
 def revise_offers(html, prefix):
     certificate = '<article class="to-card" id="podarochnyy-sertifikat">'
     assert html.count(certificate) == 1
+    html = html.replace(f'<a class="to-btn" href="{prefix}/certificate/">',
+                        f'<a class="to-btn br-winter-primary" href="{prefix}/certificate/">', 1)
     html = html.replace(
         'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/certificates/br-baus-hot-tub-snow.webp',
         f'{prefix}/br-assets/house-winter-holidayhouse.webp',
     )
     html = html.replace(
         'Выберите номинал, оформление и добавьте своё поздравление.',
-        'Выберите номинал, фото и укажите имя получателя.',
+        'Выберите номинал, оформление под повод и укажите имя получателя.',
     )
     weekdays = f'''<article class="to-card br-weekday-offer" id="uyutnye-budni">
-      <div class="to-pic"><img src="{prefix}/br-assets/weekday-chan-br.webp"
-        alt="Банный чан на территории «Берёзовой рощи»" width="1024" height="1024" loading="lazy" decoding="async"></div>
+      <div class="to-pic"><img src="{prefix}/br-assets/winter-weekday-chan.webp"
+        alt="Банный чан «Берёзовой рощи» в зимний день" width="1024" height="1024" loading="lazy" decoding="async"></div>
       <div class="to-body">
         <h3 class="to-t">Уютные будни</h3>
         <p class="to-d">Встречаем зиму в тепле. Днём — прогулки среди заснеженных берёз, вечером — горячий чан под открытым небом и уют вашего дома. Приезжайте отдыхать — мы обо всём позаботимся.</p>
@@ -241,12 +244,25 @@ def apply(html, route, prefix, bath_programs=""):
     if route + "/" == ACTIVITIES:
         html = insert_before_record(html, "rec2863877701", winter_activities(prefix))
     if route == "/new-year":
+        photo = f'class="holiday-card__photo" src="{prefix}/br-assets/hero-panorama-garland.webp"'
+        assert html.count(photo) == 1
+        html = html.replace(photo, f'class="holiday-card__photo" src="{prefix}/br-assets/winter-new-year-welcome.webp"', 1)
+        html = html.replace('alt="Дом Панорама в «Берёзовой роще» зимой"', 'alt="Украшенный к Новому году вход в дом «Берёзовой рощи»"', 1)
         intro = "Новогодний заезд в загородный дом. Праздничный ужин можно заказать в ресторане.</p>"
         assert html.count(intro) == 1
         html = html.replace(
             intro,
-            intro + '<p class="br-new-year-perk">Новогодняя лотерея и подарки в каждом доме</p>',
+            'Встретьте Новый год в своём доме. Праздничный ужин можно заказать в ресторане.</p>'
+            '<p class="br-new-year-perk">Новогодняя лотерея и подарки в каждом доме</p>',
         )
+        program = '<section class="полоса" id="коротко"'
+        links = (
+            '<nav class="br-new-year-links" aria-label="Разделы новогодней страницы">'
+            '<a href="#holiday-periods">Даты заездов</a><a href="#коротко">Что ждёт гостей</a>'
+            '<a href="#дома">Выбрать дом</a><a href="#условия">Что входит</a><a href="#вопросы">Вопросы</a></nav>'
+        )
+        assert html.count(program) == 1
+        html = html.replace(program, links + program, 1)
     if route == "/special":
         html = insert_before_record(html, "rec1758798101", holiday_banner(prefix))
     if route == "/banchan":

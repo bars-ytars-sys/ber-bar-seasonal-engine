@@ -41,3 +41,104 @@
   outline: 2px solid #195b49;
   outline-offset: 3px;
 }
+
+/* Brand typography on the native pages and the sections embedded in them. */
+#allrecords h1.tn-atom {
+  font-family: var(--br-text-font) !important;
+}
+#allrecords #br-family-guide,
+#br-catalog-directory,
+#allrecords .нг-бр {
+  font-family: var(--br-text-font) !important;
+}
+#allrecords #br-family-guide :is(h2, h3, .bfg-button),
+.br-winter-catalog-search > summary,
+#allrecords .нг-бр :is(.кнопка, .бронь) {
+  font-family: var(--br-title-font);
+  font-weight: 700;
+}
+#allrecords #br-family-guide .bfg-house h3,
+#allrecords .нг-бр #дом-имя {
+  font-family: var(--br-text-font);
+  font-weight: 700;
+}
+.br-winter-catalog-search > summary {
+  min-height: var(--br-button-min-height);
+}
+
+@media (max-width: 639px) {
+  /* The SPA text needs to wrap at the card width, including its conditions list. */
+  #rec1910654621 {
+    --zoom: 1 !important;
+    padding-inline: 14px;
+  }
+  #rec1910654621 .t396 .t396__artboard {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0;
+    margin: 8px auto !important;
+    padding: clamp(16px, 5vw, 28px);
+    border: 1px solid #dcebe4;
+    border-radius: 16px;
+    background: #f3f8f6;
+  }
+  #rec1910654621 :is(.t396__carrier, .t396__filter, [data-elem-type="shape"]) {
+    display: none !important;
+  }
+  #rec1910654621 :is(.t396__group, .tn-molecule, .t396__elem[data-elem-type="text"]) {
+    display: block !important;
+    position: static !important;
+    zoom: 1 !important;
+    transform: none !important;
+    width: auto !important;
+    min-width: 0;
+    height: auto !important;
+    margin: 0;
+  }
+  #rec1910654621 [data-group-id="1770925176093000007"] { grid-row: 1; }
+  #rec1910654621 [data-group-id="1770923709820000028"] { grid-row: 2; }
+  #rec1910654621 [data-group-id="1770925081554000004"] { grid-row: 3; }
+  #rec1910654621 .t396__elem[data-elem-type="text"] .tn-atom {
+    display: block;
+    width: auto !important;
+    font: 400 clamp(16px, 3.5vw, 19px)/1.45 var(--br-text-font) !important;
+    white-space: normal !important;
+  }
+  #rec1910654621 .t396__elem:is(
+    [data-elem-id="1770925176093000009"],
+    [data-elem-id="1770923709820000030"],
+    [data-elem-id="1770925081554000006"]
+  ) .tn-atom {
+    margin-block-end: 8px;
+    font: 700 clamp(19px, 4.2vw, 24px)/1.2 var(--br-title-font) !important;
+    text-align: left;
+  }
+  #rec1910654621 [data-elem-id="1770925081554000005"] ul { padding-inline-start: 18px; }
+  #rec1910654621 [data-elem-id="1770925081554000005"] li + li { margin-block-start: 6px; }
+}
+
+@media (max-width: 479px) {
+  #rec1750245051 { padding-top: 12px !important; }
+  #rec1750245051 [data-elem-id="1766345915826000002"] {
+    left: 12.5% !important;
+    width: 78% !important;
+  }
+  #allrecords .t396__elem[data-elem-id="1766524506640000009"] .tn-atom {
+    font-size: clamp(13px, 3.6vw, 15px) !important;
+  }
+  #allrecords .нг-бр :is(.спа__текст, .спа__цены) { min-width: 0; }
+  #allrecords .нг-бр .спа__цены {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-inline: clamp(8px, 3vw, 16px);
+  }
+  #allrecords .нг-бр .спа__цена {
+    min-width: 0;
+    padding-inline: 4px;
+  }
+  #allrecords .нг-бр .спа__цена b { font-size: clamp(15px, 4.7vw, 20px); }
+  #allrecords .нг-бр .спа__цена span { overflow-wrap: anywhere; }
+}

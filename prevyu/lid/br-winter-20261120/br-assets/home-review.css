@@ -68,6 +68,21 @@
 }
 
 /* Core facilities precede add-ons; all further activities remain expandable. */
+.br-review-activities > .brh-section__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+}
+.br-review-activities > .brh-section__heading h2 { margin: 0; }
+@media (max-width: 639px) {
+  .br-review-activities > .brh-section__heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+}
 .br-review-activities .brh-activities__track.br-review-featured { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .br-review-activity-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 18px; }
 .br-review-activities-toggle {

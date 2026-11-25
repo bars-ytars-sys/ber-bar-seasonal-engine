@@ -1,4 +1,4 @@
-import {photos, photoUrl} from './photos.js';
+import {photos, photoUrl, photoThumbnailUrl} from './photos.js';
 
 const get = (id) => document.getElementById(id);
 const order = get('order');
@@ -22,7 +22,7 @@ for (const [id, title] of photos) {
   radio.checked = gallery.childElementCount === 0;
   const tile = document.createElement('span');
   const image = new Image(108, 72);
-  image.src = photoUrl(id);
+  image.src = photoThumbnailUrl(id);
   image.alt = '';
   image.loading = 'lazy';
   tile.append(image, title);

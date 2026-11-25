@@ -43,23 +43,26 @@
   "barn-2": {
     "record": "rec1736173061",
     "old": "tild3735-6230-4638-a366-636333623466",
-    "asset": "house-winter-barn-2.webp"
+    "asset": "house-winter-barn-2.webp",
+    "source": "https://disk.yandex.ru/d/pCMrzXV-Bvskag/%D0%91%D0%B0%D0%B7%D1%8B%2019.12.2024%20%D0%B7%D0%B8%D0%BC%D0%BD%D0%B8%D0%B5%20/%D0%91%D0%A0%20%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%B3%D0%BE%D0%B4%202024-2025/Barnhouse%20-%20Vip-1/IMG_4188-HDR.jpg"
   },
   "barn-3": {
     "record": "rec1736344841",
     "old": "tild3939-3832-4362-b764-326539343134",
     "asset": "house-winter-barn-3.webp",
-    "source": "https://static.tildacdn.com/tild3634-3431-4836-b763-663862356561/image.png"
+    "source": "https://disk.yandex.ru/d/pCMrzXV-Bvskag/%D0%91%D0%B0%D0%B7%D1%8B%2019.12.2024%20%D0%B7%D0%B8%D0%BC%D0%BD%D0%B8%D0%B5%20/%D0%91%D0%A0%20%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%B3%D0%BE%D0%B4%202024-2025/Barnhouse%20-Vip-2/IMG_3951-HDR.jpg"
   },
   "barn-4": {
     "record": "rec1736114361",
     "old": "tild6161-3964-4133-b534-313434663431",
-    "asset": "house-winter-barn-4.webp"
+    "asset": "house-winter-barn-4.webp",
+    "source": "https://disk.yandex.ru/d/pCMrzXV-Bvskag/%D0%91%D0%B5%D1%80%D0%B5%D0%B7%D0%BE%D0%B2%D0%B0%D1%8F%20%D1%80%D0%BE%D1%89%D0%B0/%D0%97%D0%B8%D0%BC%D0%BD%D0%B8%D0%B5%20/%D0%AE%D0%BB%D0%B8%D1%8F%20%D1%84%D0%B5%D0%B2%D1%80%D0%B0%D0%BB%D1%8C%202026/Photo-savina-33.jpg"
   },
   "baus-1": {
     "record": "rec1736773861",
     "old": "tild3132-3334-4230-a436-333430373663",
-    "asset": "house-winter-baus-1.webp"
+    "asset": "house-winter-baus-1.webp",
+    "source": "https://disk.yandex.ru/d/pCMrzXV-Bvskag/%D0%91%D0%B0%D0%B7%D1%8B%2019.12.2024%20%D0%B7%D0%B8%D0%BC%D0%BD%D0%B8%D0%B5%20/%D0%91%D0%A0%20%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%B3%D0%BE%D0%B4%202024-2025/BR%20Baus%201/IMG_9654.jpg"
   },
   "baus-2": {
     "record": "rec1736907491",
@@ -80,7 +83,7 @@
     "record": "rec1750166871",
     "old": "tild6366-6338-4062-a266-336332663663",
     "asset": "house-winter-holidayhouse.webp",
-    "source": "https://static.tildacdn.com/tild3762-3231-4231-b164-366637616336/8a75ee79-d3cc-46b4-8.png"
+    "source": "https://disk.yandex.ru/d/pCMrzXV-Bvskag/%D0%91%D0%B5%D1%80%D0%B5%D0%B7%D0%BE%D0%B2%D0%B0%D1%8F%20%D1%80%D0%BE%D1%89%D0%B0/%D0%97%D0%B8%D0%BC%D0%BD%D0%B8%D0%B5%20/%D0%A5%D0%BE%D0%BB%D0%B8%D0%B4%D0%B5%D0%B9%20%D1%85%D0%B0%D1%83%D1%81/_MG_6903-HDR.jpg"
   },
   "house-1": {
     "record": "rec1734686561",
@@ -118,7 +121,7 @@
   "sfera": {
     "record": "rec1736626311",
     "old": "tild6131-6461-4135-a335-616537646361",
-    "asset": "house-winter-sfera.webp",
-    "source": "https://static.tildacdn.com/tild3962-6164-4364-b935-353664306232/photo_2026-05-18_23-.jpg"
+    "asset": "house-winter-sfera-exterior.webp",
+    "source": "https://disk.yandex.ru/d/pCMrzXV-Bvskag/%D0%91%D0%B5%D1%80%D0%B5%D0%B7%D0%BE%D0%B2%D0%B0%D1%8F%20%D1%80%D0%BE%D1%89%D0%B0/%D0%97%D0%B8%D0%BC%D0%BD%D0%B8%D0%B5%20/%D0%AE%D0%BB%D0%B8%D1%8F%20%D1%84%D0%B5%D0%B2%D1%80%D0%B0%D0%BB%D1%8C%202026/Photo-savina-51.jpg"
   }
 }

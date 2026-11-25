@@ -31,7 +31,7 @@
   max-width: 100%;
   margin: 0;
   color: #fff;
-  font: 700 clamp(32px, 3.45vw, 56px)/1.09 DespairDisplay, TildaSans, sans-serif;
+  font: 750 clamp(32px, 3.45vw, 56px)/1.09 var(--br-text-font);
   text-align: left;
   text-transform: uppercase;
   text-wrap: balance;
@@ -58,7 +58,7 @@
   min-height: 49px;
   padding: 8px clamp(16px, 2vw, 27px);
   border-radius: 999px;
-  font: 700 14px/1.2 TildaSans, Arial, sans-serif;
+  font: 700 14px/1.2 var(--br-title-font);
   letter-spacing: .045em;
   text-align: center;
   text-transform: uppercase;
@@ -106,7 +106,9 @@
   padding-top: clamp(68px, 13vh, 150px);
 }
 #br-home-start.br-winter-hero--brand::after {
-  background: linear-gradient(90deg, #142d24eb, #142d24a6 37%, #142d2448 61%, transparent 86%);
+  background:
+    linear-gradient(90deg, #10251fee, #10251fda 34%, #10251f9e 54%, #10251f24 75%, transparent 88%),
+    linear-gradient(0deg, #10251f70, transparent 40%);
 }
 #br-home-start.br-winter-hero--brand .brx__h1 small { color: #39e0ae; text-transform: uppercase; }
 #br-home-start.br-winter-hero--brand .brx__script {
@@ -116,6 +118,10 @@
   font: 400 clamp(30px, 4.4vw, 64px)/1.08 "Marck Script", Georgia, cursive;
   text-align: inherit;
   white-space: normal;
+}
+
+#br-home-start.br-winter-hero--brand .br-winter-hero__intro {
+  text-shadow: 0 2px 12px #071812b0;
 }
 
 /* Shorter first screen, with the house cards immediately ahead of booking. */
@@ -146,6 +152,9 @@ body.br-home-release #br-home-start.br-winter-hero--houses { min-height: clamp(4
   #br-home-start.br-winter-hero .brx__row a { min-height: 46px; padding-inline: 12px; font-size: clamp(11px, 3.15vw, 14px); }
   #br-home-start.br-winter-hero .brx__row .brx__ghost { background: #142d2480; }
   #br-home-start.br-winter-hero--brand > .brx__copy { padding-top: 24px; text-align: center; }
+  #br-home-start.br-winter-hero--brand::after {
+    background: linear-gradient(180deg, #0b1e18e0, #0b1e18cc 24%, #0b1e18b5 45%, #0b1e1870 64%, #0b1e1852 78%, #0b1e18b8 100%);
+  }
   #br-home-start.br-winter-hero--brand .brx__h1 { text-align: center; }
   #br-home-start.br-winter-hero--brand .brx__h1 small { margin-top: 8px; font-size: clamp(10px, 3vw, 14px); }
   #br-home-start.br-winter-hero--brand .brx__script { font-size: clamp(26px, 8.3vw, 44px); }
@@ -156,8 +165,11 @@ body.br-home-release #br-home-start.br-winter-hero--houses { min-height: clamp(4
 }
 
 @media (max-width: 639px) {
+  body.br-home-release #br-home-start.br-winter-hero--brand {
+    min-height: max(510px, var(--hero-base));
+  }
   body:has(.br-winter-hero--brand) #br-home-layout > .brh-quick-links {
-    margin-block-start: 24px;
+    margin-block-start: clamp(26px, 4.5svh, 42px);
   }
 }
 

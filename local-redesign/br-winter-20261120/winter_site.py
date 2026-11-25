@@ -19,7 +19,9 @@ SUMMER_ARCHIVE = re.compile(
 HOME_HOUSES = re.compile(r'<section\b(?=[^>]*\bid="br-home-houses")[^>]*>.*?</section>', re.S)
 HOME_HOUSE = re.compile(r'<article class="brh-card brh-house"[^>]*>.*?</article>', re.S)
 HOME_PHOTO = re.compile(r'<img\b[^>]*>')
-HOME_EXTERIOR = re.compile(r'<button\b(?=[^>]*\baria-label="Внешний вид")[^>]*>')
+HOME_EXTERIOR = re.compile(r'<button\b(?=[^>]*\baria-label="(?:Внешний вид|Фасад)")[^>]*>\s*</button>')
+HOME_PHOTO_CHOICES = re.compile(r'(<div class="brh-house__photos"[^>]*>)(.*?)(</div>)', re.S)
+HOME_CARD_ACTIONS = re.compile(r'<a class="brh-house__button"[^>]*>.*?</a>\s*<a class="brh-house-details"[^>]*>.*?</a>', re.S)
 HOLIDAY_PHOTOS = "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/new-year-20261105/"
 SUMMER_GALLERIES = {
     "bariloche": ("rec2411770091", {1, 2, 3, 20, 21, 22, 23, 24, 25}),
@@ -28,6 +30,9 @@ SUMMER_GALLERIES = {
     "scandi": ("rec1737080361", {1, 2, 11, 12, 13, 14, 15}),
 }
 SEASONAL_PHOTOS = {
+    "tild6162-6538-4165-a561-656533643362": "banya-hero-hq.webp",
+    "tild6234-6433-4562-a662-656638363335": "banya-hero-hq.webp",
+    "tild3037-3864-4139-a366-363534616231": "banya-hero-hq.webp",
     "tild6639-3861-4535-a534-336133643938": "winter-playground.webp",
     "tild3766-6464-4637-b865-346163633362": "winter-glamping.webp",
     "tild6362-3266-4330-b836-353861383930": "winter-glamping.webp",
@@ -79,7 +84,7 @@ SEASONAL_PHOTOS = {
     "tild3662-3666-4537-b639-353836353062": "winter-outdoor-spa.webp",
     **{media_id: info["asset"] for media_id, info in GALLERY_RETOUCH.items()},
     "tild3831-6631-4534-a630-383066633037": HOUSE_COVERS["barn-1"]["asset"],
-    "tild6261-3334-4038-b531-643962386566": HOUSE_COVERS["sfera"]["asset"],
+    "tild6261-3334-4038-b531-643962386566": "house-winter-sfera.webp",
 }
 
 def validate_assets(folder):
@@ -151,7 +156,7 @@ def render_gallery(record, slug, cover, interiors, summer_indices):
     summer = [original[index - 1] for index in sorted(summer_indices)]
     retained = [slide for index, slide in enumerate(original, 1) if index not in summer_indices]
     tagged = {slide_url(slide): slide for slide in retained}
-    primary = house_photo(cover, "Интерьер «Сферы»" if slug == "sfera" else "Дом зимой")
+    primary = house_photo(cover, "Фасад дома «Сфера» зимой" if slug == "sfera" else "Дом зимой")
     selected = [tagged.get(url) or house_photo(url, "Интерьер дома") for url in interiors]
     known = set(interiors) | {cover}
     first_url = slide_url(original[0])
@@ -199,7 +204,7 @@ def sfera_hero(record, record_id, cover, prefix):
       <ul aria-label="Удобства"><li>До 4 гостей</li><li>Баня</li><li>Банный чан</li></ul>
       <a class="br-winter-primary" href="{prefix}/booking/">Проверить даты</a>
     </div>
-    <img src="{cover}" width="1440" height="1068" alt="Интерьер «Сферы» со второго этажа, со свечами и видом на снег" fetchpriority="high">
+    <img src="{cover}" width="1500" height="1000" alt="Фасад купольного дома «Сфера» зимой" fetchpriority="high">
   </section>
 </div>''' + record[end:]
 
@@ -261,17 +266,18 @@ def home_covers(html, prefix):
                            f'src="{cover}"', image, count=1)
             return re.sub(r'\balt="[^"]*"', f'alt="{alt}"', image, count=1)
 
-        def rewrite_exterior(button):
-            button = button[0]
-            if slug != "barn-2":
-                button = button.replace('aria-pressed="false"', 'aria-pressed="true"')
+        def select_exterior(choices):
+            buttons = choices[2].replace('aria-pressed="true"', 'aria-pressed="false"')
+            exterior = HOME_EXTERIOR.search(buttons)
+            assert exterior, slug
+            button = exterior[0].replace('aria-pressed="false"', 'aria-pressed="true"')
             button = re.sub(r'\bdata-src="[^"]*"', f'data-src="{cover}"', button, count=1)
-            return re.sub(r'\bdata-alt="[^"]*"', f'data-alt="{alt}"', button, count=1)
+            button = re.sub(r'\bdata-alt="[^"]*"', f'data-alt="{alt}"', button, count=1)
+            return choices[1] + button + buttons[:exterior.start()] + buttons[exterior.end():] + choices[3]
 
-        if slug != "barn-2":
-            card = HOME_PHOTO.sub(rewrite_photo, card, count=1)
-            card = card.replace('aria-pressed="true"', 'aria-pressed="false"')
-        return HOME_EXTERIOR.sub(rewrite_exterior, card, count=1)
+        card = HOME_PHOTO.sub(rewrite_photo, card, count=1)
+        card = HOME_PHOTO_CHOICES.sub(select_exterior, card, count=1)
+        return HOME_CARD_ACTIONS.sub(lambda actions: f'<div class="brh-house__actions">{actions[0]}</div>', card, count=1)
 
     def order_cards(section):
         block = section[0]

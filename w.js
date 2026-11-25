@@ -3,6 +3,27 @@ if (location.hostname === "ecobr.ru") {
   style.id = "br-winter-appearance";
   style.textContent = ".br-page-snow-frame { position: relative !important; }\n\n.br-page-snow {\n  position: absolute;\n  z-index: 0;\n  inset: 0;\n  overflow: hidden;\n  pointer-events: none;\n}\n\n.br-page-snow::before,\n.br-page-snow::after {\n  content: \"\";\n  position: absolute;\n  top: calc(-1 * var(--flake-step));\n  right: -20px;\n  bottom: 0;\n  left: -20px;\n  background-size: var(--flake-width) var(--flake-step);\n  animation: br-page-snow-fall var(--flake-time) linear var(--flake-offset) infinite paused;\n}\n\n.br-page-snow::before {\n  --flake-step: 216px;\n  --flake-width: clamp(194px, 25vw, 366px);\n  --flake-time: 19s;\n  --flake-offset: -8s;\n  --flake-drift: 8px;\n  background-image:\n    radial-gradient(circle at 17% 19%, rgb(255 255 255 / .65) 1px, transparent 1.8px),\n    radial-gradient(circle at 61% 53%, rgb(255 255 255 / .54) .8px, transparent 1.6px),\n    radial-gradient(circle at 86% 91%, rgb(255 255 255 / .57) 1.15px, transparent 2px);\n}\n\n.br-page-snow::after {\n  --flake-step: 283px;\n  --flake-width: clamp(242px, 31vw, 439px);\n  --flake-time: 15s;\n  --flake-offset: -3s;\n  --flake-drift: -12px;\n  background-image:\n    radial-gradient(circle at 34% 28%, rgb(255 255 255 / .75) 1.45px, transparent 2.35px),\n    radial-gradient(circle at 73% 78%, rgb(255 255 255 / .58) 1.25px, transparent 2.15px);\n}\n\n.br-page-snow.is-active::before,\n.br-page-snow.is-active::after {\n  animation-play-state: running;\n  will-change: transform;\n}\n\n@keyframes br-page-snow-fall {\n  0% { transform: translate3d(0, 0, 0); }\n  50% { transform: translate3d(var(--flake-drift), calc(var(--flake-step) / 2), 0); }\n  100% { transform: translate3d(0, var(--flake-step), 0); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .br-page-snow { display: none; }\n  .br-page-snow::before, .br-page-snow::after { animation: none; }\n}\n\n#rec2851363001 .h-tab.h-on .tn-atom__button-text { color: #191d1b; }\n";
   style.textContent += "\n.br-page-snow--light { filter: brightness(.52) opacity(.6); }";
+  if (/^\/*$/.test(location.pathname)) {
+    style.textContent += `
+      #br-house-cards .brh-house .brh-card__body {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 14px;
+      }
+      #br-house-cards .brh-house .brh-card__name { flex: 0 0 100%; margin: 0 0 3px; }
+      #br-house-cards .brh-house .brh-house__button,
+      #br-house-cards .brh-house .brh-house-details { min-height: 44px; margin: 0; }
+      @media (max-width: 640px) {
+        #br-house-cards .brh-house .brh-card__body {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 6px;
+        }
+        #br-house-cards .brh-house .brh-card__name { flex: none; }
+      }
+    `;
+  }
   document.head.append(style);
 }
 
@@ -188,6 +209,7 @@ if (location.hostname === "ecobr.ru") {
     const firstVisible = scope => [...records.querySelectorAll(scope)].find(visiblePhoto);
     if (path.startsWith('/doma/')) {
       return firstVisible('.tn-elem[data-elem-id="1766575756760000001"] > .tn-atom')
+        || firstVisible('#br-gallery-photos[aria-labelledby="br-gallery-winter"] img')
         || firstVisible('.t1148__img-wrapper img');
     }
     const selected = firstPhoto[path] && firstVisible(firstPhoto[path]);
@@ -264,7 +286,19 @@ if (location.hostname === "ecobr.ru") {
     requestAnimationFrame(refresh);
   }
 
+  function watchMixedGallery() {
+    const photos = document.getElementById('br-gallery-photos');
+    if (!photos) return false;
+    // The tabs replace the photo buttons. The snow goes on the current first winter photo.
+    new MutationObserver(schedule).observe(photos, { childList: true });
+    schedule();
+    return true;
+  }
+
   function start() {
+    if (path.startsWith('/doma/') && !watchMixedGallery()) {
+      document.addEventListener('br:mixed-gallery-ready', watchMixedGallery, { once: true });
+    }
     schedule();
     window.setTimeout(schedule, 500);
     window.setTimeout(schedule, 1500);
@@ -305,5 +339,8 @@ if (location.hostname === "ecobr.ru") {
   if (location.hostname !== 'ecobr.ru' || !houses.includes(page?.dataset.tildaPageId)) return;
   const load = document.createElement('script');
   load.src = 'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/br-assets/winter-mixed-galleries-20261125.js';
+  load.addEventListener('load', () => {
+    document.dispatchEvent(new Event('br:mixed-gallery-ready'));
+  }, { once: true });
   document.head.append(load);
 })();

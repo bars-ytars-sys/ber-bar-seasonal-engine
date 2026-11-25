@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import re
 
-from winter_site import HOUSE_COVERS, SPA_POOL_DAY, SPA_WINDOW_LOUNGE, WINTER_HORSE, within_record
+from winter_site import HOUSE_COVERS, SPA_POOL_CARD, SPA_POOL_DAY, SPA_WINDOW_LOUNGE, WINTER_HORSE, within_record
 
 HERE = Path(__file__).resolve().parent
 STAY_DATA = HERE.parents[1] / "prevyu/lid/br-stay-data.js"
@@ -103,7 +103,7 @@ def preview_social_image(html, route, prefix):
 
 def winter_activities(prefix):
     cards = (
-        ("/spa/", SPA_POOL_DAY, "SPA и тёплый бассейн", "Открытый бассейн, сауны и хамам"),
+        ("/spa/", SPA_POOL_CARD, "SPA и тёплый бассейн", "Открытый бассейн, сауны и хамам"),
         ("/banchan/#samovar", "winter-panorama-tub.webp", "Баня и чан", "Парение и травяной чай из самовара"),
         ("/deti/", "winter-activity-farm-hq.webp", "Зимой с детьми", "Контактная ферма, площадка и семейное кино"),
         ("/new-year/", "hero-panorama-garland.webp", "Новый год и каникулы", "Новогодний заезд и даты в январе"),
@@ -124,7 +124,7 @@ def winter_activities(prefix):
 def holiday_banner(prefix):
     return (
         '<section class="br-winter-route br-winter-holiday" aria-labelledby="br-winter-holiday-title">'
-        f'<img src="{prefix}/br-assets/winter-new-year-living-room.webp" alt="Новогодняя ёлка в гостиной «Берёзовой рощи»" '
+        f'<img src="{prefix}/br-assets/winter-new-year-home-table.webp" alt="Праздничный стол и снег за окнами «Берёзовой рощи»" '
         'loading="lazy" decoding="async">'
         '<div><h2 id="br-winter-holiday-title">Новый год и каникулы</h2>'
         '<p>Новогодний заезд с 31 декабря по 3 января. Январские каникулы — с 3 января.</p>'
@@ -140,8 +140,11 @@ def revise_offers(html, prefix):
                         f'<a class="to-btn br-winter-primary" href="{prefix}/certificate/">', 1)
     html = html.replace(
         'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/certificates/br-baus-hot-tub-snow.webp',
-        f'{prefix}/br-assets/house-winter-holidayhouse.webp',
+        f'{prefix}/br-assets/house-winter-sfera.webp',
     )
+    photo = re.compile(r'(' + re.escape(certificate) + r'\s*<div class="to-pic">\s*<img\b[^>]+>)')
+    html, count = photo.subn(r'\1<span class="br-gift-cover-caption" aria-hidden="true">Сертификат на отдых</span>', html)
+    assert count == 1
     html = html.replace(
         'Выберите номинал, оформление и добавьте своё поздравление.',
         'Выберите номинал, оформление под повод и укажите имя получателя.',
@@ -298,6 +301,7 @@ def apply(html, route, prefix, bath_programs=""):
         html = revise_offers(html, prefix)
     if route in ("/", "/kartabr"):
         html = winter_map(html, prefix)
+        html = html.replace("</head>", f'<link rel="stylesheet" href="{prefix}/br-assets/territory-winter.css"></head>', 1)
         html = html.replace("</body>", f'<script src="{prefix}/br-assets/winter-map.js" defer></script></body>', 1)
         html = html.replace(
             'https://static.tildacdn.com/tild3439-6666-4264-a539-616130646439/Frame_2_1_1.webp',

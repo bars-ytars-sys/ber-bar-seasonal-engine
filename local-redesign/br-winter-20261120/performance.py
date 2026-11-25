@@ -8,7 +8,7 @@ OLD_HERO_PRELOAD = re.compile(
     r'<link\b(?=[^>]*\brel="preload")(?=[^>]*\bas="image")(?=[^>]*\bhref="[^"]*/winter-br-hero-pano-20261116(?:-mobile)?\.webp")[^>]*>\s*'
 )
 HOME_IMAGES = re.compile(
-    r'<section\b(?=[^>]*\bid="br-home-(?:houses|activities)")[^>]*>.*?</section>'
+    r'<section\b(?=[^>]*\bid="br-home-activities")[^>]*>.*?</section>'
     r'|<section class="br-winter-holiday(?:"|\s)[^>]*>.*?</section>'
     r'|<article\b(?=[^>]*\bid="(?:uyutnye-budni|podarochnyy-sertifikat)")[^>]*>.*?</article>',
     re.S,
@@ -101,7 +101,7 @@ def optimize(html, prefix):
     if maps or images:
         fallback = "<noscript><style>iframe[data-br-map-src],img[data-br-image-src]{display:none!important}</style></noscript>"
         html = html.replace("</head>", fallback + "</head>", 1)
-    if maps or images or "data-br-load-booking" in html:
+    if maps or images or "data-br-load-booking" in html or "data-br-cover-fallback=" in html:
         html = html.replace(
             "</body>",
             f'<script defer src="{prefix}/br-assets/performance.js"></script></body>',

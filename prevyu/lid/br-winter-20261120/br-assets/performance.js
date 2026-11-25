@@ -27,6 +27,15 @@
       });
     }
 
+    for (const image of document.querySelectorAll('img[data-br-cover-fallback]')) {
+      const primary = image.src;
+      const useFallback = () => {
+        if (image.src === primary) image.src = image.dataset.brCoverFallback;
+      };
+      image.addEventListener('error', useFallback);
+      if (image.complete && !image.naturalWidth) useFallback();
+    }
+
     for (const frame of document.querySelectorAll('iframe[data-br-map-src]')) {
       loadNear(frame, () => { frame.src = frame.dataset.brMapSrc; });
     }

@@ -113,7 +113,6 @@
 .br-review-photo-step { position: absolute; z-index: 3; top: 45%; width: 36px; height: 36px; background: #fffffff0; border: 0; }
 .br-review-photo-step[data-direction='-1'] { left: 8px; }
 .br-review-photo-step[data-direction='1'] { right: 8px; }
-.brh-house__visual { touch-action: pan-y; }
 
 @media(max-width:960px) {
   #br-home-start.br-review-hero { grid-template-columns: minmax(0,1fr); grid-template-areas: 'copy' 'photo' 'actions' 'benefits'; min-height: 0; }

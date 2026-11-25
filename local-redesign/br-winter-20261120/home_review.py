@@ -1,7 +1,7 @@
 """Winter homepage review and its programs and events links."""
 import re
 from layout_variant import cards, photo
-from winter_site import SPA_POOL_DAY
+from winter_site import SPA_POOL_CARD
 
 
 def section(html, identifier):
@@ -153,7 +153,7 @@ def apply(html, prefix):
     )
     featured = ''.join(activity_cards[:3]).replace('href="#br-home-spa"',
                                                   f'href="{prefix}/spa/"', 1)
-    featured = featured.replace('winter-selector-spa-lounge.webp', SPA_POOL_DAY, 1)
+    featured = featured.replace('winter-selector-spa-lounge.webp', SPA_POOL_CARD, 1)
     compact_activities = (
         '<section id="br-home-activities" class="brh brh-section br-review-activities" '
         'aria-labelledby="br-home-activities-title"><div class="brh-section__heading">'

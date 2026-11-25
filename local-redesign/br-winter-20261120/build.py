@@ -245,6 +245,7 @@ def main():
         html = re.sub(canonical_pattern, lambda _: canonical, html, count=1, flags=re.I)
         if route.startswith("/doma/"):
             html = winter_site.house_page(html, route.rsplit("/", 1)[1], PREFIX)
+            html = html.replace("</head>", f'<link rel="stylesheet" href="{PREFIX}/br-assets/house-seasons.css"></head>', 1)
         if route != "/mayskiye2026":
             html = winter_site.replace_outside_summer_archive(html, lambda fragment: rewrite_photos(fragment, approved))
         html = review_changes.apply(html, route, PREFIX)

@@ -8,11 +8,6 @@
    const button=document.createElement('button');button.type='button';button.className='br-review-photo-step';button.dataset.direction=direction;
    button.setAttribute('aria-label',direction<0?'Предыдущее фото дома':'Следующее фото дома');button.textContent=direction<0?'‹':'›';button.addEventListener('click',()=>step(direction));visual.append(button);
   }
-  let start=null,ignoreClick=false;
-  visual.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'||e.target.closest('button'))return;start={x:e.clientX,y:e.clientY};ignoreClick=false;});
-  visual.addEventListener('pointerup',e=>{if(!start)return;const dx=e.clientX-start.x,dy=e.clientY-start.y;start=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.4){ignoreClick=true;step(dx<0?1:-1);}});
-  visual.addEventListener('pointercancel',()=>{start=null;});
-  visual.addEventListener('click',e=>{if(ignoreClick){e.preventDefault();e.stopPropagation();ignoreClick=false;}},true);
  }
  const map=document.getElementById('br-review-map-details');
  if(map)map.addEventListener('toggle',()=>{

@@ -587,6 +587,17 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
   object-fit: cover;
   object-position: 50% 60%;
 }
+#allrecords #podarochnyy-sertifikat .to-pic { position: relative; }
+#allrecords .br-gift-cover-caption {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 7px 11px;
+  border-radius: 8px;
+  background: #f8f1de;
+  color: #1e3a31;
+  font: 700 13px/1.25 var(--br-text-font);
+}
 #allrecords .to-grid:has(.br-weekday-offer) :is(.to-t,.to-btn) { font-family: var(--br-title-font); }
 #allrecords .to-grid:has(.br-weekday-offer) :is(.to-d,.to-hl,.to-terms) { font-family: var(--br-text-font); }
 #allrecords .to-grid:has(.br-weekday-offer) .to-body > .to-btn {
@@ -640,6 +651,9 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
 }
 #allrecords .brh-house__actions .brh-house-details { margin: 0; }
 
+@media (max-width: 700px) {
+  #br-home-houses .brh-house__visual figure { aspect-ratio: 3 / 2; }
+}
 
 #allrecords .br-winter-holiday h2 { text-transform: uppercase; }
 #allrecords .br-winter-holiday__perk {

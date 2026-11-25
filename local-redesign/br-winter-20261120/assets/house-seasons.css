@@ -1,0 +1,96 @@
+@media (max-width: 640px) {
+  [data-br-season-panel] .t1148__gallery,
+  .br-season-archive[data-br-season-panel] {
+    box-sizing: border-box;
+    width: 100%;
+    padding-inline: 16px;
+  }
+
+  [data-br-season-panel] .t1148__controls {
+    display: none !important;
+  }
+
+  [data-br-season-panel] .t1148__slider,
+  .br-season-archive > div {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px !important;
+    width: 100%;
+    padding: 0 !important;
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+  }
+
+  [data-br-season-panel] .t1148__item,
+  [data-br-season-panel] .t1148__img-wrapper {
+    min-width: 0;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+  }
+
+  [data-br-season-panel] .t1148__img-wrapper,
+  .br-season-archive img {
+    aspect-ratio: 3 / 2;
+  }
+
+  [data-br-season-panel] .t1148__img {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+  }
+
+  [data-br-season-panel] .t1148__video {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 3 / 2;
+  }
+
+  [data-br-season-panel] .t1148__play-btn {
+    max-width: 44px;
+    max-height: 44px;
+  }
+
+  [data-br-season-panel] img[role="button"]:focus-visible,
+  .br-season-archive a:focus-visible {
+    outline: 2px solid #0e765b;
+    outline-offset: 2px;
+  }
+}
+
+.br-house-photo-dialog {
+  box-sizing: border-box;
+  width: min(100% - 24px, 900px);
+  max-width: none;
+  max-height: calc(100vh - 24px);
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  color: #fff;
+  background: #13241e;
+}
+
+.br-house-photo-dialog::backdrop {
+  background: rgb(9 18 16 / 88%);
+}
+
+.br-house-photo-dialog > button {
+  display: block;
+  width: 44px;
+  min-height: 44px;
+  margin-inline-start: auto;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: 400 29px/1 TildaSans, Arial, sans-serif;
+  cursor: pointer;
+}
+
+.br-house-photo-dialog > img {
+  display: block;
+  width: 100%;
+  max-height: calc(100vh - 80px);
+  max-height: calc(100dvh - 80px);
+  object-fit: contain;
+}

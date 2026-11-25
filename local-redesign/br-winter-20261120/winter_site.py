@@ -24,6 +24,7 @@ HOME_PHOTO_CHOICES = re.compile(r'(<div class="brh-house__photos"[^>]*>)(.*?)(</
 HOME_CARD_ACTIONS = re.compile(r'<a class="brh-house__button"[^>]*>.*?</a>\s*<a class="brh-house-details"[^>]*>.*?</a>', re.S)
 HOLIDAY_PHOTOS = "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/new-year-20261105/"
 SPA_POOL_DAY = "winter-spa-pool-steam.webp"
+SPA_POOL_CARD = "winter-spa-pool-card.webp"
 SPA_WINDOW_LOUNGE = "winter-spa-window-lounge.webp"
 WINTER_HORSE = "family-ponies.webp"
 SPA_HOME_SLIDES = {
@@ -37,7 +38,7 @@ SUMMER_GALLERIES = {
     "bariloche": ("rec2411770091", {1, 2, 3, 20, 21, 22, 23, 24, 25}),
     "chalet": ("rec1737097191", {1, 2, 3, 4, 24, 25, 27}),
     "panorama": ("rec1737025491", {2, 3, 4, 5, 6, 36, 38, 39, 40, 41, 42}),
-    "scandi": ("rec1737080361", {1, 2, 11, 12, 13, 14, 15}),
+    "scandi": ("rec1737080361", {1, 2, 9, 11, 12, 13, 14, 15}),
 }
 SEASONAL_PHOTOS = {
     "tild6162-6538-4165-a561-656533643362": "banya-hero-hq.webp",
@@ -100,9 +101,13 @@ SEASONAL_PHOTOS = {
 
 def validate_assets(folder):
     names = {house["asset"] for house in HOUSE_COVERS.values()} | set(SEASONAL_PHOTOS.values())
+    names.update(house["retouch_base"] for house in HOUSE_COVERS.values() if "retouch_base" in house)
     names.update(asset for asset, _ in SPA_HOME_SLIDES.values())
+    names.update(photo["asset"] for gallery in HOUSE_GALLERIES.values() for photo in gallery.get("festive", ()))
+    names.update(gallery["grounds"] for gallery in HOUSE_GALLERIES.values() if "grounds" in gallery)
     names.update(("winter-farm-goat.webp", "winter-birthday-panoramic.webp",
-                  "hero-panorama-garland-mobile.avif", "territory-map.webp", "winter-samovar-program.webp"))
+                  "hero-panorama-garland-mobile.avif", "territory-map.webp", "winter-samovar-program.webp",
+                  "winter-new-year-home-table.webp", SPA_POOL_CARD))
     for name in sorted(names):
         if not (folder / name).is_file():
             raise FileNotFoundError(folder / name)
@@ -201,27 +206,41 @@ def slide_url(slide):
     return re.search(r'\bdata-img-zoom-url="([^"]+)"', slide)[1]
 
 
-def render_gallery(record, slug, cover, interiors, summer_indices):
+def render_gallery(record, slug, cover, prefix, summer_indices):
+    gallery = HOUSE_GALLERIES[slug]
+
+    def photo_url(asset):
+        return asset if asset.startswith("https://") else f"{prefix}/br-assets/{asset}"
+
     start, end, original = gallery_bounds(record)
     summer = [original[index - 1] for index in sorted(summer_indices)]
     retained = [slide for index, slide in enumerate(original, 1) if index not in summer_indices]
     tagged = {slide_url(slide): slide for slide in retained}
     primary = house_photo(cover, "Фасад дома «Сфера» зимой" if slug == "sfera" else "Дом зимой")
+    festive = {photo_url(photo["asset"]): photo for photo in gallery.get("festive", ())}
+    archived_aliases = {photo["native"] for photo in festive.values() if "native" in photo}
+    interiors = [url for url in map(photo_url, gallery["interiors"]) if url not in festive and url not in archived_aliases]
     selected = [tagged.get(url) or house_photo(url, "Интерьер дома") for url in interiors]
-    known = set(interiors) | {cover}
+    known = {cover, *interiors, *festive, *archived_aliases}
+    known.update(gallery.get("excluded_winter", ()))
+    if original_cover := HOUSE_COVERS[slug].get("source"):
+        known.add(original_cover)
     first_url = slide_url(original[0])
     if not summer_indices or first_url in known:
         known.add(first_url)
     if slug == "baus-2":
         # The same uncovered hammock appears at the centre of the terrace on this second exterior.
         known.add(slide_url(original[8]))
-    slides = [primary, *selected]
+    slides = [primary, *(house_photo(url, photo.get("alt", "Праздничное оформление дома")) for url, photo in festive.items())]
+    if "grounds" in gallery:
+        slides.append(house_photo(photo_url(gallery["grounds"]), "Зимний участок у дома «Сфера»"))
     if slug != "sfera":
         if 'class="t1148__play"' in original[0] and first_url in known:
             # Keep the original walk-through with the updated winter photo as its poster.
             slides.append(re.sub(r'\b(src|data-original|data-img-zoom-url)="[^"]+"',
                                  lambda match: f'{match[1]}="{cover}"', original[0]))
         slides.extend(slide for slide in retained if slide_url(slide) not in known)
+    slides.extend(selected)
     for index, item in enumerate(slides):
         item = re.sub(r'aria-label="\d+ из \d+"', f'aria-label="{index + 1} из {len(slides)}"', item, count=1)
         item = re.sub(r'aria-current="(?:true|false)"', f'aria-current="{str(index == 0).lower()}"', item, count=1)
@@ -229,7 +248,7 @@ def render_gallery(record, slug, cover, interiors, summer_indices):
             r'(data-index="|data-zoom-target="|imgfield="gi_img__)\d+',
             lambda m: f'{m[1]}{index}', item,
         )
-    record = record[:start] + ' '.join(slides) + record[end:]
+    record = (record[:start] + ' '.join(slides) + record[end:]).replace('data-slide-timeout="5000"', 'data-slide-timeout="0"')
     if not summer:
         return record
     winter_id = HOUSE_GALLERIES[slug]["winter"]
@@ -275,11 +294,10 @@ def house_page(html, slug, prefix):
         return replaced.replace(f'id="{cover["record"]}"', f'id="{cover["record"]}" data-br-winter-cover="{slug}"', 1)
 
     html = within_record(html, cover["record"], replace_cover)
-    interiors = [url if url.startswith("https://") else f"{prefix}/br-assets/{url}" for url in gallery["interiors"]]
     summer_indices = SUMMER_GALLERIES[slug][1] if slug in SUMMER_GALLERIES else set()
     def winter_gallery(block):
         block = block.replace(f'id="{winter}"', f'id="{winter}" data-br-season-panel="winter"', 1)
-        return render_gallery(block, slug, cover_path, interiors, summer_indices)
+        return render_gallery(block, slug, cover_path, prefix, summer_indices)
 
     html = within_record(html, winter, winter_gallery)
     if not summer_indices:
@@ -308,12 +326,16 @@ def home_covers(html, prefix):
         slug = re.search(r'\bhref="[^"]*/doma/([^/"]+)/?"', card)[1]
         name = re.search(r'<h3 class="brh-card__name">([^<]+)</h3>', card)[1]
         alt = f"{name} — зимний внешний вид"
-        cover = f"{prefix}/br-assets/{HOUSE_COVERS[slug]['asset']}"
+        photos = HOUSE_COVERS[slug]
+        cover = f"{prefix}/br-assets/{photos['asset']}"
+        fallback = photos.get("retouch_base")
 
         def rewrite_photo(image):
             image = re.sub(r'\s+(?:srcset|sizes)="[^"]*"', '', image[0])
             image = re.sub(r'\bsrc="[^"]*"',
                            f'src="{cover}"', image, count=1)
+            if fallback:
+                image = image.replace("<img ", f'<img data-br-cover-fallback="{prefix}/br-assets/{fallback}" ', 1)
             return re.sub(r'\balt="[^"]*"', f'alt="{alt}"', image, count=1)
 
         def select_exterior(choices):

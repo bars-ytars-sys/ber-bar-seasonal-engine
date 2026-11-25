@@ -1,0 +1,35 @@
+#br-review-map-details > summary {
+  padding: 10px 14px 0;
+  border: 1px solid #dbe8ed;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle, #fff 0 1px, transparent 2px) 7px 10px / 29px 37px,
+    radial-gradient(circle, #fff 0 1.5px, transparent 2.5px) 19px 3px / 63px 67px,
+    linear-gradient(145deg, #f7fbfd, #e5f1f6);
+}
+
+#br-review-map-details > summary > img {
+  width: min(100%, 360px);
+  height: auto;
+  aspect-ratio: 2000 / 1897;
+  margin-inline: auto;
+  background: transparent;
+}
+
+#br-review-map-details > summary > img,
+#rec2856176101 img[data-original$="/territory-map.webp"] {
+  filter: saturate(.78) hue-rotate(34deg) contrast(1.1);
+}
+
+#br-review-map-details[open] > summary {
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+  padding-block-start: 0;
+}
+
+#br-review-map-details > .br-review-map-expanded {
+  border-color: #dbe8ed;
+  border-block-start: 0;
+  border-radius: 0 0 14px 14px;
+  background: #f2f8fa;
+}

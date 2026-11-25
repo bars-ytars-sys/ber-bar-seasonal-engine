@@ -19,3 +19,6 @@
   cursor: pointer;
   font-weight: 600;
 }
+@media (max-width: 960px) {
+  #br-catalog-title-source + #br-catalog-directory { min-height: 100svh; }
+}

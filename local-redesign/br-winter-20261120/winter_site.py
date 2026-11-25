@@ -24,7 +24,9 @@ HOME_PHOTO_CHOICES = re.compile(r'(<div class="brh-house__photos"[^>]*>)(.*?)(</
 HOME_CARD_ACTIONS = re.compile(r'<a class="brh-house__button"[^>]*>.*?</a>\s*<a class="brh-house-details"[^>]*>.*?</a>', re.S)
 HOLIDAY_PHOTOS = "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/new-year-20261105/"
 SPA_POOL_DAY = "winter-spa-pool-steam.webp"
-SPA_POOL_CARD = "winter-spa-pool-card.webp"
+# Cropped from the original in the ecobr.ru/spa gallery. The crop keeps the
+# water and snowy pool surround without the neighboring houses in the glass.
+SPA_POOL_CARD = "winter-spa-pool-wide.webp"
 SPA_WINDOW_LOUNGE = "winter-spa-window-lounge.webp"
 WINTER_HORSE = "family-ponies.webp"
 SPA_HOME_SLIDES = {
@@ -45,8 +47,8 @@ SEASONAL_PHOTOS = {
     "tild6234-6433-4562-a662-656638363335": "banya-hero-hq.webp",
     "tild3037-3864-4139-a366-363534616231": "banya-hero-hq.webp",
     "tild6639-3861-4535-a534-336133643938": "winter-playground.webp",
-    "tild3766-6464-4637-b865-346163633362": "winter-glamping.webp",
-    "tild6362-3266-4330-b836-353861383930": "winter-glamping.webp",
+    "tild3766-6464-4637-b865-346163633362": HOUSE_COVERS["bariloche"]["asset"],
+    "tild6362-3266-4330-b836-353861383930": SPA_WINDOW_LOUNGE,
     "tild3938-3061-4336-b230-396361343533": "winter-panorama.webp",
     "tild3736-6361-4438-b632-343562663664": "winter-reception.webp",
     "tild6436-3761-4635-b134-303833343966": "winter-reception.webp",
@@ -84,7 +86,7 @@ SEASONAL_PHOTOS = {
     "tild3831-3233-4630-b465-636138323430": "winter-svidanie.webp",
     "tild3533-6665-4632-a634-383865366132": "winter-baus-1.webp",
     "tild3466-3135-4639-b366-663934376631": "hero-winter-spa-hq.webp",
-    "tild6666-3164-4966-a164-353561646566": "winter-glamping.webp",
+    "tild6666-3164-4966-a164-353561646566": HOUSE_COVERS["panorama"]["asset"],
     "tild3131-3736-4261-a637-326261306138": "winter-baus-1.webp",
     "tild3937-3638-4664-b035-343763643331": "winter-baus-1.webp",
     "tild6666-3534-4936-b735-333763383361": "winter-svidanie.webp",
@@ -107,7 +109,7 @@ def validate_assets(folder):
     names.update(gallery["grounds"] for gallery in HOUSE_GALLERIES.values() if "grounds" in gallery)
     names.update(("winter-farm-goat.webp", "winter-birthday-panoramic.webp",
                   "hero-panorama-garland-mobile.avif", "territory-map.webp", "winter-samovar-program.webp",
-                  "winter-new-year-home-table.webp", SPA_POOL_CARD))
+                  SPA_POOL_CARD))
     for name in sorted(names):
         if not (folder / name).is_file():
             raise FileNotFoundError(folder / name)
@@ -147,6 +149,33 @@ def winter_spa_home_gallery(record, prefix):
     updated, count = images.subn(update_slides, record, count=1)
     assert count == 1
     return updated
+
+
+def winter_spa_gallery(record, prefix):
+    item = re.compile(r'<div class="t979__grid-item [^"]*"[^>]*>.*?</div>', re.S)
+    originals = list(item.finditer(record))
+    spa_photos = {
+        "_pdf-image-005.webp": ("Открытый подогреваемый бассейн зимой", SPA_POOL_CARD),
+        SPA_POOL_DAY: ("Пар над открытым бассейном", None),
+        "winter-spa-hero.webp": ("Вход в бассейн из зоны SPA", None),
+        SPA_WINDOW_LOUNGE: ("Панорамная зона отдыха SPA", None),
+        "2148000315_1jpg.webp": ("Парная SPA-комплекса", None),
+    }
+    photos = {}
+    for original in originals:
+        name = slide_url(original[0]).rsplit("/", 1)[-1]
+        if name in spa_photos:
+            photos[name] = original[0]
+    assert photos.keys() == spa_photos.keys()
+
+    items = []
+    for index, (name, (text, replacement)) in enumerate(spa_photos.items()):
+        photo = photos[name]
+        if replacement:
+            photo = PHOTO_URL.sub(f"{prefix}/br-assets/{replacement}", photo)
+        photo = re.sub(r'\bdata-zoom-target="\d+"', f'data-zoom-target="{index}"', photo, count=1)
+        items.append(photo.replace('alt=""', f'alt="{text}"', 1))
+    return record[:originals[0].start()] + " ".join(items) + record[originals[-1].end():]
 
 
 def winter_restaurant_gallery(record):
@@ -409,6 +438,8 @@ def apply(html, route, prefix):
         html = within_record(html, "rec2263527021", lambda record: winter_spa_home_gallery(record, prefix))
     if route == "/booking":
         html = booking_link(html)
+    if route == "/spa":
+        html = within_record(html, "rec1786282301", lambda record: winter_spa_gallery(record, prefix))
     if route == "/aktivnosti-v-beryozovoj-roshhe":
         html = html.replace(">Сапборд</h2>", ">Сапборд в тёплый сезон</h2>", 1)
     if route == "/new-year":

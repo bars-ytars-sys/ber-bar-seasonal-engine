@@ -16,6 +16,7 @@ import holiday_home
 import winter_routes
 import winter_site
 import performance
+import seo
 import hashlib
 
 HERE = Path(__file__).resolve().parent
@@ -165,10 +166,14 @@ def catalog_houses_first(html):
             rf'("image": ")[^"]*{re.escape(source)}"',
             rf'\1{PREFIX}/br-assets/{cover}"', html, count=1,
         )
-    html = re.sub(
+    data_start = html.index("window.BRStayData = {")
+    data_end = html.index("\n};", data_start) + len("\n};")
+    catalog_data, links = re.subn(
         r'("url": ")https://ecobr\.ru(/doma/[^"]+?)/?"',
-        rf'\1{PREFIX}\2/"', html,
+        rf'\1{PREFIX}\2/"', html[data_start:data_end],
     )
+    assert links == len(winter_site.HOUSE_COVERS), links
+    html = html[:data_start] + catalog_data + html[data_end:]
     houses_source = "const houses=D.houses,assetBase="
     assert html.count(houses_source) == 1
     html = html.replace(
@@ -178,6 +183,25 @@ def catalog_houses_first(html):
         '  const houses = [...D.houses].sort((a, b) => coverRank(a.id) - coverRank(b.id)),assetBase=',
         1,
     )
+    validation = """    const error=C.dateError(state)||C.partyError(state);feedback(error);
+    if(error){section.querySelector(C.partyError(state)?'[data-ages] select, [data-field="adults"]':'[data-field="arrival"]').focus();return false;}"""
+    assert html.count(validation) == 1
+    html = html.replace(validation, """    const datesError = C.dateError(state);
+    const error = datesError || C.partyError(state);
+    feedback(error);
+    if (error) {
+      let invalid = section.querySelector('[data-field="arrival"]');
+      if (!datesError) {
+        if (C.partyError({...state, children: []})) {
+          invalid = section.querySelector('[data-field="adults"]');
+        } else {
+          const ageFields = Array.from(section.querySelectorAll('[data-age]'));
+          invalid = ageFields.find(field => !field.value) || section.querySelector('[data-field="child-count"]');
+        }
+      }
+      invalid.focus();
+      return false;
+    }""", 1)
     start = '<div class="brp-search" role="search"'
     end = '</div><div class="brp-results-head">'
     assert html.count(start) == 1
@@ -187,7 +211,7 @@ def catalog_houses_first(html):
     before, scenarios = before.split(filter_start, 1)
     before = re.sub(
         r'<p class="brp-eyebrow">.*?</p><h2 id="brp-title">.*?</h2><p class="brp-intro">.*?</p>',
-        '<h1 id="brp-title" class="br-winter-catalog-title">Каталог домов</h1>',
+        "",
         before, count=1,
     )
     disclosure = (
@@ -201,14 +225,21 @@ def catalog_houses_first(html):
     assert html.count(marker) == 1
     html = html.replace(
         marker,
-        marker + '\n    section.after(document.getElementById("br-catalog-directory"));',
+        '    const titleSource = document.getElementById("br-catalog-title-source");\n'
+        '    section.querySelector(".brp-inner").prepend(titleSource.firstElementChild);\n'
+        '    titleSource.remove();\n'
+        + marker + '\n    section.after(document.getElementById("br-catalog-directory"));',
         1,
     )
-    html = html.replace('</body>', directory + '</body>', 1)
     html = re.sub(
         r'<h1([^>]*>Каталог домов в Берёзовой роще)</h1>',
         r'<p\1</p>', html, count=1,
     )
+    entry = '<div id="rec2037067891"'
+    assert html.count(entry) == 1
+    title = ('<div class="brp-inner" id="br-catalog-title-source">'
+             '<h1 id="brp-title" class="br-winter-catalog-title">Каталог домов в Берёзовой роще</h1></div>')
+    html = html.replace(entry, title + directory + entry, 1)
     return html.replace(
         "</head>",
         f'<link rel="stylesheet" href="{PREFIX}/br-assets/catalog-houses-first.css"></head>',
@@ -243,6 +274,8 @@ def main():
         canonical_pattern = r'<link\b[^>]*\brel=["\']canonical["\'][^>]*>'
         canonical = re.search(canonical_pattern, original_pages.read_original(route), re.I)[0]
         html = re.sub(canonical_pattern, lambda _: canonical, html, count=1, flags=re.I)
+        html = seo.keep_current_metadata(html, route)
+        html = seo.resolve_legacy_links(html, PREFIX, winter_site.HOUSE_COVERS)
         if route.startswith("/doma/"):
             html = winter_site.house_page(html, route.rsplit("/", 1)[1], PREFIX)
             html = html.replace("</head>", f'<link rel="stylesheet" href="{PREFIX}/br-assets/house-seasons.css"></head>', 1)

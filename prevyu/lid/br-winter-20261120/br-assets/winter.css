@@ -310,6 +310,30 @@
 }
 
 body[data-br-season="winter"] { background-color: #f8faf9; }
+#rec1750245051 :is([data-elem-id="1766316152807"], [data-elem-id="1766345915826000002"]) .tn-atom__sbs-anim-wrapper {
+  animation: none !important;
+  opacity: 1 !important;
+}
+#rec2807455301 .t1118__trigger-button { font-family: TildaSans, Arial, sans-serif; }
+@media (max-width: 640px) {
+  #rec2411770061 [data-elem-id="1766519870823000002"] { height: 374px !important; }
+  #rec2411770061 [data-elem-id="1766521741477000001"] { top: 361px !important; }
+  :is(#rec1796853291, #rec1745561551, #rec1750091951) [data-elem-id="1697117843174"] .tn-atom {
+    min-height: 44px;
+  }
+  #br-home-booking .brh-booking__panel {
+    padding-inline: clamp(0px, (100% - 302px) / 2, 14px);
+  }
+  #br-home-booking #_bn_widget_ {
+    max-width: 100%;
+    min-height: 200px;
+  }
+}
+@media (max-width: 479px) {
+  #rec2019972941 [data-elem-id="1765543910875"] { translate: 0 -16px; }
+  #rec1750112581 [data-elem-id="1765544009862"] { height: 434px !important; }
+  #rec1750112581 [data-elem-id="1765891861001000001"] { translate: 0 14px; }
+}
 #booking_iframe:has([data-br-live-booking]) {
   display: flex;
   justify-content: center;
@@ -403,6 +427,7 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
   height: 100%;
 }
 .br-winter-route-card img { object-fit: cover; }
+:is(.br-winter-route-card, .brh-activity)[href$="/spa/"] img { object-position: right center; }
 .br-winter-route-card::after {
   content: "";
   background: linear-gradient(transparent 25%, #0c2825e8 100%);
@@ -656,6 +681,11 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
 }
 
 #allrecords .br-winter-holiday h2 { text-transform: uppercase; }
+#allrecords .br-winter-holiday > img { object-position: 50% 32%; }
+body.br-home-release :is(#rec2851363001, #rec2056178221) .t396__artboard { overflow-x: clip; }
+#rec1763276841 .t1196__controls_slider {
+  top: min(14.65vw, 169px) !important;
+}
 #allrecords .br-winter-holiday__perk {
   margin-top: -6px;
   color: #205a48;

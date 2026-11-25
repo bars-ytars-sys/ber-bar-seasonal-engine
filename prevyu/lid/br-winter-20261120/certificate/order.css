@@ -1,9 +1,9 @@
 :root {
   --paper: #fff9ee;
-  --background: #314c44;
-  --surface: #233b32;
+  --background: #24453a;
+  --surface: #19392e;
   --ink: #fff8eb;
-  --muted: #e2d7c5;
+  --muted: #e3dfd0;
   --line: rgba(238, 229, 213, .28);
   --outline: #b8f1dc;
   font: 400 16px/1.5 var(--br-text-font);
@@ -31,7 +31,7 @@ button { cursor: pointer; }
 .contact { margin-inline-start: auto; white-space: nowrap; }
 .intro { margin: 42px 0 34px; }
 h1, h2, legend { margin: 0; font: 700 30px/1.15 var(--br-title-font); letter-spacing: -.015em; }
-h1 { font: 720 clamp(36px, 4.7vw, 66px)/1.05 var(--br-text-font); }
+h1 { font: 700 clamp(30px, 4.35vw, 62px)/1.08 var(--br-title-font); text-wrap: balance; }
 .mobile-break { display: none; }
 .intro p { max-width: 680px; margin: 14px 0 0; color: var(--muted); }
 .order-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 440px); gap: 36px; align-items: start; }

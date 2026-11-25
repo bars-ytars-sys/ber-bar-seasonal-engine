@@ -1,6 +1,7 @@
 """Prioritize the visible photography and load remote embeds near the viewport."""
 import re
 from html import escape
+from pathlib import Path
 
 
 HERO = re.compile(r'<picture class="brx__slide is-on" data-k="house">(.*?)</picture>', re.S)
@@ -12,6 +13,29 @@ HOME_IMAGES = re.compile(
     r'|<section class="br-winter-holiday(?:"|\s)[^>]*>.*?</section>'
     r'|<article\b(?=[^>]*\bid="(?:uyutnye-budni|podarochnyy-sertifikat)")[^>]*>.*?</article>',
     re.S,
+)
+HOME_HOUSE_CARDS = re.compile(
+    r'<article class="brh-card brh-house">.*?</article>',
+    re.S,
+)
+HOME_HOUSE_TYPES = re.compile(
+    r'<div id="rec2851363001"[^>]*>.*?(?=<div id="rec\d+"|</body>)',
+    re.S,
+)
+CATALOG_CARDS = re.compile(
+    r"<script>window\.BRStayAssetBase=.*?window\.BRStayMount=\{target:'rec2037067891'.*?</script>",
+    re.S,
+)
+CARD_PREVIEWS = frozenset(
+    path.name for path in (Path(__file__).with_name("assets") / "card-previews").glob("*.webp")
+)
+SPLIT_OFFER_PHOTO = (
+    "https://static.tildacdn.com/tild3762-3931-4433-b761-626133643365/5427000047234128308.jpg"
+)
+SPLIT_OFFER_BACKGROUND = re.compile(
+    r'<div\s+class="t1196__bgimg t1196__bgimg_first t-bgimg" data-original="'
+    + re.escape(SPLIT_OFFER_PHOTO)
+    + r'"\s+style="background-image:url\(\'[^\']+\'\);"></div>'
 )
 LAZY_IMAGE = re.compile(
     r'<img\b(?=[^>]*\bloading="lazy")(?![^>]*\b(?:srcset|data-original)=)[^>]*>'
@@ -69,6 +93,46 @@ def defer_home_images(html, prefix):
     return HOME_IMAGES.sub(lambda section: LAZY_IMAGE.sub(delay, section[0]), html)
 
 
+def compact_card_previews(html, prefix):
+    asset_base = prefix + "/br-assets/"
+    image = re.compile(re.escape(asset_base) + r'([^/"\'\s<>]+\.webp)')
+
+    def thumbnail(match):
+        if match[1] not in CARD_PREVIEWS:
+            return match[0]
+        return asset_base + "card-previews/" + match[1]
+
+    html = HOME_HOUSE_CARDS.sub(lambda card: image.sub(thumbnail, card[0]), html)
+    return CATALOG_CARDS.sub(lambda catalog: image.sub(thumbnail, catalog[0]), html)
+
+
+def defer_house_type_backgrounds(html, prefix):
+    if not HERO.search(html):
+        return html
+    background = re.compile(
+        r'style="background-image:(url\(\'' + re.escape(prefix + "/br-assets/")
+        + r'[^\']+\.webp\'\));"'
+    )
+    return HOME_HOUSE_TYPES.sub(
+        lambda block: background.sub(r'data-br-house-background style="--br-house-background:\1;"', block[0]),
+        html,
+        count=1,
+    )
+
+
+def prepare_split_offer(html, prefix):
+    if 'id="rec1763276841"' not in html or not SPLIT_OFFER_BACKGROUND.search(html):
+        return html
+    photo = prefix + "/br-assets/card-previews/hero-panorama-garland.webp"
+    html = SPLIT_OFFER_BACKGROUND.sub(
+        f"""<div class="t1196__bgimg t1196__bgimg_first" style="background-image:url('{photo}');"></div>""",
+        html,
+        count=1,
+    )
+    return html.replace(f'<meta itemprop="image" content="{SPLIT_OFFER_PHOTO}" />',
+                        f'<meta itemprop="image" content="{photo}" />', 1)
+
+
 def lazy_booking(html):
     if not all(part in html for part in (BOOKING_SCRIPT, BOOKING_INIT, BOOKING_TIMEOUT)):
         return html
@@ -91,17 +155,24 @@ def lazy_booking(html):
 
 
 def optimize(html, prefix):
-    html = defer_home_images(preload_hero(html), prefix)
+    html = compact_card_previews(defer_home_images(preload_hero(html), prefix), prefix)
+    html = defer_house_type_backgrounds(html, prefix)
+    html = prepare_split_offer(html, prefix)
     html, maps = MAP_FRAME.subn(
         lambda match: f'{match[1]}data-br-map-src={match[2]}{match[3]}{match[2]}{match[4]}<noscript>{match[0]}</noscript>',
         html,
     )
     html = lazy_booking(html)
     images = "data-br-image-src" in html
-    if maps or images:
-        fallback = "<noscript><style>iframe[data-br-map-src],img[data-br-image-src]{display:none!important}</style></noscript>"
+    backgrounds = "data-br-house-background" in html
+    if maps or images or backgrounds:
+        fallback = "".join((
+            "iframe[data-br-map-src],img[data-br-image-src]{display:none!important}" if maps or images else "",
+            "[data-br-house-background]{background-image:var(--br-house-background)}" if backgrounds else "",
+        ))
+        fallback = f"<noscript><style>{fallback}</style></noscript>"
         html = html.replace("</head>", fallback + "</head>", 1)
-    if maps or images or "data-br-load-booking" in html or "data-br-cover-fallback=" in html:
+    if maps or images or backgrounds or "data-br-load-booking" in html or "data-br-cover-fallback=" in html:
         html = html.replace(
             "</body>",
             f'<script defer src="{prefix}/br-assets/performance.js"></script></body>',

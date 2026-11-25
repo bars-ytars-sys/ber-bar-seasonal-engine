@@ -27,6 +27,12 @@
       });
     }
 
+    for (const background of document.querySelectorAll('[data-br-house-background]')) {
+      loadNear(background, () => {
+        background.style.backgroundImage = 'var(--br-house-background)';
+      });
+    }
+
     for (const image of document.querySelectorAll('img[data-br-cover-fallback]')) {
       const primary = image.src;
       const useFallback = () => {

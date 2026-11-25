@@ -4,9 +4,10 @@ import json
 from pathlib import Path
 import re
 
-from winter_site import HOUSE_COVERS, SPA_POOL_CARD, SPA_POOL_DAY, SPA_WINDOW_LOUNGE, WINTER_HORSE, within_record
+from winter_site import HOUSE_COVERS, SPA_POOL_CARD, SPA_WINDOW_LOUNGE, WINTER_HORSE, within_record
 
 HERE = Path(__file__).resolve().parent
+CALLBACK_READY_SCRIPT = (HERE / "assets/callback-ready.js").read_text()
 STAY_DATA = HERE.parents[1] / "prevyu/lid/br-stay-data.js"
 STAY_HOUSES = json.JSONDecoder().raw_decode(STAY_DATA.read_text().split("=", 1)[1].lstrip())[0]["houses"]
 ROOM_IDS = {house["id"]: house["roomId"] for house in STAY_HOUSES}
@@ -40,9 +41,9 @@ SOCIAL_ASSETS = {
     "/": "hero-panorama-garland.webp",
     "/doma": "hero-panorama-garland.webp",
     "/new-year": "winter-new-year-holiday-table.webp",
-    "/spa": SPA_POOL_DAY,
+    "/spa": SPA_POOL_CARD,
     "/deti": "winter-playground.webp",
-    "/glamping": "winter-glamping.webp",
+    "/glamping": HOUSE_COVERS["bariloche"]["asset"],
     "/banchan": "winter-panorama-tub.webp",
     "/kartabr": "territory-map.webp",
     "/special": "winter-offers-window.webp",
@@ -124,7 +125,7 @@ def winter_activities(prefix):
 def holiday_banner(prefix):
     return (
         '<section class="br-winter-route br-winter-holiday" aria-labelledby="br-winter-holiday-title">'
-        f'<img src="{prefix}/br-assets/winter-new-year-home-table.webp" alt="Праздничный стол и снег за окнами «Берёзовой рощи»" '
+        f'<img src="{prefix}/br-assets/{HOUSE_COVERS["barn-4"]["asset"]}" alt="Зимний «Барнхаус-4» с гирляндой и тёплым светом в окнах" '
         'loading="lazy" decoding="async">'
         '<div><h2 id="br-winter-holiday-title">Новый год и каникулы</h2>'
         '<p>Новогодний заезд с 31 декабря по 3 января. Январские каникулы — с 3 января.</p>'
@@ -285,6 +286,8 @@ def new_year_page(html, prefix):
 
 def apply(html, route, prefix, bath_programs=""):
     html = preview_social_image(html, route, prefix)
+    if route in ("/", "/split") and 'data-tooltip-hook="#zayavka"' in html:
+        html = html.replace("</head>", f"<script>{CALLBACK_READY_SCRIPT}</script></head>", 1)
     html = html.replace(
         "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/br-gift.html",
         prefix + "/certificate/",

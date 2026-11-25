@@ -1,5 +1,6 @@
 """The selected editorial layout for the two homepage sections."""
 import re
+from winter_site import SPA_POOL_DAY
 
 REPOSITORY_ASSETS = "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/"
 SAMOVAR_PHOTO = REPOSITORY_ASSETS + "demo/assets/card-banya.webp"
@@ -49,7 +50,7 @@ def without_home_prices(home):
 def update_home_programs_and_events(home, prefix):
     assets = {
         "program-romance-v9.webp": f"{prefix}/br-assets/br-date-evening.webp",
-        "winter-activity-spa-hq.webp": f"{prefix}/br-assets/winter-selector-spa-pool.webp",
+        "winter-activity-spa-hq.webp": f"{prefix}/br-assets/{SPA_POOL_DAY}",
         "program-samovar-v9.webp": SAMOVAR_PHOTO,
         "event-birthday-v9.webp": f"{prefix}/br-assets/br-birthday-panoramic.webp",
         "event-family-v9.webp": f"{prefix}/br-assets/br-family-bariloche.webp",

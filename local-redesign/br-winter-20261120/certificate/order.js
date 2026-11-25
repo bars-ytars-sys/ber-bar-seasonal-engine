@@ -11,6 +11,8 @@ const back = get('photo-back');
 const next = get('photo-next');
 const currency = new Intl.NumberFormat('ru-RU');
 const telegram = 'https://t.me/ecobazabr';
+const movement = matchMedia('(prefers-reduced-motion: reduce)');
+const photoInputs = new Map();
 
 for (const [id, title] of photos) {
   const label = document.createElement('label');
@@ -25,9 +27,11 @@ for (const [id, title] of photos) {
   image.src = photoThumbnailUrl(id);
   image.alt = '';
   image.loading = 'lazy';
+  image.decoding = 'async';
   tile.append(image, title);
   label.append(radio, tile);
   gallery.append(label);
+  photoInputs.set(id, radio);
 }
 
 function updateGalleryArrows() {
@@ -35,14 +39,28 @@ function updateGalleryArrows() {
   next.disabled = gallery.scrollWidth - gallery.clientWidth - gallery.scrollLeft < 4;
 }
 function browsePhotos(direction) {
-  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  gallery.scrollBy({left: gallery.clientWidth * .8 * direction, behavior: reducedMotion ? 'instant' : 'smooth'});
+  gallery.scrollBy({left: gallery.clientWidth * .8 * direction, behavior: movement.matches ? 'instant' : 'smooth'});
 }
 back.addEventListener('click', () => browsePhotos(-1));
 next.addEventListener('click', () => browsePhotos(1));
 gallery.addEventListener('scroll', updateGalleryArrows, {passive: true});
 new ResizeObserver(updateGalleryArrows).observe(gallery);
 updateGalleryArrows();
+
+function chooseOccasion(input) {
+  const photo = photoInputs.get(input.dataset.photo);
+  if (!photo) return;
+  photo.checked = true;
+  const left = gallery.scrollLeft + photo.closest('label').getBoundingClientRect().left - gallery.getBoundingClientRect().left;
+  gallery.scrollTo({left: left - 4, behavior: movement.matches ? 'instant' : 'smooth'});
+}
+
+function updateText(inputId, outputId, containerId = outputId) {
+  const value = get(inputId).value.trim();
+  get(outputId).textContent = value;
+  get(containerId).hidden = !value;
+  return value;
+}
 
 function refreshOrder() {
   const custom = order.elements.amount.value === 'custom';
@@ -52,26 +70,33 @@ function refreshOrder() {
   const selectedPhoto = order.elements.photo.value;
   const image = get('preview-photo');
   const source = photoUrl(selectedPhoto).href;
+  const title = photos.get(selectedPhoto);
   if (image.src !== source) image.src = source;
-  image.alt = photos.get(selectedPhoto);
-  const name = recipient.value.trim();
-  get('preview-recipient').textContent = name;
-  get('preview-recipient').hidden = !name;
+  image.alt = title;
+  if (get('art-current').textContent !== title) get('art-current').textContent = title;
+
+  const name = updateText('recipient', 'preview-recipient', 'preview-recipient-group');
+  const sender = updateText('sender', 'preview-sender', 'preview-sender-group');
+  const overline = updateText('overline', 'preview-overline');
+  const greeting = updateText('greeting', 'preview-greeting');
+  get('preview-names').hidden = !name && !sender;
+  get('character-count').textContent = get('greeting').value.length + ' / 300';
   get('preview-amount').textContent = Number.isSafeInteger(amount) && amount > 0
     ? currency.format(amount) + ' ₽' : '—';
   get('request-fallback').hidden = true;
-  return {custom, amount, selectedPhoto, name};
+  return {custom, amount, selectedPhoto, name, sender, overline, greeting, occasion: order.elements.occasion.value};
 }
 
-order.addEventListener('input', () => {
+order.addEventListener('input', (event) => {
+  if (event.target.name === 'occasion') chooseOccasion(event.target);
   recipient.setCustomValidity('');
   refreshOrder();
 });
 order.addEventListener('change', (event) => {
   if (event.target.name === 'amount' && event.target.value === 'custom') customAmount.focus();
 });
-function certificateNumber({custom, amount, selectedPhoto, name, callback}) {
-  const key = JSON.stringify([custom, amount, selectedPhoto, name, callback]);
+function certificateNumber(orderDetails, callback) {
+  const key = JSON.stringify([orderDetails, callback]);
   if (!certificateNumbers.has(key)) {
     const id = crypto.randomUUID().replaceAll('-', '').slice(0, 20).toUpperCase();
     certificateNumbers.set(key, 'BR-' + id);
@@ -81,12 +106,13 @@ function certificateNumber({custom, amount, selectedPhoto, name, callback}) {
 
 order.addEventListener('submit', (event) => {
   event.preventDefault();
-  const {custom, amount, selectedPhoto, name} = refreshOrder();
+  const orderDetails = refreshOrder();
+  const {custom, amount, selectedPhoto, name, sender, overline, greeting, occasion} = orderDetails;
   recipient.setCustomValidity(name ? '' : 'Укажите имя получателя.');
   if (!order.reportValidity()) return;
 
   const callback = phone.value.trim();
-  const number = certificateNumber({custom, amount, selectedPhoto, name, callback});
+  const number = certificateNumber(orderDetails, callback);
   const details = [
     'Заявка на подарочный сертификат «Берёзовая роща»',
     'Номер заявки: ' + number,
@@ -96,6 +122,10 @@ order.addEventListener('submit', (event) => {
     'Фото: ' + photos.get(selectedPhoto),
     photoUrl(selectedPhoto).href,
   ];
+  if (occasion !== 'Без повода') details.push('Повод: ' + occasion);
+  if (sender) details.push('От кого: ' + sender);
+  if (overline) details.push('Строка над заголовком: ' + overline);
+  if (greeting) details.push('Поздравление: ' + greeting);
   if (callback) details.push('Телефон для связи: ' + callback);
   details.push('Подскажите, пожалуйста, как оформить и оплатить сертификат.');
 

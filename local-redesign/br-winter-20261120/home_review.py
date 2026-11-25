@@ -1,6 +1,7 @@
 """Winter homepage review and its programs and events links."""
 import re
 from layout_variant import cards, photo
+from winter_site import SPA_POOL_DAY, SPA_POOL_SNOW
 
 
 def section(html, identifier):
@@ -88,17 +89,14 @@ def apply(html, prefix):
     hero = section(html, 'br-home-start')
     opening = hero[:hero.index('>') + 1].replace('brx--s1', 'brx--s1 br-review-hero')
     slides = re.search(r'<div class="brx__slides">.*?</picture></div>', hero, re.S)[0]
-    # Use the same frames from their higher-resolution masters, with the
-    # existing left-hand pool crop on phones.
     slides = (
         slides.replace('winter-br-hero-pano-20261116-mobile.webp', 'hero-winter-panorama-hq.webp')
         .replace('winter-br-hero-pano-20261116.webp', 'hero-winter-panorama-hq.webp')
-        .replace('winter-br-hero-spa-20261116-mobile.webp', 'hero-winter-spa-mobile-hq.webp')
-        .replace('winter-spa-hero.webp', 'hero-winter-spa-hq.webp')
-        .replace('hero-winter-spa-mobile-hq.webp', 'spa-open-pool-20261125.webp')
-        .replace('hero-winter-spa-hq.webp', 'spa-open-pool-20261125.webp')
+        .replace('winter-br-hero-spa-20261116-mobile.webp', SPA_POOL_SNOW)
+        .replace('winter-spa-hero.webp', SPA_POOL_SNOW)
         .replace('Крытый бассейн SPA-комплекса', 'Открытый бассейн SPA-комплекса зимой')
         .replace('width="1920" height="948"', 'width="1785" height="881"')
+        .replace('width="1536" height="1024"', 'width="997" height="902"')
     )
     heading = re.search(r'<h1\b[^>]*>.*?</h1>', hero, re.S)[0]
     actions = re.search(r'<div class="brx__row">.*?</div>', hero, re.S)[0]
@@ -159,7 +157,7 @@ def apply(html, prefix):
     )
     featured = ''.join(activity_cards[:3]).replace('href="#br-home-spa"',
                                                   f'href="{prefix}/spa/"', 1)
-    featured = featured.replace('winter-selector-spa-lounge.webp', 'spa-open-pool-20261125.webp', 1)
+    featured = featured.replace('winter-selector-spa-lounge.webp', SPA_POOL_DAY, 1)
     compact_activities = (
         '<section id="br-home-activities" class="brh brh-section br-review-activities" '
         'aria-labelledby="br-home-activities-title"><div class="brh-section__heading">'

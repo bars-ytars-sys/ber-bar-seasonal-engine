@@ -4,14 +4,13 @@ import json
 from pathlib import Path
 import re
 
-from winter_site import HOUSE_COVERS, within_record
+from winter_site import HOUSE_COVERS, SPA_POOL_DAY, SPA_POOL_SNOW, within_record
 
 HERE = Path(__file__).resolve().parent
 STAY_DATA = HERE.parents[1] / "prevyu/lid/br-stay-data.js"
-ROOM_IDS = {
-    house["id"]: house["roomId"]
-    for house in json.JSONDecoder().raw_decode(STAY_DATA.read_text().split("=", 1)[1].lstrip())[0]["houses"]
-}
+STAY_HOUSES = json.JSONDecoder().raw_decode(STAY_DATA.read_text().split("=", 1)[1].lstrip())[0]["houses"]
+ROOM_IDS = {house["id"]: house["roomId"] for house in STAY_HOUSES}
+ROOM_NAMES = {house["id"]: house["name"] for house in STAY_HOUSES}
 assert set(ROOM_IDS) == set(HOUSE_COVERS)
 
 ACTIVITIES = "/aktivnosti-v-beryozovoj-roshhe/"
@@ -40,8 +39,8 @@ TOOLTIP = re.compile(
 SOCIAL_ASSETS = {
     "/": "hero-panorama-garland.webp",
     "/doma": "hero-panorama-garland.webp",
-    "/new-year": "winter-new-year-welcome.webp",
-    "/spa": "spa-open-pool-20261125.webp",
+    "/new-year": "winter-new-year-holiday-table.webp",
+    "/spa": SPA_POOL_SNOW,
     "/deti": "winter-playground.webp",
     "/glamping": "winter-glamping.webp",
     "/banchan": "winter-panorama-tub.webp",
@@ -103,7 +102,7 @@ def preview_social_image(html, route, prefix):
 
 def winter_activities(prefix):
     cards = (
-        ("/spa/", "spa-open-pool-20261125.webp", "SPA и тёплый бассейн", "Открытый бассейн, сауны и хамам"),
+        ("/spa/", SPA_POOL_DAY, "SPA и тёплый бассейн", "Открытый бассейн, сауны и хамам"),
         ("/banchan/#samovar", "winter-panorama-tub.webp", "Баня и чан", "Парение и травяной чай из самовара"),
         ("/deti/", "winter-activity-farm-hq.webp", "Зимой с детьми", "Контактная ферма, площадка и семейное кино"),
         ("/new-year/", "hero-panorama-garland.webp", "Новый год и каникулы", "Новогодний заезд и даты в январе"),
@@ -207,6 +206,79 @@ def insert_before_record(html, record, markup):
     return updated
 
 
+def new_year_page(html, prefix):
+    assets = f"{prefix}/br-assets"
+    cards = (
+        ("hero-panorama-garland", "winter-new-year-holiday-table",
+         "Накрытый новогодний стол в доме «Берёзовой рощи», за окнами снег", ""),
+        ("winter-new-year-scandi", "winter-new-year-holiday-haus",
+         "Зимний дом с гирляндой в «Берёзовой роще»", ' loading="lazy"'),
+    )
+    for previous, photo, alt, loading in cards:
+        old = re.compile(rf'<img class="holiday-card__photo" src="{re.escape(assets)}/{previous}\.webp"[^>]*>')
+        markup = (
+            f'<img class="holiday-card__photo" src="{assets}/{photo}.webp" '
+            f'srcset="{assets}/{photo}-mobile.webp 640w, {assets}/{photo}.webp 1280w" '
+            'sizes="(max-width: 700px) 92vw, (max-width: 1240px) 45vw, 570px" '
+            f'alt="{alt}" width="1280" height="853" decoding="async"{loading}>'
+        )
+        html, count = old.subn(markup, html)
+        assert count == 1, previous
+
+    intro = "Новогодний заезд в загородный дом. Праздничный ужин можно заказать в ресторане.</p>"
+    assert html.count(intro) == 1
+    html = html.replace(
+        intro,
+        'Встретьте Новый год в своём доме. Праздничный ужин можно заказать в ресторане.</p>'
+        '<p class="br-new-year-perk">Новогодняя лотерея и подарки в каждом доме</p>',
+    )
+    title = re.compile(r'(<h1 id="holiday-title">.*?)\s*(<p class="holiday-periods__location">.*?</p>)', re.S)
+    countdown = re.compile(r'<div class="мини-отсчёт" id="отсчёт"[^>]*>.*?<div><b data-ч="с">—</b><span>с</span></div>\s*</div>', re.S)
+    assert len(countdown.findall(html)) == 1
+    html = countdown.sub("", html)
+    units = ''.join(
+        f'<div><b data-ч="{key}">—</b><span>{unit}</span></div>'
+        for key, unit in (("д", "дни"), ("ч", "часы"), ("м", "минуты"), ("с", "секунды"))
+    )
+    timer = (
+        '<div class="br-new-year-clock" role="timer" id="отсчёт" aria-labelledby="br-new-year-clock-title">'
+        '<p id="br-new-year-clock-title">До Нового года</p>'
+        f'<div class="br-new-year-clock__units">{units}</div></div>'
+    )
+    html, count = title.subn(lambda match: f'<div class="br-new-year-heading"><div>{match[1]}{match[2]}</div>{timer}</div>', html, count=1)
+    assert count == 1
+
+    links = (
+        '<nav class="навигация br-new-year-links" aria-label="Разделы новогодней страницы">'
+        '<div class="навигация__полоса"><a href="#holiday-periods">Даты заездов</a>'
+        '<a href="#коротко">Что ждёт гостей</a><a href="#дома">Дома</a>'
+        '<a href="#условия">Что входит</a><a href="#спа">SPA</a>'
+        '<a href="#зимой">Зимой</a><a href="#вопросы">Вопросы</a></div></nav>'
+    )
+    html, count = re.subn(r'<nav class="навигация"[^>]*>.*?</nav>', links, html, count=1, flags=re.S)
+    assert count == 1
+
+    # Match the winter facade already used on each house's main page.
+    categories = ("bariloche", "scandi", "panorama", "baus-1", "chalet", "house-2", "barn-2", "sfera", "holidayhouse")
+    house_photos = re.compile(r'(<div class="выбор__фото">)(.*?)(</div>)', re.S)
+
+    def update_category_photos(block):
+        def replace_image(match):
+            slug = categories[int(match[1])]
+            cover = HOUSE_COVERS[slug]["asset"]
+            alt = escape(f"{ROOM_NAMES[slug]} — зимний фасад", quote=True)
+            photo = re.sub(r'\bsrc="[^"]*"', f'src="{assets}/{cover}"', match[0], count=1)
+            return re.sub(r'\balt="[^"]*"', f'alt="{alt}"', photo, count=1)
+
+        photos, count = re.subn(r'<img[^>]*\bdata-i="(\d+)"[^>]*>', replace_image, block[2])
+        assert count == len(categories)
+        return f"{block[1]}{photos}{block[3]}"
+
+    html, count = house_photos.subn(update_category_photos, html, count=1)
+    assert count == 1
+    return html.replace("</head>", f'<link rel="stylesheet" href="{assets}/new-year.css"></head>', 1)
+
+
 def apply(html, route, prefix, bath_programs=""):
     html = preview_social_image(html, route, prefix)
     html = html.replace(
@@ -244,25 +316,7 @@ def apply(html, route, prefix, bath_programs=""):
     if route + "/" == ACTIVITIES:
         html = insert_before_record(html, "rec2863877701", winter_activities(prefix))
     if route == "/new-year":
-        photo = f'class="holiday-card__photo" src="{prefix}/br-assets/hero-panorama-garland.webp"'
-        assert html.count(photo) == 1
-        html = html.replace(photo, f'class="holiday-card__photo" src="{prefix}/br-assets/winter-new-year-welcome.webp"', 1)
-        html = html.replace('alt="Дом Панорама в «Берёзовой роще» зимой"', 'alt="Украшенный к Новому году вход в дом «Берёзовой рощи»"', 1)
-        intro = "Новогодний заезд в загородный дом. Праздничный ужин можно заказать в ресторане.</p>"
-        assert html.count(intro) == 1
-        html = html.replace(
-            intro,
-            'Встретьте Новый год в своём доме. Праздничный ужин можно заказать в ресторане.</p>'
-            '<p class="br-new-year-perk">Новогодняя лотерея и подарки в каждом доме</p>',
-        )
-        program = '<section class="полоса" id="коротко"'
-        links = (
-            '<nav class="br-new-year-links" aria-label="Разделы новогодней страницы">'
-            '<a href="#holiday-periods">Даты заездов</a><a href="#коротко">Что ждёт гостей</a>'
-            '<a href="#дома">Выбрать дом</a><a href="#условия">Что входит</a><a href="#вопросы">Вопросы</a></nav>'
-        )
-        assert html.count(program) == 1
-        html = html.replace(program, links + program, 1)
+        return new_year_page(html, prefix)
     if route == "/special":
         html = insert_before_record(html, "rec1758798101", holiday_banner(prefix))
     if route == "/banchan":

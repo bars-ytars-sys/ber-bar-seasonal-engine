@@ -5,34 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <meta name="referrer" content="no-referrer">
-  <meta name="description" content="Выберите фото и номинал подарочного сертификата «Берёзовой рощи».">
-  <meta name="theme-color" content="#f5f7f4">
+  <meta name="description" content="Выберите номинал, фотографию и поздравление для подарочного сертификата на отдых в «Берёзовой роще».">
+  <meta name="theme-color" content="#233b32">
   <title>Подарочный сертификат — Берёзовая роща</title>
   <link rel="stylesheet" href="../br-assets/br-controls.css">
-  <link rel="stylesheet" href="order.css">
-  <script type="module" src="order.js"></script>
+  <link rel="stylesheet" href="order.css?v=2">
+  <script type="module" src="order.js?v=2"></script>
 </head>
 <body>
   <a class="skip" href="#main">К содержанию</a>
   <header class="site-header">
-    <div class="site-nav shell">
-      <a class="brand" href="../">
+    <nav class="site-nav shell" aria-label="Основное меню">
+      <a class="brand" href="../" aria-label="Берёзовая роща, главная">
         <img src="https://static.tildacdn.com/tild6330-6562-4465-a232-323932353661/LOGO.svg" width="178" height="56" alt="Берёзовая роща">
       </a>
+      <a class="nav-link" href="../doma/">Каталог домов</a>
+      <a class="nav-link" href="../new-year/">Новый год</a>
+      <a class="nav-link" href="./" aria-current="page">Сертификаты</a>
       <a class="contact" href="tel:+74951202008">+7 (495) 120-20-08</a>
-    </div>
+    </nav>
   </header>
   <main id="main" class="shell">
-    <section class="intro">
-      <h1>Подарочный сертификат</h1>
-      <p>Выберите номинал и оформление под повод. Менеджер поможет оформить сертификат в Telegram.</p>
+    <section class="intro" aria-labelledby="page-title">
+      <h1 id="page-title">Подарите отдых<br class="mobile-break"> в&nbsp;«Берёзовой роще»</h1>
+      <p>Дом среди берёз и время для близких. Выберите номинал, фото и поздравление для подарочного сертификата на проживание.</p>
     </section>
 
     <div class="order-layout">
       <form id="order" class="order-form">
-        <fieldset>
+        <fieldset class="denomination">
           <legend>Номинал</legend>
-          <div class="amount-options">
+          <p class="hint">Сертификат на проживание действует 6 месяцев.</p>
+          <div class="choices">
             <label class="amount-option"><input type="radio" name="amount" value="10000" checked><span>10 000 ₽</span></label>
             <label class="amount-option"><input type="radio" name="amount" value="20000"><span>20 000 ₽</span></label>
             <label class="amount-option"><input type="radio" name="amount" value="30000"><span>30 000 ₽</span></label>
@@ -40,57 +44,127 @@
           </div>
           <div id="custom-field" hidden>
             <label class="field" for="custom-amount">Сумма, ₽
-              <input id="custom-amount" type="number" inputmode="numeric" min="1" max="9007199254740991" step="1" required disabled>
+              <input id="custom-amount" type="number" inputmode="numeric" min="1" max="9007199254740991" step="1" placeholder="Введите номинал" required disabled>
             </label>
           </div>
-          <p class="hint">Сертификат на проживание действует 6 месяцев. Условия покупки уточнит менеджер.</p>
         </fieldset>
 
-        <fieldset>
-          <legend>Оформление сертификата</legend>
-          <div class="gallery-actions">
-            <button type="button" class="gallery-arrow" id="photo-back" aria-label="Предыдущие фото" disabled>‹</button>
-            <button type="button" class="gallery-arrow" id="photo-next" aria-label="Следующие фото" disabled>›</button>
+        <fieldset class="artwork">
+          <legend>Повод и оформление</legend>
+          <div id="occasions" class="choices">
+            <label class="amount-option"><input type="radio" name="occasion" value="Без повода" data-photo="house-winter-holidayhouse" checked><span>Без повода</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="День рождения" data-photo="br-birthday-panoramic"><span>День рождения</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="Свадьба" data-photo="cert-photo-sfera-peonies"><span>Свадьба</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="Годовщина" data-photo="cert-photo-barn-birches"><span>Годовщина</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="День влюблённых" data-photo="house-winter-sfera"><span>День влюблённых</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="Свидание" data-photo="cert-photo-black-aframe"><span>Свидание</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="Предложение" data-photo="hero-panorama-garland"><span>Предложение</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="Медовый месяц" data-photo="cert-photo-holiday-daylight"><span>Медовый месяц</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="Для двоих" data-photo="cert-photo-baus-evening"><span>Для двоих</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="Маме" data-photo="cert-photo-panorama-summer"><span>Маме</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="Для неё" data-photo="cert-photo-sfera-peonies"><span>Для неё</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="Для него" data-photo="cert-photo-baus-tub"><span>Для него</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="Девичник" data-photo="spa-open-pool-20261125"><span>Девичник</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="8 Марта" data-photo="cert-photo-sfera-peonies"><span>8 Марта</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="23 Февраля" data-photo="winter-samovar-program"><span>23 Февраля</span></label>
+            <label class="amount-option"><input type="radio" name="occasion" value="Новый год" data-photo="hero-panorama-garland"><span>Новый год</span></label>
           </div>
-          <div class="gallery" id="photos"></div>
+          <p id="art-current" class="art-current" aria-live="polite">Холидей хаус · Новый год</p>
+          <div class="art-picker">
+            <div class="gallery" id="photos" role="group" aria-label="Фотографии для сертификата"></div>
+            <button type="button" class="gallery-arrow previous" id="photo-back" aria-label="Предыдущие фото" disabled>‹</button>
+            <button type="button" class="gallery-arrow next" id="photo-next" aria-label="Следующие фото" disabled>›</button>
+          </div>
+        </fieldset>
+
+        <fieldset class="personalize">
+          <legend>Надписи на сертификате</legend>
+          <p class="hint">Имена, надпись над заголовком и пожелания сразу появятся на сертификате.</p>
+          <label class="field short-field" for="overline">Строка над заголовком
+            <input id="overline" maxlength="40" placeholder="Например, с юбилеем!">
+          </label>
+          <div class="name-fields">
+            <label class="field" for="recipient">Кому
+              <input id="recipient" maxlength="80" placeholder="Имя получателя" required>
+            </label>
+            <label class="field" for="sender">От кого
+              <input id="sender" maxlength="80" placeholder="Ваше имя">
+            </label>
+          </div>
+          <label class="field" for="greeting">Поздравление
+            <textarea id="greeting" maxlength="300" rows="3" placeholder="Ваши пожелания" aria-describedby="character-count"></textarea>
+          </label>
+          <div class="personalize-footer">
+            <a class="show-preview" href="#certificate-preview">Посмотреть сертификат ↑</a>
+            <span class="character-count" id="character-count">0 / 300</span>
+          </div>
         </fieldset>
 
         <fieldset class="request order-contact">
-          <legend>Данные для заявки</legend>
-          <label class="field" for="recipient">Имя получателя
-            <input id="recipient" type="text" maxlength="80" required>
-          </label>
-          <label class="field" for="phone">Телефон для связи <span class="hint">(необязательно)</span>
+          <legend>Оформление сертификата</legend>
+          <p class="hint">Менеджер уточнит условия покупки в Telegram. В черновике сохранятся выбранный номинал, фото и поздравление.</p>
+          <label class="field short-field" for="phone">Телефон для связи (необязательно)
             <input id="phone" type="tel" autocomplete="tel" maxlength="30">
           </label>
-          <button class="br-winter-primary" type="submit" id="send-request" disabled>Написать менеджеру</button>
-          <p class="hint">Проверьте сообщение в Telegram и отправьте его менеджеру. Сохраните номер заявки, чтобы вернуться к оформлению в том же чате.</p>
+          <button class="br-winter-primary" type="submit" id="send-request" disabled>Оставить заявку</button>
           <div id="request-fallback" hidden>
-            <p>Номер заявки <strong id="order-reference"></strong></p>
+            <p class="request-number" role="status">Номер заявки <strong id="order-reference"></strong></p>
+            <p class="hint">Отправьте черновик менеджеру в чате «Берёзовая роща» и сохраните номер заявки.</p>
             <label class="field" for="draft">Текст заявки
               <textarea id="draft" rows="6" readonly></textarea>
             </label>
-            <button type="button" class="secondary" id="copy">Скопировать заявку</button>
-            <a id="open-chat" href="https://t.me/ecobazabr" target="_blank" rel="noopener noreferrer">Открыть чат</a>
+            <div class="request-actions">
+              <button type="button" class="secondary" id="copy">Скопировать заявку</button>
+              <a id="open-chat" href="https://t.me/ecobazabr" target="_blank" rel="noopener noreferrer">Открыть чат</a>
+            </div>
             <p class="hint" id="copy-status" role="status"></p>
           </div>
         </fieldset>
       </form>
 
-      <aside class="order-preview" aria-label="Предпросмотр сертификата">
+      <aside class="order-preview" id="certificate-preview" aria-labelledby="preview-label">
+        <p class="preview-label" id="preview-label">Так выглядит сертификат</p>
         <article class="preview-card">
-          <img id="preview-photo" class="preview-photo" src="../br-assets/house-winter-holidayhouse.webp" width="1080" height="720" alt="Холидей хаус · Новый год">
+          <img id="preview-photo" class="preview-photo" src="../br-assets/house-winter-holidayhouse.webp" width="1080" height="720" alt="Холидей хаус · Новый год" fetchpriority="high">
+          <div class="perforation" aria-hidden="true"></div>
           <div class="preview-paper">
-            <p class="preview-note">Берёзовая роща</p>
+            <div class="ribbon">
+              <img src="https://static.tildacdn.com/tild6330-6562-4465-a232-323932353661/LOGO.svg" width="178" height="56" alt="Берёзовая роща">
+            </div>
+            <p class="preview-kind">На проживание</p>
+            <p id="preview-overline" class="preview-overline" hidden></p>
             <h2>Подарочный сертификат</h2>
-            <p id="preview-recipient" class="preview-name" hidden></p>
+            <dl class="preview-names" id="preview-names" hidden>
+              <div id="preview-recipient-group" hidden><dt>Кому</dt><dd id="preview-recipient"></dd></div>
+              <div id="preview-sender-group" hidden><dt>От кого</dt><dd id="preview-sender"></dd></div>
+            </dl>
+            <p id="preview-greeting" class="preview-greeting" hidden></p>
             <p class="preview-amount"><span>Номинал</span><strong id="preview-amount">10 000 ₽</strong></p>
-            <p class="preview-note">На проживание в «Берёзовой роще»</p>
+            <p class="preview-terms">Срок действия — 6 месяцев.</p>
           </div>
         </article>
-        <p class="hint">Предпросмотр оформления</p>
+        <p class="preview-caption">Предпросмотр оформления</p>
       </aside>
     </div>
+
+    <section class="details" aria-labelledby="steps-title">
+      <h2 id="steps-title">Как это работает</h2>
+      <ol class="steps">
+        <li><strong>Выберите номинал</strong><p>Укажите предложенную или свою сумму.</p></li>
+        <li><strong>Оформите подарок</strong><p>Подберите фото и добавьте поздравление.</p></li>
+        <li><strong>Оставьте заявку</strong><p>Отправьте её в Telegram. Менеджер расскажет, как оплатить сертификат.</p></li>
+        <li><strong>Подарите отдых</strong><p>Получатель сможет использовать сертификат на проживание в «Берёзовой роще».</p></li>
+      </ol>
+    </section>
+    <section class="details faqs" aria-labelledby="faq-title">
+      <h2 id="faq-title">Частые вопросы</h2>
+      <details><summary>На что действует сертификат?</summary><p>На проживание в «Берёзовой роще».</p></details>
+      <details><summary>Как долго действует сертификат?</summary><p>Срок действия — 6 месяцев. Даты и условия бронирования можно уточнить у менеджера.</p></details>
+      <details><summary>Как оплатить сертификат?</summary><p>Отправьте заявку в Telegram. Менеджер подтвердит стоимость и объяснит, как оформить покупку.</p></details>
+    </section>
   </main>
+  <footer class="footer">
+    <div class="shell"><a href="../">Берёзовая роща</a><a href="tel:+74951202008">+7 (495) 120-20-08</a></div>
+  </footer>
 </body>
 </html>

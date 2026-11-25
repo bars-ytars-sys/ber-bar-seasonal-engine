@@ -1,5 +1,5 @@
 """Seasonal presentation for the full BR preview, using the original page records."""
-from html import escape
+from html import escape, unescape
 import json
 from pathlib import Path
 import re
@@ -23,6 +23,16 @@ HOME_EXTERIOR = re.compile(r'<button\b(?=[^>]*\baria-label="(?:Внешний в
 HOME_PHOTO_CHOICES = re.compile(r'(<div class="brh-house__photos"[^>]*>)(.*?)(</div>)', re.S)
 HOME_CARD_ACTIONS = re.compile(r'<a class="brh-house__button"[^>]*>.*?</a>\s*<a class="brh-house-details"[^>]*>.*?</a>', re.S)
 HOLIDAY_PHOTOS = "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/new-year-20261105/"
+SPA_POOL_SNOW = "winter-spa-pool-snow.webp"
+SPA_POOL_DAY = "winter-spa-pool-day.webp"
+SPA_POOL_EVENING = "winter-spa-pool-evening.webp"
+SPA_WINDOW_LOUNGE = "winter-spa-window-lounge.webp"
+SPA_HOME_SLIDES = {
+    "tild3065-3831-4739-b664-343066326331": (SPA_POOL_SNOW, "Пар над открытым бассейном и заснеженная терраса"),
+    "tild6538-3461-4165-a666-363832663861": (SPA_POOL_DAY, "Открытый бассейн рядом с панорамными окнами SPA"),
+    "tild6232-3763-4434-a331-643431306162": (SPA_WINDOW_LOUNGE, "Зона отдыха SPA с видом на зимний бассейн"),
+    "tild3532-6232-4238-a462-306339376632": (SPA_POOL_EVENING, "Тёплая вода, снег и огни в вечернем SPA"),
+}
 SUMMER_GALLERIES = {
     "bariloche": ("rec2411770091", {1, 2, 3, 20, 21, 22, 23, 24, 25}),
     "chalet": ("rec1737097191", {1, 2, 3, 4, 24, 25, 27}),
@@ -52,7 +62,8 @@ SEASONAL_PHOTOS = {
     "tild6330-3133-4062-a262-616263626665": "hero-winter-spa-hq.webp",
     "tild6339-6561-4130-b464-646463313361": "hero-winter-spa-hq.webp",
     "tild3664-3965-4431-a537-396337656361": "hero-winter-spa-hq.webp",
-    "tild6139-3532-4136-a431-333736333265": "spa-open-pool-20261125.webp",
+    "tild6139-3532-4136-a431-333736333265": SPA_POOL_SNOW,
+    "tild3163-3639-4336-b865-653432633265": SPA_POOL_EVENING,
     "tild3766-3164-4638-a161-373538633736": "restaurant-set-menu-20261125.jpg",
     "tild3761-3162-4066-b435-326639616461": "winter-buggy.webp",
     "tild3831-6231-4262-b431-376566303264": "winter-baus-1.webp",
@@ -89,6 +100,7 @@ SEASONAL_PHOTOS = {
 
 def validate_assets(folder):
     names = {house["asset"] for house in HOUSE_COVERS.values()} | set(SEASONAL_PHOTOS.values())
+    names.update(asset for asset, _ in SPA_HOME_SLIDES.values())
     names.update(("winter-farm-goat.webp", "winter-birthday-panoramic.webp", "winter-open-pool.webp",
                   "hero-panorama-garland-mobile.avif", "territory-map.webp", "winter-samovar-program.webp"))
     for name in sorted(names):
@@ -109,6 +121,26 @@ def within_record(html, target, transform):
             finish = records[index + 1].start() if index + 1 < len(records) else len(html)
             return html[:record.start()] + transform(html[record.start():finish]) + html[finish:]
     raise ValueError(f"Missing record {target}")
+
+
+def winter_spa_home_gallery(record, prefix):
+    images = re.compile(r'(data-field-imgs-value=")([^"]+)(")')
+
+    def update_slides(match):
+        slides = json.loads(unescape(match[2]))
+        present = {slide["lid"] for slide in slides}
+        assert SPA_HOME_SLIDES.keys() <= present
+        for slide in slides:
+            winter_photo = SPA_HOME_SLIDES.get(slide["lid"])
+            if winter_photo:
+                asset, alt = winter_photo
+                slide["li_img"] = f"{prefix}/br-assets/{asset}"
+                slide["li_imgalt"] = alt
+        return match[1] + escape(json.dumps(slides, ensure_ascii=False), quote=True) + match[3]
+
+    updated, count = images.subn(update_slides, record, count=1)
+    assert count == 1
+    return updated
 
 
 def season_switch(winter, summer):
@@ -326,6 +358,7 @@ def apply(html, route, prefix):
     html = html.replace('href="#menurestoran"', f'href="{menu}" target="_blank" rel="noopener"')
     if route == "/":
         html = home_covers(html, prefix)
+        html = within_record(html, "rec2263527021", lambda record: winter_spa_home_gallery(record, prefix))
     if route == "/booking":
         html = booking_link(html)
     if route == "/aktivnosti-v-beryozovoj-roshhe":

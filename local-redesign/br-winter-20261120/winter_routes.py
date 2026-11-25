@@ -15,7 +15,7 @@ ROOM_NAMES = {house["id"]: house["name"] for house in STAY_HOUSES}
 assert set(ROOM_IDS) == set(HOUSE_COVERS)
 
 ACTIVITIES = "/aktivnosti-v-beryozovoj-roshhe/"
-NEW_YEAR_BARN = "winter-new-year-barn-2"
+NEW_YEAR_COVER = "winter-new-year-dinner"
 HOUSE_CATEGORY_ORDER = (
     "БАРИЛОЧЕ", "ПАНОРАМА", "СКАНДИ", "ШАЛЕ", "БАРНХАУС",
     "БАУС", "А-ФРЕЙМ", "СФЕРА", "ХАУС", "ХОЛИДЕЙ ХАУС",
@@ -41,7 +41,7 @@ TOOLTIP = re.compile(
 SOCIAL_ASSETS = {
     "/": "hero-panorama-garland.webp",
     "/doma": "hero-panorama-garland.webp",
-    "/new-year": f"{NEW_YEAR_BARN}.webp",
+    "/new-year": f"{NEW_YEAR_COVER}.webp",
     "/spa": SPA_POOL_CARD,
     "/deti": "winter-playground.webp",
     "/glamping": HOUSE_COVERS["bariloche"]["asset"],
@@ -215,10 +215,10 @@ def insert_before_record(html, record, markup):
 def new_year_page(html, prefix):
     assets = f"{prefix}/br-assets"
     cards = (
-        ("hero-panorama-garland", NEW_YEAR_BARN,
-         "Зимний фасад «Барнхауса-2» с красным новогодним бантом", ' fetchpriority="high"'),
-        ("winter-new-year-scandi", "winter-new-year-holiday-haus",
-         "Зимний дом с гирляндой в «Берёзовой роще»", ' loading="lazy"'),
+        ("hero-panorama-garland", NEW_YEAR_COVER,
+         "Наряженная ёлка и праздничный стол в доме «А-фрейм люкс чёрный»", ' fetchpriority="high"'),
+        ("winter-new-year-scandi", "winter-january-house-4-evening",
+         "Заснеженный «Хаус-4» с новогодними огнями вечером", ' loading="lazy"'),
     )
     for previous, photo, alt, loading in cards:
         old = re.compile(rf'<img class="holiday-card__photo" src="{re.escape(assets)}/{previous}\.webp"[^>]*>')

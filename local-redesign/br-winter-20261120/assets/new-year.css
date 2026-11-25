@@ -181,8 +181,22 @@
 
 @media (max-width: 700px) {
   #allrecords #holiday-periods .br-new-year-heading { grid-template-columns: minmax(0, 1fr); }
+  #allrecords #holiday-periods .br-new-year-heading > div:first-child { text-align: center; }
   #allrecords #holiday-periods .holiday-card__photo { aspect-ratio: 8 / 5; }
   #allrecords .нг-бр .навигация.br-new-year-links { position: static; }
+  #allrecords .нг-бр .подвал__сетка { grid-template-columns: minmax(0, 1fr); }
+  #allrecords .нг-бр .подвал__сетка > *,
+  #allrecords .нг-бр .подвал__форма :is(input, select, textarea) {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 479px) {
+  #allrecords .нг-бр #holiday-periods {
+    /* Reserve the sticky mobile header before the native page measures it. */
+    padding-block-start: calc(clamp(50px, 15.38vw, 76px) + clamp(24px, 4vw, 49px));
+  }
 }
 
 @media (max-width: 359px) {

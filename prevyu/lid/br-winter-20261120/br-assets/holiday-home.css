@@ -157,9 +157,36 @@ body.br-home-release #br-home-start.br-winter-hero--houses { min-height: clamp(4
   }
   #br-home-start.br-winter-hero--brand .brx__h1 { text-align: center; }
   #br-home-start.br-winter-hero--brand .brx__h1 small { margin-top: 8px; font-size: clamp(10px, 3vw, 14px); }
-  #br-home-start.br-winter-hero--brand .brx__script { font-size: clamp(26px, 8.3vw, 44px); }
+  #br-home-start.br-winter-hero--brand .brx__script {
+    font-size: clamp(26px, 8.3vw, 44px);
+    text-wrap: balance;
+  }
+  #br-home-start.br-winter-hero--brand .brx__sub {
+    max-width: 320px;
+    margin-inline: auto;
+    text-wrap: balance;
+  }
   #br-home-start.br-winter-hero--brand .brx__row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  #br-home-start.br-winter-hero--brand #br-home-benefits ul { justify-content: center; }
+  #br-home-start.br-winter-hero--brand .brx__row .brx__ghost {
+    color: #fff;
+    background: #1c392f;
+    border-color: #cfdfd5;
+  }
+  #br-home-start.br-winter-hero--brand .brx__row .brx__ghost:hover { background: #294a3e; }
+  #br-home-start.br-winter-hero--brand #br-home-benefits ul {
+    box-sizing: border-box;
+    justify-content: center;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+    padding: 1px 12px;
+    border-radius: 999px;
+    background: #1c392f;
+  }
+  #br-home-start.br-winter-hero--brand #br-home-benefits a {
+    min-height: 34px;
+    font-weight: 650;
+  }
   body.br-home-release #br-home-start.br-winter-hero--houses { min-height: clamp(365px, 51svh, 485px); }
   #br-home-start.br-winter-hero--houses > .brx__copy { gap: 110px; }
 }
@@ -167,6 +194,9 @@ body.br-home-release #br-home-start.br-winter-hero--houses { min-height: clamp(4
 @media (max-width: 639px) {
   body.br-home-release #br-home-start.br-winter-hero--brand {
     min-height: max(510px, var(--hero-base));
+  }
+  body:has(.br-winter-hero--brand) #rec2851363001 .t396__artboard {
+    overflow: hidden;
   }
   body:has(.br-winter-hero--brand) #br-home-layout > .brh-quick-links {
     margin-block-start: clamp(26px, 4.5svh, 42px);

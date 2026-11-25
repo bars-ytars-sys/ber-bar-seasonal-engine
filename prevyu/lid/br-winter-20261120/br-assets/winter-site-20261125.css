@@ -1,0 +1,63 @@
+.br-page-snow-frame { position: relative !important; }
+
+.br-page-snow {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.br-page-snow::before,
+.br-page-snow::after {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--flake-step));
+  right: -20px;
+  bottom: 0;
+  left: -20px;
+  background-size: var(--flake-width) var(--flake-step);
+  animation: br-page-snow-fall var(--flake-time) linear var(--flake-offset) infinite paused;
+}
+
+.br-page-snow::before {
+  --flake-step: 216px;
+  --flake-width: clamp(194px, 25vw, 366px);
+  --flake-time: 19s;
+  --flake-offset: -8s;
+  --flake-drift: 8px;
+  background-image:
+    radial-gradient(circle at 17% 19%, rgb(255 255 255 / .65) 1px, transparent 1.8px),
+    radial-gradient(circle at 61% 53%, rgb(255 255 255 / .54) .8px, transparent 1.6px),
+    radial-gradient(circle at 86% 91%, rgb(255 255 255 / .57) 1.15px, transparent 2px);
+}
+
+.br-page-snow::after {
+  --flake-step: 283px;
+  --flake-width: clamp(242px, 31vw, 439px);
+  --flake-time: 15s;
+  --flake-offset: -3s;
+  --flake-drift: -12px;
+  background-image:
+    radial-gradient(circle at 34% 28%, rgb(255 255 255 / .75) 1.45px, transparent 2.35px),
+    radial-gradient(circle at 73% 78%, rgb(255 255 255 / .58) 1.25px, transparent 2.15px);
+}
+
+.br-page-snow.is-active::before,
+.br-page-snow.is-active::after {
+  animation-play-state: running;
+  will-change: transform;
+}
+
+@keyframes br-page-snow-fall {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(var(--flake-drift), calc(var(--flake-step) / 2), 0); }
+  100% { transform: translate3d(0, var(--flake-step), 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-page-snow { display: none; }
+  .br-page-snow::before, .br-page-snow::after { animation: none; }
+}
+
+#rec2851363001 .h-tab.h-on .tn-atom__button-text { color: #191d1b; }

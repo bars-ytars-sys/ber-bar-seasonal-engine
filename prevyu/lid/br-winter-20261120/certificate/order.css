@@ -1,15 +1,15 @@
 :root {
-  --paper: #fff9ee;
-  --background: #24453a;
-  --surface: #19392e;
-  --ink: #fff8eb;
-  --muted: #e3dfd0;
-  --line: rgba(238, 229, 213, .28);
-  --outline: #b8f1dc;
+  --paper: #fffdf7;
+  --background: #f4f6fa;
+  --surface: #fff;
+  --ink: #191c1b;
+  --muted: #4c5d56;
+  --line: #d6dfdc;
+  --outline: #0c7659;
   font: 400 16px/1.5 var(--br-text-font);
   color: var(--ink);
   background: var(--background);
-  color-scheme: dark;
+  color-scheme: light;
 }
 * { box-sizing: border-box; }
 body { margin: 0; }
@@ -27,10 +27,15 @@ button { cursor: pointer; }
 .site-nav a:hover, .site-nav [aria-current] { text-decoration: underline; text-underline-offset: 4px; }
 .brand { display: block; flex: none; }
 .brand img { display: block; width: 155px; height: auto; }
-.brand img, .ribbon img { filter: brightness(0) invert(1); }
+.ribbon img { filter: brightness(0) invert(1); }
 .contact { margin-inline-start: auto; white-space: nowrap; }
 .intro { margin: 42px 0 34px; }
-h1, h2, legend { margin: 0; font: 700 30px/1.15 var(--br-title-font); letter-spacing: -.015em; }
+h1, h2, legend {
+  margin: 0;
+  font: 700 30px/1.15 var(--br-title-font);
+  letter-spacing: -.015em;
+  text-transform: uppercase;
+}
 h1 { font: 700 clamp(30px, 4.35vw, 62px)/1.08 var(--br-title-font); text-wrap: balance; }
 .mobile-break { display: none; }
 .intro p { max-width: 680px; margin: 14px 0 0; color: var(--muted); }
@@ -57,7 +62,11 @@ legend { max-width: 100%; margin-bottom: 8px; padding: 0; }
   font-size: 15px;
 }
 .amount-option:hover span { border-color: var(--outline); }
-.amount-option input:checked + span { background: #c4eada; border-color: #c4eada; color: #16372b; }
+.amount-option input:checked + span {
+  background: #def8ef;
+  border-color: #19bf92;
+  color: #0c5541;
+}
 .amount-option input:focus-visible + span, .photo-option input:focus-visible + span {
   outline: 2px solid var(--outline);
   outline-offset: 2px;
@@ -93,7 +102,7 @@ legend { max-width: 100%; margin-bottom: 8px; padding: 0; }
 .gallery-arrow, .secondary {
   border: 1px solid var(--line);
   background: var(--surface);
-  color: var(--ink);
+  color: var(--outline);
 }
 .gallery-arrow {
   position: absolute;
@@ -123,7 +132,7 @@ legend { max-width: 100%; margin-bottom: 8px; padding: 0; }
   background: var(--surface);
   font-size: 16px;
 }
-input::placeholder, textarea::placeholder { color: #c8bfb1; }
+input::placeholder, textarea::placeholder { color: #65746c; }
 .short-field { max-width: 390px; }
 .name-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 textarea { resize: vertical; }
@@ -160,7 +169,7 @@ textarea { resize: vertical; }
   right: 8cqw;
   width: 25cqw;
   padding: 2.8cqw 2cqw 4.8cqw;
-  background: var(--surface);
+  background: #174638;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 84%, 0 100%);
 }
 .ribbon img { display: block; width: 100%; height: auto; }

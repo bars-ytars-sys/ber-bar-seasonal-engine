@@ -276,6 +276,10 @@ def main():
         html = re.sub(canonical_pattern, lambda _: canonical, html, count=1, flags=re.I)
         html = seo.keep_current_metadata(html, route)
         html = seo.resolve_legacy_links(html, PREFIX, winter_site.HOUSE_COVERS)
+        if route in ("/glamping", "/deti", "/special"):
+            # Late Zero Block positioning can briefly widen the mobile document.
+            mobile_width = "<style>@media(max-width:960px){#allrecords{max-width:100%;overflow-x:clip}}</style>"
+            html = html.replace("<head>", "<head>" + mobile_width, 1)
         if route.startswith("/doma/"):
             html = winter_site.house_page(html, route.rsplit("/", 1)[1], PREFIX)
             html = html.replace("</head>", f'<link rel="stylesheet" href="{PREFIX}/br-assets/house-seasons.css"></head>', 1)

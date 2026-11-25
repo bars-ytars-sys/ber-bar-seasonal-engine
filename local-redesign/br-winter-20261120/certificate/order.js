@@ -1,4 +1,4 @@
-import {photos, photoUrl, photoThumbnailUrl} from './photos.js?v=3';
+import {photos, photoUrl, photoThumbnailUrl} from './photos.js?v=4';
 
 const get = (id) => document.getElementById(id);
 const order = get('order');

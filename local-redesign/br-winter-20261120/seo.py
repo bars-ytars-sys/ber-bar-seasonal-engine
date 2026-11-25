@@ -65,4 +65,6 @@ def resolve_legacy_links(page, prefix, house_slugs):
         href = urlunsplit(("", "", prefix + route + "/", url.query, anchor))
         return match[1] + match[2] + href + match[2]
 
-    return HREF.sub(redirect, page)
+    page = HREF.sub(redirect, page)
+    # The mobile action bar builds its booking link after the page loads.
+    return page.replace("кнопка('/booking',", f"кнопка('{prefix}/booking/',")

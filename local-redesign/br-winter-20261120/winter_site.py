@@ -26,7 +26,7 @@ HOLIDAY_PHOTOS = "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/
 SPA_POOL_DAY = "winter-spa-pool-steam.webp"
 # Cropped from the original in the ecobr.ru/spa gallery. The crop keeps the
 # water and snowy pool surround without the neighboring houses in the glass.
-SPA_POOL_CARD = "winter-spa-pool-wide.webp"
+SPA_POOL_CARD = "winter-spa-pool-guest.webp"
 SPA_WINDOW_LOUNGE = "winter-spa-window-lounge.webp"
 WINTER_HORSE = "family-ponies.webp"
 SPA_HOME_SLIDES = {

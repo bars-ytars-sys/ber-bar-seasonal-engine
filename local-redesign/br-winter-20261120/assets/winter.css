@@ -1,3 +1,6 @@
+/* Tilda inserts this transparent repaint layer during mobile lazy loading. */
+.t-mbfix { pointer-events: none !important; }
+
 .br-winter-snow {
   position: fixed;
   z-index: 850;

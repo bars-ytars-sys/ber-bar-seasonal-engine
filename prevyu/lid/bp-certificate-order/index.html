@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#314c44">
   <title>Подарочный сертификат — Барские поля</title>
   <link rel="stylesheet" href="order.css">
-  <script type="module" src="order.js?v=5"></script>
+  <script type="module" src="order.js?v=7"></script>
 </head>
 <body>
   <a class="skip" href="#main">К содержанию</a>
@@ -24,7 +24,7 @@
   <main id="main" class="shell">
     <section class="intro">
       <h1>Подарочный сертификат</h1>
-      <p>Выберите фото и номинал. Менеджер получит заявку в Telegram и пришлёт отдельную ссылку на оплату.</p>
+      <p>Выберите фото и номинал. Менеджер пришлёт ссылку на оплату в Telegram.</p>
     </section>
 
     <div class="order-layout">
@@ -62,11 +62,10 @@
           <label class="field" for="phone">Телефон для связи <span class="hint">(необязательно)</span>
             <input id="phone" type="tel" autocomplete="tel" maxlength="30">
           </label>
-          <button class="secondary" type="button" id="download-certificate" disabled>Скачать сертификат PDF</button>
-          <p class="hint" id="download-status" role="status">В PDF будут выбранное фото, имя, номинал и номер сертификата.</p>
           <button class="primary" type="submit" id="send-request" disabled>Написать менеджеру</button>
-          <p class="hint">Откроется Telegram и скачается именной сертификат. Отправьте заявку в чате «Барские Поля» и дождитесь ссылки на оплату.</p>
+          <p class="hint">Отправьте заявку в чате «Барские Поля». После оплаты обязательно напишите менеджеру в том же чате и укажите номер заявки. Менеджер проверит оплату и пришлёт сертификат в PDF с этим же номером.</p>
           <div id="request-fallback" hidden>
+            <p>Номер заявки <strong id="order-reference"></strong></p>
             <label class="field" for="draft">Текст заявки
               <textarea id="draft" rows="6" readonly></textarea>
             </label>

@@ -1,12 +1,9 @@
 import {photos, photoUrl} from './photos.js';
-import {drawCertificate, downloadCertificate, loadCertificateFonts, loadImage} from './certificate-pdf.js?v=2';
 
 const get = (id) => document.getElementById(id);
 const order = get('order');
 const recipient = get('recipient');
 const phone = get('phone');
-const downloadButton = get('download-certificate');
-const downloadStatus = get('download-status');
 const certificateNumbers = new Map();
 const customAmount = get('custom-amount');
 const gallery = get('photos');
@@ -73,8 +70,8 @@ order.addEventListener('input', () => {
 order.addEventListener('change', (event) => {
   if (event.target.name === 'amount' && event.target.value === 'custom') customAmount.focus();
 });
-function certificateNumber({amount, selectedPhoto, name}) {
-  const key = JSON.stringify([amount, selectedPhoto, name]);
+function certificateNumber({custom, amount, selectedPhoto, name, callback}) {
+  const key = JSON.stringify([custom, amount, selectedPhoto, name, callback]);
   if (!certificateNumbers.has(key)) {
     const id = crypto.randomUUID().replaceAll('-', '').slice(0, 20).toUpperCase();
     certificateNumbers.set(key, 'BP-' + id);
@@ -88,21 +85,22 @@ order.addEventListener('submit', (event) => {
   recipient.setCustomValidity(name ? '' : 'Укажите имя получателя.');
   if (!order.reportValidity()) return;
 
-  const number = certificateNumber({amount, selectedPhoto, name});
+  const callback = phone.value.trim();
+  const number = certificateNumber({custom, amount, selectedPhoto, name, callback});
   const details = [
     'Заявка на подарочный сертификат «Барские поля»',
-    'Номер сертификата: ' + number,
+    'Номер заявки: ' + number,
     'Номинал: ' + currency.format(amount) + ' ₽' + (custom ? ' (свой номинал)' : ''),
     'Сумма к оплате: уточнить у менеджера.',
     'Получатель: ' + name,
     'Фото: ' + photos.get(selectedPhoto),
     photoUrl(selectedPhoto).href,
   ];
-  const callback = phone.value.trim();
   if (callback) details.push('Телефон для связи: ' + callback);
   details.push('Пришлите, пожалуйста, ссылку на оплату.');
 
   const draft = details.join('\n');
+  get('order-reference').textContent = number;
   get('draft').value = draft;
   get('copy-status').textContent = '';
   get('request-fallback').hidden = false;
@@ -111,36 +109,6 @@ order.addEventListener('submit', (event) => {
   const chat = get('open-chat');
   chat.href = link.href;
   chat.click();
-  void saveCertificate({amount, selectedPhoto, name, number});
-});
-
-async function saveCertificate({amount, selectedPhoto, name, number}) {
-  if (downloadButton.disabled) return;
-  downloadButton.disabled = true;
-  downloadStatus.textContent = 'Готовим сертификат…';
-  try {
-    const [photo, logo] = await Promise.all([
-      loadImage(photoUrl(selectedPhoto)),
-      loadImage(document.querySelector('.brand img').src),
-      loadCertificateFonts(),
-    ]);
-    const canvas = document.createElement('canvas');
-    canvas.width = 2400;
-    canvas.height = 1696;
-    drawCertificate(canvas, photo, logo, {name, nominal: amount, number, requiresConfirmation: true});
-    await downloadCertificate(canvas, 'barskie-polya-' + number + '.pdf');
-    downloadStatus.textContent = 'Сертификат скачан. Номер ' + number + ' указан в PDF и заявке.';
-  } catch {
-    downloadStatus.textContent = 'Не удалось скачать сертификат. Повторите попытку.';
-  } finally {
-    downloadButton.disabled = false;
-  }
-}
-
-downloadButton.addEventListener('click', () => {
-  const details = refreshOrder();
-  recipient.setCustomValidity(details.name ? '' : 'Укажите имя получателя.');
-  if (order.reportValidity()) void saveCertificate({...details, number: certificateNumber(details)});
 });
 
 get('copy').addEventListener('click', async () => {
@@ -156,4 +124,3 @@ get('copy').addEventListener('click', async () => {
 
 refreshOrder();
 get('send-request').disabled = false;
-downloadButton.disabled = false;

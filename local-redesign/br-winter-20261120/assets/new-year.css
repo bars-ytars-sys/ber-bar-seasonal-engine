@@ -3,13 +3,34 @@
   transition: none;
 }
 
+#allrecords .нг-бр {
+  --фон: #f4f6fb;
+  --панель: #fff;
+  --панель2: #f2f8f5;
+  --текст: #1a1b19;
+  --акцент: #11654e;
+  --тёплый: #11654e;
+  --линия: #d6dfdc;
+  background: var(--фон);
+  color: var(--текст);
+}
+
+#allrecords .нг-бр :is(.кнопка:not(.кнопка--контур), .бронь, .назад__ссылка--главная) {
+  background: var(--br-button-background);
+  color: var(--br-button-text) !important;
+}
+
 #allrecords .нг-бр #holiday-periods {
-  --holiday-border: #ddd8c9;
-  --holiday-card: #fffcf7;
-  --holiday-muted: #3d5045;
-  --holiday-date: #215746;
+  --holiday-border: var(--линия);
+  --holiday-card: var(--панель);
+  --holiday-text: var(--текст);
+  --holiday-muted: #4c5d56;
+  --holiday-date: var(--акцент);
+  --holiday-button: var(--br-button-background);
+  --holiday-button-text: var(--br-button-text);
+  --holiday-hover: #24c997;
   padding-block: calc(var(--отступ-героя, 0px) + clamp(24px, 4vw, 49px)) clamp(24px, 4vw, 47px);
-  background: linear-gradient(135deg, #f9f6ee, #edf3ec);
+  background: var(--фон);
 }
 
 #allrecords #holiday-periods .br-new-year-heading {
@@ -34,16 +55,16 @@
 #allrecords #holiday-periods .br-new-year-clock {
   min-width: 0;
   padding: 15px 16px 16px;
-  color: #f9f4e6;
-  background: #24443a;
-  border: 1px solid #37594b;
+  color: var(--holiday-text);
+  background: #def8ef;
+  border: 1px solid #b4e8d8;
   border-radius: 15px;
   font-family: var(--br-text-font);
 }
 
 #allrecords #holiday-periods .br-new-year-clock p {
   margin: 0 0 9px;
-  color: #f4d19b;
+  color: var(--holiday-date);
   font-size: 14px;
   font-weight: 700;
   line-height: 1.2;
@@ -65,18 +86,19 @@
   min-height: 59px;
   padding: 8px 2px 7px;
   border-radius: 8px;
-  background: #335548;
+  background: var(--holiday-card);
+  border: 1px solid #c7e9df;
   text-align: center;
 }
 
 #allrecords #holiday-periods .br-new-year-clock__units b {
-  color: #fff9ed;
+  color: var(--holiday-date);
   font: 700 clamp(22px, 3.5vw, 31px)/1 var(--br-title-font);
   font-variant-numeric: tabular-nums;
 }
 
 #allrecords #holiday-periods .br-new-year-clock__units span {
-  color: #e1eee5;
+  color: var(--holiday-muted);
   font: 550 12px/1 var(--br-text-font);
   white-space: nowrap;
 }
@@ -97,7 +119,11 @@
 #allrecords #holiday-periods .holiday-card__photo {
   aspect-ratio: 16 / 9;
   object-position: center 57%;
-  background: #e6e0d3;
+  background: #e1ebe7;
+}
+
+#allrecords #holiday-periods .holiday-card:first-child .holiday-card__photo {
+  object-position: center 33%;
 }
 
 #allrecords #holiday-periods .holiday-card__body {
@@ -127,9 +153,9 @@
 #allrecords #holiday-periods .holiday-card .br-new-year-perk {
   margin: 0 0 15px;
   padding: 7px 11px;
-  color: #4a331c;
-  background: #f5e9d4;
-  border-left-color: #b4834c;
+  color: #164c3e;
+  background: #def8ef;
+  border-left-color: var(--br-button-background);
   font: 700 15px/1.32 var(--br-text-font);
 }
 
@@ -140,7 +166,9 @@
 
 #allrecords #holiday-periods .holiday-card__book {
   width: 100%;
+  min-height: var(--br-button-min-height);
   padding-inline: 13px;
+  border-radius: var(--br-button-radius);
   font: 700 clamp(13px, 1.3vw, 15px)/1.25 var(--br-title-font);
 }
 
@@ -162,8 +190,8 @@
   display: block;
   width: auto;
   margin: 0;
-  background: #fbf9f2;
-  border-bottom-color: #e4dfd2;
+  background: var(--панель);
+  border-bottom-color: var(--линия);
 }
 
 #allrecords .нг-бр .br-new-year-links .навигация__полоса {

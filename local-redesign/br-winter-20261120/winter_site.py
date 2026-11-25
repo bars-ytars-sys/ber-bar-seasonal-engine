@@ -24,9 +24,8 @@ HOME_PHOTO_CHOICES = re.compile(r'(<div class="brh-house__photos"[^>]*>)(.*?)(</
 HOME_CARD_ACTIONS = re.compile(r'<a class="brh-house__button"[^>]*>.*?</a>\s*<a class="brh-house-details"[^>]*>.*?</a>', re.S)
 HOLIDAY_PHOTOS = "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/demo/assets/new-year-20261105/"
 SPA_POOL_DAY = "winter-spa-pool-steam.webp"
-# Cropped from the original in the ecobr.ru/spa gallery. The crop keeps the
-# water and snowy pool surround without the neighboring houses in the glass.
-SPA_POOL_CARD = "winter-spa-pool-guest.webp"
+# IMG_2950_2_2.jpg from the supplied SPA folder shows the sheltered pool entrance.
+SPA_POOL_CARD = "winter-spa-pool-access.webp"
 SPA_WINDOW_LOUNGE = "winter-spa-window-lounge.webp"
 WINTER_HORSE = "family-ponies.webp"
 SPA_HOME_SLIDES = {
@@ -151,15 +150,15 @@ def winter_spa_home_gallery(record, prefix):
     return updated
 
 
-def winter_spa_gallery(record, prefix):
+def winter_spa_gallery(record):
     item = re.compile(r'<div class="t979__grid-item [^"]*"[^>]*>.*?</div>', re.S)
     originals = list(item.finditer(record))
     spa_photos = {
-        "_pdf-image-005.webp": ("Открытый подогреваемый бассейн зимой", SPA_POOL_CARD),
-        SPA_POOL_DAY: ("Пар над открытым бассейном", None),
-        "winter-spa-hero.webp": ("Вход в бассейн из зоны SPA", None),
-        SPA_WINDOW_LOUNGE: ("Панорамная зона отдыха SPA", None),
-        "2148000315_1jpg.webp": ("Парная SPA-комплекса", None),
+        "_pdf-image-005.webp": "Открытый подогреваемый бассейн зимой",
+        SPA_POOL_DAY: "Пар над открытым бассейном",
+        "winter-spa-hero.webp": "Вход в бассейн из зоны SPA",
+        SPA_WINDOW_LOUNGE: "Панорамная зона отдыха SPA",
+        "2148000315_1jpg.webp": "Парная SPA-комплекса",
     }
     photos = {}
     for original in originals:
@@ -169,10 +168,8 @@ def winter_spa_gallery(record, prefix):
     assert photos.keys() == spa_photos.keys()
 
     items = []
-    for index, (name, (text, replacement)) in enumerate(spa_photos.items()):
+    for index, (name, text) in enumerate(spa_photos.items()):
         photo = photos[name]
-        if replacement:
-            photo = PHOTO_URL.sub(f"{prefix}/br-assets/{replacement}", photo)
         photo = re.sub(r'\bdata-zoom-target="\d+"', f'data-zoom-target="{index}"', photo, count=1)
         items.append(photo.replace('alt=""', f'alt="{text}"', 1))
     return record[:originals[0].start()] + " ".join(items) + record[originals[-1].end():]
@@ -439,7 +436,7 @@ def apply(html, route, prefix):
     if route == "/booking":
         html = booking_link(html)
     if route == "/spa":
-        html = within_record(html, "rec1786282301", lambda record: winter_spa_gallery(record, prefix))
+        html = within_record(html, "rec1786282301", winter_spa_gallery)
     if route == "/aktivnosti-v-beryozovoj-roshhe":
         html = html.replace(">Сапборд</h2>", ">Сапборд в тёплый сезон</h2>", 1)
     if route == "/new-year":

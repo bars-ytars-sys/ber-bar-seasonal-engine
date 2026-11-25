@@ -15,6 +15,7 @@ ROOM_NAMES = {house["id"]: house["name"] for house in STAY_HOUSES}
 assert set(ROOM_IDS) == set(HOUSE_COVERS)
 
 ACTIVITIES = "/aktivnosti-v-beryozovoj-roshhe/"
+NEW_YEAR_BARN = "winter-new-year-barn-2"
 HOUSE_CATEGORY_ORDER = (
     "БАРИЛОЧЕ", "ПАНОРАМА", "СКАНДИ", "ШАЛЕ", "БАРНХАУС",
     "БАУС", "А-ФРЕЙМ", "СФЕРА", "ХАУС", "ХОЛИДЕЙ ХАУС",
@@ -40,7 +41,7 @@ TOOLTIP = re.compile(
 SOCIAL_ASSETS = {
     "/": "hero-panorama-garland.webp",
     "/doma": "hero-panorama-garland.webp",
-    "/new-year": "winter-new-year-holiday-table.webp",
+    "/new-year": f"{NEW_YEAR_BARN}.webp",
     "/spa": SPA_POOL_CARD,
     "/deti": "winter-playground.webp",
     "/glamping": HOUSE_COVERS["bariloche"]["asset"],
@@ -214,8 +215,8 @@ def insert_before_record(html, record, markup):
 def new_year_page(html, prefix):
     assets = f"{prefix}/br-assets"
     cards = (
-        ("hero-panorama-garland", "winter-new-year-holiday-table",
-         "Накрытый новогодний стол в доме «Берёзовой рощи», за окнами снег", ""),
+        ("hero-panorama-garland", NEW_YEAR_BARN,
+         "Зимний фасад «Барнхауса-2» с красным новогодним бантом", ' fetchpriority="high"'),
         ("winter-new-year-scandi", "winter-new-year-holiday-haus",
          "Зимний дом с гирляндой в «Берёзовой роще»", ' loading="lazy"'),
     )
@@ -229,6 +230,9 @@ def new_year_page(html, prefix):
         )
         html, count = old.subn(markup, html)
         assert count == 1, previous
+
+    # Bnovo's booking entry accepts DD-MM-YYYY for date parameters.
+    html = re.sub(r"((?:dfrom|dto)=)(\d{4})-(\d{2})-(\d{2})", r"\g<1>\4-\3-\2", html)
 
     intro = "Новогодний заезд в загородный дом. Праздничный ужин можно заказать в ресторане.</p>"
     assert html.count(intro) == 1
@@ -286,7 +290,21 @@ def new_year_page(html, prefix):
 
 def apply(html, route, prefix, bath_programs=""):
     html = preview_social_image(html, route, prefix)
-    if route in ("/", "/split") and 'data-tooltip-hook="#zayavka"' in html:
+    if route == "/contacts":
+        # The exported Contacts popup has no runnable Tilda handler. Reuse the
+        # main page form while keeping the callback links in the native menu.
+        bridge = html.index("window.brContactsCallbackBridge")
+        start = html.rindex("<script", 0, bridge)
+        end = html.index("</script>", bridge) + len("</script>")
+        callback = f'''<script>(() => {{
+  const openCallback = () => {{
+    if (location.hash === '#zayavka') location.replace('{prefix}/#zayavka');
+  }};
+  addEventListener('hashchange', openCallback);
+  openCallback();
+}})();</script>'''
+        html = html[:start] + callback + html[end:]
+    if route in ("/", "/split", "/new-year") and 'data-tooltip-hook="#zayavka"' in html:
         html = html.replace("</head>", f"<script>{CALLBACK_READY_SCRIPT}</script></head>", 1)
     html = html.replace(
         "https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/br-gift.html",

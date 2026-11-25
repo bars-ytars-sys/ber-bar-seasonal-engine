@@ -42,6 +42,36 @@
   outline-offset: 3px;
 }
 
+@media (min-width: 640px) and (max-width: 959px) {
+  /* Tilda positions these desktop actions beyond the tablet viewport. */
+  #t-header #rec1729326481 :is([data-elem-id="1767735356313000001"], [data-elem-id="1718876194020"]),
+  body.br-contact-dock #rec1841867761 .t898__btn:not(:has(.t898__btn_input:checked)) {
+    display: none !important;
+  }
+}
+
+@media (width: 960px) {
+  body:has(#br-home-start) #rec1841867761 .t898 .t898__btn {
+    right: 16px !important;
+    bottom: 20px !important;
+  }
+
+  #br-home-layout .brh-quick-links__inner {
+    padding-inline: 82px;
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1409px) {
+  body:has(#bb-stay) #rec1841867761 .t898 .t898__btn {
+    right: 16px !important;
+    bottom: 20px !important;
+  }
+
+  #allrecords #bb-stay.brp {
+    padding-inline: 82px;
+  }
+}
+
 /* Brand typography on the native pages and the sections embedded in them. */
 #allrecords h1.tn-atom {
   font-family: var(--br-text-font) !important;

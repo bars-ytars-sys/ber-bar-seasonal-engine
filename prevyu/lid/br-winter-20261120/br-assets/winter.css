@@ -430,7 +430,7 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
   height: 100%;
 }
 .br-winter-route-card img { object-fit: cover; }
-:is(.br-winter-route-card, .brh-activity)[href$="/spa/"] img { object-position: right center; }
+:is(.br-winter-route-card, .brh-activity)[href$="/spa/"] img { object-position: left center; }
 .br-winter-route-card::after {
   content: "";
   background: linear-gradient(transparent 25%, #0c2825e8 100%);

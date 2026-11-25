@@ -311,9 +311,11 @@ def main():
                 f'<script src="{PREFIX}/br-assets/program-contact.js" defer></script></head>',
                 1,
             )
-        css_link = (f'<link rel="stylesheet" href="{PREFIX}/br-assets/br-controls.css">'
-                    f'<link rel="stylesheet" href="{PREFIX}/br-assets/winter.css">')
-        html = html.replace("</head>", css_link + "</head>", 1)
+        controls_head = (f'<link rel="stylesheet" href="{PREFIX}/br-assets/br-controls.css">'
+                         f'<link rel="stylesheet" href="{PREFIX}/br-assets/winter.css">')
+        if route != "/" and 'id="rec1841867761"' in html:
+            controls_head += f'<script src="{PREFIX}/br-assets/contact-dock.js" defer></script>'
+        html = html.replace("</head>", controls_head + "</head>", 1)
         if route == "/":
             hero = '<section class="brx brx--s1"'
             html = html.replace(hero, '<div class="br-winter-snow" aria-hidden="true"></div>' + hero, 1)

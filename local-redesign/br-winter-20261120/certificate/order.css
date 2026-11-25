@@ -1,3 +1,21 @@
+/* Match fallback widths while the brand fonts load. */
+@font-face {
+  font-family: TildaSansFallback;
+  src: local("Arial"), local("Roboto");
+  size-adjust: 92%;
+}
+@font-face {
+  font-family: TildaSansFallback;
+  src: local("Arial Bold"), local("Roboto Bold");
+  font-weight: 700;
+  size-adjust: 92%;
+}
+@font-face {
+  font-family: DespairDisplayFallback;
+  src: local("Arial Bold"), local("Roboto Bold");
+  font-weight: 700;
+  size-adjust: 103%;
+}
 :root {
   --paper: #fff;
   --background: #f4f6fa;
@@ -6,6 +24,8 @@
   --muted: #4c5d56;
   --line: #d6dfdc;
   --outline: #0c7659;
+  --br-text-font: TildaSans, TildaSansFallback, Arial, sans-serif;
+  --br-title-font: DespairDisplay, DespairDisplayFallback, TildaSans, Arial, sans-serif;
   font: 400 16px/1.5 var(--br-text-font);
   color: var(--ink);
   background: var(--background);
@@ -225,6 +245,10 @@ textarea { resize: vertical; }
   .gallery-arrow { top: 36%; }
   .show-preview { display: inline-block; padding: 8px 0; font-size: 15px; text-underline-offset: 3px; }
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 405px) {
+  .denomination .choices { display: grid; grid-template-columns: repeat(3, minmax(0, max-content)); }
+  .denomination .amount-option:last-child { grid-column: 1 / -1; justify-self: start; }
 }
 @media (max-width: 360px) {
   .name-fields, .steps { grid-template-columns: minmax(0, 1fr); }

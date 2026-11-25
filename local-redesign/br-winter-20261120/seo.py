@@ -66,5 +66,6 @@ def resolve_legacy_links(page, prefix, house_slugs):
         return match[1] + match[2] + href + match[2]
 
     page = HREF.sub(redirect, page)
+    page = page.replace('href="http://brnew.tilda.ws/privacy"', f'href="{prefix}/privacy/"')
     # The mobile action bar builds its booking link after the page loads.
     return page.replace("кнопка('/booking',", f"кнопка('{prefix}/booking/',")

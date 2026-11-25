@@ -265,7 +265,7 @@ def main():
                 "new URL(h.image,assetBase)",
                 "new URL(h.image,h.image.startsWith('/') ? location.origin : assetBase)",
             )
-        if route in ("/", "/deti", "/banchan") or route.startswith("/vip-programmy"):
+        if route in ("/", "/deti", "/banchan", "/aktivnosti-v-beryozovoj-roshhe") or route.startswith("/vip-programmy"):
             html = html.replace(
                 "</head>",
                 f'<link rel="stylesheet" href="{PREFIX}/br-assets/program-contact.css">'

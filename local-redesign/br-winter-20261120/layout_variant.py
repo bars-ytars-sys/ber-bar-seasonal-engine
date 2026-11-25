@@ -61,7 +61,7 @@ def update_home_programs_and_events(home, prefix):
         '<a class="br-nov-button" '
         f'href="{prefix}/deti/#detskiy-prazdnik">Детский праздник</a>',
         'Соберите близких за городом.</p>'
-        f'<a class="br-nov-button" href="{prefix}/deti/#rec1750133371">Подробнее</a>',
+        f'<a class="br-nov-button" href="{prefix}/deti/#detskiy-prazdnik">Подробнее</a>',
         1,
     )
     home = home.replace('>Подробнее о дне рождения</a>', '>Подробнее</a>')

@@ -350,3 +350,104 @@ a[data-br-live-booking]:focus-visible { outline: 2px solid #174d40; outline-offs
   object-fit: cover;
   border-radius: 8px;
 }
+.br-winter-route {
+  box-sizing: border-box;
+  width: min(100% - 32px, 1200px);
+  margin: clamp(24px, 4vw, 56px) auto;
+  color: #162c26;
+  font: 400 17px/1.4 TildaSans, Arial, sans-serif;
+}
+.br-winter-route > h2,
+.br-winter-holiday h2 {
+  margin: 0 0 18px;
+  font: 600 clamp(24px, 3vw, 38px)/1.13 DespairDisplay, TildaSans, sans-serif;
+}
+.br-winter-route__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(9px, 1.7vw, 22px);
+}
+.br-winter-route-card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: end;
+  min-height: clamp(165px, 23vw, 264px);
+  overflow: hidden;
+  border-radius: 12px;
+  background: #174239;
+  color: white !important;
+  text-decoration: none !important;
+}
+.br-winter-route-card img,
+.br-winter-route-card::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.br-winter-route-card img { object-fit: cover; }
+.br-winter-route-card::after {
+  content: "";
+  background: linear-gradient(transparent 25%, #0c2825e8 100%);
+}
+.br-winter-route-card span { display: grid; gap: 4px; padding: 13px; }
+.br-winter-route-card small { font-size: .88em; }
+.br-winter-route-card:hover strong { text-decoration: underline; }
+.br-winter-route-card:focus-visible,
+.br-winter-holiday a:focus-visible,
+.br-winter-map-links a:focus-visible {
+  outline: 2px solid #147361;
+  outline-offset: 3px;
+}
+.br-winter-holiday {
+  display: grid;
+  grid-template-columns: minmax(0, .93fr) minmax(0, 1fr);
+  overflow: hidden;
+  border-radius: 16px;
+  background: #eaf3ee;
+}
+.br-winter-holiday img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 330px;
+  object-fit: cover;
+}
+.br-winter-holiday div {
+  padding: clamp(18px, 4vw, 48px);
+  align-self: center;
+}
+.br-winter-holiday p { margin: 0 0 17px; }
+.br-winter-holiday a,
+.br-winter-map-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+  min-height: 40px;
+  color: #145849 !important;
+  font-weight: 700;
+  text-underline-offset: .22em;
+}
+.br-winter-map-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 20px;
+  width: min(100% - 32px, 1200px);
+  margin: 0 auto 12px;
+  font: 500 16px/1.25 TildaSans, Arial, sans-serif;
+}
+.br-review-map .br-winter-map-links { width: 100%; }
+.br-nov-menu a.br-winter-menu-link,
+.br-menu-sections a.br-winter-menu-link { font-weight: 700; color: #166653 !important; }
+@media (min-width: 1200px) {
+  .br-nov-menu:has(.br-winter-menu-link) a { min-height: 26px; }
+}
+#samovar { scroll-margin-top: 96px; }
+@media (max-width: 720px) {
+  .br-winter-route__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .br-winter-holiday { grid-template-columns: minmax(0, 1fr); }
+  .br-winter-holiday img { aspect-ratio: 16 / 8; }
+  .br-winter-holiday h2 { margin-bottom: 10px; }
+}

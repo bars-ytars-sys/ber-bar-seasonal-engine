@@ -13,6 +13,7 @@ import review_changes
 import menu_layout
 import home_review
 import holiday_home
+import winter_routes
 import winter_site
 import hashlib
 
@@ -230,6 +231,10 @@ def main():
     guide_photo = HERE.parents[1] / "prevyu/lid/br-guest/assets/bath.webp"
     shutil.copyfile(guide_photo, output / "br-assets/bath-guide.webp")
     routes = ["/", *(route for route in pages.ROUTES if route != "/")]
+    bath_source = review_changes.apply(pages.static_page("/vip-programmy"), "/vip-programmy", PREFIX)
+    bath_programs = home_review.section(bath_source, "samovar")
+    bath_programs = re.sub(r"<strong>[^<]*₽</strong>", "", bath_programs)
+    bath_programs = bath_programs.replace(" Акции не суммируются.", "")
     for route in routes:
         html = AUTUMN.sub("", pages.static_page(route))
         # Preview routing rewrites navigation only; canonical stays on ecobr.ru.
@@ -259,7 +264,7 @@ def main():
                 "new URL(h.image,assetBase)",
                 "new URL(h.image,h.image.startsWith('/') ? location.origin : assetBase)",
             )
-        if route in ("/", "/deti") or route.startswith("/vip-programmy"):
+        if route in ("/", "/deti", "/banchan") or route.startswith("/vip-programmy"):
             html = html.replace(
                 "</head>",
                 f'<link rel="stylesheet" href="{PREFIX}/br-assets/program-contact.css">'
@@ -301,7 +306,7 @@ def main():
         for source, warm in WARM_PHOTOS.items():
             result = result.replace(f"{PREFIX}/br-assets/{source}", f"{PREFIX}/br-assets/{warm}")
         homepage = holiday_home.render(result, PREFIX, "brand") if route == "/" else result
-        page = winter_site.apply(homepage, route, PREFIX)
+        page = winter_routes.apply(winter_site.apply(homepage, route, PREFIX), route, PREFIX, bath_programs)
         if route == "/new-year":
             holiday_source = HERE.parents[1] / "demo/assets/new-year-20261105"
             holiday_output = output / "br-assets/holiday"
@@ -319,11 +324,13 @@ def main():
             for name, renderer in versions.items():
                 variant = output / name
                 variant.mkdir(exist_ok=True)
-                (variant / "index.html").write_text(stamp_assets(winter_site.apply(renderer(html, PREFIX), route, PREFIX)))
+                page = winter_site.apply(renderer(html, PREFIX), route, PREFIX)
+                (variant / "index.html").write_text(stamp_assets(winter_routes.apply(page, route, PREFIX)))
             for name, layout in holiday_home.VERSIONS.items():
                 variant = output / name
                 variant.mkdir(exist_ok=True)
-                (variant / "index.html").write_text(stamp_assets(winter_site.apply(holiday_home.render(result, PREFIX, layout), route, PREFIX)))
+                page = winter_site.apply(holiday_home.render(result, PREFIX, layout), route, PREFIX)
+                (variant / "index.html").write_text(stamp_assets(winter_routes.apply(page, route, PREFIX)))
     print(f"{len(pages.ROUTES)} pages, {len(approved)} winter photos · {output}")
 
 if __name__ == "__main__":

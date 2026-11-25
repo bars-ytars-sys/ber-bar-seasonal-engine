@@ -19,6 +19,10 @@ def render(html, prefix, layout):
     slides = re.search(r'<div class="brx__slides">.*?</picture></div>', before, re.S)[0]
     panorama = "hero-panorama-garland.webp" if layout == "brand" else "hero-panorama-warm.webp"
     slides = slides.replace("hero-winter-panorama-hq.webp", panorama)
+    if layout == "brand":
+        mobile_photo = f'{prefix}/br-assets/hero-panorama-garland-mobile.avif'
+        mobile_source = f'<source media="(max-width: 960px)" type="image/avif" srcset="{mobile_photo}">'
+        slides = slides.replace('<source media="(max-width: 960px)"', mobile_source + '<source media="(max-width: 960px)"', 1)
     slides = slides.replace(
         "</picture></div>",
         '</picture><div class="br-winter-hero__snow br-winter-snow" aria-hidden="true"></div></div>',

@@ -7,6 +7,7 @@ import re
 
 HERE = Path(__file__).resolve().parent
 HOUSE_COVERS = json.loads((HERE / "winter-house-covers.json").read_text())
+GALLERY_RETOUCH = json.loads((HERE / "winter-gallery-retouch.json").read_text())
 RECORD = re.compile(r'<div id="(rec\d+)"[^>]*>')
 PHOTO_URL = re.compile(r"""https://(?:static|optim|thb)\.tildacdn\.com/(tild[a-z0-9-]+)/[^"'<>\s(),&]+""")
 NATIVE_TABS = re.compile(r'(<ul\b[^>]*\bdata-tab-current="1"[^>]*>)(.*?)(</ul>)', re.S)
@@ -31,7 +32,8 @@ SEASONAL_PHOTOS = {
     "tild3766-6464-4637-b865-346163633362": "winter-glamping.webp",
     "tild6362-3266-4330-b836-353861383930": "winter-glamping.webp",
     "tild3938-3061-4336-b230-396361343533": "winter-panorama.webp",
-    "tild3736-6361-4438-b632-343562663664": "hero-winter-panorama-hq.webp",
+    "tild3736-6361-4438-b632-343562663664": "winter-reception.webp",
+    "tild6436-3761-4635-b134-303833343966": "winter-reception.webp",
     "tild6338-3836-4531-a665-666238636533": "winter-aframe-luxe-white.webp",
     "tild3239-6634-4135-a663-333565636338": "winter-panorama-tub.webp",
     "tild6530-3230-4462-a430-383433303839": "winter-outdoor-spa.webp",
@@ -50,10 +52,37 @@ SEASONAL_PHOTOS = {
     "tild3831-6231-4262-b431-376566303264": "winter-baus-1.webp",
     "tild6130-6631-4137-b063-366531356132": "winter-svidanie.webp",
     "tild6330-3564-4464-b436-343134346661": "winter-svidanie.webp",
+    "tild3837-6233-4139-b836-346330666361": "winter-chalet.webp",
+    "tild3162-3130-4130-a236-353635383732": "winter-svidanie.webp",
+    "tild6238-6164-4034-b934-313134363965": "winter-svidanie.webp",
+    "tild6566-3631-4332-b066-373733393136": "winter-card-chan.webp",
+    "tild3734-6265-4438-b538-373338396636": "winter-activity-farm-hq.webp",
+    "tild6564-3334-4631-a264-343061383363": "winter-activity-farm-hq.webp",
+    "tild6433-3061-4366-b733-313138333136": "winter-activity-fish-hq.webp",
+    "tild3632-6635-4631-b938-343964323138": "winter-activity-fish-hq.webp",
+    "tild3862-3638-4365-b136-653063353863": "winter-baus-bath.webp",
+    "tild6139-3761-4166-a530-613038636236": "winter-baus-bath.webp",
+    "tild6564-3761-4362-b836-343032333061": "winter-baus-lounge.webp",
+    "tild3831-3233-4630-b465-636138323430": "winter-svidanie.webp",
+    "tild3533-6665-4632-a634-383865366132": "winter-baus-1.webp",
+    "tild3466-3135-4639-b366-663934376631": "hero-winter-spa-hq.webp",
+    "tild6666-3164-4966-a164-353561646566": "winter-glamping.webp",
+    "tild3131-3736-4261-a637-326261306138": "winter-baus-1.webp",
+    "tild3937-3638-4664-b035-343763643331": "winter-baus-1.webp",
+    "tild6666-3534-4936-b735-333763383361": "winter-svidanie.webp",
+    "tild3233-6137-4033-b962-323933393263": "winter-activity-koni-hq.webp",
+    "tild6266-6536-4766-a338-303837633662": "winter-farm-deer.webp",
+    "tild3237-6331-4331-a466-376635303833": "winter-svidanie.webp",
+    "tild3832-3533-4562-b163-656264613232": "winter-group-lounge.webp",
+    "tild3231-3238-4966-a334-323963666132": "winter-card-chan.webp",
+    "tild3662-3666-4537-b639-353836353062": "winter-outdoor-spa.webp",
+    **{media_id: info["asset"] for media_id, info in GALLERY_RETOUCH.items()},
 }
 
 def validate_assets(folder):
     names = {house["asset"] for house in HOUSE_COVERS.values()} | set(SEASONAL_PHOTOS.values())
+    names.update(("winter-farm-goat.webp", "winter-birthday-panoramic.webp", "winter-open-pool.webp",
+                  "hero-panorama-garland-mobile.avif", "territory-map.webp"))
     for name in sorted(names):
         if not (folder / name).is_file():
             raise FileNotFoundError(folder / name)
@@ -196,6 +225,8 @@ def apply(html, route, prefix):
     def replace_photos(part):
         part = PHOTO_URL.sub(lambda m: replacements.get(m[1], m[0]), part)
         part = part.replace(f"{prefix}/br-assets/family-playground.webp", f"{prefix}/br-assets/winter-playground.webp")
+        part = part.replace(f"{prefix}/br-assets/family-farm.webp", f"{prefix}/br-assets/winter-farm-goat.webp")
+        part = part.replace(f"{prefix}/br-assets/br-birthday-panoramic.webp", f"{prefix}/br-assets/winter-birthday-panoramic.webp")
         part = part.replace(f"{prefix}/br-assets/br-romance-tub.webp", f"{prefix}/br-assets/winter-panorama-tub.webp")
         return part.replace(f"{prefix}/br-assets/activity-baggi-real.webp", f"{prefix}/br-assets/winter-buggy.webp")
 

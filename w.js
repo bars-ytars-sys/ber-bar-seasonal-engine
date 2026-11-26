@@ -5,6 +5,63 @@ if (location.hostname === "ecobr.ru") {
   style.textContent += "\n.br-page-snow--light { filter: brightness(.52) opacity(.6); }";
   if (/^\/*$/.test(location.pathname)) {
     style.textContent += `
+      body.br-home-release #br-home-start.br-winter-hero--brand .brx__script {
+        margin-block: 12px 8px;
+        font: 650 clamp(26px, 3.45vw, 48px)/1.13 TildaSans, Arial, sans-serif;
+        letter-spacing: -.015em;
+        text-wrap: balance;
+      }
+      body.br-home-release #br-home-start.br-winter-hero--brand .brx__row a {
+        box-sizing: border-box;
+        display: grid;
+        place-items: center;
+        align-content: center;
+        min-height: 48px;
+        min-width: 0;
+        padding: 9px 12px;
+        font: 700 14px/1.18 DespairDisplay, TildaSans, Arial, sans-serif;
+        letter-spacing: .01em;
+        text-align: center;
+        text-wrap: balance;
+        white-space: normal;
+      }
+      #br-home-start.br-winter-hero--brand .brx__row .brx__cta {
+        border: 1px solid transparent;
+      }
+      body.br-home-release #t-header[data-demo-ny-site="br"] a.demo-ny-link {
+        background: #204d3f;
+        border-color: #75a897;
+        box-shadow: none;
+        padding-inline: 8px;
+        gap: 5px;
+      }
+      body.br-home-release #t-header[data-demo-ny-site="br"] a.demo-ny-link:hover {
+        background: #286051;
+        filter: none;
+      }
+      body.br-home-release #t-header[data-demo-ny-site="br"] .demo-ny-sparkles { display: none; }
+      body.br-home-release #br-home-layout #br-home-booking {
+        padding-block: clamp(22px, 2.6vw, 38px) clamp(18px, 2.2vw, 30px);
+      }
+      #br-home-layout #br-home-booking .brh-booking__panel {
+        padding: clamp(16px, 2.25vw, 30px) clamp(14px, 3vw, 36px);
+      }
+      #br-home-layout #br-home-booking h2 { margin-bottom: clamp(12px, 1.25vw, 18px); }
+      #br-home-layout #br-home-booking .brh-booking__fallback { margin-top: 8px !important; }
+      @media (min-width: 961px) {
+        body.br-home-release #br-home-start.br-winter-hero--brand .br-winter-hero__footer {
+          width: min(100%, 620px);
+        }
+      }
+      @media (max-width: 960px) {
+        body.br-home-release #br-home-start.br-winter-hero--brand .brx__script {
+          font-size: clamp(20px, 6.2vw, 34px);
+        }
+        body.br-home-release #br-home-start.br-winter-hero--brand .brx__row a {
+          font-size: clamp(11px, 3.1vw, 14px);
+          padding-inline: 8px;
+        }
+      }
       #br-house-cards .brh-house .brh-card__body {
         display: flex;
         flex-wrap: wrap;

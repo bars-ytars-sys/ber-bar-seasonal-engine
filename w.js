@@ -642,8 +642,14 @@ if (location.hostname === "ecobr.ru") {
   const breadcrumb = site.querySelector('.t758 a[href="/doma"]');
   if (!breadcrumb) return;
   breadcrumb.classList.add('br-house-catalog-return');
+  breadcrumb.closest('.t758__list')?.classList.add('br-house-breadcrumbs');
   breadcrumb.textContent = '← Все дома';
   const styles = document.createElement('style');
-  styles.textContent = '.t758 a.br-house-catalog-return {display:inline-flex;align-items:center;min-height:44px;padding-inline:8px;color:#166b59!important;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}';
+  styles.textContent = `
+    .t758 .br-house-breadcrumbs {display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:0 4px}
+    .t758 .br-house-breadcrumbs .t758__list_item {display:inline-flex;align-items:center}
+    .t758 .br-house-breadcrumbs .t758__breadcrumb-divider {align-self:center}
+    .t758 a.br-house-catalog-return {display:inline-flex;align-items:center;min-height:44px;padding-inline:4px;color:#166b59!important;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+  `;
   document.head.append(styles);
 })();

@@ -344,3 +344,211 @@ if (location.hostname === "ecobr.ru") {
   }, { once: true });
   document.head.append(load);
 })();
+
+(() => {
+  if (location.hostname !== 'ecobr.ru') return;
+  const certificate = 'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/certificate/?site=ecobr';
+  const groups = [
+    ['Баусы', ['baus-1', 'baus-2', 'baus-3']],
+    ['Хаусы', ['house-1', 'house-2', 'house-3', 'house-4']],
+    ['А-фреймы', ['aframe-luxe-white', 'aframe-luxe-black', 'aframe-white', 'aframe-black', 'aframe-neo']],
+    ['Барнхаусы', ['barn-1', 'barn-2', 'barn-3', 'barn-4']],
+    ['Другие дома', ['panorama', 'bariloche', 'chalet', 'scandi', 'holidayhouse', 'sfera']]
+  ];
+  const sections = [
+    ['/new-year', 'Новый год и каникулы'], ['/vip-programmy', 'Программы отдыха'],
+    ['/spa', 'SPA и релакс'], ['/banchan', 'Бани и банные чаны'],
+    ['/aktivnosti-v-beryozovoj-roshhe', 'Чем заняться'], ['/deti', 'Отдых с детьми'],
+    ['/special', 'Специальные предложения'], [certificate, 'Подарочный сертификат'],
+    ['/about', 'О базе'], ['/kartabr', 'Карта территории'], ['/contacts', 'Контакты']
+  ];
+
+  function link(text, href) {
+    const element = document.createElement('a');
+    element.href = href;
+    element.textContent = text;
+    return element;
+  }
+
+  function mountMenu(record) {
+    const art = record.querySelector('.t396__artboard');
+    const close = record.querySelector('a[href="#menuopen"]');
+    const callback = record.querySelector('a[href$="#zayavka"], a[href="#zayavka-deti"]');
+    const logo = record.querySelector('[data-elem-id="1766501078669000001"] img');
+    const address = record.querySelector('[data-elem-id="1718876193886"] .tn-atom');
+    const houseLinks = document.querySelectorAll('#rec1728108931 a[href*="/doma/"]');
+    const houses = new Map([...houseLinks].map(a => [new URL(a.href).pathname.replace(/^\/doma\/|\/$/g, ''), a]));
+    if (!art || !close || !callback || !logo || !address || groups.some(([, ids]) => ids.some(id => !houses.has(id)))) return null;
+
+    const shell = document.createElement('div');
+    shell.className = 'br-mobile-menu';
+    shell.innerHTML = `
+      <div class="br-mobile-menu__header">
+        <a href="/" aria-label="Берёзовая роща, главная"></a>
+        <button type="button" aria-label="Закрыть меню">×</button>
+      </div>
+      <div class="br-mobile-menu__body">
+        <a class="br-mobile-menu__catalog" href="/doma">
+          <span><strong>Каталог домов</strong><small>Фотографии и описание всех 22 домов</small></span>
+          <span aria-hidden="true">→</span>
+        </a>
+        <details><summary>Дома по категориям</summary><div class="br-mobile-menu__groups"></div></details>
+        <nav aria-label="Разделы сайта"></nav>
+        <div class="br-mobile-menu__contact">
+          <p></p><div class="br-mobile-menu__maps"></div>
+          <p>Отдел бронирования<br>Ежедневно с 9:00 до 24:00<br><a href="tel:+74951202008">+7 (495) 120-20-08</a></p>
+          <a class="br-mobile-menu__callback" href="#zayavka">Обратный звонок</a>
+          <div class="br-mobile-menu__contact-links"></div>
+        </div>
+      </div>`;
+    const photo = document.createElement('img');
+    photo.src = logo.getAttribute('src') || logo.dataset.original;
+    photo.alt = '';
+    photo.width = 160;
+    shell.querySelector('.br-mobile-menu__header a').append(photo);
+    shell.querySelector('button').addEventListener('click', () => close.click());
+    shell.querySelector('nav').append(...sections.map(([href, label]) => link(label, href)));
+    shell.querySelector('.br-mobile-menu__contact p').textContent = address.textContent.trim();
+    shell.querySelector('.br-mobile-menu__maps').append(...[...record.querySelectorAll('a[href]')]
+      .filter(a => /go\.2gis\.com|yandex\.ru\/maps/.test(a.href))
+      .map(a => a.cloneNode(true)));
+    const contactLinks = shell.querySelector('.br-mobile-menu__contact-links');
+    for (const [selector, text] of [
+      ['a[href*="instagram.com"]', 'Instagram'], ['a[href*="vk.com"]', 'ВКонтакте'],
+      ['a[href*="t.me/"]', 'Telegram'], ['a[href^="mailto:"]', 'Сотрудничество']
+    ]) {
+      const original = record.querySelector(selector);
+      if (original) contactLinks.append(link(text, original.href));
+    }
+    const callbackAction = shell.querySelector('.br-mobile-menu__callback');
+    callbackAction.href = callback.href;
+    callbackAction.addEventListener('click', event => {
+      event.preventDefault();
+      callback.click();
+    });
+
+    const groupList = shell.querySelector('.br-mobile-menu__groups');
+    for (const [name, ids] of groups) {
+      const group = document.createElement('div');
+      const title = document.createElement('p');
+      const list = document.createElement('ul');
+      title.textContent = name;
+      for (const id of ids) {
+        const item = document.createElement('li');
+        item.append(link(houses.get(id).textContent.trim(), `/doma/${id}`));
+        list.append(item);
+      }
+      group.append(title, list);
+      groupList.append(group);
+    }
+
+    const styles = document.createElement('style');
+    styles.textContent = `
+      #rec1729227991.br-mobile-menu-ready :is(.t396,.t396__artboard) {
+        height:100dvh!important; max-height:100dvh!important; overflow:hidden!important;
+        background:#f4f6fb!important;
+      }
+      #rec1729227991.br-mobile-menu-ready .t396__artboard>:is(.tn-elem,.t396__group) {display:none!important}
+      .br-mobile-menu,.br-mobile-menu * {box-sizing:border-box}
+      .br-mobile-menu {position:relative;z-index:5;pointer-events:auto;display:flex;flex-direction:column;height:100dvh;overflow:hidden;background:#f4f6fb;color:#1a1b19;font:400 16px/1.5 TildaSans,Arial,sans-serif}
+      .br-mobile-menu a {color:#1a1b19!important;text-decoration:none}
+      .br-mobile-menu :is(a,button,summary):focus-visible {outline:2px solid #20d2a4;outline-offset:3px}
+      .br-mobile-menu__header {display:flex;flex:none;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;border-bottom:1px solid #dce5e0}
+      .br-mobile-menu__header img {display:block;width:160px;height:auto}
+      .br-mobile-menu__header button {width:44px;height:44px;flex:none;border:1px solid #9aed9b;border-radius:50%;background:#fff;color:#1a1b19;font:24px/1 TildaSans,Arial,sans-serif;cursor:pointer}
+      .br-mobile-menu__body {flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:16px 20px calc(30px + env(safe-area-inset-bottom,0px))}
+      .br-mobile-menu__catalog {display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:84px;padding:14px 18px;border:1px solid #20d2a4;border-radius:10px;background:#fff}
+      .br-mobile-menu__catalog strong {display:block;font-size:20px;line-height:1.25}
+      .br-mobile-menu__catalog small {display:block;margin-top:5px;color:#53615c;font-size:14px}
+      .br-mobile-menu__catalog>span:last-child {color:#168769;font-size:24px}
+      .br-mobile-menu details {padding:10px 0 14px;border-bottom:1px solid #dce5e0}
+      .br-mobile-menu summary {display:flex;align-items:center;justify-content:space-between;min-height:48px;list-style:none;cursor:pointer;font-weight:500}
+      .br-mobile-menu summary::-webkit-details-marker {display:none}
+      .br-mobile-menu summary::after {content:"";width:7px;height:7px;margin-right:4px;border:solid currentColor;border-width:0 1.5px 1.5px 0;transform:rotate(45deg)}
+      .br-mobile-menu details[open]>summary::after {transform:rotate(225deg)}
+      .br-mobile-menu__groups {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px;padding:6px 0}
+      .br-mobile-menu__groups p {margin:0;color:#53615c;font-weight:600}
+      .br-mobile-menu__groups ul {list-style:none;margin:0;padding:0}
+      .br-mobile-menu :is(nav,.br-mobile-menu__groups) a {display:flex;align-items:center;min-height:44px;line-height:1.3;overflow-wrap:anywhere}
+      .br-mobile-menu nav {padding:14px 0}
+      .br-mobile-menu nav>a:first-child {color:#145c4c!important;font-weight:650}
+      .br-mobile-menu__contact {padding-top:18px;border-top:1px solid #dce5e0}
+      .br-mobile-menu__contact p {margin:0 0 10px}
+      .br-mobile-menu__maps,.br-mobile-menu__contact-links {display:flex;flex-wrap:wrap;gap:4px 16px;margin-bottom:12px}
+      .br-mobile-menu__contact-links {margin:12px 0 0}
+      .br-mobile-menu :is(.br-mobile-menu__maps,.br-mobile-menu__contact-links) a {display:inline-flex;min-height:38px;align-items:center;text-decoration:underline}
+      .br-mobile-menu__callback {display:flex;align-items:center;justify-content:center;min-height:46px;padding:8px;border:1px solid #20d2a4;border-radius:8px;background:#fff;color:#166b59!important;font:700 13px/1.3 DespairDisplay,TildaSans,sans-serif;text-transform:uppercase}
+      @media(max-width:359px) {.br-mobile-menu__groups {grid-template-columns:1fr}}
+    `;
+    document.head.append(styles);
+    art.append(shell);
+    record.classList.add('br-mobile-menu-ready');
+    return shell;
+  }
+
+  document.addEventListener('click', event => {
+    if (!event.target.closest?.('a[href="#menum"]')) return;
+    const record = document.querySelector('#allrecords[data-tilda-project-id="4027012"] #rec1729227991');
+    if (!record) return;
+    const shell = record.querySelector('.br-mobile-menu') || mountMenu(record);
+    if (!shell) return;
+    const scroller = shell.querySelector('.br-mobile-menu__body');
+    let attempts = 0;
+    const resetAfterOpening = () => {
+      if (record.closest('.t-popup_show')) scroller.scrollTop = 0;
+      else if (++attempts < 30) requestAnimationFrame(resetAfterOpening);
+    };
+    requestAnimationFrame(resetAfterOpening);
+  }, true);
+})();
+
+(() => {
+  if (location.hostname !== 'ecobr.ru' || location.pathname !== '/') return;
+  const home = document.querySelector('#allrecords[data-tilda-project-id="4027012"][data-tilda-page-id="103448346"]');
+  const layout = home?.querySelector('#br-home-layout');
+  const categories = layout?.querySelector('#br-home-house-options');
+  const offers = layout?.querySelector('#br-home-offers');
+  const offerCards = layout?.querySelector('[data-br-slot="rec3546311701"], #rec3546311701');
+  if (!categories || !offers || !offerCards || layout.querySelector('#programmy-otdyha')) return;
+
+  const programs = document.createElement('section');
+  programs.id = 'programmy-otdyha';
+  programs.setAttribute('aria-labelledby', 'br-offer-teaser-title');
+  programs.innerHTML = `
+    <div class="br-offer-teaser__card">
+      <img data-src="https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/br-assets/winter-birthday-panoramic.webp"
+           alt="" width="1500" height="1125" loading="lazy" decoding="async">
+      <div class="br-offer-teaser__copy">
+        <h2 id="br-offer-teaser-title">Программы отдыха</h2>
+        <p>Дни рождения, SPA и банные программы</p>
+        <a href="/vip-programmy">Смотреть программы <span aria-hidden="true">→</span></a>
+      </div>
+    </div>`;
+  const styles = document.createElement('style');
+  styles.textContent = `
+    #br-home-layout #programmy-otdyha {padding:16px;scroll-margin-top:calc(var(--brx-top,60px) + 20px)}
+    .br-offer-teaser__card {position:relative;isolation:isolate;display:flex;align-items:flex-end;min-height:clamp(204px,58vw,336px);max-width:980px;margin:auto;overflow:hidden;border-radius:13px;background:#183027}
+    .br-offer-teaser__card>img,.br-offer-teaser__card::before {position:absolute;inset:0;width:100%;height:100%}
+    .br-offer-teaser__card>img {z-index:-2;object-fit:cover;object-position:center 25%}
+    .br-offer-teaser__card::before {z-index:-1;content:"";background:linear-gradient(0deg,#10241df5 0%,#10241db8 34%,transparent 78%)}
+    .br-offer-teaser__copy {padding:clamp(13px,3vw,30px)}
+    #br-home-layout #br-offer-teaser-title {margin:0;color:#fff;font:700 clamp(18px,4.9vw,37px)/1.1 DespairDisplay,TildaSans,sans-serif;text-transform:uppercase}
+    .br-offer-teaser__copy p {margin:4px 0 9px;color:#f2fbf6;font:500 clamp(13px,3.7vw,18px)/1.22 TildaSans,Arial,sans-serif}
+    .br-offer-teaser__copy a {display:inline-flex;align-items:center;gap:13px;min-height:44px;padding:0 12px;border-radius:7px;background:#f4fbf8;color:#173c30!important;font:700 15px/1.2 TildaSans,Arial,sans-serif}
+    .br-offer-teaser__copy a:focus-visible {outline:2px solid #19af82;outline-offset:2px}
+    @media(min-width:700px) {#br-home-layout #programmy-otdyha {padding:28px clamp(20px,4.2vw,60px)} .br-offer-teaser__card>img {object-position:center 18%}}
+  `;
+  document.head.append(styles);
+  categories.after(programs, offers, offerCards);
+
+  const photo = programs.querySelector('img');
+  const loadPhoto = () => { photo.src = photo.dataset.src; };
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      loadPhoto();
+      observer.disconnect();
+    }, { rootMargin: '240px' });
+    observer.observe(programs);
+  } else loadPhoto();
+})();

@@ -563,18 +563,33 @@ if (location.hostname === "ecobr.ru") {
   if (location.hostname !== 'ecobr.ru' || location.pathname !== '/') return;
   const home = document.querySelector('#allrecords[data-tilda-project-id="4027012"][data-tilda-page-id="103448346"]');
   const layout = home?.querySelector('#br-home-layout');
-  const photos = [
-    ['baus-1', 'house-winter-baus-1-warm.webp', 'card-previews/baus-1-facade-winter.webp', 900, 1350, 'center 43%'],
-    ['scandi', 'house-winter-scandi.webp', 'winter-new-year-scandi.webp', 1024, 1024, 'center 40%']
-  ];
+  const winterCovers = new Set([
+    'barn-2', 'chalet', 'baus-1', 'aframe-white', 'sfera', 'holidayhouse', 'scandi',
+    'aframe-luxe-black', 'aframe-luxe-white', 'house-1', 'aframe-black', 'aframe-neo',
+    'house-3', 'house-4', 'barn-1', 'barn-4', 'barn-3', 'baus-2', 'baus-3'
+  ]);
   const assets = 'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/br-assets/';
-  for (const [house, previous, asset, width, height, position] of photos) {
-    const photo = layout?.querySelector(`#br-house-cards .brh-house__visual a[href$="/doma/${house}"] img`);
-    if (!photo?.getAttribute('src')?.endsWith('/' + previous)) continue;
-    photo.width = width;
-    photo.height = height;
-    photo.style.objectPosition = position;
-    photo.src = assets + asset;
+  const previousCovers = {
+    'baus-1': 'card-previews/baus-1-facade-winter.webp',
+    scandi: 'winter-new-year-scandi.webp'
+  };
+  for (const card of layout?.querySelectorAll('#br-house-cards .brh-house') ?? []) {
+    const house = card.querySelector('[data-br-book-house]')?.dataset.brBookHouse;
+    const photo = card.querySelector('.brh-house__visual img[src]');
+    if (!winterCovers.has(house) || !photo) continue;
+
+    const cover = assets + `card-previews/winter-series/${house}.webp`;
+    const previous = previousCovers[house] ? assets + previousCovers[house] : photo.src;
+    const defaultSlide = card.querySelector('.brh-house__photos button[aria-pressed="true"][data-src]');
+    const originalSlide = defaultSlide?.dataset.src;
+    photo.addEventListener('error', () => {
+      if (photo.src !== cover) return;
+      if (defaultSlide) defaultSlide.dataset.src = originalSlide;
+      photo.src = previous;
+    }, { once: true });
+
+    if (defaultSlide) defaultSlide.dataset.src = cover;
+    photo.src = cover;
   }
   const categories = layout?.querySelector('#br-home-house-options');
   const offers = layout?.querySelector('#br-home-offers');

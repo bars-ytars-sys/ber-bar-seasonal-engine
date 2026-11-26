@@ -357,7 +357,7 @@ if (location.hostname === "ecobr.ru") {
   ];
   const sections = [
     ['/new-year', 'Новый год и каникулы'], ['/vip-programmy', 'Программы отдыха'],
-    ['/spa', 'SPA и релакс'], ['/banchan', 'Бани и банные чаны'],
+    ['/vip-programmy#prazdniki', 'Праздники и мероприятия'], ['/spa', 'SPA и релакс'], ['/banchan', 'Бани и банные чаны'],
     ['/aktivnosti-v-beryozovoj-roshhe', 'Чем заняться'], ['/deti', 'Отдых с детьми'],
     ['/special', 'Специальные предложения'], [certificate, 'Подарочный сертификат'],
     ['/about', 'О базе'], ['/kartabr', 'Карта территории'], ['/contacts', 'Контакты']
@@ -551,4 +551,99 @@ if (location.hostname === "ecobr.ru") {
     }, { rootMargin: '240px' });
     observer.observe(programs);
   } else loadPhoto();
+})();
+
+(() => {
+  if (location.hostname !== 'ecobr.ru') return;
+  const site = document.querySelector('#allrecords[data-tilda-project-id="4027012"]');
+  if (!site) return;
+
+  const photo = site.querySelector('#uyutnye-budni .to-pic > img');
+  if (photo?.getAttribute('src')?.endsWith('/winter-weekday-chan.webp')) {
+    const assets = 'https://bars-ytars-sys.github.io/ber-bar-seasonal-engine/prevyu/lid/br-winter-20261120/br-assets/';
+    photo.width = 1440;
+    photo.height = 810;
+    photo.alt = 'Гостья в банном чане «Баус‑2» зимой';
+    photo.sizes = '(max-width: 767px) calc(100vw - 36px), 570px';
+    photo.srcset = assets + 'baus-2-chan-winter-800.webp 800w, ' + assets + 'baus-2-chan-winter-1440.webp 1440w';
+    photo.src = assets + 'baus-2-chan-winter-800.webp';
+  }
+
+  const tabs = site.querySelector('#rec1758798101');
+  const season = tabs?.querySelector('.t1281__tab[data-tab-rec-ids="4153950101"]');
+  if (!season) return;
+  const styles = document.createElement('style');
+  styles.textContent = `
+    #rec1758798101 .t1281__tab[data-tab-rec-ids="4153950101"] { order: -1; }
+    @media (max-width: 639px) {
+      #rec1758798101 .t1281__wrapper_mobile-flex { width: 100%; }
+      #rec1758798101 .t1281__wrapper_mobile-flex .t1281__tab { flex: 1 1 0; min-width: 0; }
+      #rec1758798101 .t1281__wrapper_mobile-flex .t1281__title { width: 100%; min-height: 48px; padding: 7px 5px; gap: 6px; }
+      #rec1758798101 .t1281__title-text { min-width: 0; line-height: 1.2; white-space: normal; }
+      #rec1758798101 .t1281__tab-icon { flex-shrink: 0; }
+    }
+  `;
+  document.head.append(styles);
+
+  // Keep the original tab numbers so shared Tilda tab links still resolve.
+  if (location.hash.startsWith('#!/tab/')) return;
+  const recId = '1758798101';
+  if (window.t1281_tabsMap?.[recId] && typeof window.t1281_switchBetweenTabs === 'function') {
+    window.t1281_switchBetweenTabs(recId, Number(season.dataset.tabNumber), season,
+      site.dataset.tildaMode, site.dataset.tildaLazy, false, false);
+    return;
+  }
+  for (const tab of tabs.querySelectorAll('.t1281__tab')) {
+    const active = tab === season;
+    tab.classList.toggle('t1281__tab_active', active);
+    tab.classList.toggle('t1281__tab-style2_active', active);
+  }
+  const select = tabs.querySelector('.t1281__select');
+  if (select) select.value = season.dataset.tabRecIds;
+})();
+
+(() => {
+  if (location.hostname !== 'ecobr.ru') return;
+  const site = document.querySelector('#allrecords[data-tilda-project-id="4027012"]');
+  if (!site) return;
+  const path = location.pathname.replace(/\/$/, '');
+  const program = site.querySelector('#rec1750245051');
+  if (path === '/vip-programmy' && program && !document.getElementById('prazdniki')) {
+    const section = document.createElement('section');
+    section.id = 'prazdniki';
+    section.setAttribute('aria-labelledby', 'br-events-title');
+    section.innerHTML = `
+      <div class="t-container br-events">
+        <h2 id="br-events-title">Праздники и мероприятия</h2>
+        <nav aria-label="Поводы для праздника">
+          <a href="#popup:dr">День рождения</a>
+          <a href="/deti">Семейный праздник</a>
+          <a href="#popup:romantic">Романтик</a>
+          <a href="#popup:girlparty">Девичник</a>
+          <a href="#popup:fotoden">Фотодень</a>
+          <a href="https://t.me/ecobazabr">Обсудить мероприятие</a>
+        </nav>
+      </div>`;
+    const styles = document.createElement('style');
+    styles.textContent = `
+      #prazdniki {padding:clamp(24px,5vw,64px) 18px;scroll-margin-top:100px}
+      #prazdniki .br-events {box-sizing:border-box;max-width:1160px;margin:auto;padding:clamp(18px,4vw,42px);border-radius:16px;background:#f4f6fb;color:#1a1b19}
+      #prazdniki h2 {margin:0 0 20px;font:700 clamp(20px,3.8vw,36px)/1.12 DespairDisplay,TildaSans,sans-serif;text-transform:uppercase}
+      #prazdniki nav {display:flex;flex-wrap:wrap;gap:8px}
+      #prazdniki nav a {display:inline-flex;min-height:44px;align-items:center;padding:0 13px;border:1px solid #a0d9c7;border-radius:9px;background:#fff;color:#185e4e!important;font:650 16px/1.25 TildaSans,Arial,sans-serif}
+      #prazdniki nav a:focus-visible {outline:2px solid #168769;outline-offset:2px}
+    `;
+    document.head.append(styles);
+    program.after(section);
+    if (location.hash === '#prazdniki') section.scrollIntoView();
+  }
+
+  if (!/^\/doma\/[^/]+$/.test(path)) return;
+  const breadcrumb = site.querySelector('.t758 a[href="/doma"]');
+  if (!breadcrumb) return;
+  breadcrumb.classList.add('br-house-catalog-return');
+  breadcrumb.textContent = '← Все дома';
+  const styles = document.createElement('style');
+  styles.textContent = '.t758 a.br-house-catalog-return {display:inline-flex;align-items:center;min-height:44px;padding-inline:8px;color:#166b59!important;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}';
+  document.head.append(styles);
 })();

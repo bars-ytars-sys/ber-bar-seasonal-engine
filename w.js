@@ -5,12 +5,6 @@ if (location.hostname === "ecobr.ru") {
   style.textContent += "\n.br-page-snow--light { filter: brightness(.52) opacity(.6); }";
   if (/^\/*$/.test(location.pathname)) {
     style.textContent += `
-      body.br-home-release #br-home-start.br-winter-hero--brand .brx__script {
-        margin-block: 12px 8px;
-        font: 650 clamp(26px, 3.45vw, 48px)/1.13 TildaSans, Arial, sans-serif;
-        letter-spacing: -.015em;
-        text-wrap: balance;
-      }
       body.br-home-release #br-home-start.br-winter-hero--brand .brx__row a {
         box-sizing: border-box;
         display: grid;
@@ -54,9 +48,6 @@ if (location.hostname === "ecobr.ru") {
         }
       }
       @media (max-width: 960px) {
-        body.br-home-release #br-home-start.br-winter-hero--brand .brx__script {
-          font-size: clamp(20px, 6.2vw, 34px);
-        }
         body.br-home-release #br-home-start.br-winter-hero--brand .brx__row a {
           font-size: clamp(11px, 3.1vw, 14px);
           padding-inline: 8px;
